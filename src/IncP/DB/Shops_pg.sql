@@ -4,9 +4,20 @@
 
 
 -----------
--- common --
+-- common enums --
 -----------
 
+
+CREATE TYPE product_ident AS ENUM (
+	'ean13', 
+	'mpn'
+);
+-- ALTER TYPE product_ident ADD VALUE 'new_value';
+
+
+-----------
+-- common tables --
+-----------
 
 -- manufacturer --
 
@@ -16,7 +27,7 @@ CREATE TABLE IF NOT EXISTS ref_manufacturer (
     update_date         TIMESTAMP,
     enabled             BOOLEAN DEFAULT TRUE,
     title               VARCHAR(16),
-    image               VARCHAR(128)
+    image               VARCHAR(64)
 );
 
 -- lang --
@@ -123,7 +134,7 @@ CREATE TABLE IF NOT EXISTS ref_category0 (
     create_date         TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     enabled             BOOLEAN DEFAULT TRUE,
     parent_id           INTEGER,
-    image               VARCHAR(128),
+    image               VARCHAR(64),
     sort_order          SMALLINT
 );
 
@@ -152,7 +163,7 @@ CREATE TABLE IF NOT EXISTS ref_product0_image (
     id                  SERIAL PRIMARY KEY,
     create_date         TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     update_date         TIMESTAMP,
-    image               VARCHAR(128),
+    image               VARCHAR(64),
     sort_order          SMALLINT,
     product_id          INTEGER,
     FOREIGN KEY (product_id) REFERENCES ref_product0(id)
@@ -174,7 +185,8 @@ CREATE TABLE IF NOT EXISTS ref_product0_to_category (
     product_id          INTEGER,
     category_id         INTEGER,
     FOREIGN KEY (product_id) REFERENCES ref_product0(id),
-    FOREIGN KEY (category_id) REFERENCES ref_category0(id)
+    FOREIGN KEY (category_id) REFERENCES ref_category0(id),
+    PRIMARY KEY (product_id, category_id)
 );
 
 -----------
@@ -199,7 +211,7 @@ CREATE TABLE IF NOT EXISTS ref_category (
     create_date         TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     enabled             BOOLEAN DEFAULT TRUE,
     parent_id           INTEGER,
-    image               VARCHAR(128),
+    image               VARCHAR(64),
     sort_order          SMALLINT
 );
 
@@ -225,7 +237,7 @@ CREATE TABLE IF NOT EXISTS ref_product (
     code                VARCHAR(10),
     is_service          BOOLEAN DEFAULT FALSE,
     product0_id         INTEGER,
-    store_id            INTEGER,
+    store_id            INTEGER NOT NULL,
     FOREIGN KEY (product0_id) REFERENCES ref_product0(id),
     FOREIGN KEY (store_id) REFERENCES ref_store(id),
     UNIQUE (store_id, code)
@@ -252,8 +264,9 @@ CREATE TABLE IF NOT EXISTS ref_product_price_history (
 CREATE TABLE IF NOT EXISTS ref_product_barcode (
     id                  SERIAL PRIMARY KEY,
     code                VARCHAR(13),
-    product_id          INTEGER,
-    store_id            INTEGER,
+    ident				product_ident,
+    product_id          INTEGER NOT NULL,
+    store_id            INTEGER NOT NULL,
     FOREIGN KEY (product_id) REFERENCES ref_product(id),
     FOREIGN KEY (store_id) REFERENCES ref_store(id),
     UNIQUE (store_id, code)
@@ -261,7 +274,7 @@ CREATE TABLE IF NOT EXISTS ref_product_barcode (
 
 CREATE TABLE IF NOT EXISTS ref_product_image (
     id                  SERIAL PRIMARY KEY,
-    image               VARCHAR(128),
+    image               VARCHAR(64),
     sort_order          SMALLINT,
     product_id          INTEGER,
     FOREIGN KEY (product_id) REFERENCES ref_product(id)
