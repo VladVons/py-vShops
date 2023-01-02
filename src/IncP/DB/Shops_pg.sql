@@ -9,15 +9,26 @@
 
 
 CREATE TYPE product_ident AS ENUM (
-	'ean13', 
+	'ean13',
 	'mpn'
 );
 -- ALTER TYPE product_ident ADD VALUE 'new_value';
 
 
------------
+-----------------------------------------------------------------------------
 -- common tables --
------------
+-----------------------------------------------------------------------------
+
+-- crawl---
+
+CREATE TABLE IF NOT EXISTS ref_crawl_site(
+    id                  SERIAL PRIMARY KEY,
+    create_date         TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    update_date         TIMESTAMP,
+    enabled             BOOLEAN DEFAULT FALSE,
+    url                 VARCHAR(64) NOT NULL UNIQUE,
+    scheme              TEXT NOT NULL
+);
 
 -- manufacturer --
 
@@ -156,7 +167,8 @@ CREATE TABLE IF NOT EXISTS ref_product0 (
     create_date         TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     update_date         TIMESTAMP,
     enabled             BOOLEAN DEFAULT TRUE,
-    model               VARCHAR(16)
+    ean                 VARCHAR(13) UNIQUE,
+    mpn                 VARCHAR(16) UNIQUE
 );
 
 CREATE TABLE IF NOT EXISTS ref_product0_image (
@@ -189,9 +201,24 @@ CREATE TABLE IF NOT EXISTS ref_product0_to_category (
     PRIMARY KEY (product_id, category_id)
 );
 
------------
+CREATE TABLE IF NOT EXISTS ref_product0_crawl (
+    id                  SERIAL PRIMARY KEY,
+    create_date         TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    url                 VARCHAR(256) NOT NULL,
+    ident               product_ident NOT NULL,
+    code                VARCHAR(16) NOT NULL,
+    succsess            BOOLEAN NOT NULL,
+    body                TEXT,
+    product_id          INTEGER NOT NULL,
+    crawl_site_id       INTEGER,
+    FOREIGN KEY (product_id) REFERENCES ref_product0(id),
+    FOREIGN KEY (crawl_site_id) REFERENCES ref_crawl_site(id)
+);
+
+
+-----------------------------------------------------------------------------
 -- store --
------------
+-----------------------------------------------------------------------------
 
 -- price --
 
@@ -264,12 +291,12 @@ CREATE TABLE IF NOT EXISTS ref_product_price_history (
 CREATE TABLE IF NOT EXISTS ref_product_barcode (
     id                  SERIAL PRIMARY KEY,
     code                VARCHAR(13),
-    ident				product_ident,
+    ident               product_ident,
     product_id          INTEGER NOT NULL,
     store_id            INTEGER NOT NULL,
     FOREIGN KEY (product_id) REFERENCES ref_product(id),
     FOREIGN KEY (store_id) REFERENCES ref_store(id),
-    UNIQUE (store_id, code)
+    UNIQUE (store_id, code, ident)
 );
 
 CREATE TABLE IF NOT EXISTS ref_product_image (
