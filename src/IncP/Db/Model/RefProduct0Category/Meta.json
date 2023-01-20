@@ -1,0 +1,45 @@
+{
+    "table": {
+        "ref_product0_category": {
+            "column": {
+                "id":                  {"type": "serial"},
+                "enabled":             {"type": "boolean", "value": "default true"},
+                "parent_id":           {"type": "integer", "value": "not null"},
+                "image":               {"type": "varchar(64)"},
+                "sort_order":          {"type": "smallint"}
+            },
+            "index": {
+                "id":                  {"type": "primary"}
+            }
+        },
+        "ref_product0_category_lang": {
+            "column": {
+                "id":                  {"type": "serial"},
+                "title":               {"type": "varchar(128)", "value": "not null"},
+                "descr":               {"type": "text"},
+                "category_id":         {"type": "integer"},
+                "lang_id":             {"type": "integer"}
+            },
+            "index": {
+                "id":                  {"type": "primary"}
+            },
+            "foreign_key": {
+                "category_id":         {"table": "ref_product0_category", "column": "id"},
+                "lang_id":             {"table": "ref_lang", "column": "id"}
+            }
+        },
+        "ref_product0_to_category": {
+            "column": {
+                "product_id":          {"type": "integer"},
+                "category_id":         {"type": "integer"}
+            },
+            "index": {
+                "product_id, category_id": {"type": "primary"}
+            },
+            "foreign_key": {
+                "product_id":          {"table": "ref_product0", "column": "id"},
+                "category_id":         {"table": "ref_product0_category", "column": "id"}
+            }
+        }
+    }
+}

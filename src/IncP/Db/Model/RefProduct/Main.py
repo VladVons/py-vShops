@@ -1,0 +1,3 @@
+class TMain():
+    pass
+

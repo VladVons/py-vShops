@@ -1,0 +1,45 @@
+{
+    "table": {
+        "doc_sale": {
+            "column": {
+                "id":                   {"type": "serial"},
+                "create_date":          {"type": "timestamp", "value": "default current_timestamp"},
+                "actual_date":          {"type": "timestamp", "value": "not null"},
+                "notes":                {"type": "varchar(64)"},
+                "customer_id":          {"type": "integer"},
+                "tenant_id":            {"type": "integer"},
+                "currency_id":          {"type": "integer"}
+            },
+            "index": {
+                "id":                   {"type": "primary"}
+            },
+            "foreign_key": {
+                "currency_id":          {"table": "ref_currency", "column": "id"},
+                "customer_id":          {"table": "ref_customer", "column": "id"},
+                "tenant_id":            {"table": "ref_tenant",   "column": "id"}
+            },
+            "comment": "Документ: Продаж товару"
+        },
+        "doc_sale_table_product": {
+            "column": {
+                "id":                   {"type": "serial"},
+                "doc_sale_id":          {"type": "integer"},
+                "product_id":           {"type": "integer"},
+                "unit_id":              {"type": "integer"},
+                "qty":                  {"type": "float",   "value": "not null"},
+                "price":                {"type": "float",   "value": "not null"},
+                "discount":             {"type": "float",   "value": "default 0"},
+                "summ":                 {"type": "float",   "value": "default 0"}
+            },
+            "index": {
+                "id":                   {"type": "primary"}
+            },
+            "foreign_key": {
+                "doc_sale_id":          {"table": "doc_sale",    "column": "id"},
+                "product_id":           {"table": "ref_product", "column": "id"},
+                "tenant_id":            {"table": "ref_tenant",  "column": "id"}
+            },
+            "comment": "таблиця документу: продаж товару"
+        }
+    }
+}

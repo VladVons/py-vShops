@@ -1,0 +1,46 @@
+{
+    "table": {
+        "ref_country": {
+            "column": {
+                "id":                  {"type": "serial"},
+                "enabled":             {"type": "boolean", "value": "default true"},
+                "title":               {"type": "varchar(32)"}
+            },
+            "index": {
+                "id":                  {"type": "primary"}
+            }
+        },
+        "ref_city": {
+            "column": {
+                "id":                  {"type": "serial"},
+                "enabled":             {"type": "boolean", "value": "default true"},
+                "title":               {"type": "varchar(32)"},
+                "country_id":          {"type": "integer"}
+            },
+            "index": {
+                "id":                  {"type": "primary"}
+            },
+            "foreign_key": {
+                "country_id":          {"table": "ref_country", "column": "id"}
+            }
+        },
+        "ref_address": {
+            "column": {
+                "id":                  {"type": "serial"},
+                "enabled":             {"type": "boolean", "value": "default true"},
+                "post_code":           {"type": "varchar(8)"},
+                "street":              {"type": "varchar(32)"},
+                "house":               {"type": "varchar(4)"},
+                "room":                {"type": "varchar(4)"},
+                "door_code":           {"type": "varchar(8)"},
+                "city_id":             {"type": "integer"}
+            },
+            "index": {
+                "id":                  {"type": "primary"}
+            },
+            "foreign_key": {
+                "city_id":             {"table": "ref_city", "column": "id"}
+            }
+        }
+    }
+}
