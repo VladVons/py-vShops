@@ -195,7 +195,7 @@ CREATE TABLE IF NOT EXISTS ref_product0_barcode (
     code                VARCHAR(16),
     ident               product_ident,
     product_id          INTEGER NOT NULL,
-    FOREIGN KEY (product_id) REFERENCES ref_product(id),
+    FOREIGN KEY (product_id) REFERENCES ref_product0(id),
     UNIQUE (code, ident)
 );
 
