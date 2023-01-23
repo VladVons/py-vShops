@@ -1,16 +1,12 @@
 import asyncio
 import json
 #
-from Inc.Util.Obj import DeepSetByList
 from Inc.UtilP.Db.DbPg import TDbPg
-from Inc.UtilP.Db.DbSql import TDbSql
-#from Inc.UtilP.Db.DbModel import TDbModel
-#from Inc.Util.Obj import DeepGet, DeepGetRe
+from Inc.UtilP.Log import TEchoConsoleEx
 from Inc.UtilP.Db.DbMeta import TDbMeta
 from Inc.UtilP.Db.DbModel import TDbModel
 
 from IncP.Log import Log
-from Inc.UtilP.Log import TEchoConsoleEx, TEchoFileEx
 Log.AddEcho(TEchoConsoleEx())
 
 
@@ -42,11 +38,11 @@ DataProduct0 = {
         }
     ],
     'ref_product0_barcode': {
-        'code': '1234567890125',
+        'code': '1234567890127',
         'ident': 'ean'
     },
     'ref_product0_to_category': {
-        'category_id    ': 1
+        'category_id': 1
     },
     'ref_product0_crawl': {
         'url': 'http://example.com',
