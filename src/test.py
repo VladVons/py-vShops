@@ -1,3 +1,4 @@
+import time
 import asyncio
 import json
 #
@@ -5,6 +6,7 @@ from Inc.UtilP.Db.DbPg import TDbPg
 from Inc.UtilP.Log import TEchoConsoleEx
 from Inc.UtilP.Db.DbMeta import TDbMeta
 from Inc.UtilP.Db.DbModel import TDbModel
+from Inc.Util.Obj import DeepGetsRe, DeepGets, DeepGetByList
 
 from IncP.Log import Log
 Log.AddEcho(TEchoConsoleEx())
@@ -16,14 +18,17 @@ DbAuth = {
     'User': 'admin',
     'Password': '098iop'
 }
+    # 'ref_product1': {
+    # },
 
 DataProduct0 = {
-    'ref_product0': {
-    },
     'ref_product0_image': [
         {
             'image': 'pic1.jpg',
-            'sort_order': 1
+            'sort_order': 1,
+            'test1': {
+                'test2': 3
+            }
         },
         {
             'image': 'pic2.jpg',
@@ -38,11 +43,8 @@ DataProduct0 = {
         }
     ],
     'ref_product0_barcode': {
-        'code': '1234567890127',
+        'code': '1234567890132',
         'ident': 'ean'
-    },
-    'ref_product0_to_category': {
-        'category_id': 1
     },
     'ref_product0_crawl': {
         'url': 'http://example.com',
@@ -60,8 +62,6 @@ async def Test_02():
 
     #q1 = await Db.Exec("insert into ref_lang (title) values ('test')")
     #q2 = await Db.Exec("select * from ref_lang")
-    #q1 = await TDbSql(Db).Exec("insert into ref_lang (title) values ('test') returning id")
-    #q2 = await TDbSql(Db).Exec("select * from ref_lang")
 
     DbMeta = TDbMeta(Db)
     await DbMeta.Init()
@@ -72,7 +72,6 @@ async def Test_02():
 
     await Db.Close()
     print('done')
-
 
 Task = Test_02()
 asyncio.run(Task)

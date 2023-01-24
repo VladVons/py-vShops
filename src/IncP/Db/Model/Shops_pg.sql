@@ -174,7 +174,7 @@ CREATE TABLE IF NOT EXISTS ref_product0 (
 
 CREATE TABLE IF NOT EXISTS ref_product0_image (
     id                  SERIAL PRIMARY KEY,
-    image               VARCHAR(64),
+    image               VARCHAR(64) NOT NULL,
     sort_order          SMALLINT,
     product_id          INTEGER NOT NULL,
     FOREIGN KEY (product_id) REFERENCES ref_product0(id)
@@ -192,8 +192,8 @@ CREATE TABLE IF NOT EXISTS ref_product0_lang (
 
 CREATE TABLE IF NOT EXISTS ref_product0_barcode (
     id                  SERIAL PRIMARY KEY,
-    code                VARCHAR(16),
-    ident               product_ident,
+    code                VARCHAR(16) NOT NULL,
+    ident               product_ident NOT NULL,
     product_id          INTEGER NOT NULL,
     FOREIGN KEY (product_id) REFERENCES ref_product0(id),
     UNIQUE (code, ident)

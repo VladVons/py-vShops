@@ -1,0 +1,17 @@
+{
+    "allow": [
+        "ref_product0",
+        "ref_product0_image",
+        "ref_product0_lang",
+        "ref_product0_barcode",
+        "ref_product0_crawl"
+    ],
+    "master": {
+        "ref_product0": "id"
+    },
+    "require": {
+        "ref_product0_image": "image",
+        "ref_product0_crawl": "crawl_site_id",
+        "ref_product0_lang": "lang_id"
+    }
+}
