@@ -1,5 +1,6 @@
-from IncP.Db.Model import TModel
+from Inc.UtilP.Db.DbModel import TDbModel
 
 
-class TMain(TModel):
-    pass
+class TMain(TDbModel):
+    async def GetCount(self):
+        return 1

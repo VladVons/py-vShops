@@ -1,13 +1,10 @@
-import time
 import asyncio
-import json
 #
 from Inc.UtilP.Db.DbPg import TDbPg
 from Inc.UtilP.Log import TEchoConsoleEx
 from Inc.UtilP.Db.DbMeta import TDbMeta
-from Inc.UtilP.Db.DbModel import TDbModel
-from Inc.Util.Obj import DeepGetsRe, DeepGets, DeepGetByList
-from Inc.Db.DbList import TDbList
+from Inc.UtilP.Db.DbModels import TDbModels
+
 
 from IncP.Log import Log
 Log.AddEcho(TEchoConsoleEx())
@@ -41,7 +38,7 @@ DataProduct0 = {
         }
     ],
     'ref_product0_barcode': {
-        'code': '1234567890137',
+        'code': '1234567890138',
         'ident': 'ean'
     },
     'ref_product0_crawl': {
@@ -64,9 +61,10 @@ async def Test_02():
     DbMeta = TDbMeta(Db)
     await DbMeta.Init()
 
-    DbModel = TDbModel('IncP/Db/Model', DbMeta)
-    DbModel.LoadMod('RefProduct0')
-    Res1 = await DbModel['RefProduct0'].Add(DataProduct0)
+    DbModels = TDbModels('IncP/Db/Model', DbMeta)
+    DbModels.LoadMod('RefProduct0')
+    #Res1 = await DbModels['RefProduct0'].Add(DataProduct0)
+    Res1 = await DbModels['RefProduct0'].GetCount()
     print(Res1)
 
     await Db.Close()
