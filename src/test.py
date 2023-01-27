@@ -7,6 +7,7 @@ from Inc.UtilP.Log import TEchoConsoleEx
 from Inc.UtilP.Db.DbMeta import TDbMeta
 from Inc.UtilP.Db.DbModel import TDbModel
 from Inc.Util.Obj import DeepGetsRe, DeepGets, DeepGetByList
+from Inc.Db.DbList import TDbList
 
 from IncP.Log import Log
 Log.AddEcho(TEchoConsoleEx())
@@ -24,11 +25,8 @@ DbAuth = {
 DataProduct0 = {
     'ref_product0_image': [
         {
-            'image': 'pic1.jpg',
-            'sort_order': 1,
-            'test1': {
-                'test2': 3
-            }
+            'image': 'pic2.jpg',
+            'sort_order': 1
         },
         {
             'image': 'pic2.jpg',
@@ -43,7 +41,7 @@ DataProduct0 = {
         }
     ],
     'ref_product0_barcode': {
-        'code': '1234567890132',
+        'code': '1234567890137',
         'ident': 'ean'
     },
     'ref_product0_crawl': {
@@ -68,10 +66,12 @@ async def Test_02():
 
     DbModel = TDbModel('IncP/Db/Model', DbMeta)
     DbModel.LoadMod('RefProduct0')
-    await DbModel['RefProduct0'].Add(DataProduct0)
+    Res1 = await DbModel['RefProduct0'].Add(DataProduct0)
+    print(Res1)
 
     await Db.Close()
     print('done')
 
+#Test_03()
 Task = Test_02()
 asyncio.run(Task)
