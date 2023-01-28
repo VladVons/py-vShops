@@ -16,8 +16,6 @@ DbAuth = {
     'User': 'admin',
     'Password': '098iop'
 }
-    # 'ref_product1': {
-    # },
 
 DataProduct0 = {
     'ref_product0_image': [
@@ -38,7 +36,7 @@ DataProduct0 = {
         }
     ],
     'ref_product0_barcode': {
-        'code': '1234567890138',
+        'code': '1234567890140',
         'ident': 'ean'
     },
     'ref_product0_crawl': {
@@ -63,8 +61,10 @@ async def Test_02():
 
     DbModels = TDbModels('IncP/Db/Model', DbMeta)
     DbModels.LoadMod('RefProduct0')
-    #Res1 = await DbModels['RefProduct0'].Add(DataProduct0)
-    Res1 = await DbModels['RefProduct0'].GetCount()
+    Ref = DbModels['RefProduct0']
+    Res1 = await Ref.Add(DataProduct0)
+    #Res1 = await Ref.GetCount()
+    #Res1 = await Ref.Get1('Vlad')
     print(Res1)
 
     await Db.Close()
