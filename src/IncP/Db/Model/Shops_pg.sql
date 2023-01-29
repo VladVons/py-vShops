@@ -81,6 +81,7 @@ CREATE TABLE IF NOT EXISTS ref_currency (
 CREATE TABLE IF NOT EXISTS ref_country (
     id                  SERIAL PRIMARY KEY,
     enabled             BOOLEAN DEFAULT TRUE,
+    deleted             BOOLEAN DEFAULT FALSE,
     title               VARCHAR(32)
 );
 
@@ -143,9 +144,9 @@ CREATE TABLE IF NOT EXISTS ref_tenant (
     FOREIGN KEY (address_id) REFERENCES ref_address(id)
 );
 
--- category0 --
+-- product0_category --
 
-CREATE TABLE IF NOT EXISTS ref_category0 (
+CREATE TABLE IF NOT EXISTS ref_product0_category (
     id                  SERIAL PRIMARY KEY,
     enabled             BOOLEAN DEFAULT TRUE,
     parent_id           INTEGER NOT NULL,
@@ -153,13 +154,13 @@ CREATE TABLE IF NOT EXISTS ref_category0 (
     sort_order          SMALLINT
 );
 
-CREATE TABLE IF NOT EXISTS ref_category0_lang (
+CREATE TABLE IF NOT EXISTS ref_product0_category_lang (
     id                  SERIAL PRIMARY KEY,
     category_id         INTEGER NOT NULL,
     lang_id             INTEGER NOT NULL,
     title               VARCHAR(128),
     descr               TEXT,
-    FOREIGN KEY (category_id) REFERENCES ref_category0(id),
+    FOREIGN KEY (category_id) REFERENCES ref_product0_category(id),
     FOREIGN KEY (lang_id) REFERENCES ref_lang(id)
 );
 
@@ -203,7 +204,7 @@ CREATE TABLE IF NOT EXISTS ref_product0_to_category (
     product_id          INTEGER NOT NULL,
     category_id         INTEGER NOT NULL,
     FOREIGN KEY (product_id) REFERENCES ref_product0(id),
-    FOREIGN KEY (category_id) REFERENCES ref_category0(id),
+    FOREIGN KEY (category_id) REFERENCES ref_product0_category(id),
     PRIMARY KEY (product_id, category_id)
 );
 

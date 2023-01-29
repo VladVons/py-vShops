@@ -1,0 +1,12 @@
+{
+    "ref_product0_category": {
+        "parent_id": 0,
+        "image": "pic1.jpg",
+        "sort_order": 1
+    },
+    "ref_product0_category_lang": {
+        "title": "title1",
+        "descr": "descr1",
+        "lang_id": 1
+    }
+}

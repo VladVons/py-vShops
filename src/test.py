@@ -1,3 +1,4 @@
+import json
 import asyncio
 #
 from Inc.UtilP.Db.DbPg import TDbPg
@@ -17,37 +18,10 @@ DbAuth = {
     'Password': '098iop'
 }
 
-DataProduct0 = {
-    'ref_product0_image': [
-        {
-            'image': 'pic2.jpg',
-            'sort_order': 1
-        },
-        {
-            'image': 'pic2.jpg',
-            'sort_order': 2
-        }
-    ],
-    'ref_product0_lang': [
-        {
-            'title' : 'Title1',
-            'descr': 'Descr1',
-            'lang_id': 1
-        }
-    ],
-    'ref_product0_barcode': {
-        'code': '1234567890140',
-        'ident': 'ean'
-    },
-    'ref_product0_crawl': {
-        'url': 'http://example.com',
-        'ident': 'ean',
-        'code': '1234567890110',
-        'succsess': True,
-        'crawl_site_id': 1
-    }
-}
-
+def LoadJson(aPath: str) -> dict:
+    with open(aPath, 'r', encoding = 'utf8') as F:
+        Res = json.load(F)
+    return Res
 
 async def Test_02():
     Db = TDbPg(DbAuth)
@@ -58,14 +32,34 @@ async def Test_02():
 
     DbMeta = TDbMeta(Db)
     await DbMeta.Init()
-
     DbModels = TDbModels('IncP/Db/Model', DbMeta)
-    DbModels.LoadMod('RefProduct0')
-    Ref = DbModels['RefProduct0']
-    Res1 = await Ref.Add(DataProduct0)
-    #Res1 = await Ref.GetCount()
-    #Res1 = await Ref.Get1('Vlad')
+
+    # Product0 = LoadJson('Temp/Product0.json')
+    # DbModels.LoadMod('RefProduct0')
+    # Ref = DbModels['RefProduct0']
+    # Res1 = await Ref.Add(Product0)
+    # print(Res1)
+
+    # Product0L = LoadJson('Temp/Product0A.json')
+    # DbModels.LoadMod('RefProduct0')
+    # Ref = DbModels['RefProduct0']
+    # #Res1 = await Ref.AddList(Product0L)
+    # #print(Res1)
+    # Res1 = await Ref.Del(199)
+    # print(Res1)
+
+    # Product0Category = LoadJson('Temp/Product0Category.json')
+    # DbModels.LoadMod('RefProduct0Category')
+    # Ref = DbModels['RefProduct0Category']
+    # Res1 = await Ref.Add(Product0Category)
+    # print(Res1)
+
+    Product0Category = LoadJson('Temp/Product0CategoryA.json')
+    DbModels.LoadMod('RefProduct0Category')
+    Ref = DbModels['RefProduct0Category']
+    Res1 = await Ref.AddList(Product0Category)
     print(Res1)
+
 
     await Db.Close()
     print('done')

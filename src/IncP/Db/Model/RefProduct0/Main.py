@@ -5,10 +5,10 @@
 
 from Inc.Util.Mod import Decor_AddModules
 from Inc.UtilP.Db.DbModel import TDbModel
-from . import MainGet
+from . import Main_Get
 
 
-@Decor_AddModules([MainGet])
+@Decor_AddModules([Main_Get])
 class TMain(TDbModel):
     Text = 'Pink'
 
