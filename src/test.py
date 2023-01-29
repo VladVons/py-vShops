@@ -40,13 +40,13 @@ async def Test_02():
     # Res1 = await Ref.Add(Product0)
     # print(Res1)
 
-    # Product0L = LoadJson('Temp/Product0A.json')
-    # DbModels.LoadMod('RefProduct0')
-    # Ref = DbModels['RefProduct0']
-    # #Res1 = await Ref.AddList(Product0L)
-    # #print(Res1)
-    # Res1 = await Ref.Del(199)
-    # print(Res1)
+    Product0L = LoadJson('Temp/Product0A.json')
+    DbModels.LoadMod('RefProduct0')
+    Ref = DbModels['RefProduct0']
+    Res1 = await Ref.AddList(Product0L)
+    print(Res1)
+    Res1 = await Ref.Del(199)
+    print(Res1)
 
     # Product0Category = LoadJson('Temp/Product0Category.json')
     # DbModels.LoadMod('RefProduct0Category')
@@ -54,10 +54,10 @@ async def Test_02():
     # Res1 = await Ref.Add(Product0Category)
     # print(Res1)
 
-    Product0Category = LoadJson('Temp/Product0CategoryA.json')
-    DbModels.LoadMod('RefProduct0Category')
-    Ref = DbModels['RefProduct0Category']
-    Res1 = await Ref.AddList(Product0Category)
+    # Product0Category = LoadJson('Temp/Product0CategoryA.json')
+    # DbModels.LoadMod('RefProduct0Category')
+    # Ref = DbModels['RefProduct0Category']
+    # Res1 = await Ref.AddList(Product0Category)
     print(Res1)
 
 
