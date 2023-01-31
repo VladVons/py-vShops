@@ -16,11 +16,15 @@
 -- common enums --
 -----------------------------------------------------------------------------
 
-CREATE TYPE product_ident AS ENUM (
+CREATE TYPE product_enum AS ENUM (
    'ean',
    'mpn'
 );
 
+CREATE TYPE doc_enum AS ENUM (
+   'doc_sale'
+);
+    
 -----------------------------------------------------------------------------
 -- references. service --
 -----------------------------------------------------------------------------
@@ -30,6 +34,7 @@ CREATE TYPE product_ident AS ENUM (
 CREATE TABLE IF NOT EXISTS ref_crawl_site(
     id                  SERIAL PRIMARY KEY,
     enabled             BOOLEAN DEFAULT FALSE,
+    deleted             BOOLEAN DEFAULT FALSE,
     url                 VARCHAR(64) NOT NULL UNIQUE,
     scheme              TEXT NOT NULL
 );
@@ -37,6 +42,7 @@ CREATE TABLE IF NOT EXISTS ref_crawl_site(
 CREATE TABLE IF NOT EXISTS ref_proxy (
     id                  SERIAL PRIMARY KEY,
     enabled             BOOL DEFAULT FALSE,
+    deleted             BOOLEAN DEFAULT FALSE,
     hostname            VARCHAR(32) NOT NULL,
     port                SMALLINT,
     login               VARCHAR(16),
@@ -52,6 +58,7 @@ CREATE TABLE IF NOT EXISTS ref_proxy (
 CREATE TABLE IF NOT EXISTS ref_manufacturer (
     id                  SERIAL PRIMARY KEY,
     enabled             BOOLEAN DEFAULT TRUE,
+    deleted             BOOLEAN DEFAULT FALSE,
     title               VARCHAR(16),
     image               VARCHAR(64)
 );
@@ -61,6 +68,7 @@ CREATE TABLE IF NOT EXISTS ref_manufacturer (
 CREATE TABLE IF NOT EXISTS ref_lang (
     id                  SERIAL PRIMARY KEY,
     enabled             BOOLEAN DEFAULT TRUE,
+    deleted             BOOLEAN DEFAULT FALSE,
     title               VARCHAR(16),
     alias               VARCHAR(3)
 );
@@ -70,6 +78,7 @@ CREATE TABLE IF NOT EXISTS ref_lang (
 CREATE TABLE IF NOT EXISTS ref_currency (
     id                  SERIAL PRIMARY KEY,
     enabled             BOOLEAN DEFAULT TRUE,
+    deleted             BOOLEAN DEFAULT FALSE,
     title               VARCHAR(16),
     alias               VARCHAR(3),
     code                SMALLINT,
@@ -88,6 +97,7 @@ CREATE TABLE IF NOT EXISTS ref_country (
 CREATE TABLE IF NOT EXISTS ref_city (
     id                  SERIAL PRIMARY KEY,
     enabled             BOOLEAN DEFAULT TRUE,
+    deleted             BOOLEAN DEFAULT FALSE,
     title               VARCHAR(32),
     country_id          INTEGER NOT NULL,
     FOREIGN KEY (country_id) REFERENCES ref_country(id)
@@ -96,6 +106,7 @@ CREATE TABLE IF NOT EXISTS ref_city (
 CREATE TABLE IF NOT EXISTS ref_address (
     id                  SERIAL PRIMARY KEY,
     enabled             BOOLEAN DEFAULT TRUE,
+    deleted             BOOLEAN DEFAULT FALSE,
     city_id             INTEGER NOT NULL,
     post_code           VARCHAR(8),
     street              VARCHAR(32),
@@ -110,6 +121,7 @@ CREATE TABLE IF NOT EXISTS ref_address (
 CREATE TABLE IF NOT EXISTS ref_customer (
     id                  SERIAL PRIMARY KEY,
     enabled             BOOLEAN DEFAULT TRUE,
+    deleted             BOOLEAN DEFAULT FALSE,
     firstname           VARCHAR(32),
     lastname            VARCHAR(32),
     phone               VARCHAR(15),
@@ -129,6 +141,7 @@ CREATE TABLE IF NOT EXISTS ref_customer_to_address (
 CREATE TABLE IF NOT EXISTS ref_company (
     id                  SERIAL PRIMARY KEY,
     enabled             BOOLEAN DEFAULT TRUE,
+    deleted             BOOLEAN DEFAULT FALSE,
     title               VARCHAR(32),
     address_id          INTEGER NOT NULL,
     FOREIGN KEY (address_id) REFERENCES ref_address(id)
@@ -137,6 +150,7 @@ CREATE TABLE IF NOT EXISTS ref_company (
 CREATE TABLE IF NOT EXISTS ref_tenant (
     id                  SERIAL PRIMARY KEY,
     enabled             BOOLEAN DEFAULT TRUE,
+    deleted             BOOLEAN DEFAULT FALSE,
     title               VARCHAR(32),
     company_id          INTEGER NOT NULL,
     address_id          INTEGER NOT NULL,
@@ -149,6 +163,7 @@ CREATE TABLE IF NOT EXISTS ref_tenant (
 CREATE TABLE IF NOT EXISTS ref_product0_category (
     id                  SERIAL PRIMARY KEY,
     enabled             BOOLEAN DEFAULT TRUE,
+    deleted             BOOLEAN DEFAULT FALSE,
     parent_id           INTEGER NOT NULL,
     image               VARCHAR(64),
     sort_order          SMALLINT
@@ -168,7 +183,7 @@ CREATE TABLE IF NOT EXISTS ref_product0_category_lang (
 
 CREATE TABLE IF NOT EXISTS ref_product0 (
     id                  SERIAL PRIMARY KEY,
-    enabled             BOOLEAN DEFAULT TRUE,
+    deleted             BOOLEAN DEFAULT FALSE,
     ean                 VARCHAR(13) UNIQUE,
     mpn                 VARCHAR(16) UNIQUE
 );
@@ -194,10 +209,10 @@ CREATE TABLE IF NOT EXISTS ref_product0_lang (
 CREATE TABLE IF NOT EXISTS ref_product0_barcode (
     id                  SERIAL PRIMARY KEY,
     code                VARCHAR(16) NOT NULL,
-    ident               product_ident NOT NULL,
+    product_en          product_enum NOT NULL,
     product_id          INTEGER NOT NULL,
     FOREIGN KEY (product_id) REFERENCES ref_product0(id),
-    UNIQUE (code, ident)
+    UNIQUE (code, product_en)
 );
 
 CREATE TABLE IF NOT EXISTS ref_product0_to_category (
@@ -211,7 +226,7 @@ CREATE TABLE IF NOT EXISTS ref_product0_to_category (
 CREATE TABLE IF NOT EXISTS ref_product0_crawl (
     id                  SERIAL PRIMARY KEY,
     url                 VARCHAR(256) NOT NULL,
-    ident               product_ident NOT NULL,
+    product_en          product_enum NOT NULL,
     code                VARCHAR(16) NOT NULL,
     succsess            BOOLEAN NOT NULL,
     body                TEXT,
@@ -241,6 +256,7 @@ CREATE TABLE IF NOT EXISTS ref_price (
 CREATE TABLE IF NOT EXISTS ref_product_category (
     id                  SERIAL PRIMARY KEY,
     enabled             BOOLEAN DEFAULT TRUE,
+    deleted             BOOLEAN DEFAULT FALSE,
     parent_id           INTEGER NOT NULL,
     image               VARCHAR(64),
     sort_order          SMALLINT,
@@ -263,10 +279,10 @@ CREATE TABLE IF NOT EXISTS ref_product_category_lang (
 CREATE TABLE IF NOT EXISTS ref_product (
     id                  SERIAL PRIMARY KEY,
     enabled             BOOLEAN DEFAULT TRUE,
+    deleted             BOOLEAN DEFAULT FALSE,
     model               VARCHAR(16),
-    code                VARCHAR(10),
     is_service          BOOLEAN DEFAULT FALSE,
-    product0_id         INTEGER NOT NULL,
+    product0_id         INTEGER,
     tenant_id           INTEGER NOT NULL,
     FOREIGN KEY (product0_id) REFERENCES ref_product0(id),
     FOREIGN KEY (tenant_id) REFERENCES ref_tenant(id),
@@ -293,16 +309,18 @@ CREATE TABLE IF NOT EXISTS ref_product_price_history (
 CREATE TABLE IF NOT EXISTS ref_product_barcode (
     id                  SERIAL PRIMARY KEY,
     code                VARCHAR(13),
-    ident               product_ident,
+    product_en          product_enum NOT NULL,
     product_id          INTEGER NOT NULL,
     tenant_id           INTEGER NOT NULL,
     FOREIGN KEY (product_id) REFERENCES ref_product(id),
     FOREIGN KEY (tenant_id) REFERENCES ref_tenant(id),
-    UNIQUE (tenant_id, code, ident)
+    UNIQUE (tenant_id, code, product_en)
 );
 
 CREATE TABLE IF NOT EXISTS ref_product_image (
     id                  SERIAL PRIMARY KEY,
+    enabled             BOOLEAN DEFAULT TRUE,
+    deleted             BOOLEAN DEFAULT FALSE,
     image               VARCHAR(64),
     sort_order          SMALLINT,
     product_id          INTEGER NOT NULL,
@@ -331,10 +349,19 @@ CREATE TABLE IF NOT EXISTS ref_product_to_category (
 -- documents --
 -----------------------------------------------------------------------------
 
+CREATE TABLE IF NOT EXISTS docs (
+    id                  SERIAL PRIMARY KEY,
+    doc_id              INTEGER NOT NULL,
+    doc_en              doc_enum NOT NULL,
+    FOREIGN KEY (doc_id, doc_en) REFERENCES ref_currency(id)
+);
+
+
 CREATE TABLE IF NOT EXISTS doc_sale (
     id                  SERIAL PRIMARY KEY,
+    deleted             BOOLEAN DEFAULT FALSE,
     create_date         TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    actual_date         TIMESTAMP,
+    actual_date         TIMESTAMP NOT NULL,
     notes               VARCHAR(64),
     customer_id         INTEGER NOT NULL,
     tenant_id           INTEGER NOT NULL,
@@ -343,10 +370,6 @@ CREATE TABLE IF NOT EXISTS doc_sale (
     FOREIGN KEY (tenant_id) REFERENCES ref_tenant(id),
     FOREIGN KEY (currency_id) REFERENCES ref_currency(id)
 );
--- COMMENT ON TABLE doc_sale IS 'Документ: Продаж товару';
--- COMMENT ON COLUMN doc_sale.customer_id IS 'у кого покупаем';
--- COMMENT ON COLUMN doc_sale.tenant_id IS 'разделитель';
--- COMMENT ON COLUMN doc_sale.currency_id IS 'валюта';
 
 CREATE TABLE IF NOT EXISTS doc_sale_table_product (
     id                  SERIAL PRIMARY KEY,
@@ -358,5 +381,5 @@ CREATE TABLE IF NOT EXISTS doc_sale_table_product (
     product_id          INTEGER NOT NULL,
     doc_sale_id         INTEGER NOT NULL,
     FOREIGN KEY (product_id) REFERENCES ref_product(id),
-    FOREIGN KEY (doc_sale_id) REFERENCES doc_sale(id)
+    FOREIGN KEY (doc_sale_id) REFERENCES doc_sale(id) ON DELETE CASCADE
 );

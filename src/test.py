@@ -5,6 +5,8 @@ from Inc.UtilP.Db.DbPg import TDbPg
 from Inc.UtilP.Log import TEchoConsoleEx
 from Inc.UtilP.Db.DbMeta import TDbMeta
 from Inc.UtilP.Db.DbModels import TDbModels
+#
+from Inc.UtilP.Db.DbModel import TDbModel
 
 
 from IncP.Log import Log
@@ -34,32 +36,49 @@ async def Test_02():
     await DbMeta.Init()
     DbModels = TDbModels('IncP/Db/Model', DbMeta)
 
-    # Product0 = LoadJson('Temp/Product0.json')
+    # Data = LoadJson('Temp/Product0.json')
     # DbModels.LoadMod('RefProduct0')
     # Ref = DbModels['RefProduct0']
-    # Res1 = await Ref.Add(Product0)
+    # Res1 = await Ref.Add(Data)
+    # print(Res1)
+    # Res1 = await Ref.Del(199)
     # print(Res1)
 
-    Product0L = LoadJson('Temp/Product0A.json')
-    DbModels.LoadMod('RefProduct0')
-    Ref = DbModels['RefProduct0']
-    Res1 = await Ref.AddList(Product0L)
-    print(Res1)
-    Res1 = await Ref.Del(199)
-    print(Res1)
-
-    # Product0Category = LoadJson('Temp/Product0Category.json')
-    # DbModels.LoadMod('RefProduct0Category')
-    # Ref = DbModels['RefProduct0Category']
-    # Res1 = await Ref.Add(Product0Category)
+    # Data = LoadJson('Temp/Product0A.json')
+    # DbModels.LoadMod('RefProduct0')
+    # Ref = DbModels['RefProduct0']
+    # #Res1 = await Ref.AddList(Data)
+    # #print(Res1)
+    # Res1 = await Ref.Del(199)
     # print(Res1)
 
-    # Product0Category = LoadJson('Temp/Product0CategoryA.json')
+    # Data = LoadJson('Temp/Product0Category.json')
     # DbModels.LoadMod('RefProduct0Category')
     # Ref = DbModels['RefProduct0Category']
-    # Res1 = await Ref.AddList(Product0Category)
+    # Res1 = await Ref.Add(Data)
+    # print(Res1)
+
+    # Data = LoadJson('Temp/Product0CategoryA.json')
+    # DbModels.LoadMod('RefProduct0Category')
+    # Ref = DbModels['RefProduct0Category']
+    # Res1 = await Ref.AddList(Data)
+    # print(Res1)
+
+    Data = LoadJson('Temp/Product.json')
+    DbModels.LoadMod('RefProduct')
+    Ref = DbModels['RefProduct']
+    #Res1 = await Ref.Add(Data)
+    #print(Res1)
+    Res1 = await Ref.Del(14)
     print(Res1)
 
+    Data = LoadJson('Temp/DocSale.json')
+    DbModels.LoadMod('DocSale')
+    Ref = DbModels['DocSale']
+    #Res1 = await Ref.Add(Data)
+    #print(Res1)
+    Res1 = await Ref.Del(9)
+    print(Res1)
 
     await Db.Close()
     print('done')

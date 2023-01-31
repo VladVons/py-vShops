@@ -1,0 +1,18 @@
+{
+    "ref_product": {
+            "tenant_id": 1
+    },
+    "ref_product_image": [
+        {
+            "image": "pic1.jpg",
+            "sort_order": 1
+        }
+    ],
+    "ref_product_lang": [
+        {
+            "title" : "Title1",
+            "descr": "Descr1",
+            "lang_id": 1
+        }
+    ]
+}

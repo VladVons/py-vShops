@@ -5,7 +5,6 @@
                 "id":           {"type": "serial"},
                 "enabled":      {"type": "boolean", "value": "default true"},
                 "model":        {"type": "varchar(16)"},
-                "code":         {"type": "varchar(10)"},
                 "is_service":   {"type": "boolean", "value": "default false"},
                 "tenant_id":    {"type": "integer"}
             },
@@ -13,7 +12,7 @@
                 "id":           {"type": "primary"}
             },
             "foreign_key": {
-                "tenant_id":   {"table": "ref_tenant", "column": "id"}
+                "tenant_id":   {"table": "ref_tenant", "column": "id", "type": "null"}
             },
             "comment": "product main table"
         },
