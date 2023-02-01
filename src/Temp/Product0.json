@@ -1,7 +1,7 @@
 {
     "ref_product0_image": [
         {
-            "image": "pic2.jpg",
+            "image": "pic1.jpg",
             "sort_order": 1
         },
         {
@@ -16,15 +16,19 @@
             "lang_id": 1
         }
     ],
-    "ref_product0_barcode": {
-        "code": "1234567890141",
-        "ident": "ean"
-    },
-    "ref_product0_crawl": {
-        "url": "http://example.com",
-        "ident": "ean",
-        "code": "1234567890110",
-        "succsess": true,
-        "crawl_site_id": 1
-    }
+    "ref_product0_barcode": [
+        {
+            "code": "1234567890142",
+            "ident": "ean"
+        }
+    ],
+    "ref_product0_crawl": [
+        {
+            "url": "http://example.com",
+            "ident": "ean",
+            "code": "1234567890110",
+            "succsess": true,
+            "crawl_site_id": 1
+        }
+    ]
 }

@@ -198,7 +198,7 @@ CREATE TABLE IF NOT EXISTS ref_product0_image (
 
 CREATE TABLE IF NOT EXISTS ref_product0_lang (
     id                  SERIAL PRIMARY KEY,
-    title               VARCHAR(128),
+    title               VARCHAR(128) NOT NULL,
     descr               TEXT,
     product_id          INTEGER NOT NULL,
     lang_id             INTEGER NOT NULL,
@@ -328,7 +328,7 @@ CREATE TABLE IF NOT EXISTS ref_product_image (
 );
 
 CREATE TABLE IF NOT EXISTS ref_product_lang (
-    title               VARCHAR(128),
+    title               VARCHAR(128) NOT NULL,
     descr               TEXT,
     product_id          INTEGER NOT NULL,
     lang_id             INTEGER NOT NULL,

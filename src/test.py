@@ -1,6 +1,8 @@
 import json
 import asyncio
 #
+from Inc.Db.DbList import TDbSql
+from Inc.UtilP.Db.ADb import ListToComma
 from Inc.UtilP.Db.DbPg import TDbPg
 from Inc.UtilP.Log import TEchoConsoleEx
 from Inc.UtilP.Db.DbMeta import TDbMeta
@@ -25,6 +27,13 @@ def LoadJson(aPath: str) -> dict:
         Res = json.load(F)
     return Res
 
+def Test_01():
+    Data = LoadJson('Temp/ProductDbl.json')
+    Dbl = TDbSql()
+    for x in Data:
+        Dbl.Import(x)
+        print(Dbl)
+
 async def Test_02():
     Db = TDbPg(DbAuth)
     await Db.Connect()
@@ -41,16 +50,16 @@ async def Test_02():
     # Ref = DbModels['RefProduct0']
     # Res1 = await Ref.Add(Data)
     # print(Res1)
-    # Res1 = await Ref.Del(199)
-    # print(Res1)
+    # #Res1 = await Ref.Del(199)
+    # #print(Res1)
 
     # Data = LoadJson('Temp/Product0A.json')
     # DbModels.LoadMod('RefProduct0')
     # Ref = DbModels['RefProduct0']
-    # #Res1 = await Ref.AddList(Data)
-    # #print(Res1)
-    # Res1 = await Ref.Del(199)
+    # Res1 = await Ref.AddList(Data)
     # print(Res1)
+    # #Res1 = await Ref.Del(199)
+    # #print(Res1)
 
     # Data = LoadJson('Temp/Product0Category.json')
     # DbModels.LoadMod('RefProduct0Category')
@@ -67,22 +76,24 @@ async def Test_02():
     Data = LoadJson('Temp/Product.json')
     DbModels.LoadMod('RefProduct')
     Ref = DbModels['RefProduct']
-    #Res1 = await Ref.Add(Data)
-    #print(Res1)
-    Res1 = await Ref.Del(14)
+    Res1 = await Ref.Add(Data)
     print(Res1)
+    # #Res1 = await Ref.Del(14)
+    # #print(Res1)
 
-    Data = LoadJson('Temp/DocSale.json')
-    DbModels.LoadMod('DocSale')
-    Ref = DbModels['DocSale']
-    #Res1 = await Ref.Add(Data)
-    #print(Res1)
-    Res1 = await Ref.Del(9)
-    print(Res1)
+    # Data = LoadJson('Temp/DocSale.json')
+    # DbModels.LoadMod('DocSale')
+    # Ref = DbModels['DocSale']
+    # Res1 = await Ref.Add(Data)
+    # print(Res1)
+    # # Res1 = await Ref.Del(9)
+    # print(Res1)
 
     await Db.Close()
     print('done')
 
 #Test_03()
-Task = Test_02()
-asyncio.run(Task)
+#Task = Test_02()
+#asyncio.run(Task)
+
+Test_01()

@@ -1,10 +1,5 @@
 {
     "master": "ref_product0",
-    "allow": [
-    ],
-    "deny": [
-        "ref_product0"
-    ],
     "require": [
         "ref_product0_image",
         "ref_product0_lang",

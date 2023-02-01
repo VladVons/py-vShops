@@ -17,17 +17,21 @@
                 "lang_id": 1
             }
         ],
-        "ref_product0_barcode": {
-            "code": "1234567890152",
-            "ident": "ean"
-        },
-        "ref_product0_crawl": {
-            "url": "http://example.com",
-            "ident": "ean",
-            "code": "1234567890110",
-            "succsess": true,
-            "crawl_site_id": 1
-        }
+        "ref_product0_barcode": [
+            {
+                "code": "1234567890152",
+                "ident": "ean"
+            }
+        ],
+        "ref_product0_crawl": [
+            {
+                "url": "http://example.com",
+                "ident": "ean",
+                "code": "1234567890110",
+                "succsess": true,
+                "crawl_site_id": 1
+            }
+        ]
     },
     {
         "ref_product0_image": [
@@ -47,16 +51,20 @@
                 "lang_id": 1
             }
         ],
-        "ref_product0_barcode": {
-            "code": "1234567890153",
-            "ident": "ean"
-        },
-        "ref_product0_crawl": {
-            "url": "http://example.com",
-            "ident": "ean",
-            "code": "1234567890110",
-            "succsess": true,
-            "crawl_site_id": 1
-        }
+        "ref_product0_barcode": [
+            {
+                "code": "1234567890153",
+                "ident": "ean"
+            }
+        ],
+        "ref_product0_crawl": [
+            {
+                "url": "http://example.com",
+                "ident": "ean",
+                "code": "1234567890110",
+                "succsess": true,
+                "crawl_site_id": 1
+            }
+        ]
     }
 ]
