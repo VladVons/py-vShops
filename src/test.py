@@ -1,3 +1,4 @@
+import time
 import json
 import asyncio
 #
@@ -28,10 +29,10 @@ def LoadJson(aPath: str) -> dict:
     return Res
 
 def Test_01():
-    Data = LoadJson('Temp/ProductDbl.json')
+    Data = LoadJson('Temp/ProductDbl-1.json')
     Dbl = TDbSql()
     for x in Data:
-        Dbl.Import(x)
+        Dbl.Import(x, False)
         print(Dbl)
 
 async def Test_02():
@@ -93,7 +94,5 @@ async def Test_02():
     print('done')
 
 #Test_03()
-#Task = Test_02()
-#asyncio.run(Task)
-
-Test_01()
+Task = Test_02()
+asyncio.run(Task)
