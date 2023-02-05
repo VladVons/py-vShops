@@ -1,0 +1,17 @@
+{
+    "Table": "ref_product0_image",
+    "Head": [
+        "image",
+        "sort_order"
+    ],
+    "Data": [
+        [
+            "pic1.jpg",
+            1
+        ],
+        [
+            "pic2.jpg",
+            2
+        ]
+    ]
+}

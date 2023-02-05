@@ -2,7 +2,7 @@ import time
 import json
 import asyncio
 #
-from Inc.Db.DbList import TDbSql
+from Inc.Db.DbList import TDbSql, TDbList, TDbData
 from Inc.UtilP.Db.ADb import ListToComma
 from Inc.UtilP.Db.DbPg import TDbPg
 from Inc.UtilP.Log import TEchoConsoleEx
@@ -35,7 +35,59 @@ def Test_01():
         Dbl.Import(x, False)
         print(Dbl)
 
-async def Test_02():
+def Test_02():
+    Fields = [
+            ('f1', int),
+            ('f2', int),
+            ('f3', int),
+            ('f4', int)
+        ]
+
+    Data1 = []
+    for i1 in range(1, 100):
+        Data1.append([i1*10+i2 for i2, _ in enumerate(Fields)])
+
+    TimeAt = time.time()
+    for i in range(10_000):
+        Dbl1 = TDbList(Fields, Data1)
+    print(time.time() - TimeAt)
+
+    TimeAt = time.time()
+    for i in range(10_000):
+        Dbl1 = TDbData(['f1', 'f2', 'f3', 'f4'], Data1)
+    print(time.time() - TimeAt)
+
+    # Dbl1.RecAdd()
+    # Dbl1.SetField('f2', 111)
+    # Dbl1.RecAdd([21, 22, 23, 24])
+    # print(Dbl1)
+
+def Test_03():
+    Dbl1 = TDbData()
+    Dbl1.Load('Temp/ProductDbl-0.json')
+    print(Dbl1)
+
+    Dbl1 = TDbList([
+        ('User', str),
+        ('Age', int),
+        ('Male', bool, True),
+        ('Price', float)
+    ])
+    Data = [
+        ['User5', 55, True, 5.67],
+        ['User2', 22, True, 2.34],
+        ['User6', 66, True, 6.78],
+        ['User1', 11, False, 1.23],
+        ['User3', 33, True, 3.45],
+        ['User4', 44, True, 4.56],
+        ['User5', 55, True, 5.55]
+    ]
+    Dbl1.SetData(Data)
+
+    print(Dbl1)
+
+
+async def Test_04():
     Db = TDbPg(DbAuth)
     await Db.Connect()
 
@@ -93,6 +145,7 @@ async def Test_02():
     await Db.Close()
     print('done')
 
-#Test_03()
-Task = Test_02()
-asyncio.run(Task)
+#Task = Test_02()
+#asyncio.run(Task)
+
+Test_02()
