@@ -2,7 +2,7 @@ import time
 import json
 import asyncio
 #
-from Inc.Db.DbList import TDbSql, TDbList, TDbData
+from Inc.Db.DbList import TDbSql, TDbListSafe, TDbList
 from Inc.UtilP.Db.ADb import ListToComma
 from Inc.UtilP.Db.DbPg import TDbPg
 from Inc.UtilP.Log import TEchoConsoleEx
@@ -32,30 +32,49 @@ def Test_01():
     Data = LoadJson('Temp/ProductDbl-1.json')
     Dbl = TDbSql()
     for x in Data:
-        Dbl.Import(x, False)
+        Dbl.Import(x)
         print(Dbl)
 
 def Test_02():
     Fields = [
-            ('f1', int),
-            ('f2', int),
-            ('f3', int),
-            ('f4', int)
-        ]
+        ('f1', int),
+        ('f2', int),
+        ('f3', int)
+    ]
+
+    Rows = 5
+    print(Rows)
 
     Data1 = []
-    for i1 in range(1, 100):
+    for i1 in range(1, Rows):
         Data1.append([i1*10+i2 for i2, _ in enumerate(Fields)])
 
-    TimeAt = time.time()
-    for i in range(10_000):
-        Dbl1 = TDbList(Fields, Data1)
-    print(time.time() - TimeAt)
+    Dbl1 = TDbList(['f1', 'f2', 'f3'], Data1)
+    for i, x in enumerate(Dbl1):
+        x.SetField('f3', str(1000 + i))
+        d1 = x.GetField('f2')
+        d2 = x.GetAsDict()
+        d3 = x.GetAsSql()
+        d4 = x.GetAsTuple()
+    Dbl1.RecAdd([100, 200, 300])
+    #x = Dbl1.RecGo(1)
+    x = Dbl1.RecPop()
+    print(Dbl1)
+    pass
 
-    TimeAt = time.time()
-    for i in range(10_000):
-        Dbl1 = TDbData(['f1', 'f2', 'f3', 'f4'], Data1)
-    print(time.time() - TimeAt)
+
+    # TimeAt = time.time()
+    # for i in range(10_000):
+    #     Dbl1 = TDbList(['f1', 'f2', 'f3', 'f4'], Data1)
+    # print(time.time() - TimeAt)
+
+    # TimeAt = time.time()
+    # for i in range(10_000):
+    #     Dbl1 = TDbListSafe()
+    #     Dbl1.OptSafe = False
+    #     Dbl1.Init(Fields, Data1)
+
+    # print(time.time() - TimeAt)
 
     # Dbl1.RecAdd()
     # Dbl1.SetField('f2', 111)
@@ -63,11 +82,11 @@ def Test_02():
     # print(Dbl1)
 
 def Test_03():
-    Dbl1 = TDbData()
+    Dbl1 = TDbList()
     Dbl1.Load('Temp/ProductDbl-0.json')
     print(Dbl1)
 
-    Dbl1 = TDbList([
+    Dbl1 = TDbListSafe([
         ('User', str),
         ('Age', int),
         ('Male', bool, True),
