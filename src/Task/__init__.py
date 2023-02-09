@@ -37,6 +37,6 @@ _InitLog()
 
 ConfTask = TConf(f'Conf/{Options.Conf}/Task.py')
 ConfTask.Load()
-ConfTask.Def = {'Env_EmailPassw': os.getenv('Env_EmailPassw')}
+ConfTask.Def = {'env_smtp_passw': os.getenv('env_smtp_passw')}
 
 Plugin = TPluginTask('Task')

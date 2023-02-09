@@ -1,16 +1,30 @@
 {
-    "ref_product0_category": [
-        {
-            "parent_id": 0,
-            "image": "pic1.jpg",
-            "sort_order": 1
-        }
-    ],
-    "ref_product0_category_lang": [
-        {
-            "title": "title1",
-            "descr": "descr1",
-            "lang_id": 1
-        }
-    ]
+    "ref_product0_category": {
+        "head": [
+            "parent_id",
+            "image",
+            "sort_order"
+        ],
+        "data": [
+            [
+                0,
+                "pic1.jpg",
+                1
+            ]
+        ]
+    },
+    "ref_product0_category_lang": {
+        "head": [
+            "title",
+            "descr",
+            "lang_id"
+        ],
+        "data": [
+            [
+                "title1",
+                "descr1",
+                1
+            ]
+        ]
+    }
 }

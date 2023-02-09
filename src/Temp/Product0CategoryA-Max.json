@@ -1,61 +1,61 @@
 [
     {
         "ref_product0_category": {
-            "head": [
-                "parent_id",
-                "image",
-                "sort_order"
-            ],
             "data": [
                 [
                     0,
                     "pic1.jpg",
                     1
                 ]
+            ],
+            "head": [
+                "parent_id",
+                "image",
+                "sort_order"
             ]
         },
         "ref_product0_category_lang": {
-            "head": [
-                "title",
-                "descr",
-                "lang_id"
-            ],
             "data": [
                 [
                     "title1",
                     "descr1",
                     1
                 ]
+            ],
+            "head": [
+                "title",
+                "descr",
+                "lang_id"
             ]
         }
     },
     {
         "ref_product0_category": {
-            "head": [
-                "parent_id",
-                "image",
-                "sort_order"
-            ],
             "data": [
                 [
                     0,
                     "pic2.jpg",
                     2
                 ]
+            ],
+            "head": [
+                "parent_id",
+                "image",
+                "sort_order"
             ]
         },
         "ref_product0_category_lang": {
-            "head": [
-                "title",
-                "descr",
-                "lang_id"
-            ],
             "data": [
                 [
                     "title2",
                     "descr2",
                     1
                 ]
+            ],
+            "head": [
+                "title",
+                "descr",
+                "lang_id"
             ]
         }
     }

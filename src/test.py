@@ -23,10 +23,18 @@ DbAuth = {
     'Password': '098iop'
 }
 
-def LoadJson(aPath: str) -> dict:
-    with open(aPath, 'r', encoding = 'utf8') as F:
+def LoadJson(aFile: str) -> dict:
+    with open(aFile, 'r', encoding = 'utf8') as F:
         Res = json.load(F)
     return Res
+
+def SaveJson(aFile: str, aData, aFormat: bool = False):
+    with open(aFile, 'w', encoding = 'utf-8') as F:
+        if (aFormat):
+            json.dump(aData, F, indent=4, sort_keys=True, ensure_ascii=False)
+        else:
+            json.dump(aData, F)
+
 
 def Test_01():
     Data = LoadJson('Temp/ProductDbl-1.json')
@@ -42,39 +50,45 @@ def Test_02():
         ('f3', int)
     ]
 
-    Rows = 5
-    print(Rows)
-
+    Rows = 10
     Data1 = []
     for i1 in range(1, Rows):
         Data1.append([i1*10+i2 for i2, _ in enumerate(Fields)])
 
+    # Dbl1 = TDbList(['f1', 'f2', 'f3'], Data1)
+    # for i, x in enumerate(Dbl1):
+    #     x.SetField('f3', str(1000 + i))
+    #     d1 = x.GetField('f2')
+    #     d2 = x.GetAsDict()
+    #     d3 = x.GetAsSql()
+    #     d4 = x.GetAsTuple()
+    # Dbl1.RecAdd([100, 200, 300])
+    # #x = Dbl1.RecGo(1)
+    # x = Dbl1.RecPop()
+    # print(Dbl1)
+    # pass
+
+
+    TimeAt = time.time()
     Dbl1 = TDbList(['f1', 'f2', 'f3'], Data1)
-    for i, x in enumerate(Dbl1):
-        x.SetField('f3', str(1000 + i))
-        d1 = x.GetField('f2')
-        d2 = x.GetAsDict()
-        d3 = x.GetAsSql()
-        d4 = x.GetAsTuple()
-    Dbl1.RecAdd([100, 200, 300])
-    #x = Dbl1.RecGo(1)
-    x = Dbl1.RecPop()
-    print(Dbl1)
-    pass
+    q1 = Dbl1.New()
+    for i in range(10_000):
+        q1 = Dbl1.Rec.GetAsSql()
+        #Dbl1.Rec.GetAsDict()
+        # for Rec in Dbl1:
+        #     q1 = Rec.GetAsSql()
+    print(time.time() - TimeAt)
 
-
-    # TimeAt = time.time()
-    # for i in range(10_000):
-    #     Dbl1 = TDbList(['f1', 'f2', 'f3', 'f4'], Data1)
-    # print(time.time() - TimeAt)
-
-    # TimeAt = time.time()
-    # for i in range(10_000):
-    #     Dbl1 = TDbListSafe()
-    #     Dbl1.OptSafe = False
-    #     Dbl1.Init(Fields, Data1)
-
-    # print(time.time() - TimeAt)
+    TimeAt = time.time()
+    Dbl1 = TDbListSafe()
+    Dbl1.OptSafe = False
+    Dbl1.Init(Fields, Data1)
+    for i in range(10_000):
+        q1 = Dbl1.Rec.GetAsSql()
+        # Dbl1.Rec.GetAsDict()
+        # for Rec in Dbl1:
+        #     q1 = Rec.GetAsSql()
+    print(time.time() - TimeAt)
 
     # Dbl1.RecAdd()
     # Dbl1.SetField('f2', 111)
@@ -140,18 +154,20 @@ async def Test_04():
     # print(Res1)
 
     # Data = LoadJson('Temp/Product0CategoryA.json')
+    # SaveJson('Temp/Product0CategoryA-Min.json', Data, False)
+    # SaveJson('Temp/Product0CategoryA-Max.json', Data, True)
     # DbModels.LoadMod('RefProduct0Category')
     # Ref = DbModels['RefProduct0Category']
     # Res1 = await Ref.AddList(Data)
     # print(Res1)
 
-    Data = LoadJson('Temp/Product.json')
-    DbModels.LoadMod('RefProduct')
-    Ref = DbModels['RefProduct']
-    Res1 = await Ref.Add(Data)
-    print(Res1)
-    # #Res1 = await Ref.Del(14)
-    # #print(Res1)
+    # Data = LoadJson('Temp/Product.json')
+    # DbModels.LoadMod('RefProduct')
+    # Ref = DbModels['RefProduct']
+    # Res1 = await Ref.Add(Data)
+    # print(Res1)
+    #Res1 = await Ref.Del(14)
+    #print(Res1)
 
     # Data = LoadJson('Temp/DocSale.json')
     # DbModels.LoadMod('DocSale')
@@ -164,7 +180,5 @@ async def Test_04():
     await Db.Close()
     print('done')
 
-#Task = Test_02()
-#asyncio.run(Task)
-
-Test_02()
+Task = Test_04()
+asyncio.run(Task)
