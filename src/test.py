@@ -33,14 +33,26 @@ def SaveJson(aFile: str, aData, aFormat: bool = False):
         else:
             json.dump(aData, F)
 
-def GetTree(aDbl: TDbList) -> dict:
-    Res = {}
-    for Rec in aDbl:
-        ParentId = Rec.GetField('parent_id')
-        Data = Res.get(ParentId, [])
-        Data.append(Rec.GetField('id'))
-        Res[ParentId] = Data
-    return Res
+class TCatalogToDb():
+    def __init__(self, aDbl: TDbList):
+        self.Dbl = aDbl
+        self.BTree = aDbl.SearchAdd('id')
+
+    def GetTree(self) -> dict:
+        Res = {}
+        for Rec in self.Dbl:
+            ParentId = Rec.GetField('parent_id')
+            Data = Res.get(ParentId, [])
+            Data.append(Rec.GetField('id'))
+            Res[ParentId] = Data
+        return Res
+
+    async def SetTree(self, aTree: dict, aParentId: int):
+        Recurs
+        for x in aTree.get(aParentId, {}):
+            print(aParentId, x)
+            if (x in aTree):
+                await self.SetTree(aTree, x)
 
 async def Test_04():
     Db = TDbPg(DbAuth)
@@ -51,8 +63,9 @@ async def Test_04():
     DbModels = TDbModels('IncP/Db/Model', DbMeta)
 
     Dbl = TDbList().Load('Temp/TCategory.dat')
-    BTree = Dbl.SearchAdd('id')
-    Tree = GetTree(Dbl)
+    CatalogToDb = TCatalogToDb(Dbl)
+    Tree = CatalogToDb.GetTree()
+    await CatalogToDb.SetTree(Tree, 0)
     print(Dbl)
 
     await Db.Close()

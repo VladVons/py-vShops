@@ -260,18 +260,20 @@ CREATE TABLE IF NOT EXISTS ref_product_category (
     parent_id           INTEGER NOT NULL,
     image               VARCHAR(64),
     sort_order          SMALLINT,
+    code                varchar(10),
     tenant_id           INTEGER,
-    FOREIGN KEY (tenant_id) REFERENCES ref_tenant(id)
+    FOREIGN KEY (tenant_id) REFERENCES ref_tenant(id),
+    UNIQUE (tenant_id, code)
 );
 
 CREATE TABLE IF NOT EXISTS ref_product_category_lang (
-    id                  SERIAL PRIMARY KEY,
     category_id         INTEGER NOT NULL,
     lang_id             INTEGER NOT NULL,
     title               VARCHAR(128),
     descr               TEXT,
     FOREIGN KEY (category_id) REFERENCES ref_product_category(id),
-    FOREIGN KEY (lang_id) REFERENCES ref_lang(id)
+    FOREIGN KEY (lang_id) REFERENCES ref_lang(id),
+    UNIQUE (category_id, lang)
 );
 
 -- product --
@@ -282,6 +284,7 @@ CREATE TABLE IF NOT EXISTS ref_product (
     deleted             BOOLEAN DEFAULT FALSE,
     model               VARCHAR(16),
     is_service          BOOLEAN DEFAULT FALSE,
+    code                varchar(10),
     product0_id         INTEGER,
     tenant_id           INTEGER NOT NULL,
     FOREIGN KEY (product0_id) REFERENCES ref_product0(id),
@@ -295,15 +298,17 @@ CREATE TABLE IF NOT EXISTS ref_product_price (
     price_id            INTEGER NOT NULL,
     price               FLOAT DEFAULT 0,
     qty                 INTEGER DEFAULT 1,
-    FOREIGN KEY (product_id) REFERENCES ref_product(id),
-    FOREIGN KEY (price_id) REFERENCES ref_price(id)
+    FOREIGN KEY (product_id) REFERENCES ref_product(id) ON DELETE CASCADE,
+    FOREIGN KEY (price_id) REFERENCES ref_price(id),
+    UNIQUE (product_id, price_id, qty)
 );
 
 CREATE TABLE IF NOT EXISTS ref_product_price_history (
     id                  SERIAL PRIMARY KEY,
-    product_price_id    INTEGER NOT NULL,
+    create_date         TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     price               FLOAT DEFAULT 0,
-    FOREIGN KEY (product_price_id) REFERENCES ref_product_price(id)
+    price_id            INTEGER NOT NULL,
+    FOREIGN KEY (price_id) REFERENCES ref_product_price(id) ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS ref_product_barcode (
@@ -326,6 +331,7 @@ CREATE TABLE IF NOT EXISTS ref_product_image (
     product_id          INTEGER NOT NULL,
     FOREIGN KEY (product_id) REFERENCES ref_product(id)
 );
+CREATE INDEX ref_product_image_product_id_idx ON ref_product_image_product(product);
 
 CREATE TABLE IF NOT EXISTS ref_product_lang (
     title               VARCHAR(128) NOT NULL,
