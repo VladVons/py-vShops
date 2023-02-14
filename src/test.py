@@ -48,7 +48,6 @@ class TCatalogToDb():
         return Res
 
     async def SetTree(self, aTree: dict, aParentId: int):
-        Recurs
         for x in aTree.get(aParentId, {}):
             print(aParentId, x)
             if (x in aTree):

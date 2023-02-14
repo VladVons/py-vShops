@@ -335,6 +335,7 @@ CREATE INDEX ref_product_image_product_id_idx ON ref_product_image_product(produ
 
 CREATE TABLE IF NOT EXISTS ref_product_lang (
     title               VARCHAR(128) NOT NULL,
+    feature             TEXT,
     descr               TEXT,
     product_id          INTEGER NOT NULL,
     lang_id             INTEGER NOT NULL,
