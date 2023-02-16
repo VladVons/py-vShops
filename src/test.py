@@ -2,13 +2,13 @@ import time
 import json
 import asyncio
 #
-from Inc.Db.DbList import TDbSql, TDbListSafe, TDbList
+from Inc.Db.DbList import TDbSql, TDbList
 from Inc.UtilP.Db.DbPg import TDbPg
-from Inc.UtilP.Log import TEchoConsoleEx
+from Inc.UtilP.Db.ADb import TDbExecPool
 from Inc.UtilP.Db.DbMeta import TDbMeta
-from Inc.UtilP.Db.DbModels import TDbModels
-#
 from Inc.UtilP.Db.DbModel import TDbModel
+from Inc.UtilP.Db.DbModels import TDbModels
+from Inc.UtilP.Log import TEchoConsoleEx
 
 from IncP.Log import Log
 Log.AddEcho(TEchoConsoleEx())
@@ -59,13 +59,38 @@ async def Test_04():
 
     DbMeta = TDbMeta(Db)
     await DbMeta.Init()
-    DbModels = TDbModels('IncP/Db/Model', DbMeta)
+    DbModels = TDbModels('IncP/Model', DbMeta)
 
-    Dbl = TDbList().Load('Temp/TCategory.dat')
-    CatalogToDb = TCatalogToDb(Dbl)
-    Tree = CatalogToDb.GetTree()
-    await CatalogToDb.SetTree(Tree, 0)
-    print(Dbl)
+    # Dbl = TDbList().Load('Temp/TCategory.dat')
+    # CatalogToDb = TCatalogToDb(Dbl)
+    # Tree = CatalogToDb.GetTree()
+    # await CatalogToDb.SetTree(Tree, 0)
+    # print(Dbl)
+
+    # DbModels.LoadMod('RefProduct/Category')
+    # Ref = DbModels['RefProduct/Category']
+    # Sql = Ref.Sql.GetProductsCountInCategories(1, 1)
+    # print(Sql)
+
+    # DbModels.LoadMod('RefProduct/Image')
+    # Ref = DbModels['RefProduct/Image']
+    # Sql = Ref.Sql.GetProductsWithoutImages(1)
+    # Dbl = await TDbExecPool(Db.Pool).Exec(Sql)
+    # print(Dbl)
+
+    # DbModels.LoadMod('RefProduct/Lang')
+    # Ref = DbModels['RefProduct/Lang']
+    # Sql = Ref.Sql.GetProductsWithoutLang(1, 1)
+    # Dbl = await TDbExecPool(Db.Pool).Exec(Sql)
+
+    # DbModels.LoadMod('RefProduct/Price')
+    # Ref = DbModels['RefProduct/Price']
+    # Sql = Ref.Sql.GetProductPriceOnDate(15585, 1, '2023-02-15')
+    # Dbl = await TDbExecPool(Db.Pool).Exec(Sql)
+    # print(Dbl)
+    # Sql = Ref.Sql.GetProductsPrice([15585])
+    # Dbl = await TDbExecPool(Db.Pool).Exec(Sql)
+    # print(Dbl)
 
     await Db.Close()
     print('done')
