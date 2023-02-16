@@ -1,16 +1,14 @@
-# Created: 2023.01.24
+# Created: 2023.02.16
 # Author: Vladimir Vons <VladVons@gmail.com>
 # License: GNU, see LICENSE for more details
 
 
 from Inc.Util.Mod import DAddModules
 from Inc.UtilP.Db.DbModel import TDbModel
-from . import Main_Get
+from Inc.UtilP.Db.DbMeta import TDbMeta
+from . import Sql
 
 
-@DAddModules([Main_Get])
+@DAddModules([Sql], True)
 class TMain(TDbModel):
-    Text = 'Pink'
-
-    async def GetCount(self):
-        return 1
+    pass

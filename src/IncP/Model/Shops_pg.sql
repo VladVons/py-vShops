@@ -12,7 +12,9 @@
 -- create_date         timestamp default current_timestamp
 -- update_date         date,
 
-create extension hstore;
+--https://stackoverflow.com/questions/26703476/how-to-perform-update-operations-on-columns-of-type-jsonb-in-postgres-9-4
+
+--create extension hstore;
 --drop extension hstore;
 
 
@@ -340,7 +342,7 @@ create index ref_product_image_product_id_idx on ref_product_image_product(produ
 
 create table if not exists ref_product_lang (
     title               varchar(128) not null,
-    feature             hstore,
+    feature             jsonb,
     descr               text,
     product_id          integer not null,
     lang_id             integer not null,

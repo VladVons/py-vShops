@@ -1,0 +1,19 @@
+{
+    "table": {
+        "ref_product_lang": {
+            "column": {
+                "title":        {"type": "varchar(128)", "value": "not null"},
+                "descr":        {"type": "text"},
+                "product_id":   {"type": "integer"},
+                "lang_id":      {"type": "integer"}
+            },
+            "index": {
+                "product_id, lang_id": {"type": "primary"}
+            },
+            "foreign_key": {
+                "product_id":   {"table": "ref_product", "column": "id"},
+                "lang_id":      {"table": "ref_lang", "column": "id"}
+            }
+        }
+    }
+}
