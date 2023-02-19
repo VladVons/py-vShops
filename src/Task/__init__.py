@@ -10,6 +10,7 @@ import argparse
 from Inc.Conf import TConf
 from Inc.PluginTask import TPluginTask
 from Inc.Misc.Log import TEchoConsoleEx, TEchoFileEx
+from Inc.Misc.Misc import GetEnvWithWarn
 from IncP.Log import Log
 from IncP import GetInfo
 
@@ -35,8 +36,8 @@ AppName = GetInfo()['app_name']
 Options = _InitOptions()
 _InitLog()
 
-ConfTask = TConf(f'Conf/{Options.Conf}/Task.py')
+DirConf = f'Conf/{Options.Conf}'
+ConfTask = TConf(f'{DirConf}/Task.py')
 ConfTask.Load()
-ConfTask.Def = {'env_smtp_passw': os.getenv('env_smtp_passw')}
-
-Plugin = TPluginTask('Task')
+ConfTask.Def = {'env_smtp_passw': GetEnvWithWarn('env_smtp_passw', Log)}
+Plugin = TPluginTask('Task', DirConf)

@@ -1,0 +1,22 @@
+{
+    "plugin": {
+        "In_Price_pl01_xlsx": {
+            "sheet": {
+                "KOMPUTERY": {
+                    "skip": 1,
+                    "fields": {
+                        "model": 3,
+                        "cpu": 4,
+                        "case": 5,
+                        "disk": 6,
+                        "ram": 7,
+                        "os": 8,
+                        "dvd": 9,
+                        "vga": 10,
+                        "price": 11
+                    }
+                }
+            }
+        }
+    }
+}

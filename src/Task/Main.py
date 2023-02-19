@@ -19,13 +19,13 @@ class TTask():
             print('\n'.join(List))
             return
 
-        Log.Print(1, 'i', f'Run() {self.Info["app_name"]}')
+        Log.Print(1, 'i', 'Run() %s' % (self.Info['app_name']))
 
         TimeStart = time.time()
         if (Options.Service):
-            Name = 'PluginsSrv'
+            Name = 'plugins_srv'
         else:
-            Name = 'PluginsApp'
+            Name = 'plugins_app'
         Plugins = ConfTask.get(Name, '')
         Plugin.LoadList(Plugins)
 
