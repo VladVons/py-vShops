@@ -3,7 +3,7 @@
 # License: GNU, see LICENSE for more details
 
 
-from Inc.UtilP.Db.ADb import ListIntToComma
+from Inc.Sql.ADb import ListIntToComma
 
 
 def GetProductsLang(aProductId: list[int], aLangId: id) -> str:
@@ -47,4 +47,3 @@ def GetProductsWithoutLang(aTenantId: int, aLangId: int) -> str:
     order by
         rp.id
     '''
-

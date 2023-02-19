@@ -12,6 +12,9 @@
 -- create_date         timestamp default current_timestamp
 -- update_date         date,
 
+--very slow in function
+--EXECUTE 'SELECT max(idt) + 1 FROM ' || TG_TABLE_NAME;
+
 --https://stackoverflow.com/questions/26703476/how-to-perform-update-operations-on-columns-of-type-jsonb-in-postgres-9-4
 
 --create extension hstore;
@@ -65,7 +68,7 @@ create table if not exists ref_manufacturer (
     id                  serial primary key,
     enabled             boolean default true,
     deleted             boolean default false,
-    title               varchar(16),
+    title               varchar(16) not null,
     image               varchar(64)
 );
 
@@ -75,7 +78,7 @@ create table if not exists ref_lang (
     id                  serial primary key,
     enabled             boolean default true,
     deleted             boolean default false,
-    title               varchar(16),
+    title               varchar(16) not null,
     alias               varchar(3)
 );
 
@@ -85,8 +88,8 @@ create table if not exists ref_currency (
     id                  serial primary key,
     enabled             boolean default true,
     deleted             boolean default false,
-    title               varchar(16),
-    alias               varchar(3),
+    title               varchar(16) not null,
+    alias               varchar(3) not null,
     code                smallint,
     rate                float default 1
 );
@@ -97,14 +100,14 @@ create table if not exists ref_country (
     id                  serial primary key,
     enabled             boolean default true,
     deleted             boolean default false,
-    title               varchar(32)
+    title               varchar(32) not null
 );
 
 create table if not exists ref_city (
     id                  serial primary key,
     enabled             boolean default true,
     deleted             boolean default false,
-    title               varchar(32),
+    title               varchar(32) not null,
     country_id          integer not null,
     foreign key (country_id) references ref_country(id)
 );
@@ -115,8 +118,8 @@ create table if not exists ref_address (
     deleted             boolean default false,
     city_id             integer not null,
     post_code           varchar(8),
-    street              varchar(32),
-    house               varchar(4),
+    street              varchar(32) not null,
+    house               varchar(4) not null,
     room                varchar(4),
     door_code           varchar(8),
     foreign key (city_id) references ref_city(id)
@@ -128,10 +131,10 @@ create table if not exists ref_customer (
     id                  serial primary key,
     enabled             boolean default true,
     deleted             boolean default false,
-    firstname           varchar(32),
-    lastname            varchar(32),
+    firstname           varchar(32) not null,
+    lastname            varchar(32) not null,
     phone               varchar(15),
-    email               varchar(32)
+    email               varchar(32) not null
 );
 
 create table if not exists ref_customer_to_address (
@@ -144,23 +147,12 @@ create table if not exists ref_customer_to_address (
 
 -- company --
 
-create table if not exists ref_company (
-    id                  serial primary key,
-    enabled             boolean default true,
-    deleted             boolean default false,
-    title               varchar(32),
-    address_id          integer not null,
-    foreign key (address_id) references ref_address(id)
-);
-
 create table if not exists ref_tenant (
     id                  serial primary key,
     enabled             boolean default true,
     deleted             boolean default false,
-    title               varchar(32),
-    company_id          integer not null,
+    title               varchar(32) not null,
     address_id          integer not null,
-    foreign key (company_id) references ref_company(id),
     foreign key (address_id) references ref_address(id)
 );
 
@@ -179,7 +171,7 @@ create table if not exists ref_product0_category_lang (
     id                  serial primary key,
     category_id         integer not null,
     lang_id             integer not null,
-    title               varchar(128),
+    title               varchar(128) not null,
     descr               text,
     foreign key (category_id) references ref_product0_category(id) on delete cascade,
     foreign key (lang_id) references ref_lang(id)
@@ -216,7 +208,7 @@ create table if not exists ref_product0_barcode (
     id                  serial primary key,
     code                varchar(16) not null,
     product_en          product_enum not null,
-    product_id          integer not null on delete cascade,
+    product_id          integer not null,
     foreign key (product_id) references ref_product0(id) on delete cascade,
     unique (code, product_en)
 );
@@ -250,7 +242,7 @@ create table if not exists ref_product0_crawl (
 
 create table if not exists ref_price (
     id                  serial primary key,
-    title               varchar(16),
+    title               varchar(16) not null,
     currency_id         integer not null,
     tenant_id           integer not null,
     foreign key (currency_id) references ref_currency(id),
@@ -263,23 +255,23 @@ create table if not exists ref_product_category (
     id                  serial primary key,
     enabled             boolean default true,
     deleted             boolean default false,
-    parent_id           integer not null,
+    idt                 integer not null,
+    parent_idt          integer not null,
     image               varchar(64),
     sort_order          smallint,
-    code                varchar(10),
-    tenant_id           integer,
+    tenant_id           integer not null,
     foreign key (tenant_id) references ref_tenant(id),
-    unique (tenant_id, code)
+    unique (idt, tenant_id)
 );
 
 create table if not exists ref_product_category_lang (
     category_id         integer not null,
     lang_id             integer not null,
-    title               varchar(128),
+    title               varchar(128) not null,
     descr               text,
     foreign key (category_id) references ref_product_category(id) on delete cascade,
     foreign key (lang_id) references ref_lang(id),
-    unique (category_id, lang)
+    unique (category_id, lang_id)
 );
 
 -- product --
@@ -290,20 +282,20 @@ create table if not exists ref_product (
     deleted             boolean default false,
     model               varchar(16),
     is_service          boolean default false,
-    code                varchar(10),
+    idt                 integer,
     product0_id         integer,
     tenant_id           integer not null,
     foreign key (product0_id) references ref_product0(id),
     foreign key (tenant_id) references ref_tenant(id),
-    unique (tenant_id, code)
+    unique (tenant_id, idt)
 );
 
 create table if not exists ref_product_price (
     id                  serial primary key,
     product_id          integer not null,
     price_id            integer not null,
-    price               float default 0,
-    qty                 integer default 1,
+    price               integer not null,
+    qty                 integer not null default 1,
     foreign key (product_id) references ref_product(id) on delete cascade,
     foreign key (price_id) references ref_price(id),
     unique (product_id, price_id, qty)
@@ -338,7 +330,7 @@ create table if not exists ref_product_image (
     product_id          integer not null,
     foreign key (product_id) references ref_product(id) on delete cascade
 );
-create index ref_product_image_product_id_idx on ref_product_image_product(product);
+create index if not exists ref_product_image_product_id_idx on ref_product_image(product_id);
 
 create table if not exists ref_product_lang (
     title               varchar(128) not null,
@@ -366,8 +358,7 @@ create table if not exists ref_product_to_category (
 create table if not exists docs (
     id                  serial primary key,
     doc_id              integer not null,
-    doc_en              doc_enum not null,
-    foreign key (doc_id, doc_en) references ref_currency(id)
+    doc_en              doc_enum not null
 );
 
 
@@ -398,22 +389,68 @@ create table if not exists doc_sale_table_product (
     foreign key (doc_sale_id) references doc_sale(id) on delete cascade
 );
 
-create or replace function ref_product_price_update_proc()
-    returns trigger
-    language plpgsql
-    as $$
-begin
-    if (old.price != new.price) or (old.qty != new.qty) then
-        insert into ref_product_price_history (price_id, price, qty)
-        values (old.id, new.price, new.qty);
-    end if;
-    --return new;
+--
 
+create or replace function ref_product_price_faiu() returns trigger
+as $$
+begin
+    if (old.price is null) or (old.price != new.price) or (old.qty != new.qty) then
+        insert into ref_product_price_history (price_id, price, qty)
+        values (new.id, new.price, new.qty);
+    end if;
+    --raise notice '% and %', old.price, new.price;
+    --return new;
     --result is ignored since this is an AFTER trigger
     return null;
-end $$;
+end $$ language plpgsql;
 
-create or replace trigger ref_product_price_update
-    after update of price, qty on ref_product_price
+create or replace trigger ref_product_price_taiu
+    after insert or update of price, qty on ref_product_price
     for each row
-    execute function ref_product_price_update_proc();
+    execute function ref_product_price_faiu();
+
+--
+
+create or replace function ref_product_category_fbi() returns trigger
+as $$
+begin
+    if (new.idt is null) then
+        select
+            COALESCE(max(idt), 0) + 1 into new.idt
+        from
+            ref_product_category
+        where
+            tenant_id = new.tenant_id;
+    end if;
+
+    return new;
+end
+$$ language plpgsql;
+
+create or replace trigger ref_product_category_tbi
+    before insert on ref_product_category
+    for each row
+    execute procedure ref_product_category_fbi();
+
+--
+
+create or replace function ref_product_fbi() returns trigger
+as $$
+begin
+    if (new.idt is null) then
+        select
+            COALESCE(max(idt), 0) + 1 into new.idt
+        from
+            ref_product
+        where
+            tenant_id = new.tenant_id;
+    end if;
+
+    return new;
+end
+$$ language plpgsql;
+
+create or replace trigger ref_product_tbi
+    before insert on ref_product
+    for each row
+    execute procedure ref_product_fbi();

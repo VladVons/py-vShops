@@ -2,13 +2,13 @@ import time
 import json
 import asyncio
 #
-from Inc.Db.DbList import TDbSql, TDbList
-from Inc.UtilP.Db.DbPg import TDbPg
-from Inc.UtilP.Db.ADb import TDbExecPool
-from Inc.UtilP.Db.DbMeta import TDbMeta
-from Inc.UtilP.Db.DbModel import TDbModel
-from Inc.UtilP.Db.DbModels import TDbModels
-from Inc.UtilP.Log import TEchoConsoleEx
+from Inc.DbList import TDbSql, TDbList
+from Inc.Sql.DbPg import TDbPg
+from Inc.Sql.ADb import TDbExecPool
+from Inc.Sql.DbMeta import TDbMeta
+from Inc.Sql.DbModel import TDbModel
+from Inc.Sql.DbModels import TDbModels
+from Inc.Misc.Log import TEchoConsoleEx
 
 from IncP.Log import Log
 Log.AddEcho(TEchoConsoleEx())
@@ -67,10 +67,13 @@ async def Test_04():
     # await CatalogToDb.SetTree(Tree, 0)
     # print(Dbl)
 
-    # DbModels.LoadMod('RefProduct/Category')
-    # Ref = DbModels['RefProduct/Category']
-    # Sql = Ref.Sql.GetProductsCountInCategories(1, 1)
+    DbModels.LoadMod('RefProduct/Category')
+    Ref = DbModels['RefProduct/Category']
+    #Sql = Ref.Sql.GetProductsCountInCategories(1, 1)
+    Sql = Ref.Sql.GetCategoriesByParent(2, 1)
     # print(Sql)
+    Dbl = await TDbExecPool(Db.Pool).Exec(Sql)
+    print(Dbl)
 
     # DbModels.LoadMod('RefProduct/Image')
     # Ref = DbModels['RefProduct/Image']

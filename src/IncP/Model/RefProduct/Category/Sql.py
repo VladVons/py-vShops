@@ -7,21 +7,22 @@ def GetProductsCountInCategories(aTenantId: int, aLangId: int) -> str:
     return f'''
     with wpic as (
         select
-            rptc.category_id,
+            rptc.id,
+            rptc.idt,
             count(*) as protucts
         from
             ref_product_to_category rptc
         join
             ref_product_category rpc on
-            (rptc.category_id = rpc.id)
+            (rptc.id = rpc.id)
         where
             (rpc.tenant_id = {aTenantId})
         group by
-            rptc.category_id
+            rptc.id
     )
 
     select
-        rpc.parent_id,
+        rpc.parent_idt,
         wpic.category_id as id,
         wpic.protucts,
         rpcl.title
@@ -43,25 +44,27 @@ def GetCategoriesByParent(aTenatId: int, aParentId: int) -> str:
     with recursive wrpc as (
         select
             id,
-            parent_id,
+            idt,
+            parent_idt,
             1 as level
         from
             ref_product_category
         where
             (tenant_id = {aTenatId}) and
-            (parent_id = {aParentId})
+            (parent_idt = {aParentId})
 
         union all
 
         select
             rpc.id,
-            rpc.parent_id,
+            rpc.idt,
+            rpc.parent_idt,
             wrpc.level + 1 as level
         from
             ref_product_category rpc
         join
             wrpc on
-            (rpc.parent_id = wrpc.id)
+            (rpc.parent_idt = wrpc.id)
     )
     select
         *

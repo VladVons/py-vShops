@@ -9,7 +9,7 @@ import argparse
 #
 from Inc.Conf import TConf
 from Inc.PluginTask import TPluginTask
-from Inc.UtilP.Log import TEchoConsoleEx, TEchoFileEx
+from Inc.Misc.Log import TEchoConsoleEx, TEchoFileEx
 from IncP.Log import Log
 from IncP import GetInfo
 

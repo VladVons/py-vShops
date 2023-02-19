@@ -7,7 +7,7 @@ import os
 import sys
 import platform
 #
-from Inc.UtilP.Info import GetSysInfo, DictToText
+from Inc.Misc.Info import GetSysInfo, DictToText
 
 
 __version__ = '1.0.1'

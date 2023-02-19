@@ -4,10 +4,10 @@
 
 
 from Inc.Util.Mod import DAddModules
-from Inc.UtilP.Db.DbModel import TDbModel
+from Inc.Sql.DbModel import TDbModel
 from . import Sql
 
 
-@DAddModules([Main_Get])
+@DAddModules([Sql])
 class TMain(TDbModel):
     pass

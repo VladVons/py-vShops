@@ -3,7 +3,7 @@
 # License: GNU, see LICENSE for more details
 
 
-from Inc.UtilP.Db.ADb import ListIntToComma
+from Inc.Sql.ADb import ListIntToComma
 
 
 def GetProductsImages(aProductId: list[int]) -> str:

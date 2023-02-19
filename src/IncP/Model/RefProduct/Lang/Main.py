@@ -4,8 +4,8 @@
 
 
 from Inc.Util.Mod import DAddModules
-from Inc.UtilP.Db.DbModel import TDbModel
-from Inc.UtilP.Db.DbMeta import TDbMeta
+from Inc.Sql.DbModel import TDbModel
+from Inc.Sql.DbMeta import TDbMeta
 from . import Sql
 
 

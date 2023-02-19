@@ -2,13 +2,13 @@ import time
 import json
 import asyncio
 #
-from Inc.Db.DbList import TDbSql, TDbListSafe, TDbList
-from Inc.UtilP.Db.DbPg import TDbPg
-from Inc.UtilP.Log import TEchoConsoleEx
-from Inc.UtilP.Db.DbMeta import TDbMeta
-from Inc.UtilP.Db.DbModels import TDbModels
+from Inc.DbList import TDbSql, TDbListSafe, TDbList
+from Inc.Sql.DbPg import TDbPg
+from Inc.Sql.DbMeta import TDbMeta
+from Inc.Sql.DbModels import TDbModels
+from Inc.Sql.DbModel import TDbModel
 #
-from Inc.UtilP.Db.DbModel import TDbModel
+from Inc.Misc.Log import TEchoConsoleEx
 
 from IncP.Log import Log
 Log.AddEcho(TEchoConsoleEx())
