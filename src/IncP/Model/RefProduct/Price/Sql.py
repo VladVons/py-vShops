@@ -25,7 +25,8 @@ def GetProductsPrice(aProductId: list[int]) -> str:
 def GetProductPriceOnDate(aProductId: int, aPriceId: int, aDate: str, aQty: int = 1) -> str:
     return f'''
     select
-        rpph.price
+        rpph.price,
+        rpph.create_date
     from
         ref_product_price_history rpph
     left join

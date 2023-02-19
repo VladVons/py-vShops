@@ -8,9 +8,10 @@ import json
 from Inc.DbList  import TDbList, TDbRec
 from Inc.DataClass import DataClass
 from Inc.ParserX.Common import TFileBase
-from Inc.ParserX.CommonSql import TSqlBase, DSplit, DASplit, TLogEx, StripQuery
+from Inc.ParserX.CommonSql import TSqlBase, DASplit, TLogEx
 from Inc.Sql.DbPg import TDbPg
-from Inc.Sql.ADb import TDbExecCurs, TDbExecPool, ListIntToComma
+from Inc.Sql.ADb import TDbExecPool, ListIntToComma
+from IncP.Log import Log
 from ..CommonDb import TDbCategory, TDbProductEx
 
 
@@ -133,7 +134,9 @@ class TSql(TSqlBase):
             '''
             await TDbExecPool(self.Db.Pool).Exec(Query)
 
+        Log.Print(1, 'i', 'Category')
         await Category(aData)
+        Log.Print(1, 'i', 'Category_Lang')
         await Category_Lang(aData, self.Conf.Parts)
 
     async def Product_Create(self, aDbl: TDbProductEx):
@@ -211,7 +214,8 @@ class TSql(TSqlBase):
                 DbRec.Data = Row
                 Id = DbRec.GetField('id')
 
-                for Image in DbRec.GetField('image', []):
+                for xImage in DbRec.GetField('image', []):
+                    Image = xImage.split('/')[-1]
                     Value = f"({self.ProductIdt[Id]}, '{Image}')"
                     Values.append(Value)
 
@@ -264,10 +268,16 @@ class TSql(TSqlBase):
 
         DbRec = TDbRec()
         DbRec.Fields = aDbl.Rec.Fields
+
+        Log.Print(1, 'i', 'Product')
         await Product(aDbl.Data)
+        Log.Print(1, 'i', 'Product_Lang')
         await Product_Lang(aDbl.Data, self.Conf.Parts)
+        Log.Print(1, 'i', 'Product_Image')
         await Product_Image(aDbl.Data, self.Conf.Parts)
+        Log.Print(1, 'i', 'Product_ToCategory')
         await Product_ToCategory(aDbl.Data, self.Conf.Parts)
+        Log.Print(1, 'i', 'Product_Price')
         await Product_Price(aDbl.Data, self.Conf.Parts)
 
 
@@ -285,7 +295,7 @@ class TMain(TFileBase):
             TenantId = SqlDef.get('tenant_id'),
             LangId = SqlDef.get('lang_id'),
             PriceId = SqlDef.get('price_id'),
-            Parts = SqlDef.get('parts', 25)
+            Parts = SqlDef.get('parts', 50)
         )
         self.Sql = TSql(aDb, SqlConf)
 

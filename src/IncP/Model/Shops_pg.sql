@@ -244,9 +244,11 @@ create table if not exists ref_price (
     id                  serial primary key,
     title               varchar(16) not null,
     currency_id         integer not null,
+    idt                 integer not null,
     tenant_id           integer not null,
     foreign key (currency_id) references ref_currency(id),
     foreign key (tenant_id) references ref_tenant(id)
+    unique (idt, tenant_id)
 );
 
 -- category --
@@ -454,3 +456,26 @@ create or replace trigger ref_product_tbi
     before insert on ref_product
     for each row
     execute procedure ref_product_fbi();
+
+--
+
+create or replace function ref_price_fbi() returns trigger
+as $$
+begin
+    if (new.idt is null) then
+        select
+            COALESCE(max(idt), 0) + 1 into new.idt
+        from
+            ref_price
+        where
+            tenant_id = new.tenant_id;
+    end if;
+
+    return new;
+end
+$$ language plpgsql;
+
+create or replace trigger ref_price_tbi
+    before insert on ref_price
+    for each row
+    execute procedure ref_price_fbi();

@@ -67,33 +67,35 @@ async def Test_04():
     # await CatalogToDb.SetTree(Tree, 0)
     # print(Dbl)
 
-    DbModels.LoadMod('RefProduct/Category')
-    Ref = DbModels['RefProduct/Category']
-    #Sql = Ref.Sql.GetProductsCountInCategories(1, 1)
-    Sql = Ref.Sql.GetCategoriesByParent(2, 1)
-    # print(Sql)
+    # DbModels.LoadMod('RefProduct/Category')
+    # Ref = DbModels['RefProduct/Category']
+    # #Sql = Ref.Sql.GetProductsCountInCategories(1, 1)
+    # Sql = Ref.Sql.GetCategoriesByParent(2, 1)
+    # # print(Sql)
+    # Dbl = await TDbExecPool(Db.Pool).Exec(Sql)
+    # print(Dbl)
+
+    DbModels.LoadMod('RefProduct/Image')
+    Ref = DbModels['RefProduct/Image']
+    #Sql = Ref.Sql.GetProductsWithoutImages(1)
+    Sql = Ref.Sql.GetProductsCountImages(1)
     Dbl = await TDbExecPool(Db.Pool).Exec(Sql)
     print(Dbl)
 
-    # DbModels.LoadMod('RefProduct/Image')
-    # Ref = DbModels['RefProduct/Image']
-    # Sql = Ref.Sql.GetProductsWithoutImages(1)
-    # Dbl = await TDbExecPool(Db.Pool).Exec(Sql)
-    # print(Dbl)
+    DbModels.LoadMod('RefProduct/Lang')
+    Ref = DbModels['RefProduct/Lang']
+    Sql = Ref.Sql.GetProductsWithoutLang(1, 1)
+    Dbl = await TDbExecPool(Db.Pool).Exec(Sql)
 
-    # DbModels.LoadMod('RefProduct/Lang')
-    # Ref = DbModels['RefProduct/Lang']
-    # Sql = Ref.Sql.GetProductsWithoutLang(1, 1)
-    # Dbl = await TDbExecPool(Db.Pool).Exec(Sql)
-
-    # DbModels.LoadMod('RefProduct/Price')
-    # Ref = DbModels['RefProduct/Price']
-    # Sql = Ref.Sql.GetProductPriceOnDate(15585, 1, '2023-02-15')
-    # Dbl = await TDbExecPool(Db.Pool).Exec(Sql)
-    # print(Dbl)
-    # Sql = Ref.Sql.GetProductsPrice([15585])
-    # Dbl = await TDbExecPool(Db.Pool).Exec(Sql)
-    # print(Dbl)
+    DbModels.LoadMod('RefProduct/Price')
+    Ref = DbModels['RefProduct/Price']
+    Sql = Ref.Sql.GetProductPriceOnDate(6836, 3, '2023-02-20')
+    print(Sql)
+    Dbl = await TDbExecPool(Db.Pool).Exec(Sql)
+    print(Dbl)
+    Sql = Ref.Sql.GetProductsPrice([6836])
+    Dbl = await TDbExecPool(Db.Pool).Exec(Sql)
+    print(Dbl)
 
     await Db.Close()
     print('done')
