@@ -2,5 +2,6 @@
 *.log
 *.xml
 *.xls
+*.dat
 __pycache__
 .idea
