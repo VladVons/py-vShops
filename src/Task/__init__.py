@@ -20,7 +20,6 @@ def _InitOptions():
     Parser = argparse.ArgumentParser(usage = Usage)
     Parser.add_argument('-c', '--Conf',     help='config',            default='Default')
     Parser.add_argument('-i', '--Info',     help='information',       action='store_true')
-    Parser.add_argument('-s', '--Service',  help='run as service',    action='store_true')
     return Parser.parse_args()
 
 def _InitLog():

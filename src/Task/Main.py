@@ -2,6 +2,7 @@
 # Author: Vladimir Vons <VladVons@gmail.com>
 # License: GNU, see LICENSE for more details
 
+
 import time
 #
 from IncP import GetInfo
@@ -22,11 +23,7 @@ class TTask():
         Log.Print(1, 'i', 'Run() %s' % (self.Info['app_name']))
 
         TimeStart = time.time()
-        if (Options.Service):
-            Name = 'plugins_srv'
-        else:
-            Name = 'plugins_app'
-        Plugins = ConfTask.get(Name, '')
+        Plugins = ConfTask.get('plugins', '')
         Plugin.LoadList(Plugins)
 
         try:

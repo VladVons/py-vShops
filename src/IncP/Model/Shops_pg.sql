@@ -35,6 +35,49 @@ create type doc_enum as enum (
 );
 
 -----------------------------------------------------------------------------
+-- references. user auth --
+-----------------------------------------------------------------------------
+
+create table if not exists ref_auth_group (
+    id                  serial primary key,
+    create_date         timestamp default current_timestamp,
+    title               varchar(16) not null,
+    unique (title)
+);
+
+create table if not exists ref_auth_group_ext (
+    id                  serial primary key,
+    auth_group_id       integer not null,
+    title               varchar(24) not null,
+    data                text ,
+    enabled             boolean default true,
+    foreign key (auth_group_id) references ref_auth_group(id),
+    unique (auth_group_id, title)
+);
+
+create table if not exists ref_auth (
+    id                  serial primary key,
+    auth_group_id       integer,
+    create_date         timestamp default current_timestamp,
+    valid_date          date,
+    login               varchar(16) not null,
+    passw               varchar(32) not null,
+    enabled             boolean default true,
+    foreign key (auth_group_id) references ref_auth_group(id),
+    unique (login)
+);
+
+create table if not exists ref_auth_ext(
+    id                  serial primary key,
+    auth_id             integer not null,
+    title               varchar(24) not null,
+    data                text ,
+    enabled             boolean default true,
+    foreign key (auth_id) references ref_auth(id),
+    unique (auth_id, title)
+);
+
+-----------------------------------------------------------------------------
 -- references. service --
 -----------------------------------------------------------------------------
 
