@@ -21,11 +21,11 @@ def GetProductsCountInCategories(aTenantId: int, aLangId: int) -> str:
     )
 
     select
-	    rpc.id,
-    	rpc.idt,
-    	rpc.parent_idt,
+        rpc.id,
+        rpc.idt,
+        rpc.parent_idt,
         COALESCE(wpic.products, 0),
-    	rpcl.title
+        rpcl.title
     from
         ref_product_category rpc
     left join
@@ -39,7 +39,7 @@ def GetProductsCountInCategories(aTenantId: int, aLangId: int) -> str:
         '''
 
 # https://habr.com/ru/post/269497
-def GetCategoriesByParent(aTenatId: int, aParentId: int) -> str:
+def GetCategoriesByParent(aTenantId: int, aParentId: int) -> str:
     return f'''
     with recursive wrpc as (
         select
@@ -50,7 +50,7 @@ def GetCategoriesByParent(aTenatId: int, aParentId: int) -> str:
         from
             ref_product_category
         where
-            (tenant_id = {aTenatId}) and
+            (tenant_id = {aTenantId}) and
             (parent_idt = {aParentId})
 
         union all

@@ -3,6 +3,7 @@
 # License: GNU, see LICENSE for more details
 
 
+import json
 from aiohttp import web
 #
 from Inc.Sql.ADb import TDbAuth
@@ -16,8 +17,22 @@ class TDbSrv(TSrvBase):
         super().__init__(aSrvConf)
         self._DbConf = aDbConf
 
-    async def _rWebApi(self, aRequest: web.Request) -> web.Response:
-        Data = {'data': f'ok {aRequest.path}'}
+    async def _GetPostData(self, aRequest: web.Request) -> dict:
+        Data = await aRequest.text()
+        if (Data):
+            try:
+                Res = json.loads(Data)
+            except Exception as E:
+                Res = {'err': str(E)}
+        else:
+            Res = {}
+        return Res
+
+    async def _rModel(self, aRequest: web.Request) -> web.Response:
+        Name = aRequest.match_info['name']
+        Data = await self._GetPostData(aRequest)
+        if ('err' not in Data):
+            Data = await Api.Exec(Name, Data)
         return web.json_response(Data)
 
     async def _cbOnStartup(self, aApp: web.Application):
@@ -33,8 +48,8 @@ class TDbSrv(TSrvBase):
 
     def _GetDefRoutes(self) -> list:
         return [
-            web.get('/api/{Name:.*}', self._rWebApi),
-            web.post('/api/{Name:.*}', self._rWebApi)
+            web.get('/model/{name:.*}', self._rModel),
+            web.post('/model/{name:.*}', self._rModel)
         ]
 
     @staticmethod

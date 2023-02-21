@@ -21,7 +21,7 @@ def GetProductsImages(aProductId: list[int]) -> str:
         '''
 
 def GetProductImages(aProductId: int) -> str:
-    return GetProductImages([aProductId])
+    return GetProductsImages([aProductId])
 
 
 def GetProductsWithoutImages(aTenantId: int) -> str:
