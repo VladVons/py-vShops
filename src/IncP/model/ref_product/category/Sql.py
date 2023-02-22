@@ -36,7 +36,7 @@ def GetProductsCountInCategories(aTenantId: int, aLangId: int) -> str:
         (rpc.id = rpcl.category_id)
     where
         (rpcl.lang_id = {aLangId})
-        '''
+    '''
 
 # https://habr.com/ru/post/269497
 def GetCategoriesByParent(aTenantId: int, aParentIdt: int, aDepth: int = 99) -> str:
@@ -65,8 +65,8 @@ def GetCategoriesByParent(aTenantId: int, aParentIdt: int, aDepth: int = 99) -> 
         join
             wrpc on
             (rpc.parent_idt = wrpc.idt)
-		where
-			wrpc.level < {aDepth}
+        where
+            wrpc.level < {aDepth}
     )
     select
         *

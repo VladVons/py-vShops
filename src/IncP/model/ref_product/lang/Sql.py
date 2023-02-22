@@ -47,7 +47,7 @@ def GetProductsWithoutLang(aTenantId: int, aLangId: int) -> str:
         rp.id = wrpl.product_id
     where
         (rp.tenant_id = {aTenantId}) and
-	    (wrpl.product_id is null)
+    (wrpl.product_id is null)
     order by
         rp.id
     '''

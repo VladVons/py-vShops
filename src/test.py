@@ -21,7 +21,16 @@ DbAuth = {
     'password': '098iop'
 }
 
+Json = LoadJson('Temp/Product.json')
 Data1 = [
+    'ref_product',
+    {
+        "method": "AddProduct",
+        "param": [Json]
+    }
+]
+
+Data2 = [
     'ref_product/lang',
     {
         "method": "GetProductsWithoutLang",
@@ -29,7 +38,7 @@ Data1 = [
     }
 ]
 
-Data2 = [
+Data3 = [
     'ref_product/category',
     {
         "method": "GetCategoriesByParent",
@@ -37,12 +46,11 @@ Data2 = [
     }
 ]
 
-Data = LoadJson('Temp/Product.json')
-Data3 = [
+Data4 = [
     'ref_product',
     {
-        "method": "AddProduct",
-        "param": [Data]
+        "method": "GetProducts",
+        "param": [1, '15 03']
     }
 ]
 
@@ -50,10 +58,17 @@ async def Test_01():
     Auth = TDbAuth(**DbAuth)
     await Api.DbInit(Auth)
 
-    Res = await Api.Exec(*Data2)
-    if ('err' not in Res):
-        Dbl = TDbList().Import(Res.get('data'))
-        print(Dbl)
+    Res = await Api.Exec(*Data4)
+    if ('err' in Res):
+        print(Res)
+    else:
+        Data = Res.get('data')
+        if ('head' in Data):
+            Dbl = TDbList().Import(Data)
+            Dbl.OptReprLen = 60
+            print(Dbl)
+        else:
+            print(Data)
 
     await Api.DbClose()
 

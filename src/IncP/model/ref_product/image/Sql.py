@@ -20,7 +20,7 @@ def GetProductsImages(aProductId: list[int]) -> str:
         (rpi.product_id in ({ProductsId}))
     order by
         rpi.sort_order
-        '''
+    '''
 
 def GetProductImages(aProductId: int) -> str:
     return GetProductsImages([aProductId])

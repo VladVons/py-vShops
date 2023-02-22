@@ -11,7 +11,6 @@ async def GetProductsCountInCategories(self, aTenantId: int, aLangId: int) -> di
     '''
     get products count in all categories
     '''
-
     Query = Sql.GetProductsCountInCategories(aTenantId, aLangId)
     Dbl = await TDbExecPool(self.DbMeta.Db.Pool).Exec(Query)
     return Dbl.Export()

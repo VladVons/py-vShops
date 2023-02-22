@@ -11,5 +11,4 @@ from . import Sql, Api
 
 @DAddModules([Sql, Api], True)
 class TMain(TDbModel):
-    def __init__(self, aDbMeta: TDbMeta, aPath: str):
-        super().__init__(aDbMeta, aPath)
+    pass
