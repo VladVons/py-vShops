@@ -1,18 +1,7 @@
-import os
-import sys
-#
-from Inc.Misc.FS import GetFiles
-from Inc.Util.ModHelp import GetHelp
+# Created: 2023.02.22
+# Author: Vladimir Vons <VladVons@gmail.com>
+# License: GNU, see LICENSE for more details
 
 
-async def Help(_self) -> dict:
-    Res = []
-    for xFile in GetFiles('IncP/model', 'Api.py'):
-        ModFile = os.path.splitext(xFile)[0].replace('/', '.')
-        Mod = sys.modules.get(ModFile)
-        if (not Mod):
-            __import__(ModFile)
-            Mod = sys.modules.get(ModFile)
-        Data = GetHelp(Mod)
-        Res.append(Data)
-    return {'data': Res}
+async def AddProduct(self, aData: dict) -> dict:
+    return await self.Add(aData)
