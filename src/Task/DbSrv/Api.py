@@ -3,11 +3,13 @@
 # License: GNU, see LICENSE for more details
 
 
+import re
+#
 from Inc.Misc.Time import SecondsToDHMS_Str
 from Inc.Sql.DbPg import TDbPg
 from Inc.Sql.DbMeta import TDbMeta
 from Inc.Sql.DbModels import TDbModels
-from Inc.Util.Mod import GetModuleHelp, GetMethod
+from Inc.Util.ModHelp import GetHelp, GetMethod
 from IncP.Log import Log, TEchoDb
 
 
@@ -24,6 +26,16 @@ class TApi():
         #return (not Dbl.IsEmpty())
         return True
 
+    @staticmethod
+    def _GetMethodHelp(aMod: object, aMethod: str) -> dict:
+        Obj = getattr(aMod, aMethod, None)
+        if (Obj is None):
+            Res = {'err': f'unknown method {aMethod}', 'help': GetHelp(aMod)}
+        else:
+            Data = GetMethod(Obj)
+            Res = {'help': {'decl': Data[2], 'doc': Data[3]}}
+        return Res
+
     async def Exec(self, aModule: str, aData: dict) -> dict:
         if (not self.DbModels.IsModule(aModule)):
             return {'err': f'unknown module {aModule}'}
@@ -32,17 +44,19 @@ class TApi():
         ModuleObj = self.DbModels[aModule]
 
         if (not aData):
-            Data = GetModuleHelp(ModuleObj.Api)
-            Help = [[x[4], x[3]] for x in Data]
-            return {'err': 'undefined method', 'module': ModuleObj.Api.__file__, 'help': Help}
+            return {'err': 'undefined data'}
 
         Method = aData.get('method')
         if (not Method):
-            return {'err': 'undefined method'}
+            return {'err': 'undefined key `method`'}
+
+        if (Method.startswith('Help ')):
+            Method = re.split(r'\s+', Method)[1]
+            return self._GetMethodHelp(ModuleObj.Api, Method)
 
         MethodObj = getattr(ModuleObj.Api, Method, None)
         if (MethodObj is None):
-            return {'err': f'unknown method {Method}'}
+            return {'err': f'unknown method {Method}', 'help': GetHelp(ModuleObj.Api)}
 
         self.Cnt += 1
         Param = aData.get('param', [])
@@ -53,9 +67,6 @@ class TApi():
                 Data = await MethodObj(ModuleObj, *Param)
             Res = {'data': Data, 'cnt': self.Cnt}
         except TypeError as E:
-            Data = GetMethod(MethodObj)
-            Help = [Data[2], Data[3]]
-            Res = {'err': str(E), 'help': Help}
             Log.Print(1, 'x', 'TApi.Exec()', str(E))
         except Exception as E:
             Res = {'err': str(E)}

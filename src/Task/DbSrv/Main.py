@@ -4,6 +4,7 @@
 
 
 import json
+import asyncio
 from aiohttp import web
 #
 from Inc.Sql.ADb import TDbAuth
@@ -38,13 +39,13 @@ class TDbSrv(TSrvBase):
     async def _cbOnStartup(self, aApp: web.Application):
         #aApp['conf'] = self.Conf
 
-        await Api.DbInit(self._DbConf)
-        yield
-        # wait till working...
-
-        Log.Print(1, 'i', '_cbOnStartup(). Close connection')
-        await Api.DbClose()
-
+        try:
+            await Api.DbInit(self._DbConf)
+            yield
+            # wait till working...
+        finally:
+            Log.Print(1, 'i', '_cbOnStartup(). Close connection')
+            await Api.DbClose()
 
     def _GetDefRoutes(self) -> list:
         return [

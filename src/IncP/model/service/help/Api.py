@@ -3,9 +3,10 @@ import sys
 #
 from Inc.Misc.FS import GetFiles
 from Inc.Util.ModHelp import GetHelp
+from IncP import GetInfo
 
 
-async def Help(_self) -> dict:
+async def Api(_self) -> dict:
     Res = []
     for xFile in GetFiles('IncP/model', 'Api.py'):
         ModFile = os.path.splitext(xFile)[0].replace('/', '.')
@@ -16,3 +17,7 @@ async def Help(_self) -> dict:
         Data = GetHelp(Mod)
         Res.append(Data)
     return {'data': Res}
+
+async def SysInfo(_self) -> dict:
+    return GetInfo()
+
