@@ -7,6 +7,8 @@ from Inc.Sql.ADb import ListIntToComma
 
 
 def GetProductsPrice(aProductId: list[int]) -> str:
+    ProductsId = ListIntToComma(aProductId)
+
     return f'''
     select
         rpp.product_id,
@@ -16,7 +18,7 @@ def GetProductsPrice(aProductId: list[int]) -> str:
     from
         ref_product_price rpp
     where
-        (rpp.product_id in ({ListIntToComma(aProductId)}))
+        (rpp.product_id in ({ProductsId}))
     order by
         rpp.product_id,
         rpp.qty

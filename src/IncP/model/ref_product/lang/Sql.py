@@ -7,6 +7,8 @@ from Inc.Sql.ADb import ListIntToComma
 
 
 def GetProductsLang(aProductId: list[int], aLangId: id) -> str:
+    ProductsId = ListIntToComma(aProductId)
+
     return f'''
     select
         rpl.product_id,
@@ -16,7 +18,7 @@ def GetProductsLang(aProductId: list[int], aLangId: id) -> str:
     from
         ref_product_lang rpl
     where
-        (rpl.product_id in ({ListIntToComma(aProductId)})) and
+        (rpl.product_id in ({aProductsId})) and
         (rpl.lang_id = {aLangId})
     '''
 
@@ -36,14 +38,16 @@ def GetProductsWithoutLang(aTenantId: int, aLangId: int) -> str:
     )
 
     select
-        rp.id
+        rp.id,
+        rp.idt
     from
         ref_product rp
     left join
         wrpl on
         rp.id = wrpl.product_id
     where
-        (wrpl.product_id is null)
+        (rp.tenant_id = {aTenantId}) and
+	    (wrpl.product_id is null)
     order by
         rp.id
     '''

@@ -7,7 +7,7 @@ from Inc.Misc.Time import SecondsToDHMS_Str
 from Inc.Sql.DbPg import TDbPg
 from Inc.Sql.DbMeta import TDbMeta
 from Inc.Sql.DbModels import TDbModels
-from Inc.Util.Mod import GetModuleHelp
+from Inc.Util.Mod import GetModuleHelp, GetMethod
 from IncP.Log import Log, TEchoDb
 
 
@@ -25,6 +25,9 @@ class TApi():
         return True
 
     async def Exec(self, aModule: str, aData: dict) -> dict:
+        if (not self.DbModels.IsModule(aModule)):
+            return {'err': f'unknown module {aModule}'}
+
         self.DbModels.LoadMod(aModule)
         ModuleObj = self.DbModels[aModule]
 
@@ -32,9 +35,6 @@ class TApi():
             Data = GetModuleHelp(ModuleObj.Api)
             Help = [[x[4], x[3]] for x in Data]
             return {'err': 'undefined method', 'module': ModuleObj.Api.__file__, 'help': Help}
-
-        if (not self.DbModels.IsModule(aModule)):
-            return {'err': f'unknown module {aModule}'}
 
         Method = aData.get('method')
         if (not Method):
@@ -44,20 +44,22 @@ class TApi():
         if (MethodObj is None):
             return {'err': f'unknown method {Method}'}
 
+        self.Cnt += 1
         Param = aData.get('param', [])
         try:
             if (isinstance(Param, dict)):
                 Data = await MethodObj(ModuleObj, **Param)
             else:
-                # ParamNeed = MethodObj.__code__.co_varnames[1:MethodObj.__code__.co_argcount]
-                # if (len(Param) != len(ParamNeed)):
-                #     return {'err': f'param count mismatch. need {ParamNeed} but got {Param}'}
                 Data = await MethodObj(ModuleObj, *Param)
-
-            self.Cnt += 1
             Res = {'data': Data, 'cnt': self.Cnt}
+        except TypeError as E:
+            Data = GetMethod(MethodObj)
+            Help = [Data[2], Data[3]]
+            Res = {'err': str(E), 'help': Help}
+            Log.Print(1, 'x', 'TApi.Exec()', str(E))
         except Exception as E:
             Res = {'err': str(E)}
+            Log.Print(1, 'x', 'TApi.Exec()', str(E))
         return Res
 
     async def DbInit(self, aAuth: dict):

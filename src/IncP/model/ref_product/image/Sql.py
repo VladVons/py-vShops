@@ -7,6 +7,8 @@ from Inc.Sql.ADb import ListIntToComma
 
 
 def GetProductsImages(aProductId: list[int]) -> str:
+    ProductsId = ListIntToComma(aProductId)
+
     return f'''
     select
         rpi.id,
@@ -15,7 +17,7 @@ def GetProductsImages(aProductId: list[int]) -> str:
     from
         ref_product_image rpi
     where
-        (rpi.product_id in ({ListIntToComma(aProductId)}))
+        (rpi.product_id in ({ProductsId}))
     order by
         rpi.sort_order
         '''
