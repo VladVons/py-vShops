@@ -16,7 +16,7 @@ async def GetProductsCountInCategories(self, aTenantId: int, aLangId: int) -> di
     Dbl = await TDbExecPool(self.DbMeta.Db.Pool).Exec(Query)
     return Dbl.Export()
 
-async def GetCategoriesByParent(self, aTenantId: int, aParentId: int = 0) -> dict:
-    Query = Sql.GetCategoriesByParent(aTenantId, aParentId)
+async def GetCategoriesByParent(self, aTenantId: int, aParentId: int = 0, aDepth: int = 99) -> dict:
+    Query = Sql.GetCategoriesByParent(aTenantId, aParentId, aDepth)
     Dbl = await TDbExecPool(self.DbMeta.Db.Pool).Exec(Query)
     return Dbl.Export()
