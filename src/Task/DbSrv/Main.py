@@ -50,6 +50,8 @@ class TDbSrv(TSrvBase):
             await Api.DbInit(self._DbConf)
             yield
             # wait till working...
+        except Exception as E:
+            Log.Print(1, 'x', '_cbOnStartup()', aE = E)
         finally:
             Log.Print(1, 'i', '_cbOnStartup(). Close connection')
             await Api.DbClose()

@@ -4,7 +4,7 @@ srv_conf = {
 
 db_conf = {
     'auth': {
-        'host': 'localhost',
+        'host': '192.168.2.13',
         'port': 5432,
         'database': 'shop2',
         'user': 'admin',

@@ -109,7 +109,8 @@ class TApi():
 
     async def DbClose(self):
         List = Log.FindEcho(TEchoDb.__name__)
-        Log.Echoes.remove(List[0])
+        if (List):
+            Log.Echoes.remove(List[0])
         await self.DbMeta.Db.Close()
 
 Api = TApi()
