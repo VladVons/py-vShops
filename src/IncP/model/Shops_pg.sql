@@ -346,15 +346,6 @@ create table if not exists ref_product_price (
     unique (product_id, price_id, qty)
 );
 
-create table if not exists ref_product_price_history (
-    id                  serial primary key,
-    create_date         timestamp default current_timestamp,
-    price               float,
-    qty                 int,
-    price_id            integer not null,
-    foreign key (price_id) references ref_product_price(id) on delete cascade
-);
-
 create table if not exists ref_product_barcode (
     id                  serial primary key,
     code                varchar(13),
@@ -395,6 +386,35 @@ create table if not exists ref_product_to_category (
     foreign key (category_id) references ref_product_category(id) on delete cascade,
     primary key (product_id, category_id)
 );
+
+-----------------------------------------------------------------------------
+-- history --
+-----------------------------------------------------------------------------
+create table if not exists hist_ref_product_price (
+    id                  serial primary key,
+    create_date         timestamp default current_timestamp,
+    price               float,
+    qty                 int,
+    price_id            integer not null,
+    foreign key (price_id) references ref_product_price(id) on delete cascade
+);
+
+create table if not exists hist_session (
+    id                  serial primary key,
+    create_date         timestamp default current_timestamp,
+    user_agent          varchar(64),
+    ip                  varchar(16)
+);
+
+create table if not exists hist_product_search (
+    create_date         timestamp default current_timestamp,
+    context             varchar(32) not null,
+    lang_id             integer not null,
+    session_id          integer not null,
+    foreign key (lang_id) references ref_lang(id),
+    foreign key (session_id) references hist_session(id) on delete cascade
+);
+
 
 -----------------------------------------------------------------------------
 -- documents --
@@ -440,7 +460,7 @@ create or replace function ref_product_price_faiu() returns trigger
 as $$
 begin
     if (old.price is null) or (old.price != new.price) or (old.qty != new.qty) then
-        insert into ref_product_price_history (price_id, price, qty)
+        insert into hist_ref_product_price (price_id, price, qty)
         values (new.id, new.price, new.qty);
     end if;
     --raise notice '% and %', old.price, new.price;

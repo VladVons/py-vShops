@@ -54,21 +54,30 @@ Data4 = [
     }
 ]
 
+Data5 = [
+    'ref_product',
+    {
+        "method": "AddHistProductSearch",
+        "param": [1, 1, '15 03']
+    }
+]
+
 async def Test_01():
     Auth = TDbAuth(**DbAuth)
     await Api.DbInit(Auth)
 
-    Res = await Api.Exec(*Data4)
+    Res = await Api.Exec(*Data5)
     if ('err' in Res):
         print(Res)
     else:
         Data = Res.get('data')
-        if ('head' in Data):
-            Dbl = TDbList().Import(Data)
-            Dbl.OptReprLen = 60
-            print(Dbl)
-        else:
-            print(Data)
+        if (Data):
+            if ('head' in Data):
+                Dbl = TDbList().Import(Data)
+                Dbl.OptReprLen = 60
+                print(Dbl)
+            else:
+                print(Data)
 
     await Api.DbClose()
 

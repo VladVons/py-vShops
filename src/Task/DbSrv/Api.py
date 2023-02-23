@@ -19,7 +19,7 @@ class TApi():
 
         self.DbMeta: TDbMeta
         self.DbModels: TDbModels
-        self.Cnt = 0
+        self.QueryCnt = 0
 
     async def _DoAuthRequest(self, aUser: str, aPassw: str) -> bool:
         #Dbl = await self.Db.UserAuth(aUser, aPassw)
@@ -30,13 +30,21 @@ class TApi():
     def _GetMethodHelp(aMod: object, aMethod: str) -> dict:
         Obj = getattr(aMod, aMethod, None)
         if (Obj is None):
-            Res = {'err': f'unknown method {aMethod}', 'help': GetHelp(aMod)}
+            Res = {
+                'err': f'unknown method {aMethod}',
+                'help': GetHelp(aMod)
+            }
         else:
             Data = GetMethod(Obj)
-            Res = {'help': {'decl': Data[2], 'doc': Data[3]}}
+            Res = {
+                'help': {'decl': Data[2],
+                'doc': Data[3]}
+            }
         return Res
 
     async def Exec(self, aModule: str, aData: dict) -> dict:
+        self.QueryCnt += 1
+
         if (not self.DbModels.IsModule(aModule)):
             return {'err': f'unknown module {aModule}'}
 
@@ -56,16 +64,18 @@ class TApi():
 
         MethodObj = getattr(ModuleObj.Api, Method, None)
         if (MethodObj is None):
-            return {'err': f'unknown method {Method}', 'help': GetHelp(ModuleObj.Api)}
+            return {
+                'err': f'unknown method {Method}',
+                'help': GetHelp(ModuleObj.Api),
+            }
 
-        self.Cnt += 1
         Param = aData.get('param', [])
         try:
             if (isinstance(Param, dict)):
                 Data = await MethodObj(ModuleObj, **Param)
             else:
                 Data = await MethodObj(ModuleObj, *Param)
-            Res = {'data': Data, 'cnt': self.Cnt}
+            Res = {'data': Data}
         except TypeError as E:
             Log.Print(1, 'x', 'TApi.Exec()', str(E))
         except Exception as E:

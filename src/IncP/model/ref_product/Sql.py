@@ -6,8 +6,8 @@
 import re
 
 
-def GetProducts(aLangId: int, aTitle: str) -> str:
-    Title = [f"('%{x}%')" for x in re.split(r'\s+', aTitle)]
+def GetProducts(aLangId: int, aText: str) -> str:
+    Title = [f"('%{x}%')" for x in re.split(r'\s+', aText)]
     Title = ', '.join(Title)
 
     return f'''
@@ -24,4 +24,10 @@ def GetProducts(aLangId: int, aTitle: str) -> str:
     where
         (rpl.lang_id = {aLangId}) and
         (rpl.title ilike all (values {Title}))
+    '''
+
+def AddHistProductSearch(aLangId: int, aSessionId: int, aText: str):
+    return f'''
+        insert into hist_product_search (lang_id, session_id, context)
+        values ({aLangId}, {aSessionId}, '{aText}')
     '''

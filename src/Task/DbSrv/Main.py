@@ -3,6 +3,7 @@
 # License: GNU, see LICENSE for more details
 
 
+import time
 import json
 from aiohttp import web
 #
@@ -29,10 +30,17 @@ class TDbSrv(TSrvBase):
         return Res
 
     async def _rModel(self, aRequest: web.Request) -> web.Response:
+        TimeStart = time.time()
+
         Name = aRequest.match_info['name']
         Data = await self._GetPostData(aRequest)
         if ('err' not in Data):
             Data = await Api.Exec(Name, Data)
+
+        Data['info'] = {
+            'query': Api.QueryCnt,
+            'time': round(time.time() - TimeStart, 4)
+        }
         return web.json_response(Data)
 
     async def _cbOnStartup(self, aApp: web.Application):
