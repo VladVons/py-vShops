@@ -42,7 +42,23 @@ Data3 = [
     'ref_product/category',
     {
         "method": "GetCategoriesByParent",
-        "param": [1, 0, 1]
+        "param": [1, 0, 3]
+    }
+]
+
+Data3a = [
+    'ref_product/category',
+    {
+        "method": "GetProductsCountAndNameInCategories",
+        "param": [1, 1]
+    }
+]
+
+Data3b = [
+    'ref_product/category',
+    {
+        "method": "GetCategoriesByParentWithProductCount",
+        "param": [1, 0]
     }
 ]
 
@@ -66,7 +82,7 @@ async def Test_01():
     Auth = TDbAuth(**DbAuth)
     await Api.DbInit(Auth)
 
-    Res = await Api.Exec(*Data5)
+    Res = await Api.Exec(*Data3)
     if ('err' in Res):
         print(Res)
     else:

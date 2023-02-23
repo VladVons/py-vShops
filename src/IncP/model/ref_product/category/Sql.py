@@ -3,9 +3,9 @@
 # License: GNU, see LICENSE for more details
 
 
-def GetProductsCountInCategories(aTenantId: int, aLangId: int) -> str:
+def GetProductsCountInCategories(aTenantId: int) -> str:
     return f'''
-    with wpic as (
+    with wrptc as (
         select
             rptc.category_id,
             count(*) as products
@@ -19,18 +19,23 @@ def GetProductsCountInCategories(aTenantId: int, aLangId: int) -> str:
         group by
             rptc.category_id
     )
+    '''
+
+def GetProductsCountAndNameInCategories(aTenantId: int, aLangId: int) -> str:
+    return f'''
+    {GetProductsCountInCategories(aTenantId)}
 
     select
         rpc.id,
         rpc.idt,
         rpc.parent_idt,
-        COALESCE(wpic.products, 0),
+        COALESCE(wrptc.products, 0),
         rpcl.title
     from
         ref_product_category rpc
     left join
-        wpic on
-        (rpc.id = wpic.category_id)
+        wrptc on
+        (rpc.id = wrptc.category_id)
     left join
         ref_product_category_lang rpcl on
         (rpc.id = rpcl.category_id)
@@ -46,7 +51,8 @@ def GetCategoriesByParent(aTenantId: int, aParentIdt: int, aDepth: int = 99) -> 
             rpc.id,
             rpc.idt,
             rpc.parent_idt,
-            1 as level
+            1 as level,
+            '' || rpc.idt as path
         from
             ref_product_category rpc
         where
@@ -59,7 +65,8 @@ def GetCategoriesByParent(aTenantId: int, aParentIdt: int, aDepth: int = 99) -> 
             rpc.id,
             rpc.idt,
             rpc.parent_idt,
-            wrpc.level + 1
+            wrpc.level + 1,
+            wrpc.path  || '/' || rpc.idt
         from
             ref_product_category rpc
         join
@@ -72,4 +79,8 @@ def GetCategoriesByParent(aTenantId: int, aParentIdt: int, aDepth: int = 99) -> 
         *
     from
         wrpc
+    '''
+
+def GetCategoriesByParentWithProductCount(aTenantId: int, aParentIdt: int) -> str:
+    return f'''
     '''
