@@ -2,10 +2,10 @@ import json
 import asyncio
 #
 from Inc.DbList import TDbList
-from Inc.Misc.Log import TEchoConsoleEx
-from Inc.Sql.ADb import TDbAuth
-from Task.DbSrv.Api import Api
-from IncP.Log import Log
+# from Inc.Misc.Log import TEchoConsoleEx
+# from Inc.Sql.ADb import TDbAuth
+# from Task.DbSrv.Api import Api
+# from IncP.Log import Log
 
 
 def LoadJson(aFile: str) -> dict:
@@ -14,7 +14,7 @@ def LoadJson(aFile: str) -> dict:
     return Res
 
 DbAuth = {
-    'host': 'localhost',
+    'host': '5.58.6.236',
     'port': 5432,
     'database': 'shop2',
     'user': 'admin',
@@ -82,7 +82,7 @@ async def Test_01():
     Auth = TDbAuth(**DbAuth)
     await Api.DbInit(Auth)
 
-    Res = await Api.Exec(*Data3)
+    Res = await Api.Exec(*Data3a)
     if ('err' in Res):
         print(Res)
     else:

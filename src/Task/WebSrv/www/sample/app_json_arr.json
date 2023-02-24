@@ -1,0 +1,51 @@
+{
+  "product": {
+    "info": {
+      "author": "vladvons",
+      "date": "2022-07-01 09:00:00",
+      "url": [
+        "https://ktc.ua/goods/noutbuk_lenovo_thinkbook_15_g3_acl_21a4008yra_mineral_grey.html"
+      ]
+    },
+    "pipe": [
+      ["app_json", [{"@type": "product"}]],
+      ["as_dict", {
+        "name": [
+          ["gets", ["name"]]
+        ],
+        "price": [
+          ["get", ["offers"]],
+          ["list", [0]],
+          ["as_list", [
+            [["get", ["price"]]],
+            [["get", ["priceCurrency"]]]
+          ]]
+        ],
+        "price_old": [
+          ["var_get", ["$root"]],
+          ["find", ["div", {"class": "product__price-promo"}]],
+          ["find", ["del"]],
+          ["text"],
+          ["price"]
+        ],
+        "stock": [
+          ["get", ["offers"]],
+          ["list", [0]],
+          ["get", ["availability"]],
+          ["stock"]
+        ],
+        "image": [
+          ["gets", ["image.contentUrl"]]
+        ],
+        "mpn": [
+          ["get", ["mpn"]]
+        ],
+        "category": [
+          ["var_get", ["$root"]],
+          ["find", ["section", {"class": "breadcrumbs"}]],
+          ["breadcrumb", [["a"], -2]]
+        ]
+      }]
+    ]
+  }
+}

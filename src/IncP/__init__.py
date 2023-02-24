@@ -14,14 +14,17 @@ __version__ = '1.0.1'
 __date__ =  '2023.01.10'
 
 
-#//
-def GetInfo() -> dict:
-    Res = {
+
+def GetAppVer() -> dict:
+    return {
         'app_ver' : __version__,
         'app_date': __date__,
         'author':  'Vladimir Vons, VladVons@gmail.com',
         'home': 'http://oster.com.ua',
     }
+
+def GetInfo() -> dict:
+    Res = GetAppVer()
     Res.update(GetSysInfo())
     return Res
 

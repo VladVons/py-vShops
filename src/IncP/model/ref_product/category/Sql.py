@@ -5,31 +5,31 @@
 
 def GetProductsCountInCategories(aTenantId: int) -> str:
     return f'''
-    with wrptc as (
-        select
-            rptc.category_id,
-            count(*) as products
-        from
-            ref_product_to_category rptc
-        left join
-            ref_product_category rpc on
-            (rptc.product_id = rpc.id)
-        where
-            (rpc.tenant_id = {aTenantId})
-        group by
-            rptc.category_id
-    )
+    select
+        rptc.category_id,
+        count(*) as products
+    from
+        ref_product_to_category rptc
+    left join
+        ref_product_category rpc on
+        (rptc.product_id = rpc.id)
+    where
+        (rpc.tenant_id = {aTenantId})
+    group by
+        rptc.category_id
     '''
 
 def GetProductsCountAndNameInCategories(aTenantId: int, aLangId: int) -> str:
     return f'''
+    with wrptc as (
     {GetProductsCountInCategories(aTenantId)}
+    )
 
     select
         rpc.id,
         rpc.idt,
         rpc.parent_idt,
-        COALESCE(wrptc.products, 0),
+        COALESCE(wrptc.products, 0) as products,
         rpcl.title
     from
         ref_product_category rpc

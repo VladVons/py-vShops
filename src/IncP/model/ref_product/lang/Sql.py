@@ -5,6 +5,19 @@
 
 from Inc.Sql.ADb import ListIntToComma
 
+def GetProductsIdForTenantAndLang(aTenantId: int, aLangId: int) -> str:
+    return f'''
+        select
+            rpl.product_id
+        from
+            ref_product_lang rpl
+        left join
+            ref_product rp on
+            (rpl.product_id = rp.id)
+        where
+            (rpl.lang_id = {aLangId}) and
+            (rp.tenant_id = {aTenantId})
+    '''
 
 def GetProductsLang(aProductId: list[int], aLangId: id) -> str:
     ProductsId = ListIntToComma(aProductId)
@@ -18,23 +31,14 @@ def GetProductsLang(aProductId: list[int], aLangId: id) -> str:
     from
         ref_product_lang rpl
     where
-        (rpl.product_id in ({aProductsId})) and
+        (rpl.product_id in ({ProductsId})) and
         (rpl.lang_id = {aLangId})
     '''
 
 def GetProductsWithoutLang(aTenantId: int, aLangId: int) -> str:
     return f'''
     with wrpl as (
-        select
-            rpl.product_id
-        from
-            ref_product_lang rpl
-        left join
-            ref_product rp on
-            (rpl.product_id = rp.id)
-        where
-            (rpl.lang_id = {aLangId}) and
-            (rp.tenant_id = {aTenantId})
+        {GetProductsIdForTenantAndLang(aTenantId, aLangId)}
     )
 
     select

@@ -1,2 +1,2 @@
 debug = False
-plugins= 'DbSrv -WebSrv'
+plugins= 'DbSrv WebSrv'
