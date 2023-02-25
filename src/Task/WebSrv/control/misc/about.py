@@ -4,13 +4,16 @@
 
 
 from IncP import GetInfo
-from .FormBase import TFormBase
+from ..FormBase import TFormBase
 
 
 class TForm(TFormBase):
     def _DoInit(self):
-        self.out.title = 'About'
+        #self.out.title = 'About'
+        pass
 
     async def _Render(self):
+        self.out.title = 'About Me'
+
         Arr = [f'{Key}: {Val}' for Key, Val in GetInfo().items()]
-        self.out.data.info = '<br>\n'.join(Arr)
+        self.out.data['info'] = '<br>\n'.join(Arr)

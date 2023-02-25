@@ -3,7 +3,8 @@
 # License: GNU, see LICENSE for more details
 
 
-from .FormBase import TFormBase
+from Task.WebSrv.FormBase import TFormBase
+
 
 class TForm(TFormBase):
     Title = 'Error code'

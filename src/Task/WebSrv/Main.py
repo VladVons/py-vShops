@@ -11,7 +11,6 @@ from aiohttp import web
 from Inc.WebSrv.WebSrv import TWebSrvBase
 from IncP.Log import Log
 from .Session import Session
-from .form.info import TForm
 
 
 class TWebSrv(TWebSrvBase):
@@ -19,21 +18,20 @@ class TWebSrv(TWebSrvBase):
         Name = aRequest.match_info.get('name')
 
         await Session.Update(aRequest)
-        if (not Session.Data.get('user_id')) and (Name not in ['login', 'about']):
+        if (not Session.Data.get('user_id')) and (Name not in ['login', 'misc/about']):
             Redirect = f'login?url={Name}'
             raise web.HTTPFound(location = Redirect)
 
         return await self._FormCreate(aRequest, Name)
 
-    @staticmethod
-    async def _Err_404(aRequest: web.Request):
+    async def _Err_404(self, aRequest: web.Request) -> web.Response:
         #https://docs.aiohttp.org/en/stable/web_advanced.html
         #Routes = web.RouteTableDef()
 
-        Form = TForm(aRequest, 'info.tpl.html')
-        Form.Data['info'] = 'Page not found'
+        Info = f'File not found {aRequest.path}'
+        Form  = await self._FormCreate(aRequest, self._SrvConf.def_page, {'info': Info})
         Res = await Form.Render()
-        Res.set_status(404, Form.Data['info'])
+        Res.set_status(404, Info)
         return Res
 
     async def RunApp(self):

@@ -3,22 +3,21 @@
 Author:      VladVons
 License:     GNU, see LICENSE for more details
 -->
-
 <html>
     <head>
-        <link rel="stylesheet" href="/css/style.css?q=3.2" type="text/css">
+        <link rel="stylesheet" href="/theme1/css/style.css?q=3.2" type="text/css">
         <meta charset="UTF-8">
         <title>{{ out.title }}</title>
-        <!--Layout.tpl head begin-->
+        <!--layout.tpl head begin-->
         {% block head %}{% endblock %}
-        <!--Layout.tpl head end-->
+        <!--layout.tpl head end-->
     </head>
     <body>
         <h3><a href="/">Home</a>/{{ out.title }}</h3>
         <div id="content">
-            <!--Layout.tpl content begin-->
+            <!--layout.tpl content begin-->
             {% block content %}{% endblock %}
-            <!--Layout.tpl content end-->
+            <!--layout.tpl content end-->
         </div>
         <div class="space"/>
         <div id="footer" class="app-footer">

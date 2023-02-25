@@ -6,7 +6,7 @@
 import json
 #
 from Inc.DbList  import TDbList, TDbRec
-from Inc.DataClass import DataClass
+from Inc.DataClass import DDataClass
 from Inc.ParserX.Common import TFileBase
 from Inc.ParserX.CommonSql import TSqlBase, DASplit, TLogEx
 from Inc.Sql.DbPg import TDbPg
@@ -15,7 +15,7 @@ from IncP.Log import Log
 from ..CommonDb import TDbCategory, TDbProductEx
 
 
-@DataClass
+@DDataClass
 class TSqlConf():
     LangId: int
     TenantId: int

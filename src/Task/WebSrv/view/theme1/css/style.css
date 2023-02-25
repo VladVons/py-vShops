@@ -1,0 +1,72 @@
+body {
+    font-family: Arial;
+    background-color: #3498DB;
+    padding: 10px;
+}
+
+input {
+    text-align: left;
+    background-color: #ECF0F1;
+    border: 2px solid transparent;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: 200;
+    padding: 3px 0;
+    transition: border .5s;
+}
+
+input:focus {
+    border: 2px solid #3498DB;
+    box-shadow: none;
+}
+
+table, th, td {
+    border: 1px solid yellow;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 2px;
+    text-align: left;
+}
+
+textarea {
+    border:1px solid #999999;
+    width:100%;
+    margin:2px 0;
+    padding:3px;
+    box-sizing: content-box;
+    overflow:scroll;
+}
+
+.btn {
+    color: rgb(255, 255, 255); 
+    font-size: 15px; 
+    line-height: 15px; 
+    padding: 11px; 
+    border-radius: 20px; 
+    font-family: Georgia, serif; 
+    font-weight: normal; 
+    text-decoration: none; 
+    font-style: normal; 
+    font-variant: normal; 
+    text-transform: none; 
+    background-image: linear-gradient(to right, rgb(28, 110, 164) 0%, rgb(35, 136, 203) 50%, rgb(20, 78, 117) 100%); 
+    box-shadow: rgb(0, 0, 0) 12px 7px 45px 0px; 
+    border: 2px solid rgb(28, 110, 164); 
+    display: inline-block;
+    width: 200px;
+}
+
+.btn:hover {
+    background-color: #2980B9;
+}
+
+.app-footer {
+    text-align: center;
+    color: #777;
+}
+
+.space {
+    margin-top:20px;
+}

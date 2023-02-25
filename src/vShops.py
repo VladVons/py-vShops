@@ -7,12 +7,12 @@
 
 import asyncio
 #
-from IncP import GetInfo
+from IncP import GetSysInfo
 from Task.Main import TTask
 
 
 def Run():
-    Info = GetInfo()
+    Info = GetSysInfo()
     PyNeed = (3, 9, 0)
     if (Info['python'] >= PyNeed):
         Task = TTask().Run()

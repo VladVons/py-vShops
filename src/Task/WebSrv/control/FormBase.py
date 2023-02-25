@@ -8,13 +8,13 @@ from aiohttp_jinja2 import render_template
 from wtforms import Form
 #
 from Inc.DictDef import TDictDef
-from Inc.DataClass import DataClass
+from Inc.DataClass import DDataClass
 from IncP import GetAppVer
 from IncP.Log import Log
 from ..Session import Session
 
 
-@DataClass
+@DDataClass
 class TFormData():
     control: TDictDef
     data: TDictDef
@@ -31,8 +31,8 @@ class TFormBase(Form):
         self.Parent = None
 
         self.out = TFormData(
-            control = TDictDef('', aData),
-            data = TDictDef(''),
+            control = TDictDef(''),
+            data = TDictDef('', aData),
             info = GetAppVer(),
             title = aTpl.split('.')[0]
         )
@@ -54,18 +54,18 @@ class TFormBase(Form):
         self.process(await self.Request.post())
 
         await Session.Update(self.Request)
-        if (Session.CheckUserAccess(self.Request.path)):
-            Res = await self._Render()
-            if (Res is None):
-                try :
-                    Res = self.RenderTemplate()
-                except Exception as E:
-                    Msg = 'Render(), %s %s' % (self.Tpl, E)
-                    Log.Print(1, 'x', Msg, aE = E)
-                    Res = self.RenderInfo(Msg)
-        else:
-            Msg = 'Access denied %s %s. Policy interface_allow' % (self.Request.path, Session.Data.get('UserName'))
-            Res = self.RenderInfo(Msg)
+        #if (Session.CheckUserAccess(self.Request.path)):
+        Res = await self._Render()
+        if (Res is None):
+            try :
+                Res = self.RenderTemplate()
+            except Exception as E:
+                Msg = 'Render(), %s %s' % (self.Tpl, E)
+                Log.Print(1, 'x', Msg, aE = E)
+                Res = self.RenderInfo(Msg)
+        #else:
+        #    Msg = 'Access denied %s %s. Policy interface_allow' % (self.Request.path, Session.Data.get('UserName'))
+        #    Res = self.RenderInfo(Msg)
         return Res
 
     def RenderTemplate(self):
@@ -73,7 +73,7 @@ class TFormBase(Form):
 
     def RenderInfo(self, aMsg: str) -> web.Response:
         self.out.data['info'] = aMsg
-        return render_template('info.tpl.html', self.Request, {'out': self.out})
+        return render_template('info.tpl', self.Request, {'out': self.out})
 
     async def _Render(self):
         #print('_Render() not implemented for %s' % (self.Tpl))
