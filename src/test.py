@@ -4,8 +4,9 @@ import asyncio
 from Inc.DbList import TDbList
 from Inc.Misc.Log import TEchoConsoleEx
 from Inc.Sql.ADb import TDbAuth
-from Task.DbSrv.Api import Api
+from Task.SrvModel.Api import Api, TApiConf
 from IncP.Log import Log
+from Inc.Misc.Request import TRequestJson
 
 
 def LoadJson(aFile: str) -> dict:
@@ -20,6 +21,7 @@ DbAuth = {
     'user': 'admin',
     'password': '098iop'
 }
+
 
 Json = LoadJson('Temp/Product.json')
 Data1 = [
@@ -80,6 +82,7 @@ Data5 = [
 
 async def Test_01():
     Auth = TDbAuth(**DbAuth)
+    Api.Init(TApiConf())
     await Api.DbInit(Auth)
 
     Res = await Api.Exec(*Data3a)
@@ -97,6 +100,23 @@ async def Test_01():
 
     await Api.DbClose()
 
+
+async def Test_02():
+    Request = TRequestJson()
+    Res1 = await Request.Send(
+        'http://localhost:8081/api/ref_product',
+        {
+            "method": "GetProducts",
+            "param": [
+                1,
+                "220 (60"
+            ]
+        }
+    )
+
+    print(Res1)
+
+
 Log.AddEcho(TEchoConsoleEx())
-Task = Test_01()
+Task = Test_02()
 asyncio.run(Task)
