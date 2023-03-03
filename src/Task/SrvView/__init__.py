@@ -1,13 +1,14 @@
 from Task import ConfTask
-from .Api import Api
-from .Main import TSrvViewForm, TSrvViewFormConf
+from IncP.ApiBase import TApiConf
+from .Api import Api, TApiViewConf
+from .Main import TSrvView, TSrvViewConf
 
 
 def Main(aConf) -> tuple:
-    Api.WebClient.Auth = aConf.SrvAuth
-    aConf.Def = ConfTask
+    ApiConf = aConf['api_conf']
+    Api.Init(TApiViewConf(**ApiConf))
 
     Conf = aConf.get('srv_conf', {})
-    SrvViewFormConf = TSrvViewFormConf(**Conf)
-    Obj = TSrvViewForm(SrvViewFormConf)
+    SrvViewFormConf = TSrvViewConf(**Conf)
+    Obj = TSrvView(SrvViewFormConf)
     return (Obj, Obj.RunApp())

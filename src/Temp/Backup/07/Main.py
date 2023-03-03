@@ -8,8 +8,9 @@
 
 import os
 import re
+import jinja2
 from aiohttp import web
-from multidict import MultiDict
+import aiohttp_jinja2
 #
 from Inc.DataClass import DDataClass
 from Inc.SrvWeb import TSrvBase, TSrvConf, FileReader
@@ -19,11 +20,16 @@ from .Api import Api
 
 @DDataClass
 class TSrvViewConf(TSrvConf):
-    dir_root: str = 'Task/SrvView'
-    def_page: str = 'misc/info'
-    home_page: str = 'common/home'
+    # dir_3w: str = 'view'
+    # dir_tpl: str = 'view'
+    # dir_tpl_cache: str = 'cache/tpl'
+    # dir_root: str = 'Task/SrvView'
+    # tpl_ext: str = '.tpl'
+    # def_page: str = 'info'
+    # theme: str = 'theme1'
     deny: str = r'.tpl$|.py$'
     allow: str = r'.html$'
+
 
 
 class TSrvView(TSrvBase):
@@ -31,29 +37,32 @@ class TSrvView(TSrvBase):
         super().__init__(aSrvConf)
         self._SrvConf = aSrvConf
 
+        self._DirTpl = f'{self._SrvConf.dir_root}/{self._SrvConf.dir_tpl}'
+        self._DirPy = f'{self._SrvConf.dir_root}/{self._SrvConf.dir_control}'
+
     def _GetDefRoutes(self) -> list:
         return [
-            web.get('/api/{name:.*}', self._rApiGet),
-            web.post('/api/{name:.*}', self._rApiPost),
+            web.get('/api/{name:.*}', self._rApi),
+            web.post('/api/{name:.*}', self._rApi),
             web.get('/{name:.*}', self._rIndex),
             web.post('/{name:.*}', self._rIndex),
         ]
 
-    async def _Form(self, aPath: str, aQuery: str, aPostData: MultiDict = None, aStatus: int = 200) -> web.Response:
-        Text = await Api.Exec(aPath, aQuery, aPostData)
-        return web.Response(text = Text, content_type = 'text/html', status = aStatus)
+    async def _Err_Page(self, aRequest: web.Request, aText: str, aCode: int) -> web.Response:
+        Form  = await Api.FormCreate(aRequest, self._SrvConf.def_page, {'info': aText})
+        Res = await Form.Render()
+        Res.set_status(aCode, aText)
+        return Res
 
     async def _Err_404(self, aRequest: web.Request) -> web.Response:
-        return await self._Form(self._SrvConf.def_page, MultiDict({}), f'Path not found {aRequest.path}', 404)
+        return await self._Err_Page(aRequest, f'Path not found {aRequest.path}', 404)
 
-    async def _rApiGet(self, aRequest: web.Request) -> web.Response:
-        Path = aRequest.match_info.get('name')
-        return await self._Form(Path, aRequest.query_string, None)
-
-    async def _rApiPost(self, aRequest: web.Request) -> web.Response:
-        Path = aRequest.match_info.get('name')
-        Post = await aRequest.post()
-        return await self._Form(Path, aRequest.query_string, Post)
+    async def _rApi(self, aRequest: web.Request) -> web.Response:
+        Name = aRequest.match_info.get('name')
+        # Url = f'{self._SrvConf.ctrl_api}/{Name}?{aRequest.query_string}'
+        # Request = await self.RequestCtrl.Send(Url, {})
+        Form = await Api.FormCreate(aRequest, Name)
+        return await Form.Render()
 
     async def _rIndex(self, aRequest: web.Request) -> web.Response:
         Name = aRequest.match_info.get('name')
@@ -71,15 +80,20 @@ class TSrvView(TSrvBase):
                     # pylint: disable-next=no-value-for-parameter
                     Res = web.Response(body=FileReader(aFile=File), headers=Headers)
             else:
-                Res = web.Response(text = f'File not found {Name}', status = 404)
+                Res = await self._Err_Page(aRequest, f'File not found {Name}', 404)
         else:
-            Res = await self._Form(self._SrvConf.home_page, aRequest.query_string)
+            Form = await Api.FormCreate(aRequest, 'common/home')
+            Res = await Form.Render()
         return Res
+
+    def CreateApp(self, aRoutes: list = None, aErroMiddleware: dict = None) -> web.Application:
+        App = super().CreateApp(aRoutes, aErroMiddleware)
+        Loader = jinja2.FileSystemLoader(self._DirTpl)
+        aiohttp_jinja2.setup(App, loader=Loader)
+        return App
 
     async def RunApp(self):
         Log.Print(1, 'i', f'SrvView.RunApp() on port {self._SrvConf.port}')
 
-        ErroMiddleware = {404: self._Err_404}
-        App = self.CreateApp(aErroMiddleware = ErroMiddleware)
-
+        App = self.CreateApp(aErroMiddleware = {404: self._Err_404})
         await self.Run(App)

@@ -2,10 +2,10 @@
 # Author: Vladimir Vons <VladVons@gmail.com>
 # License: GNU, see LICENSE for more details
 
-
 from Inc.Sql.ADb import TDbAuth
+from Inc.SrvWeb.SrvBase import TSrvConf
 from .Api import Api, TApiConf
-from .Main import TSrvDb, TSrvDbConf
+from .Main import TSrvDb
 
 
 def Main(aConf) -> tuple:
@@ -15,7 +15,7 @@ def Main(aConf) -> tuple:
     SrvConf = aConf['srv_conf']
     DbConf = aConf['db_auth']
     Obj = TSrvDb(
-        TSrvDbConf(**SrvConf),
+        TSrvConf(**SrvConf),
         TDbAuth(**DbConf)
     )
     return (Obj, Obj.RunApp())

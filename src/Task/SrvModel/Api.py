@@ -5,29 +5,19 @@
 
 import re
 #
-from Inc.DataClass import DDataClass
 from Inc.Misc.Time import SecondsToDHMS_Str
-from Inc.Sql.ADb import TDbExecPool
-from Inc.Sql.DbPg import TDbPg
-from Inc.Sql.DbMeta import TDbMeta
-from Inc.Sql.DbModels import TDbModels
+from Inc.Sql import TDbExecPool, TDbMeta, TDbPg
 from Inc.Util.ModHelp import GetHelp, GetMethod
+from IncP.ApiBase import TApiBase, TApiConf
+from IncP.Plugins import TModels
 from IncP.Log import Log, TEchoDb
 
 
-@DDataClass
-class TApiConf():
-    dir_module: str = 'IncP/model'
-    help: dict = {'module': 'system/help', 'method': 'Api'}
-
-class TApi():
+class TApiModel(TApiBase):
     def __init__(self):
         super().__init__()
-
-        self.Conf: TApiConf
         self.DbMeta: TDbMeta
-        self.DbModels: TDbModels
-        self.QueryCnt = 0
+        self.Models: TModels
 
     async def _DoAuthRequest(self, aUser: str, aPassw: str) -> bool:
         #Dbl = await self.Db.UserAuth(aUser, aPassw)
@@ -51,18 +41,18 @@ class TApi():
         return Res
 
     async def Exec(self, aModule: str, aData: dict) -> dict:
-        self.QueryCnt += 1
+        self.ExecCnt += 1
 
-        if (not self.DbModels.IsModule(aModule)):
-            if (self.Conf.help):
-                aModule = self.Conf.help.get('module')
+        if (not self.Models.IsModule(aModule)):
+            if (self.Conf.helper):
+                aModule = self.Conf.helper.get('module')
                 aData['method'] = self.Conf.help.get('method')
                 aData['param'] = [self.Conf.dir_module]
             else:
                 return {'err': f'unknown module {aModule}'}
 
-        self.DbModels.LoadMod(aModule)
-        ModuleObj = self.DbModels[aModule]
+        self.Models.LoadMod(aModule)
+        ModuleObj = self.Models[aModule]
 
         if (not aData):
             return {'err': 'undefined data'}
@@ -94,13 +84,18 @@ class TApi():
             Log.Print(1, 'x', 'TApi.Exec()', str(E))
         return Res
 
+    def Init(self, aConf: TApiConf):
+        self.Conf = aConf
+        self.Conf.dir_module = 'IncP/model'
+        self.Conf.helper = {'module': 'system/help', 'method': 'Api'}
+
     async def DbInit(self, aAuth: dict):
         Db = TDbPg(aAuth)
         await Db.Connect()
 
         self.DbMeta = TDbMeta(Db)
         await self.DbMeta.Init()
-        self.DbModels = TDbModels(self.Conf.dir_module, self.DbMeta)
+        self.Models = TModels(self.Conf.dir_module, self.DbMeta)
 
         Dbl = await self.DbMeta.Db.GetDbVersion()
         Rec = Dbl.Rec
@@ -127,8 +122,5 @@ class TApi():
             Log.Echoes.remove(List[0])
         await self.DbMeta.Db.Close()
 
-    def Init(self, aConf: TApiConf):
-        self.Conf = aConf
 
-
-Api = TApi()
+Api = TApiModel()

@@ -13,5 +13,4 @@ db_auth = {
 }
 
 api_conf = {
-    'dir_module': 'IncP/model'
 }

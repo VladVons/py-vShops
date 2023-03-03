@@ -1,7 +1,7 @@
-{% extends "theme1/tpl/inc/layout.tpl" %}
+{% extends "inc/layout.tpl" %}
 
 {% block content %}
-<!--about.tpl begin-->
+<!--theme1 home.tpl begin-->
 <br> theme1 !<br>
 {% autoescape false%}
 {{ out.data.info }}

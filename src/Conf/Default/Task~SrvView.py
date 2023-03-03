@@ -1,6 +1,9 @@
 srv_conf = {
-    'port': 8080,
-    'ctrl_api': 'http://localhost:8082/api',
-    'ctrl_user': 'user01',
-    'ctrl_password': 'passw01'
+    'port': 8080
+}
+
+api_conf = {
+    'master_api': 'http://localhost:8082/api',
+    'master_user': 'user01',
+    'master_password': 'passw01'
 }

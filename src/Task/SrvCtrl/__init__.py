@@ -3,11 +3,16 @@
 # License: GNU, see LICENSE for more details
 
 
+from Inc.SrvWeb.SrvBase import TSrvConf
 from Inc.Sql.ADb import TDbAuth
-from .Main import TSrvCtrl, TSrvCtrlConf
+from .Api import Api, TApiConf
+from .Main import TSrvCtrl
 
 
 def Main(aConf) -> tuple:
+    ApiConf = aConf['api_conf']
+    Api.Init(TApiConf(**ApiConf))
+
     SrvConf = aConf.get('srv_conf')
-    Obj = TSrvCtrl(TSrvCtrlConf(**SrvConf))
+    Obj = TSrvCtrl(TSrvConf(**SrvConf))
     return (Obj, Obj.RunApp())

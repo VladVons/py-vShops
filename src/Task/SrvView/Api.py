@@ -3,47 +3,67 @@
 # License: GNU, see LICENSE for more details
 
 
-import asyncio
-import json
+import os
+from jinja2 import Environment, FileSystemLoader
+from multidict import MultiDict
 #
-from Inc.DbList import TDbList
-from Inc.Util.Obj import DeepGet
-from Inc.Misc.Misc import FilterKey, FilterKeyErr
-from Inc.SrvWeb.SrvApi import TApiBase, TWebClient
+from Inc.DataClass import DDataClass
+from IncP.Plugins import TViewes
+from IncP.ApiBase import TApiBase, TApiConf, TLoaderHttp
 
 
-class TApiPlugin():
-    def __init__(self, aArgs: dict = None):
-        if (aArgs is None):
-            aArgs = {}
+@DDataClass
+class TApiViewConf(TApiConf):
+    dir_3w: str = 'view'
+    dir_tpl: str = 'IncP/view'
+    dir_root: str = 'Task/SrvView'
+    tpl_ext: str = '.tpl'
+    def_page: str = 'info'
+    theme: str = 'theme1'
 
-        self.Args = aArgs
-        self.Res = []
-        self.Hash = {}
 
-
-class TApi(TApiBase):
+class TApiView(TApiBase):
     def __init__(self):
         super().__init__()
+        self.Viewes: TViewes
+        self.TplEnv: Environment
 
-        self.Url = {
-            'get_scheme_empty':         {'param': ['cnt']},
-            'get_scheme_not_empty':     {'param': ['cnt']},
-            'get_scheme_mederate':      {'param': []},
-        }
+    def Init(self, aConf: TApiViewConf):
+        self.Conf = aConf
+        self.Conf.dir_module = 'IncP/view'
+        self.Viewes = TViewes(self.Conf.dir_module)
+        self.Master = TLoaderHttp(self.Conf.master_user, self.Conf.master_password, self.Conf.master_api)
 
-        self.DefMethod = self.DefHandler
-        self.WebClient = TWebClient()
+        Loader = FileSystemLoader(
+            searchpath = [
+                f'{self.Conf.dir_module}/{self.Conf.theme}/tpl',
+                f'{self.Conf.dir_module}/default/tpl'
+            ]
+        )
+        self.TplEnv = Environment(loader = Loader)
 
-        #self.PluginAdd(get_scheme_find, {'web_client': self.WebClient})
+    async def Exec(self, aModule: str, aQuery: str, aPostData: MultiDict = None, aUserData: dict = None) -> str:
+        MasterData = await self.Master.Get(aModule, aQuery)
+        Template = self.TplEnv.get_template(aModule + self.Conf.tpl_ext)
+        FilePy = Template.filename.replace('/tpl/', '/py/').rstrip('.tpl')
 
-    async def _DoAuthRequest(self, aUser: str, aPassw: str):
-        return True
+        Locate = [
+            (FilePy, 'TForm'),
+            ('IncP/FormBase', 'TFormBase')
+        ]
 
-    async def DefHandler(self, aPath: str, aData: dict = None) -> dict: #//
-        if (aData is None):
-            aData = {}
-        return await self.WebClient.Send(f'web/{aPath}', aData)
+        TClass = None
+        for Module, Class in Locate:
+            try:
+                if (os.path.isfile(Module + '.py')):
+                    Mod = __import__(Module.replace('/', '.'), None, None, [Class])
+                    TClass = getattr(Mod, Class)
+                    break
+            except ModuleNotFoundError as _E:
+                pass
+        Form = TClass(aModule, aQuery, aPostData, Template, MasterData, aUserData)
+        Res = await Form.Render()
+        return Res
 
 
-Api = TApi()
+Api = TApiView()
