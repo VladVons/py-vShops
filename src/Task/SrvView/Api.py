@@ -5,11 +5,13 @@
 
 import os
 from jinja2 import Environment, FileSystemLoader
+from jinja2.exceptions import TemplateNotFound
 from multidict import MultiDict
 #
 from Inc.DataClass import DDataClass
 from IncP.Plugins import TViewes
-from IncP.ApiBase import TApiBase, TApiConf, TLoaderHttp
+from IncP.ApiBase import TApiBase, TApiConf, TLoaderHttp, TLoaderLocal
+from Task import LoadClassConf
 
 
 @DDataClass
@@ -25,14 +27,14 @@ class TApiViewConf(TApiConf):
 class TApiView(TApiBase):
     def __init__(self):
         super().__init__()
-        self.Viewes: TViewes
-        self.TplEnv: Environment
+        self.Viewes: TViewes = None
+        self.TplEnv: Environment = None
 
     def Init(self, aConf: TApiViewConf):
         self.Conf = aConf
         self.Conf.dir_module = 'IncP/view'
         self.Viewes = TViewes(self.Conf.dir_module)
-        self.Master = TLoaderHttp(self.Conf.master_user, self.Conf.master_password, self.Conf.master_api)
+        self.InitMaster()
 
         Loader = FileSystemLoader(
             searchpath = [
@@ -42,11 +44,14 @@ class TApiView(TApiBase):
         )
         self.TplEnv = Environment(loader = Loader)
 
-    async def Exec(self, aModule: str, aQuery: str, aPostData: MultiDict = None, aUserData: dict = None) -> str:
+    async def Exec(self, aModule: str, aQuery: str, aPostData: MultiDict = None, aUserData: dict = None) -> dict:
         MasterData = await self.Master.Get(aModule, aQuery)
-        Template = self.TplEnv.get_template(aModule + self.Conf.tpl_ext)
-        FilePy = Template.filename.replace('/tpl/', '/py/').rstrip('.tpl')
+        try:
+            Template = self.TplEnv.get_template(aModule + self.Conf.tpl_ext)
+        except TemplateNotFound as E:
+            return {'err': f'Template not found {E}', 'code': 404}
 
+        FilePy = Template.filename.replace('/tpl/', '/py/').rstrip('.tpl')
         Locate = [
             (FilePy, 'TForm'),
             ('IncP/FormBase', 'TFormBase')
@@ -61,9 +66,17 @@ class TApiView(TApiBase):
                     break
             except ModuleNotFoundError as _E:
                 pass
-        Form = TClass(aModule, aQuery, aPostData, Template, MasterData, aUserData)
-        Res = await Form.Render()
+
+        if (TClass):
+            Form = TClass(aModule, aQuery, aPostData, Template, MasterData, aUserData)
+            Data = await Form.Render()
+            Res = {'data': Data}
+        else:
+            Res = {'err': f'Module not found {aModule}', 'code': 404}
         return Res
 
+    def LoadConf(self):
+        Conf = LoadClassConf(self)
+        self.Init(TApiViewConf(**Conf))
 
-Api = TApiView()
+ApiView = TApiView()

@@ -3,7 +3,5 @@ srv_conf = {
 }
 
 api_conf = {
-    'master_api': 'http://localhost:8082/api',
-    'master_user': 'user01',
-    'master_password': 'passw01'
+    'master_api': 'local:Task/SrvCtrl/Api:TApiCtrl'
 }

@@ -3,27 +3,29 @@
 # License: GNU, see LICENSE for more details
 
 
-from IncP.Plugins import TCtrls
 from IncP.ApiBase import TApiBase, TApiConf, TLoaderHttp
+from IncP.Plugins import TCtrls
 
 
 class TApiCtrl(TApiBase):
     def __init__(self):
         super().__init__()
-        self.Ctrls: TCtrls
+        self.Ctrls: TCtrls = None
 
     def Init(self, aConf: TApiConf):
         self.Conf = aConf
         self.Conf.dir_module = 'IncP/ctrl'
         self.Ctrls = TCtrls(self.Conf.dir_module)
-        self.Master = TLoaderHttp(self.Conf.master_user, self.Conf.master_password, self.Conf.master_api)
+        self.InitMaster()
 
     async def Exec(self, aModule: str, aQuery: str) -> dict:
         self.ExecCnt += 1
         if (not self.Ctrls.IsModule(aModule)):
-            pass
+            return {'err': f'Module not found {aModule}', 'code': 404}
 
-        Res = {}
+        self.Ctrls.LoadMod(aModule)
+        ModuleObj = self.Ctrls[aModule]
+        Res = await ModuleObj.Main(self, aQuery)
         return Res
 
-Api = TApiCtrl()
+ApiCtrl = TApiCtrl()

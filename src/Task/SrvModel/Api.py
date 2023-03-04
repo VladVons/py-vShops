@@ -16,13 +16,8 @@ from IncP.Log import Log, TEchoDb
 class TApiModel(TApiBase):
     def __init__(self):
         super().__init__()
-        self.DbMeta: TDbMeta
-        self.Models: TModels
-
-    async def _DoAuthRequest(self, aUser: str, aPassw: str) -> bool:
-        #Dbl = await self.Db.UserAuth(aUser, aPassw)
-        #return (not Dbl.IsEmpty())
-        return True
+        self.DbMeta: TDbMeta = None
+        self.Models: TModels = None
 
     @staticmethod
     def _GetMethodHelp(aMod: object, aMethod: str) -> dict:
@@ -120,7 +115,9 @@ class TApiModel(TApiBase):
         List = Log.FindEcho(TEchoDb.__name__)
         if (List):
             Log.Echoes.remove(List[0])
-        await self.DbMeta.Db.Close()
+
+        if (self.DbMeta):
+            await self.DbMeta.Db.Close()
 
 
-Api = TApiModel()
+ApiModel = TApiModel()

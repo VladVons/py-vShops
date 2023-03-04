@@ -4,13 +4,12 @@
 
 from Inc.Sql.ADb import TDbAuth
 from Inc.SrvWeb.SrvBase import TSrvConf
-from .Api import Api, TApiConf
+from .Api import ApiModel, TApiConf
 from .Main import TSrvDb
 
 
 def Main(aConf) -> tuple:
-    ApiConf = aConf['api_conf']
-    Api.Init(TApiConf(**ApiConf))
+    ApiModel.Init(TApiConf())
 
     SrvConf = aConf['srv_conf']
     DbConf = aConf['db_auth']

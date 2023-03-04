@@ -6,6 +6,7 @@
 import os
 import sys
 import argparse
+import json
 #
 from Inc.Conf import TConf
 from Inc.PluginTask import TPluginTask
@@ -14,6 +15,12 @@ from Inc.Misc.Misc import GetEnvWithWarn
 from IncP.Log import Log
 from IncP import GetInfo
 
+
+def LoadClassConf(aClass: object) -> dict:
+    File = f'{DirConf}/{aClass.__module__}.json'
+    with open(File, 'r', encoding = 'utf8') as F:
+        Data = json.load(F)
+    return Data
 
 def _InitOptions():
     Usage = f'usage: {AppName} [options] arg'

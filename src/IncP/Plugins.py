@@ -7,18 +7,19 @@ from Inc.Plugin import TPlugin
 from Inc.Sql.DbMeta import TDbMeta
 
 
-class TPlugins(TPlugin):
-    def _Create(self, aModule: object, aPath: str) -> object:
-        Res = aModule.TMain(self.DbMeta, self.Dir + '/' + aPath)
-        return Res
-
-class TModels(TPlugins):
+class TModels(TPlugin):
     def __init__(self, aDir: str, aDbMeta: TDbMeta):
         super().__init__(aDir)
         self.DbMeta = aDbMeta
 
-class TCtrls(TPlugins):
-    pass
+    def _Create(self, aModule: object, aPath: str) -> object:
+        Res = aModule.TMain(self.DbMeta, self.Dir + '/' + aPath)
+        return Res
 
-class TViewes(TPlugins):
-    pass
+class TCtrls(TPlugin):
+    def _Create(self, aModule: object, aPath: str) -> object:
+        return aModule
+
+class TViewes(TPlugin):
+    def _Create(self, aModule: object, aPath: str) -> object:
+        return aModule

@@ -1,4 +1,4 @@
-{% extends "default/tpl/inc/layout.tpl" %}
+{% extends "inc/layout.tpl" %}
 
 {% block content %}
 <!--err_code.tpl begin-->

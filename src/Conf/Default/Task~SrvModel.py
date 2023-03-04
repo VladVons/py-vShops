@@ -11,6 +11,3 @@ db_auth = {
     'user': 'admin',
     'password': '098iop'
 }
-
-api_conf = {
-}

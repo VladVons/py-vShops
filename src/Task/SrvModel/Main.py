@@ -9,7 +9,7 @@ from aiohttp import web
 from Inc.Sql.ADb import TDbAuth
 from Inc.SrvWeb.SrvBase import TSrvBase, TSrvConf
 from IncP.Log import Log
-from .Api import Api
+from .Api import ApiModel
 
 
 class TSrvDb(TSrvBase):
@@ -30,26 +30,27 @@ class TSrvDb(TSrvBase):
             Res = await self._GetRequestJson(aRequest)
             Method = Res.get('method')
             if ('err' not in Res):
-                Res = await Api.Exec(Name, Res)
+                Res = await ApiModel.Exec(Name, Res)
 
         Res['info'] = {
             'module': Name,
             'method': Method,
-            'query': Api.ExecCnt,
+            'query': ApiModel.ExecCnt,
             'time': round(time.time() - TimeStart, 4)
         }
         return web.json_response(Res, status=Status)
 
     async def _cbOnStartup(self, aApp: web.Application):
         try:
-            await Api.DbInit(self._DbConf)
+            await ApiModel.DbInit(self._DbConf)
             yield
             # wait till working...
         except Exception as E:
+        #except TypeError as E:
             Log.Print(1, 'x', '_cbOnStartup()', aE = E)
         finally:
             Log.Print(1, 'i', '_cbOnStartup(). Close connection')
-            await Api.DbClose()
+            await ApiModel.DbClose()
 
     def _GetDefRoutes(self) -> list:
         return [
