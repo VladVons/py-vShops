@@ -27,6 +27,9 @@ class TLoaderLocal(TLoader):
     def __init__(self, aApi: str):
         _Type, Module, Class = aApi.split(':')
         Mod = sys.modules.get(Module)
+        if (Mod is None):
+            __import__(Module)
+            Mod = sys.modules.get(Module)
         self.Api = getattr(Mod, Class)
 
     async def Get(self, aPath: str, aData: dict = None):
@@ -52,6 +55,9 @@ class TApiBase():
         self.Master: TLoader = None
         self.ExecCnt = 0
 
+    def GetConf(self) -> dict:
+        return LoadClassConf(self)
+
     def Init(self, aConf: TApiConf):
         raise NotImplementedError()
 
@@ -64,5 +70,6 @@ class TApiBase():
             raise ValueError(f'unknown api {self.Conf.master_api}')
 
     def LoadConf(self):
-        Conf = LoadClassConf(self)
-        self.Init(TApiConf(**Conf))
+        Conf = self.GetConf()
+        ApiConf = Conf.get('api_conf', {})
+        self.Init(TApiConf(**ApiConf))

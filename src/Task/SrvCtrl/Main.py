@@ -42,3 +42,6 @@ class TSrvCtrl(TSrvBase):
 
         App = self.CreateApp(aErroMiddleware = {404: self._Err_404})
         await self.Run(App)
+
+    async def RunApi(self):
+        Log.Print(1, 'i', 'SrvCtrl.RunApi() only')

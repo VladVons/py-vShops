@@ -5,16 +5,16 @@
 from Inc.Sql.ADb import TDbAuth
 from Inc.SrvWeb.SrvBase import TSrvConf
 from .Api import ApiModel, TApiConf
-from .Main import TSrvDb
+from .Main import TSrvModel
 
 
 def Main(aConf) -> tuple:
-    ApiModel.Init(TApiConf())
+    SrvConf = aConf.get('srv_conf')
+    Obj = TSrvModel(TSrvConf(**SrvConf))
+    if (aConf.get('local_api')):
+        Res = (Obj, Obj.RunApi())
+    else:
+        Res = (Obj, Obj.RunApp())
+    return Res
 
-    SrvConf = aConf['srv_conf']
-    DbConf = aConf['db_auth']
-    Obj = TSrvDb(
-        TSrvConf(**SrvConf),
-        TDbAuth(**DbConf)
-    )
-    return (Obj, Obj.RunApp())
+ApiModel.LoadConf()

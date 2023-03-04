@@ -3,7 +3,7 @@
 # License: GNU, see LICENSE for more details
 
 
-from IncP.ApiBase import TApiBase, TApiConf, TLoaderHttp
+from IncP.ApiBase import TApiBase, TApiConf
 from IncP.Plugins import TCtrls
 
 
@@ -25,7 +25,6 @@ class TApiCtrl(TApiBase):
 
         self.Ctrls.LoadMod(aModule)
         ModuleObj = self.Ctrls[aModule]
-        Res = await ModuleObj.Main(self, aQuery)
-        return Res
+        return await ModuleObj.Main(self, aQuery)
 
 ApiCtrl = TApiCtrl()

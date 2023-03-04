@@ -7,6 +7,7 @@ import re
 #
 from Inc.Misc.Time import SecondsToDHMS_Str
 from Inc.Sql import TDbExecPool, TDbMeta, TDbPg
+from Inc.Sql.ADb import TDbAuth
 from Inc.Util.ModHelp import GetHelp, GetMethod
 from IncP.ApiBase import TApiBase, TApiConf
 from IncP.Plugins import TModels
@@ -16,6 +17,7 @@ from IncP.Log import Log, TEchoDb
 class TApiModel(TApiBase):
     def __init__(self):
         super().__init__()
+        self.DbAuth: TDbAuth = None
         self.DbMeta: TDbMeta = None
         self.Models: TModels = None
 
@@ -84,8 +86,8 @@ class TApiModel(TApiBase):
         self.Conf.dir_module = 'IncP/model'
         self.Conf.helper = {'module': 'system/help', 'method': 'Api'}
 
-    async def DbInit(self, aAuth: dict):
-        Db = TDbPg(aAuth)
+    async def DbConnect(self):
+        Db = TDbPg(self.DbAuth)
         await Db.Connect()
 
         self.DbMeta = TDbMeta(Db)
@@ -118,6 +120,13 @@ class TApiModel(TApiBase):
 
         if (self.DbMeta):
             await self.DbMeta.Db.Close()
+
+    def LoadConf(self):
+        self.Init(TApiConf())
+
+        Conf = self.GetConf()
+        DbAuth = Conf['db_auth']
+        self.DbAuth = TDbAuth(**DbAuth)
 
 
 ApiModel = TApiModel()

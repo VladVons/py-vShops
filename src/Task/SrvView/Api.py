@@ -10,8 +10,7 @@ from multidict import MultiDict
 #
 from Inc.DataClass import DDataClass
 from IncP.Plugins import TViewes
-from IncP.ApiBase import TApiBase, TApiConf, TLoaderHttp, TLoaderLocal
-from Task import LoadClassConf
+from IncP.ApiBase import TApiBase, TApiConf
 
 
 @DDataClass
@@ -76,7 +75,8 @@ class TApiView(TApiBase):
         return Res
 
     def LoadConf(self):
-        Conf = LoadClassConf(self)
-        self.Init(TApiViewConf(**Conf))
+        Conf = self.GetConf()
+        ApiConf = Conf['api_conf']
+        self.Init(TApiViewConf(**ApiConf))
 
 ApiView = TApiView()

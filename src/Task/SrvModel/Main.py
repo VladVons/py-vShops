@@ -12,11 +12,7 @@ from IncP.Log import Log
 from .Api import ApiModel
 
 
-class TSrvDb(TSrvBase):
-    def __init__(self, aSrvConf: TSrvConf, aDbConf: TDbAuth):
-        super().__init__(aSrvConf)
-        self._DbConf = aDbConf
-
+class TSrvModel(TSrvBase):
     async def _rApi(self, aRequest: web.Request) -> web.Response:
         Res = {}
 
@@ -42,11 +38,10 @@ class TSrvDb(TSrvBase):
 
     async def _cbOnStartup(self, aApp: web.Application):
         try:
-            await ApiModel.DbInit(self._DbConf)
+            await ApiModel.DbConnect()
             yield
             # wait till working...
         except Exception as E:
-        #except TypeError as E:
             Log.Print(1, 'x', '_cbOnStartup()', aE = E)
         finally:
             Log.Print(1, 'i', '_cbOnStartup(). Close connection')
@@ -65,9 +60,14 @@ class TSrvDb(TSrvBase):
         return web.json_response(Data, status = 404)
 
     async def RunApp(self):
-        Log.Print(1, 'i', f'SrvDb.RunApp() on port {self._SrvConf.port}')
+        Log.Print(1, 'i', f'SrvModel.RunApp() on port {self._SrvConf.port}')
 
         App = self.CreateApp(aErroMiddleware = {404: self._Err_404})
         App.cleanup_ctx.append(self._cbOnStartup)
 
         await self.Run(App)
+
+    async def RunApi(self):
+        Log.Print(1, 'i', 'SrvModel.RunApi() only')
+        await ApiModel.DbConnect()
+

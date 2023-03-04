@@ -10,8 +10,12 @@ from .Main import TSrvCtrl
 
 
 def Main(aConf) -> tuple:
-    ApiCtrl.LoadConf()
-
     SrvConf = aConf.get('srv_conf')
     Obj = TSrvCtrl(TSrvConf(**SrvConf))
-    return (Obj, Obj.RunApp())
+    if (aConf.get('local_api')):
+        Res = (Obj, Obj.RunApi())
+    else:
+        Res = (Obj, Obj.RunApp())
+    return Res
+
+ApiCtrl.LoadConf()
