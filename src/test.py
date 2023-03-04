@@ -2,11 +2,10 @@ import json
 import asyncio
 #
 from Inc.DbList import TDbList
-from Inc.DataClass  import DDataClass
 from Inc.Misc.Log import TEchoConsoleEx
 from Inc.Misc.Request import TRequestJson
 from Inc.Sql.ADb import TDbAuth
-from Task.SrvModel.Api import Api, TApiConf
+from Task.SrvModel.Api import ApiModel, TApiConf
 from IncP.Log import Log
 
 

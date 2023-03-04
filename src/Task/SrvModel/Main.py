@@ -6,8 +6,7 @@
 import time
 from aiohttp import web
 #
-from Inc.Sql.ADb import TDbAuth
-from Inc.SrvWeb.SrvBase import TSrvBase, TSrvConf
+from Inc.SrvWeb.SrvBase import TSrvBase
 from IncP.Log import Log
 from .Api import ApiModel
 
@@ -70,4 +69,3 @@ class TSrvModel(TSrvBase):
     async def RunApi(self):
         Log.Print(1, 'i', 'SrvModel.RunApi() only')
         await ApiModel.DbConnect()
-

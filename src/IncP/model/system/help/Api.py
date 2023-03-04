@@ -20,4 +20,3 @@ async def Api(_self, aPath: str) -> dict:
 
 async def SysInfo(_self) -> dict:
     return GetInfo()
-

@@ -82,5 +82,5 @@ def GetCategoriesByParent(aTenantId: int, aParentIdt: int, aDepth: int = 99) -> 
     '''
 
 def GetCategoriesByParentWithProductCount(aTenantId: int, aParentIdt: int) -> str:
-    return f'''
+    return '''
     '''
