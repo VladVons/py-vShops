@@ -3,16 +3,18 @@
 # License: GNU, see LICENSE for more details
 
 
-from Inc.Sql.ADb import TDbExecPool
-from . import Sql
+from Inc.Sql.ADb import ListIntToComma
 
 
-async def GetProductsPrice(self, aProductId: list[int])  -> dict:
-    Query = Sql.GetProductsPrice(aProductId) 
-    Dbl = await TDbExecPool(self.DbMeta.Db.Pool).Exec(Query)
-    return Dbl.Export()
+async def GetProductsPrice(self, aProductIds: list[int])  -> dict:
+    ProductIds = ListIntToComma(aProductIds)
+    return await self.ExecQuery(
+        'fmtGetProductsPrice.sql',
+        {'ProductIds': ProductIds}
+    )
 
 async def GetProductPriceOnDate(self, aProductId: int, aPriceId: int, aDate: str, aQty: int = 1) -> dict:
-    Query = Sql.GetProductPriceOnDate(aProductId, aPriceId, aDate, aQty)
-    Dbl = await TDbExecPool(self.DbMeta.Db.Pool).Exec(Query)
-    return Dbl.Export()
+    return await self.ExecQuery(
+        'fmtGetProductPriceOnDate.sql',
+        {'aProductId': aProductId, 'aPriceId': aPriceId, 'aDate': aDate, 'aQty': aQty}
+    )

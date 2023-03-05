@@ -4,10 +4,10 @@
 
 
 from Inc.Util.Mod import DAddModules
-from Inc.Sql import TDbModel, TDbMeta
-from . import Sql, Api
+from Inc.Sql import TDbModel
+from . import Api
 
 
-@DAddModules([Sql, Api], True)
+@DAddModules([Api], True)
 class TMain(TDbModel):
     pass

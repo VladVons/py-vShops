@@ -28,6 +28,7 @@ with recursive wrpc as (
     where
         wrpc.level < {aDepth}
 )
+
 select
     *
 from

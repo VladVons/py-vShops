@@ -3,26 +3,24 @@
 # License: GNU, see LICENSE for more details
 
 
-from Inc.Sql.ADb import TDbExecPool
-from . import Sql
+from Inc.Sql.ADb import ListIntToComma
 
 
-async def GetProductsImages(self, aProductId: list[int]) -> dict:
-    Query = Sql.GetProductsImages(aProductId)
-    Dbl = await TDbExecPool(self.DbMeta.Db.Pool).Exec(Query)
-    return Dbl.Export()
-
-async def GetProductImages(self, aProductId: int) -> dict:
-    Query = Sql.GetProductImages(aProductId)
-    Dbl = await TDbExecPool(self.DbMeta.Db.Pool).Exec(Query)
-    return Dbl.Export()
+async def GetProductsImages(self, aProductIds: list[int]) -> dict:
+    ProductIds = ListIntToComma(aProductIds)
+    return await self.ExecQuery(
+        'fmtGetProductsImages.sql',
+        {'ProductIds': ProductIds}
+    )
 
 async def GetProductsWithoutImages(self, aTenantId: int) -> dict:
-    Query = Sql.GetProductsWithoutImages(aTenantId)
-    Dbl = await TDbExecPool(self.DbMeta.Db.Pool).Exec(Query)
-    return Dbl.Export()
+   return await self.ExecQuery(
+        'fmtGetProductsWithoutImages.sql',
+        {'aTenantId': aTenantId}
+    )
 
 async def GetProductsCountImages(self, aTenantId: int) -> dict:
-    Query = Sql.GetProductsCountImages(aTenantId)
-    Dbl = await TDbExecPool(self.DbMeta.Db.Pool).Exec(Query)
-    return Dbl.Export()
+   return await self.ExecQuery(
+        'fmtGetProductsCountImages.sql',
+        {'aTenantId': aTenantId}
+    )

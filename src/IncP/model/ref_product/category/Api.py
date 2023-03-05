@@ -3,28 +3,30 @@
 # License: GNU, see LICENSE for more details
 
 
-from Inc.Sql.ADb import TDbExecPool
-from . import Sql
-
+async def GetProductsCountInCategoriesByTenant(self, aTenantId: int) -> dict:
+    return await self.ExecQuery(
+        'fmtGetProductsCountInCategoriesByTenant.sql',
+        {'aTenantId': aTenantId}
+    )
 
 async def GetProductsCountAndNameInCategories(self, aTenantId: int, aLangId: int) -> dict:
     '''
     get products count in all categories
     '''
 
-    Query = Sql.GetProductsCountAndNameInCategories(aTenantId, aLangId)
-    Dbl = await TDbExecPool(self.DbMeta.Db.Pool).Exec(Query)
-    return Dbl.Export()
-
-async def GetCategoriesByParent(self, aTenantId: int, aParentId: int = 0, aDepth: int = 99) -> dict:
-    Query = self.GetQuery(
-        'fmtGetCategoriesByParent.sql',
-        {'aTenantId': aTenantId, 'aParentIdt': aParentId, 'aDepth': aDepth}
+    return await self.ExecQuery(
+        'fmtGetProductsCountAndNameInCategories.sql',
+        {'aTenantId': aTenantId, 'aLangId': aLangId}
     )
-    Dbl = await TDbExecPool(self.DbMeta.Db.Pool).Exec(Query)
-    return Dbl.Export()
 
-async def GetCategoriesByParentWithProductCount(self, aTenantId: int, aParentId: int = 0) -> dict:
-    Query = Sql.GetCategoriesByParentWithProductCount(aTenantId, aParentId)
-    Dbl = await TDbExecPool(self.DbMeta.Db.Pool).Exec(Query)
-    return Dbl.Export()
+async def GetCategoriesByParent(self, aTenantId: int, aParentIdt: int = 0, aDepth: int = 99) -> dict:
+    return await self.ExecQuery(
+        'fmtGetCategoriesByParent.sql',
+        {'aTenantId': aTenantId, 'aParentIdt': aParentIdt, 'aDepth': aDepth}
+    )
+
+async def GetCategoriesByParentWithProductCount(self, aTenantId: int, aParentIdt: int = 0) -> dict:
+    return await self.ExecQuery(
+        'fmtGetCategoriesByParentWithProductCount.sql',
+        {'aTenantId': aTenantId, 'aParentIdt': aParentIdt}
+    )

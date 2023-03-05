@@ -5,9 +5,9 @@
 
 from Inc.Util.Mod import DAddModules
 from Inc.Sql.DbModel import TDbModel
-from . import Sql
+from . import Api
 
 
-@DAddModules([Sql], True)
+@DAddModules([Api], True)
 class TMain(TDbModel):
     pass

@@ -1,14 +1,12 @@
-#import json
-#import asyncio
-#
-# from Inc.DbList import TDbList
-# from Inc.Misc.Log import TEchoConsoleEx
-# from Inc.Misc.Request import TRequestJson
-# from Inc.Sql.ADb import TDbAuth
-# from Inc.Util.Str import Format
-# from Task.SrvModel.Api import ApiModel, TApiConf
-# from IncP.Log import Log
-from Temp.test_sql import Main
+import json
+import asyncio
+
+from Inc.DbList import TDbList
+from Inc.Misc.Log import TEchoConsoleEx
+from Inc.Misc.Request import TRequestJson
+from Inc.Sql.ADb import TDbAuth
+from Task.SrvModel.Api import ApiModel, TApiConf
+from IncP.Log import Log
 
 
 def LoadJson(aFile: str) -> dict:
@@ -44,7 +42,7 @@ Data2 = [
     }
 ]
 
-Data3 = [
+Data3a = [
     'ref_product/category',
     {
         "method": "GetCategoriesByParent",
@@ -52,7 +50,7 @@ Data3 = [
     }
 ]
 
-Data3a = [
+Data3b = [
     'ref_product/category',
     {
         "method": "GetProductsCountAndNameInCategories",
@@ -60,7 +58,7 @@ Data3a = [
     }
 ]
 
-Data3b = [
+Data3c = [
     'ref_product/category',
     {
         "method": "GetCategoriesByParentWithProductCount",
@@ -89,7 +87,7 @@ async def Test_01():
     ApiModel.Auth = TDbAuth(**DbAuth)
     await ApiModel.DbConnect()
 
-    Res = await ApiModel.Exec(*Data3)
+    Res = await ApiModel.Exec(*Data3c)
     if ('err' in Res):
         print(Res)
     else:
@@ -121,10 +119,6 @@ async def Test_02():
     print(Res1)
 
 
-#Log.AddEcho(TEchoConsoleEx())
-#Task = Test_01()
-#asyncio.run(Task)
-
-
-Res1 = Main()
-print(Res1)
+Log.AddEcho(TEchoConsoleEx())
+Task = Test_01()
+asyncio.run(Task)
