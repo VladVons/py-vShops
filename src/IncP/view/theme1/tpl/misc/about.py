@@ -4,7 +4,7 @@
 
 
 from IncP import GetInfo
-from ..FormBase import TFormBase
+from IncP.FormBase import TFormBase
 
 
 class TForm(TFormBase):
@@ -13,7 +13,7 @@ class TForm(TFormBase):
         pass
 
     async def _Render(self):
-        self.out.title = 'About Me'
+        self.out.title = 'view/theme1/tpl/misc/about.py'
 
         Arr = [f'{Key}: {Val}' for Key, Val in GetInfo().items()]
         self.out.data['info'] = '<br>\n'.join(Arr)

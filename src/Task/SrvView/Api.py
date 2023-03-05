@@ -15,12 +15,9 @@ from IncP.ApiBase import TApiBase, TApiConf
 
 @DDataClass
 class TApiViewConf(TApiConf):
-    dir_3w: str = 'view'
     dir_tpl: str = 'IncP/view'
-    dir_root: str = 'Task/SrvView'
-    tpl_ext: str = '.tpl'
-    def_page: str = 'info'
     theme: str = 'theme1'
+    theme_def: str = 'default'
 
 
 class TApiView(TApiBase):
@@ -38,7 +35,7 @@ class TApiView(TApiBase):
         Loader = FileSystemLoader(
             searchpath = [
                 f'{self.Conf.dir_module}/{self.Conf.theme}/tpl',
-                f'{self.Conf.dir_module}/default/tpl'
+                f'{self.Conf.dir_module}/{self.Conf.theme_def}/tpl'
             ]
         )
         self.TplEnv = Environment(loader = Loader)
@@ -46,13 +43,13 @@ class TApiView(TApiBase):
     async def Exec(self, aModule: str, aQuery: str, aPostData: MultiDict = None, aUserData: dict = None) -> dict:
         MasterData = await self.Master.Get(aModule, aQuery)
         try:
-            Template = self.TplEnv.get_template(aModule + self.Conf.tpl_ext)
+            Template = self.TplEnv.get_template(f'{aModule}.tpl')
         except TemplateNotFound as E:
             return {'err': f'Template not found {E}', 'code': 404}
 
-        FilePy = Template.filename.replace('/tpl/', '/py/').rstrip('.tpl')
         Locate = [
-            (FilePy, 'TForm'),
+            (Template.filename.rsplit('.', maxsplit=1)[0], 'TForm'),
+            (f'{self.Conf.dir_module}/ctrl/{aModule}', 'TForm'),
             ('IncP/FormBase', 'TFormBase')
         ]
 

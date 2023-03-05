@@ -5,6 +5,7 @@
 
 import os
 import re
+from mimetypes import types_map
 from aiohttp import web
 from multidict import MultiDict
 #
@@ -17,10 +18,9 @@ from .Api import ApiView
 @DDataClass
 class TSrvViewConf(TSrvConf):
     dir_root: str = 'IncP/view'
-    def_page: str = 'misc/info'
-    home_page: str = 'common/home'
+    form_def: str = 'misc/info'
+    form_home: str = 'common/home'
     deny: str = r'.tpl$|.py$'
-    content_html: str = r'.html$'
 
 
 class TSrvView(TSrvBase):
@@ -35,6 +35,19 @@ class TSrvView(TSrvBase):
             web.get('/{name:.*}', self._rIndex)
         ]
 
+    def _GetMimeFile(self, aPath: str) -> web.Response:
+        Ext = aPath.rsplit('.', maxsplit = 1)[-1]
+        Type = types_map.get(f'.{Ext}')
+        if (Type):
+            # pylint: disable-next=no-value-for-parameter
+            Res = web.Response(body=FileReader(aFile=aPath), content_type = Type)
+        else:
+            Name = aPath.rsplit('/', maxsplit = 1)[-1]
+            Headers = {'Content-disposition': f'attachment; filename={Name}'}
+            # pylint: disable-next=no-value-for-parameter
+            Res = web.Response(body=FileReader(aFile=aPath), headers=Headers)
+        return Res
+
     async def _Form(self, aPath: str, aQuery: str = None, aPostData: MultiDict = None, aStatus: int = 200, aUserData: dict = None) -> web.Response:
         Data = await ApiView.Exec(aPath, aQuery, aPostData, aUserData)
         if ('err' in Data):
@@ -43,16 +56,16 @@ class TSrvView(TSrvBase):
             Res = web.Response(text = Data['data'], content_type = 'text/html', status = aStatus)
         return Res
 
-    async def _FormErr(self, aMsg: str, aStatus: int) -> web.Response:
+    async def _FormMsg(self, aMsg: str, aStatus: int) -> web.Response:
         return await self._Form(
-            aPath = self._SrvConf.def_page,
+            aPath = self._SrvConf.form_def,
             aUserData = {'info': aMsg},
             aStatus = aStatus
         )
 
     async def _Err_404(self, aRequest: web.Request) -> web.Response:
         Path = aRequest.match_info.get('name')
-        return await self._FormErr(f'Path not found {Path}', 404)
+        return await self._FormMsg(f'Path not found {Path}', 404)
 
     async def _rApiGet(self, aRequest: web.Request) -> web.Response:
         Path = aRequest.match_info.get('name')
@@ -69,19 +82,14 @@ class TSrvView(TSrvBase):
             File = f'{self._SrvConf.dir_root}/{Name}'
             if (os.path.exists(File)):
                 if (re.search(self._SrvConf.deny, Name)):
-                    Res = await self._FormErr(f'Access denied {aRequest.path}', 403)
-                elif (re.search(self._SrvConf.content_html, Name)):
-                    with open(File, 'r', encoding='utf8') as F:
-                        Data = F.read()
-                    Res = web.Response(text = Data, content_type = 'text/html')
+                    Res = await self._FormMsg(f'Access denied {aRequest.path}', 403)
                 else:
-                    Headers = {'Content-disposition': 'attachment; filename=%s' % (Name)}
-                    # pylint: disable-next=no-value-for-parameter
-                    Res = web.Response(body=FileReader(aFile=File), headers=Headers)
+                    Res = self._GetMimeFile(File)
             else:
-                Res = web.Response(text = f'File not found {Name}', status = 404)
+                #Res = web.Response(text = f'File not found {Name}', status = 404)
+                Res = await self._FormMsg(f'File not found {Name}', 404)
         else:
-            Res = await self._Form(self._SrvConf.home_page, aRequest.query_string)
+            Res = await self._Form(self._SrvConf.form_home, aRequest.query_string)
         return Res
 
     async def RunApp(self):

@@ -11,12 +11,16 @@ async def GetProductsCountAndNameInCategories(self, aTenantId: int, aLangId: int
     '''
     get products count in all categories
     '''
+
     Query = Sql.GetProductsCountAndNameInCategories(aTenantId, aLangId)
     Dbl = await TDbExecPool(self.DbMeta.Db.Pool).Exec(Query)
     return Dbl.Export()
 
 async def GetCategoriesByParent(self, aTenantId: int, aParentId: int = 0, aDepth: int = 99) -> dict:
-    Query = Sql.GetCategoriesByParent(aTenantId, aParentId, aDepth)
+    Query = self.GetQuery(
+        'fmtGetCategoriesByParent.sql',
+        {'aTenantId': aTenantId, 'aParentIdt': aParentId, 'aDepth': aDepth}
+    )
     Dbl = await TDbExecPool(self.DbMeta.Db.Pool).Exec(Query)
     return Dbl.Export()
 

@@ -1,12 +1,14 @@
-import json
-import asyncio
+#import json
+#import asyncio
 #
-from Inc.DbList import TDbList
-from Inc.Misc.Log import TEchoConsoleEx
-from Inc.Misc.Request import TRequestJson
-from Inc.Sql.ADb import TDbAuth
-from Task.SrvModel.Api import ApiModel, TApiConf
-from IncP.Log import Log
+# from Inc.DbList import TDbList
+# from Inc.Misc.Log import TEchoConsoleEx
+# from Inc.Misc.Request import TRequestJson
+# from Inc.Sql.ADb import TDbAuth
+# from Inc.Util.Str import Format
+# from Task.SrvModel.Api import ApiModel, TApiConf
+# from IncP.Log import Log
+from Temp.test_sql import Main
 
 
 def LoadJson(aFile: str) -> dict:
@@ -22,15 +24,17 @@ DbAuth = {
     'password': '098iop'
 }
 
+def LoadData() -> str:
+    Json = LoadJson('Temp/Product.json')
 
-Json = LoadJson('Temp/Product.json')
-Data1 = [
-    'ref_product',
-    {
-        "method": "AddProduct",
-        "param": [Json]
-    }
-]
+    Res = [
+        'ref_product',
+        {
+            "method": "AddProduct",
+            "param": [Json]
+        }
+    ]
+    return Res
 
 Data2 = [
     'ref_product/lang',
@@ -81,11 +85,11 @@ Data5 = [
 ]
 
 async def Test_01():
-    Auth = TDbAuth(**DbAuth)
-    Api.Init(TApiConf())
-    await Api.DbInit(Auth)
+    ApiModel.Init(TApiConf())
+    ApiModel.Auth = TDbAuth(**DbAuth)
+    await ApiModel.DbConnect()
 
-    Res = await Api.Exec(*Data3a)
+    Res = await ApiModel.Exec(*Data3)
     if ('err' in Res):
         print(Res)
     else:
@@ -98,7 +102,7 @@ async def Test_01():
             else:
                 print(Data)
 
-    await Api.DbClose()
+    await ApiModel.DbClose()
 
 
 async def Test_02():
@@ -117,6 +121,10 @@ async def Test_02():
     print(Res1)
 
 
-Log.AddEcho(TEchoConsoleEx())
-Task = Test_02()
-asyncio.run(Task)
+#Log.AddEcho(TEchoConsoleEx())
+#Task = Test_01()
+#asyncio.run(Task)
+
+
+Res1 = Main()
+print(Res1)

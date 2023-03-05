@@ -4,7 +4,7 @@
 
 
 from Inc.Util.Mod import DAddModules
-from Inc.Sql.DbModel import TDbModel
+from Inc.Sql import TDbModel, TDbMeta
 from . import Sql, Api
 
 
