@@ -3,6 +3,9 @@
 # License: GNU, see LICENSE for more details
 
 
+import re
+
+
 async def AddProduct(self, aData: dict) -> dict:
     return await self.Add(aData)
 

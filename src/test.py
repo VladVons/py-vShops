@@ -87,18 +87,20 @@ async def Test_01():
     ApiModel.Auth = TDbAuth(**DbAuth)
     await ApiModel.DbConnect()
 
-    Res = await ApiModel.Exec(*Data3c)
-    if ('err' in Res):
-        print(Res)
-    else:
-        Data = Res.get('data')
-        if (Data):
-            if ('head' in Data):
-                Dbl = TDbList().Import(Data)
-                Dbl.OptReprLen = 60
-                print(Dbl)
-            else:
-                print(Data)
+    #for xData in [Data2, Data3a, Data3b, Data3c, Data4, Data5]:
+    for xData in [Data3a]:
+        Res = await ApiModel.Exec(*xData)
+        if ('err' in Res):
+            print(Res)
+        else:
+            Data = Res.get('data')
+            if (Data):
+                if ('head' in Data):
+                    Dbl = TDbList().Import(Data)
+                    Dbl.OptReprLen = 60
+                    print(Dbl)
+                else:
+                    print(Data)
 
     await ApiModel.DbClose()
 
@@ -115,7 +117,6 @@ async def Test_02():
             ]
         }
     )
-
     print(Res1)
 
 

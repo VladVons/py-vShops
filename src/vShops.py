@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-#
 # Created: 2022.01.02
 # Author: Vladimir Vons <VladVons@gmail.com>
 # License: GNU, see LICENSE for more details

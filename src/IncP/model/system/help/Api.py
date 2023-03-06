@@ -16,7 +16,7 @@ async def Api(_self, aPath: str) -> dict:
             Mod = sys.modules.get(ModFile)
         Data = GetHelp(Mod)
         Res.append(Data)
-    return {'data': Res}
+    return Res
 
 async def SysInfo(_self) -> dict:
     return GetInfo()
