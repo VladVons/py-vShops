@@ -87,8 +87,8 @@ async def Test_01():
     ApiModel.Auth = TDbAuth(**DbAuth)
     await ApiModel.DbConnect()
 
-    #for xData in [Data2, Data3a, Data3b, Data3c, Data4, Data5]:
-    for xData in [Data3a]:
+    for xData in [Data2, Data3a, Data3b, Data3c, Data4, Data5]:
+    #for xData in [Data3a]:
         Res = await ApiModel.Exec(*xData)
         if ('err' in Res):
             print(Res)

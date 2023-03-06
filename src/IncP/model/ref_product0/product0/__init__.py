@@ -1,4 +1,13 @@
-from .Main import TMain
+# Created: 2023.02.16
+# Author: Vladimir Vons <VladVons@gmail.com>
+# License: GNU, see LICENSE for more details
 
-#Enable = True
-#Depends = 'RefProduct0Category'
+
+from Inc.Util.Mod import DAddModules
+from Inc.Sql.DbModel import TDbModel
+from . import Api
+
+
+@DAddModules([Api], True)
+class TMain(TDbModel):
+    pass
