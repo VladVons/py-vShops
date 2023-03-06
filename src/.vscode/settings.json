@@ -1,0 +1,25 @@
+{
+    "[python]": {
+        "editor.formatOnType": true
+    },
+    "tabnine.experimentalAutoImports": true,
+    "python.defaultInterpreterPath": "/home/vladvons/VirtEnv/python3.10/bin/python3.10",
+    "python.linting.pylintArgs": [
+        "--disable=invalid-name",
+        "--disable=missing-function-docstring",
+        "--disable=missing-module-docstring",
+        "--disable=missing-class-docstring",
+        "--disable=too-few-public-methods",
+        "--disable=too-many-arguments",
+        "--disable=too-many-locals",
+        "--disable=too-many-instance-attributes",
+        "--disable=too-many-public-methods",
+        "--disable=too-many-branches",
+        "--disable=too-many-nested-blocks",
+        "--disable=line-too-long",
+        "--disable=superfluous-parens",
+        "--disable=consider-using-f-string",
+        "--disable=broad-except"
+    ],
+    "window.zoomLevel": 1
+}

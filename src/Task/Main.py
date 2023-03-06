@@ -35,4 +35,4 @@ class TTask():
             raise E
         finally:
             await Plugin.StopAll()
-        Log.Print(1, 'i', 'End. Time %0.2f' % (time.time() - TimeStart))
+            Log.Print(1, 'i', 'End. Time %0.2f' % (time.time() - TimeStart))
