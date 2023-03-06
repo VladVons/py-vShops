@@ -119,7 +119,6 @@ async def Test_02():
     )
     print(Res1)
 
-
 Log.AddEcho(TEchoConsoleEx())
 Task = Test_01()
 asyncio.run(Task)

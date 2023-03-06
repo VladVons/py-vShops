@@ -3,10 +3,8 @@
 # License: GNU, see LICENSE for more details
 
 
-import sys
-#
 from Inc.DataClass import DDataClass
-from Inc.Misc.Request import TRequestJson, TAuth
+from Inc.Loader.Api import TLoaderApi, TLoaderApiFs, TLoaderApiHttp
 from Task import LoadClassConf
 
 
@@ -19,40 +17,10 @@ class TApiConf():
     dir_module: str = 'IncP/DirName'
 
 
-class TLoader():
-    async def Get(self, aPath: str, aData: dict = None):
-        raise NotImplementedError()
-
-class TLoaderLocal(TLoader):
-    def __init__(self, aApi: str):
-        _Type, Module, Class = aApi.split(':')
-        Mod = sys.modules.get(Module)
-        if (Mod is None):
-            __import__(Module)
-            Mod = sys.modules.get(Module)
-        self.Api = getattr(Mod, Class)
-
-    async def Get(self, aPath: str, aData: dict = None):
-        return await self.Api.Exec(aPath, aData)
-
-class TLoaderHttp(TLoader):
-    def __init__(self, aUser: str, aPassword: str, aApiUrl: str):
-        Auth = None
-        if (aUser):
-            Auth = TAuth(aUser, aPassword)
-        self.Request = TRequestJson(aAuth=Auth)
-
-        self.ApiUrl = aApiUrl
-
-    async def Get(self, aPath: str, aData: dict = None):
-        Url = f'{self.ApiUrl}/{aPath}'
-        return await self.Request.Send(Url, aData)
-
-
 class TApiBase():
     def __init__(self):
         self.Conf: TApiConf = None
-        self.Master: TLoader = None
+        self.Master: TLoaderApi = None
         self.ExecCnt = 0
 
     def GetConf(self) -> dict:
@@ -63,9 +31,9 @@ class TApiBase():
 
     def InitMaster(self):
         if (self.Conf.master_api.startswith('http')):
-            self.Master = TLoaderHttp(self.Conf.master_user, self.Conf.master_password, self.Conf.master_api)
+            self.Master = TLoaderApiHttp(self.Conf.master_user, self.Conf.master_password, self.Conf.master_api)
         elif (self.Conf.master_api.startswith('local')):
-            self.Master = TLoaderLocal(self.Conf.master_api)
+            self.Master = TLoaderApiFs(self.Conf.master_api)
         else:
             raise ValueError(f'unknown api {self.Conf.master_api}')
 

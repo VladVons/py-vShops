@@ -3,10 +3,17 @@
 # License: GNU, see LICENSE for more details
 
 
+from Inc.Loader.Lang import TLoaderLangFs
+
+
 __all__ = ['Main']
 
 
 async def Main(aParent, aQuery: dict = None) -> dict:
+    Lang = TLoaderLangFs('ua', 'IncP/lang')
+    await Lang.Add('common/home')
+    ToDo = Lang.Get('service')
+
     Res = {}
 
     Res['category'] = await aParent.Master.Get(

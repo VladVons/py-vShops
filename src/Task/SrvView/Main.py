@@ -51,7 +51,7 @@ class TSrvView(TSrvBase):
     async def _Form(self, aPath: str, aQuery: str = None, aPostData: MultiDict = None, aStatus: int = 200, aUserData: dict = None) -> web.Response:
         Data = await ApiView.Exec(aPath, aQuery, aPostData, aUserData)
         if ('err' in Data):
-            Res = web.Response(text = Data['err'], content_type = 'text/html', status = Data['code'])
+            Res = await self._FormMsg(Data['err'], Data['code'])
         else:
             Res = web.Response(text = Data['data'], content_type = 'text/html', status = aStatus)
         return Res
