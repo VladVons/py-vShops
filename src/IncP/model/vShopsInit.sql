@@ -101,6 +101,12 @@ create table if not exists ref_proxy (
     passw               varchar(16)
 );
 
+create table if not exists ref_query (
+    path                varchar(64) not null,
+    title               varchar(64) not null,
+    query               text not null,
+    unique (path, title)
+);
 -----------------------------------------------------------------------------
 -- references. common tables --
 -----------------------------------------------------------------------------
