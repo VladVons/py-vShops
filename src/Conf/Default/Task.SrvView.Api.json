@@ -1,5 +1,6 @@
 {
     "api_conf": {
+        "dir_module": "MVC/View",
         "master_api": "local:Task.SrvCtrl.Api:ApiCtrl"
     }
 }

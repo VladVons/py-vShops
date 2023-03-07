@@ -10,7 +10,7 @@ __all__ = ['Main']
 
 
 async def Main(aParent, aQuery: dict = None) -> dict:
-    Lang = TLoaderLangFs('ua', 'IncP/lang')
+    Lang = TLoaderLangFs('ua', 'MVC/Lang')
     await Lang.Add('common/home')
     ToDo = Lang.Get('service')
 
@@ -20,7 +20,7 @@ async def Main(aParent, aQuery: dict = None) -> dict:
         'ref_product/category',
         {
             "method": "GetCategoriesByParent",
-            "param": {'aTenantId': 1, 'aParentId': 0, 'aDepth': 1}
+            "param": {'aTenantId': 1, 'aParentIdt': 0, 'aDepth': 1}
         }
     )
 

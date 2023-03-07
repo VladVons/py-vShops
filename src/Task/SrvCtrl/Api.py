@@ -14,7 +14,6 @@ class TApiCtrl(TApiBase):
 
     def Init(self, aConf: TApiConf):
         self.Conf = aConf
-        self.Conf.dir_module = 'IncP/ctrl'
         self.Ctrls = TCtrls(self.Conf.dir_module)
         self.InitMaster()
 

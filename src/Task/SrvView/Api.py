@@ -15,7 +15,6 @@ from IncP.ApiBase import TApiBase, TApiConf
 
 @DDataClass
 class TApiViewConf(TApiConf):
-    dir_tpl: str = 'IncP/view'
     theme: str = 'theme1'
     theme_def: str = 'default'
 
@@ -28,7 +27,6 @@ class TApiView(TApiBase):
 
     def Init(self, aConf: TApiViewConf):
         self.Conf = aConf
-        self.Conf.dir_module = 'IncP/view'
         self.Viewes = TViewes(self.Conf.dir_module)
         self.InitMaster()
 

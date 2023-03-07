@@ -10,11 +10,11 @@ from Task import LoadClassConf
 
 @DDataClass
 class TApiConf():
+    dir_module: str = 'MVC/MyName'
     master_user: str = ''
     master_password: str = ''
     master_api: str = 'http://host:port/api'
     helper: dict = {}
-    dir_module: str = 'IncP/DirName'
 
 
 class TApiBase():

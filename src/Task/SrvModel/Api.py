@@ -83,7 +83,6 @@ class TApiModel(TApiBase):
 
     def Init(self, aConf: TApiConf):
         self.Conf = aConf
-        self.Conf.dir_module = 'IncP/model'
         self.Conf.helper = {'module': 'system/help', 'method': 'Api'}
 
     async def DbConnect(self):
@@ -122,9 +121,11 @@ class TApiModel(TApiBase):
             await self.DbMeta.Db.Close()
 
     def LoadConf(self):
-        self.Init(TApiConf())
-
         Conf = self.GetConf()
+
+        ApiConf = Conf['api_conf']
+        self.Init(TApiConf(**ApiConf))
+
         DbAuth = Conf['db_auth']
         self.DbAuth = TDbAuth(**DbAuth)
 
