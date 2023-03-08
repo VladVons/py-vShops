@@ -32,7 +32,7 @@ class TApiBase():
     def InitMaster(self):
         if (self.Conf.master_api.startswith('http')):
             self.Master = TLoaderApiHttp(self.Conf.master_user, self.Conf.master_password, self.Conf.master_api)
-        elif (self.Conf.master_api.startswith('local')):
+        elif (self.Conf.master_api.startswith('fs')):
             self.Master = TLoaderApiFs(self.Conf.master_api)
         else:
             raise ValueError(f'unknown api {self.Conf.master_api}')

@@ -3,20 +3,15 @@
 # License: GNU, see LICENSE for more details
 
 
-from Inc.Loader.Lang import TLoaderLangFs
-
-
-__all__ = ['Main']
-
-
-async def Main(aParent, aQuery: dict = None) -> dict:
-    Lang = TLoaderLangFs('ua', 'MVC/Lang')
-    await Lang.Add('common/home')
-    ToDo = Lang.Get('service')
-
+async def Main(self, _aQuery: dict = None) -> dict:
     Res = {}
 
-    Res['category'] = await aParent.Master.Get(
+    await self.Lang.Add('common/home')
+    await self.Lang.Add('misc/about')
+    #Text = self.Lang.Get('service')
+    Res['lang'] = self.Lang.Join()
+
+    Res['category'] = await self.ExecModel(
         'ref_product/category',
         {
             "method": "GetCategoriesByParent",

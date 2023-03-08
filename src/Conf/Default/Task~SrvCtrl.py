@@ -5,5 +5,5 @@ srv_conf = {
     'allow_ip': ['192.168.2.13']
 }
 
-local_api = True
+fs_api = True
 #skip_main = True

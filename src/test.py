@@ -3,9 +3,10 @@ import asyncio
 
 from Inc.DbList import TDbList
 from Inc.Misc.Log import TEchoConsoleEx
-from Inc.Misc.Request import TRequestJson
+# from Inc.Misc.Request import TRequestJson
 from Inc.Sql.ADb import TDbAuth
-from Task.SrvModel.Api import ApiModel, TApiConf
+from Task.SrvModel.Api import ApiModel
+from Task.SrvCtrl.Api import ApiCtrl
 from IncP.Log import Log
 
 
@@ -83,7 +84,7 @@ Data5 = [
 ]
 
 async def Test_01():
-    ApiModel.Init(TApiConf())
+    ApiModel.LoadConf()
     ApiModel.Auth = TDbAuth(**DbAuth)
     await ApiModel.DbConnect()
 
@@ -119,6 +120,33 @@ async def Test_02():
     )
     print(Res1)
 
+async def Test_03():
+    ApiModel.LoadConf()
+    ApiModel.Auth = TDbAuth(**DbAuth)
+    await ApiModel.DbConnect()
+    Res = await ApiModel.Exec(*Data3a)
+
+
+    ApiCtrl.LoadConf()
+    Res = await ApiCtrl.Exec('common/home', {'method': 'Main'})
+    pass
+
+
+def Test_04():
+    D1 = {
+        'd1' : {'one': 1, 'two': 2},
+        'd2': {'sunday':0, 'monday': 1},
+        'd3': {'one':11}
+    }
+
+    Res = {}
+    #L1 = list(D1.values())
+    #r1 = {x for x in L1}
+    #Res.update(D1['d1'])
+    #Res = {Res | dict(**x) for x in L1}
+    #print(Res)
+
+
 Log.AddEcho(TEchoConsoleEx())
-Task = Test_01()
+Task = Test_03()
 asyncio.run(Task)

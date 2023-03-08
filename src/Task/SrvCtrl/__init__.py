@@ -12,7 +12,7 @@ from .Main import TSrvCtrl
 def Main(aConf) -> tuple:
     SrvConf = aConf.get('srv_conf')
     Obj = TSrvCtrl(TSrvConf(**SrvConf))
-    if (aConf.get('local_api')):
+    if (aConf.get('fs_api')):
         Res = (Obj, Obj.RunApi())
     else:
         Res = (Obj, Obj.RunApp())

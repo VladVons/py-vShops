@@ -43,7 +43,7 @@ class TApiModel(TApiBase):
         if (not self.Models.IsModule(aModule)):
             if (self.Conf.helper):
                 aModule = self.Conf.helper.get('module')
-                aData['method'] = self.Conf.help.get('method')
+                aData['method'] = self.Conf.helper.get('method')
                 aData['param'] = [self.Conf.dir_module]
             else:
                 return {'err': f'unknown module {aModule}'}

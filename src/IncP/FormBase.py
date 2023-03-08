@@ -2,10 +2,18 @@
 # Author:  Vladimir Vons <VladVons@gmail.com>
 # License: GNU, see LICENSE for more details
 
+# from aiohttp_session import get_session, new_session
+# s1 = await get_session(aRequest)
+# TimeAt = s1.get('time')
+# if (TimeAt is None):
+#     s1['time'] = Now
 
-from multidict import MultiDict
+
 from wtforms import Form
 from jinja2.environment import Template
+from aiohttp import web
+from aiohttp_session import Session, get_session
+from multidict import MultiDict
 #
 from Inc.Conf import TDictDef
 from Inc.DataClass import DDataClass
@@ -15,25 +23,23 @@ from IncP.Log import Log
 
 @DDataClass
 class TFormData():
-    control: TDictDef
-    data: TDictDef
     title: str
     info: dict
+    control: TDictDef = TDictDef('')
+    data: TDictDef = TDictDef('')
+    data_api: dict = {}
 
 
 class TFormBase(Form):
-    def __init__(self, aPath: str, aQuery: str, aPostData: MultiDict, aTemplate: Template, aMasterData: dict, aUserData: dict):
+    def __init__(self, aRequest: web.Request, aTemplate: Template):
         super().__init__()
 
-        self.Path = aPath
-        self.Query = aQuery
-        self.PostData = aPostData
+        self.Request = aRequest
         self.Template = aTemplate
-        self.MasterData = aMasterData
+        self.Post: MultiDict = None
+        self.Session: Session = None
 
         self.out = TFormData(
-            control = TDictDef(''),
-            data = TDictDef('', aUserData),
             info = GetAppVer(),
             title = aTemplate.filename
         )
@@ -43,22 +49,26 @@ class TFormBase(Form):
     def _DoInit(self):
         pass
 
-    async def _Render(self):
+    async def _DoRender(self):
         pass
 
     def PostToForm(self) -> bool:
         self.out.data.clear()
-        Res = bool(self.PostData)
+        Res = bool(self.Post)
         if (Res):
-            for Key, Val in self.PostData.items():
+            for Key, Val in self.Post.items():
                 if (isinstance(Val, str)):
                     self.out.data[Key] =  Val.strip()
         return Res
 
     async def Render(self) -> str:
-        self.process(self.PostData)
+        self.Session = await get_session(self.Request)
 
-        Res = await self._Render()
+        if (self.Request.method == 'POST'):
+            self.Post = await self.Request.post()
+            self.process(self.Post)
+
+        Res = await self._DoRender()
         if (Res is None):
             try :
                 Res = self.RenderTemplate()

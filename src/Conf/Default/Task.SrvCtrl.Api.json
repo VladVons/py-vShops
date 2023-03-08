@@ -1,6 +1,6 @@
 {
     "api_conf": {
         "dir_module": "MVC/Ctrl",
-        "master_api": "local:Task.SrvModel.Api:ApiModel"
+        "master_api": "fs:Task.SrvModel.Api:ApiModel"
     }
 }

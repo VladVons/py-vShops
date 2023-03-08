@@ -17,8 +17,14 @@ class TModels(TPlugin):
         return Res
 
 class TCtrls(TPlugin):
+    def __init__(self, aDir: str, aApi):
+        super().__init__(aDir)
+        self.ApiCtrl = aApi
+
     def _Create(self, aModule: object, aPath: str) -> object:
-        return aModule
+        Res = aModule.TMain()
+        Res.ApiCtrl = self.ApiCtrl
+        return Res
 
 class TViewes(TPlugin):
     def _Create(self, aModule: object, aPath: str) -> object:

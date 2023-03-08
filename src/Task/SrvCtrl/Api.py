@@ -14,16 +14,24 @@ class TApiCtrl(TApiBase):
 
     def Init(self, aConf: TApiConf):
         self.Conf = aConf
-        self.Ctrls = TCtrls(self.Conf.dir_module)
+        self.Ctrls = TCtrls(self.Conf.dir_module, self)
         self.InitMaster()
 
-    async def Exec(self, aModule: str, aQuery: str) -> dict:
+    async def Exec(self, aModule: str, aQuery: dict) -> dict:
         self.ExecCnt += 1
+
         if (not self.Ctrls.IsModule(aModule)):
             return {'err': f'Module not found {aModule}', 'code': 404}
 
         self.Ctrls.LoadMod(aModule)
         ModuleObj = self.Ctrls[aModule]
-        return await ModuleObj.Main(self, aQuery)
+
+        Method = aQuery.get('method', 'Main')
+        MethodObj = getattr(ModuleObj.Api, Method, None)
+        if (MethodObj is None):
+            return {'err': f'Method not found {Method}', 'code': 404}
+
+        return await MethodObj(ModuleObj, aQuery)
+
 
 ApiCtrl = TApiCtrl()

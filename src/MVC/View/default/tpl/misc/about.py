@@ -12,7 +12,7 @@ class TForm(TFormBase):
         #self.out.title = 'About'
         pass
 
-    async def _Render(self):
+    async def _DoRender(self):
         self.out.title = 'view/default/tpl/misc/about.py'
 
         Arr = [f'{Key}: {Val}' for Key, Val in GetInfo().items()]
