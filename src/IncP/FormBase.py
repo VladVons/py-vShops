@@ -2,12 +2,6 @@
 # Author:  Vladimir Vons <VladVons@gmail.com>
 # License: GNU, see LICENSE for more details
 
-# from aiohttp_session import get_session, new_session
-# s1 = await get_session(aRequest)
-# TimeAt = s1.get('time')
-# if (TimeAt is None):
-#     s1['time'] = Now
-
 
 from wtforms import Form
 from jinja2.environment import Template
