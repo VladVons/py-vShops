@@ -6,7 +6,7 @@
 from Inc.Sql.ADb import ListIntToComma
 
 
-async def GetProductsIdForTenantAndLang(aTenantId: int, aLangId: int) -> dict:
+async def GetProductsIdForTenantAndLang(self, aTenantId: int, aLangId: int) -> dict:
     return await self.ExecQuery(
         'fmtGetProductsIdForTenantAndLang.sql',
         {'aTenantId': aTenantId, 'aLangId': aLangId}
@@ -20,7 +20,7 @@ async def GetProductsLang(self, aProductIds: list[int], aLangId: id) -> dict:
     )
 
 async def GetProductsWithoutLang(self, aTenantId: int, aLangId: int) -> dict:
-   return await self.ExecQuery(
+    return await self.ExecQuery(
         'fmtGetProductsWithoutLang.sql',
         {'aTenantId': aTenantId, 'aLangId': aLangId}
     )

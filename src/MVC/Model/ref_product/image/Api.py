@@ -14,13 +14,13 @@ async def GetProductsImages(self, aProductIds: list[int]) -> dict:
     )
 
 async def GetProductsWithoutImages(self, aTenantId: int) -> dict:
-   return await self.ExecQuery(
+    return await self.ExecQuery(
         'fmtGetProductsWithoutImages.sql',
         {'aTenantId': aTenantId}
     )
 
 async def GetProductsCountImages(self, aTenantId: int) -> dict:
-   return await self.ExecQuery(
+    return await self.ExecQuery(
         'fmtGetProductsCountImages.sql',
         {'aTenantId': aTenantId}
     )

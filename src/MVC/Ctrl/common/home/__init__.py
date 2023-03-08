@@ -10,4 +10,4 @@ from . import Api
 
 @DAddModules([Api], True)
 class TMain(TCtrlBase):
-        pass
+    pass
