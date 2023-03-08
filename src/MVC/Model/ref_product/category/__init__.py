@@ -10,6 +10,4 @@ from . import Api
 
 @DAddModules([Api], True)
 class TMain(TDbModel):
-    def __init__(self, aDbMeta, aPath):
-        #super().__init__(aDbMeta, aPath)
-        pass
+    pass

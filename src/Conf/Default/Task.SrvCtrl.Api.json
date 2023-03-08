@@ -1,6 +1,8 @@
 {
     "api_conf": {
         "dir_module": "MVC/Ctrl",
-        "master_api": "fs:Task.SrvModel.Api:ApiModel"
+        "master_api": "http://localhost:8081/api",
+        "master_user": "user01",
+        "master_password": "passw01"
     }
 }

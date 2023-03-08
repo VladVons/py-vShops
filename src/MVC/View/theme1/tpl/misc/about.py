@@ -13,7 +13,6 @@ class TForm(TFormBase):
         pass
 
     async def _DoRender(self):
-        self.out.title = 'view/theme1/tpl/misc/about.py'
-
+        #self.out.title = 'view/theme1/tpl/misc/about.py'
         Arr = [f'{Key}: {Val}' for Key, Val in GetInfo().items()]
         self.out.data['info'] = '<br>\n'.join(Arr)

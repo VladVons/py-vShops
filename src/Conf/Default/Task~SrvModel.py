@@ -4,4 +4,4 @@ srv_conf = {
     'password': 'passw01'
 }
 
-fs_api = True
+#fs_api = True

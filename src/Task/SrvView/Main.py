@@ -65,7 +65,6 @@ class TSrvView(TSrvBase):
                 else:
                     Res = self._GetMimeFile(File)
             else:
-                #Res = web.Response(text = f'File not found {Name}', status = 404)
                 Res = await ApiView.ResponseFormInfo(aRequest, f'File not found {Name}', 404)
         else:
             Res = await ApiView.ResponseFormHome(aRequest)

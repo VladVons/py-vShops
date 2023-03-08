@@ -19,9 +19,9 @@ from IncP.Log import Log
 class TFormData():
     title: str
     info: dict
-    control: TDictDef = TDictDef('')
-    data: TDictDef = TDictDef('')
-    data_api: dict = {}
+    control: TDictDef
+    data: TDictDef
+    data_api: dict
 
 
 class TFormBase(Form):
@@ -34,8 +34,11 @@ class TFormBase(Form):
         self.Session: Session = None
 
         self.out = TFormData(
+            title = aTemplate.filename,
             info = GetAppVer(),
-            title = aTemplate.filename
+            control = TDictDef(''),
+            data = TDictDef(''),
+            data_api = {}
         )
 
         self._DoInit()
@@ -64,11 +67,7 @@ class TFormBase(Form):
 
         Res = await self._DoRender()
         if (Res is None):
-            try :
-                Res = self.RenderTemplate()
-            except Exception as E:
-                Msg = 'Render(), %s %s' % (self.Template.filename, E)
-                Log.Print(1, 'x', Msg, aE = E)
+            Res = self.RenderTemplate()
         return Res
 
     def RenderTemplate(self) -> str:
