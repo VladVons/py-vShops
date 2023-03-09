@@ -3,6 +3,10 @@
 #
 # /etc/systemd/system/vShops.service
 # https://www.codementor.io/@ufukafak/how-to-run-a-python-script-in-linux-with-systemd-1nh2x3hi0e
+#
+#systemctl daemon-reload
+#systemctl enable vShops.service
+#systemctl start vShops.service
 
 
 [Unit]
