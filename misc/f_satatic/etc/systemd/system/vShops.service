@@ -23,7 +23,7 @@ WorkingDirectory=/usr/lib/vShops/src
 User=vladvons
 
 #ExecStart=/bin/bash -c './vShops.sh'
-ExecStart=/usr/bin/python3 -B vShops.py -s
+ExecStart=/usr/bin/python3 -B vShops.py
 
 Restart=always
 RestartSec=15

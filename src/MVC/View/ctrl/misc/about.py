@@ -15,5 +15,8 @@ class TForm(TFormBase):
     async def _DoRender(self):
         self.out.title = 'view/ctrl/misc/about.py'
 
-        Arr = [f'{Key}: {Val}' for Key, Val in GetInfo().items()]
+        Info = GetInfo()
+        Info['host'] = self.Request.host
+
+        Arr = [f'{Key}: {Val}' for Key, Val in Info.items()]
         self.out.data['info'] = '<br>\n'.join(Arr)
