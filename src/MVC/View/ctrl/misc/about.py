@@ -17,6 +17,7 @@ class TForm(TFormBase):
 
         Info = GetInfo()
         Info['host'] = self.Request.host
+        Info['remote'] = self.Request.remote
 
         Arr = [f'{Key}: {Val}' for Key, Val in Info.items()]
         self.out.data['info'] = '<br>\n'.join(Arr)
