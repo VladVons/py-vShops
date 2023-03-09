@@ -1,0 +1,30 @@
+import os, time
+from Inc.DB.Dbf import TDbf, TDbfFields
+
+dbf = TDbf()
+File = 'Products.dbf'
+if (os.path.isfile(File)):
+    dbf.Open(File)
+    for RecNo in dbf:
+        print(RecNo, dbf.RecDeleted(), dbf.GetField('Name'), dbf.GetField('Created'), dbf.GetField('Votes'), dbf.GetField('Price'), dbf.GetField('Active'))
+else:
+    DbfFields = TDbfFields()
+    DbfFields.Add('Name', 'C', 40)
+    DbfFields.Add('Created', 'D')
+    DbfFields.Add('Votes', 'N', 10)
+    DbfFields.Add('Price', 'F', 10, 3)
+    DbfFields.Add('Active', 'L')
+
+    dbf.Create(File, DbfFields)
+
+    for Idx in range(10):
+        dbf.RecAdd()
+        dbf.SetField('Name', 'Monitor_%s' % Idx)
+        dbf.SetField('Created', time.time())
+        dbf.SetField('Votes', 10 + Idx)
+        dbf.SetField('Price', 100.14 + Idx)
+        dbf.SetField('Active', (Idx % 2) == 0)
+
+        print('Added record', Idx)
+        time.sleep(0.1)
+dbf.Close()

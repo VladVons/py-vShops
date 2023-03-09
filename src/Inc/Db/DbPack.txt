@@ -1,0 +1,47 @@
+import os, time, struct
+from Inc.DB.Dbl import TDbl, TDblFields
+
+dbl = TDbl()
+File = 'Products.dbl'
+if (os.path.isfile(File)):
+    db.Open(aFile)
+
+    # by name
+    Time1 = time.time()
+    for RecNo in db:
+        lt = time.localtime(db.GetField('Created'))
+        DateTime = '%d-%02d-%02d %02d:%02d:%02d' % (lt[0], lt[1], lt[2], lt[3], lt[4], lt[5])
+        print(RecNo, db.GetField('Name'), DateTime, db.GetField('Price'))
+    print('time', time.time() - Time1)
+
+    # by index
+    Time1 = time.time()
+    Struct = db.Fields.Struct()
+    db.RecGo(0)
+    for RecNo in db:
+        Record = struct.unpack(Struct, db.Buf)
+        lt = time.localtime(Record[1])
+        DateTime = '%d-%02d-%02d %02d:%02d:%02d' % (lt[0], lt[1], lt[2], lt[3], lt[4], lt[5])
+        print(RecNo, Record[0].decode(), DateTime, Record[3])
+    print('time', time.time() - Time1)
+else:
+    # see python struct format. https://docs.python.org/3/library/struct.html
+    DblFields = TDblFields()
+    DblFields.Add('Name', 's', 20)
+    DblFields.Add('Created', 'f')
+    DblFields.Add('Votes', 'i')
+    DblFields.Add('Price', 'f')
+    DblFields.Add('Active', '?')
+
+    dbl.Create(File, DblFields)
+    for Idx in range(10):
+        dbl.RecAdd()
+        dbl.SetField('Name', 'Monitor_%s' % Idx)
+        dbl.SetField('Created', time.time())
+        dbl.SetField('Votes', 10 + Idx)
+        dbl.SetField('Price', 100.14 + Idx)
+        dbl.SetField('Active', (Idx % 2) == 0)
+
+        print('Added record', Idx)
+        time.sleep(0.1)
+dbl.Close()
