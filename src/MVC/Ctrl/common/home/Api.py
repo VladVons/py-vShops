@@ -11,12 +11,15 @@ async def Main(self, _aQuery: dict = None) -> dict:
     #Text = self.Lang.Get('service')
     Res['lang'] = self.Lang.Join()
 
-    Res['category'] = await self.ExecModel(
+    Data = await self.ExecModel(
         'ref_product/category',
         {
             "method": "GetCategoriesByParent",
             "param": {'aTenantId': 1, 'aParentIdt': 0, 'aDepth': 1}
         }
     )
+
+    if (Data.get('status') != 200):
+        return {'err': Data.get('err')}
 
     return Res

@@ -14,6 +14,7 @@ from .Api import ApiModel
 class TSrvModel(TSrvBase):
     async def _rApi(self, aRequest: web.Request) -> web.Response:
         Res = {}
+        Q1 = Q2
 
         TimeStart = time.time()
         Name = aRequest.match_info.get('name')
@@ -58,10 +59,18 @@ class TSrvModel(TSrvBase):
         Data = {'err': f'unknown path {aRequest.path}'}
         return web.json_response(Data, status = 404)
 
+    @staticmethod
+    async def _Err_All(_aRequest: web.Request, aStack: dict) -> web.Response:
+        return web.json_response({'err': aStack}, status = 500)
+
     async def RunApp(self):
         Log.Print(1, 'i', f'SrvModel.RunApp() on port {self._SrvConf.port}')
 
-        App = self.CreateApp(aErroMiddleware = {404: self._Err_404})
+        ErroMiddleware = {
+            404: self._Err_404,
+            'err_all': self._Err_All
+        }
+        App = self.CreateApp(aErroMiddleware = ErroMiddleware)
         App.cleanup_ctx.append(self._cbOnStartup)
 
         await self.Run(App)

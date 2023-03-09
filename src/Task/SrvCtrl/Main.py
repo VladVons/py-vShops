@@ -20,7 +20,6 @@ class TSrvCtrl(TSrvBase):
 
     async def _rApi(self, aRequest: web.Request) -> web.Response:
         Res = {}
-
         TimeStart = time.time()
         if (not self._CheckRequestAuth(aRequest)):
             Status = 403
@@ -34,13 +33,22 @@ class TSrvCtrl(TSrvBase):
 
     @staticmethod
     async def _Err_404(aRequest: web.Request) -> web.Response:
-        Data = {'err': f'unknown path {aRequest.path}'}
+        Data = {'err': f'unknown path {aRequest.path}', 'class': __file__}
         return web.json_response(Data, status = 404)
+
+    @staticmethod
+    async def _Err_All(_aRequest: web.Request, aStack: list) -> web.Response:
+        return web.json_response({'err': aStack}, status = 500)
 
     async def RunApp(self):
         Log.Print(1, 'i', f'SrvCtrl.RunApp() on port {self._SrvConf.port}')
 
-        App = self.CreateApp(aErroMiddleware = {404: self._Err_404})
+        ErroMiddleware = {
+            404: self._Err_404,
+            'err_all': self._Err_All
+        }
+        App = self.CreateApp(aErroMiddleware = ErroMiddleware)
+        #App['_conf_'] = 'MyConf'
         await self.Run(App)
 
     async def RunApi(self):

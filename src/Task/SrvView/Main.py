@@ -47,9 +47,15 @@ class TSrvView(TSrvBase):
             Res = web.Response(body=FileReader(aFile=aPath), headers=Headers)
         return Res
 
-    async def _Err_404(self, aRequest: web.Request) -> web.Response:
+    @staticmethod
+    async def _Err_404(aRequest: web.Request) -> web.Response:
         Path = aRequest.match_info.get('name')
         return await ApiView.ResponseFormInfo(aRequest, f'Path not found {Path}', 404)
+
+    @staticmethod
+    async def _Err_All(_aRequest: web.Request, aStack: dict) -> web.Response:
+        Data = '\n<br>'.join(aStack)
+        return web.Response(text = Data, content_type = 'text/html', status = 500)
 
     async def _rApi(self, aRequest: web.Request) -> web.Response:
         Path = aRequest.match_info.get('name')
@@ -76,4 +82,5 @@ class TSrvView(TSrvBase):
         ErroMiddleware = {404: self._Err_404}
         App = self.CreateApp(aErroMiddleware = ErroMiddleware)
 
+        #App['_conf_'] = 'MyConf'
         await self.Run(App)

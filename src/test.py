@@ -9,3 +9,16 @@ def Test_05():
 
 Test_05()
 
+
+
+Dict1 = {
+    'd1' : {'one': 1, 'two': 2},
+    'd2': {'sunday':0, 'monday': 1},
+    'd3': {'one':11}
+}
+
+Res = {}
+for x in Dict1.values():
+    Res.update(x)
+return Res
+
