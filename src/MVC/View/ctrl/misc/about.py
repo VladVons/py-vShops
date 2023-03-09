@@ -3,6 +3,7 @@
 # License: GNU, see LICENSE for more details
 
 
+from Inc.Util.Obj import DeepGetByList
 from IncP import GetInfo
 from IncP.FormBase import TFormBase
 
@@ -14,10 +15,16 @@ class TForm(TFormBase):
 
     async def _DoRender(self):
         self.out.title = 'view/ctrl/misc/about.py'
+        Data = DeepGetByList(self.out.data_api, ['data', 'data', 'data'])
+        DbInfo = [f'{Key}: {Val}' for Key, Val in Data.items()]
 
-        Info = GetInfo()
-        Info['host'] = self.Request.host
-        Info['remote'] = self.Request.remote
+        Data = GetInfo()
+        Info = [f'{Key}: {Val}' for Key, Val in Data.items()]
 
-        Arr = [f'{Key}: {Val}' for Key, Val in Info.items()]
-        self.out.data['info'] = '<br>\n'.join(Arr)
+        ReqInfo = [
+            f'host: {self.Request.host}',
+            f'remote: {self.Request.remote}'
+        ]
+
+        Res = DbInfo + [''] + ReqInfo + [''] + Info
+        self.out.data['info'] = '<br>\n'.join(Res)

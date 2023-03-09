@@ -3,9 +3,6 @@
 Author:      VladVons
 License:     GNU, see LICENSE for more details
 -->
-
--= default/layout.tpl =-<br>
-
 <html>
     <head>
         <link rel="stylesheet" href="/default/css/style.css?q=3.2" type="text/css">
