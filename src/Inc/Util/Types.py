@@ -28,7 +28,7 @@ class _Class:
         pass
 MethodType = type(_Class().Meth)
 
-UnionType = type(int | str)
+UnionType = type(int or str)
 NoneType = type(None)
 
 

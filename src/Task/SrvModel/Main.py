@@ -14,7 +14,6 @@ from .Api import ApiModel
 class TSrvModel(TSrvBase):
     async def _rApi(self, aRequest: web.Request) -> web.Response:
         Res = {}
-        Q1 = Q2
 
         TimeStart = time.time()
         Name = aRequest.match_info.get('name')

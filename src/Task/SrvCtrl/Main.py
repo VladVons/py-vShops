@@ -48,7 +48,6 @@ class TSrvCtrl(TSrvBase):
             'err_all': self._Err_All
         }
         App = self.CreateApp(aErroMiddleware = ErroMiddleware)
-        #App['_conf_'] = 'MyConf'
         await self.Run(App)
 
     async def RunApi(self):

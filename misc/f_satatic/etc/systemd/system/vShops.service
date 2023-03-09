@@ -1,0 +1,28 @@
+# Created: 2022.10.14
+# Author: Vladimir Vons <VladVons@gmail.com>
+#
+# /etc/systemd/system/vShops.service
+# https://www.codementor.io/@ufukafak/how-to-run-a-python-script-in-linux-with-systemd-1nh2x3hi0e
+
+
+[Unit]
+Description=vShops service
+After=network.target
+
+[Service]
+Type=simple
+
+EnvironmentFile=/etc/default/vShops
+#Environment="Env_SmtpUser="ua0976646510"
+
+WorkingDirectory=/usr/lib/vShops/src
+User=vladvons
+
+#ExecStart=/bin/bash -c './vShops.sh'
+ExecStart=/usr/bin/python3 -B vShops.py -s
+
+Restart=always
+RestartSec=15
+
+[Install]
+WantedBy=multi-user.target
