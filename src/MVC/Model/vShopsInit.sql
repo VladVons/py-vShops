@@ -287,6 +287,25 @@ create table if not exists ref_product0_crawl (
 -- references. tenant --
 -----------------------------------------------------------------------------
 
+--- info ---
+
+create table if not exists ref_info (
+    id                  serial primary key,
+    enabled             boolean default true,
+    tenant_id           integer not null,
+    foreign key (tenant_id) references ref_tenant(id)
+);
+
+create table if not exists ref_info_lang (
+    info_id             integer not null,
+    lang_id             integer not null,
+    title               varchar(256) not null,
+    descr               text,
+    foreign key (info_id) references ref_info(id) on delete cascade,
+    foreign key (lang_id) references ref_lang(id),
+    unique (info_id, lang_id)
+);
+
 -- price --
 
 create table if not exists ref_price (
