@@ -18,6 +18,7 @@ from IncP.Log import Log
 @DDataClass
 class TFormData():
     title: str
+    path: str
     info: dict
     control: TDictDef
     data: TDictDef
@@ -30,11 +31,11 @@ class TFormBase(Form):
 
         self.Request = aRequest
         self.Template = aTemplate
-        self.Post: MultiDict = None
         self.Session: Session = None
 
         self.out = TFormData(
             title = aTemplate.filename,
+            path = aRequest.path,
             info = GetAppVer(),
             control = TDictDef(''),
             data = TDictDef(''),
@@ -49,21 +50,20 @@ class TFormBase(Form):
     async def _DoRender(self):
         pass
 
-    def PostToForm(self) -> bool:
+    async def PostToData(self) -> bool:
         self.out.data.clear()
-        Res = bool(self.Post)
-        if (Res):
-            for Key, Val in self.Post.items():
-                if (isinstance(Val, str)):
-                    self.out.data[Key] =  Val.strip()
-        return Res
+        if (self.Request.method == 'POST'):
+            Post = await self.Request.post()
+            self.process(Post)
+            if (Post):
+                for Key, Val in Post.items():
+                    if (isinstance(Val, str)):
+                        self.out.data[Key] = Val.strip()
+                return bool(Post)
 
     async def Render(self) -> str:
         self.Session = await get_session(self.Request)
-
-        if (self.Request.method == 'POST'):
-            self.Post = await self.Request.post()
-            self.process(self.Post)
+        await self.PostToData()
 
         Res = await self._DoRender()
         if (Res is None):

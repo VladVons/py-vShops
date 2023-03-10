@@ -28,7 +28,13 @@ class TSrvCtrl(TSrvBase):
             Status = 200
             Name = aRequest.match_info.get('name')
             Res = await ApiCtrl.Exec(Name, aRequest.query)
-        Res['time'] = round(time.time() - TimeStart, 4)
+
+        Res['info'] = {
+            'module': Name,
+            'method': aRequest.query.get('method', 'Main'),
+            'query': ApiCtrl.ExecCnt,
+            'time': round(time.time() - TimeStart, 4)
+        }
         return web.json_response(Res, status = Status)
 
     @staticmethod

@@ -9,4 +9,5 @@ from IncP.FormBase import TFormBase
 
 class TForm(TFormBase):
     async def _DoRender(self):
-        sys.exit()
+        if (self.out.data.btn_ok):
+            sys.exit()

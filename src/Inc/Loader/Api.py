@@ -6,7 +6,7 @@
 import sys
 #
 from Inc.Misc.Request import TRequestJson, TAuth
-
+#from Inc.Util.Obj import DeepGetByList
 
 class TLoaderApi():
     async def Get(self, aPath: str, aData: dict = None):
@@ -35,4 +35,5 @@ class TLoaderApiHttp(TLoaderApi):
 
     async def Get(self, aPath: str, aData: dict = None):
         Url = f'{self.ApiUrl}/{aPath}'
-        return await self.Request.Send(Url, aData)
+        Res = await self.Request.Send(Url, aData)
+        return Res.get('data', Res)
