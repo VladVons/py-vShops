@@ -3,6 +3,7 @@
 # License: GNU, see LICENSE for more details
 
 import re
+import os
 
 def GetTree(aObj, aMaxDepth: int = 99):
     def GetTreeRecurs(aObj, aPrefix: str, aDepth: int):
@@ -42,6 +43,10 @@ def DictUpdate(aMaster: dict, aSlave: dict, aJoin = False, aDepth: int = 99) -> 
     '''
     DictJoin({3: [1, 2, 3]}, {3: [4]}) -> {3: [1, 2, 3, 4]}
     '''
+    def ParseEnv(aVal) -> object:
+        if (isinstance(aVal, str)) and (aVal.startswith('$')):
+            aVal = os.getenv(aVal[1:], aVal)
+        return aVal
 
     if (aDepth <= 0):
         return
@@ -53,6 +58,7 @@ def DictUpdate(aMaster: dict, aSlave: dict, aJoin = False, aDepth: int = 99) -> 
         Res = aMaster
 
         for Key, Val in aSlave.items():
+            Val = ParseEnv(Val)
             Tmp = aMaster.get(Key)
             if (Tmp is None):
                 Tmp = {} if isinstance(Val, dict) else []
@@ -61,6 +67,7 @@ def DictUpdate(aMaster: dict, aSlave: dict, aJoin = False, aDepth: int = 99) -> 
     elif (Type == list):
         Res = [] if (aMaster is None ) else aMaster
         for Val in aSlave:
+            Val = ParseEnv(Val)
             Data = DictUpdate(None, Val, aJoin, aDepth - 1)
             if (aJoin):
                 Res.append(Data)

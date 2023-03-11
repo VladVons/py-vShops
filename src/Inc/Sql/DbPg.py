@@ -1,6 +1,7 @@
 # Created: 2022.02.25
 # Author: Vladimir Vons <VladVons@gmail.com>
 # License: GNU, see LICENSE for more details
+#
 # pip3 install aiopg
 
 
@@ -31,9 +32,10 @@ class TDbPg(TADb):
                 break
             except asyncio.TimeoutError as _E:
                 Log.Print(1, 'x', f'TDbPg.Connect() to {self.Auth.host} timeout. Try {x} ...')
-            except Exception as E:
-                Log.Print(1, 'x', 'TDbPg.Connect()', aE=E)
-                sys.exit()
+            # except Exception as E:
+            #     Err = str(E).split('\n', maxsplit = 1)[0]
+            #     Log.Print(1, 'x', f'TDbPg.Connect() {Err}', [self.Auth.host, self.Auth.port, self.Auth.database, self.Auth.user])
+            await asyncio.sleep(3)
         return bool(self.Pool)
 
     async def GetTablesColumns(self, aTable: list = None) -> dict:

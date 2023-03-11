@@ -3,92 +3,51 @@
 # License: GNU, see LICENSE for more details
 
 
-from Inc.DbList import TDbListSafe, TDbList
+from Inc.DbList import TDbList
 
 
-class TDbListEx(TDbList):
-    def __init__(self, aFields):
-        aFields = [Name for Name, _Type in aFields]
-        super().__init__(aFields)
-
-class TDbProduct(TDbListEx):
+class TDbProductEx(TDbList):
     def __init__(self):
         super().__init__([
-            ('id', int),
-            ('category_id', int),
-            ('code', str),
-            ('mpn', str),
-            ('name', str),
-            ('price', float),
-            ('image', str)
+            'id',
+            'category_id',
+            'code',
+            'barcode',
+            'mpn',
+            'name',
+            'price',
+            'image',
+            'feature',
+            'vendor',
+            'available',
+            'descr'
         ])
 
-class TDbProductEx(TDbListEx):
+class TDbCategory(TDbList):
     def __init__(self):
         super().__init__([
-            ('id', int),
-            ('category_id', int),
-            ('code', str),
-            ('barcode', str),
-            ('mpn', str),
-            ('name', str),
-            ('price', float),
-            ('image', list),
-            ('feature', dict),
-            ('vendor', str),
-            ('available', int),
-            ('descr', str)
+            'id',
+            'parent_id',
+            'name'
         ])
 
-class TDbPrice(TDbListEx):
+class TDbCompPC(TDbList):
     def __init__(self):
         super().__init__([
-            ('id', int),
-            ('category_id', int),
-            ('code', str),
-            ('mpn', str),
-            ('name', str),
-            ('price', float),
-            ('available', int),
-            ('image', str)
+            'model',
+            'case',
+            'cpu',
+            'disk_size',
+            'disk',
+            'ram_size',
+            'os',
+            'vga',
+            'dvd',
+            'price'
         ])
 
-class TDbCategory(TDbListEx):
+class TDbCompPricePl(TDbList):
     def __init__(self):
         super().__init__([
-            ('id', int),
-            ('parent_id', int),
-            ('name', str)
-        ])
-
-class TDbPriceJoin(TDbListEx):
-    def __init__(self):
-        super().__init__([
-            ('id', int),
-            ('code', str),
-            ('mpn', str),
-            ('name', str),
-            ('match', int),
-            ('price', float)
-        ])
-
-class TDbCompPC(TDbListEx):
-    def __init__(self):
-        super().__init__([
-            ('model', str),
-            ('case', str),
-            ('cpu', str),
-            ('disk_size', int),
-            ('disk', str),
-            ('ram_size', int),
-            ('os', str),
-            ('vga', str),
-            ('dvd', str),
-            ('price', float)
-        ])
-
-class TDbCompPricePl(TDbListEx):
-    def __init__(self):
-        super().__init__([
-            ('model', str)
+            'model'
         ])

@@ -4,7 +4,7 @@
 # pip3 install aiopg
 
 
-from .ADb import TDbExecPool
+from .ADb import TDbExecPool, TDbAuth
 from .DbPg import TDbPg
 from .DbMeta import TDbMeta
 from .DbModel import TDbModel

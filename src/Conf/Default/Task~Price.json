@@ -35,10 +35,11 @@
                 "price_id": 3
             },
             "auth": {
-                "server": "localhost",
+                "host": "10.10.1.1",
+                "port": 5432,
                 "database": "shop2",
                 "user": "admin",
-                "password": "098iop"
+                "password": "$env_db_passwd"
             },
             "depends": [
                 "In_Price_prom_xml",

@@ -4,13 +4,14 @@
 
 
 from Inc.ParserX.Common import TPluginBase
-from Inc.Sql.DbPg import TDbPg
+from Inc.Sql import TDbPg, TDbAuth
 from .Main import TMain
 
 
 class TOut_vShop_db(TPluginBase):
     async def Run(self):
-        DbAuth = self.Conf.GetKey('auth')
+        Conf = self.Conf.GetKey('auth')
+        DbAuth = TDbAuth(**Conf)
         Db = TDbPg(DbAuth)
         await Db.Connect()
 
