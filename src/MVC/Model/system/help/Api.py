@@ -23,13 +23,18 @@ async def GetSysInfo(_self) -> dict:
     return GetInfo()
 
 async def GetDbInfo(self) -> dict:
-    Dbl = await self.DbMeta.Db.GetDbVersion()
-    Uptime = SecondsToDHMS(Dbl.Rec.GetField('uptime').seconds)
+    Dbl1 = await self.DbMeta.Db.GetDbVersion()
+    Dbl2 = await self.DbMeta.Db.GetStat()
+
+    Uptime = SecondsToDHMS(Dbl1.Rec.GetField('uptime').seconds)
     Res = {
-        'version': Dbl.Rec.GetField('version').split()[:2],
+        'version': Dbl1.Rec.GetField('version').split()[:2],
         'uptime': Uptime,
-        'name': Dbl.Rec.GetField('db_name'),
-        'size': round(Dbl.Rec.GetField('size') / 1000000, 2),
-        'tables': Dbl.Rec.GetField('tables')
+        'name': Dbl1.Rec.GetField('db_name'),
+        'size': round(Dbl1.Rec.GetField('size') / 1000000, 2),
+        'tables': Dbl1.Rec.GetField('tables'),
+        'max_conn': Dbl2.Rec.GetField('max_conn'),
+        'used_conn': Dbl2.Rec.GetField('used_conn'),
+        'backends': Dbl2.Rec.GetField('num_backends')
     }
     return Res

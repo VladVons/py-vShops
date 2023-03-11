@@ -7,12 +7,10 @@ from wtforms import Form
 from jinja2.environment import Template
 from aiohttp import web
 from aiohttp_session import Session, get_session
-from multidict import MultiDict
 #
 from Inc.Conf import TDictDef
 from Inc.DataClass import DDataClass
 from IncP import GetAppVer
-from IncP.Log import Log
 
 
 @DDataClass
@@ -26,6 +24,10 @@ class TFormData():
 
 
 class TFormBase(Form):
+    '''
+        Base class for rendering string from templates
+    '''
+
     def __init__(self, aRequest: web.Request, aTemplate: Template):
         super().__init__()
 

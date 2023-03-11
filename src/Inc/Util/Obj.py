@@ -4,31 +4,41 @@
 
 import re
 import os
+#
+from Inc.Util import Types
+
 
 def GetTree(aObj, aMaxDepth: int = 99):
-    def GetTreeRecurs(aObj, aPrefix: str, aDepth: int):
+    '''
+        Recursively walks through aObj and returns list of values:
+        [Nested, Path, Obj, Depth]
+    '''
+
+    def Recurs(aObj, aPrefix: str, aDepth: int):
         if (aDepth < aMaxDepth):
             Type = type(aObj)
             if (Type == dict):
-                yield [True, aPrefix, aObj, aDepth]
+                yield (True, aPrefix, aObj, aDepth)
                 for Key in aObj:
-                    yield from GetTreeRecurs(aObj[Key], aPrefix + '/' + Key, aDepth + 1)
-            elif (Type in [list, tuple, set]):
-                yield [True, aPrefix, aObj, aDepth]
+                    yield from Recurs(aObj[Key], aPrefix + '/' + Key, aDepth + 1)
+            elif (Type in (list, tuple, set)):
+                yield (True, aPrefix, aObj, aDepth)
                 for Obj in aObj:
-                    yield from GetTreeRecurs(Obj, aPrefix, aDepth + 1)
-            elif (Type in [str, int, float, bool]):
-                yield [False, aPrefix, aObj, aDepth]
-            elif (Type.__name__ in ['method']):
-                yield [False, aPrefix + '()', aObj, aDepth]
+                    yield from Recurs(Obj, aPrefix, aDepth + 1)
+            elif (Type in (str, int, float, bool)):
+                yield (False, aPrefix, aObj, aDepth)
+            elif (Type.__name__ in ['method', 'function']):
+                yield (False, f'{aPrefix}()', aObj, aDepth)
             else:
                 ClassName = aPrefix + '/' + aObj.__class__.__name__
-                yield [True, ClassName, aObj, aDepth]
+                # if (Types.IsClass(aObj)):
+                #     ClassName += '()'
+                yield (True, ClassName, aObj, aDepth)
                 for Key in dir(aObj):
                     if (not Key.startswith('_')):
                         Obj = getattr(aObj, Key)
-                        yield from GetTreeRecurs(Obj, ClassName + '/' + Key, aDepth + 1)
-    yield from GetTreeRecurs(aObj, '', 0)
+                        yield from Recurs(Obj, ClassName + '/' + Key, aDepth + 1)
+    yield from Recurs(aObj, '', 0)
 
 def GetClassPath(aClass):
     def GetClassPathRecurs(aInstance: object, aPath: str = '', aDepth: int = 99) -> str:

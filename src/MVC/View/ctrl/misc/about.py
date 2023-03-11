@@ -3,9 +3,8 @@
 # License: GNU, see LICENSE for more details
 
 
-#from Inc.Util.Obj import DeepGetByList
-from IncP import GetInfo
-from IncP.FormBase import TFormBase
+from IncP import LibView
+from IncP.LibView import TFormBase, GetTree, GetInfo
 
 
 class TForm(TFormBase):
@@ -17,16 +16,26 @@ class TForm(TFormBase):
         self.out.title = 'view/ctrl/misc/about.py'
         self.out.MyData = 'Pink Floyd'
 
-        Data = self.out.data_api.get('data', {})
-        DbInfo = [f'{Key}: {Val}' for Key, Val in sorted(Data.items())]
+        LibInfo = [x for x in dir(LibView) if not x.startswith('_')]
+        LibInfo = sorted(LibInfo)
+
+        DbInfo = []
+        for Complex, Path, Obj, _Depth in GetTree(self.out.data_api):
+            if (not Complex):
+                DbInfo.append(f'{Path}: {Obj}')
+        DbInfo = sorted(DbInfo)
 
         Data = GetInfo()
-        Info = [f'{Key}: {Val}' for Key, Val in Data.items()]
+        Info = []
+        for Complex, Path, Obj, _Depth in GetTree(Data):
+            if (not Complex):
+                Info.append(f'{Path}: {Obj}')
+        Info = sorted(Info)
 
         ReqInfo = [
             f'host: {self.Request.host}',
             f'remote: {self.Request.remote}'
         ]
 
-        Res = DbInfo + [''] + ReqInfo + [''] + Info
+        Res = DbInfo + [''] + ReqInfo + [''] + Info + [''] + LibInfo
         self.out.data['info'] = '<br>\n'.join(Res)

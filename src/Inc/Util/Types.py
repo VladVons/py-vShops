@@ -26,6 +26,7 @@ GeneratorType = type(_Gen())
 class _Class:
     def Meth(self):
         pass
+ClassType = type(_Class)
 MethodType = type(_Class().Meth)
 
 UnionType = type(int or str)
@@ -45,9 +46,12 @@ def IsModule(aObj: object) -> bool:
     # magic:__cached__, __doc__, __file__
     return isinstance(aObj, ModuleType)
 
+# def IsClass(aObj: object) -> bool:
+#     # magic: __doc__, __module_
+#     return isinstance(aObj, type)
+
 def IsClass(aObj: object) -> bool:
-    # magic: __doc__, __module_
-    return isinstance(aObj, type)
+    return isinstance(aObj, ClassType)
 
 def IsMethod(aObj: object) -> bool:
     #magic: __doc__,  __name__, __func__,  __self__
