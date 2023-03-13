@@ -6,8 +6,9 @@
 import time
 import asyncio
 import aiohttp
-#
 
+
+Excepts = (aiohttp.ClientConnectorError, aiohttp.ClientError, aiohttp.InvalidURL, asyncio.TimeoutError)
 
 class TRecSes():
     def __init__(self, aUrl: str, aDataSend = None, aDataUser = None, aOnRead: callable = None):
@@ -38,21 +39,21 @@ class TRequest():
     async def Close(self):
         self.Session.close()
 
-    async def _Send(self, aRecSes: TRecSes) -> dict:
+    async def _SendRec(self, aRecSes: TRecSes) -> dict:
         raise NotImplementedError()
 
     async def _SendSem(self, aSem: asyncio.Semaphore, aRecSes: TRecSes, aTaskNo: int = 0) -> dict:
         async with aSem:
             aRecSes.TaskNo = aTaskNo
-            return await self._SendTry(aRecSes)
+            return await self.SendOne(aRecSes)
 
-    async def _SendTry(self, aRecSes: TRecSes) -> dict:
+    async def SendOne(self, aRecSes: TRecSes) -> dict:
         await asyncio.sleep(self.Sleep)
         TimeAt = time.time()
         try:
-            Res = await self._Send(aRecSes)
+            Res = await self._SendRec(aRecSes)
             Res['time'] = round(time.time() - TimeAt, 2)
-        except (aiohttp.ClientConnectorError, aiohttp.ClientError, aiohttp.InvalidURL, asyncio.TimeoutError) as E:
+        except Excepts as E:
             Res = {'err': str(E), 'time': round(time.time() - TimeAt, 2)}
         else:
             if (self.CallBack):
@@ -64,33 +65,39 @@ class TRequest():
         Tasks = [asyncio.create_task(self._SendSem(Sem, RecSes, Idx)) for Idx, RecSes in enumerate(aTRecSes)]
         return await asyncio.gather(*Tasks)
 
-    async def SendOne(self, aRecSes: TRecSes) -> dict:
-        return await self._SendTry(aRecSes)
-
 
 class TRequestJson(TRequest):
-    async def _Send(self, aRecSes: TRecSes) -> dict:
+    async def Send(self, aUrl: str, aData: dict) -> dict:
+        try:
+            async with self.Session.post(aUrl, json=aData) as Response:
+                Data = await Response.json()
+                Res = {'data': Data, 'status': Response.status}
+        except Excepts as E:
+            Res = {'err': str(E)}
+        return Res
+
+    async def _SendRec(self, aRecSes: TRecSes) -> dict:
         async with self.Session.post(aRecSes.Url, json=aRecSes.DataSend) as Response:
             Data = await Response.json()
             return {'data': Data, 'status': Response.status}
 
-    async def Send(self, aUrl: str, aData: dict) -> dict:
-        RecSes = TRecSes(aUrl, aData)
-        return await self.SendOne(RecSes)
-
-
 class TRequestGet(TRequest):
-    async def _Send(self, aRecSes: TRecSes) -> dict:
+    async def Send(self, aUrl: str) -> dict:
+        try:
+            async with self.Session.get(aUrl) as Response:
+                Data = await Response.read()
+                Res = {'data': Data, 'status': Response.status}
+        except Excepts as E:
+            Res = {'err': str(E)}
+        return Res
+
+    async def _SendRec(self, aRecSes: TRecSes) -> dict:
         async with self.Session.get(aRecSes.Url) as Response:
             if (aRecSes.OnRead):
                 Res = await aRecSes.OnRead(aRecSes, Response)
             else:
                 Res = await Response.read()
             return {'data': Res, 'status': Response.status}
-
-    async def Send(self, aUrl: str) -> dict:
-        RecSes = TRecSes(aUrl)
-        return await self.SendOne(RecSes)
 
 
 class TCheckUrls(TRequestGet):
