@@ -19,8 +19,9 @@ class TForm(TFormBase):
         LibInfo = [x for x in dir(LibView) if not x.startswith('_')]
         LibInfo = sorted(LibInfo)
 
+        Data = await self.ExecCtrlDef()
         DbInfo = []
-        for Complex, Path, Obj, _Depth in GetTree(self.out.data_api):
+        for Complex, Path, Obj, _Depth in GetTree(Data):
             if (not Complex):
                 DbInfo.append(f'{Path}: {Obj}')
         DbInfo = sorted(DbInfo)

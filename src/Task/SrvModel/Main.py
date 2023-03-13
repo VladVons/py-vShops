@@ -13,19 +13,17 @@ from .Api import ApiModel
 
 class TSrvModel(TSrvBase):
     async def _rApi(self, aRequest: web.Request) -> web.Response:
-        Res = {}
-
         TimeStart = time.time()
         Name = aRequest.match_info.get('name')
         if (not self._CheckRequestAuth(aRequest)):
             Status = 403
-            Res['err'] = 'Authorization failed'
+            Res = {'err': 'Authorization failed'}
         else:
             Status = 200
-            Res = await self._GetRequestJson(aRequest)
-            Method = Res.get('method')
-            if ('err' not in Res):
-                Res = await ApiModel.Exec(Name, Res)
+            Data = await aRequest.json()
+            Method = Data.get('method')
+            Name = aRequest.match_info.get('name')
+            Res = await ApiModel.Exec(Name, Data)
 
         Res['info'] = {
             'module': Name,

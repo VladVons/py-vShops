@@ -222,6 +222,7 @@ create table if not exists ref_product0_category_lang (
     lang_id             integer not null,
     title               varchar(128) not null,
     descr               text,
+    meta_key            varchar(128),
     foreign key (category_id) references ref_product0_category(id) on delete cascade,
     foreign key (lang_id) references ref_lang(id)
 );
@@ -247,6 +248,7 @@ create table if not exists ref_product0_lang (
     id                  serial primary key,
     title               varchar(128) not null,
     descr               text,
+    meta_key            varchar(128),
     product_id          integer not null,
     lang_id             integer not null,
     foreign key (product_id) references ref_product0(id) on delete cascade,
@@ -287,6 +289,15 @@ create table if not exists ref_product0_crawl (
 -- references. tenant --
 -----------------------------------------------------------------------------
 
+create table if not exists ref_conf (
+    id                  serial primary key,
+    title               varchar(32) not null,
+    descr               text not null,
+    serialized          boolean,
+    tenant_id           integer not null,
+    foreign key (tenant_id) references ref_tenant(id)
+);
+
 --- info ---
 
 create table if not exists ref_info (
@@ -301,9 +312,43 @@ create table if not exists ref_info_lang (
     lang_id             integer not null,
     title               varchar(256) not null,
     descr               text,
+    meta_key            varchar(128),
     foreign key (info_id) references ref_info(id) on delete cascade,
     foreign key (lang_id) references ref_lang(id),
     unique (info_id, lang_id)
+);
+
+--- news ---
+
+create table if not exists ref_news (
+    id                  serial primary key,
+    enabled             boolean default true,
+    create_date         timestamp default current_timestamp,
+    update_date         timestamp,
+    public_date         timestamp,
+    tenant_id           integer not null,
+    foreign key (tenant_id) references ref_tenant(id)
+);
+    
+create table if not exists ref_news_lang (
+    news_id             integer not null,
+    lang_id             integer not null,
+    title               varchar(256) not null,
+    descr               text,
+    meta_key            varchar(128),
+    foreign key (news_id) references ref_news(id) on delete cascade,
+    foreign key (lang_id) references ref_lang(id),
+    unique (news_id, lang_id)
+);
+
+create table if not exists ref_news_comment (
+    news_id             integer not null,
+    create_date         timestamp default current_timestamp,
+    update_date         timestamp,
+    descr               text,
+    customer_id         integer not null,
+    foreign key (news_id) references ref_news(id) on delete cascade,
+    foreign key (customer_id) references ref_customer(id) on delete cascade
 );
 
 -- price --
@@ -339,6 +384,7 @@ create table if not exists ref_product_category_lang (
     lang_id             integer not null,
     title               varchar(128) not null,
     descr               text,
+    meta_key            varchar(128),
     foreign key (category_id) references ref_product_category(id) on delete cascade,
     foreign key (lang_id) references ref_lang(id),
     unique (category_id, lang_id)
@@ -397,6 +443,7 @@ create table if not exists ref_product_lang (
     title               varchar(128) not null,
     feature             jsonb,
     descr               text,
+    meta_key            varchar(128),
     product_id          integer not null,
     lang_id             integer not null,
     foreign key (product_id) references ref_product(id) on delete cascade,
@@ -427,8 +474,9 @@ create table if not exists hist_ref_product_price (
 create table if not exists hist_session (
     id                  serial primary key,
     create_date         timestamp default current_timestamp,
-    user_agent          varchar(64),
-    ip                  varchar(16)
+    ip                  varchar(45),
+    os                  varchar(16),
+    browser             varchar(16)
 );
 
 create table if not exists hist_product_search (
@@ -437,6 +485,14 @@ create table if not exists hist_product_search (
     lang_id             integer not null,
     session_id          integer not null,
     foreign key (lang_id) references ref_lang(id),
+    foreign key (session_id) references hist_session(id) on delete cascade
+);
+
+create table if not exists hist_product_view (
+    create_date         timestamp default current_timestamp,
+    product_id          integer not null,
+    session_id          integer not null,
+    foreign key (product_id) references ref_product(id) on delete cascade,
     foreign key (session_id) references hist_session(id) on delete cascade
 );
 

@@ -59,7 +59,7 @@ class TApiView(TApiBase):
                 if (os.path.isfile(Module + '.py')):
                     Mod = __import__(Module.replace('/', '.'), None, None, [Class])
                     TClass = getattr(Mod, Class)
-                    return TClass(aRequest, TplObj)
+                    return TClass(self.Master, aRequest, TplObj)
             except ModuleNotFoundError:
                 pass
         return None
@@ -69,12 +69,11 @@ class TApiView(TApiBase):
         if (Form):
             if (aModule != self.Conf.form_info):
                 aQuery = dict(aQuery)
-                DataApi = await self.Master.Get(aModule, aQuery)
-                Form.out.data_api = DataApi
 
             if (aUserData is None):
                 aUserData = {}
             Form.out.data.SetData(aUserData)
+            Form.out.module = aModule
 
             Data = await Form.Render()
             Res = {'data': Data}

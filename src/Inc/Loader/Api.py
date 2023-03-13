@@ -4,6 +4,7 @@
 
 
 import sys
+from urllib.parse import urlparse
 #
 from Inc.Misc.Request import TRequestJson, TAuth
 #from Inc.Util.Obj import DeepGetByList
@@ -29,11 +30,14 @@ class TLoaderApiHttp(TLoaderApi):
         Auth = None
         if (aUser):
             Auth = TAuth(aUser, aPassword)
-        self.Request = TRequestJson(aAuth=Auth)
 
-        self.ApiUrl = aApiUrl
+        Parts = urlparse(aApiUrl)
+        Root = f'{Parts.scheme}://{Parts.netloc}'
+        self.Api = Parts.path
+
+        self.Request = TRequestJson(Root, Auth)
 
     async def Get(self, aPath: str, aData: dict = None):
-        Url = f'{self.ApiUrl}/{aPath}'
-        Res = await self.Request.Send(Url, aData)
+        Path = f'{self.Api}/{aPath}'
+        Res = await self.Request.Send(Path, aData)
         return Res.get('data', Res)

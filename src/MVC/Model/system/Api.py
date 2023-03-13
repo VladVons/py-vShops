@@ -38,3 +38,11 @@ async def GetDbInfo(self) -> dict:
         'backends': Dbl2.Rec.GetField('num_backends')
     }
     return Res
+
+async def RegSession(self, aIp: str, aOs: str, aBrowser: str) -> dict:
+    Query = f'''
+    insert into hist_session (ip, os, browser)
+    values ('{aIp}', '{aOs}', '{aBrowser}')
+    returning (id)
+    '''
+    return await self.ExecQueryText(Query)

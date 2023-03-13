@@ -3,6 +3,7 @@
 # License: GNU, see LICENSE for more details
 
 
+from Inc.Util.Obj import DeepGetByList
 from IncP.ApiBase import TApiBase, TApiConf
 from IncP.Plugins import TCtrls
 
@@ -17,7 +18,7 @@ class TApiCtrl(TApiBase):
         self.Ctrls = TCtrls(self.Conf.dir_module, self)
         self.InitMaster()
 
-    async def Exec(self, aModule: str, aQuery: dict) -> dict:
+    async def Exec(self, aModule: str, aData: dict) -> dict:
         self.ExecCnt += 1
 
         if (not self.Ctrls.IsModule(aModule)):
@@ -26,12 +27,12 @@ class TApiCtrl(TApiBase):
         self.Ctrls.LoadMod(aModule)
         ModuleObj = self.Ctrls[aModule]
 
-        Method = aQuery.get('method', 'Main')
+        Method = DeepGetByList(aData, ['data', 'method'], 'Main')
         MethodObj = getattr(ModuleObj.Api, Method, None)
         if (MethodObj is None):
             return {'err': f'Method not found {Method}', 'code': 404}
 
-        return await MethodObj(ModuleObj, aQuery)
+        return await MethodObj(ModuleObj, aData)
 
 
 ApiCtrl = TApiCtrl()

@@ -29,28 +29,28 @@ class TAuth():
 
 
 class TRequest():
-    def __init__(self, aCallBack = None, aAuth: TAuth = None):
+    def __init__(self, aBaseUrl: str = None, aAuth: TAuth = None, aCallBack = None):
         self.CallBack: callable = aCallBack
-        self.Auth = aAuth
         self.Sleep = 0
+        Auth = aAuth.Hash if (aAuth) else None
+        self.Session = aiohttp.ClientSession(base_url=aBaseUrl, auth=Auth)
 
-    def _GetAuth(self):
-        if (self.Auth):
-            return self.Auth.Hash
+    async def Close(self):
+        self.Session.close()
 
-    async def _Send(self, aSession: aiohttp.ClientSession, aRecSes: TRecSes) -> dict:
+    async def _Send(self, aRecSes: TRecSes) -> dict:
         raise NotImplementedError()
 
-    async def _SendSem(self, aSession: aiohttp.ClientSession, aSem: asyncio.Semaphore, aRecSes: TRecSes, aTaskNo: int = 0) -> dict:
+    async def _SendSem(self, aSem: asyncio.Semaphore, aRecSes: TRecSes, aTaskNo: int = 0) -> dict:
         async with aSem:
             aRecSes.TaskNo = aTaskNo
-            return await self._SendTry(aSession, aRecSes)
+            return await self._SendTry(aRecSes)
 
-    async def _SendTry(self, aSession: aiohttp.ClientSession, aRecSes: TRecSes) -> dict:
+    async def _SendTry(self, aRecSes: TRecSes) -> dict:
         await asyncio.sleep(self.Sleep)
         TimeAt = time.time()
         try:
-            Res = await self._Send(aSession, aRecSes)
+            Res = await self._Send(aRecSes)
             Res['time'] = round(time.time() - TimeAt, 2)
         except (aiohttp.ClientConnectorError, aiohttp.ClientError, aiohttp.InvalidURL, asyncio.TimeoutError) as E:
             Res = {'err': str(E), 'time': round(time.time() - TimeAt, 2)}
@@ -61,18 +61,16 @@ class TRequest():
 
     async def SendMany(self, aTRecSes: list, aMaxTask: int = 5) -> list:
         Sem = asyncio.Semaphore(aMaxTask)
-        async with aiohttp.ClientSession(auth=self._GetAuth()) as Session:
-            Tasks = [asyncio.create_task(self._SendSem(Session, Sem, RecSes, Idx)) for Idx, RecSes in enumerate(aTRecSes)]
-            return await asyncio.gather(*Tasks)
+        Tasks = [asyncio.create_task(self._SendSem(Sem, RecSes, Idx)) for Idx, RecSes in enumerate(aTRecSes)]
+        return await asyncio.gather(*Tasks)
 
     async def SendOne(self, aRecSes: TRecSes) -> dict:
-        async with aiohttp.ClientSession(auth=self._GetAuth()) as Session:
-            return await self._SendTry(Session, aRecSes)
+        return await self._SendTry(aRecSes)
 
 
 class TRequestJson(TRequest):
-    async def _Send(self, aSession: aiohttp.ClientSession, aRecSes: TRecSes) -> dict:
-        async with aSession.post(aRecSes.Url, json=aRecSes.DataSend) as Response:
+    async def _Send(self, aRecSes: TRecSes) -> dict:
+        async with self.Session.post(aRecSes.Url, json=aRecSes.DataSend) as Response:
             Data = await Response.json()
             return {'data': Data, 'status': Response.status}
 
@@ -82,8 +80,8 @@ class TRequestJson(TRequest):
 
 
 class TRequestGet(TRequest):
-    async def _Send(self, aSession: aiohttp.ClientSession, aRecSes: TRecSes) -> dict:
-        async with aSession.get(aRecSes.Url) as Response:
+    async def _Send(self, aRecSes: TRecSes) -> dict:
+        async with self.Session.get(aRecSes.Url) as Response:
             if (aRecSes.OnRead):
                 Res = await aRecSes.OnRead(aRecSes, Response)
             else:

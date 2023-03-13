@@ -5,12 +5,11 @@
 # https://github.com/aio-libs/aiohttp
 
 
-import json
 import base64
 import asyncio
 from aiohttp import web
 from aiohttp_session.cookie_storage import EncryptedCookieStorage
-import aiohttp_session
+from aiohttp_session import session_middleware
 #
 from Inc.DataClass import DDataClass
 from Inc.Misc.Misc import GetRandStr
@@ -47,18 +46,6 @@ class TSrvBase():
             User, Passw = base64.b64decode(Auth.split()[1]).decode().split(':')
             return {'user': User, 'password': Passw}
 
-    async def _GetRequestJson(self, aRequest: web.Request) -> dict:
-        #Data = await aRequest.json()
-        Data = await aRequest.text()
-        if (Data):
-            try:
-                Res = json.loads(Data)
-            except Exception as E:
-                Res = {'err': str(E)}
-        else:
-            Res = {}
-        return Res
-
     def _GetDefRoutes(self) -> list:
         raise NotImplementedError()
 
@@ -73,12 +60,15 @@ class TSrvBase():
             aRoutes = self._GetDefRoutes()
         App.add_routes(aRoutes)
 
+        Key32 = GetRandStr(32).encode()
+        CookieStorage = EncryptedCookieStorage(Key32)
+        Middleware = session_middleware(CookieStorage)
+        App.middlewares.append(Middleware)
+
         if (aErroMiddleware):
             Middleware = CreateErroMiddleware(aErroMiddleware)
             App.middlewares.append(Middleware)
 
-        Key32 = GetRandStr(32).encode()
-        aiohttp_session.setup(App, EncryptedCookieStorage(Key32))
         return App
 
     async def Run(self, aApp: web.Application):

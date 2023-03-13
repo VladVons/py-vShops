@@ -83,7 +83,7 @@ class TApiModel(TApiBase):
 
     def Init(self, aConf: TApiConf):
         self.Conf = aConf
-        self.Conf.helper = {'module': 'system/help', 'method': 'Api'}
+        self.Conf.helper = {'module': 'system', 'method': 'Api'}
 
     async def DbConnect(self):
         Db = TDbPg(self.DbAuth)
@@ -108,7 +108,8 @@ class TApiModel(TApiBase):
 
         if (Rec.GetField('tables') == 0):
             Log.Print(1, 'i', 'Database is empty. Creating tables ...')
-            await TDbExecPool(self.DbMeta.Db.Pool).ExecFile('IncP/model/vShopsInit.sql')
+            await TDbExecPool(self.DbMeta.Db.Pool).ExecFile(f'{self.Conf.dir_module}/vShopsMeta.sql')
+            await TDbExecPool(self.DbMeta.Db.Pool).ExecFile(f'{self.Conf.dir_module}/vShopsData.sql')
 
         Log.AddEcho(TEchoDb(self.DbMeta.Db))
 

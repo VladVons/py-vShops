@@ -26,8 +26,9 @@ class TSrvCtrl(TSrvBase):
             Res['err'] = 'Authorization failed'
         else:
             Status = 200
+            Data = await aRequest.json()
             Name = aRequest.match_info.get('name')
-            Res = await ApiCtrl.Exec(Name, aRequest.query)
+            Res = await ApiCtrl.Exec(Name, Data)
 
         Res['info'] = {
             'module': Name,

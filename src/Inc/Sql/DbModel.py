@@ -175,8 +175,11 @@ class TDbModel():
         #Dbl = await TDbExecPool(self.DbMeta.Db.Pool).Exec(Query)
         return Dbl.Rec.GetField('count') > 0
 
-    async def ExecQuery(self, aPath: str, aValues: dict) -> TDbSql:
-        Query = await self.Query.Get(aPath, aValues)
-        Dbl = await TDbExecPool(self.DbMeta.Db.Pool).Exec(Query)
+    async def ExecQueryText(self, aQuery: str) -> TDbSql:
+        Dbl = await TDbExecPool(self.DbMeta.Db.Pool).Exec(aQuery)
         if (Dbl):
             return Dbl.Export()
+
+    async def ExecQuery(self, aPath: str, aValues: dict) -> TDbSql:
+        Query = await self.Query.Get(aPath, aValues)
+        return await self.ExecQueryText(Query)
