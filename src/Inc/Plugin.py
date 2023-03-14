@@ -13,7 +13,8 @@ class TPlugin(dict):
     def __init__(self, aDirMod: str = '', aDirConf: str = ''):
         super().__init__()
 
-        assert os.path.isdir(aDirMod), f'Directory not exists {aDirMod}'
+        assert os.path.isdir(aDirMod), 'Directory not exists'
+
         self.Dir = aDirMod
         self.DirConf = aDirConf
 
