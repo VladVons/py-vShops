@@ -1,8 +1,12 @@
 {
     "api_conf": {
         "dir_module": "MVC/Ctrl",
-        "master_api": "http://localhost:8081/api",
-        "master_user": "user01",
-        "master_password": "passw01"
+        "api": {
+            "model": {
+                "path": "http://localhost:8081/api",
+                "user": "user01",
+                "password": "passw01"
+            }
+        }
     }
 }

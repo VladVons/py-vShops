@@ -3,41 +3,33 @@
 # License: GNU, see LICENSE for more details
 
 
-from Inc.DataClass import DDataClass
-from Inc.Loader.Api import TLoaderApi, TLoaderApiFs, TLoaderApiHttp
+from Inc.Loader.Api import TLoaderApiFs, TLoaderApiHttp
 from Task import LoadClassConf
-
-
-@DDataClass
-class TApiConf():
-    dir_module: str = 'MVC/MyName'
-    master_user: str = ''
-    master_password: str = ''
-    master_api: str = 'http://host:port/api'
-    helper: dict = {}
 
 
 class TApiBase():
     def __init__(self):
-        self.Conf: TApiConf = None
-        self.Master: TLoaderApi = None
+        self.Loader: dict = {}
         self.ExecCnt = 0
 
     def GetConf(self) -> dict:
         return LoadClassConf(self)
 
-    def Init(self, aConf: TApiConf):
+    def Init(self, aConf: dict):
         raise NotImplementedError()
 
-    def InitMaster(self):
-        if (self.Conf.master_api.startswith('http')):
-            self.Master = TLoaderApiHttp(self.Conf.master_user, self.Conf.master_password, self.Conf.master_api)
-        elif (self.Conf.master_api.startswith('fs')):
-            self.Master = TLoaderApiFs(self.Conf.master_api)
-        else:
-            raise ValueError(f'unknown api {self.Conf.master_api}')
+    def InitLoader(self, aConf: dict):
+        for Key, Val in aConf.items():
+            Path = Val['path']
+            if (Path.startswith('http')):
+                Loader = TLoaderApiHttp(Val['user'], Val['password'], Path)
+            elif (Path.startswith('fs')):
+                Loader = TLoaderApiFs(Path)
+            else:
+                raise ValueError(f'unknown api {Path}')
+            self.Loader[Key] = Loader
 
     def LoadConf(self):
         Conf = self.GetConf()
         ApiConf = Conf.get('api_conf', {})
-        self.Init(TApiConf(**ApiConf))
+        self.Init(ApiConf)

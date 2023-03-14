@@ -5,7 +5,7 @@
 
 from Inc.SrvWeb.SrvBase import TSrvConf
 from Inc.Sql.ADb import TDbAuth
-from .Api import ApiCtrl, TApiConf
+from .Api import ApiCtrl
 from .Main import TSrvCtrl
 
 

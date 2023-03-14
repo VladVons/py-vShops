@@ -1,8 +1,12 @@
 {
     "api_conf": {
         "dir_module": "MVC/View",
-        "master_api": "http://localhost:8082/api",
-        "master_user": "user01",
-        "master_password": "passw01"
+        "api": {
+            "ctrl": {
+                "path": "http://localhost:8082/api",
+                "user": "user01",
+                "password": "passw01"
+            }
+        }
     }
 }

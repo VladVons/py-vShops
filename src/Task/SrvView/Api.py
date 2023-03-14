@@ -12,12 +12,12 @@ from multidict import MultiDict
 #
 from Inc.DataClass import DDataClass
 from IncP.Plugins import TViewes
-from IncP.ApiBase import TApiBase, TApiConf
+from IncP.ApiBase import TApiBase
 from IncP.FormBase import TFormBase
 
 
 @DDataClass
-class TApiViewConf(TApiConf):
+class TApiViewConf():
     theme: str = 'theme1'
     theme_def: str = 'default'
     form_info: str = 'misc/info'
@@ -27,18 +27,20 @@ class TApiViewConf(TApiConf):
 class TApiView(TApiBase):
     def __init__(self):
         super().__init__()
+
+        self.Conf = TApiViewConf()
         self.Viewes: TViewes = None
         self.TplEnv: Environment = None
 
-    def Init(self, aConf: TApiViewConf):
-        self.Conf = aConf
-        self.Viewes = TViewes(self.Conf.dir_module)
-        self.InitMaster()
+    def Init(self, aConf: dict):
+        DirModule = aConf['dir_module']
+        self.Viewes = TViewes(DirModule)
+        self.InitLoader(aConf['api'])
 
         Loader = FileSystemLoader(
             searchpath = [
-                f'{self.Conf.dir_module}/{self.Conf.theme}/tpl',
-                f'{self.Conf.dir_module}/{self.Conf.theme_def}/tpl'
+                f'{DirModule}/{self.Conf.theme}/tpl',
+                f'{DirModule}/{self.Conf.theme_def}/tpl'
             ]
         )
         self.TplEnv = Environment(loader = Loader)
@@ -50,7 +52,7 @@ class TApiView(TApiBase):
 
         Locate = [
             (TplObj.filename.rsplit('.', maxsplit=1)[0], 'TForm'),
-            (f'{self.Conf.dir_module}/ctrl/{aModule}', 'TForm'),
+            (f'{self.Viewes.Dir}/ctrl/{aModule}', 'TForm'),
             ('IncP/FormBase', 'TFormBase')
         ]
 
@@ -59,7 +61,7 @@ class TApiView(TApiBase):
                 if (os.path.isfile(Module + '.py')):
                     Mod = __import__(Module.replace('/', '.'), None, None, [Class])
                     TClass = getattr(Mod, Class)
-                    return TClass(self.Master, aRequest, TplObj)
+                    return TClass(self.Loader['ctrl'], aRequest, TplObj)
             except ModuleNotFoundError:
                 pass
         return None
@@ -112,7 +114,7 @@ class TApiView(TApiBase):
     def LoadConf(self):
         Conf = self.GetConf()
         ApiConf = Conf['api_conf']
-        self.Init(TApiViewConf(**ApiConf))
+        self.Init(ApiConf)
 
 
 ApiView = TApiView()

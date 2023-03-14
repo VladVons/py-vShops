@@ -1,6 +1,10 @@
 {
     "api_conf": {
         "dir_module": "MVC/View",
-        "master_api": "fs:Task.SrvCtrl.Api:ApiCtrl"
+        "api": {
+            "ctrl": {
+                "path": "fs:Task.SrvCtrl.Api:ApiCtrl"
+            }
+        }
     }
 }

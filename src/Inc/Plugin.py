@@ -12,6 +12,8 @@ from IncP.Log import Log
 class TPlugin(dict):
     def __init__(self, aDirMod: str = '', aDirConf: str = ''):
         super().__init__()
+
+        assert os.path.isdir(aDirMod), f'Directory not exists {aDirMod}'
         self.Dir = aDirMod
         self.DirConf = aDirConf
 

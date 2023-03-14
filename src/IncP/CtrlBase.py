@@ -13,4 +13,4 @@ class TCtrlBase():
         self.Lang = TLoaderLangFs('ua', 'MVC/Lang')
 
     async def ExecModel(self, aMethod: str, aData: dict) -> dict:
-        return await self.ApiCtrl.Master.Get(aMethod, aData)
+        return await self.ApiCtrl.Loader['model'].Get(aMethod, aData)

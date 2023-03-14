@@ -9,7 +9,7 @@ from Inc.Misc.Time import SecondsToDHMS_Str
 from Inc.Sql import TDbExecPool, TDbMeta, TDbPg
 from Inc.Sql.ADb import TDbAuth
 from Inc.Util.ModHelp import GetHelp, GetMethod
-from IncP.ApiBase import TApiBase, TApiConf
+from IncP.ApiBase import TApiBase
 from IncP.Plugins import TModels
 from IncP.Log import Log, TEchoDb
 
@@ -81,17 +81,16 @@ class TApiModel(TApiBase):
             Log.Print(1, 'x', 'TApi.Exec()', str(E))
         return Res
 
-    def Init(self, aConf: TApiConf):
-        self.Conf = aConf
-        self.Conf.helper = {'module': 'system', 'method': 'Api'}
+    def Init(self, aConf: dict):
+        Db = TDbPg(self.DbAuth)
+        self.DbMeta = TDbMeta(Db)
+        self.Models = TModels(aConf['dir_module'], self.DbMeta)
+
+        #self.Conf.helper = {'module': 'system', 'method': 'Api'}
 
     async def DbConnect(self):
-        Db = TDbPg(self.DbAuth)
-        await Db.Connect()
-
-        self.DbMeta = TDbMeta(Db)
+        await self.DbMeta.Db.Connect()
         await self.DbMeta.Init()
-        self.Models = TModels(self.Conf.dir_module, self.DbMeta)
 
         Dbl = await self.DbMeta.Db.GetDbVersion()
         Rec = Dbl.Rec
@@ -108,8 +107,8 @@ class TApiModel(TApiBase):
 
         if (Rec.GetField('tables') == 0):
             Log.Print(1, 'i', 'Database is empty. Creating tables ...')
-            await TDbExecPool(self.DbMeta.Db.Pool).ExecFile(f'{self.Conf.dir_module}/vShopsMeta.sql')
-            await TDbExecPool(self.DbMeta.Db.Pool).ExecFile(f'{self.Conf.dir_module}/vShopsData.sql')
+            await TDbExecPool(self.DbMeta.Db.Pool).ExecFile(f'{self.Models.Dir}/vShopsMeta.sql')
+            await TDbExecPool(self.DbMeta.Db.Pool).ExecFile(f'{self.Models.Dir}/vShopsData.sql')
 
         Log.AddEcho(TEchoDb(self.DbMeta.Db))
 
@@ -124,11 +123,10 @@ class TApiModel(TApiBase):
     def LoadConf(self):
         Conf = self.GetConf()
 
-        ApiConf = Conf['api_conf']
-        self.Init(TApiConf(**ApiConf))
-
         DbAuth = Conf['db_auth']
         self.DbAuth = TDbAuth(**DbAuth)
 
+        ApiConf = Conf['api_conf']
+        self.Init(ApiConf)
 
 ApiModel = TApiModel()

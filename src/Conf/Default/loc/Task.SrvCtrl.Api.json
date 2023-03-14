@@ -1,6 +1,10 @@
 {
     "api_conf": {
         "dir_module": "MVC/Ctrl",
-        "master_api": "fs:Task.SrvModel.Api:ApiModel"
+        "api": {
+            "model": {
+                "path": "fs:Task.SrvModel.Api:ApiModel"
+            }
+        }
     }
 }

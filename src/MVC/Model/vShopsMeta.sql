@@ -480,6 +480,7 @@ create table if not exists hist_session (
 );
 
 create table if not exists hist_product_search (
+    id                  serial primary key,
     create_date         timestamp default current_timestamp,
     context             varchar(32) not null,
     lang_id             integer not null,
@@ -489,6 +490,7 @@ create table if not exists hist_product_search (
 );
 
 create table if not exists hist_product_view (
+    id                  serial primary key,
     create_date         timestamp default current_timestamp,
     product_id          integer not null,
     session_id          integer not null,
@@ -497,6 +499,7 @@ create table if not exists hist_product_view (
 );
 
 create table if not exists hist_page_view (
+    id                  serial primary key,
     create_date         timestamp default current_timestamp,
     url                 varchar(128),
     session_id          integer not null,

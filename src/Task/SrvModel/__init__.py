@@ -4,7 +4,7 @@
 
 from Inc.Sql.ADb import TDbAuth
 from Inc.SrvWeb.SrvBase import TSrvConf
-from .Api import ApiModel, TApiConf
+from .Api import ApiModel
 from .Main import TSrvModel
 
 

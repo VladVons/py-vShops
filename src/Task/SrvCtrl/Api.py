@@ -4,7 +4,7 @@
 
 
 from Inc.Util.Obj import DeepGetByList
-from IncP.ApiBase import TApiBase, TApiConf
+from IncP.ApiBase import TApiBase
 from IncP.Log import Log
 from IncP.Plugins import TCtrls
 
@@ -15,10 +15,9 @@ class TApiCtrl(TApiBase):
         self.Ctrls: TCtrls = None
         self.OnExec = None
 
-    def Init(self, aConf: TApiConf):
-        self.Conf = aConf
-        self.Ctrls = TCtrls(self.Conf.dir_module, self)
-        self.InitMaster()
+    def Init(self, aConf: dict):
+        self.Ctrls = TCtrls(aConf['dir_module'], self)
+        self.InitLoader(aConf['api'])
 
         Data = self.GetMethod('system', {'data': {'method': 'OnExec'}})
         if ('err' in Data):
