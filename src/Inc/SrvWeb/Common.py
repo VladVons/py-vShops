@@ -62,5 +62,5 @@ def ParseUserAgent(aValue: str) -> dict:
         else:
             Browser = aValue[:16]
     except Exception:
-        Browser = 'err'
+        Browser = ''
     return {'os': OS.lower(), 'browser': Browser.lower()}

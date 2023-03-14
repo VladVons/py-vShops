@@ -8,7 +8,7 @@ import asyncio
 import aiohttp
 
 
-Excepts = (aiohttp.ClientConnectorError, aiohttp.ClientError, aiohttp.InvalidURL, asyncio.TimeoutError)
+_Excepts = (aiohttp.ClientConnectorError, aiohttp.ClientError, aiohttp.InvalidURL, asyncio.TimeoutError)
 
 class TRecSes():
     def __init__(self, aUrl: str, aDataSend = None, aDataUser = None, aOnRead: callable = None):
@@ -53,7 +53,7 @@ class TRequest():
         try:
             Res = await self._SendRec(aRecSes)
             Res['time'] = round(time.time() - TimeAt, 2)
-        except Excepts as E:
+        except _Excepts as E:
             Res = {'err': str(E), 'time': round(time.time() - TimeAt, 2)}
         else:
             if (self.CallBack):
@@ -72,7 +72,7 @@ class TRequestJson(TRequest):
             async with self.Session.post(aUrl, json=aData) as Response:
                 Data = await Response.json()
                 Res = {'data': Data, 'status': Response.status}
-        except Excepts as E:
+        except _Excepts as E:
             Res = {'err': str(E)}
         return Res
 
@@ -87,7 +87,7 @@ class TRequestGet(TRequest):
             async with self.Session.get(aUrl) as Response:
                 Data = await Response.read()
                 Res = {'data': Data, 'status': Response.status}
-        except Excepts as E:
+        except _Excepts as E:
             Res = {'err': str(E)}
         return Res
 

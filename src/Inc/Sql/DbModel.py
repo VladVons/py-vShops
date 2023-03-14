@@ -164,12 +164,12 @@ class TDbModel():
 
     async def MasterHasId(self, aId: int, aCursor) -> bool:
         Query = f'''
-        select
-            count(*) as count
-            from
-                {self.Master}
-            where
-                id = {aId}
+            select
+                count(*) as count
+                from
+                    {self.Master}
+                where
+                    id = {aId}
         '''
         Dbl = await TDbExecCurs(aCursor).Exec(Query)
         #Dbl = await TDbExecPool(self.DbMeta.Db.Pool).Exec(Query)

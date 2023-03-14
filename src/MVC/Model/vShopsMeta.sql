@@ -476,7 +476,7 @@ create table if not exists hist_session (
     create_date         timestamp default current_timestamp,
     ip                  varchar(45),
     os                  varchar(16),
-    browser             varchar(16)
+    browser             varchar(24)
 );
 
 create table if not exists hist_product_search (
@@ -493,6 +493,13 @@ create table if not exists hist_product_view (
     product_id          integer not null,
     session_id          integer not null,
     foreign key (product_id) references ref_product(id) on delete cascade,
+    foreign key (session_id) references hist_session(id) on delete cascade
+);
+
+create table if not exists hist_page_view (
+    create_date         timestamp default current_timestamp,
+    url                 varchar(128),
+    session_id          integer not null,
     foreign key (session_id) references hist_session(id) on delete cascade
 );
 

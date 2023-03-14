@@ -85,7 +85,9 @@ class TFormBase(Form):
             'query': dict(self.Request.query),
             'post': self.out.data,
             'path': self.Request.path,
-            'data': aData
+            'path_qs': self.Request.path_qs,
+            'data': aData,
+            'session': dict(self.Session)
         }
         return await self._Ctrl.Get(aModule, Data)
 
@@ -103,7 +105,7 @@ class TFormBase(Form):
     async def Render(self) -> str:
         self.Session = await get_session(self.Request)
         if (not self.Session.get('start')):
-            self.Session['start'] = time.time()
+            self.Session['start'] = int(time.time())
             await self._DoSession()
 
         await self.PostToData()

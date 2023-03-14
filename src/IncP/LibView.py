@@ -3,7 +3,7 @@
 # License: GNU, see LICENSE for more details
 
 
-# pylint: disable=unused-import
+# pylint: skip-file
 from Inc.Util.Obj import GetTree, DeepGet, DeepGetByList
 from .FormBase import TFormBase
 from .Log import Log

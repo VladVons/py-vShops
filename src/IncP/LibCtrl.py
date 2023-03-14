@@ -2,6 +2,7 @@
 # Author:  Vladimir Vons <VladVons@gmail.com>
 # License: GNU, see LICENSE for more details
 
-# pylint: disable=unused-import
+
+# pylint: skip-file
 from Inc.Util.Obj import DeepGetByList
 from .Log import Log
