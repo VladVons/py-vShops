@@ -7,7 +7,7 @@ import sys
 from urllib.parse import urlparse
 #
 from Inc.Misc.Request import TRequestJson, TAuth
-#from Inc.Util.Obj import DeepGetByList
+
 
 class TLoaderApi():
     async def Get(self, aPath: str, aData: dict = None):

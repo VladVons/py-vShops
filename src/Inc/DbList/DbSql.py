@@ -44,3 +44,13 @@ class TDbSql(TDbList):
             set {Set}
             returning id;
         '''
+
+    def ExportListComma(self, aField: str) -> str:
+        FieldNo = self.GetFieldNo(aField)
+        if (isinstance(self.Data[0][FieldNo], str)):
+            Res = [x[FieldNo] for x in self.Data]
+            Res = "'" + "', '".join(Res) + "'"
+        else:
+            Res = [str(x[FieldNo]) for x in self.Data]
+            Res = ', '.join(Res)
+        return Res

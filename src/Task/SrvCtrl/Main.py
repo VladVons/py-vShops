@@ -34,7 +34,8 @@ class TSrvCtrl(TSrvBase):
             'module': Name,
             'method': aRequest.query.get('method', 'Main'),
             'query': ApiCtrl.ExecCnt,
-            'time': round(time.time() - TimeStart, 4)
+            'time': round(time.time() - TimeStart, 4),
+            'statue': Status
         }
         return web.json_response(Res, status = Status)
 

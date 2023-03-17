@@ -1,7 +1,7 @@
 {
     "api_conf": {
         "dir_module": "MVC/Ctrl",
-        "api": {
+        "loader": {
             "model": {
                 "path": "http://localhost:8081/api",
                 "user": "user01",

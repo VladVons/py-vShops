@@ -298,6 +298,42 @@ create table if not exists ref_conf (
     foreign key (tenant_id) references ref_tenant(id)
 );
 
+--- module---
+
+create table if not exists ref_module (
+    id                  serial primary key,
+    caption             varchar(64) not null,
+    code                varchar(32) not null,
+    conf                jsonb
+);
+
+create table if not exists ref_module_lang (
+    id                  serial primary key,
+    title               varchar(256) not null,
+    descr               text,
+    module_id           integer not null,
+    lang_id             integer not null,
+    foreign key (module_id) references ref_module(id) on delete cascade,
+    foreign key (lang_id) references ref_lang(id)
+);
+
+--- layout ---
+
+create table if not exists ref_layout (
+    id                  serial primary key,
+    caption             varchar(64)
+);
+
+create table if not exists ref_layout_module (
+    id                  serial primary key,
+    sort_order          smallint,
+    place               varchar(16),
+    module_id           integer not null,
+    layout_id           integer not null,
+    foreign key (module_id) references ref_module(id) on delete cascade,
+    foreign key (layout_id) references ref_layout(id) on delete cascade
+);
+
 --- info ---
 
 create table if not exists ref_info (
@@ -316,6 +352,14 @@ create table if not exists ref_info_lang (
     foreign key (info_id) references ref_info(id) on delete cascade,
     foreign key (lang_id) references ref_lang(id),
     unique (info_id, lang_id)
+);
+
+create table if not exists ref_info_to_layout (
+    info_id             integer not null,
+    layout_id           integer not null,
+    foreign key (info_id) references ref_info(id) on delete cascade,
+    foreign key (layout_id) references ref_layout(id) on delete cascade,
+    primary key (info_id, layout_id)
 );
 
 --- news ---

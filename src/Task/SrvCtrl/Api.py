@@ -17,7 +17,7 @@ class TApiCtrl(TApiBase):
 
     def Init(self, aConf: dict):
         self.Ctrls = TCtrls(aConf['dir_module'], self)
-        self.InitLoader(aConf['api'])
+        self.InitLoader(aConf['loader'])
 
         Data = self.GetMethod('system', {'data': {'method': 'OnExec'}})
         if ('err' in Data):

@@ -1,0 +1,478 @@
+/* ====================== */
+/* === common section === */
+/* ====================== */
+body {
+  background-color: #e9e9e9;
+  background-image: url(../img/bg-top.png), url(../img/bg-bottom.png);
+  background-position: top left, left 0 bottom -370px;
+  background-repeat: repeat-x, repeat-x;
+}
+
+.page {
+  width: 1180px;
+  margin: auto;
+}
+
+.end {
+  margin-bottom: 50px;
+}
+
+title.xl { font-size: 28rem }
+title.l  { font-size: 24rem }
+title.m  { font-size: 20rem }
+title.s  { font-size: 18rem }
+title.xs { font-size: 16rem }
+
+line { 
+  width: 100%; 
+  height: 1px; 
+  background: #ccc;
+  margin: 10px 0 10px 0;
+}
+
+social a {
+  width: 48px;
+  height: 48px;
+  border: 1px solid #fff;
+  margin: 0 10px 0 10px;
+}
+
+social a:hover {
+  border: 1px solid #333;
+}
+
+social a.facebook { background: url(../icons/48/facebook.png) top left no-repeat; }
+social a.instagram { background: url(../icons/48/instagram.png) top left no-repeat; }
+social a.telegram { background: url(../icons/48/telegram.png) top left no-repeat; }
+
+call {
+  position: fixed;
+  left: 30px;
+  bottom: 30px;
+  width: 72px;
+  height: 82px;
+}
+
+call icon.phone {
+  width: 72px;
+  height: 72px;
+  animation: pong 1s linear infinite;
+  background: url(../icons/72/phone.png) top left no-repeat;
+}
+
+@keyframes pong {
+  0% { margin-top: 0; }
+  50% { margin-top: 10px; }
+  100% { margin-top: 0; }
+}
+
+/* ==================== */
+/* === head section === */
+/* ==================== */
+header, header panel, header panel links, header panel currency {
+  height: 40px;
+  line-height: 40px;
+}
+
+header {
+  background: #0A3E4B;
+  border-bottom: 1px solid #1181AD;
+}
+
+header panel {
+  display: grid;
+  grid-template-columns: 150px auto;
+}
+
+header panel links, header panel currency {
+  display: flex;
+  flex-direction: row;
+}
+
+header panel currency {
+  justify-content: flex-start;
+  color: #fff;
+}
+
+header panel links {
+  justify-content: flex-end;
+  margin-right: 20px;
+}
+
+header panel a { color: #ccc  }
+header panel a:hover { color: #fff  }
+
+header panel icon.cart { background: url(../icons/64/light.png) 0 0 / auto 16px  no-repeat }
+header panel icon.favorite { background: url(../icons/64/light.png) -16px 0 / auto 16px  no-repeat }
+header panel icon.order { background: url(../icons/64/light.png) -32px 0 / auto 16px  no-repeat }
+header panel icon.phone { background: #333 url(../icons/64/light.png) -48px 0 / auto 16px no-repeat }
+header panel icon.user { background: url(../icons/64/light.png) -64px 0 / auto 16px  no-repeat }
+header panel icon.money { background: url(../icons/64/light.png) -80px 0 / auto 16px  no-repeat }
+
+/* =================== */
+/* === top section === */
+/* =================== */
+top {
+  display: flex;
+  justify-content: space-between;
+  height: 150px;
+  background: url(../img/bg-header.jpg) top center no-repeat;
+}
+
+top logo {
+  width: 320px;
+  margin: 15px 0 0 30px;
+  font-size: 16rem;
+  color: #fff;
+  text-align: center;
+}
+
+top logo > img {
+  width: 320px;
+}
+
+top logo address  {
+  margin-top: 10px;
+  color: #ccc;
+}
+
+top info {
+  width: 300px;
+  margin: 10px 20px 0 0;
+}
+
+top info * {
+  height: 40px;
+  line-height: 40px;
+  margin-top: 15px;
+  float: left;
+  border: 0;
+}
+
+top info button.cart {
+  width: 100%;
+  background: linear-gradient(to bottom, #444, #222) repeat-x;
+  font-size: 14rem;
+  color: #fff;
+  border-radius: 4px;
+}
+
+top info button.cart:hover {
+  background: linear-gradient(to bottom, #444, #000) repeat-x;
+}
+
+top info input.search {
+  width: 250px;
+  padding: 0 10px 0 10px;
+  border-radius: 4px 0 0 4px;
+  color: #333;
+  font-size: 14rem;
+}
+
+top info button.search {
+  width: 50px;
+  border-left: 1px solid #999;
+  border-radius: 0 4px 4px 0;
+  background: #eee url(../icons/48/search.png) center center / 24px 24px no-repeat;
+}
+
+top info button.search:hover {
+  background-color: #ffe;
+}
+
+
+/* ==================== */
+/* === menu section === */
+/* ==================== */
+border.menu {
+  height: 10px;
+  background: url(../img/bg-menu.png) top left repeat-x;
+  border-radius: 8px 8px 0 0;
+}
+
+menu {
+  background: url(../img/bg-menu.png) 0 -10px repeat-x;
+  display: flex;
+  height: 53px;
+  line-height: 53px;
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+menu a {
+  height: 40px;
+  line-height: 40px;
+  color: #ccc;
+  font-size: 18rem;
+  padding: 0 15px 0 15px;
+  text-decoration: none;
+  border: 0;
+  border-right: 1px dotted #555;
+}
+
+menu a:hover {
+  background: linear-gradient(to bottom, #444, #000) repeat-x;
+}
+
+menu a:first-child {
+  margin-left: 20px;
+}
+
+/* ==================== */
+/* === page section === */
+/* ==================== */
+page {
+  display: grid;
+  grid-template-columns: 300px auto;
+  min-height: 900px;
+  background: #fff url(../img/bg-page.png) top left repeat-x;
+  border-top: 0;
+  border: 1px solid;
+  border-bottom: 3px solid;
+  border-color: #d4d4d4;
+  border-radius: 0 0 8px 8px;
+  line-height: 22px;
+}
+
+page title {
+  font-size: 28rem;
+  margin: 40px 0 20px 0;
+}
+
+
+/* === nav section === */
+page nav {
+  padding: 0 20px 0 20px;
+}
+
+page nav phones, page nav times {
+  margin-top: 20px;
+  padding: 0 0 0 70px;
+  line-height: 24px;
+}
+
+page nav phones { background: url(../icons/48/phone.png) 20px 8px / 32px 32px no-repeat }
+page nav times { background: url(../icons/48/clock.png) 20px 8px / 32px 32px no-repeat }
+
+page nav phone {
+  font-size: 16rem;
+  font-weight: bold;
+  letter-spacing: 1.5rem;
+}
+
+page nav time {
+  font-weight: bold;
+}
+
+page nav catalog a {
+  display: block;
+  border: 1px solid #ccc;
+  border-bottom: 0;
+  padding: 10px 5px 10px 5px;
+  color: #333;
+}
+
+page nav catalog a:last-child {
+  border-bottom: 1px solid #ccc;
+}
+
+page nav catalog a:hover {
+  background: #eee;
+}
+
+page nav open *, page nav close * {
+  display: inline;
+  font-weight: bold;
+}
+
+page nav close {
+  color: #900;
+}
+
+/* ======================= */
+/* === content section === */
+/* ======================= */
+
+page content {
+  margin: 20px;
+}
+
+page banner.alert {
+  height: 128px;
+  border: 2px solid #333;
+  font-size: 20rem;
+  line-height: 32px;
+  color: #000;
+  text-align: center;
+  font-weight: bold;
+  padding: 10px 0 10px 120px;
+  border-radius: 4px;
+  background: #eee url(../icons/128/alert.png) 20px top no-repeat;
+}
+
+page banner.alert text:last-child {
+  font-size: 24rem;
+  font-weight: bold;
+  color: #900;
+}
+
+page content * {
+  color: #333;
+}
+
+page content a {
+  color: #09f;
+}
+
+page content a:hover {
+  color: #039;
+}
+
+page content services {
+  display: grid;
+  grid-template-columns: 50% 50%;
+}
+
+page content a.category {
+  position: relative;
+  min-height: 120px;
+  margin: 5px;
+  transition: .5s ease;
+  padding: 20px 10px 10px 140px;
+  border-radius: 4px;
+}
+
+page content a.category:hover {
+  transform: translateY(-7px);
+  box-shadow: 0 22px 50px rgba(14, 21, 47, 0.2), 0 8px 20px rgba(14, 21, 47, 0.2);
+}
+
+page content a.category logo {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  float: left;
+  width: 100px;
+  height: 100px;
+  border: 2px #cacaca solid;
+  border-radius: 50%;
+  box-shadow: #545454 4px 2px 2px;
+  background-position: center center;
+  background-repeat: no-repeat;
+}
+
+page content a .category name {
+  font-size: 20rem;
+  color: #069;
+  margin-bottom: 10px;
+}
+
+page content a .goods { background: url(../img/catalog/goods.jpg) }
+page content a .autsorsing { background: url(../img/catalog/autsorsing.png) }
+page content a .assembly { background: url(../img/catalog/assembly.jpg) }
+page content a .service-computer { background: url(../img/catalog/service-computer.jpg) }
+page content a .service-notebook { background: url(../img/catalog/service-notebook.jpg) }
+page content a .os { background: url(../img/catalog/os.jpg) }
+page content a .clean-notebook { background: url(../img/catalog/clean-notebook.jpg) }
+page content a .service-printer { background: url(../img/catalog/service-printer.jpg) }
+page content a .refill-cartridge { background: url(../img/catalog/refill-cartridge.jpg) }
+page content a .change-cartridge { background: url(../img/catalog/change-cartridge.jpg) }
+page content a .mikrotik { background: url(../img/catalog/mikrotik.jpg) }
+page content a .remote { background: url(../img/catalog/remote.jpg) }
+page content a .sysadmin { background: url(../img/catalog/sysadmin.jpg) }
+page content a .c1 { background: url(../img/catalog/1c.jpg) }
+
+page content social {
+  display: flex;
+  margin: 20px 0 20px 0;
+}
+
+page content social text {
+  display: inline-block;
+  font-size: 18rem;
+  font-weight: bold;
+  line-height: 48px;
+}
+
+page content blog {
+  display: grid;
+  grid-template-columns: 50% 50%;
+}
+
+page content blog article {
+  margin: 20px 0 0 0;
+}
+
+page content blog article:nth-child(odd) {
+  margin-right: 10px;
+}
+
+page content blog article:nth-child(even) {
+  margin-left: 10px;
+}
+
+page content blog article name {
+  font-size: 18rem;
+  height: 24px;
+  overflow: hidden;
+}
+
+page content blog article blogname {
+  border-top: 1px solid #ccc;
+  border-bottom: 1px solid #ccc;
+  margin: 10px 0 10px 0;
+  padding: 5px;
+  background: #ffe;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+page content blog article img {
+  width: 128px;
+  float: left;
+  margin: 0 20px 10px 0;
+}
+
+page content blog article text {
+  max-height: 200px;
+  text-align: justify;
+  overflow: hidden;
+}
+
+
+/* ====================== */
+/* === footer section === */
+/* ====================== */
+
+footer {
+  margin-top: 100px;
+}
+
+footer grid {
+  display: grid;
+  grid-template-columns: 25% 25% 25% 25%;
+  padding-bottom: 20px;
+}
+
+footer cell {
+  text-align: left;
+  padding: 0 0 0 30px;
+}
+
+footer cell title {
+  font-weight: bold;
+  color: #ffc;
+  margin: 0 0 10px 0;
+}
+
+footer cell a {
+  display: block;
+  color: #ccc;
+  line-height: 22px;
+}
+
+footer cell a:hover {
+  color: #fff;
+}

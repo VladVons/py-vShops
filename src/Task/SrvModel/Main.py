@@ -29,7 +29,8 @@ class TSrvModel(TSrvBase):
             'module': Name,
             'method': Method,
             'query': ApiModel.ExecCnt,
-            'time': round(time.time() - TimeStart, 4)
+            'time': round(time.time() - TimeStart, 4),
+            'status': Status
         }
         return web.json_response(Res, status=Status)
 

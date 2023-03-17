@@ -1,7 +1,7 @@
 {
     "api_conf": {
         "dir_module": "MVC/View",
-        "api": {
+        "loader": {
             "ctrl": {
                 "path": "fs:Task.SrvCtrl.Api:ApiCtrl"
             }

@@ -35,14 +35,15 @@ class TApiView(TApiBase):
     def Init(self, aConf: dict):
         DirModule = aConf['dir_module']
         self.Viewes = TViewes(DirModule)
-        self.InitLoader(aConf['api'])
+        self.InitLoader(aConf['loader'])
 
-        Loader = FileSystemLoader(
-            searchpath = [
-                f'{DirModule}/{self.Conf.theme}/tpl',
-                f'{DirModule}/{self.Conf.theme_def}/tpl'
-            ]
-        )
+        Dirs = [
+            f'{DirModule}/{self.Conf.theme}/tpl',
+            f'{DirModule}/{self.Conf.theme_def}/tpl'
+        ]
+        SearchPath = [x for x in Dirs if (os.path.isdir(x))]
+        assert (SearchPath), 'no tempate directories'
+        Loader = FileSystemLoader(searchpath = SearchPath)
         self.TplEnv = Environment(loader = Loader)
 
     def GetForm(self, aRequest: web.Request, aModule: str) -> TFormBase:

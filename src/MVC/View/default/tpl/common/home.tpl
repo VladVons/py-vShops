@@ -1,4 +1,4 @@
-{% extends "inc/layout.tpl" %}
+{% extends "inc/layout1.tpl" %}
 
 {% block content %}
 <!--common/home.tpl begin-->
