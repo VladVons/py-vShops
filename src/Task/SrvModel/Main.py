@@ -17,6 +17,7 @@ class TSrvModel(TSrvBase):
         Name = aRequest.match_info.get('name')
         if (not self._CheckRequestAuth(aRequest)):
             Status = 403
+            Method = ''
             Res = {'err': 'Authorization failed'}
         else:
             Status = 200

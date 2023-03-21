@@ -1,6 +1,6 @@
 {
     "api_conf": {
-        "dir_module": "MVC/Ctrl",
+        "dir_module": "MVC/catalog/ctrl/route",
         "loader": {
             "model": {
                 "path": "http://localhost:8081/api",

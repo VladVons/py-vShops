@@ -7,10 +7,11 @@
         {
             "name": "Python: Current File",
             "type": "python",
-            "request": "launch",
+            "request": "test",
             "program": "${file}",
-            "console": "integratedTerminal",
-            "justMyCode": true
+            "console": "integratedTerminal"
+            "justMyCode": false,
+
         }
     ]
 }

@@ -62,7 +62,7 @@
         <phone>066-219-77-22</phone>
       </phones>
       <line></line>
-    
+
       <times>
         <open>понеділок - п'ятниця:</open>
         <time>9:00 - 18:00</time>
@@ -70,7 +70,7 @@
         <time>10:00 - 15:00</time>
         <close>неділя: вихідний</close>
       </times>
-      
+
       <title>Каталог</title>
       <catalog>
         <a href='#'>Аксесуари для ноутбуків</a>
@@ -87,7 +87,7 @@
         <a href='#'>Торгове обладнання</a>
         <a href='#'>Чистячі засоби</a>
       </catalog>
-      
+
       <title>Послуги</title>
       <catalog>
       <a href='#'>Ремонт комп'ютерів</a>
@@ -103,7 +103,7 @@
         <a href='#'>1С - cупровід і консультації</a>
         <a href='#'>Налаштування обладнання МікроТік</a>
       </catalog>
-      
+
       <title class='m'>Ми у соціальних мережах:</title>
       <social class='end'>
         <a href='#' class='facebook'></a>

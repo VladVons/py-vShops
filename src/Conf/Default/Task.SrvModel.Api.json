@@ -1,6 +1,6 @@
 {
    "api_conf": {
-        "dir_module": "MVC/Model"
+        "dir_module": "MVC/catalog/model"
     },
     "db_auth" : {
         "host": "10.10.1.1",

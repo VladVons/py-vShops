@@ -36,3 +36,4 @@ def DirRemove(aPath: str):
 
 def FilesExist(aFiles: list[str]) -> list[int]:
     return [int(os.path.exists(File)) for File in aFiles]
+    def Recurs(aPath: str, aDepth: int):

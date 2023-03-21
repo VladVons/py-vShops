@@ -16,7 +16,7 @@ from .Api import ApiView
 
 @DDataClass
 class TSrvViewConf(TSrvConf):
-    dir_root: str = 'MVC/MyName'
+    dir_root: str = 'MVC/main/MyDir'
     deny: str = r'.tpl$|.py$'
 
 
@@ -26,11 +26,12 @@ class TSrvView(TSrvBase):
     def __init__(self, aSrvConf: TSrvViewConf):
         super().__init__(aSrvConf)
         self._SrvConf = aSrvConf
+        assert (os.path.isdir(self._SrvConf.dir_root)), 'Directory not exists'
 
     def _GetDefRoutes(self) -> list:
         return [
-            web.get('/api/{name:.*}', self._rApi),
-            web.post('/api/{name:.*}', self._rApi),
+            web.get('/route/{name:.*}', self._rRoute),
+            web.post('/route/{name:.*}', self._rRoute),
             web.get('/{name:.*}', self._rIndex)
         ]
 
@@ -57,7 +58,7 @@ class TSrvView(TSrvBase):
         Data = '\n<br>'.join(aStack)
         return web.Response(text = Data, content_type = 'text/html', status = 500)
 
-    async def _rApi(self, aRequest: web.Request) -> web.Response:
+    async def _rRoute(self, aRequest: web.Request) -> web.Response:
         Path = aRequest.match_info.get('name')
         return await ApiView.ResponseForm(aRequest, Path, aRequest.query)
 

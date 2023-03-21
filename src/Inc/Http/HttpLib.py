@@ -3,29 +3,38 @@
 # License: GNU, see LICENSE for more details
 
 
-try:
-    import asyncio
-except ModuleNotFoundError:
-    import uasyncio as asyncio
-#
-from Inc.Util.Str import SplitPad
+import re
+import asyncio
 
 
 async def ReadHead(aReader: asyncio.StreamReader, aServ = True) -> dict:
-    R = {}
+    Res = {}
     while True:
         Data = await aReader.readline()
-        if (Data == b'\r\n') or (Data is None):
+        if (Data == b'\r\n') or (not Data):
             break
 
         Data = Data.decode('utf-8').strip()
-        if (len(R) == 0):
+        if (len(Res) == 0):
             if (aServ):
-                R['mode'], R['url'], R['prot'] = SplitPad(3, Data, ' ')
-                R['path'], R['query'] = SplitPad(2, R['url'], '?')
+                Res['mode'], Res['url'], Res['prot'] = Data.split(' ')
+                Res['path'], *Res['query'] = Res['url'].split('?')
             else:
-                R['prot'], R['code'], R['status'] = SplitPad(3, Data, ' ')
+                Res['prot'], Res['code'], *Res['status'] = Data.split(' ')
         else:
-            Key, Value = SplitPad(2, Data, ':')
-            R[Key.lower()] = Value.strip()
-    return R
+            Key, Value = Data.split(':', maxsplit=1)
+            Res[Key.lower()] = Value.strip()
+    return Res
+
+
+def UrlParse(aUrl: str) -> dict:
+    # by cx 2023.03.20
+    Pattern = r'^([^:]+)://([^:?#/]+)[:]?(\d*)([/]?[^?#]*)[?]?([^#]*)[#]?(.*)'
+    Parts = re.findall(Pattern, aUrl, flags=re.ASCII)
+    Keys = ('scheme', 'host', 'port', 'path', 'query', 'hash')
+    return dict(zip(Keys, Parts[0]))
+
+def UrlParseValidate(aUrl: str) -> list:
+    # by cx 2023.03.20
+    Pattern = r'^([a-z]{2,})://([a-z0-9]{1}[a-z0-9-.]*[a-z0-9]{1})[:]?(\d*)([/]?[a-zA-Z0-9-_.%]*)[?]?([a-zA-Z0-9-_.%=&]*)[#]?(.*)'
+    return re.findall(Pattern, aUrl, flags=re.ASCII)

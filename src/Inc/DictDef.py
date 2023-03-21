@@ -2,7 +2,9 @@
 # Author: Vladimir Vons <VladVons@gmail.com>
 # License: GNU, see LICENSE for more details
 
+
 from Inc.Util.Obj import DeepGetByList, DeepSetByList
+
 
 class TDictDef(dict):
     def __init__(self, aDef: object = None, aData: dict = None):

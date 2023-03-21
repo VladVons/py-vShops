@@ -15,7 +15,7 @@ class TLoaderQuery():
         if (not os.path.isdir(Path)):
             Path = Path.rsplit('/', maxsplit = 1)[0]
         self.Path = Path
-        assert (os.path.isdir(Path)), 'Directory does not exist'
+        assert (os.path.isdir(Path)), 'Directory not exists'
 
     async def Get(self, aName: str, aValues: dict) -> str:
         raise NotImplementedError()

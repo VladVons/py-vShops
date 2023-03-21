@@ -14,6 +14,7 @@ from Inc.DataClass import DDataClass
 from IncP.Plugins import TViewes
 from IncP.ApiBase import TApiBase
 from IncP.FormBase import TFormBase
+from IncP.ViewCache import TViewCache
 
 
 @DDataClass
@@ -31,6 +32,7 @@ class TApiView(TApiBase):
         self.Conf = TApiViewConf()
         self.Viewes: TViewes = None
         self.TplEnv: Environment = None
+        self.ViewCache: TViewCache = None
 
     def Init(self, aConf: dict):
         DirModule = aConf['dir_module']
@@ -46,6 +48,11 @@ class TApiView(TApiBase):
         Loader = FileSystemLoader(searchpath = SearchPath)
         self.TplEnv = Environment(loader = Loader)
 
+        Cache = aConf['cache']
+        Dir = Cache.get('dir', 'Cache/view')
+        os.makedirs(Dir, exist_ok = True)
+        self.ViewCache = TViewCache(Dir, Cache.get('max_age', 5), Cache.get('skip_module',))
+
     def GetForm(self, aRequest: web.Request, aModule: str) -> TFormBase:
         TplObj = self.GetTemplate(aModule)
         if (TplObj is None):
@@ -53,7 +60,6 @@ class TApiView(TApiBase):
 
         Locate = [
             (TplObj.filename.rsplit('.', maxsplit=1)[0], 'TForm'),
-            (f'{self.Viewes.Dir}/ctrl/{aModule}', 'TForm'),
             ('IncP/FormBase', 'TFormBase')
         ]
 
@@ -68,20 +74,25 @@ class TApiView(TApiBase):
         return None
 
     async def GetFormData(self, aRequest: web.Request, aModule: str, aQuery: dict, aUserData: dict = None) -> dict:
-        Form = self.GetForm(aRequest, aModule)
-        if (Form):
-            if (aModule != self.Conf.form_info):
-                aQuery = dict(aQuery)
-
-            if (aUserData is None):
-                aUserData = {}
-            Form.out.data.SetData(aUserData)
-            Form.out.module = aModule
-
-            Data = await Form.Render()
-            Res = {'data': Data}
+        Cache = self.ViewCache.Get(aModule, aQuery)
+        if (Cache):
+            Res = {'data': Cache}
         else:
-            Res = {'err': f'Module not found {aModule}', 'code': 404}
+            Form = self.GetForm(aRequest, aModule)
+            if (Form):
+                if (aModule != self.Conf.form_info):
+                    aQuery = dict(aQuery)
+
+                if (aUserData is None):
+                    aUserData = {}
+                Form.out.data.SetData(aUserData)
+                Form.out.module = aModule
+
+                Data = await Form.Render()
+                self.ViewCache.Set(aModule, aQuery, Data)
+                Res = {'data': Data}
+            else:
+                Res = {'err': f'Module not found {aModule}', 'code': 404}
         return Res
 
     def GetTemplate(self, aModule: str) -> Template:

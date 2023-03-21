@@ -14,11 +14,11 @@ from .Api import ApiCtrl
 class TSrvCtrl(TSrvBase):
     def _GetDefRoutes(self) -> list:
         return [
-            web.get('/api/{name:.*}', self._rApi),
-            web.post('/api/{name:.*}', self._rApi)
+            web.get('/route/{name:.*}', self._rRoute),
+            web.post('/route/{name:.*}', self._rRoute)
         ]
 
-    async def _rApi(self, aRequest: web.Request) -> web.Response:
+    async def _rRoute(self, aRequest: web.Request) -> web.Response:
         Res = {}
         TimeStart = time.time()
         if (not self._CheckRequestAuth(aRequest)):
