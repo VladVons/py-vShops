@@ -1,7 +1,7 @@
 import os
 import sys
 #
-from Inc.Misc.FS import GetFiles
+from Inc.Misc.FS import DirWalk
 from Inc.Misc.Time import SecondsToDHMS
 from Inc.Util.ModHelp import GetHelp
 from IncP import GetInfo
@@ -9,8 +9,8 @@ from IncP import GetInfo
 
 async def Api(_self, aPath: str) -> dict:
     Res = []
-    for xFile in GetFiles(aPath, 'Api.py'):
-        ModFile = os.path.splitext(xFile)[0].replace('/', '.')
+    for x in DirWalk(aPath, 'Api.py', 'f'):
+        ModFile = os.path.splitext(x[0])[0].replace('/', '.')
         Mod = sys.modules.get(ModFile)
         if (not Mod):
             __import__(ModFile)
@@ -53,3 +53,9 @@ async def AddHistPageView(self, aSessionId: int, aUrl: str) -> dict:
         values ({aSessionId}, '{aUrl}')
     '''
     return await self.ExecQueryText(Query)
+
+async def Get_Module_RouteLang(self, aRoute: str, aLangId: int) -> dict:
+    return await self.ExecQuery(
+        'fmtGet_Module_RouteLang.sql',
+        {'aRoute': aRoute, 'aLangId': aLangId}
+    )

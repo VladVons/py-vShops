@@ -2,7 +2,7 @@ import os
 import json
 #
 from Inc.Util.Obj import DeepGet, DeepGetsRe
-from Inc.Misc.FS import GetFiles
+from Inc.Misc.FS import DirWalk
 
 
 class TPgMeta():
@@ -68,8 +68,8 @@ class TDbMeta():
         self.Keys = {}
         self._InitData()
 
-    def _GetDirs(self):
-        return list(GetFiles(self.Dir, '.*', 'd', 1))
+    def _GetDirs(self) -> list[str]:
+        return [x[0] for x in DirWalk(self.Dir, '.*', 'd', 1)]
 
     def _InitData(self):
         for Dir in self._GetDirs():

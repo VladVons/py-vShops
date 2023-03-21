@@ -7,24 +7,25 @@ import os
 import re
 
 
-def GetFiles(aPath: str, aMask: str = '.*', aType: str = 'f', aDepth: int = 99):
+def DirWalk(aPath: str, aMask: str = '.*', aType: str = 'f', aDepthMax: int = 99) -> iter:
     '''
-    iterator function
     aMask - regExp mask
     aType: f - file, d - directory
-    aDepth: max recursion depth
-    for x in GetFiles('/etc', '.bin$', 'fd')
+    aDepthMax: max recursion depth
+    for (Path, Type, aDepth) in DirWalk('/etc', '.bin$', 'fd', 5)
     '''
 
-    if (os.path.exists(aPath)):
+    def Recurs(aPath: str, aDepth: int) -> iter:
         for File in sorted(os.listdir(aPath)):
             Path = aPath + '/' + File
-            Type = 'd' if (os.path.isdir(Path)) and (not os.path.islink(Path)) else 'f'
-            if (Type == 'd') and (aDepth >= 0):
-                yield from GetFiles(Path, aMask, aType, aDepth - 1)
+            Type = 'd' if (os.path.isdir(Path)) else 'f'
+            if (Type == 'd') and (aDepth < aDepthMax) and (not os.path.islink(Path)):
+                yield from Recurs(Path, aDepth + 1)
 
-            if (Type in aType) and (re.search(aMask, File)):
-                yield Path
+            if (Type in aType) and ((aMask == '.*') or (re.search(aMask, File))):
+                yield (Path, Type, aDepth)
+    yield from Recurs(aPath, 0)
+
 
 def DirRemove(aPath: str):
     for File in os.scandir(aPath):
@@ -36,4 +37,3 @@ def DirRemove(aPath: str):
 
 def FilesExist(aFiles: list[str]) -> list[int]:
     return [int(os.path.exists(File)) for File in aFiles]
-    def Recurs(aPath: str, aDepth: int):

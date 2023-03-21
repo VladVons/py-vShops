@@ -11,10 +11,10 @@ from jinja2.environment import Template
 from multidict import MultiDict
 #
 from Inc.DataClass import DDataClass
+from Inc.Misc.Cache import TCacheFile
 from IncP.Plugins import TViewes
 from IncP.ApiBase import TApiBase
 from IncP.FormBase import TFormBase
-from IncP.ViewCache import TViewCache
 
 
 @DDataClass
@@ -32,7 +32,7 @@ class TApiView(TApiBase):
         self.Conf = TApiViewConf()
         self.Viewes: TViewes = None
         self.TplEnv: Environment = None
-        self.ViewCache: TViewCache = None
+        self.Cache: TCacheFile = None
 
     def Init(self, aConf: dict):
         DirModule = aConf['dir_module']
@@ -51,7 +51,7 @@ class TApiView(TApiBase):
         Cache = aConf['cache']
         Dir = Cache.get('path', 'Data/cache/view')
         os.makedirs(Dir, exist_ok = True)
-        self.ViewCache = TViewCache(Dir, Cache.get('max_age', 5), Cache.get('skip_module',))
+        self.Cache = TCacheFile(Dir, Cache.get('max_age', 5), Cache.get('skip_module',))
 
     def GetForm(self, aRequest: web.Request, aModule: str) -> TFormBase:
         TplObj = self.GetTemplate(aModule)
@@ -74,7 +74,7 @@ class TApiView(TApiBase):
         return None
 
     async def GetFormData(self, aRequest: web.Request, aModule: str, aQuery: dict, aUserData: dict = None) -> dict:
-        Cache = self.ViewCache.Get(aModule, aQuery)
+        Cache = self.Cache.Get(aModule, aQuery)
         if (Cache):
             Res = {'data': Cache}
         else:
@@ -89,7 +89,7 @@ class TApiView(TApiBase):
                 Form.out.module = aModule
 
                 Data = await Form.Render()
-                self.ViewCache.Set(aModule, aQuery, Data)
+                self.Cache.Set(aModule, aQuery, Data)
                 Res = {'data': Data}
             else:
                 Res = {'err': f'Module not found {aModule}', 'code': 404}

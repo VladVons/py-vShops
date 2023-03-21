@@ -321,7 +321,8 @@ create table if not exists ref_module_lang (
 
 create table if not exists ref_layout (
     id                  serial primary key,
-    caption             varchar(64)
+    caption             varchar(32) not null,
+    route               varchar(32) not null
 );
 
 create table if not exists ref_layout_module (

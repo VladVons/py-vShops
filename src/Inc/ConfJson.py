@@ -6,7 +6,7 @@
 import os
 import json
 from Inc.Util.Obj import DeepGet, DictUpdate
-from Inc.Misc.FS import GetFiles
+from Inc.Misc.FS import DirWalk
 
 
 class TConfJson(dict):
@@ -34,8 +34,8 @@ class TConfJson(dict):
         return self._Join(Data)
 
     def LoadDir(self, aDir: str, aJoin: bool = True):
-        for File in GetFiles(aDir, '.json$', aDepth = 0):
-            self.LoadFile(File, aJoin)
+        for x in DirWalk(aDir, '.json$', 'f', 0):
+            self.LoadFile(x[0], aJoin)
 
     def LoadFile(self, aFile: str, aJoin: bool = True):
         Data = self._ReadFile(aFile)
