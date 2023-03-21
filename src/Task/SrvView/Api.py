@@ -49,7 +49,7 @@ class TApiView(TApiBase):
         self.TplEnv = Environment(loader = Loader)
 
         Cache = aConf['cache']
-        Dir = Cache.get('dir', 'Cache/view')
+        Dir = Cache.get('path', 'Data/cache/view')
         os.makedirs(Dir, exist_ok = True)
         self.ViewCache = TViewCache(Dir, Cache.get('max_age', 5), Cache.get('skip_module',))
 

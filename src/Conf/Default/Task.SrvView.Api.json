@@ -2,7 +2,7 @@
     "api_conf": {
         "dir_module": "MVC/catalog/view/route",
         "cache": {
-            "path": "Cache/view",
+            "path": "Data/cache/view",
             "max_age": 5,
             "skip_module": []
         },
