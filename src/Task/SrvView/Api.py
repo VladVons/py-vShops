@@ -5,7 +5,7 @@
 
 import os
 from aiohttp import web
-from jinja2 import Environment, FileSystemLoader
+from jinja2 import Environment, BaseLoader
 from jinja2.exceptions import TemplateNotFound
 from jinja2.environment import Template
 from multidict import MultiDict
@@ -36,6 +36,32 @@ class TCacheFileView(TCacheFile):
             return aData.get('data')
 
 
+class TEnvironment(Environment):
+    def join_path(self, template: str, parent: str):
+        if (template.startswith('./')):
+            Dir = parent.rsplit('/', maxsplit = 1)[0]
+            template = f'{Dir}{template[1:]}'
+        return template
+
+class TFileSystemLoader(BaseLoader):
+    def __init__(self, aSearchPath: list[str]):
+        self.SearchPath = aSearchPath
+
+    def get_source(self, environment: Environment, template: str):
+        for Path in self.SearchPath:
+            File = f'{Path}/{template}'
+            if (os.path.isfile(File)):
+                with open(File, 'r', encoding = 'utf-8') as F:
+                    Data = F.read()
+
+            MTime = os.path.getmtime(File)
+            return (Data, File, lambda: MTime == os.path.getmtime(File))
+        raise TemplateNotFound(template)
+
+    def list_templates(self) -> list[str]:
+        raise NotImplementedError()
+
+
 class TApiView(TApiBase):
     def __init__(self):
         super().__init__()
@@ -56,8 +82,8 @@ class TApiView(TApiBase):
         ]
         SearchPath = [x for x in Dirs if (os.path.isdir(x))]
         assert (SearchPath), 'no tempate directories'
-        Loader = FileSystemLoader(searchpath = SearchPath)
-        self.TplEnv = Environment(loader = Loader)
+        Loader = TFileSystemLoader(SearchPath)
+        self.TplEnv = TEnvironment(loader = Loader)
 
         Cache = aConf['cache']
         Dir = Cache.get('path', 'Data/cache/view')
@@ -72,7 +98,7 @@ class TApiView(TApiBase):
 
         Locate = [
             (TplObj.filename.rsplit('.', maxsplit=1)[0], 'TForm'),
-            ('IncP/FormBase', 'TFormBase')
+            ('IncP/FormRender', 'TFormRender')
         ]
 
         for Module, Class in Locate:
@@ -97,7 +123,6 @@ class TApiView(TApiBase):
             Form.out.module = aModule
 
             Data = await Form.Render()
-            self.Cache.Set(aModule, aQuery, Data)
             Res = {'data': Data}
         else:
             Res = {'err': f'Module not found {aModule}', 'code': 404}

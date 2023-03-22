@@ -55,7 +55,7 @@ class TFormBase(Form):
         pass
 
     async def _DoSession(self) -> int:
-        await self.RegSession()
+        pass
 
     async def RegSession(self):
         UserAgent = self.Request.headers.get('User-Agent')
@@ -106,12 +106,13 @@ class TFormBase(Form):
         self.Session = await get_session(self.Request)
         if (not self.Session.get('start')):
             self.Session['start'] = int(time.time())
-            await self._DoSession()
+            if (not await self._DoSession()):
+                await self.RegSession()
 
         await self.PostToData()
 
         Res = await self._DoRender()
-        if (Res is None):
+        if (not Res):
             Res = self.RenderTemplate()
         return Res
 

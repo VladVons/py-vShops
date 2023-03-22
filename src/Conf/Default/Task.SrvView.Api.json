@@ -3,12 +3,12 @@
         "dir_module": "MVC/catalog/view/route",
         "cache": {
             "path": "Data/cache/view",
-            "max_age": 5,
+            "max_age": 0,
             "skip_module": []
         },
         "loader": {
             "ctrl": {
-                "path": "http://localhost:8082/api",
+                "path": "http://localhost:8082/route",
                 "user": "user01",
                 "password": "passw01"
             }

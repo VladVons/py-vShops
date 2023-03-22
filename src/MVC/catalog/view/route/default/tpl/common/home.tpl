@@ -1,10 +1,6 @@
-{% extends "inc/layout.tpl" %}
-
-{% block content %}
-<!--common/home.tpl begin-->
-<br>default/tpl/common/home.tpl<br>
-{% autoescape false%}
-{{ out.data.info }}
-{% endautoescape%}
-<!--common/home.tpl end-->
-{% endblock %}
+{% include './inc_header.tpl' %}
+{% include './inc_top.tpl' %}
+{% include './inc_left.tpl' %}
+{% include './inc_right.tpl' %}
+{% include './inc_bottom.tpl' %}
+{% include './inc_footer.tpl' %}
