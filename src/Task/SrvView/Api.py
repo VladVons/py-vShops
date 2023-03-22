@@ -26,7 +26,12 @@ class TApiViewConf():
 
 
 class TCacheFileView(TCacheFile):
-    def _SetCheck(self, _aPath: str, aData: object):
+    def _GetAfter(self, _aPath: str, aData: object):
+        if (aData):
+            aData = {'data': aData}
+        return aData
+
+    def _SetBefore(self, _aPath: str, aData: object):
         if ('err' not in aData):
             return aData.get('data')
 
@@ -99,7 +104,8 @@ class TApiView(TApiBase):
         return Res
 
     async def GetFormData(self, aRequest: web.Request, aModule: str, aQuery: dict, aUserData: dict = None) -> dict:
-        return await self.Cache.ProxyA(self._GetFormData, [1, 2], aRequest, aModule, aQuery, aUserData)
+        #return await self._GetFormData(aRequest, aModule, aQuery, aUserData)
+        return await self.Cache.ProxyA(aModule, aQuery, self._GetFormData, [aRequest, aModule, aQuery, aUserData])
 
     def GetTemplate(self, aModule: str) -> Template:
         try:

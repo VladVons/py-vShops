@@ -5,7 +5,6 @@
 
 import os
 import time
-import asyncio
 #
 from Inc.Misc.FS import DirWalk
 
@@ -13,11 +12,14 @@ from Inc.Misc.FS import DirWalk
 class TCache():
     def __init__(self, aRoot: str = '', aMaxAge: int = 5, aSkipModule: list[str] = None):
         self.MaxAge = aMaxAge
-        self.SkipModule = aSkipModule
+        self.SkipModule = aSkipModule or []
         self.Root = aRoot
 
     def _Get(self, aPath: str) -> str:
         raise NotImplementedError()
+
+    def _GetAfter(self, _aPath: str, aData: object):
+        return aData
 
     def _GetPath(self, aModule: str, aQuery: dict) -> str:
         if (aQuery):
@@ -30,32 +32,36 @@ class TCache():
     def _Set(self, aPath: str, aData: str):
         raise NotImplementedError()
 
-    def _SetCheck(self, _aPath: str, aData: object):
+    def _SetBefore(self, _aPath: str, aData: object):
         return aData
 
     def Clear(self):
         raise NotImplementedError()
 
+    def Get(self, aModule: str, aQuery: dict) -> str:
+        Path = self._GetPath(aModule, aQuery)
+        Data = self._Get(Path)
+        return self._GetAfter(Path, Data)
+
     def GetSize(self):
         raise NotImplementedError()
 
-    def Get(self, aModule: str, aQuery: dict) -> str:
-        Path = self._GetPath(aModule, aQuery)
-        return self._Get(Path)
-
-    async def ProxyA(self, aFunc: callable, aHash: list[int], *aArgs) -> object:
-        Args = tuple(map(aArgs.__getitem__, aHash))
-        Res = self.Get(*Args)
-        if (not Res):
-            Res = await aFunc(*aArgs)
-            self.Set(*Args, Res)
+    async def ProxyA(self, aModule: str, aQuery: dict, aFunc: callable, aFuncArgs: list) -> object:
+        if (self.MaxAge) and (aModule not in self.SkipModule):
+            #Args = tuple(map(aFuncArgs.__getitem__, [1, 2]))
+            Res = self.Get(aModule, aQuery)
+            if (not Res):
+                Res = await aFunc(*aFuncArgs)
+                self.Set(aModule, aQuery, Res)
+        else:
+            Res = await aFunc(*aFuncArgs)
         return Res
 
     def Set(self, aModule: str, aQuery: dict, aData: str):
         if (not self.MaxAge) or ((self.SkipModule) and (aModule in self.SkipModule)):
             return
         Path = self._GetPath(aModule, aQuery)
-        aData = self._SetCheck(Path, aData)
+        aData = self._SetBefore(Path, aData)
         if (aData):
             self._Set(Path, aData)
 
