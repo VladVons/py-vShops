@@ -5,6 +5,7 @@
 
 import os
 import time
+import asyncio
 #
 from Inc.Misc.FS import DirWalk
 
@@ -29,6 +30,9 @@ class TCache():
     def _Set(self, aPath: str, aData: str):
         raise NotImplementedError()
 
+    def _SetCheck(self, _aPath: str, aData: object):
+        return aData
+
     def Clear(self):
         raise NotImplementedError()
 
@@ -39,11 +43,21 @@ class TCache():
         Path = self._GetPath(aModule, aQuery)
         return self._Get(Path)
 
+    async def ProxyA(self, aFunc: callable, aHash: list[int], *aArgs) -> object:
+        Args = tuple(map(aArgs.__getitem__, aHash))
+        Res = self.Get(*Args)
+        if (not Res):
+            Res = await aFunc(*aArgs)
+            self.Set(*Args, Res)
+        return Res
+
     def Set(self, aModule: str, aQuery: dict, aData: str):
         if (not self.MaxAge) or ((self.SkipModule) and (aModule in self.SkipModule)):
             return
         Path = self._GetPath(aModule, aQuery)
-        self._Set(Path, aData)
+        aData = self._SetCheck(Path, aData)
+        if (aData):
+            self._Set(Path, aData)
 
 
 class TCacheFile(TCache):
