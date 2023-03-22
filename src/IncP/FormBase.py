@@ -46,6 +46,12 @@ class TFormBase(Form):
             data = TDictDef('')
         )
 
+        self.Data = {
+            'title': aTemplate.filename,
+            'info': GetAppVer(),
+            'modules': {}
+        }
+
         self._DoInit()
 
     def _DoInit(self):
@@ -117,4 +123,4 @@ class TFormBase(Form):
         return Res
 
     def RenderTemplate(self) -> str:
-        return self.Template.render(out = self.out)
+        return self.Template.render(**self.Data)

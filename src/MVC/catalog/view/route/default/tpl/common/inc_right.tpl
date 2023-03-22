@@ -1,4 +1,8 @@
 =- inc_right.tpl =-<br>
-{% for module in modules %}
-  {{ module }}
+jinja2<br>
+title: {{ title }}<br>
+info: {{ info }}<br>
+modules: {{ modules }}<br>
+{% for module in modules['inc_right'] %}
+  {{ module }}<br>
 {% endfor %}

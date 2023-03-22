@@ -43,6 +43,26 @@ class TEnvironment(Environment):
             template = f'{Dir}{template[1:]}'
         return template
 
+    # def getitem(self, obj, argument: str):
+    #     if (argument in obj):
+    #         Res = obj.get(argument)
+    #     else:
+    #         Res = self.undefined(obj=obj, name=argument)
+    #     return Res
+
+    # def getattr(self, obj, attribute: str):
+    #     if (hasattr(obj, attribute)):
+    #         Res = getattr(obj, attribute)
+    #     elif (attribute in obj):
+    #         Res = obj.get(attribute)
+    #     else:
+    #         Res = self.undefined(obj=obj, name=attribute)
+    #     return Res
+
+
+
+
+
 class TFileSystemLoader(BaseLoader):
     def __init__(self, aSearchPath: list[str]):
         self.SearchPath = aSearchPath

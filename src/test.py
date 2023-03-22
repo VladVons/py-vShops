@@ -38,7 +38,7 @@ async def Main():
     Cnt = 0
     #Cache = TCacheMem('', 10)
     Cache = TCacheFile('Data/cache/temp', 10)
-    Cache.Proxy(1,[1,2], 1,2,3)
+    Cache.Proxy(1,1,2,3)
 
     for i in range(5):
         Query = {'key1': 1, 'key2': random.randint(0, 5)}
