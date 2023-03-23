@@ -14,6 +14,6 @@ join ref_module_lang rml
     on rlm.module_id = rml.module_id 
 where 
     rl.route = '{aRoute}' and
-    rml.lang_id = {aLang}
+    rml.lang_id = {aLangId}
 order by
     rlm.sort_order

@@ -3,13 +3,14 @@
 # License: GNU, see LICENSE for more details
 
 
+from Inc.Util.Obj import DeepGetByList
+
+
 async def RegSession(self, aData: dict) -> dict:
     return await self.ExecModel('system', aData.get('data'))
 
-
 async def OnExec(self, aData: dict) -> dict:
-    SessionId = aData['session'].get('session_id')
-
+    SessionId = DeepGetByList(aData, ['session', 'session_id'])
     if (SessionId):
         await self.ExecModel(
             'system',

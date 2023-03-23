@@ -19,23 +19,22 @@ class TSrvCtrl(TSrvBase):
         ]
 
     async def _rRoute(self, aRequest: web.Request) -> web.Response:
-        Res = {}
         TimeStart = time.time()
+        Name = aRequest.match_info.get('name')
         if (not self._CheckRequestAuth(aRequest)):
             Status = 403
-            Res['err'] = 'Authorization failed'
+            Res = {'err': 'Authorization failed'}
         else:
             Status = 200
             Data = await aRequest.json()
-            Name = aRequest.match_info.get('name')
             Res = await ApiCtrl.Exec(Name, Data)
 
         Res['info'] = {
             'module': Name,
             'method': aRequest.query.get('method', 'Main'),
-            'query': ApiCtrl.ExecCnt,
+            'count': ApiCtrl.ExecCnt,
             'time': round(time.time() - TimeStart, 4),
-            'statue': Status
+            'status': Status
         }
         return web.json_response(Res, status = Status)
 

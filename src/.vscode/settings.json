@@ -22,5 +22,10 @@
         "--disable=broad-except"
     ],
     "window.zoomLevel": 1,
-    "workbench.tree.indent": 16
+    "workbench.tree.indent": 16,
+    "workbench.editor.titleScrollbarSizing": "large",
+    "workbench.colorCustomizations": {
+        "editor.lineHighlightBackground": "#E0FFE020",
+        "tab.activeBorder": "#FF0000"
+    }
 }

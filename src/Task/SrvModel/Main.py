@@ -23,13 +23,12 @@ class TSrvModel(TSrvBase):
             Status = 200
             Data = await aRequest.json()
             Method = Data.get('method')
-            Name = aRequest.match_info.get('name')
             Res = await ApiModel.Exec(Name, Data)
 
         Res['info'] = {
             'module': Name,
             'method': Method,
-            'query': ApiModel.ExecCnt,
+            'count': ApiModel.ExecCnt,
             'time': round(time.time() - TimeStart, 4),
             'status': Status
         }

@@ -28,7 +28,7 @@ class TLoaderLangFs(TLoaderLang):
         self.Dir = f'{aDirRoot}/{aLang}'
         assert (os.path.isdir(self.Dir)), 'Directory not exists'
 
-    async def Add(self, aPath: str):
+    async def Add(self, aPath: str) -> dict:
         File = f'{self.Dir}/{aPath}.json'
         if (os.path.exists(File)):
             with open(File, 'r', encoding = 'utf8') as F:
@@ -36,6 +36,7 @@ class TLoaderLangFs(TLoaderLang):
         else:
             Data = {}
         self[aPath] = Data
+        return Data
 
 
 class TLoaderLangDb(TLoaderLang):
@@ -43,5 +44,5 @@ class TLoaderLangDb(TLoaderLang):
         self.Lang = aLang
         self.Db = aDb
 
-    async def Add(self, aPath: str):
+    async def Add(self, aPath: str) -> dict:
         pass
