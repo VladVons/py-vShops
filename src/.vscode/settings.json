@@ -21,5 +21,6 @@
         "--disable=consider-using-f-string",
         "--disable=broad-except"
     ],
-    "window.zoomLevel": 1
+    "window.zoomLevel": 1,
+    "workbench.tree.indent": 16
 }
