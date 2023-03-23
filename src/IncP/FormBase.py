@@ -9,21 +9,11 @@ from jinja2.environment import Template
 from aiohttp import web
 from aiohttp_session import Session, get_session
 #
-from Inc.Conf import TDictDef
-from Inc.DataClass import DDataClass
 from Inc.DbList import TDbList
+from Inc.DictDef import TDictDef
 from Inc.Loader.Api import TLoaderApi
 from Inc.SrvWeb.Common import ParseUserAgent
 from IncP import GetAppVer
-
-
-@DDataClass
-class TFormData():
-    title: str
-    info: dict
-    control: TDictDef
-    data: TDictDef
-    module: str = ''
 
 
 class TFormBase(Form):
@@ -34,23 +24,20 @@ class TFormBase(Form):
     def __init__(self, aCtrl: TLoaderApi, aRequest: web.Request, aTemplate: Template):
         super().__init__()
 
-        self._Ctrl = aCtrl
+        self.Ctrl = aCtrl
         self.Request = aRequest
         self.Template = aTemplate
         self.Session: Session = None
 
-        self.out = TFormData(
-            title = aTemplate.filename,
-            info = GetAppVer(),
-            control = TDictDef(''),
-            data = TDictDef('')
+        self.out = TDictDef(
+            '',
+            {
+                'title': aTemplate.filename,
+                'info': GetAppVer(),
+                'modules': {},
+                'data': {}
+            }
         )
-
-        self.Data = {
-            'title': aTemplate.filename,
-            'info': GetAppVer(),
-            'modules': {}
-        }
 
         self._DoInit()
 
@@ -95,7 +82,7 @@ class TFormBase(Form):
             'data': aData,
             'session': dict(self.Session)
         }
-        return await self._Ctrl.Get(aModule, Data)
+        return await self.Ctrl.Get(aModule, Data)
 
     async def PostToData(self) -> bool:
         self.out.data.clear()
@@ -123,4 +110,4 @@ class TFormBase(Form):
         return Res
 
     def RenderTemplate(self) -> str:
-        return self.Template.render(**self.Data)
+        return self.Template.render(**self.out)

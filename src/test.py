@@ -33,15 +33,14 @@ def Proxy(aFunc: callable, aHash: list[int], *aArgs):
 # print(q1)
 
 
-
 async def Main():
     Cnt = 0
-    #Cache = TCacheMem('', 10)
-    Cache = TCacheFile('Data/cache/temp', 10)
-    Cache.Proxy(1,1,2,3)
-
+    Cache = TCacheFile('Data/cache/temp', 10, None, 'common/home')
     for i in range(5):
         Query = {'key1': 1, 'key2': random.randint(0, 5)}
+        q1 = hash(frozenset(sorted(Query.items())))
+        print(str(q1))
+
         Data = Cache.Get('common/home', Query)
         if (not Data):
             Cache.Set('common/home', Query, f'Time is {time.time()}')
@@ -55,3 +54,4 @@ async def Main():
 
 asyncio.run(Main())
 print('done')
+

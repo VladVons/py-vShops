@@ -42,17 +42,21 @@ class TPlugin(dict):
             Depends = getattr(Mod, 'depends', '')
             for xDepend in Depends.split():
                 if (xDepend):
-                    Log.Print(1, 'i', '%s depends on %s' % (aPath, xDepend))
+                    Log.Print(1, 'i', f'{aPath} depends on {xDepend}')
                     ResF = self.LoadMod(xDepend)
                     Res.update(ResF)
             Obj = self._Create(Mod, aPath)
 
             if (Obj):
+                Method = getattr(Obj, '_init_', None)
+                if (Method):
+                    Method()
+
                 if (aRegister):
                     self[aPath] = Obj
                 Res[aPath] = Obj
         else:
-            Log.Print(1, 'i', '%s disabled' % (aPath))
+            Log.Print(1, 'i', f'{aPath} disabled')
         return Res
 
     def LoadList(self, aPath: str, aSkip: str = ''):

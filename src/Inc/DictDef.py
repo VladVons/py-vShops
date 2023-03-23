@@ -8,14 +8,14 @@ from Inc.Util.Obj import DeepGetByList, DeepSetByList
 
 class TDictDef(dict):
     def __init__(self, aDef: object = None, aData: dict = None):
-        self.Def = aDef
-
-        if (aData is None):
-            aData = {}
-        super().__init__(aData)
+        super().__setattr__('Def', aDef)
+        super().__init__(aData or {})
 
     def __getattr__(self, aName: str) -> object:
         return self.get(aName, self.Def)
+
+    def __setattr__(self, aKey, aVal):
+        self[aKey] = aVal
 
     def Set(self, aName: str, aVal: object):
         if ('.' in aName):

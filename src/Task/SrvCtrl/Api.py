@@ -4,6 +4,7 @@
 
 
 from Inc.Util.Obj import DeepGetByList
+from Inc.Misc.Cache import TCacheMem
 from IncP.ApiBase import TApiBase
 from IncP.Log import Log
 from IncP.Plugins import TCtrls
@@ -13,6 +14,7 @@ class TApiCtrl(TApiBase):
     def __init__(self):
         super().__init__()
         self.Ctrls: TCtrls = None
+        self.CacheModel: TCacheMem = None
         self.OnExec = None
 
     def Init(self, aConf: dict):
@@ -24,6 +26,9 @@ class TApiCtrl(TApiBase):
             Log.Print(1, 'e', Data['err'])
         else:
             self.OnExec = (Data['method'], Data['module'])
+
+        Cache = aConf['cache']
+        self.CacheModel = TCacheMem('/', Cache.get('max_age', 5), Cache.get('incl_module'), Cache.get('excl_module'))
 
     def GetMethod(self, aModule: str, aData: dict) -> dict:
         if (not self.Ctrls.IsModule(aModule)):

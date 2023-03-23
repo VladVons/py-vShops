@@ -5,15 +5,20 @@
 
 import os
 import time
-import asyncio
+import json
 #
 from Inc.Misc.FS import DirWalk
 
 
 class TCache():
-    def __init__(self, aRoot: str = '', aMaxAge: int = 5, aSkipModule: list[str] = None):
+    def __init__(self,
+                 aRoot: str = '',
+                 aMaxAge: int = 5,
+                 aInclModule: list[str] = None,
+                 aExclModule: list[str] = None):
         self.MaxAge = aMaxAge
-        self.SkipModule = aSkipModule or []
+        self.InclModule = aInclModule or []
+        self.ExclModule = aExclModule or []
         self.Root = aRoot
 
     def _Get(self, aPath: str) -> str:
@@ -24,11 +29,20 @@ class TCache():
 
     def _GetPath(self, aModule: str, aQuery: dict) -> str:
         if (aQuery):
-            Arr = [f'{Key}:{Val}'for Key, Val in aQuery.items()]
-            File = '_'.join(Arr)
+            #Arr = [f'{Key}:{Val}'for Key, Val in aQuery.items()]
+            #File = '_'.join(Arr)
+            #File = hash(json.dumps(aQuery))
+            File = hex(hash(frozenset(sorted(aQuery))))
         else:
             File = 'index'
         return f'{self.Root}/{aModule}/{File}'
+
+    def _Filter(self, aModule: str) -> bool:
+        Res = (not self.MaxAge) or \
+              ((self.InclModule) and (aModule not in self.InclModule)) or \
+              ((self.ExclModule) and (aModule in self.ExclModule))
+        return not Res
+
 
     def _Set(self, aPath: str, aData: str):
         raise NotImplementedError()
@@ -48,7 +62,7 @@ class TCache():
         raise NotImplementedError()
 
     async def ProxyA(self, aModule: str, aQuery: dict, aFunc: callable, aFuncArgs: list) -> object:
-        if (self.MaxAge) and (aModule not in self.SkipModule):
+        if (self._Filter(aModule)):
             #Args = tuple(map(aFuncArgs.__getitem__, [1, 2]))
             Res = self.Get(aModule, aQuery)
             if (not Res):
@@ -59,12 +73,11 @@ class TCache():
         return Res
 
     def Set(self, aModule: str, aQuery: dict, aData: str):
-        if (not self.MaxAge) or ((self.SkipModule) and (aModule in self.SkipModule)):
-            return
-        Path = self._GetPath(aModule, aQuery)
-        aData = self._SetBefore(Path, aData)
-        if (aData):
-            self._Set(Path, aData)
+        if (self._Filter(aModule)):
+            Path = self._GetPath(aModule, aQuery)
+            aData = self._SetBefore(Path, aData)
+            if (aData):
+                self._Set(Path, aData)
 
 
 class TCacheFile(TCache):

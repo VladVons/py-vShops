@@ -4,7 +4,7 @@
         "cache": {
             "path": "Data/cache/view",
             "max_age": 0,
-            "skip_module": []
+            "excl_module": []
         },
         "loader": {
             "ctrl": {

@@ -108,7 +108,7 @@ class TApiView(TApiBase):
         Cache = aConf['cache']
         Dir = Cache.get('path', 'Data/cache/view')
         os.makedirs(Dir, exist_ok = True)
-        self.Cache = TCacheFileView(Dir, Cache.get('max_age', 5), Cache.get('skip_module',))
+        self.Cache = TCacheFileView(Dir, Cache.get('max_age', 5), Cache.get('incl_module'), Cache.get('excl_module'))
         self.Cache.Clear()
 
     def GetForm(self, aRequest: web.Request, aModule: str) -> TFormBase:
@@ -139,7 +139,7 @@ class TApiView(TApiBase):
 
             if (aUserData is None):
                 aUserData = {}
-            Form.out.data.SetData(aUserData)
+            Form.out.data = aUserData
             Form.out.module = aModule
 
             Data = await Form.Render()

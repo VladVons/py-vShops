@@ -11,6 +11,12 @@ class TCtrlBase():
     def __init__(self):
         self.ApiCtrl: TApiCtrl
         self.Lang = TLoaderLangFs('ua', 'MVC/lang')
+        self.LoaderModel = None
+
+    def _init_(self):
+        pass
 
     async def ExecModel(self, aMethod: str, aData: dict) -> dict:
-        return await self.ApiCtrl.Loader['model'].Get(aMethod, aData)
+        #Res = await self.ApiCtrl.CacheModel.ProxyA(aMethod, aData, self.ApiCtrl.Loader['model'].Get, [aMethod, aData])
+        Res = await self.ApiCtrl.Loader['model'].Get(aMethod, aData)
+        return Res
