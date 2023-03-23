@@ -10,7 +10,7 @@ from Task.SrvCtrl.Api import TApiCtrl
 class TCtrlBase():
     def __init__(self):
         self.ApiCtrl: TApiCtrl
-        self.Lang = TLoaderLangFs('ua', 'MVC/lang')
+        self.Lang = TLoaderLangFs('ua', 'MVC/catalog/lang') # TODO
         self.LoaderModel = None
 
     def _init_(self):

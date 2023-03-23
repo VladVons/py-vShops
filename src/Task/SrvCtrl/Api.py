@@ -3,6 +3,7 @@
 # License: GNU, see LICENSE for more details
 
 
+from Inc.DataClass import DDataClass
 from Inc.Util.Obj import DeepGetByList
 from Inc.Misc.Cache import TCacheMem
 from IncP.ApiBase import TApiBase
@@ -10,22 +11,26 @@ from IncP.Log import Log
 from IncP.Plugins import TCtrls
 
 
+@DDataClass
+class TExec():
+    Method: object
+    Module: object
+
+
 class TApiCtrl(TApiBase):
     def __init__(self):
         super().__init__()
         self.Ctrls: TCtrls = None
         self.CacheModel: TCacheMem = None
-        self.OnExec = None
+        self.OnExec: TExec = None
 
     def Init(self, aConf: dict):
         self.Ctrls = TCtrls(aConf['dir_module'], self)
         self.InitLoader(aConf['loader'])
 
-        Data = self.GetMethod('system', {'data': {'method': 'OnExec'}})
-        if ('err' in Data):
-            Log.Print(1, 'e', Data['err'])
-        else:
-            self.OnExec = (Data['method'], Data['module'])
+        Data = self.GetMethod('system/session', {'data': {'method': 'OnExec'}})
+        assert ('err' not in Data), 'Module not found'
+        self.OnExec = TExec(Data['method'], Data['module'])
 
         Cache = aConf['cache']
         self.CacheModel = TCacheMem('/', Cache.get('max_age', 5), Cache.get('incl_module'), Cache.get('excl_module'))
@@ -52,7 +57,7 @@ class TApiCtrl(TApiBase):
             return Data
 
         if (self.OnExec):
-            await self.OnExec[0](self.OnExec[1], aData)
+            await self.OnExec.Method(self.OnExec.Module, aData)
 
         Method, Module = (Data['method'], Data['module'])
         return await Method(Module, aData)

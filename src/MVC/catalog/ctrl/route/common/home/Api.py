@@ -9,8 +9,8 @@ from IncP.LibCtrl import TDbSql
 async def Main(self, aData: dict = None) -> dict:
     Res = {}
 
-    await self.Lang.Add('common/home')
-    await self.Lang.Add('misc/about')
+    await self.Lang.Add(aData['module'])
+    await self.Lang.Add('route/misc/about')
     #Text = self.Lang.Get('service')
     #Res['lang'] = self.Lang
     Res['lang'] = self.Lang.Join()

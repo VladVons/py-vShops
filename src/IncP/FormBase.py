@@ -32,10 +32,10 @@ class TFormBase(Form):
         self.out = TDictDef(
             '',
             {
-                'title': aTemplate.filename,
+                'data': {},
                 'info': GetAppVer(),
                 'modules': {},
-                'data': {}
+                'title': aTemplate.filename
             }
         )
 
@@ -55,13 +55,13 @@ class TFormBase(Form):
         Parsed = ParseUserAgent(UserAgent)
 
         Data = await self.ExecCtrl(
-            'system',
+            'system/session',
             {
                 'method': 'RegSession',
                 'param' : {
+                    'aBrowser': Parsed['browser'],
                     'aIp': self.Request.remote,
-                    'aOs': Parsed['os'],
-                    'aBrowser': Parsed['browser']
+                    'aOs': Parsed['os']
                 }
             }
         )
@@ -71,15 +71,17 @@ class TFormBase(Form):
             self.Session['session_id'] = Dbl.Rec.GetField('id')
 
     async def ExecCtrlDef(self) -> dict:
-        return await self.ExecCtrl(self.out.module)
+        return await self.ExecCtrl(f'route/{self.out.module}')
 
     async def ExecCtrl(self, aModule: str, aData: dict = None) -> dict:
         Data = {
-            'query': dict(self.Request.query),
-            'post': self.out.data,
-            'path': self.Request.path,
-            'path_qs': self.Request.path_qs,
             'data': aData,
+            'module': aModule,
+            'path_qs': self.Request.path_qs,
+            'path': self.Request.path,
+            'post': self.out.data,
+            'query': dict(self.Request.query),
+            'route': self.out.module,
             'session': dict(self.Session)
         }
         return await self.Ctrl.Get(aModule, Data)

@@ -14,7 +14,7 @@ async def OnExec(self, aData: dict) -> dict:
         await self.ExecModel(
             'system',
             {
-                "method": "AddHistPageView",
-                "param": {'aSessionId': SessionId, 'aUrl': aData['path_qs']}
+                'method': 'AddHistPageView',
+                'param': {'aSessionId': SessionId, 'aUrl': aData['path_qs']}
             }
         )

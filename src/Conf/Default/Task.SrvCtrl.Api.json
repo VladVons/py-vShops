@@ -1,6 +1,6 @@
 {
     "api_conf": {
-        "dir_module": "MVC/catalog/ctrl/route",
+        "dir_module": "MVC/catalog/ctrl",
         "cache": {
             "max_age": 25,
             "excl_module": ["RegSession"]
