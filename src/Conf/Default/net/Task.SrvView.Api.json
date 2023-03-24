@@ -8,7 +8,9 @@
         },
         "loader": {
             "ctrl": {
-                "path": "fs:Task.SrvCtrl.Api:ApiCtrl"
+                "path": "http://localhost:8082/route",
+                "user": "user01",
+                "password": "passw01"
             }
         }
     }

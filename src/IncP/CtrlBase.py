@@ -3,6 +3,7 @@
 # License: GNU, see LICENSE for more details
 
 
+import time
 from Inc.Loader.Lang import TLoaderLangFs
 from Task.SrvCtrl.Api import TApiCtrl
 from IncP.LibCtrl import TDbSql
@@ -26,6 +27,7 @@ class TCtrlBase():
         return await self.ApiCtrl.Exec(aMethod, aData)
 
     async def LoadModules(self, aData: dict) -> dict:
+        StartAt = time.time()
         Data = await self.ExecModel(
             'system',
             {
@@ -33,7 +35,9 @@ class TCtrlBase():
                 'param': {'aRoute': aData["route"], 'aLangId': aData["query"].get("lang", 1)}
             }
         )
+        print('---LoadModules/ExecModel', time.time() - StartAt)
 
+        StartAt = time.time()
         Res = {}
         Modules = Data.get('data')
         if (Modules):
@@ -45,4 +49,5 @@ class TCtrlBase():
                 Data['lang'] = await self.Lang.Add(Path)
                 Data['layout'] = Rec.GetAsDict()
                 Res[Module] = Data
+        print('---LoadModules/loop Modules', time.time() - StartAt)
         return Res

@@ -7,7 +7,9 @@
         },
         "loader": {
             "model": {
-                "path": "fs:Task.SrvModel.Api:ApiModel"
+                "path": "http://localhost:8081/api",
+                "user": "user01",
+                "password": "passw01"
             }
         }
     }

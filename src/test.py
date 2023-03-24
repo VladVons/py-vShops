@@ -9,6 +9,8 @@ import random
 import aiohttp
 #
 from Inc.Misc.Cache import TCacheFile
+from Inc.Misc.Profiler import Profiler
+
 
 def Get(aModule, aQuery):
     print(f'{aModule}_{aQuery}')
@@ -52,9 +54,10 @@ async def Main():
     print('done')
 
 
-def Test01():
+def Test01(aA1, aB1):
     from Inc.DbList import TDbList, TDbRec
 
+    print(aA1, aB1)
     Data = [
             ['User', 'Age', 'Male', 'Price'],
             [
@@ -73,8 +76,10 @@ def Test01():
     for Idx, Rec in enumerate(Dbl1):
         print(Idx, Rec.Data)
 
+    return 'done'
 
 #asyncio.run(Main())
 #print('done')
-Test01()
 
+Res = Profiler(Test01, [1, 2])
+print(Res)

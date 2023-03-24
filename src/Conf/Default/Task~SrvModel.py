@@ -5,4 +5,4 @@ srv_conf = {
     'allow_ip': []
 }
 
-#fs_api = True
+fs_api = True
