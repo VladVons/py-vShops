@@ -11,6 +11,9 @@ class TDbRec():
         self.Data = []
         self.Fields = {}
 
+    def __getattr__(self, aName: str) -> object:
+        return self.GetField(aName)
+
     def Find(self, aCond: TDbCond) -> bool:
         return aCond.Find(self)
 
@@ -27,6 +30,8 @@ class TDbRec():
 
     def GetField(self, aName: str, aDef = None) -> object:
         Idx = self.Fields.get(aName)
+        assert(Idx is not None), 'Field not found'
+
         Res = self.Data[Idx]
         if (Res is None):
             Res = aDef
@@ -72,5 +77,7 @@ class TDbRec():
 
     def SetField(self, aName: str, aValue: object) -> 'TDbRec':
         Idx = self.Fields.get(aName)
+        assert(Idx is not None), 'Field not found'
+
         self.Data[Idx] = aValue
         return self

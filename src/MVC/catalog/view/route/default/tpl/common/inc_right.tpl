@@ -1,4 +1,4 @@
-=- inc_right.tpl =-<br>
+-= inc_right.tpl =-<br>
 jinja2<br>
 title: {{ title }}<br>
 info: {{ info }}<br>

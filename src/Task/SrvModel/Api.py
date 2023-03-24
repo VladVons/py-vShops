@@ -93,19 +93,18 @@ class TApiModel(TApiBase):
         await self.DbMeta.Init()
 
         Dbl = await self.DbMeta.Db.GetDbVersion()
-        Rec = Dbl.Rec
-        Version = Rec.GetField('version').split()[:2]
-        Uptime = Rec.GetField('uptime')
+        Version = Dbl.Rec.version.split()[:2]
         Log.Print(1, 'i', 'Server: %s, Uptime: %s, DbName: %s, DbSize: %sM, Tables %s' %
             (
                 ' '.join(Version),
-                SecondsToDHMS_Str(Uptime.seconds),
-                Rec.GetField('db_name'),
-                round(Rec.GetField('size') / 1000000, 2),
-                Rec.GetField('tables'))
+                SecondsToDHMS_Str(Dbl.Rec.uptime.seconds),
+                Dbl.Rec.db_name,
+                round(Dbl.Rec.size / 1000000, 2),
+                Dbl.Rec.tables
             )
+        )
 
-        if (Rec.GetField('tables') == 0):
+        if (Dbl.Rec.tables == 0):
             Log.Print(1, 'i', 'Database is empty. Creating tables ...')
             await TDbExecPool(self.DbMeta.Db.Pool).ExecFile(f'{self.Models.Dir}/vShopsMeta.sql')
             await TDbExecPool(self.DbMeta.Db.Pool).ExecFile(f'{self.Models.Dir}/vShopsData.sql')

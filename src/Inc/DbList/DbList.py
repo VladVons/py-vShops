@@ -36,10 +36,18 @@ class TDbList(TDbBase):
             self.Rec.Fields[x] = i
 
         if (not aValues):
-            aValues = [None] * len(aFields)
-
-        for x in self.Data:
-            x += aValues
+            Pad = [None] * len(aFields)
+            for x in self.Data:
+                x += Pad
+        else:
+            Values = list(zip(*aValues))
+            Dif = len(self.Data) - len(Values)
+            if (Dif):
+                Pad = [None] * len(aFields)
+                for i in range(Dif):
+                    Values.append(Pad)
+            for i, x in enumerate(self.Data):
+                x += Values[i]
 
     def Export(self) -> dict:
         '''

@@ -34,7 +34,7 @@ class TCatalogToDb():
         for Rec in self.Dbl:
             ParentId = Rec.GetField('parent_id')
             Data = Res.get(ParentId, [])
-            Data.append(Rec.GetField('id'))
+            Data.append(Rec.id)
             Res[ParentId] = Data
         return Res
 
@@ -44,7 +44,7 @@ class TCatalogToDb():
             for x in aTree.get(aParentId, {}):
                 RecNo = self.BTree.Search(x)
                 Rec = self.Dbl.RecGo(RecNo)
-                ResR.append({'id': x, 'parent_id': aParentId, 'name': Rec.GetField('name')})
+                ResR.append({'id': x, 'parent_id': aParentId, 'name': Rec.name})
                 if (x in aTree):
                     ResR += Recurs(aTree, x)
             return ResR
@@ -154,9 +154,9 @@ class TSql(TSqlBase):
             Values = []
             for Row in aData:
                 DbRec.Data = Row
-                Id = DbRec.GetField("id")
+                Id = DbRec.GetField('id')
 
-                Value = f'({Id}, {self.Conf.TenantId}, {bool(DbRec.GetField("available"))})'
+                Value = f'({Id}, {self.Conf.TenantId}, {bool(DbRec.available)})'
                 Values.append(Value)
                 Ids.append(Id)
 
@@ -187,13 +187,10 @@ class TSql(TSqlBase):
             Values = []
             for Row in aData:
                 DbRec.Data = Row
-                Id = DbRec.GetField('id')
-
-                Name = DbRec.GetField('name').translate(self.Escape)
                 Descr = DbRec.GetField('descr', '').translate(self.Escape)
                 Feature = DbRec.GetField('feature', '')
                 Feature = json.dumps(Feature, ensure_ascii=False).replace("'", '`')
-                Value = f"({self.ProductIdt[Id]}, {self.Conf.LangId}, '{Name}', '{Descr}', '{Feature}')"
+                Value = f"({self.ProductIdt[DbRec.id]}, {self.Conf.LangId}, '{DbRec.name.translate(self.Escape)}', '{Descr}', '{Feature}')"
                 Values.append(Value)
 
             Query = f'''
@@ -212,11 +209,9 @@ class TSql(TSqlBase):
             Values = []
             for Row in aData:
                 DbRec.Data = Row
-                Id = DbRec.GetField('id')
-
                 for xImage in DbRec.GetField('image', []):
                     Image = xImage.split('/')[-1]
-                    Value = f"({self.ProductIdt[Id]}, '{Image}')"
+                    Value = f"({self.ProductIdt[DbRec.id]}, '{Image}')"
                     Values.append(Value)
 
             Query = f'''
@@ -233,9 +228,7 @@ class TSql(TSqlBase):
             Values = []
             for Row in aData:
                 DbRec.Data = Row
-                Id = DbRec.GetField('id')
-                CategoryId = DbRec.GetField('category_id')
-                Values.append(f"({self.ProductIdt[Id]}, {self.CategoryIdt[CategoryId]})")
+                Values.append(f'({self.ProductIdt[DbRec.id]}, {self.CategoryIdt[DbRec.category_id]})')
 
             Query = f'''
                 insert into ref_product_to_category (product_id, category_id)
@@ -251,9 +244,7 @@ class TSql(TSqlBase):
             Values = []
             for Row in aData:
                 DbRec.Data = Row
-                Id = DbRec.GetField('id')
-
-                Value = f"({self.ProductIdt[Id]}, {self.Conf.PriceId}, {DbRec.GetField('price')})"
+                Value = f'({self.ProductIdt[DbRec.id]}, {self.Conf.PriceId}, {DbRec.price})'
                 Values.append(Value)
 
             Query = f'''

@@ -80,7 +80,7 @@ class TTable(TMeta):
             Table = Rec.GetField('table_name')
             Column = Rec.GetField('column_name')
             Key = (Table, Column)
-            Value = {'type': Rec.GetField('column_type'), 'null': Rec.GetField('is_null').lower()}
+            Value = {'type': Rec.column_type, 'null': Rec.is_null.lower()}
             DeepSetByList(self.Column, Key, Value)
 
             if (Value['null'] == 'no') and (Column != 'id'):

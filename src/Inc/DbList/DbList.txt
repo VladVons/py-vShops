@@ -3,12 +3,6 @@ Author:      Vladimir Vons <VladVons@gmail.com>
 Created:     2022.03.24
 License:     GNU, see LICENSE for more details
 
-    Dbl1 = TDbListSafe([
-        ('User', str),
-        ('Age', int),
-        ('Male', bool, True),
-        ('Price', float)
-    ])
     Data = [
         ['User5', 55, True, 5.67],
         ['User2', 22, True, 2.34],
@@ -18,7 +12,21 @@ License:     GNU, see LICENSE for more details
         ['User4', 44, True, 4.56],
         ['User5', 55, True, 5.55]
     ]
-    Dbl1.SetData(Data)
+
+    Dbl1 = TDbList(
+        ['User', 'Age', 'Male', 'Price'],
+        Data
+    )
+
+    Dbl1 = TDbListSafe(
+        [
+            ('User', str),
+            ('Age', int),
+            ('Male', bool, True),
+            ('Price', float)
+        ],
+        Data
+    )
 
     Dbl1.AddField([('Weight', int, 100)])
 

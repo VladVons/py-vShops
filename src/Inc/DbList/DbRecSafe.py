@@ -12,6 +12,9 @@ class TDbRecSafe(list):
         super().__init__()
         self.Parent = aParent
 
+    def __getattr__(self, aName: str) -> object:
+        return self.GetField(aName)
+
     def Find(self, aCond: TDbCond) -> bool:
         return aCond.Find(self)
 

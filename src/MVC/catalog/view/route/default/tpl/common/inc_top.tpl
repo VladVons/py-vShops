@@ -1,4 +1,4 @@
-=- inc_top.tpl =-<br>
+-= inc_top.tpl =-<br>
 {% for module in modules %}
   {{ module }}
 {% endfor %}

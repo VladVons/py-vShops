@@ -5,7 +5,6 @@
 import re
 import os
 #
-from Inc.Util import Types
 
 
 def GetTree(aObj, aMaxDepth: int = 99):
@@ -166,3 +165,10 @@ def GetNotNone(aData: dict, aKey: str, aDef: object) -> object:
 
 def Filter(aData: dict, aKeys: list) -> dict:
     return {Key: aData[Key] for Key in aKeys }
+
+def GetDictDef(aData: dict, aKeys: list, aDef: list) -> list:
+    if (aData):
+        Res = [aData.get(Key, Def) for Key, Def in zip(aKeys, aDef)]
+    else:
+        Res = aDef
+    return Res

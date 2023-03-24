@@ -104,7 +104,7 @@ class TDbModel():
             DblIn.Import(aData.get(self.Master))
             Query = DblIn.GetSqlInsert(self.Master, ['id'])
             Dbl = await TDbExecCurs(aCursor).Exec(Query)
-            ResId = [self.Master, Dbl.Rec.GetField('id')]
+            ResId = [self.Master, Dbl.Rec.id]
 
         for TableK, DataV in aData.items():
             if (TableK not in self.Master):
@@ -173,7 +173,7 @@ class TDbModel():
         '''
         Dbl = await TDbExecCurs(aCursor).Exec(Query)
         #Dbl = await TDbExecPool(self.DbMeta.Db.Pool).Exec(Query)
-        return Dbl.Rec.GetField('count') > 0
+        return (Dbl.Rec.count > 0)
 
     async def ExecQueryText(self, aQuery: str) -> TDbSql:
         Dbl = await TDbExecPool(self.DbMeta.Db.Pool).Exec(aQuery)

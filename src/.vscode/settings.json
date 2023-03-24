@@ -26,6 +26,6 @@
     "workbench.editor.titleScrollbarSizing": "large",
     "workbench.colorCustomizations": {
         "editor.lineHighlightBackground": "#E0FFE020",
-        "tab.activeBorder": "#FF0000"
+        "tab.activeBorder": "#33FF33"
     }
 }

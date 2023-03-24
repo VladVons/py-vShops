@@ -68,7 +68,7 @@ class TFormBase(Form):
 
         if ('err' not in Data):
             Dbl = TDbList().Import(Data.get('data'))
-            self.Session['session_id'] = Dbl.Rec.GetField('id')
+            self.Session['session_id'] = Dbl.Rec.id
 
     async def ExecCtrlDef(self) -> dict:
         return await self.ExecCtrl(f'route/{self.out.module}')

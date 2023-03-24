@@ -42,5 +42,4 @@ class TLoaderQueryDb(TLoaderQuery):
                 (title = '{aName}')
         '''
         Dbl = await TDbExecPool(self.Db.Pool).Exec(Query)
-        Data = Dbl.Rec.GetField('query')
-        return Data.format(**aValues)
+        return Dbl.Rec.query.format(**aValues)
