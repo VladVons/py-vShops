@@ -57,7 +57,7 @@ class TDbList(TDbBase):
         return {'data': self.Data, 'head': Head, 'tag': self.Tag}
 
     def GetFieldNo(self, aField: str) -> int:
-        return self.Rec.Fields.get(aField)
+        return self.Rec.GetFieldNo(aField)
 
     def GetFields(self) -> list[str]:
         return list(self.Rec.Fields.keys())

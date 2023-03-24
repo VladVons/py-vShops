@@ -37,6 +37,11 @@ class TDbRec():
             Res = aDef
         return Res
 
+    def GetFieldNo(self, aName: str) -> int:
+        Res = self.Fields.get(aName)
+        assert(Res is not None), 'Field not found'
+        return Res
+
     def GetAsTuple(self) -> list:
         return list(zip(self.Fields, self.Data))
 
