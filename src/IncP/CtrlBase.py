@@ -20,7 +20,7 @@ class TCtrlBase():
 
     async def ExecModel(self, aMethod: str, aData: dict) -> dict:
         #Res = await self.ApiCtrl.CacheModel.ProxyA(aMethod, aData, self.ApiModel, [aMethod, aData])
-        with TTimerLog('ApiModel', True, aFile = 'Timer'):
+        with TTimerLog('ApiModel', False, aFile = 'Timer'):
             Res = await self.ApiModel(aMethod, aData)
         return Res
 

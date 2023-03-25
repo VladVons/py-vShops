@@ -9,7 +9,7 @@ from IncP.FormBase import TFormBase
 
 class TFormRender(TFormBase):
     async def _DoRender(self):
-        with TTimerLog('ExecCtrlDef', aFile='Timer'):
+        with TTimerLog('ExecCtrlDef', False, aFile='Timer'):
             Data = await self.ExecCtrlDef()
 
         for Key, Val in Data.get('modules', {}).items():

@@ -70,7 +70,7 @@ class TTimer(_TTimer):
 
 
 class TTimerLog(_TTimer):
-    def __init__(self, aLabel: str = 'timer', aEnable: bool = True, aFile: str = None, aStackLevel: int = 3):
+    def __init__(self, aLabel: str = 'timer', aEnable: bool = True, aFile: str = None, aStackLevel: int = 4):
         super().__init__(aLabel, aEnable)
         self.File = aFile or aLabel
         self.StackLevel = aStackLevel
