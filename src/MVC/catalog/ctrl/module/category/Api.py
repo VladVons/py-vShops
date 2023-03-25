@@ -3,13 +3,11 @@
 # License: GNU, see LICENSE for more details
 
 
-import time
 from IncP.LibCtrl import GetDictDef, TDbSql
 
 
 async def Main(self, aData: dict = None) -> dict:
     aCategoryId, aTenantId, aLangId = GetDictDef(aData.get('query'), ('category', 'tenant', 'lang'), (0, 2, 1))
-    StartAt = time.time()
     Res = await self.ExecModel(
         'ref_product/category',
         {
@@ -17,7 +15,6 @@ async def Main(self, aData: dict = None) -> dict:
             "param": {'aTenantId': aTenantId, 'aParentIdt': aCategoryId, 'aLangId': aLangId, 'aDepth': 1}
         }
     )
-    print('---module/category/ExecModel', time.time() - StartAt)
 
     Href = []
     Dbl = TDbSql().Import(Res.get('data'))

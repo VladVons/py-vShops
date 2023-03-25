@@ -3,7 +3,7 @@
 # License: GNU, see LICENSE for more details
 
 
-import time
+from Inc.Misc.Profiler import TTimerLog
 from Inc.Loader.Lang import TLoaderLangFs
 from Task.SrvCtrl.Api import TApiCtrl
 from IncP.LibCtrl import TDbSql
@@ -20,14 +20,14 @@ class TCtrlBase():
 
     async def ExecModel(self, aMethod: str, aData: dict) -> dict:
         #Res = await self.ApiCtrl.CacheModel.ProxyA(aMethod, aData, self.ApiModel, [aMethod, aData])
-        Res = await self.ApiModel(aMethod, aData)
+        with TTimerLog('ApiModel', True, aFile = 'Timer'):
+            Res = await self.ApiModel(aMethod, aData)
         return Res
 
     async def ExecSelf(self, aMethod: str, aData: dict) -> dict:
         return await self.ApiCtrl.Exec(aMethod, aData)
 
     async def LoadModules(self, aData: dict) -> dict:
-        StartAt = time.time()
         Data = await self.ExecModel(
             'system',
             {
@@ -35,9 +35,7 @@ class TCtrlBase():
                 'param': {'aRoute': aData["route"], 'aLangId': aData["query"].get("lang", 1)}
             }
         )
-        print('---LoadModules/ExecModel', time.time() - StartAt)
 
-        StartAt = time.time()
         Res = {}
         Modules = Data.get('data')
         if (Modules):
@@ -49,5 +47,4 @@ class TCtrlBase():
                 Data['lang'] = await self.Lang.Add(Path)
                 Data['layout'] = Rec.GetAsDict()
                 Res[Module] = Data
-        print('---LoadModules/loop Modules', time.time() - StartAt)
         return Res
