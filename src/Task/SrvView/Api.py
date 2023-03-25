@@ -15,6 +15,7 @@ from Inc.Misc.Cache import TCacheFile
 from IncP.Plugins import TViewes
 from IncP.ApiBase import TApiBase
 from IncP.FormBase import TFormBase
+from IncP.FormRender import TFormRender
 
 
 @DDataClass
@@ -105,6 +106,9 @@ class TApiView(TApiBase):
         Loader = TFileSystemLoader(SearchPath)
         self.TplEnv = TEnvironment(loader = Loader)
 
+        FormInfo = f'{DirModule}/{self.Conf.theme_def}/tpl/{self.Conf.form_info}.tpl'
+        assert(os.path.isfile(FormInfo)), 'Default template not found'
+
         Cache = aConf['cache']
         Dir = Cache.get('path', 'Data/cache/view')
         os.makedirs(Dir, exist_ok = True)
@@ -117,8 +121,7 @@ class TApiView(TApiBase):
             return None
 
         Locate = [
-            (TplObj.filename.rsplit('.', maxsplit=1)[0], 'TForm'),
-            ('IncP/FormRender', 'TFormRender')
+            (TplObj.filename.rsplit('.', maxsplit=1)[0], 'TForm')
         ]
 
         for Module, Class in Locate:
@@ -129,7 +132,8 @@ class TApiView(TApiBase):
                     return TClass(self.Loader['ctrl'], aRequest, TplObj)
             except ModuleNotFoundError:
                 pass
-        return None
+        return TFormRender(self.Loader['ctrl'], aRequest, TplObj)
+        #raise ModuleNotFoundError(Locate[-1])
 
     async def _GetFormData(self, aRequest: web.Request, aModule: str, aQuery: dict, aUserData: dict = None) -> dict:
         Form = self.GetForm(aRequest, aModule)
@@ -175,7 +179,10 @@ class TApiView(TApiBase):
     async def ResponseForm(self, aRequest: web.Request, aModule: str, aQuery: MultiDict = None, aUserData: dict = None) -> web.Response:
         Data = await self.GetFormData(aRequest, aModule, aQuery, aUserData)
         if ('err' in Data):
-            Res = await self.ResponseFormInfo(aRequest, Data['err'], Data['code'])
+            if (aModule == self.Conf.form_info):
+                Res = web.Response(text = f'No default form {aModule}', content_type = 'text/html')
+            else:
+                Res = await self.ResponseFormInfo(aRequest, Data['err'], Data['code'])
         else:
             Res = web.Response(text = Data['data'], content_type = 'text/html')
         return Res

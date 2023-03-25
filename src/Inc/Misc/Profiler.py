@@ -70,22 +70,23 @@ class TTimer(_TTimer):
 
 
 class TTimerLog(_TTimer):
-    def __init__(self, aLabel: str = 'timer', aEnable: bool = True, aFile: str = None):
+    def __init__(self, aLabel: str = 'timer', aEnable: bool = True, aFile: str = None, aStackLevel: int = 3):
         super().__init__(aLabel, aEnable)
         self.File = aFile or aLabel
+        self.StackLevel = aStackLevel
 
     def _Close(self, aTime: float):
         Msg = self._Format(aTime)
         print(Msg)
 
+        SelfLevel = 2
+        Stack = inspect.stack()[SelfLevel:self.StackLevel + SelfLevel]
         AppDir = sys.path[0]
-        Stack = inspect.stack()[2:]
         Chain = [
             f'{os.path.basename(x.filename)}:{x.function}()'
             for x in Stack
             if (AppDir in x.filename)
         ]
-
         Msg = f'{Msg :45} {", ".join(Chain)}'
 
         with open(f'{self.File}.log', 'a+', encoding='utf-8') as F:
