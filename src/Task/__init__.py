@@ -25,8 +25,9 @@ def LoadClassConf(aClass: object) -> dict:
 def _InitOptions():
     Usage = f'usage: {AppName} [options] arg'
     Parser = argparse.ArgumentParser(usage = Usage)
-    Parser.add_argument('-c', '--Conf',     help='config',            default='Default')
-    Parser.add_argument('-i', '--Info',     help='information',       action='store_true')
+    Parser.add_argument('-c', '--conf',     help='config',            default='Default')
+    Parser.add_argument('-i', '--info',     help='information',       action='store_true')
+    Parser.add_argument('-t', '--test',     help='test',              action='store_true')
     return Parser.parse_args()
 
 def _InitLog():
@@ -42,7 +43,7 @@ AppName = GetInfo()['app_name']
 Options = _InitOptions()
 _InitLog()
 
-DirConf = f'Conf/{Options.Conf}'
+DirConf = f'Conf/{Options.conf}'
 ConfTask = TConf(f'{DirConf}/Task.py')
 ConfTask.Load()
 ConfTask.Def = {'env_smtp_passw': GetEnvWithWarn('env_smtp_passw', Log)}

@@ -17,7 +17,7 @@ from .Api import ApiView
 @DDataClass
 class TSrvViewConf(TSrvConf):
     dir_root: str = 'MVC/main/MyDir'
-    deny: str = r'.tpl$|.py$'
+    deny: str = r'.j2$|.py$'
 
 
 class TSrvView(TSrvBase):

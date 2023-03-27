@@ -61,9 +61,6 @@ class TEnvironment(Environment):
     #     return Res
 
 
-
-
-
 class TFileSystemLoader(BaseLoader):
     def __init__(self, aSearchPath: list[str]):
         self.SearchPath = aSearchPath
@@ -106,7 +103,7 @@ class TApiView(TApiBase):
         Loader = TFileSystemLoader(SearchPath)
         self.TplEnv = TEnvironment(loader = Loader)
 
-        FormInfo = f'{DirModule}/{self.Conf.theme_def}/tpl/{self.Conf.form_info}.tpl'
+        FormInfo = f'{DirModule}/{self.Conf.theme_def}/tpl/{self.Conf.form_info}.j2'
         assert(os.path.isfile(FormInfo)), 'Default template not found'
 
         Cache = aConf['cache']
@@ -158,7 +155,7 @@ class TApiView(TApiBase):
 
     def GetTemplate(self, aModule: str) -> Template:
         try:
-            Res = self.TplEnv.get_template(f'{aModule}.tpl')
+            Res = self.TplEnv.get_template(f'{aModule}.j2')
         except TemplateNotFound:
             Res = None
         return Res

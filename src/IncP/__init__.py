@@ -11,7 +11,7 @@ from Inc.Misc.Info import GetSysInfo, DictToText
 
 
 __version__ = '1.0.5'
-__date__ =  '2023.03.23'
+__date__ =  '2023.03.27'
 
 
 
