@@ -29,7 +29,6 @@ class TDbBase():
     def __next__(self):
         if (self._RecNo >= self.GetSize() - 1):
             raise StopIteration
-
         self._RecNo += 1
         return self._RecInit()
 
@@ -63,7 +62,7 @@ class TDbBase():
         if (self.Data):
             Format = []
             for Idx, x in enumerate(self.Data[0]):
-                Align = '' if x in [int, float] else '-'
+                Align = '' if type(x) in [int, float] else '-'
                 Format.append('%' + Align + str(FieldsLen[Idx]) + 's\t')
         else:
             Format = [f'%{x}s\t' for x in FieldsLen]

@@ -5,6 +5,8 @@ info: {{ info }}<br>
 module: {{ module }}<br>
 modules: {{ modules }}<br>
 <br>
-{% for module in modules['inc_right'] %}
-  {{ module }}<br>
+{% for module in modules.get('catalog') %}
+    {% for rec in data %}
+        {{ rec.title }}<br>
+    {% endfor %}
 {% endfor %}

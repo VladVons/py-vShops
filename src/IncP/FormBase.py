@@ -5,13 +5,13 @@
 
 import time
 from wtforms import Form
-from jinja2.environment import Template
 from aiohttp import web
 from aiohttp_session import Session, get_session
 #
 from Inc.DbList import TDbList
 from Inc.DictDef import TDictDef
 from Inc.Loader.Api import TLoaderApi
+from Inc.Misc.Jinja import TTemplate
 from Inc.SrvWeb.Common import ParseUserAgent
 from IncP import GetAppVer
 
@@ -21,12 +21,13 @@ class TFormBase(Form):
         Base class for rendering string from templates
     '''
 
-    def __init__(self, aCtrl: TLoaderApi, aRequest: web.Request, aTemplate: Template):
+    def __init__(self, aCtrl: TLoaderApi, aRequest: web.Request, aTpl: TTemplate, aTplFile: str):
         super().__init__()
 
         self.Ctrl = aCtrl
         self.Request = aRequest
-        self.Template = aTemplate
+        self.Tpl = aTpl
+        self.TplFile = aTplFile
         self.Session: Session = None
 
         self.out = TDictDef(
@@ -34,8 +35,8 @@ class TFormBase(Form):
             {
                 'data': {},
                 'info': GetAppVer(),
-                'modules': {},
-                'title': aTemplate.filename
+                'ctrl': {},
+                'title': aTplFile
             }
         )
 
@@ -112,4 +113,4 @@ class TFormBase(Form):
         return Res
 
     def RenderTemplate(self) -> str:
-        return self.Template.render(**self.out)
+        return self.Tpl.RenderFile(self.TplFile, self.out)

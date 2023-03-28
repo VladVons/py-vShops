@@ -3,6 +3,8 @@
 # License: GNU, see LICENSE for more details
 
 
+from Inc.DbList import TDbList
+#from Inc.DictDef import TDictDef
 from Inc.Misc.Profiler import TTimerLog
 from IncP.FormBase import TFormBase
 
@@ -12,7 +14,12 @@ class TFormRender(TFormBase):
         with TTimerLog('ExecCtrlDef', True, aFile='Timer'):
             Data = await self.ExecCtrlDef()
 
-        for Key, Val in Data.get('modules', {}).items():
-            if ('err' not in Val):
-                pass
-        self.out.modules = {'inc_right': ['one', 'two', 'three']}
+        # Out = {}
+        # for Key, Val in Data.get('modules', {}).items():
+        #     if ('err' not in Val):
+        #         Out[Key] = {
+        #             'data': TDbList().Import(Val.get('data')),
+        #             'lang': Val.get('lang')
+        #         }
+        self.out.ctrl = Data
+        pass

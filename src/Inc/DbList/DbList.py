@@ -47,7 +47,8 @@ class TDbList(TDbBase):
                 for i in range(Dif):
                     Values.append(Pad)
             for i, x in enumerate(self.Data):
-                x += Values[i]
+                self.Data[i] = x + Values[i]
+        self._RecInit()
 
     def Export(self) -> dict:
         '''
