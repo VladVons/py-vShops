@@ -8,6 +8,7 @@ from aiohttp import web
 from multidict import MultiDict
 #
 from Inc.DataClass import DDataClass
+from Inc.DictDef import TDictDef
 from Inc.Misc.Cache import TCacheFile
 from Inc.Misc.Jinja import TTemplate
 from IncP.Plugins import TViewes
@@ -89,15 +90,17 @@ class TApiView(TApiBase):
     async def _GetFormData(self, aRequest: web.Request, aRoute: str, aQuery: dict, aUserData: dict = None) -> dict:
         Form = self.GetForm(aRequest, aRoute)
         if (Form):
-            if (aRoute != self.Conf.form_info):
+            if (aRoute == self.Conf.form_info):
+                File = f'{aRoute}.{Form.Tpl.Ext}'
+                Data = Form.Tpl.Render(File, aUserData)
+            else:
                 aQuery = dict(aQuery)
+                if (aUserData is None):
+                    aUserData = {}
+                Form.out.data = TDictDef('', aUserData)
+                Form.out.route = aRoute
 
-            if (aUserData is None):
-                aUserData = {}
-            Form.out.data = aUserData
-            Form.out.route = aRoute
-
-            Data = await Form.Render()
+                Data = await Form.Render()
             Res = {'data': Data}
         else:
             Res = {'err': f'Route not found {aRoute}', 'code': 404}

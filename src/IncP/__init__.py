@@ -10,8 +10,8 @@ import platform
 from Inc.Misc.Info import GetSysInfo, DictToText
 
 
-__version__ = '1.0.5'
-__date__ =  '2023.03.27'
+__version__ = '1.0.6'
+__date__ =  '2023.03.31'
 
 
 

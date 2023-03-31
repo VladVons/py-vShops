@@ -72,8 +72,11 @@ class TTemplate():
     def __init__(self, aPaths: list[str]):
         self.Ext = 'j2'
         Loader = TFileSystemLoader(aPaths)
+
         self.Env = TEnvironment(loader = Loader)
         self.Env.globals['TDbList'] = TDbList
+        self.Env.trim_blocks = True
+        self.Env.lstrip_blocks = True
         #self.Env.filters['MyFunc'] = MyFunc
 
         #self.ReVar = re.compile(r'''[{]{1,2}%?\s*([a-z-_]+)\s*['"]?([^'"}]*)['"]*\s*%?[}]{1,2}''')
@@ -85,12 +88,16 @@ class TTemplate():
     def SearchModule(self, aPath: str) -> str:
         return self.SearchFile(f'{aPath}.{self.Ext}')
 
-    def RenderFile(self, aFile: str, aData: dict) -> str:
+    def RenderInc(self, aFile: str, aData: dict) -> str:
         Source, File, _ = self.Env.loader.get_source(self.Env, aFile)
         Vars = self.ReVar.findall(Source)
         for x in Vars:
             if (x.startswith('inc_')):
                 File = '%s/%s.%s' % (aFile.rsplit('/', maxsplit = 1)[0], x, self.Ext)
-                aData[x] = self.RenderFile(File, aData.get(x, {}))
+                aData[x] = self.RenderInc(File, aData.get(x, {}))
         Tpl = self.Env.FromFile(Source, aFile, File)
+        return Tpl.render(aData)
+
+    def Render(self, aFile: str, aData: dict) -> str:
+        Tpl = self.Env.get_template(aFile)
         return Tpl.render(aData)

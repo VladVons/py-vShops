@@ -59,3 +59,9 @@ async def Get_Module_RouteLang(self, aRoute: str, aLangId: int) -> dict:
         'fmtGet_Module_RouteLang.sql',
         {'aRoute': aRoute, 'aLangId': aLangId}
     )
+
+async def Get_ModuleGroup(self, aGroupId: int, aLangId: int) -> dict:
+    return await self.ExecQuery(
+        'fmtGet_ModuleGroup.sql',
+        {'aGroupId:': aGroupId, 'aLangId': aLangId}
+    )

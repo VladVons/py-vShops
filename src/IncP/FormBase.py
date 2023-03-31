@@ -33,7 +33,7 @@ class TFormBase(Form):
         self.out = TDictDef(
             '',
             {
-                'data': {},
+                'data': None,
                 'info': GetAppVer(),
                 'ctrl': {},
                 'title': '',
@@ -73,8 +73,7 @@ class TFormBase(Form):
             self.Session['session_id'] = Dbl.Rec.id
 
     async def ExecCtrlDef(self) -> dict:
-        if (self.out.route != self.Parent.Conf.form_info):
-            return await self.ExecCtrl(f'route/{self.out.route}')
+        return await self.ExecCtrl(f'route/{self.out.route}')
 
     async def ExecCtrl(self, aRoute: str, aData: dict = None) -> dict:
         Data = {
@@ -114,22 +113,23 @@ class TFormBase(Form):
         return Res
 
     def RenderTemplate(self) -> str:
-        File = f'{self.out.route}.{self.Tpl.Ext}'
-        # Tpl = self.Env.get_template(File)
-        # return Tpl.render(self.out)
-
         Modules = self.RenderModules(self.out.ctrl)
         self.out.ctrl['modules'] = Modules
         self.out.ctrl['places'] = {x['place']: True for x in Modules}
-        return self.Tpl.RenderFile(File, self.out.ctrl)
+
+        Data = self.out.ctrl | self.out
+        File = f'{self.out.route}.{self.Tpl.Ext}'
+        #return self.Tpl.RenderInc(File, Data)
+        return self.Tpl.Render(File, Data)
 
     def RenderModules(self, aData: dict) -> list:
         Res = []
-        for Module, Val in aData.get('modules', {}).items():
-            if ('err' not in Val):
+        for xModule in aData.get('modules', []):
+            if ('err' not in xModule):
+                Layout = xModule['layout']
+                Module = Layout['code']
                 Route = f'{self.Parent.Conf.form_module}/{Module}.{self.Tpl.Ext}'
                 Tpl = self.Tpl.Env.get_template(Route)
-                Place = Val['layout']['place']
-                Data = Tpl.render(Val | Val['layout'])
-                Res.append({'data': Data, 'place': Place, 'name': Module})
+                Data = Tpl.render(xModule | Layout)
+                Res.append({'data': Data, 'place': Layout['place'], 'name': Module})
         return Res

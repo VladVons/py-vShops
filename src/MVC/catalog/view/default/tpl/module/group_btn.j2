@@ -1,0 +1,10 @@
+<title>{{title}}</title>
+<services>
+{% for Rec in TDbList().Import(data) %}
+  <a class='category' href='{{Rec.href}}'>
+    <logo class='change-cartridge'></logo>
+    <name>{{Rec.title}}</name>
+    <info>{{Rec.intro}}</info>
+  </a>
+{% endfor %}
+</services>

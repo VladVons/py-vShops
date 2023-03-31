@@ -27,7 +27,7 @@ class TCtrlBase():
     async def ExecSelf(self, aMethod: str, aData: dict) -> dict:
         return await self.ApiCtrl.Exec(aMethod, aData)
 
-    async def LoadModules(self, aData: dict) -> dict:
+    async def LoadModules(self, aData: dict) -> list:
         Data = await self.ExecModel(
             'system',
             {
@@ -36,16 +36,16 @@ class TCtrlBase():
             }
         )
 
-        Res = {}
+        Res = []
         Modules = Data.get('data')
         if (Modules):
             Dbl = TDbSql().Import(Modules)
             for Rec in Dbl:
-                Module = Rec.GetField('code')
+                Module = Rec.code
                 Path = f'module/{Module}'
                 aData['rec'] = Rec.GetAsDict()
                 Data = await self.ExecSelf(Path, aData)
                 Data['lang'] = await self.Lang.Add(Path)
                 Data['layout'] = Rec.GetAsDict()
-                Res[Module] = Data
+                Res.append(Data)
         return Res

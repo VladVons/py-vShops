@@ -1,9 +1,3 @@
-{% extends "inc/layout.j2" %}
-
-{% block content %}
-<!--exit.j2 begin-->
-<form method="post" action="{{ out.path }}">
+<form method="post" action="/route/{{ route }}">
     <input type="submit" name="btn_ok" value="restart server"/>
 </form>
-<!--exit.j2 end-->
-{% endblock %}
