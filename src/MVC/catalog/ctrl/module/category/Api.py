@@ -12,7 +12,7 @@ async def Main(self, aData: dict = None) -> dict:
         'ref_product/category',
         {
             'method': 'Get_Categories_TenantParentLang',
-            'param': {'aTenantId': aTenantId, 'aParentIdt': aCategoryId, 'aLangId': aLangId, 'aDepth': 1}
+            'param': {'aTenantId': aTenantId, 'aLangId': aLangId, 'aParentIdt': aCategoryId, 'aDepth': 1}
         }
     )
 

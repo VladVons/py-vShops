@@ -19,5 +19,5 @@ join ref_layout_module rlm
     on rmg.module_id = rlm.module_id
 where
     (rm.enabled) and
-    (rmg.id = 1) and
-    (rml.lang_id = 1)
+    (rmg.module_id = {aModuleId}) and
+    (rml.lang_id = {aLangId})

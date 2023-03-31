@@ -306,7 +306,9 @@ create table if not exists ref_module (
     caption             varchar(64) not null,
     code                varchar(32) not null,
     image               varchar(64),
-    conf                jsonb
+    conf                jsonb,
+    tenant_id           integer not null,
+    foreign key (tenant_id) references ref_tenant(id)
 );
 
 create table if not exists ref_module_lang (
@@ -340,7 +342,9 @@ create table if not exists ref_module_to_group (
 create table if not exists ref_layout (
     id                  serial primary key,
     caption             varchar(32) not null,
-    route               varchar(32) not null
+    route               varchar(32) not null,
+    tenant_id           integer not null,
+    foreign key (tenant_id) references ref_tenant(id)
 );
 
 create table if not exists ref_layout_module (

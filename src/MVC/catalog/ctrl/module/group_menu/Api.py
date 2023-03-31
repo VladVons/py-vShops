@@ -3,17 +3,17 @@
 # License: GNU, see LICENSE for more details
 
 
-from IncP.LibCtrl import GetDictDef, TDbSql
+from IncP.LibCtrl import GetDictDef, TDbSql, DeepGetByList
 
 
 async def Main(self, aData: dict = None) -> dict:
-    _aTenantId, aLangId = GetDictDef(aData.get('query'), ('tenant', 'lang'), (0, 1))
-    GroupId = aData['rec']['id']
+    aLangId = DeepGetByList(aData, ['query', 'lang'], 1)
+    ModuleId = aData['rec']['id']
     Res = await self.ExecModel(
         'system',
         {
             'method': 'Get_ModuleGroup',
-            'param': {'aGroupId': GroupId, 'aLangId': aLangId}
+            'param': {'aLangId': aLangId, 'aModuleId': ModuleId}
         }
     )
     Res.update(aData['rec'])

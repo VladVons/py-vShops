@@ -6,7 +6,7 @@
 from Inc.Misc.Profiler import TTimerLog
 from Inc.Loader.Lang import TLoaderLangFs
 from Task.SrvCtrl.Api import TApiCtrl
-from IncP.LibCtrl import TDbSql
+from IncP.LibCtrl import TDbSql, GetDictDef
 
 
 class TCtrlBase():
@@ -28,11 +28,12 @@ class TCtrlBase():
         return await self.ApiCtrl.Exec(aMethod, aData)
 
     async def LoadModules(self, aData: dict) -> list:
+        aTenantId, aLangId = GetDictDef(aData.get('query'), ('tenant', 'lang'), (1, 1))
         Data = await self.ExecModel(
             'system',
             {
                 'method': 'Get_Module_RouteLang',
-                'param': {'aRoute': aData['route'], 'aLangId': aData['query'].get('lang', 1)}
+                'param': {'aTenantId': aTenantId, 'aLangId': aLangId, 'aRoute': aData['route']}
             }
         )
 
