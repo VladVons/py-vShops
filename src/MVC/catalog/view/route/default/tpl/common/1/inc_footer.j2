@@ -1,1 +1,0 @@
--= inc_footer =-<br>

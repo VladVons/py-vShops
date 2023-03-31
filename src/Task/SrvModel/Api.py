@@ -37,19 +37,19 @@ class TApiModel(TApiBase):
             }
         return Res
 
-    async def Exec(self, aModule: str, aData: dict) -> dict:
+    async def Exec(self, aRoute: str, aData: dict) -> dict:
         self.ExecCnt += 1
 
-        if (not self.Models.IsModule(aModule)):
+        if (not self.Models.IsModule(aRoute)):
             if (self.Conf.helper):
-                aModule = self.Conf.helper.get('module')
+                aRoute = self.Conf.helper.get('route')
                 aData['method'] = self.Conf.helper.get('method')
                 aData['param'] = [self.Conf.dir_module]
             else:
-                return {'err': f'unknown module {aModule}'}
+                return {'err': f'unknown route {aRoute}'}
 
-        self.Models.LoadMod(aModule)
-        ModuleObj = self.Models[aModule]
+        self.Models.LoadMod(aRoute)
+        ModuleObj = self.Models[aRoute]
 
         if (not aData):
             return {'err': 'undefined data'}
@@ -84,7 +84,7 @@ class TApiModel(TApiBase):
     def Init(self, aConf: dict):
         Db = TDbPg(self.DbAuth)
         self.DbMeta = TDbMeta(Db)
-        self.Models = TModels(aConf['dir_module'], self.DbMeta)
+        self.Models = TModels(aConf['dir_route'], self.DbMeta)
 
         #self.Conf.helper = {'module': 'system', 'method': 'Api'}
 

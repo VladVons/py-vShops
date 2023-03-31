@@ -21,13 +21,13 @@ class TFormBase(Form):
         Base class for rendering string from templates
     '''
 
-    def __init__(self, aCtrl: TLoaderApi, aRequest: web.Request, aTpl: TTemplate, aTplFile: str):
+    def __init__(self, aParent, aRequest: web.Request):
         super().__init__()
 
-        self.Ctrl = aCtrl
+        self.Parent = aParent
+        self.Ctrl: TLoaderApi = aParent.Loader['ctrl']
         self.Request = aRequest
-        self.Tpl = aTpl
-        self.TplFile = aTplFile
+        self.Tpl: TTemplate = aParent.Tpl
         self.Session: Session = None
 
         self.out = TDictDef(
@@ -36,7 +36,8 @@ class TFormBase(Form):
                 'data': {},
                 'info': GetAppVer(),
                 'ctrl': {},
-                'title': aTplFile
+                'title': '',
+                'route': ''
             }
         )
 
@@ -72,20 +73,20 @@ class TFormBase(Form):
             self.Session['session_id'] = Dbl.Rec.id
 
     async def ExecCtrlDef(self) -> dict:
-        return await self.ExecCtrl(f'route/{self.out.module}')
+        if (self.out.route != self.Parent.Conf.form_info):
+            return await self.ExecCtrl(f'route/{self.out.route}')
 
-    async def ExecCtrl(self, aModule: str, aData: dict = None) -> dict:
+    async def ExecCtrl(self, aRoute: str, aData: dict = None) -> dict:
         Data = {
             'data': aData,
-            'module': aModule,
+            'route': self.out.route,
             'path_qs': self.Request.path_qs,
             'path': self.Request.path,
             'post': self.out.data,
             'query': dict(self.Request.query),
-            'route': self.out.module,
             'session': dict(self.Session)
         }
-        return await self.Ctrl.Get(aModule, Data)
+        return await self.Ctrl.Get(aRoute, Data)
 
     async def PostToData(self) -> bool:
         self.out.data.clear()
@@ -113,4 +114,22 @@ class TFormBase(Form):
         return Res
 
     def RenderTemplate(self) -> str:
-        return self.Tpl.RenderFile(self.TplFile, self.out)
+        File = f'{self.out.route}.{self.Tpl.Ext}'
+        # Tpl = self.Env.get_template(File)
+        # return Tpl.render(self.out)
+
+        Modules = self.RenderModules(self.out.ctrl)
+        self.out.ctrl['modules'] = Modules
+        self.out.ctrl['places'] = {x['place']: True for x in Modules}
+        return self.Tpl.RenderFile(File, self.out.ctrl)
+
+    def RenderModules(self, aData: dict) -> list:
+        Res = []
+        for Module, Val in aData.get('modules', {}).items():
+            if ('err' not in Val):
+                Route = f'{self.Parent.Conf.form_module}/{Module}.{self.Tpl.Ext}'
+                Tpl = self.Tpl.Env.get_template(Route)
+                Place = Val['layout']['place']
+                Data = Tpl.render(Val | Val['layout'])
+                Res.append({'data': Data, 'place': Place, 'name': Module})
+        return Res

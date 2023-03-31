@@ -26,7 +26,7 @@ class TCache():
     def _GetAfter(self, _aPath: str, aData: object):
         return aData
 
-    def _GetPath(self, aModule: str, aQuery: dict) -> str:
+    def _GetPath(self, aRoute: str, aQuery: dict) -> str:
         if (aQuery):
             #Arr = [f'{Key}:{Val}'for Key, Val in aQuery.items()]
             #File = '_'.join(Arr)
@@ -34,12 +34,12 @@ class TCache():
             File = hex(hash(frozenset(sorted(aQuery))))
         else:
             File = 'index'
-        return f'{self.Root}/{aModule}/{File}'
+        return f'{self.Root}/{aRoute}/{File}'
 
-    def _Filter(self, aModule: str) -> bool:
+    def _Filter(self, aRoute: str) -> bool:
         Res = (not self.MaxAge) or \
-              ((self.InclModule) and (aModule not in self.InclModule)) or \
-              ((self.ExclModule) and (aModule in self.ExclModule))
+              ((self.InclModule) and (aRoute not in self.InclModule)) or \
+              ((self.ExclModule) and (aRoute in self.ExclModule))
         return not Res
 
 
@@ -52,28 +52,28 @@ class TCache():
     def Clear(self):
         raise NotImplementedError()
 
-    def Get(self, aModule: str, aQuery: dict) -> str:
-        Path = self._GetPath(aModule, aQuery)
+    def Get(self, aRoute: str, aQuery: dict) -> str:
+        Path = self._GetPath(aRoute, aQuery)
         Data = self._Get(Path)
         return self._GetAfter(Path, Data)
 
     def GetSize(self):
         raise NotImplementedError()
 
-    async def ProxyA(self, aModule: str, aQuery: dict, aFunc: callable, aFuncArgs: list) -> object:
-        if (self._Filter(aModule)):
+    async def ProxyA(self, aRoute: str, aQuery: dict, aFunc: callable, aFuncArgs: list) -> object:
+        if (self._Filter(aRoute)):
             #Args = tuple(map(aFuncArgs.__getitem__, [1, 2]))
-            Res = self.Get(aModule, aQuery)
+            Res = self.Get(aRoute, aQuery)
             if (not Res):
                 Res = await aFunc(*aFuncArgs)
-                self.Set(aModule, aQuery, Res)
+                self.Set(aRoute, aQuery, Res)
         else:
             Res = await aFunc(*aFuncArgs)
         return Res
 
-    def Set(self, aModule: str, aQuery: dict, aData: str):
-        if (self._Filter(aModule)):
-            Path = self._GetPath(aModule, aQuery)
+    def Set(self, aRoute: str, aQuery: dict, aData: str):
+        if (self._Filter(aRoute)):
+            Path = self._GetPath(aRoute, aQuery)
             aData = self._SetBefore(Path, aData)
             if (aData):
                 self._Set(Path, aData)

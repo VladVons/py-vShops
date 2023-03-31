@@ -1,10 +1,10 @@
 {
     "api_conf": {
-        "dir_module": "MVC/catalog/view/route",
+        "dir_route": "MVC/catalog/view/route",
         "cache": {
             "path": "Data/cache/view",
             "max_age": 0,
-            "excl_module": []
+            "excl_route": []
         },
         "loader": {
             "ctrl": {

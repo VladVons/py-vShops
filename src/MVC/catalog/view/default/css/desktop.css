@@ -1,3 +1,4 @@
+
 /* ====================== */
 /* === common section === */
 /* ====================== */
@@ -65,6 +66,7 @@ call icon.phone {
   50% { margin-top: 10px; }
   100% { margin-top: 0; }
 }
+
 
 /* ==================== */
 /* === head section === */
@@ -224,8 +226,7 @@ menu a:first-child {
 /* === page section === */
 /* ==================== */
 page {
-  display: grid;
-  grid-template-columns: 300px auto;
+  display: flex;
   min-height: 900px;
   background: #fff url(../img/bg-page.png) top left repeat-x;
   border-top: 0;
@@ -244,7 +245,8 @@ page title {
 
 /* === nav section === */
 page nav {
-  padding: 0 20px 0 20px;
+  flex: 0 300px;
+  padding: 20px;
 }
 
 page nav phones, page nav times {
@@ -294,32 +296,36 @@ page nav close {
 /* ======================= */
 /* === content section === */
 /* ======================= */
-
 page content {
-  margin: 20px;
-}
-
-page banner.alert {
-  height: 128px;
-  border: 2px solid #333;
-  font-size: 20rem;
-  line-height: 32px;
-  color: #000;
-  text-align: center;
-  font-weight: bold;
-  padding: 10px 0 10px 120px;
-  border-radius: 4px;
-  background: #eee url(../icons/128/alert.png) 20px top no-repeat;
-}
-
-page banner.alert text:last-child {
-  font-size: 24rem;
-  font-weight: bold;
-  color: #900;
+  flex: 1;
+  padding: 20px;
 }
 
 page content * {
   color: #333;
+}
+
+page content banner.alert {
+  min-height: 128px;
+  font-size: 20rem;
+  line-height: 32px;
+  color: #000;
+  font-weight: bold;
+  border: 2px solid #333;
+  border-radius: 4px;
+  background: #eee url(../icons/128/alert.png) 20px top no-repeat;
+}
+
+page content banner.alert message {
+  margin: 20px;
+  margin-left: 150px;
+  text-align: center;
+}
+
+page content banner.alert message text:last-child {
+  font-size: 24rem;
+  font-weight: bold;
+  color: #900;
 }
 
 page content a {
@@ -331,8 +337,14 @@ page content a:hover {
 }
 
 page content services {
-  display: grid;
-  grid-template-columns: 50% 50%;
+  container: servflex / inline-size;
+}
+
+@container servflex (width > 800px) {
+  a {
+    width: calc(50% - 20px);
+    vertical-align: top;
+  }
 }
 
 page content a.category {
@@ -397,13 +409,21 @@ page content social text {
 }
 
 page content blog {
-  display: grid;
-  grid-template-columns: 50% 50%;
+  container: blogflex / inline-size;
 }
 
 page content blog article {
+  display: inline-block;
   margin: 20px 0 0 0;
 }
+
+@container blogflex (width > 800px) {
+  article {
+    width: calc(50% - 20px);
+    vertical-align: top;
+  }
+}
+
 
 page content blog article:nth-child(odd) {
   margin-right: 10px;
@@ -475,4 +495,8 @@ footer cell a {
 
 footer cell a:hover {
   color: #fff;
+}
+
+body {
+  display: initial !important;
 }

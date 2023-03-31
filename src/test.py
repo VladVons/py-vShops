@@ -1,3 +1,4 @@
+import re
 from Inc.Misc.Profiler import TStats
 from Inc.Misc.Jinja import TTemplate
 from Inc.DbList import TDbList
@@ -19,9 +20,44 @@ Data1 = {
     }
 }
 
-#Dbl = TDbList().Import(DblData1)
-#print(Dbl)
+# Dbl = TDbList().Import(DblData1)
+# print(Dbl)
 
-Tpl = TTemplate(Path1)
-Res1 = Tpl.RenderFile(File1, Data1)
-print(Res1)
+# Tpl = TTemplate(Path1)
+# Res1 = Tpl.RenderFile(File1, Data1)
+# print(Res1)
+
+Text = '''
+hello  
+  {{ var_1   }}one
+  world
+  {{   var2}}
+end
+'''
+
+Pattern = r'\{\{\s*(\w+)\s*\}\}'
+q1 = re.findall(Pattern, Text)
+print(q1)
+
+
+# str = '''
+# потрібно отримати списки в яких є:
+
+# 1) base.html
+# extends
+# {% extends "base.html" %}
+
+# 2) ./panel.j2
+# include
+# {% include './panel.j2' %}
+
+# 3) inc_header
+# {{ inc_header }}
+
+# в кінці я маю замінити фігурні дужки і все що всередині них на мої дані.
+# '''
+
+# import re
+
+# arr = re.findall(r'''[{]{1,2}%?\s*([a-z-_]+)\s*['"]?([^'"}]*)['"]*\s*%?[}]{1,2}''', str)
+# print(arr)

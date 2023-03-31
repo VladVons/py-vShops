@@ -32,7 +32,7 @@ class TCtrlBase():
             'system',
             {
                 'method': 'Get_Module_RouteLang',
-                'param': {'aRoute': aData["route"], 'aLangId': aData["query"].get("lang", 1)}
+                'param': {'aRoute': aData['route'], 'aLangId': aData['query'].get('lang', 1)}
             }
         )
 
@@ -43,6 +43,7 @@ class TCtrlBase():
             for Rec in Dbl:
                 Module = Rec.GetField('code')
                 Path = f'module/{Module}'
+                aData['rec'] = Rec.GetAsDict()
                 Data = await self.ExecSelf(Path, aData)
                 Data['lang'] = await self.Lang.Add(Path)
                 Data['layout'] = Rec.GetAsDict()

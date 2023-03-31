@@ -22,7 +22,7 @@ class TApiViewConf():
     theme_def: str = 'default'
     form_info: str = 'misc/info'
     form_home: str = 'common/home'
-
+    form_module: str = 'module'
 
 class TCacheFileView(TCacheFile):
     def _GetAfter(self, _aPath: str, aData: object):
@@ -45,29 +45,29 @@ class TApiView(TApiBase):
         self.Cache: TCacheFileView = None
 
     def Init(self, aConf: dict):
-        DirModule = aConf['dir_module']
-        self.Viewes = TViewes(DirModule)
+        DirRoute = aConf['dir_route']
+        self.Viewes = TViewes(DirRoute)
         self.InitLoader(aConf['loader'])
 
         Dirs = [
-            f'{DirModule}/{self.Conf.theme}/tpl',
-            f'{DirModule}/{self.Conf.theme_def}/tpl'
+            f'{DirRoute}/{self.Conf.theme}/tpl',
+            f'{DirRoute}/{self.Conf.theme_def}/tpl'
         ]
         SearchPath = [x for x in Dirs if (os.path.isdir(x))]
         assert (SearchPath), 'no tempate directories'
         self.Tpl = TTemplate(SearchPath)
 
-        FormInfo = f'{DirModule}/{self.Conf.theme_def}/tpl/{self.Conf.form_info}.{self.Tpl.Ext}'
+        FormInfo = f'{DirRoute}/{self.Conf.theme_def}/tpl/{self.Conf.form_info}.{self.Tpl.Ext}'
         assert(os.path.isfile(FormInfo)), 'Default template not found'
 
         Cache = aConf['cache']
         Dir = Cache.get('path', 'Data/cache/view')
         os.makedirs(Dir, exist_ok = True)
-        self.Cache = TCacheFileView(Dir, Cache.get('max_age', 5), Cache.get('incl_module'), Cache.get('excl_module'))
+        self.Cache = TCacheFileView(Dir, Cache.get('max_age', 5), Cache.get('incl_route'), Cache.get('excl_route'))
         self.Cache.Clear()
 
-    def GetForm(self, aRequest: web.Request, aModule: str) -> TFormBase:
-        TplFile = self.Tpl.GetModuleFile(aModule)
+    def GetForm(self, aRequest: web.Request, aRoute: str) -> TFormBase:
+        TplFile = self.Tpl.SearchModule(aRoute)
         if (not TplFile):
             return
 
@@ -80,35 +80,35 @@ class TApiView(TApiBase):
                 if (os.path.isfile(Module + '.py')):
                     Mod = __import__(Module.replace('/', '.'), None, None, [Class])
                     TClass = getattr(Mod, Class)
-                    return TClass(self.Loader['ctrl'], aRequest, self.Tpl, TplFile)
+                    return TClass(self, aRequest)
             except ModuleNotFoundError:
                 pass
-        return TFormRender(self.Loader['ctrl'], aRequest, self.Tpl, TplFile)
+        return TFormRender(self, aRequest)
         #raise ModuleNotFoundError(Locate[-1])
 
-    async def _GetFormData(self, aRequest: web.Request, aModule: str, aQuery: dict, aUserData: dict = None) -> dict:
-        Form = self.GetForm(aRequest, aModule)
+    async def _GetFormData(self, aRequest: web.Request, aRoute: str, aQuery: dict, aUserData: dict = None) -> dict:
+        Form = self.GetForm(aRequest, aRoute)
         if (Form):
-            if (aModule != self.Conf.form_info):
+            if (aRoute != self.Conf.form_info):
                 aQuery = dict(aQuery)
 
             if (aUserData is None):
                 aUserData = {}
             Form.out.data = aUserData
-            Form.out.module = aModule
+            Form.out.route = aRoute
 
             Data = await Form.Render()
             Res = {'data': Data}
         else:
-            Res = {'err': f'Module not found {aModule}', 'code': 404}
+            Res = {'err': f'Route not found {aRoute}', 'code': 404}
         return Res
 
-    async def GetFormData(self, aRequest: web.Request, aModule: str, aQuery: dict, aUserData: dict = None) -> dict:
-        #return await self._GetFormData(aRequest, aModule, aQuery, aUserData)
-        return await self.Cache.ProxyA(aModule, aQuery, self._GetFormData, [aRequest, aModule, aQuery, aUserData])
+    async def GetFormData(self, aRequest: web.Request, aRoute: str, aQuery: dict, aUserData: dict = None) -> dict:
+        #return await self._GetFormData(aRequest, aRoute, aQuery, aUserData)
+        return await self.Cache.ProxyA(aRoute, aQuery, self._GetFormData, [aRequest, aRoute, aQuery, aUserData])
 
     async def ResponseFormInfo(self, aRequest: web.Request, aText: str, aStatus: int = 200) -> web.Response:
-        if (self.Tpl.GetModuleFile(self.Conf.form_info)):
+        if (self.Tpl.SearchModule(self.Conf.form_info)):
             Res = await self.ResponseForm(aRequest, self.Conf.form_info, aUserData = {'info': aText})
         else:
             Text = f'1) {aText}. 2) Info template {self.Conf.form_info} not found'
@@ -119,11 +119,11 @@ class TApiView(TApiBase):
     async def ResponseFormHome(self, aRequest: web.Request) -> web.Response:
         return await self.ResponseForm(aRequest, self.Conf.form_home, aRequest.query)
 
-    async def ResponseForm(self, aRequest: web.Request, aModule: str, aQuery: MultiDict = None, aUserData: dict = None) -> web.Response:
-        Data = await self.GetFormData(aRequest, aModule, aQuery, aUserData)
+    async def ResponseForm(self, aRequest: web.Request, aRoute: str, aQuery: MultiDict = None, aUserData: dict = None) -> web.Response:
+        Data = await self.GetFormData(aRequest, aRoute, aQuery, aUserData)
         if ('err' in Data):
-            if (aModule == self.Conf.form_info):
-                Res = web.Response(text = f'No default form {aModule}', content_type = 'text/html')
+            if (aRoute == self.Conf.form_info):
+                Res = web.Response(text = f'No default form {aRoute}', content_type = 'text/html')
             else:
                 Res = await self.ResponseFormInfo(aRequest, Data['err'], Data['code'])
         else:

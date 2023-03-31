@@ -1,0 +1,6 @@
+<title>{{title}}</title>
+<catalog>
+{% for Rec in TDbList().Import(data) %}
+    <a href='{{Rec.href}}'>{{Rec.title}}</a>
+{% endfor %}
+</catalog>

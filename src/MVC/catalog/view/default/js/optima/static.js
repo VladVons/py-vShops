@@ -6,10 +6,10 @@ const TYPE_NOT_SUPPORTED = {code: 100, message: 'type not supported for loading'
 // [this]: this class
 class $ExtClass {
   constructor(){
-    Object
-        .getOwnPropertyNames(Object.getPrototypeOf(this))
-        .filter(prop => prop !== 'constructor')
-        .forEach(prop => { $$[prop] = this[prop] })
+		Object
+    	.getOwnPropertyNames(Object.getPrototypeOf(this))
+      .filter(prop => prop !== 'constructor')
+      .forEach(prop => { $$[prop] = this[prop] })
   }
   
   // load css from server/cache
