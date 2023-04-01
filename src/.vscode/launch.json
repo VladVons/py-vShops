@@ -8,7 +8,7 @@
             "program": "${file}",
             "console": "integratedTerminal",
             "purpose":["debug-in-terminal"],
-            "justMyCode": false,
+            "justMyCode": true,
             "args": ["-t"],
             "env": {"name": "EnvVal"}
          }
