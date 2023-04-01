@@ -19,6 +19,7 @@ join ref_module_lang rml
     on rlm.module_id = rml.module_id
 where
     (rm.enabled) and
+    (rlm.enabled) and
     (rt.id = {aTenantId}) and
     (rl.route = '{aRoute}') and
     (rml.lang_id = {aLangId})

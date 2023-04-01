@@ -344,17 +344,20 @@ create table if not exists ref_layout (
     caption             varchar(32) not null,
     route               varchar(32) not null,
     tenant_id           integer not null,
-    foreign key (tenant_id) references ref_tenant(id)
+    foreign key (tenant_id) references ref_tenant(id),
+    unique (tenant_id, route)
 );
 
 create table if not exists ref_layout_module (
     id                  serial primary key,
+    enabled             boolean default true,
     sort_order          smallint default 0,
     place               varchar(16),
-    module_id           integer not null,
     layout_id           integer not null,
+    module_id           integer not null,
+    foreign key (layout_id) references ref_layout(id) on delete cascade,
     foreign key (module_id) references ref_module(id) on delete cascade,
-    foreign key (layout_id) references ref_layout(id) on delete cascade
+    unique (layout_id, module_id)
 );
 
 --- news ---
