@@ -1,5 +1,6 @@
-select
+select distinct
     rlm.place,
+    rlm.sort_order,
     rm.id,
     rm.code,
     rm.conf,
@@ -21,7 +22,7 @@ where
     (rm.enabled) and
     (rlm.enabled) and
     (rt.id = {aTenantId}) and
-    (rl.route = '{aRoute}') and
+    ((rl.route = '{aRoute}') or (rl.id = 0)) and
     (rml.lang_id = {aLangId})
 order by
     rlm.sort_order
