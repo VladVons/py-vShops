@@ -24,8 +24,8 @@ def DSplit(aFunc: callable) -> list[str]:
 def DASplit(aFunc: callable) -> list[str]:
     async def Decor(aData: list, aMax: int) -> list[str]:
         Res = []
-        for Part in Parts(aData, aMax):
-            Data = await aFunc(Part, aMax)
+        for Idx, Part in enumerate(Parts(aData, aMax)):
+            Data = await aFunc(Part, aMax, Idx)
             Res.append(Data)
         return Res
     return Decor

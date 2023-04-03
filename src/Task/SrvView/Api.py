@@ -5,7 +5,6 @@
 
 import os
 from aiohttp import web
-from multidict import MultiDict
 #
 from Inc.DataClass import DDataClass
 from Inc.DictDef import TDictDef
@@ -87,32 +86,32 @@ class TApiView(TApiBase):
         return TFormRender(self, aRequest)
         #raise ModuleNotFoundError(Locate[-1])
 
-    async def _GetFormData(self, aRequest: web.Request, aRoute: str, aQuery: dict, aUserData: dict = None) -> dict:
-        Form = self.GetForm(aRequest, aRoute)
+    async def _GetFormData(self, aRequest: web.Request, aQuery: dict, aUserData: dict = None) -> dict:
+        Route = aQuery['route']
+        Form = self.GetForm(aRequest, Route)
         if (Form):
-            if (aRoute == self.Conf.form_info):
-                File = f'{aRoute}.{Form.Tpl.Ext}'
+            if (Route == self.Conf.form_info):
+                File = f'{Route}.{Form.Tpl.Ext}'
                 Data = Form.Tpl.Render(File, aUserData)
             else:
-                aQuery = dict(aQuery)
                 if (aUserData is None):
                     aUserData = {}
                 Form.out.data = TDictDef('', aUserData)
-                Form.out.route = aRoute
-
+                Form.out.route = Route
                 Data = await Form.Render()
             Res = {'data': Data}
         else:
-            Res = {'err': f'Route not found {aRoute}', 'code': 404}
+            Res = {'err': f'Route not found {Route}', 'code': 404}
         return Res
 
-    async def GetFormData(self, aRequest: web.Request, aRoute: str, aQuery: dict, aUserData: dict = None) -> dict:
-        #return await self._GetFormData(aRequest, aRoute, aQuery, aUserData)
-        return await self.Cache.ProxyA(aRoute, aQuery, self._GetFormData, [aRequest, aRoute, aQuery, aUserData])
+    async def GetFormData(self, aRequest: web.Request, aQuery: dict, aUserData: dict = None) -> dict:
+        Route = aQuery['route']
+        #return await self._GetFormData(aRequest, Route, aQuery, aUserData)
+        return await self.Cache.ProxyA(Route, aQuery, self._GetFormData, [aRequest, aQuery, aUserData])
 
     async def ResponseFormInfo(self, aRequest: web.Request, aText: str, aStatus: int = 200) -> web.Response:
         if (self.Tpl.SearchModule(self.Conf.form_info)):
-            Res = await self.ResponseForm(aRequest, self.Conf.form_info, aUserData = {'info': aText})
+            Res = await self.ResponseForm(aRequest, {'route': self.Conf.form_info}, aUserData = {'info': aText})
         else:
             Text = f'1) {aText}. 2) Info template {self.Conf.form_info} not found'
             Res = web.Response(text = Text, content_type = 'text/html', status = aStatus)
@@ -122,11 +121,12 @@ class TApiView(TApiBase):
     async def ResponseFormHome(self, aRequest: web.Request) -> web.Response:
         return await self.ResponseForm(aRequest, self.Conf.form_home, aRequest.query)
 
-    async def ResponseForm(self, aRequest: web.Request, aRoute: str, aQuery: MultiDict = None, aUserData: dict = None) -> web.Response:
-        Data = await self.GetFormData(aRequest, aRoute, aQuery, aUserData)
+    async def ResponseForm(self, aRequest: web.Request, aQuery: dict, aUserData: dict = None) -> web.Response:
+        Data = await self.GetFormData(aRequest, aQuery, aUserData)
         if ('err' in Data):
-            if (aRoute == self.Conf.form_info):
-                Res = web.Response(text = f'No default form {aRoute}', content_type = 'text/html')
+            Route = aQuery['route']
+            if (Route == self.Conf.form_info):
+                Res = web.Response(text = f'No default form {Route}', content_type = 'text/html')
             else:
                 Res = await self.ResponseFormInfo(aRequest, Data['err'], Data['code'])
         else:

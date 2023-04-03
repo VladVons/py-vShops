@@ -30,9 +30,8 @@ class TSrvView(TSrvBase):
 
     def _GetDefRoutes(self) -> list:
         return [
-            web.get('/route/{name:.*}', self._rRoute),
-            web.post('/route/{name:.*}', self._rRoute),
-            web.get('/{name:.*}', self._rIndex)
+            web.get('/{name:.*}', self._rIndex),
+            web.post('/{name:.*}', self._rIndex),
         ]
 
     def _GetMimeFile(self, aPath: str) -> web.Response:
@@ -58,13 +57,14 @@ class TSrvView(TSrvBase):
         Data = '\n<br>'.join(aStack)
         return web.Response(text = Data, content_type = 'text/html', status = 500)
 
-    async def _rRoute(self, aRequest: web.Request) -> web.Response:
-        Path = aRequest.match_info.get('name')
-        return await ApiView.ResponseForm(aRequest, Path, aRequest.query)
-
     async def _rIndex(self, aRequest: web.Request) -> web.Response:
         Name = aRequest.match_info.get('name')
-        if (Name):
+        Route = aRequest.query.get('route')
+        if (Route):
+            Res = await ApiView.ResponseForm(aRequest, dict(aRequest.query))
+        elif (not Name):
+            Res = await ApiView.ResponseForm(aRequest, {'route': ApiView.Conf.form_home})
+        else:
             File = f'{self._SrvConf.dir_root}/{Name}'
             if (os.path.isfile(File)):
                 if (re.search(self._SrvConf.deny, Name)):
@@ -73,8 +73,6 @@ class TSrvView(TSrvBase):
                     Res = self._GetMimeFile(File)
             else:
                 Res = await self._Err_404(aRequest)
-        else:
-            Res = await ApiView.ResponseFormHome(aRequest)
         return Res
 
     async def RunApp(self):

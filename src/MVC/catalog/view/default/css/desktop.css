@@ -28,23 +28,8 @@ line {
   width: 100%; 
   height: 1px; 
   background: #ccc;
-  margin: 5px 0 5px 0;
+  margin: 10px 0 10px 0;
 }
-
-social a {
-  width: 48px;
-  height: 48px;
-  border: 1px solid #fff;
-  margin: 0 10px 0 10px;
-}
-
-social a:hover {
-  border: 1px solid #333;
-}
-
-social a.facebook { background: url(../icons/48/facebook.png) top left no-repeat; }
-social a.instagram { background: url(../icons/48/instagram.png) top left no-repeat; }
-social a.telegram { background: url(../icons/48/telegram.png) top left no-repeat; }
 
 call {
   position: fixed;
@@ -66,6 +51,29 @@ call icon.phone {
   50% { margin-top: 10px; }
   100% { margin-top: 0; }
 }
+
+social {
+  position: fixed;
+  right: 30px;
+  bottom: 30px;
+  width: 64px;
+}
+
+social a {
+  width: 48px;
+  height: 48px;
+  margin: 10px 0 0 5px;
+  transition: .5s ease;
+}
+
+social a:hover {
+  margin: 10px 0 0 0;
+}
+
+social a.facebook { background: url(../icons/48/meta.png) top left no-repeat; }
+social a.instagram { background: url(../icons/48/instagram.png) top left no-repeat; }
+social a.telegram { background: url(../icons/48/telegram.png) top left no-repeat; }
+
 
 
 /* ==================== */
@@ -239,11 +247,13 @@ page {
 
 page title {
   font-size: 28rem;
-  margin: 5px 0 20px 0;
+  margin: 40px 0 20px 0;
 }
 
 
+/* =================== */
 /* === nav section === */
+/* =================== */
 page nav {
   flex: 0 300px;
   padding: 20px;
@@ -269,11 +279,15 @@ page nav time {
 }
 
 page nav catalog a {
-  display: block;
+  display: list-item;
+  list-style: square;
+  list-style-position: inside;
+  padding: 10px 5px 10px 10px;
+  color: #000;
+  font-size: 14rem;
+  font-weight: bold;
   border: 1px solid #ccc;
   border-bottom: 0;
-  padding: 10px 5px 10px 5px;
-  color: #333;
 }
 
 page nav catalog a:last-child {
@@ -282,6 +296,19 @@ page nav catalog a:last-child {
 
 page nav catalog a:hover {
   background: #eee;
+}
+
+page nav catalog a.active {
+  background: #eff;
+}
+
+page nav catalog a.second {
+  list-style: circle;
+  list-style-position: inside;
+  padding: 10px 5px 10px 30px;
+  font-size: 14rem;
+  font-weight: normal;
+  color: #036;
 }
 
 page nav open *, page nav close * {
@@ -379,33 +406,6 @@ page content a .category name {
   font-size: 20rem;
   color: #069;
   margin-bottom: 10px;
-}
-
-page content a .goods { background: url(../img/catalog/goods.jpg) }
-page content a .autsorsing { background: url(../img/catalog/autsorsing.png) }
-page content a .assembly { background: url(../img/catalog/assembly.jpg) }
-page content a .service-computer { background: url(../img/catalog/service-computer.jpg) }
-page content a .service-notebook { background: url(../img/catalog/service-notebook.jpg) }
-page content a .os { background: url(../img/catalog/os.jpg) }
-page content a .clean-notebook { background: url(../img/catalog/clean-notebook.jpg) }
-page content a .service-printer { background: url(../img/catalog/service-printer.jpg) }
-page content a .refill-cartridge { background: url(../img/catalog/refill-cartridge.jpg) }
-page content a .change-cartridge { background: url(../img/catalog/change-cartridge.jpg) }
-page content a .mikrotik { background: url(../img/catalog/mikrotik.jpg) }
-page content a .remote { background: url(../img/catalog/remote.jpg) }
-page content a .sysadmin { background: url(../img/catalog/sysadmin.jpg) }
-page content a .c1 { background: url(../img/catalog/1c.jpg) }
-
-page content social {
-  display: flex;
-  margin: 20px 0 20px 0;
-}
-
-page content social text {
-  display: inline-block;
-  font-size: 18rem;
-  font-weight: bold;
-  line-height: 48px;
 }
 
 page content blog {

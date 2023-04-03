@@ -40,8 +40,8 @@ a.more {
   margin-top: 10px;
 }
 
-
-
-
-
-
+.up-xl { margin-top: 150px }
+.up-l { margin-top: 80px }
+.up-m { margin-top: 40px }
+.up-s { margin-top: 20px }
+.up-xs { margin-top: 10px }

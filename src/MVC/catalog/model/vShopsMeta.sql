@@ -34,6 +34,15 @@ create type doc_enum as enum (
    'doc_sale'
 );
 
+create type val_enum as enum (
+    'str',
+    'int',
+    'float',
+    'bool',
+    'date'
+);
+
+
 -----------------------------------------------------------------------------
 -- references. user auth --
 -----------------------------------------------------------------------------
@@ -213,7 +222,7 @@ create table if not exists ref_product0_category (
     deleted             boolean default false,
     parent_id           integer not null,
     image               varchar(64),
-    sort_order          smallint default 0
+    sort_order          smallint
 );
 
 create table if not exists ref_product0_category_lang (
@@ -239,7 +248,7 @@ create table if not exists ref_product0 (
 create table if not exists ref_product0_image (
     id                  serial primary key,
     image               varchar(64) not null,
-    sort_order          smallint default 0,
+    sort_order          smallint,
     product_id          integer not null,
     foreign key (product_id) references ref_product0(id) on delete cascade
 );
@@ -351,7 +360,7 @@ create table if not exists ref_layout (
 create table if not exists ref_layout_module (
     id                  serial primary key,
     enabled             boolean default true,
-    sort_order          smallint default 0,
+    sort_order          smallint,
     place               varchar(16),
     layout_id           integer not null,
     module_id           integer not null,
@@ -415,7 +424,7 @@ create table if not exists ref_product_category (
     idt                 integer not null,
     parent_idt          integer not null,
     image               varchar(64),
-    sort_order          smallint default 0,
+    sort_order          smallint,
     tenant_id           integer not null,
     foreign key (tenant_id) references ref_tenant(id),
     unique (idt, tenant_id)
@@ -475,7 +484,7 @@ create table if not exists ref_product_image (
     enabled             boolean default true,
     deleted             boolean default false,
     image               varchar(64),
-    sort_order          smallint default 0,
+    sort_order          smallint,
     product_id          integer not null,
     foreign key (product_id) references ref_product(id) on delete cascade
 );
@@ -499,6 +508,57 @@ create table if not exists ref_product_to_category (
     foreign key (product_id) references ref_product(id) on delete cascade,
     foreign key (category_id) references ref_product_category(id) on delete cascade,
     primary key (product_id, category_id)
+);
+
+-- product attribute--
+
+create table if not exists ref_kind (
+    id                  serial primary key,
+    caption             varchar(32),
+    tenant_id           integer not null,
+    foreign key (tenant_id) references ref_tenant(id)
+);
+
+create table if not exists ref_kind_attr (
+    id                  serial primary key,
+    sort_order          smallint,
+    reqire              boolean default false,
+    val_en              val_enum,
+    kind_id             integer not null,
+    foreign key (kind_id) references ref_kind(id) on delete cascade
+);
+
+create table if not exists ref_kind_attr_lang (
+    attr_id             integer not null,
+    lang_id             integer not null,
+    title               varchar(256) not null,
+    foreign key (attr_id) references ref_kind_attr(id) on delete cascade,
+    foreign key (lang_id) references ref_lang(id),
+    unique (attr_id, lang_id)
+);
+
+create table if not exists ref_kind_attr_val (
+    id                  serial primary key,
+    attr_id             integer not null,
+    val                 varchar(16) not null,
+    foreign key (attr_id) references ref_kind_attr(id) on delete cascade
+);
+
+create table if not exists ref_kind_category (
+    category_id         integer not null,
+    kind_id             integer not null,
+    foreign key (category_id) references ref_product_category(id) on delete cascade,
+    foreign key (kind_id) references ref_kind(id) on delete cascade,
+    unique (category_id, kind_id)
+);
+
+create table if not exists ref_kind_attr_product (
+    val                 varchar(24) not null,
+    product_id          integer not null,
+    attr_id             integer not null,
+    foreign key (product_id) references ref_product(id) on delete cascade,
+    foreign key (attr_id) references ref_kind_attr(id) on delete cascade,
+    unique (product_id, attr_id)
 );
 
 -----------------------------------------------------------------------------
