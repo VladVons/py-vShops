@@ -370,6 +370,22 @@ create table if not exists ref_layout_module (
 
 --- news ---
 
+create table if not exists ref_news_group (
+    id                  serial primary key,
+    tenant_id           integer not null,
+    foreign key (tenant_id) references ref_tenant(id)
+);
+
+create table if not exists ref_news_group_lang (
+    title               varchar(256) not null,
+    descr               text,
+    group_id            integer not null,
+    lang_id             integer not null,
+    foreign key (group_id) references ref_news_group(id) on delete cascade,
+    foreign key (lang_id) references ref_lang(id),
+    unique (group_id, lang_id)
+);
+
 create table if not exists ref_news (
     id                  serial primary key,
     enabled             boolean default true,
@@ -377,25 +393,28 @@ create table if not exists ref_news (
     update_date         timestamp,
     public_date         timestamp,
     tenant_id           integer not null,
+    group_id            integer not null,
     foreign key (tenant_id) references ref_tenant(id)
+    foreign key (group_id) references ref_news_group(id) on delete cascade,
 );
-    
+
 create table if not exists ref_news_lang (
-    news_id             integer not null,
-    lang_id             integer not null,
     title               varchar(256) not null,
     descr               text,
     meta_key            varchar(128),
+    news_id             integer not null,
+    lang_id             integer not null,
     foreign key (news_id) references ref_news(id) on delete cascade,
     foreign key (lang_id) references ref_lang(id),
     unique (news_id, lang_id)
 );
 
 create table if not exists ref_news_comment (
-    news_id             integer not null,
+    id                  serial primary key,
     create_date         timestamp default current_timestamp,
     update_date         timestamp,
     descr               text,
+    news_id             integer not null,
     customer_id         integer not null,
     foreign key (news_id) references ref_news(id) on delete cascade,
     foreign key (customer_id) references ref_customer(id) on delete cascade
