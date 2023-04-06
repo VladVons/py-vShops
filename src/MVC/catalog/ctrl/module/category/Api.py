@@ -3,23 +3,33 @@
 # License: GNU, see LICENSE for more details
 
 
-from IncP.LibCtrl import GetDictDef, TDbSql
+from IncP.LibCtrl import GetDictDef, TDbSql, TDbRec
 
 
 async def Main(self, aData: dict = None) -> dict:
-    aCategoryId, aTenantId, aLangId = GetDictDef(aData.get('query'), ('category', 'tenant', 'lang'), (0, 2, 1))
+    aPath, aTenantId, aLangId = GetDictDef(aData.get('query'), ('path', 'tenant', 'lang'), ('0', '2', '1'))
+    CategoriyIds = aPath.split('_')
     Res = await self.ExecModel(
         'ref_product/category',
         {
             'method': 'Get_Categories_TenantParentLang',
-            'param': {'aTenantId': aTenantId, 'aLangId': aLangId, 'aParentIdt': aCategoryId, 'aDepth': 1}
+            'param': {'aTenantId': aTenantId, 'aLangId': aLangId, 'aParentIdts': CategoriyIds[:2], 'aDepth': 1},
+            'query': False
         }
     )
 
-    Href = []
-    Dbl = TDbSql().Import(Res.get('data'))
-    for Rec in Dbl:
-        Href.append(f'product/category&path={Rec.idt}')
-    Dbl.AddFields(['href'], [Href])
-    Res['data'] = Dbl.Export()
+    DblData = Res.get('data')
+    if (DblData):
+        Href = []
+        Dbl = TDbSql().Import(DblData)
+        for Rec in Dbl:
+            if (Rec.parent_idt):
+                Path = '_'.join(CategoriyIds[:2])
+                if (len(CategoriyIds) > 2):
+                    Res['category_id'] = int(CategoriyIds[-1])
+            else:
+                Path = '0'
+            Href.append(f'?route=product/category&path={Path}_{Rec.idt}')
+        Dbl.AddFields(['href'], [Href])
+        Res['data'] = Dbl.Export()
     return Res

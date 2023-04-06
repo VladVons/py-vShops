@@ -5,9 +5,9 @@
 # select *
 # from test_json
 # where
-# 	(conf -> 'age' = '34') and
-# 	(conf -> 'name' = '"Rick"') and
-# 	(conf -> 'weight' > '50.5')
+#       (conf -> 'age' = '34') and
+#       (conf -> 'name' = '"Rick"') and
+#       (conf -> 'weight' > '50.5')
 # order by id;
 
 

@@ -14,6 +14,13 @@ class TDbRec():
     def __getattr__(self, aName: str) -> object:
         return self.GetField(aName)
 
+    def __len__(self):
+        return len(self.Fields)
+
+    def __repr__(self) -> str:
+        Res = [f'{Key}={Val}' for Key, Val in zip(self.Fields, self.Data)]
+        return ', '.join(Res)
+
     def Find(self, aCond: TDbCond) -> bool:
         return aCond.Find(self)
 

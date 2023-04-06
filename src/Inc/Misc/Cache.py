@@ -14,7 +14,8 @@ class TCache():
                  aRoot: str = '',
                  aMaxAge: int = 5,
                  aInclModule: list[str] = None,
-                 aExclModule: list[str] = None):
+                 aExclModule: list[str] = None
+        ):
         self.MaxAge = aMaxAge
         self.InclModule = aInclModule or []
         self.ExclModule = aExclModule or []

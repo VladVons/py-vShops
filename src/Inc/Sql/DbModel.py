@@ -178,9 +178,8 @@ class TDbModel():
     async def ExecQueryText(self, aQuery: str) -> TDbSql:
         Dbl = await TDbExecPool(self.DbMeta.Db.Pool).Exec(aQuery)
         if (Dbl):
-            return Dbl.Export()
+            return (Dbl.Export(), aQuery)
 
-    async def ExecQuery(self, aPath: str, aValues: dict) -> TDbSql:
+    async def ExecQuery(self, aPath: str, aValues: dict) -> tuple:
         Query = await self.Query.Get(aPath, aValues)
-        #print('-Query', Query)
         return await self.ExecQueryText(Query)

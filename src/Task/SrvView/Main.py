@@ -78,7 +78,7 @@ class TSrvView(TSrvBase):
     async def RunApp(self):
         Log.Print(1, 'i', f'SrvView.RunApp() on port {self._SrvConf.port}')
 
-        ErroMiddleware = {404: self._Err_404}
+        ErroMiddleware = {404: self._Err_404, 'err_all': self._Err_All}
         App = self.CreateApp(aErroMiddleware = ErroMiddleware)
 
         #App['_conf_'] = 'MyConf'

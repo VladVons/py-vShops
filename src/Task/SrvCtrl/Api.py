@@ -39,27 +39,37 @@ class TApiCtrl(TApiBase):
             return {'err': f'Route not found {aRoute}', 'code': 404}
 
         self.Ctrls.LoadMod(aRoute)
-        ModuleObj = self.Ctrls[aRoute]
+        RouteObj = self.Ctrls[aRoute]
 
         Method = DeepGetByList(aData, ['data', 'method'], 'Main')
-        MethodObj = getattr(ModuleObj.Api, Method, None)
+        MethodObj = getattr(RouteObj.Api, Method, None)
         if (MethodObj is None):
             return {'err': f'Method {Method} not found in route {aRoute}', 'code': 404}
 
-        return {'method': MethodObj, 'module': ModuleObj}
+        return {'method': MethodObj, 'module': RouteObj}
+
+    async def GetMethodData(self, aRoute: str, aData: dict) -> dict:
+        self.ExecCnt += 1
+        Data = self.GetMethod(aRoute, aData)
+        if ('err' in Data):
+            return Data
+
+        Method, Module = (Data['method'], Data['module'])
+        return await Method(Module, aData)
 
     async def Exec(self, aRoute: str, aData: dict) -> dict:
         self.ExecCnt += 1
+        if (self.OnExec):
+            await self.OnExec.Method(self.OnExec.Module, aData)
 
         Data = self.GetMethod(aRoute, aData)
         if ('err' in Data):
             return Data
 
-        if (self.OnExec):
-            await self.OnExec.Method(self.OnExec.Module, aData)
-
         Method, Module = (Data['method'], Data['module'])
-        return await Method(Module, aData)
+        Res = await Method(Module, aData)
+        Res['modules'] = await Module.LoadModules(aData)
+        return Res
 
 
 ApiCtrl = TApiCtrl()

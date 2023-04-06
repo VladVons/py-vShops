@@ -6,6 +6,17 @@ from jinja2.exceptions import TemplateNotFound
 from Inc.DbList import TDbList
 
 
+def Dump(self, aVal: bool = True) -> str:
+    Res = []
+    #pylint: disable-next=protected-access
+    Vars = self._TemplateReference__context.parent
+    for Key, Val in Vars.items():
+        if (isinstance(Val, (str, int, float, dict, list))):
+            Data = f'{Key} = {Val}' if aVal else f'{Key} = {type(Val).__name__}'
+            print(Data)
+            Res.append(Data)
+    return '<br>\n'.join(Res)
+
 class TFileSystemLoader(BaseLoader):
     def __init__(self, aSearchPath: list[str]):
         self.SearchPath = aSearchPath
@@ -75,9 +86,10 @@ class TTemplate():
 
         self.Env = TEnvironment(loader = Loader)
         self.Env.globals['TDbList'] = TDbList
+        self.Env.globals['Dump'] = Dump
+        #self.Env.filters['MyFunc'] = MyFunc
         self.Env.trim_blocks = True
         self.Env.lstrip_blocks = True
-        #self.Env.filters['MyFunc'] = MyFunc
 
         #self.ReVar = re.compile(r'''[{]{1,2}%?\s*([a-z-_]+)\s*['"]?([^'"}]*)['"]*\s*%?[}]{1,2}''')
         self.ReVar = re.compile(r'\{\{\s*(\w+)\s*\}\}')

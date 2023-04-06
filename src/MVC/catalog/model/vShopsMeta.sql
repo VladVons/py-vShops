@@ -35,11 +35,10 @@ create type doc_enum as enum (
 );
 
 create type val_enum as enum (
-    'str',
+    'char',
     'int',
     'float',
-    'bool',
-    'date'
+    'bool'
 );
 
 
@@ -553,7 +552,7 @@ create table if not exists ref_kind_category (
 );
 
 create table if not exists ref_kind_attr_product (
-    val                 varchar(24) not null,
+    val                 jsonb not null,
     product_id          integer not null,
     attr_id             integer not null,
     foreign key (product_id) references ref_product(id) on delete cascade,

@@ -75,7 +75,13 @@ class TApiModel(TApiBase):
                 Data = await MethodObj(ModuleObj, **Param)
             else:
                 Data = await MethodObj(ModuleObj, *Param)
-            Res = {'data': Data}
+
+            if (Data):
+                Res = {'data': Data[0]}
+                if (aData.get('query')):
+                    Res['query'] = Data[1]
+            else:
+                Res = {'data': None}
         except Exception as E:
             Res = {'err': str(E)}
             Log.Print(1, 'x', 'TApi.Exec()', str(E))

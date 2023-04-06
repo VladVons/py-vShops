@@ -9,7 +9,7 @@ with recursive wrpc as (
         ref_product_category rpc
     where
         (tenant_id = {aTenantId}) and
-        (parent_idt = {aParentIdt})
+        (parent_idt in ({aParentIdts}))
 
     union all
 
