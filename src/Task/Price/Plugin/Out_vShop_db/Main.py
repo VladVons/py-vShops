@@ -96,7 +96,7 @@ class TSql(TSqlBase):
             self.CategoryIdt = Dbl.ExportPair('idt', 'id')
 
         @DASplit
-        async def _Category(aData: list, _aMax: int) -> TDbList:
+        async def _Category(aData: list, _aMax: int, _aIdx: int = 0) -> TDbList:
             Values = [f"({Row['id']}, {Row['parent_id']}, {self.Conf.TenantId})" for Row in aData]
             Query = f'''
                 insert into ref_product_category (idt, parent_idt, tenant_id)
@@ -120,7 +120,7 @@ class TSql(TSqlBase):
             return await TDbExecPool(self.Db.Pool).Exec(Query)
 
         @DASplit
-        async def Category_Lang(aData: list, _aMax: int) -> TDbList:
+        async def Category_Lang(aData: list, _aMax: int, _aIdx: int = 0) -> TDbList:
             Values = [
                 f"({self.CategoryIdt[Row['id']]}, {self.Conf.LangId}, '{Row['name'].translate(self.Escape)}')"
                 for Row in aData
@@ -147,7 +147,7 @@ class TSql(TSqlBase):
             self.ProductIdt = Dbl.ExportPair('idt', 'id')
 
         @DASplit
-        async def _Product(aData: list, _aMax: int) -> TDbList:
+        async def _Product(aData: list, _aMax: int, _aIdx: int = 0) -> TDbList:
             nonlocal DbRec
 
             Ids = []
@@ -181,7 +181,7 @@ class TSql(TSqlBase):
             return await TDbExecPool(self.Db.Pool).Exec(Query)
 
         @DASplit
-        async def Product_Lang(aData: list, _aMax: int) -> TDbList:
+        async def Product_Lang(aData: list, _aMax: int, _aIdx: int = 0) -> TDbList:
             nonlocal DbRec
 
             Values = []
@@ -203,7 +203,7 @@ class TSql(TSqlBase):
             return await TDbExecPool(self.Db.Pool).Exec(Query)
 
         @DASplit
-        async def Product_Image(aData: list, _aMax: int) -> TDbList:
+        async def Product_Image(aData: list, _aMax: int, _aIdx: int = 0) -> TDbList:
             nonlocal DbRec
 
             Values = []
@@ -222,7 +222,7 @@ class TSql(TSqlBase):
             return await TDbExecPool(self.Db.Pool).Exec(Query)
 
         @DASplit
-        async def Product_ToCategory(aData: list, _aMax: int) -> TDbList:
+        async def Product_ToCategory(aData: list, _aMax: int, _aIdx: int = 0) -> TDbList:
             nonlocal DbRec
 
             Values = []
@@ -238,7 +238,7 @@ class TSql(TSqlBase):
             return await TDbExecPool(self.Db.Pool).Exec(Query)
 
         @DASplit
-        async def Product_Price(aData: list, _aMax: int) -> TDbList:
+        async def Product_Price(aData: list, _aMax: int, _aIdx: int = 0) -> TDbList:
             nonlocal DbRec
 
             Values = []

@@ -46,7 +46,7 @@ class TPluginApp():
                         Log.Print(1, 'i', f'{Tab}{aName} depends on {Depend}')
                     await self.Load(Depend, aDepth + 1)
 
-            TClass = DynImport(self.Path + '.' + aName, 'T' + aName)
+            TClass, Err = DynImport(self.Path + '.' + aName, 'T' + aName)
             if (TClass):
                 TimeStart = time.time()
                 Class = TClass()
@@ -60,7 +60,7 @@ class TPluginApp():
                 self.Data[aName] = await Class.Run()
                 Log.Print(1, 'i', '%sFinish %s. Time: %0.2f' % (Tab, aName, time.time() - TimeStart))
             else:
-                Log.Print(1, 'e', '%sErr loading %s' % (Tab, aName))
+                Log.Print(1, 'e', '%sErr loading %s. %s' % (Tab, aName, Err))
                 sys.exit(1)
 
     async def Run(self):

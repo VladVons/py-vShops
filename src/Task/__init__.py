@@ -27,6 +27,7 @@ def _InitOptions():
     Parser = argparse.ArgumentParser(usage = Usage)
     Parser.add_argument('-c', '--conf',     help='config',            default='Default')
     Parser.add_argument('-i', '--info',     help='information',       action='store_true')
+    #Parser.add_argument('-p', '--plugins',  help='plugins',           default='Price') #ToDo
     Parser.add_argument('-t', '--test',     help='test',              action='store_true')
     return Parser.parse_args()
 

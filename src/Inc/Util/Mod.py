@@ -24,14 +24,16 @@ def GetImportsGlobal() -> set[str]: #//
             Res.add(Name.split('.')[0])
     return Res
 
-def DynImport(aPath: str, aClass: str) -> object: #//
+def DynImport(aPath: str, aClass: str) -> tuple:
+    TClass, Err = (None, None)
     try:
         Mod = __import__(aPath, None, None, [aClass])
         TClass = getattr(Mod, aClass, None)
+        if (not TClass):
+            Err = f'Class {aClass} not found in {aPath}'
     except ModuleNotFoundError as E:
-        print(E)
-    else:
-        return TClass
+        Err = str(E)
+    return (TClass, Err)
 
 #---
 #http://www.qtrac.eu/pyclassmulti.html

@@ -2,7 +2,9 @@
 # Author: Vladimir Vons <VladVons@gmail.com>
 # License: GNU, see LICENSE for more details
 #
+# https://console.developers.google.com
 # https://docs.gspread.org/en/latest/oauth2.html
+# https://www.youtube.com/watch?v=bu5wXjz2KvU
 
 
 import gspread
@@ -17,9 +19,10 @@ class TParser_gxls(TEngine):
     async def _Load(self):
         assert self._Engine, 'InitEngine() not invoked %s' % self.GetFile()
 
-        # ToDo
+        #Auth = '~/.config/gspread/service_account.json'
         gsa = gspread.service_account()
-        sh = gsa.open("Example spreadsheet")
+        #sh = gsa.open("MySpreadsheetName")
+        sh = gsa.open_by_url(Url)
         sh1 = sh.sheet1
         sh.get('A1')
 

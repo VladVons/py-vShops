@@ -42,8 +42,9 @@
                 "password": "$env_db_passwd"
             },
             "depends": [
-                "In_Price_prom_xml",
-                "-In_Price_oster1c_xml"
+                "-In_Price_prom_xml",
+                "-In_Price_oster1c_xml",
+                "In_Price_pl02_gxls"
             ]
         }
     }
