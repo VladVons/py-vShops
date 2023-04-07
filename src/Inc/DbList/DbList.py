@@ -9,12 +9,14 @@ from .DbRec import TDbRec
 
 
 class TDbList(TDbBase):
-    def __init__(self, aFields: list[str] = None, aData: list = None):
+    def __init__(self, aFields: list[str] = None, aData: list = None, aDef: dict = None):
         super().__init__()
         self.Rec = TDbRec()
 
         if (aFields):
             self.Init(aFields, aData)
+            if (aDef):
+                self.Rec.Def = aDef
 
     def _DbExp(self, aData: list, aFields: list[str], aFieldsNew: list[list] = None) -> 'TDbList':
         Res = self.__class__()
@@ -101,7 +103,10 @@ class TDbList(TDbBase):
 
     def RecAdd(self, aData: list = None) -> TDbRec:
         if (not aData):
-            aData = [None] * len(self.Rec.Fields)
+            if (self.Rec.Def):
+                aData = [self.Rec.Def.get(x) for x in self.Rec.Fields]
+            else:
+                aData = [None] * len(self.Rec.Fields)
         self.Data.append(aData)
         self._RecNo = self.GetSize() - 1
         return self._RecInit()

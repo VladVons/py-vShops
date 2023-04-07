@@ -1,20 +1,34 @@
 {
     "plugin": {
         "In_Price_pl01_xlsx": {
+            "url_gspread": "https://docs.google.com/spreadsheets/d/1EIwjTitfj1_oyWS7ralnUCtq8ZH0g3DWBKq3gP4qrvo",
             "sheet": {
-                "KOMPUTERY": {
+                "COMPUTERS": {
                     "skip": 1,
                     "fields": {
-                        "model": 3,
-                        "cpu": 4,
-                        "case": 5,
+                        "model": 2,
+                        "cpu": 3,
+                        "case": 4,
                         "disk": 6,
                         "ram": 7,
                         "os": 8,
                         "dvd": 9,
                         "vga": 10,
                         "price": 11
-                    }
+                    },
+                    "title": ["model", "cpu", "ram", "disk", "os"]
+                },
+                "MONITORS": {
+                    "skip": 1,
+                    "fields": {
+                        "model": 2,
+                        "screen": 5,
+                        "price": 8,
+                        "grade": 3,
+                        "color": 7,
+                        "stand": 4
+                    },
+                    "title": ["model", "screen", "grade", "color"]
                 }
             }
         }

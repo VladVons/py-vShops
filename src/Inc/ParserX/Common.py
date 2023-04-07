@@ -5,7 +5,7 @@
 
 import os
 #
-from Inc.DbList import TDbListSafe, TDbRecSafe
+from Inc.DbList import TDbList, TDbRec, TDbRecSafe
 from Inc.Util.Obj import DeepGet, DeepGetByList, GetClassPath
 from Inc.Misc.Time import TASleep
 from Inc.Misc.Request import TRequestGet
@@ -78,14 +78,23 @@ class TFileBase():
 
 
 class TFileDbl(TFileBase):
-    def __init__(self, aParent, aDbl: TDbListSafe):
+    def __init__(self, aParent, aDbl: TDbList):
         super().__init__(aParent)
         self.Dbl = aDbl
 
     async def _Load(self):
         raise NotImplementedError()
 
-    def Copy(self, aName: str, aRow: dict, aRec: TDbRecSafe):
+    def _OnLoad(self):
+        pass
+
+    def Copy(self, aName: str, aRow: dict, aRec: TDbRec):
+        Val = aRow.get(aName)
+        if (Val is None):
+            Val = aRec.Def.get(aName)
+        aRec.SetField(aName, Val)
+
+    def CopySafe(self, aName: str, aRow: dict, aRec: TDbRecSafe):
         Field = self.Dbl.Fields[aName]
         Val = aRow.get(aName)
         if (Val is None):
@@ -107,6 +116,7 @@ class TFileDbl(TFileBase):
                     Log.Print(1, 'e', f'File not found {SrcFile}. Skip')
                     return
 
+            self._OnLoad()
             await self._Load()
             if (self.Parent.Conf.get('save_cache')):
                 os.makedirs(os.path.dirname(File), exist_ok=True)
@@ -125,7 +135,9 @@ class TEngine(TFileDbl):
         raise NotImplementedError()
 
     def GetConfSheet(self) -> dict:
-        return DeepGetByList(self.Parent.Conf, ['sheet', self._Sheet])
+        Res = DeepGetByList(self.Parent.Conf, ['sheet', self._Sheet])
+        assert(Res), 'sheet not found'
+        return Res
 
     def InitEngine(self, aEngine = None):
         if (aEngine):

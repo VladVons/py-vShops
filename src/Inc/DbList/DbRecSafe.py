@@ -15,6 +15,9 @@ class TDbRecSafe(list):
     def __getattr__(self, aName: str) -> object:
         return self.GetField(aName)
 
+    def __len__(self):
+        return len(self.Parent.Fields)
+
     def Find(self, aCond: TDbCond) -> bool:
         return aCond.Find(self)
 

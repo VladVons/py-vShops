@@ -10,9 +10,10 @@ class TDbRec():
     def __init__(self):
         self.Data = []
         self.Fields = {}
+        self.Def = {}
 
     def __getattr__(self, aName: str) -> object:
-        return self.GetField(aName)
+        return self.GetField(aName, self.Def.get(aName))
 
     def __len__(self):
         return len(self.Fields)

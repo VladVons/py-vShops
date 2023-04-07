@@ -44,7 +44,7 @@
             "depends": [
                 "-In_Price_prom_xml",
                 "-In_Price_oster1c_xml",
-                "In_Price_pl02_gxls"
+                "In_Price_pl01_xlsx"
             ]
         }
     }

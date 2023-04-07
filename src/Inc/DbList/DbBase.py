@@ -193,7 +193,7 @@ class TDbBase():
 
         # FieldsSum = [(Key + '_Sum', Val[1]) for Key, Val in self.Fields.GetFields(aFieldsSum).items()]
         # return self._DbExp(Data, aFieldsUniq, FieldsSum + [('count', int)])
-        return self._DbExp(Data, aFieldsUniq + aFieldsSum, [('count', int)])
+        return self._DbExp(Data, aFieldsUniq + aFieldsSum, ['count'])
 
     def Find(self, aCond: TDbCond) -> int:
         for i in range(self._RecNo, self.GetSize()):
