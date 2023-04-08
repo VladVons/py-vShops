@@ -1,6 +1,15 @@
 {
     "plugin": {
         "In_Price_pl01_xlsx": {
+            "export": {
+                "Out_vShop_db": {
+                    "sql": {
+                        "tenant_id": 2,
+                        "lang_id": 1,
+                        "price_id": 3
+                    }
+                }
+            },
             "url_gspread": "https://docs.google.com/spreadsheets/d/1EIwjTitfj1_oyWS7ralnUCtq8ZH0g3DWBKq3gP4qrvo",
             "sheet": {
                 "COMPUTERS": {

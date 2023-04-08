@@ -38,12 +38,15 @@ class TPluginBase():
         self.Conf = None
         self.Depth = 0
 
+    def GetDepends(self) -> list[str]:
+        return [x for x in self.Depends if (not x.startswith('-'))]
+
     def GetParam(self, aName: str, aDef = None) -> object:
         return DeepGet(self.Parent.Data, aName, aDef)
 
     def GetParamDepends(self, aName: str = '') -> dict:
         Res = {}
-        for Depend in self.Depends:
+        for Depend in self.GetDepends():
             Path = f'{Depend}.{aName}' if (aName) else Depend
             Param = self.GetParam(Path)
             if (Param):
@@ -56,6 +59,10 @@ class TPluginBase():
         if (aIdx < len(Param)):
             return Param[aIdx]
         return None
+
+    def GetParamExport(self, aName: str) -> dict:
+        Module = self.__module__.rsplit('.', maxsplit = 1)[-1]
+        return DeepGetByList(self.Parent.Conf, ['plugin', aName, 'export', Module], {})
 
     def GetFile(self) -> str:
         Res = self.Conf.GetKey('file')

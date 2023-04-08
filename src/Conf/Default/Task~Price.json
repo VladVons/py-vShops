@@ -30,9 +30,7 @@
             "site_image": "catalog/products",
             "sql": {
                 "parts": 50,
-                "tenant_id": 2,
-                "lang_id": 1,
-                "price_id": 3
+                "lang_id": 1
             },
             "auth": {
                 "host": "10.10.1.1",

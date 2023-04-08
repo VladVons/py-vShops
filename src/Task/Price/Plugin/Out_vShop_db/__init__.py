@@ -15,9 +15,9 @@ class TOut_vShop_db(TPluginBase):
         Db = TDbPg(DbAuth)
         await Db.Connect()
 
-        Main = TMain(self, Db)
-        DbCategory = self.GetParamDependsIdx('TDbCategory')
-        DbProductEx = self.GetParamDependsIdx('TDbProductEx')
-        await Main.InsertToDb(DbCategory, DbProductEx)
+        for Key, Val in self.GetParamDepends().items():
+            Export = self.GetParamExport(Key)
+            Main = TMain(self, Db, Export)
+            await Main.InsertToDb(Val.get('TDbCategory'), Val.get('TDbProductEx'))
 
         await Db.Close()

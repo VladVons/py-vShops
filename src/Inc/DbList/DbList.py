@@ -107,6 +107,8 @@ class TDbList(TDbBase):
                 aData = [self.Rec.Def.get(x) for x in self.Rec.Fields]
             else:
                 aData = [None] * len(self.Rec.Fields)
+        else:
+            assert (len(aData) == len(self.Rec.Fields)), 'Length mismatch'
         self.Data.append(aData)
         self._RecNo = self.GetSize() - 1
         return self._RecInit()

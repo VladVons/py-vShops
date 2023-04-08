@@ -273,7 +273,7 @@ class TSql(TSqlBase):
 
 
 class TMain(TFileBase):
-    def __init__(self, aParent, aDb: TDbPg):
+    def __init__(self, aParent, aDb: TDbPg, aExport: dict):
         super().__init__(aParent)
 
         ConfFile = self.Parent.GetFile()
@@ -281,6 +281,7 @@ class TMain(TFileBase):
         self.LogEx = self.LogEx.Init(ConfFile)
 
         SqlDef = self.Parent.Conf.GetKey('sql', {})
+        SqlDef.update(aExport.get('sql'))
         SqlConf = TSqlConf(
             DirImage = self.Parent.Conf.GetKey('site_image'),
             TenantId = SqlDef.get('tenant_id'),
