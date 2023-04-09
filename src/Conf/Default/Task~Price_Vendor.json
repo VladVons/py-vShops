@@ -5,8 +5,13 @@
                 "Out_vShop_db": {
                     "sql": {
                         "tenant_id": 2,
-                        "lang_id": 1,
                         "price_id": 3
+                    }
+                },
+                "Out_Save_txt": {
+                    "TDbProductEx": {
+                        "len": 70,
+                        "fields": ["category_id", "mpn", "name", "available", "price"]
                     }
                 }
             },
@@ -38,6 +43,27 @@
                         "stand": 4
                     },
                     "title": ["model", "screen", "grade", "color"]
+                }
+            }
+        },
+        "In_Price_oster1c_xml": {
+            "encoding": "cp1251",
+            "export": {
+                "Out_vShop_db": {
+                    "sql": {
+                        "tenant_id": 1,
+                        "price_id": 3
+                    }
+                }
+            }
+        },
+        "In_Price_prom_xml": {
+            "export": {
+                "Out_vShop_db": {
+                    "sql": {
+                        "tenant_id": 3,
+                        "price_id": 3
+                    }
                 }
             }
         }

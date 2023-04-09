@@ -9,7 +9,8 @@
         "Task~Price_Vendor.json"
     ],
     "plugins": [
-        {"name": "Out_vShop_db", "enable": true}
+        {"name": "Out_vShop_db", "enable": false},
+        {"name": "Out_Save_txt", "enable": true}
     ],
     "common": {
         "sleep_loop": 0.01,
@@ -21,10 +22,16 @@
                 "In_Price_pl01_xlsx"
             ]
         },
-        "In_Price_oster1c_xml": {
-            "encoding": "cp1251"
-        },
-        "In_Price_prom_xml": {
+        "Out_Save_txt" : {
+            "depends": [
+                "-In_Price_prom_xml",
+                "-In_Price_oster1c_xml",
+                "In_Price_pl01_xlsx"
+            ],
+            "dir": "./Data/Pl/Out",
+            "db_list": { 
+                "len": 50
+            }
         },
         "Out_vShop_db": {
             "site_image": "catalog/products",
@@ -40,8 +47,8 @@
                 "password": "$env_db_passwd"
             },
             "depends": [
-                "-In_Price_prom_xml",
-                "-In_Price_oster1c_xml",
+                "In_Price_prom_xml",
+                "In_Price_oster1c_xml",
                 "In_Price_pl01_xlsx"
             ]
         }
