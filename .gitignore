@@ -3,6 +3,7 @@
 *.xml
 *.xls
 *.dat
+*.txt
 __pycache__
 cache
 .idea
