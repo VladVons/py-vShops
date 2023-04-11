@@ -12,6 +12,12 @@ async def Get_ProductsCount_Tenant(self, aTenantId: int) -> dict:
         {'aTenantId': aTenantId}
     )
 
+async def Get_ProductsCount_TenantParent(self, aTenantId: int, aParentIdt: int = 0) -> dict:
+    return await self.ExecQuery(
+        'fmtGet_ProductsCount_TenantParent.sql',
+        {'aTenantId': aTenantId, 'aParentIdt': aParentIdt}
+    )
+
 async def Get_CategoriesProductsCountName_TenantLang(self, aTenantId: int, aLangId: int) -> dict:
     '''
     get products count in all categories
@@ -35,8 +41,8 @@ async def Get_Categories_TenantParentLang(self, aTenantId: int, aParentIdts: lis
         {'aTenantId': aTenantId, 'aParentIdts': aParentIdts, 'aLangId': aLangId, 'aDepth': aDepth}
     )
 
-async def Get_CategoriesSubCount_TenantParent(self, aTenantId: int, aParentIdt: int = 0) -> dict:
+async def Get_CategoriesSubCount_TenantParentLang(self, aTenantId: int, aParentIdt: int, aLangId: int) -> dict:
     return await self.ExecQuery(
-        'fmtGet_CategoriesSubCount_TenantParent.sql',
-        {'aTenantId': aTenantId, 'aParentIdt': aParentIdt}
+        'fmtGet_CategoriesSubCount_TenantParentLang.sql',
+        {'aTenantId': aTenantId, 'aParentIdt': aParentIdt, 'aLangId': aLangId}
     )

@@ -6,13 +6,13 @@ from jinja2.exceptions import TemplateNotFound
 from Inc.DbList import TDbList
 
 
-def Dump(self, aVal: bool = True) -> str:
+def Dump(self, aName: str = '') -> str:
     Res = []
     #pylint: disable-next=protected-access
     Vars = self._TemplateReference__context.parent
     for Key, Val in Vars.items():
         if (isinstance(Val, (str, int, float, dict, list))):
-            Data = f'{Key} = {Val}' if aVal else f'{Key} = {type(Val).__name__}'
+            Data = f'{Key} = {Val}' if (Key in aName) else f'{Key} = {type(Val).__name__}'
             print(Data)
             Res.append(Data)
     return '<br>\n'.join(Res)

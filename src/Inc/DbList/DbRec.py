@@ -32,9 +32,15 @@ class TDbRec():
     def GetAsDict(self) -> dict:
         return dict(zip(self.Fields, self.Data))
 
+    def GetAsList(self) -> list:
+        return self.Data
+
     def GetAsSql(self) -> str:
         Res = [f"'{x}'" if (isinstance(x, str)) else str(x) for x in self.Data]
         return ', '.join(Res)
+
+    def GetAsTuple(self) -> list:
+        return list(zip(self.Fields, self.Data))
 
     def GetField(self, aName: str, aDef = None) -> object:
         Idx = self.Fields.get(aName)
@@ -45,13 +51,13 @@ class TDbRec():
             Res = aDef
         return Res
 
+    def GetFieldByNo(self, aNo: int) -> object:
+        return self.Data[aNo]
+
     def GetFieldNo(self, aName: str) -> int:
         Res = self.Fields.get(aName)
         assert(Res is not None), 'Field not found'
         return Res
-
-    def GetAsTuple(self) -> list:
-        return list(zip(self.Fields, self.Data))
 
     def Init(self, aFields: list, aData: list) -> 'TDbRec':
         self.Fields = {x: i for i, x in enumerate(aFields)}

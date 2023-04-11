@@ -56,3 +56,8 @@ from
 left join 
     category_cardinatilies cc
     on (rpc.idt = cc.cat_id)
+left join
+    ref_product_category_lang rpcl 
+    on (rpc.id = rpcl.category_id)
+where 
+    rpcl.lang_id = {aLangId}

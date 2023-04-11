@@ -10,7 +10,8 @@
     ],
     "plugins": [
         {"name": "Out_vShop_db", "enable": false},
-        {"name": "Out_Save_txt", "enable": true}
+        {"name": "Out_Save_txt", "enable": false},
+        {"name": "Out_Save_xlsx", "enable": true}
     ],
     "common": {
         "sleep_loop": 0.01,
@@ -32,6 +33,14 @@
             "db_list": { 
                 "len": 50
             }
+        },
+        "Out_Save_xlsx" : {
+            "depends": [
+                "-In_Price_prom_xml",
+                "-In_Price_oster1c_xml",
+                "In_Price_pl01_xlsx"
+            ],
+            "dir": "./Data/Pl/Out"
         },
         "Out_vShop_db": {
             "site_image": "catalog/products",

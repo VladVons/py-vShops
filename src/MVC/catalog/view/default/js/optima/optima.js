@@ -12,7 +12,7 @@ class $Optima {
   css(styles) {
     for(let i=0; i<this.length; i++) {
       for(let name in styles) {
-        this[i].style[name] = styles[name]
+				this[i].style[name] = styles[name]
       }
     }
     return this

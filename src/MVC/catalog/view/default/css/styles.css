@@ -6,6 +6,10 @@
   margin: 0;
 }
 
+script, style, meta, link {
+  display: none;
+}
+
 html { font-size: 1px }
 body { font-size: 16rem }
 html, body { width: 100% }
@@ -27,7 +31,7 @@ p { margin-top: 20px; text-align: justify; }
 .italic { font-style: italic }
 .underline {text-decoration: underline }
 
-textarea:focus, input:focus { outline: none }
+textarea:focus, input:focus, select:focus { outline: none }
 
 icon.icon16 {
   display: inline-block;
@@ -45,3 +49,5 @@ a.more {
 .up-m { margin-top: 40px }
 .up-s { margin-top: 20px }
 .up-xs { margin-top: 10px }
+
+flex, .flex { flex: 1 }

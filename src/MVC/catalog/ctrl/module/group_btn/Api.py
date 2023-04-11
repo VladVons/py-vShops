@@ -18,10 +18,12 @@ async def Main(self, aData: dict = None) -> dict:
     )
     Res.update(aData['rec'])
 
-    Href = []
-    Dbl = TDbSql().Import(Res.get('data'))
-    for Rec in Dbl:
-        Href.append(f'information/information&path={Rec.id}')
-    Dbl.AddFields(['href'], [Href])
-    Res['data'] = Dbl.Export()
+    DblData = Res.get('data')
+    if (DblData):
+        Href = []
+        Dbl = TDbSql().Import(DblData)
+        for Rec in Dbl:
+            Href.append(f'information/information&path={Rec.id}')
+        Dbl.AddFields(['href'], [Href])
+        Res['data'] = Dbl.Export()
     return Res

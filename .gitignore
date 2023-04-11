@@ -2,6 +2,7 @@
 *.log
 *.xml
 *.xls
+*.ods
 *.dat
 *.txt
 __pycache__

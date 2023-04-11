@@ -36,6 +36,12 @@ class TDbRecSafe(list):
         Idx = self.Parent.Fields.GetNo(aName)
         return self[Idx]
 
+    def GetFieldByNo(self, aNo: int) -> object:
+        return self[aNo]
+
+    def GetFieldNo(self, aName: str) -> int:
+        return self.Parent.Fields.GetNo(aName)
+
     def SetField(self, aName: str, aValue: object):
         Idx = self.Parent.Fields.GetNo(aName)
         if (self.Parent.OptSafe):
@@ -61,6 +67,9 @@ class TDbRecSafe(list):
 
     def GetAsDict(self) -> dict:
         return {Key: self[Val[0]] for Key, Val in self.Parent.Fields.items()}
+
+    def GetAsList(self) -> list:
+        return self
 
     def GetAsSql(self) -> str:
         Res = []
