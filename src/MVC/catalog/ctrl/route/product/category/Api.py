@@ -27,4 +27,4 @@ async def Main(self, aData: dict = None) -> dict:
         Res['dbl_category'] = Dbl.Export()
 
         CategoriesComma = Dbl.ExportListComma('id')
-    return Res
+        return Res

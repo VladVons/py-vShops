@@ -1,4 +1,0 @@
-id	parent_id	name    	
- 1	        0	Computer	
- 2	        0	Monitor 	
-records: 2

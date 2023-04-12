@@ -13,6 +13,11 @@
                         "len": 70,
                         "fields": ["category_id", "mpn", "name", "available", "price"]
                     }
+                },
+                "Out_Save_xlsx": {
+                    "TDbProductEx": {
+                        "fields": ["category_id", "mpn", "name", "available", "price"]
+                    }
                 }
             },
             "url_gspread": "https://docs.google.com/spreadsheets/d/1EIwjTitfj1_oyWS7ralnUCtq8ZH0g3DWBKq3gP4qrvo",

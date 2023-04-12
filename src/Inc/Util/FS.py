@@ -17,7 +17,7 @@ def FileLoad(aName: str, aMode: str = 'r') -> object:
 def FileStat(aName: str) -> tuple:
     try:
         return os.stat(aName)
-    except: 
+    except:
         pass
 
 def FileExists(aName: str) -> bool:
