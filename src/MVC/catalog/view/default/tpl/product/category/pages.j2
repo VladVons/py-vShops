@@ -1,0 +1,13 @@
+        <pages>
+          <start title='на початок списку'><<</start>
+          <left title='прокрутка вліво'><</left>
+          <data>
+            <list>
+            {% for i in pages %}
+                <page>{{i}}</page>
+            {% endfor %}
+            </list>
+          </data> 
+          <right title='прокрутка вправо'>></right>
+          <end title='в кінець списку'>>></end>
+        </pages>

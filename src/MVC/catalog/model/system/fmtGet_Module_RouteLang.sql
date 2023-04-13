@@ -1,6 +1,6 @@
 with t1 as (
     select 
-        distinct on(rlm.module_id, rlm.place) rlm.module_id as id,
+        distinct on (rlm.module_id, rlm.place) rlm.module_id as id,
         rlm.place,
         rlm.sort_order,
         rm.code,

@@ -50,3 +50,11 @@ async def Get_CategoriesSubCount_TenantParentLang(self, aTenantId: int, aParentI
         'fmtGet_CategoriesSubCount_TenantParentLang.sql',
         {'aTenantId': aTenantId, 'aParentIdtRoot': aParentIdtRoot, 'CondParentIdts': CondParentIdts, 'aLangId': aLangId}
     )
+
+async def Get_CategoriesProducts_LangImagePrice(self, aCategoryIds: list[int], aLangId: int, aPriceId: int, aLimit: int = 100, aOffset: int = 0) -> dict:
+    CategoryIds = ListIntToComma(aCategoryIds)
+
+    return await self.ExecQuery(
+        'fmtGet_CategoriesProducts_LangImagePrice.sql',
+        {'CategoryIds': CategoryIds, 'aLangId': aLangId, 'aPriceId': aPriceId, 'aLimit': aLimit, 'aOffset': aOffset}
+    )

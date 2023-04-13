@@ -2,11 +2,11 @@
           <grid>
             {% for Rec in TDbList().Import(dbl_product) %}
             <item>
-              <a href='#'><img src='img/goods/01-228.jpg' title='Acer 19V 4.74A 90W (5.5*1.7) OEM' /></a>
+              <a href='#'><img src='img/goods/01-228.jpg' title='{{Rec.title}}' /></a>
               <block>
-                <a href='#'><name>Acer 19V 4.74A 90W (5.5*1.7) OEM</name></a>
+                <a href='#'><name>{{Rec.title}}</name></a>
                 <info></info>
-                <price>450.00грн</price>
+                <price>{{Rec.price}}</price>
                 <panel>
                   <a href='#' class='buy'><icon class='buy'></icon>купити</a>
                   <a href='#' title='в закладки'><icon class='favorite'></icon></a>

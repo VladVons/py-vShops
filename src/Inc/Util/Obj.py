@@ -166,9 +166,12 @@ def GetNotNone(aData: dict, aKey: str, aDef: object) -> object:
 def Filter(aData: dict, aKeys: list) -> dict:
     return {Key: aData[Key] for Key in aKeys }
 
-def GetDictDef(aData: dict, aKeys: list, aDef: list) -> list:
+def GetDictDef(aData: dict, aKeys: list, aDef: list, aDefType: bool = False) -> list:
     if (aData):
-        Res = [aData.get(Key, Def) for Key, Def in zip(aKeys, aDef)]
+        if (aDefType):
+            Res = [type(Def)(aData.get(Key, Def)) for Key, Def in zip(aKeys, aDef)]
+        else:
+            Res = [aData.get(Key, Def) for Key, Def in zip(aKeys, aDef)]
     else:
         Res = aDef
     return Res
