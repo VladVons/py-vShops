@@ -11,20 +11,28 @@ async def Main(self, aData: dict = None) -> dict:
     Res = await self.ExecModel(
         'ref_product/category',
         {
-            'method': 'Get_Categories_TenantParentLang',
-            'param': {'aTenantId': aTenantId, 'aLangId': aLangId, 'aParentIdts': [CategoriyIds[-1]], 'aDepth': 1},
-            'query': False
+            'method': 'Get_CategoriesSubCount_TenantParentLang',
+            'param': {'aTenantId': aTenantId, 'aLangId': aLangId, 'aParentIdtRoot': 0, 'aParentIdts': CategoriyIds},
+            'query': True
         }
     )
 
     DblData = Res.get('data')
     if (DblData):
-        Href = []
+        Deep = len(CategoriyIds)
         Dbl = TDbSql().Import(DblData)
+        DblOut = Dbl.New()
+        DblOut.AddFields(['href'])
         for Rec in Dbl:
-            Href.append(f'?route=product/category&path={aPath}_{Rec.idt}')
-        Dbl.AddFields(['href'], [Href])
-        Res['dbl_category'] = Dbl.Export()
-
-        CategoriesComma = Dbl.ExportListComma('id')
-        return Res
+            if (Deep == Rec.deep):
+                Data = Rec.GetAsList() + (f'?route=product/category&path={aPath}_{Rec.idt}',)
+                DblOut.RecAdd(Data)
+        if (DblOut.GetSize() > 0):
+            Res['dbl_category'] = DblOut.Export()
+            CategoriesComma = DblOut.ExportListComma('id')
+        else:
+            Dbl.RecNo = 0
+            RecNo = Dbl.FindField('idt', int(CategoriyIds[-1]))
+            if (RecNo != -1):
+                CategoriesComma = Dbl.RecGo(RecNo).GetField('id')
+    return Res

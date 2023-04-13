@@ -35,14 +35,18 @@ async def Get_Categories_TenantParent(self, aTenantId: int, aParentIdt: int, aDe
     )
 
 async def Get_Categories_TenantParentLang(self, aTenantId: int, aParentIdts: list[int], aLangId: int, aDepth: int = 99) -> dict:
-    aParentIdts = ListIntToComma(aParentIdts)
+    ParentIdts = ListIntToComma(aParentIdts)
     return await self.ExecQuery(
         'fmtGet_Categories_TenantParentLang.sql',
-        {'aTenantId': aTenantId, 'aParentIdts': aParentIdts, 'aLangId': aLangId, 'aDepth': aDepth}
+        {'aTenantId': aTenantId, 'aParentIdts': ParentIdts, 'aLangId': aLangId, 'aDepth': aDepth}
     )
 
-async def Get_CategoriesSubCount_TenantParentLang(self, aTenantId: int, aParentIdt: int, aLangId: int) -> dict:
+async def Get_CategoriesSubCount_TenantParentLang(self, aTenantId: int, aParentIdtRoot: int, aParentIdts: list[int], aLangId: int) -> dict:
+    CondParentIdts = ''
+    if (aParentIdts):
+        CondParentIdts = 'and (wrpc.parent_idt in (%s))' % ListIntToComma(aParentIdts)
+
     return await self.ExecQuery(
         'fmtGet_CategoriesSubCount_TenantParentLang.sql',
-        {'aTenantId': aTenantId, 'aParentIdt': aParentIdt, 'aLangId': aLangId}
+        {'aTenantId': aTenantId, 'aParentIdtRoot': aParentIdtRoot, 'CondParentIdts': CondParentIdts, 'aLangId': aLangId}
     )

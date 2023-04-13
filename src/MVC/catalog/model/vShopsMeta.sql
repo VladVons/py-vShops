@@ -221,7 +221,7 @@ create table if not exists ref_product0_category (
     deleted             boolean default false,
     parent_id           integer not null,
     image               varchar(64),
-    sort_order          smallint
+    sort_order          smallint default 0
 );
 
 create table if not exists ref_product0_category_lang (
@@ -247,7 +247,7 @@ create table if not exists ref_product0 (
 create table if not exists ref_product0_image (
     id                  serial primary key,
     image               varchar(64) not null,
-    sort_order          smallint,
+    sort_order          smallint default 0,
     product_id          integer not null,
     foreign key (product_id) references ref_product0(id) on delete cascade
 );
@@ -359,7 +359,7 @@ create table if not exists ref_layout (
 create table if not exists ref_layout_module (
     id                  serial primary key,
     enabled             boolean default true,
-    sort_order          smallint,
+    sort_order          smallint default 0,
     place               varchar(16),
     layout_id           integer not null,
     module_id           integer not null,
@@ -442,11 +442,12 @@ create table if not exists ref_product_category (
     idt                 integer not null,
     parent_idt          integer not null,
     image               varchar(64),
-    sort_order          smallint,
+    sort_order          smallint default 0,
     tenant_id           integer not null,
     foreign key (tenant_id) references ref_tenant(id),
     unique (idt, tenant_id)
 );
+--? create index if not exists ref_product_category_tenant_idx on ref_product_category(tenant_id);
 
 create table if not exists ref_product_category_lang (
     category_id         integer not null,
@@ -502,7 +503,7 @@ create table if not exists ref_product_image (
     enabled             boolean default true,
     deleted             boolean default false,
     image               varchar(64),
-    sort_order          smallint,
+    sort_order          smallint default 0,
     product_id          integer not null,
     foreign key (product_id) references ref_product(id) on delete cascade
 );
@@ -539,7 +540,7 @@ create table if not exists ref_kind (
 
 create table if not exists ref_kind_attr (
     id                  serial primary key,
-    sort_order          smallint,
+    sort_order          smallint default 0,
     reqire              boolean default false,
     val_en              val_enum,
     kind_id             integer not null,

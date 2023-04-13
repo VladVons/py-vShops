@@ -68,6 +68,8 @@ class TApiCtrl(TApiBase):
 
         Method, Module = (Data['method'], Data['module'])
         Res = await Method(Module, aData)
+        if (not Res):
+            Res = {}
         Res['modules'] = await Module.LoadModules(aData)
         return Res
 

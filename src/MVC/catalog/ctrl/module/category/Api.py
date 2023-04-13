@@ -12,8 +12,8 @@ async def Main(self, aData: dict = None) -> dict:
     Res = await self.ExecModel(
         'ref_product/category',
         {
-            'method': 'Get_Categories_TenantParentLang',
-            'param': {'aTenantId': aTenantId, 'aLangId': aLangId, 'aParentIdts': CategoriyIds[:2], 'aDepth': 1},
+            'method': 'Get_CategoriesSubCount_TenantParentLang',
+            'param': {'aTenantId': aTenantId, 'aLangId': aLangId, 'aParentIdtRoot': 0, 'aParentIdts': CategoriyIds[:2]},
             'query': False
         }
     )
