@@ -481,7 +481,7 @@ create table if not exists ref_product_price (
     id                  serial primary key,
     product_id          integer not null,
     price_id            integer not null,
-    price               integer not null,
+    price               float not null,
     qty                 integer not null default 1,
     foreign key (product_id) references ref_product(id) on delete cascade,
     foreign key (price_id) references ref_price(id),

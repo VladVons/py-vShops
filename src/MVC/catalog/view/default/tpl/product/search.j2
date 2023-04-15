@@ -1,8 +1,7 @@
 {% extends "inc/index.j2" %}
 
 {% block content %}
-  <title>{{category}}</title>
-  {% include './category/child.j2' %}
+  <title>Знайдено {{total}}: {{search}}</title>
   {% include './category/control.j2' %}
   {% include './category/goods.j2' %}
   {% include './category/pages.j2' %}

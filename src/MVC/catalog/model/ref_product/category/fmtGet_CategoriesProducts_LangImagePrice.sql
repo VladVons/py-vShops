@@ -1,12 +1,12 @@
 select
     rptc.product_id,
     rpl.title,
-    rpp.price, 
+    rpp.price,
     (
-        select rpi.image 
-        from ref_product_image rpi 
+        select rpi.image
+        from ref_product_image rpi
         where (rpi.product_id = rptc.product_id and rpi.enabled)
-        order by rpi.sort_order 
+        order by rpi.sort_order
         limit 1
      ) as image
 from

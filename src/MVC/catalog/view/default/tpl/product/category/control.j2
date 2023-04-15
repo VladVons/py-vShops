@@ -1,22 +1,22 @@
-        <control>
-          <mode class='list' title='вигляд списком' onclick='catalog.setMode(this.className)'></mode>
-          <mode class='grid' title='вигляд таблицею'  onclick='catalog.setMode(this.className, true)'></mode>
-          <mode class='compare' title='порівняння товарів (0)' onclick='catalog.setMode(this.className)'></mode>
+<control>
+  <mode class='list' title='вигляд списком' onclick='catalog.setMode(this.className)'></mode>
+  <mode class='grid' title='вигляд таблицею'  onclick='catalog.setMode(this.className, true)'></mode>
+  <mode class='compare' title='порівняння товарів (0)' onclick='catalog.setMode(this.className)'></mode>
 
-          <flex></flex>
+  <flex></flex>
 
-          <label>Сортувати:</label>
-          <select>
-            <option value='common' selected>за замовчуванням</option>
-            <option value='name-asc'>за назвою (а-я)</option>
-            <option value='name-desc'>за назвою (я-а)</option>
-          </select>
+  <label>Сортувати:</label>
+  <select>
+    <option value='common' selected>за замовчуванням</option>
+    <option value='name-asc'>за назвою (а-я)</option>
+    <option value='name-desc'>за назвою (я-а)</option>
+  </select>
 
-          <label>Показувати:</label>
-          <select>
-            <option value='limit-15' selected>12</option>
-            <option value='limit-25'>25</option>
-            <option value='limit-50'>50</option>
-            <option value='limit-100'>100</option>
-          </select>
-        </control>
+  <label>Показувати:</label>
+  <select>
+    <option value='limit-15' selected>12</option>
+    <option value='limit-25'>25</option>
+    <option value='limit-50'>50</option>
+    <option value='limit-100'>100</option>
+  </select>
+</control>

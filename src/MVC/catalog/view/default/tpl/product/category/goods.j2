@@ -1,19 +1,19 @@
-       <goods>
-          <grid>
-            {% for Rec in TDbList().Import(dbl_product) %}
-            <item>
-              <a href='#'><img src='img/goods/01-228.jpg' title='{{Rec.title}}' /></a>
-              <block>
-                <a href='#'><name>{{Rec.title}}</name></a>
-                <info></info>
-                <price>{{Rec.price}}</price>
-                <panel>
-                  <a href='#' class='buy'><icon class='buy'></icon>купити</a>
-                  <a href='#' title='в закладки'><icon class='favorite'></icon></a>
-                  <a href='#' title='порівняння'><icon class='compare'></icon></a>
-                </panel>
-              </block>
-            </item>
-            {% endfor %}
-          </grid>
-        </goods>
+<goods>
+  <grid>
+    {% for Rec in TDbList().Import(dbl_product) %}
+    <item>
+      <a href='#'><img src='img/thumb/{{Rec.image}}' title='{{Rec.title}}' /></a>
+      <block>
+        <a href='#'><name>{{Rec.title}}</name></a>
+        <info></info>
+        <price>{{Rec.price}}</price>
+        <panel>
+          <a href='#' class='buy'><icon class='buy'></icon>купити</a>
+          <a href='#' title='в закладки'><icon class='favorite'></icon></a>
+          <a href='#' title='порівняння'><icon class='compare'></icon></a>
+        </panel>
+      </block>
+    </item>
+    {% endfor %}
+  </grid>
+</goods>

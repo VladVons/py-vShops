@@ -138,9 +138,10 @@ def render_template(template, context):
 #print(q1)
 
 
-template = f'''
-Hello, {{ name }}! You are {{ age }} years old
-{% for %}
-'''
-data = {"name": "John", "age": 30}
-print(render_template(template, data))
+def GetProducts(aText: str) -> dict:
+    print(aText)
+    Title = [f"('%{x}%')" for x in re.split(r'\s+', aText)]
+    Title = ', '.join(Title)
+    print(Title)
+
+GetProducts('hello world')
