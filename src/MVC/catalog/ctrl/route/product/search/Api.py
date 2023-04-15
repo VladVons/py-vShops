@@ -16,7 +16,7 @@ async def Main(self, aData: dict = None) -> dict:
         'ref_product/product',
         {
             'method': 'Get_Products_LangFilter',
-            'param': {'aLangId': aLangId, 'aFilter': aSearch}
+            'param': {'aLangId': aLangId, 'aFilter': aSearch, 'aLimit': aLimit, 'aOffset': aPage * aLimit}
         }
     )
 
@@ -25,6 +25,9 @@ async def Main(self, aData: dict = None) -> dict:
         Dbl = TDbSql().Import(DblData)
         Res['total'] = Dbl.Rec.total
         Res['dbl_product'] = Res.pop('data')
+
+        PageCount = Dbl.Rec.total // aLimit
+        Res['pages'] = list(range(1, PageCount + 1))
     else:
         Res['total'] = 0
     Res['search'] = aSearch
