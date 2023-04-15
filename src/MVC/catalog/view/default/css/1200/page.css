@@ -1,0 +1,40 @@
+/* ==================== */
+/* === page section === */
+/* ==================== */
+
+page {
+  background: #fff url(../../img/bg-page.png) top left repeat-x;
+  min-height: 900px;
+  border-top: 0;
+  border: 1px solid;
+  border-bottom: 3px solid;
+  border-color: #d4d4d4;
+  border-radius: 0 0 8px 8px;
+  line-height: 22px;
+}
+
+page flex {
+  display: flex;
+}
+
+page title {
+  font-size: 28rem;
+  margin: 40px 0 20px 0;
+}
+
+page content {
+  flex: 1;
+  padding: 20px;
+}
+
+page content * {
+  color: #333;
+}
+
+page content a {
+  color: #09f;
+}
+
+page content a:hover {
+  color: #039;
+}

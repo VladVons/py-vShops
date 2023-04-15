@@ -1,0 +1,31 @@
+/* ====================== */
+/* === common section === */
+/* ====================== */
+body {
+  background-color: #e9e9e9;
+  background-image: url(../../img/bg-top.png), url(../../img/bg-bottom.png);
+  background-position: top left, left 0 bottom -370px;
+  background-repeat: repeat-x, repeat-x;
+}
+
+.page {
+  width: 1180px;
+  margin: auto;
+}
+
+.end {
+  margin-bottom: 50px;
+}
+
+title.xl { font-size: 28rem }
+title.l  { font-size: 24rem }
+title.m  { font-size: 20rem }
+title.s  { font-size: 18rem }
+title.xs { font-size: 16rem }
+
+line { 
+  width: 100%; 
+  height: 1px; 
+  background: #ccc;
+  margin: 10px 0 10px 0;
+}

@@ -4,6 +4,7 @@
 
 
 from Inc.DataClass import DDataClass
+from Inc.DictDef import TDictKey
 from Inc.Util.Obj import DeepGetByList
 from Inc.Misc.Cache import TCacheMem
 from IncP.ApiBase import TApiBase
@@ -22,8 +23,11 @@ class TApiCtrl(TApiBase):
         self.Ctrls: TCtrls = None
         self.CacheModel: TCacheMem = None
         self.OnExec: TExec = None
+        self.Conf: dict = None
 
     def Init(self, aConf: dict):
+        self.Conf = aConf
+
         self.Ctrls = TCtrls(aConf['dir_route'], self)
         self.InitLoader(aConf['loader'])
 
@@ -70,6 +74,13 @@ class TApiCtrl(TApiBase):
         Res = await Method(Module, aData)
         if (not Res):
             Res = {}
+
+        Langs = aData.get('extends', [])
+        Langs.append(aData.get('route'))
+        for x in Langs:
+            await Module.Lang.Add(x)
+        Res['lang'] = TDictKey('', Module.Lang.Join())
+
         Res['modules'] = await Module.LoadModules(aData)
         return Res
 

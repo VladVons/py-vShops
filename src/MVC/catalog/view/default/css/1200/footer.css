@@ -1,0 +1,35 @@
+/* ====================== */
+/* === footer section === */
+/* ====================== */
+
+footer {
+  margin-top: 100px;
+}
+
+footer grid {
+  display: grid;
+  grid-template-columns: 25% 25% 25% 25%;
+  padding-bottom: 20px;
+}
+
+footer cell {
+  text-align: left;
+  padding: 0 0 0 30px;
+}
+
+footer cell title {
+  font-weight: bold;
+  color: #ffc;
+  margin: 0 0 10px 0;
+}
+
+footer cell a {
+  display: block;
+  color: #ccc;
+  line-height: 22px;
+}
+
+footer cell a:hover {
+  color: #fff;
+}
+

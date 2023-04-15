@@ -8,5 +8,4 @@ from IncP.LibCtrl import TDbSql, GetDictDef
 async def Main(self, aData: dict = None) -> dict:
     Res = {}
     #aTenantId, aLangId = GetDictDef(aData.get('query'), ('tenant', 'lang'), (2, 1))
-    #Res['modules'] = await self.LoadModules(aData)
     return Res

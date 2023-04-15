@@ -1,18 +1,18 @@
 <control>
-  <mode class='list' title='вигляд списком' onclick='catalog.setMode(this.className)'></mode>
-  <mode class='grid' title='вигляд таблицею'  onclick='catalog.setMode(this.className, true)'></mode>
-  <mode class='compare' title='порівняння товарів (0)' onclick='catalog.setMode(this.className)'></mode>
+  <mode class='list' title='{{lang.list}}' onclick='catalog.setMode(this.className)'></mode>
+  <mode class='grid' title='{{lang.grid}}' onclick='catalog.setMode(this.className, true)'></mode>
+  <mode class='compare' title='{{lang.compare}} (0)' onclick='catalog.setMode(this.className)'></mode>
 
   <flex></flex>
 
-  <label>Сортувати:</label>
+  <label>{{lang.sort}}</label>
   <select>
-    <option value='common' selected>за замовчуванням</option>
-    <option value='name-asc'>за назвою (а-я)</option>
-    <option value='name-desc'>за назвою (я-а)</option>
+    <option value='common' selected>{{lang.by_default}}</option>
+    <option value='name-asc'>{{lang.by_name_az}}</option>
+    <option value='name-desc'>{{lang.by_name_za}}</option>
   </select>
 
-  <label>Показувати:</label>
+  <label>{{lang.show}}</label>
   <select>
     <option value='limit-15' selected>12</option>
     <option value='limit-25'>25</option>

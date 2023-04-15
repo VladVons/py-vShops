@@ -1,0 +1,124 @@
+/* ===================== */
+/* === index section === */
+/* ===================== */
+
+content banner.alert {
+  min-height: 128px;
+  font-size: 20rem;
+  line-height: 32px;
+  color: #000;
+  font-weight: bold;
+  border: 2px solid #333;
+  border-radius: 4px;
+  background: #eee url(../../icons/128/alert.png) 20px top no-repeat;
+}
+
+content banner.alert message {
+  margin: 20px;
+  margin-left: 150px;
+  text-align: center;
+}
+
+content banner.alert message text:last-child {
+  font-size: 24rem;
+  font-weight: bold;
+  color: #900;
+}
+
+content services {
+  container: servflex / inline-size;
+}
+
+@container servflex (width > 800px) {
+  a {
+    width: calc(50% - 20px);
+    vertical-align: top;
+  }
+}
+
+content a.category {
+  position: relative;
+  min-height: 120px;
+  margin: 5px;
+  transition: .5s ease;
+  padding: 20px 10px 10px 140px;
+  border-radius: 4px;
+}
+
+content a.category:hover {
+  transform: translateY(-7px);
+  box-shadow: 0 22px 50px rgba(14, 21, 47, 0.2), 0 8px 20px rgba(14, 21, 47, 0.2);
+}
+
+content a.category logo {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  float: left;
+  width: 100px;
+  height: 100px;
+  border: 2px #cacaca solid;
+  border-radius: 50%;
+  box-shadow: #545454 4px 2px 2px;
+  background-position: center center;
+  background-repeat: no-repeat;
+}
+
+content a .category name {
+  font-size: 20rem;
+  color: #069;
+  margin-bottom: 10px;
+}
+
+content blog {
+  container: blogflex / inline-size;
+}
+
+content blog article {
+  display: inline-block;
+  margin: 20px 0 0 0;
+}
+
+@container blogflex (width > 800px) {
+  article {
+    width: calc(50% - 20px);
+    vertical-align: top;
+  }
+}
+
+content blog article:nth-child(odd) {
+  margin-right: 10px;
+}
+
+content blog article:nth-child(even) {
+  margin-left: 10px;
+}
+
+content blog article name {
+  font-size: 18rem;
+  height: 24px;
+  overflow: hidden;
+}
+
+content blog article blogname {
+  border-top: 1px solid #ccc;
+  border-bottom: 1px solid #ccc;
+  margin: 10px 0 10px 0;
+  padding: 5px;
+  background: #ffe;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+content blog article img {
+  width: 128px;
+  float: left;
+  margin: 0 20px 10px 0;
+}
+
+content blog article text {
+  max-height: 200px;
+  text-align: justify;
+  overflow: hidden;
+}
+

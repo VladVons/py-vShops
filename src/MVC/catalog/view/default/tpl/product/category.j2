@@ -1,4 +1,9 @@
-{% extends "inc/index.j2" %}
+{% extends "inc/layout1.j2" %}
+
+{% block head %}
+  <script type='module' src='/default/js/catalog.js' ></script>
+  <script type='module' src='/default/js/pages.js' ></script>
+{% endblock %}
 
 {% block content %}
   <title>{{category}}</title>

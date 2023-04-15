@@ -92,6 +92,7 @@ class TTemplate():
         self.Env.lstrip_blocks = True
 
         #self.ReVar = re.compile(r'''[{]{1,2}%?\s*([a-z-_]+)\s*['"]?([^'"}]*)['"]*\s*%?[}]{1,2}''')
+        self.ReMacro = re.compile(r'''\{%\s*(\w+)\s*['"]?([\w/.]+)['"]?\s*%\}''')
         self.ReVar = re.compile(r'\{\{\s*(\w+)\s*\}\}')
 
     def SearchFile(self, aFile: str) -> str:

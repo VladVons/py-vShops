@@ -3,6 +3,7 @@
 # License: GNU, see LICENSE for more details
 
 
+import re
 import time
 from wtforms import Form
 from aiohttp import web
@@ -73,9 +74,17 @@ class TFormBase(Form):
             self.Session['session_id'] = Dbl.Rec.id
 
     async def ExecCtrlDef(self) -> dict:
-        return await self.ExecCtrl(f'route/{self.out.route}')
+        return await self.ExecCtrl(f'{self.out.route}')
 
     async def ExecCtrl(self, aRoute: str, aData: dict = None) -> dict:
+        File = self.Tpl.SearchModule(aRoute)
+        if (File):
+            Source = self.Tpl.Env.loader.LoadFile(File)
+            Macro = self.Tpl.ReMacro.findall(Source)
+            Extends = [Val.replace('.j2', '') for Key, Val in Macro if Key == 'extends']
+        else:
+            Extends = []
+
         Data = {
             'data': aData,
             'route': self.out.route,
@@ -83,7 +92,8 @@ class TFormBase(Form):
             'path': self.Request.path,
             'post': self.out.data,
             'query': dict(self.Request.query),
-            'session': dict(self.Session)
+            'session': dict(self.Session),
+            'extends': Extends
         }
         return await self.Ctrl.Get(aRoute, Data)
 

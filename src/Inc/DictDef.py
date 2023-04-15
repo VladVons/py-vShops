@@ -33,3 +33,8 @@ class TDictDef(dict):
 
     def SetData(self, aData: dict):
         super().__init__(aData)
+
+
+class TDictKey(TDictDef):
+    def __getattr__(self, aName: str) -> object:
+        return self.get(aName, f'-{aName}-')

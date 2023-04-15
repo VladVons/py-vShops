@@ -1,0 +1,30 @@
+/* ==================== */
+/* === path section === */
+/* ==================== */
+
+path {
+  position: relative;
+  margin: 20px;
+  margin-bottom: 0;
+  border-radius: 4px;
+  font-size: 14rem;
+  line-height: 32px;
+  background: #eee;
+  border: 1px solid #d4d4d4;
+}
+
+path a {
+  font-size: 12rem;
+  color: #09f;
+  padding: 0 10px 0 30px;
+  background: url(../../icons/16/sep.png) left top no-repeat;
+}
+
+path a:hover {
+  color: #039;
+}
+
+path a.home {
+  width: 32px;
+  background: url(../../icons/24/home.png) 15px 3px no-repeat;
+}

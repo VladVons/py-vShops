@@ -1,5 +1,5 @@
 <category>
-    {% for Rec in TDbList().Import(dbl_category) %}
-        <item><a href='{{Rec.href}}'>{{Rec.title}} {{Rec.products}}</a></item>
-    {% endfor %}
+{% for Rec in TDbList().Import(dbl_category) %}
+    <item><a href='{{Rec.href}}'>{{Rec.title}} {{Rec.products}}</a></item>
+{% endfor %}
 </category>

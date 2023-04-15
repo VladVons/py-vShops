@@ -59,12 +59,11 @@ async def Main(self, aData: dict = None) -> dict:
     #ResCategory['dbl_pages'] = DblPage.Export()
     Res['pages'] = list(range(1, PageCount + 1))
 
-    Offset = aPage * aLimit
     ResProduct = await self.ExecModel(
         'ref_product/category',
         {
             'method': 'Get_CategoriesProducts_LangImagePrice',
-            'param': {'aCategoryIds': CategoryIds, 'aLangId': aLangId, 'aPriceId': 3, 'aLimit': aLimit, 'aOffset': Offset}
+            'param': {'aCategoryIds': CategoryIds, 'aLangId': aLangId, 'aPriceId': 3, 'aLimit': aLimit, 'aOffset': aPage * aLimit}
         }
     )
     Res['dbl_product'] = ResProduct.get('data')

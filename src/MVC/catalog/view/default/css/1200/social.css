@@ -1,0 +1,53 @@
+/* ============== */
+/* === social === */
+/* ============== */
+
+social {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  width: 72px;
+  height: 172px;
+  padding-top: 5px;
+  /*animation: pong 1s linear infinite;*/
+}
+
+social:hover {
+  animation: none;
+}
+
+social a {
+  width: 72px;
+  height: 72px;
+  margin-bottom: 10px;
+}
+
+social a.callback { background: url(../../icons/72/callback.png) top left no-repeat }
+social a.share { background: url(../../icons/72/share.png) top left no-repeat }
+
+social a.facebook { background: url(../../icons/48/meta.png) top left no-repeat }
+social a.instagram { background: url(../../icons/48/instagram.png) top left no-repeat }
+social a.telegram { background: url(../../icons/48/telegram.png) top left no-repeat }
+
+@keyframes pong {
+  0% { padding-top: 0; }
+  50% { padding-top: 5px; }
+  100% { padding-top: 0; }
+}
+
+social share {
+  position: fixed;
+  right: 100px;
+  bottom: 30px;
+  width: 0;
+  height: 48px;
+  white-space: nowrap;
+  overflow: hidden;
+  transition: 1s linear infinite;
+}
+
+social share a {
+  width: 48px;
+  height: 48px;
+  margin-right: 10px;
+}

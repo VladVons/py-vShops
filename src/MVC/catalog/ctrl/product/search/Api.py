@@ -6,6 +6,8 @@ from IncP.LibCtrl import TDbSql, GetDictDef
 
 
 async def Main(self, aData: dict = None) -> dict:
+    await self.Lang.Add('product/category')
+
     aSearch, aLangId, aPage, aLimit = GetDictDef(
         aData.get('query'),
         ('search', 'lang', 'page', 'limit'),

@@ -49,5 +49,6 @@ a.more {
 .up-m { margin-top: 40px }
 .up-s { margin-top: 20px }
 .up-xs { margin-top: 10px }
+.up-none { margin-top: 0 }
 
 flex, .flex { flex: 1 }

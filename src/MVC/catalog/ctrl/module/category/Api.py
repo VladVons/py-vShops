@@ -7,7 +7,12 @@ from IncP.LibCtrl import GetDictDef, TDbSql, TDbRec
 
 
 async def Main(self, aData: dict = None) -> dict:
-    aPath, aTenantId, aLangId = GetDictDef(aData.get('query'), ('path', 'tenant', 'lang'), ('0', '2', '1'))
+    aPath, aTenantId, aLangId = GetDictDef(
+        aData.get('query'), 
+        ('path', 'tenant', 'lang'), 
+        ('0', '2', '1')
+    )
+
     CategoriyIds = aPath.split('_')
     Res = await self.ExecModel(
         'ref_product/category',
