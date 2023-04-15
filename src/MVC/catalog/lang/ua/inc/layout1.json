@@ -1,3 +1,18 @@
 {
-    "currency": "Валюта"
+    "currency": "Валюта",
+    "profile": "Особистий кабінет",
+    "make_order": "Оформлення замовлення",
+    "basket": "Кошик",
+    "favorites": "Закладки",
+    "products": "Товари",
+    "sum": "Сума",
+    "search": "Пошук",
+    "shop_title": "комп'ютерний магазин",
+    "shop_address": "м. Тернопіль, вул. Руська, 41",
+    "call_order": "Замовити дзвінок",
+
+    "share": "Поділитись",
+    "share_facebook": "Ми в Meta/Facebook",
+    "share_instagram": "Ми в Imstagram",
+    "share_telegram": "Ми в Telegram"
 }

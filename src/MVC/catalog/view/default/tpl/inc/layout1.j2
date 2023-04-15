@@ -3,53 +3,26 @@
 <head>
   <title>Oster.Te.Ua</title>
   <script>var PAGE = 'index'</script>
-  <!-- header_head+ -->
-  {% include './header_head.j2' %}  
-  <!-- header_head- -->
-
-  <!-- head_block+ -->
-  {% block head %}{% endblock %}
-  <!-- head_block- -->
+  <!-- header_head+ -->{% include './header_head.j2' %}<!-- header_head- -->
+  <!-- head_block+ -->{% block head %}{% endblock %}<!-- head_block- -->
 <head>
 <body style='display: none'>
   <header>
-    <!-- header_panel+ -->
-    {% include './header_panel.j2' %}
-    <!-- header_panel- -->
+    <!-- header_panel+ -->{% include './header_panel.j2' %} <!-- header_panel- -->
   </header>
-  <!-- header_top+ -->
-  {% include './header_top.j2' %}
-  <!-- header_top- -->
-
-  <!--header_menu+ -->
-  {% include './header_menu.j2' %}
-  <!--header_menu- -->
-
+  <!-- header_top+ -->{% include './header_top.j2' %}<!-- header_top- -->
+  <!--header_menu+ -->{% include './header_menu.j2' %}<!--header_menu- -->
   <page class='page'>
     <flex>
-      <!-- page_left+ -->
-      {% include './page_left.j2' %}
-      <!-- page_left- -->
+      <!-- page_left+ -->{% include './page_left.j2' %}<!-- page_left- -->
       <content>
-        <!-- content_top+ -->
-        {% include './content_top.j2' %}
-        <!-- content_top- -->
-
-        <!-- content_block+ -->
-        {% block content %}{% endblock %}
-        <!-- content_block- -->
-
-        <!-- content_bottom+ -->
-        {% include './content_bottom.j2' %}
-        <!-- content_bottom- -->
+        <!-- content_top+ -->{% include './content_top.j2' %}<!-- content_top- -->
+        <!-- content_block+ -->{% block content %}{% endblock %}<!-- content_block- -->
+        <!-- content_bottom+ -->{% include './content_bottom.j2' %}<!-- content_bottom- -->
       </content>
     </flex>
   </page>
-  <!--#include file='xml/footer.xml' -->
-  {% include './footer.j2' %}
-
-  <!--#include file='xml/social.xml' -->
-  {% include './social.j2' %}
+  <!-- footer+ -->{% include './footer.j2' %}<!-- footer- -->
+  <!-- social+ -->{% include './social.j2' %}<!-- social- -->
 </body>
-
 </html>
