@@ -6,17 +6,18 @@
   <flex></flex>
 
   <label>{{lang.sort}}</label>
-  <select>
+  <select id='sort'>
     <option value='common' selected>{{lang.by_default}}</option>
-    <option value='name-asc'>{{lang.by_name_az}}</option>
-    <option value='name-desc'>{{lang.by_name_za}}</option>
+    <option value='nameAsc'>{{lang.by_name_az}}</option>
+    <option value='nameDesc'>{{lang.by_name_za}}</option>
+    <option value='priceAsc'>{{lang.by_price_09}}</option>
+    <option value='priceDesc'>{{lang.by_price_90}}</option>
   </select>
 
   <label>{{lang.show}}</label>
-  <select>
-    <option value='limit-15' selected>12</option>
-    <option value='limit-25'>25</option>
-    <option value='limit-50'>50</option>
-    <option value='limit-100'>100</option>
+  <select id='limit'>
+    <option value='12' selected>12</option>
+    <option value='36'>36</option>
+    <option value='108'>108</option>
   </select>
 </control>

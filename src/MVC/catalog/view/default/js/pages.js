@@ -15,17 +15,14 @@ export class Pages {
     $$('pages right')[0].addEventListener('click', this.scroll.bind(this))
     for(let i=0; i<this.pages.length; i++){
       this.pages[i].addEventListener('click', (event) => {
-        //document.location.hash = event.target.textContent
-        //document.location.reload()
-        self.query.page = event.target.textContent
-        document.location.href = self.addr + self.set() + document.location.hash
+        $$.url.param.set('page', event.target.textContent)
+        document.location.href = $$.url.href
       })
     }
   }
   
   init() {
     //calculate width and count
-    this.query = this.get()
     this.data.width = this.data.clientWidth
     this.count = this.data.width / (this.width + this.margin)
     this.count = (this.data.width % this.count) ? parseInt(this.count) : this.count - 1
@@ -40,7 +37,7 @@ export class Pages {
     $$('pages data list')[0].style.left = this.margin+'px'
     $$('pages data list page').css({marginRight: this.margin+'px'})
     //set active page
-    this.active((this.query.page) ? this.query.page : 1)
+    this.active($$.url.param.get('page') || 1)
   }
   
   scroll(event) {
@@ -73,29 +70,5 @@ export class Pages {
       this.list.style.left = (x > this.margin) ? -x+'px' : this.margin+'px'
     }
   }
-  
-  get() {
-    // parse URL for query string
-    let params = {}
-    let query = document.location.href.split('?')
-    this.addr = query[0]
-    if(query.length == 1) {
-      return params
-    }
-    query = query.slice(1).join('?').split('#')[0].split('&')
-    for(let i=0; i<query.length; i++) {
-      let elem = query[i].split('=')
-      params[elem[0]] = (elem.length > 1) ? elem[1] : null
-    }
-    return params
-  }
-  
-  set() {
-    // make URL from this.query
-    let str = []
-    for(let key in this.query) {
-      str.push(key + '=' + this.query[key])
-    }
-    return (str.length) ? '?' + str.join('&') : ''
-  }
+
 }

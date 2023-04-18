@@ -6,14 +6,17 @@ const TYPE_NOT_SUPPORTED = {code: 100, message: 'type not supported for loading'
 // [this]: this class
 class $ExtClass {
   constructor(){
-    Object
-    .getOwnPropertyNames(Object.getPrototypeOf(this))
-    .filter(prop => prop !== 'constructor')
-    .forEach(prop => { $$[prop] = this[prop] })
+		Object
+    	.getOwnPropertyNames(Object.getPrototypeOf(this))
+      .filter(prop => prop !== 'constructor')
+      .forEach(prop => { $$[prop] = this[prop] })
+    //internal URL parser
+    $$.url = new URL(document.location.href)
+    $$.url.param = $$.url.searchParams
   }
-
-  // load css from server/cache
+  
   css(urls, callback) {
+    // load css from server
     let styles = []
     let loaded = {}
     let onload = () => {

@@ -5,6 +5,7 @@ import {Pages} from './pages.js'
 
 class Catalog {
   constructor() {
+    let self = this
     $$.ready( () => {
       $$.css([
         '/default/css/1200/common.css',
@@ -21,12 +22,22 @@ class Catalog {
         ],
         () => {
           $$('body').css({display: 'initial'})
-          this.pages = new Pages({width:50, margin:20})
+          self.pages = new Pages({width:50, margin:20})
+          
+          //set selectors and his listeners
+          let select = $$('select')
+          for(let i=0; i<select.length; i++) {
+            if($$.url.param.get(select[i].id)) {
+              self.setValue(select[i])
+            }
+            select[i].addEventListener('change', self.setParam.bind(self))
+          }
       
           // list view for old browsers
-          catalog.setMode((LEGACY) ? 'list' : 'grid', null)
+          self.setMode((LEGACY) ? 'list' : 'grid', null)
+          
           // calculate pagination
-          this.pages.init()
+          self.pages.init()
         }
       )
     })
@@ -47,6 +58,22 @@ class Catalog {
     }
     $$('grid')[0].className = mode
   }
+  
+  setParam(event) {
+    $$.url.param.set(event.target.id, event.target.value)
+    document.location.href = $$.url.href
+  }
+  
+  setValue(select) {
+    let value = $$.url.param.get(select.id)
+    for(let i=0; i<select.length; i++) {
+      if(value == select[i].value) {
+        select[i].selected = true
+        break
+      }
+    }
+  }
+
 }
 
 window.catalog = new Catalog()
