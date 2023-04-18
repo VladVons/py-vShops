@@ -8,8 +8,8 @@ from IncP.LibCtrl import GetDictDef, TDbSql, TDbRec
 
 async def Main(self, aData: dict = None) -> dict:
     aPath, aTenantId, aLangId = GetDictDef(
-        aData.get('query'), 
-        ('path', 'tenant', 'lang'), 
+        aData.get('query'),
+        ('path', 'tenant', 'lang'),
         ('0', '2', '1')
     )
 

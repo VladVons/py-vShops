@@ -20,13 +20,13 @@ class TApiBase():
 
     def InitLoader(self, aConf: dict):
         for Key, Val in aConf.items():
-            Path = Val['path']
-            if (Path.startswith('http')):
-                Loader = TLoaderApiHttp(Val['user'], Val['password'], Path)
-            elif (Path.startswith('fs')):
-                Loader = TLoaderApiFs(Path)
+            Type = Val['type']
+            if (Type == 'url'):
+                Loader = TLoaderApiHttp(Val['user'], Val['password'], Val['url'])
+            elif (Type == 'fs'):
+                Loader = TLoaderApiFs(Val['module'], Val['class'])
             else:
-                raise ValueError(f'unknown api {Path}')
+                raise ValueError(f'unknown type {Type}')
             self.Loader[Key] = Loader
 
     def LoadConf(self):

@@ -66,6 +66,16 @@ async def Main(self, aData: dict = None) -> dict:
             'param': {'aCategoryIds': CategoryIds, 'aLangId': aLangId, 'aPriceId': 3, 'aLimit': aLimit, 'aOffset': aPage * aLimit}
         }
     )
-    Res['dbl_product'] = ResProduct.get('data')
+    DblData = ResProduct.get('data')
+    Res['dbl_product'] = DblData
+
+    Dbl = TDbSql().Import(DblData)
+    Images = Dbl.ExportList('image')
+    Thumbs = await self.ExecImg('system',
+        {
+            'method': 'Thumbs',
+            'param': {'aFiles': Images}
+        }
+    )
 
     return Res

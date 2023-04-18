@@ -16,6 +16,16 @@ class TModels(TPlugin):
         Res = aModule.TMain(self.DbMeta, self.Dir + '/' + aPath)
         return Res
 
+class TImgs(TPlugin):
+    def __init__(self, aDir: str, aApi):
+        super().__init__(aDir)
+        self.ApiImg = aApi
+
+    def _Create(self, aModule: object, aPath: str) -> object:
+        Res = aModule.TMain()
+        Res.ApiImg = self.ApiImg
+        return Res
+
 class TCtrls(TPlugin):
     def __init__(self, aDir: str, aApi):
         super().__init__(aDir)

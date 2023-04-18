@@ -1,0 +1,8 @@
+{
+    "api_conf": {
+        "dir_route": "MVC/catalog/img",
+        "dir_root": "Data/img",
+        "dir_thumb": "thumb",
+        "size_thumb": 200
+    }
+}

@@ -7,6 +7,7 @@
 
 import base64
 import asyncio
+from mimetypes import types_map
 from aiohttp import web
 from aiohttp_session.cookie_storage import EncryptedCookieStorage
 from aiohttp_session import session_middleware
@@ -14,6 +15,7 @@ from aiohttp_session import session_middleware
 from Inc.DataClass import DDataClass
 from Inc.Misc.Misc import GetRandStr
 from .ErroMiddleware import CreateErroMiddleware
+from .Common import FileReader
 
 
 @DDataClass
@@ -29,6 +31,19 @@ class TSrvConf():
 class TSrvBase():
     def __init__(self, aSrvConf: TSrvConf):
         self._SrvConf = aSrvConf
+
+    def _GetMimeFile(self, aPath: str) -> web.Response:
+        Ext = aPath.rsplit('.', maxsplit = 1)[-1]
+        Type = types_map.get(f'.{Ext}')
+        if (Type):
+            # pylint: disable-next=no-value-for-parameter
+            Res = web.Response(body=FileReader(aFile=aPath), content_type = Type)
+        else:
+            Name = aPath.rsplit('/', maxsplit = 1)[-1]
+            Headers = {'Content-disposition': f'attachment; filename={Name}'}
+            # pylint: disable-next=no-value-for-parameter
+            Res = web.Response(body=FileReader(aFile=aPath), headers=Headers)
+        return Res
 
     def _CheckRequestAuth(self, aRequest: web.Request) -> str:
         if  (self._SrvConf.allow_ip) and (aRequest.remote != '127.0.0.1') and (aRequest.remote not in self._SrvConf.allow_ip):

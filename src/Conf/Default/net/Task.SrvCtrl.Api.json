@@ -1,13 +1,14 @@
 {
     "api_conf": {
         "dir_route": "MVC/catalog/ctrl",
-        "cache": {
+        "cache_route": {
             "max_age": 25,
             "excl_route": ["RegSession"]
         },
         "loader": {
             "model": {
-                "path": "http://localhost:8081/api",
+                "type": "url",
+                "url": "http://localhost:8081/api",
                 "user": "user01",
                 "password": "passw01"
             }

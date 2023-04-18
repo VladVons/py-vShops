@@ -10,6 +10,7 @@ from Inc.DataClass import DDataClass
 from Inc.DictDef import TDictDef
 from Inc.Misc.Cache import TCacheFile
 from Inc.Misc.Jinja import TTemplate
+from Inc.Util.Obj import GetDictDef
 from IncP.Plugins import TViewes
 from IncP.ApiBase import TApiBase
 from IncP.FormBase import TFormBase
@@ -18,11 +19,16 @@ from IncP.FormRender import TFormRender
 
 @DDataClass
 class TApiViewConf():
+    cache_route: dict
+    loader: dict
+    dir_route: str = 'MVC/catalog/view'
+    dir_root: str = 'MVC/catalog/view'
     theme: str = 'theme1'
     theme_def: str = 'default'
     form_info: str = 'misc/info'
     form_home: str = 'common/home'
     form_module: str = 'module'
+
 
 class TCacheFileView(TCacheFile):
     def _GetAfter(self, _aPath: str, aData: object):
@@ -39,31 +45,31 @@ class TApiView(TApiBase):
     def __init__(self):
         super().__init__()
 
-        self.Conf = TApiViewConf()
-        self.Viewes: TViewes = None
-        self.Tpl: TTemplate = None
         self.Cache: TCacheFileView = None
+        self.Conf: TApiViewConf = None
+        self.Tpl: TTemplate = None
+        self.Viewes: TViewes = None
 
     def Init(self, aConf: dict):
-        DirRoute = aConf['dir_route']
-        self.Viewes = TViewes(DirRoute)
-        self.InitLoader(aConf['loader'])
+        self.Conf = TApiViewConf(**aConf)
+        self.Viewes = TViewes(self.Conf.dir_route)
+        self.InitLoader(self.Conf.loader)
 
         Dirs = [
-            f'{DirRoute}/{self.Conf.theme}/tpl',
-            f'{DirRoute}/{self.Conf.theme_def}/tpl'
+            f'{self.Conf.dir_route}/{self.Conf.theme}/tpl',
+            f'{self.Conf.dir_route}/{self.Conf.theme_def}/tpl'
         ]
         SearchPath = [x for x in Dirs if (os.path.isdir(x))]
         assert (SearchPath), 'no tempate directories'
         self.Tpl = TTemplate(SearchPath)
 
-        FormInfo = f'{DirRoute}/{self.Conf.theme_def}/tpl/{self.Conf.form_info}.{self.Tpl.Ext}'
+        FormInfo = f'{self.Conf.dir_route}/{self.Conf.theme_def}/tpl/{self.Conf.form_info}.{self.Tpl.Ext}'
         assert(os.path.isfile(FormInfo)), 'Default template not found'
 
-        Cache = aConf['cache']
-        Dir = Cache.get('path', 'Data/cache/view')
+        Dir = self.Conf.cache_route.get('path', 'Data/cache/view')
         os.makedirs(Dir, exist_ok = True)
-        self.Cache = TCacheFileView(Dir, Cache.get('max_age', 5), Cache.get('incl_route'), Cache.get('excl_route'))
+        Def = GetDictDef(self.Conf.cache_route, ['max_age', 'incl_route', 'excl_route'], [5, None, None])
+        self.Cache = TCacheFileView(Dir, *Def)
         self.Cache.Clear()
 
     def GetForm(self, aRequest: web.Request, aRoute: str) -> TFormBase:

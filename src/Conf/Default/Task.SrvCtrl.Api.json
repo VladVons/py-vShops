@@ -1,13 +1,26 @@
 {
     "api_conf": {
         "dir_route": "MVC/catalog/ctrl",
-        "cache": {
-            "max_age": 25,
+        "cache_route": {
+            "max_age": 5,
             "excl_route": ["RegSession"]
+        },
+        "lang": {
+            "type": "fs",
+            "default": "ua",
+            "dir": "MVC/catalog/lang"
         },
         "loader": {
             "model": {
-                "path": "fs:Task.SrvModel.Api:ApiModel"
+                "type": "fs",
+                "module": "Task.SrvModel.Api",
+                "class": "ApiModel"
+            },
+            "img": {
+                "type": "url",
+                "url": "http://localhost:8083/api",
+                "user": "user01",
+                "password": "passw01"
             }
         }
     }

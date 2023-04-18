@@ -1,4 +1,4 @@
 debug = False
 
-plugins= 'SrvModel SrvCtrl SrvView'
+plugins= 'SrvModel SrvCtrl SrvView SrvImg'
 #plugins= 'Price'

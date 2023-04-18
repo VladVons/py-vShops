@@ -4,7 +4,7 @@
 
 
 from Inc.Misc.Profiler import TTimerLog
-from Inc.Loader.Lang import TLoaderLangFs
+from Inc.Loader.Lang import TLoaderLang
 from Task.SrvCtrl.Api import TApiCtrl
 from IncP.LibCtrl import TDbSql, GetDictDef
 
@@ -12,11 +12,19 @@ from IncP.LibCtrl import TDbSql, GetDictDef
 class TCtrlBase():
     def __init__(self):
         self.ApiCtrl: TApiCtrl
-        self.Lang = TLoaderLangFs('ua', 'MVC/catalog/lang') # TODO
         self.ApiModel = None
+        self.ApiImg = None
 
     def _init_(self):
         self.ApiModel = self.ApiCtrl.Loader['model'].Get
+        self.ApiImg = self.ApiCtrl.Loader['img'].Get
+
+    @property
+    def Lang(self) -> TLoaderLang:
+        return self.ApiCtrl.Lang
+
+    async def ExecImg(self, aMethod: str, aData: dict) -> dict:
+        return await self.ApiImg(aMethod, aData)
 
     async def ExecModel(self, aMethod: str, aData: dict) -> dict:
         #Res = await self.ApiCtrl.CacheModel.ProxyA(aMethod, aData, self.ApiModel, [aMethod, aData])

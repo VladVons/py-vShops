@@ -1,5 +1,5 @@
 from Task import ConfTask
-from .Api import ApiView, TApiViewConf
+from .Api import ApiView
 from .Main import TSrvView, TSrvViewConf
 
 

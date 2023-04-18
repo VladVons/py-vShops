@@ -23,6 +23,7 @@ class TLoaderLang(dict):
             Res.update(x)
         return Res
 
+
 class TLoaderLangFs(TLoaderLang):
     def __init__(self, aLang: str, aDirRoot: str):
         self.Dir = f'{aDirRoot}/{aLang}'

@@ -5,18 +5,16 @@
 
 import os
 import re
-from mimetypes import types_map
 from aiohttp import web
 #
 from Inc.DataClass import DDataClass
-from Inc.SrvWeb import TSrvBase, TSrvConf, FileReader
+from Inc.SrvWeb import TSrvBase, TSrvConf
 from IncP.Log import Log
 from .Api import ApiView
 
 
 @DDataClass
 class TSrvViewConf(TSrvConf):
-    dir_root: str = 'MVC/main/MyDir'
     deny: str = r'.j2$|.py$'
 
 
@@ -26,26 +24,13 @@ class TSrvView(TSrvBase):
     def __init__(self, aSrvConf: TSrvViewConf):
         super().__init__(aSrvConf)
         self._SrvConf = aSrvConf
-        assert (os.path.isdir(self._SrvConf.dir_root)), 'Directory not exists'
+        assert (os.path.isdir(ApiView.Conf.dir_root)), 'Directory not exists'
 
     def _GetDefRoutes(self) -> list:
         return [
             web.get('/{name:.*}', self._rIndex),
             web.post('/{name:.*}', self._rIndex),
         ]
-
-    def _GetMimeFile(self, aPath: str) -> web.Response:
-        Ext = aPath.rsplit('.', maxsplit = 1)[-1]
-        Type = types_map.get(f'.{Ext}')
-        if (Type):
-            # pylint: disable-next=no-value-for-parameter
-            Res = web.Response(body=FileReader(aFile=aPath), content_type = Type)
-        else:
-            Name = aPath.rsplit('/', maxsplit = 1)[-1]
-            Headers = {'Content-disposition': f'attachment; filename={Name}'}
-            # pylint: disable-next=no-value-for-parameter
-            Res = web.Response(body=FileReader(aFile=aPath), headers=Headers)
-        return Res
 
     @staticmethod
     async def _Err_404(aRequest: web.Request) -> web.Response:
@@ -65,7 +50,7 @@ class TSrvView(TSrvBase):
         elif (not Name):
             Res = await ApiView.ResponseForm(aRequest, {'route': ApiView.Conf.form_home})
         else:
-            File = f'{self._SrvConf.dir_root}/{Name}'
+            File = f'{ApiView.Conf.dir_root}/{Name}'
             if (os.path.isfile(File)):
                 if (re.search(self._SrvConf.deny, Name)):
                     Res = await ApiView.ResponseFormInfo(aRequest, f'Access denied {aRequest.path}', 403)

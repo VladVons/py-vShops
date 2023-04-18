@@ -5,10 +5,11 @@
 
 from Inc.DataClass import DDataClass
 from Inc.DictDef import TDictKey
-from Inc.Util.Obj import DeepGetByList
+from Inc.Loader.Lang import TLoaderLang, TLoaderLangFs
 from Inc.Misc.Cache import TCacheMem
 from IncP.ApiBase import TApiBase
-from IncP.Plugins import TCtrls
+from IncP.Plugins import TCtrls, TImgs
+from IncP.LibCtrl import DeepGetByList, GetDictDef
 
 
 @DDataClass
@@ -21,9 +22,11 @@ class TApiCtrl(TApiBase):
     def __init__(self):
         super().__init__()
         self.Ctrls: TCtrls = None
+        self.Imgs: TImgs = None
         self.CacheModel: TCacheMem = None
         self.OnExec: TExec = None
         self.Conf: dict = None
+        self.Lang: TLoaderLang = None
 
     def Init(self, aConf: dict):
         self.Conf = aConf
@@ -35,8 +38,15 @@ class TApiCtrl(TApiBase):
         assert ('err' not in Data), 'Route not found'
         self.OnExec = TExec(Data['method'], Data['module'])
 
-        Cache = aConf['cache']
+        Cache = aConf['cache_route']
         self.CacheModel = TCacheMem('/', Cache.get('max_age', 5), Cache.get('incl_route'), Cache.get('excl_route'))
+
+        Section = aConf['lang']
+        if (Section['type'] == 'fs'):
+            Def = GetDictDef(Section, ['default', 'dir'], ['ua', 'MVC/catalog/lang'])
+            self.Lang = TLoaderLangFs(*Def)
+        else:
+            raise ValueError()
 
     def GetMethod(self, aRoute: str, aData: dict) -> dict:
         if (not self.Ctrls.IsModule(aRoute)):

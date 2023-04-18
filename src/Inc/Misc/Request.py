@@ -3,6 +3,7 @@
 # License: GNU, see LICENSE for more details
 
 
+import os
 import time
 import asyncio
 import aiohttp
@@ -37,7 +38,7 @@ class TRequest():
         self.Session = aiohttp.ClientSession(base_url=aBaseUrl, auth=Auth)
 
     async def Close(self):
-        self.Session.close()
+        await self.Session.close()
 
     async def _SendRec(self, aRecSes: TRecSes) -> dict:
         raise NotImplementedError()
@@ -115,3 +116,41 @@ class TCheckUrls(TRequestGet):
         RecSes = [TRecSes(x, aOnRead=self._OnSend) for x in aUrls]
         Res = await self.SendMany(RecSes, aTasks)
         return Res
+
+
+class TDownload():
+    def __init__(self, aDir: str, aMaxConn: int = 5):
+        self.Dir = aDir
+        self.MaxConn = aMaxConn
+        os.makedirs(aDir, exist_ok = True)
+
+    def WriteFile(self, aName: str, aData: bytes):
+        Path = f'{self.Dir}/{aName}'
+        with open(Path, 'wb') as F:
+            F.write(aData)
+
+    async def Fetch(self, aUrl: tuple, aSession: aiohttp.ClientSession):
+        Url, SaveAs = aUrl
+        async with aSession.get(Url) as Response:
+            try:
+                Data = await Response.read()
+                if (Response.status == 200):
+                    if (not SaveAs):
+                        SaveAs = aUrl.rsplit('/', maxsplit=1)[-1]
+                    self.WriteFile(SaveAs, Data)
+            except Exception:
+                pass
+            return (Response.status == 200)
+
+    async def FetchSem(self, aUrl: tuple, aSession: aiohttp.ClientSession, aSem: asyncio.Semaphore):
+        async with aSem:
+            return await self.Fetch(aUrl, aSession)
+
+    async def Get(self, aUrls: list[str], aSaveAs: list[str] = None) -> list:
+        if (not aSaveAs):
+            aSaveAs = [None] * len(aUrls)
+
+        Sem = asyncio.Semaphore(self.MaxConn)
+        async with aiohttp.ClientSession() as Session:
+            Tasks = [asyncio.create_task(self.FetchSem(Url, Session, Sem)) for Url in zip(aUrls, aSaveAs)]
+            return await asyncio.gather(*Tasks)

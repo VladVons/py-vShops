@@ -1,14 +1,15 @@
 {
     "api_conf": {
         "dir_route": "MVC/catalog/view/route",
-        "cache": {
+        "cache_route": {
             "path": "Data/cache/view",
             "max_age": 0,
             "excl_route": []
         },
         "loader": {
             "ctrl": {
-                "path": "http://localhost:8082/route",
+                "type": "url",
+                "url": "http://localhost:8082/route",
                 "user": "user01",
                 "password": "passw01"
             }

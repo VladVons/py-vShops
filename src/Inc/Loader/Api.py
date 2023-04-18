@@ -13,17 +13,18 @@ class TLoaderApi():
     async def Get(self, aPath: str, aData: dict = None):
         raise NotImplementedError()
 
+
 class TLoaderApiFs(TLoaderApi):
-    def __init__(self, aApi: str):
-        _Type, Module, Class = aApi.split(':')
-        Mod = sys.modules.get(Module)
+    def __init__(self, aModule: str, aClass: str):
+        Mod = sys.modules.get(aModule)
         if (Mod is None):
-            __import__(Module)
-            Mod = sys.modules.get(Module)
-        self.Api = getattr(Mod, Class)
+            __import__(aModule)
+            Mod = sys.modules.get(aModule)
+        self.Api = getattr(Mod, aClass)
 
     async def Get(self, aPath: str, aData: dict = None):
         return await self.Api.Exec(aPath, aData)
+
 
 class TLoaderApiHttp(TLoaderApi):
     def __init__(self, aUser: str, aPassword: str, aApiUrl: str):

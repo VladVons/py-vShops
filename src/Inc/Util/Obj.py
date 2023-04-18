@@ -175,3 +175,10 @@ def GetDictDef(aData: dict, aKeys: list, aDef: list, aDefType: bool = False) -> 
     else:
         Res = aDef
     return Res
+
+def GetDict(aData: dict, aKeys: list, aStrict: bool = False) -> list:
+    if (aStrict):
+        Res = [aData[x] for x in aKeys]
+    else:
+        Res = [aData.get(x) for x in aKeys]
+    return Res
