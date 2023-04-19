@@ -10,7 +10,7 @@ async def Main(self, aData: dict = None) -> dict:
     aPath, aTenantId, aLangId, aPage, aLimit = GetDictDef(
         aData.get('query'),
         ('path', 'tenant', 'lang', 'page', 'limit'),
-        ('0', 2, 1, 0, 15), True
+        ('0', 1, 1, 0, 15), True
     )
 
     CategoriyIds = list(map(int, aPath.split('_')))

@@ -20,6 +20,7 @@ class TApiImgConf():
     dir_route: str = 'MVC/catalog/img'
     dir_thumb: str = 'Data/cache/thumb'
     size_thumb: int = 200
+    size_img: int = 1024
 
 
 class TApiImg(TApiBase):
@@ -62,7 +63,7 @@ class TApiImg(TApiBase):
         if ('err' in Data):
             return Data
 
-        Param = aData.get('param', [])
+        Param = aData.get('param', {})
         Method, Module = (Data['method'], Data['module'])
         Res = await Method(Module, **Param)
         if (not Res):

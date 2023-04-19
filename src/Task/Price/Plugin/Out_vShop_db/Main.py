@@ -7,6 +7,7 @@ import json
 #
 from Inc.DbList  import TDbList, TDbRec
 from Inc.DataClass import DDataClass
+from Inc.Misc.Request import TRequestJson, TAuth
 from Inc.ParserX.Common import TFileBase
 from Inc.ParserX.CommonSql import TSqlBase, DASplit, TLogEx
 from Inc.Sql.DbPg import TDbPg
@@ -21,7 +22,6 @@ class TSqlConf():
     TenantId: int
     PriceId: int
     Parts: int = 100
-    DirImage: str = 'catalog/products'
 
 
 class TCatalogToDb():
@@ -57,13 +57,19 @@ class TCatalogToDb():
 
 
 class TSql(TSqlBase):
-    def __init__(self, aDb: TDbPg, aSqlConf: TSqlConf):
+    def __init__(self, aDb: TDbPg, aSqlConf: TSqlConf, aImgApi: TRequestJson):
         super().__init__()
 
         self.Db = aDb
         self.Conf = aSqlConf
+        self.ImgApi = aImgApi
         self.CategoryIdt = {}
         self.ProductIdt = {}
+
+    async def _ImgUpdate(self, aData):
+        Url = f'{self.ImgApi.Url}/system'
+        Res = await self.ImgApi.Send(Url, aData)
+        pass
 
     async def Product_Clear(self):
         Query = f'''
@@ -206,13 +212,26 @@ class TSql(TSqlBase):
         async def Product_Image(aData: list, _aMax: int, _aIdx: int = 0) -> TDbList:
             nonlocal DbRec
 
+            Images = []
             Values = []
             for Row in aData:
                 DbRec.Data = Row
                 for xImage in DbRec.GetField('image', []):
+                    Images.append(xImage)
+
                     Image = xImage.split('/')[-1]
                     Value = f"({self.ProductIdt[DbRec.id]}, '{Image}')"
                     Values.append(Value)
+
+            await self._ImgUpdate(
+                {
+                    'method': 'UploadUrls',
+                    'param': {
+                        'aUrls': Images,
+                        'aDir': self.Conf.TenantId
+                    }
+                }
+            )
 
             Query = f'''
                 insert into ref_product_image (product_id, image)
@@ -283,13 +302,18 @@ class TMain(TFileBase):
         SqlDef = self.Parent.Conf.GetKey('sql', {})
         SqlDef.update(aExport.get('sql'))
         SqlConf = TSqlConf(
-            DirImage = self.Parent.Conf.GetKey('site_image'),
             TenantId = SqlDef.get('tenant_id'),
             LangId = SqlDef.get('lang_id'),
             PriceId = SqlDef.get('price_id'),
             Parts = SqlDef.get('parts', 50)
         )
-        self.Sql = TSql(aDb, SqlConf)
+
+        ConfImg = self.Parent.Conf.GetKey('img_loader')
+        ImgApi = TRequestJson(aAuth=TAuth(ConfImg.get('user'), ConfImg.get('password')))
+        ImgApi.Url = ConfImg.get('url')
+
+        self.Sql = TSql(aDb, SqlConf, ImgApi)
+
 
     async def InsertToDb(self, aDbCategory: TDbCategory, aDbProductEx: TDbProductEx):
         Data = TCatalogToDb(aDbCategory).Get()

@@ -3,14 +3,15 @@
 # License: GNU, see LICENSE for more details
 
 
-from IncP.LibCtrl import GetDictDef, TDbSql, TDbRec
+from IncP.LibCtrl import GetDictDef, TDbSql
 
 
 async def Main(self, aData: dict = None) -> dict:
     aPath, aTenantId, aLangId = GetDictDef(
         aData.get('query'),
         ('path', 'tenant', 'lang'),
-        ('0', '2', '1')
+        ('0', 1, 1),
+        True
     )
 
     CategoriyIds = aPath.split('_')
@@ -19,7 +20,7 @@ async def Main(self, aData: dict = None) -> dict:
         {
             'method': 'Get_CategoriesSubCount_TenantParentLang',
             'param': {'aTenantId': aTenantId, 'aLangId': aLangId, 'aParentIdtRoot': 0, 'aParentIdts': CategoriyIds[:2]},
-            'query': False
+            'query': True
         }
     )
 

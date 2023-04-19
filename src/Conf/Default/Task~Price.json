@@ -9,9 +9,9 @@
         "Task~Price_Vendor.json"
     ],
     "plugins": [
-        {"name": "Out_vShop_db", "enable": false},
+        {"name": "Out_vShop_db", "enable": true},
         {"name": "Out_Save_txt", "enable": false},
-        {"name": "Out_Save_xlsx", "enable": true}
+        {"name": "Out_Save_xlsx", "enable": false}
     ],
     "common": {
         "sleep_loop": 0.01,
@@ -43,23 +43,18 @@
             "dir": "./Data/Pl/Out"
         },
         "Out_vShop_db": {
-            "site_image": "catalog/products",
             "sql": {
                 "parts": 50,
                 "lang_id": 1
             },
-            "auth": {
-                "host": "10.10.1.1",
-                "port": 5432,
-                "database": "shop2",
-                "user": "admin",
-                "password": "$env_db_passwd"
-            },
+            "auth": "{% file Conf/Default/Task.SrvModel.Api.json:db_auth %}",
             "depends": [
                 "In_Price_prom_xml",
-                "In_Price_oster1c_xml",
-                "In_Price_pl01_xlsx"
-            ]
+                "-In_Price_oster1c_xml",
+                "-In_Price_pl01_xlsx"
+            ],
+            "img_loader": "{% file Conf/Default/Task.SrvCtrl.Api.json:api_conf.loader.img %}",
+            "img_conf": "{% file Conf/Default/Task.SrvImg.Api.json:api_conf %}"
         }
     }
 }

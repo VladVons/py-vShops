@@ -119,34 +119,40 @@ class TCheckUrls(TRequestGet):
 
 
 class TDownload():
-    def __init__(self, aDir: str, aMaxConn: int = 5):
+    def __init__(self, aDir: str, aMaxConn: int = 5, aForce: bool = False):
         self.Dir = aDir
         self.MaxConn = aMaxConn
+        self.Force = aForce
         os.makedirs(aDir, exist_ok = True)
 
-    async def _Write(self, aUrl: str, aName: str, aData: bytes):
-        Path = f'{self.Dir}/{aName}'
-        with open(Path, 'wb') as F:
+    async def _Write(self, _aUrl: str, aFile: str, aData: bytes):
+        with open(aFile, 'wb') as F:
             F.write(aData)
 
-    async def _Fetch(self, aUrl: tuple, aSession: aiohttp.ClientSession):
+    async def _Fetch(self, aUrl: tuple, aSession: aiohttp.ClientSession) -> bool:
+        Res = False
+
         Url, SaveAs = aUrl
         async with aSession.get(Url) as Response:
             try:
-                Data = await Response.read()
                 if (Response.status == 200):
                     if (not SaveAs):
-                        SaveAs = aUrl.rsplit('/', maxsplit=1)[-1]
-                    await self._Write(Url, SaveAs, Data)
+                        SaveAs = Url.rsplit('/', maxsplit=1)[-1]
+
+                    File = f'{self.Dir}/{SaveAs}'
+                    if (not os.path.isfile(File)) or (self.Force) or (os.path.getsize(File) != Response.content_length):
+                        Data = await Response.read()
+                        await self._Write(Url, File, Data)
+                    Res = (Response.status == 200)
             except Exception:
                 pass
-            return (Response.status == 200)
+        return Res
 
-    async def _FetchSem(self, aUrl: tuple, aSession: aiohttp.ClientSession, aSem: asyncio.Semaphore):
+    async def _FetchSem(self, aUrl: tuple, aSession: aiohttp.ClientSession, aSem: asyncio.Semaphore) -> list[bool]:
         async with aSem:
             return await self._Fetch(aUrl, aSession)
 
-    async def Get(self, aUrls: list[str], aSaveAs: list[str] = None) -> list:
+    async def Get(self, aUrls: list[str], aSaveAs: list[str] = None) -> list[bool]:
         if (not aSaveAs):
             aSaveAs = [None] * len(aUrls)
 

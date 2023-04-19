@@ -4,6 +4,7 @@
 
 import re
 import os
+import json
 #
 
 
@@ -53,8 +54,19 @@ def DictUpdate(aMaster: dict, aSlave: dict, aJoin = False, aDepth: int = 99) -> 
     DictJoin({3: [1, 2, 3]}, {3: [4]}) -> {3: [1, 2, 3, 4]}
     '''
     def ParseEnv(aVal) -> object:
-        if (isinstance(aVal, str)) and (aVal.startswith('$')):
-            aVal = os.getenv(aVal[1:], aVal)
+        if (isinstance(aVal, str)) and (aVal.startswith('{%')):
+            Macro = re.findall(r'''\{%\s*(\w+)\s*([\w/.:]+)\s*%\}''', aVal)
+            if (Macro):
+                Type, Val = Macro[0]
+                if (Type == 'env'):
+                    aVal = os.getenv(Val, Val)
+                elif (Type == 'file'):
+                    File, Path = Val.split(':')
+                    with open(File, 'r', encoding = 'utf8') as F:
+                        Data = json.load(F)
+                    aVal = DeepGet(Data, Path)
+                else:
+                    raise ValueError()
         return aVal
 
     if (aDepth <= 0):

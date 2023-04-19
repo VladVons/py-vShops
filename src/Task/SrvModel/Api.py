@@ -69,7 +69,7 @@ class TApiModel(TApiBase):
                 'help': GetHelp(ModuleObj.Api),
             }
 
-        Param = aData.get('param', [])
+        Param = aData.get('param', {})
         try:
             if (isinstance(Param, dict)):
                 Data = await MethodObj(ModuleObj, **Param)

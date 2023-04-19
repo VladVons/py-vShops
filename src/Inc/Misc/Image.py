@@ -7,13 +7,18 @@
 
 
 import os
+import io
 from PIL import Image
 
 
 class TImage():
     @staticmethod
-    def Open(aFileIn: str) -> object:
+    def OpenFile(aFileIn: str) -> object:
         return Image.open(aFileIn)
+
+    @staticmethod
+    def OpenImg(aData: bytes) -> object:
+        return Image.open(io.BytesIO(aData))
 
     @staticmethod
     def Resize(aImg, aMaxSize: int = 1024) -> object:
@@ -28,12 +33,21 @@ class TImage():
 
     @staticmethod
     def ResizeFile(aFileIn: str, aFileOut: str = None, aMaxSize: int = 1024, aQuality = 60) -> float:
-        SizeIn = os.path.getsize(aFileIn)
-        Img = TImage.Open(aFileIn)
+        Img = TImage.OpenFile(aFileIn)
         Img = TImage.Resize(Img, aMaxSize)
 
         if (not aFileOut):
             aFileOut = aFileIn
         Img.save(aFileOut, quality = aQuality)
+        SizeIn = os.path.getsize(aFileIn)
         Ratio = os.path.getsize(aFileOut) / SizeIn
+        return Ratio
+
+    @staticmethod
+    def ResizeImg(aDataIn: bytes, aFileOut: str, aMaxSize: int = 1024, aQuality = 60) -> float:
+        Img = TImage.OpenImg(aDataIn)
+        Img = TImage.Resize(Img, aMaxSize)
+
+        Img.save(aFileOut, quality = aQuality)
+        Ratio = os.path.getsize(aFileOut) / len(aDataIn)
         return Ratio

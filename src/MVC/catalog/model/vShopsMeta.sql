@@ -20,6 +20,11 @@
 --create extension hstore;
 --drop extension hstore;
 
+-- select sequencename from pg_sequences where (sequencename like 'ref_product\_%');
+-- ALTER SEQUENCE ref_product_id_seq RESTART 1;
+-- ALTER SEQUENCE ref_product_image_id_seq RESTART 1;
+-- ALTER SEQUENCE ref_product_price_id_seq RESTART 1;
+-- ALTER SEQUENCE ref_product_category_id_seq RESTART 1;
 
 -----------------------------------------------------------------------------
 -- common enums --

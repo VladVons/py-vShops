@@ -63,10 +63,14 @@ async def Test_08():
 async def Test_09():
     StartAt = time.time()
 
-    Cnt = 10
+    Url = 'https://loremflickr.com/800/600/girl'
+    Url = 'https://images.prom.ua/4409017669_w640_h640_aromatizator-dlya-avtomobilya.jpg'
+
+    Cnt = 3
     Download = TDownload('Temp')
-    Urls = ['https://loremflickr.com/800/600/girl' for x in range(Cnt)]
-    SaveAs = [f'girl_{i:02}.jpg' for i in range(Cnt)]
+    Urls = [Url for x in range(Cnt)]
+    #SaveAs = [f'girl_{i:02}.jpg' for i in range(Cnt)]
+    SaveAs = None
     Res = await Download.Get(Urls, SaveAs)
     print('done', round((time.time() - StartAt) / Cnt, 3))
 
