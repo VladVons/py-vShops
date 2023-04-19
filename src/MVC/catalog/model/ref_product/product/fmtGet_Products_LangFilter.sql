@@ -2,7 +2,7 @@ select
     count(*) over() as total,
     rp.id,
     --rp.idt,
-    --rp.tenant_id,
+    rp.tenant_id,
     --max(rt.title),
     max(rpl.title) as title,
     min(rpp.price) as price,

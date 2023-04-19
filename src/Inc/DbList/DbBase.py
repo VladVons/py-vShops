@@ -161,6 +161,17 @@ class TDbBase():
             Res = list(set(Res))
         return Res
 
+    def ExportStr(self, aFields: list[str], aFormat: str) -> list[str]:
+        '''
+            ExportStr(['User', 'Price'], '{}/{}')
+        '''
+        FieldsNo = [self.GetFieldNo(x) for x in aFields]
+        Res = [
+            aFormat.format(*[xData[i] for i in FieldsNo])
+            for xData in self.Data
+        ]
+        return Res
+
     def ExportPair(self, aFieldKey: str, aFieldVal: str) -> dict:
         '''
         Returns two binded fields as key:val

@@ -16,6 +16,7 @@ class TExec():
 
 @DDataClass
 class TApiImgConf():
+    url: str = 'http://localhost:8083/img'
     dir_root: str = 'Data/img'
     dir_route: str = 'MVC/catalog/img'
     dir_thumb: str = 'Data/cache/thumb'

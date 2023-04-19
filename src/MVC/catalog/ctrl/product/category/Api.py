@@ -19,7 +19,7 @@ async def Main(self, aData: dict = None) -> dict:
         {
             'method': 'Get_CategoriesSubCount_TenantParentLang',
             'param': {'aTenantId': aTenantId, 'aLangId': aLangId, 'aParentIdtRoot': 0, 'aParentIdts': CategoriyIds},
-            'query': True
+            'query': False
         }
     )
     DblData = Res.get('data')
@@ -63,19 +63,21 @@ async def Main(self, aData: dict = None) -> dict:
         'ref_product/category',
         {
             'method': 'Get_CategoriesProducts_LangImagePrice',
-            'param': {'aCategoryIds': CategoryIds, 'aLangId': aLangId, 'aPriceId': 3, 'aLimit': aLimit, 'aOffset': aPage * aLimit}
+            'param': {'aCategoryIds': CategoryIds, 'aLangId': aLangId, 'aPriceId': 1, 'aLimit': aLimit, 'aOffset': aPage * aLimit}
         }
     )
-    DblData = ResProduct.get('data')
-    Res['dbl_product'] = DblData
 
-    Dbl = TDbSql().Import(DblData)
-    Images = Dbl.ExportList('image')
-    Thumbs = await self.ExecImg('system',
-        {
-            'method': 'Thumbs',
-            'param': {'aFiles': Images}
-        }
-    )
+    DblData = ResProduct.get('data')
+    if (DblData):
+        Dbl = TDbSql().Import(DblData)
+        Images = Dbl.ExportStr(['tenant_id', 'image'], '{}/{}')
+        ResThumbs = await self.ExecImg('system',
+            {
+                'method': 'Thumbs',
+                'param': {'aFiles': Images}
+            }
+        )
+        Dbl.AddFields(['thumb'], [ResThumbs['thumb']])
+        Res['dbl_product'] = Dbl.Export()
 
     return Res

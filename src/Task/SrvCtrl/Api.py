@@ -25,12 +25,9 @@ class TApiCtrl(TApiBase):
         self.Imgs: TImgs = None
         self.CacheModel: TCacheMem = None
         self.OnExec: TExec = None
-        self.Conf: dict = None
         self.Lang: TLoaderLang = None
 
     def Init(self, aConf: dict):
-        self.Conf = aConf
-
         self.Ctrls = TCtrls(aConf['dir_route'], self)
         self.InitLoader(aConf['loader'])
 

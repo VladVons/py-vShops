@@ -7,11 +7,12 @@
 
 import re
 import time
-import gspread
 import asyncio
 import aiohttp
+import gspread
 #
 from Inc.Misc.Request import TDownload
+from Inc.DbList import TDbList
 
 
 def Test_05():
@@ -75,4 +76,24 @@ async def Test_09():
     print('done', round((time.time() - StartAt) / Cnt, 3))
 
 
-asyncio.run(Test_09())
+def Test_10():
+    Data = [
+        ['User5', 55, True, 5.67],
+        ['User2', 22, True, 2.34],
+        ['User6', 66, True, 6.78],
+        ['User1', 11, False, 1.23],
+        ['User3', 33, True, 3.45],
+        ['User4', 44, True, 4.56],
+        ['User5', 55, True, 5.55]
+    ]
+
+    Dbl1 = TDbList(
+        ['User', 'Age', 'Male', 'Price'],
+        Data
+    )
+    q1 = Dbl1.ExportStr(['User', 'Price'], '{}/{}')
+    print(q1)
+
+Test_10()
+
+#asyncio.run(Test_09())

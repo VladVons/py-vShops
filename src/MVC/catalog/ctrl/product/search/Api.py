@@ -25,11 +25,21 @@ async def Main(self, aData: dict = None) -> dict:
     DblData = Res.get('data')
     if (DblData):
         Dbl = TDbSql().Import(DblData)
-        Res['total'] = Dbl.Rec.total
-        Res['dbl_product'] = Res.pop('data')
+
+        Images = Dbl.ExportStr(['tenant_id', 'image'], '{}/{}')
+        ResThumbs = await self.ExecImg('system',
+            {
+                'method': 'Thumbs',
+                'param': {'aFiles': Images}
+            }
+        )
+        Dbl.AddFields(['thumb'], [ResThumbs['thumb']])
+        Res['dbl_product'] = Dbl.Export()
+        del Res['data']
 
         PageCount = Dbl.Rec.total // aLimit
         Res['pages'] = list(range(1, PageCount + 1))
+        Res['total'] = Dbl.Rec.total
     else:
         Res['total'] = 0
     Res['search'] = aSearch

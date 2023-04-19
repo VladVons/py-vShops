@@ -4,6 +4,7 @@
         "dir_root": "Data/img",
         "dir_thumb": "thumb",
         "size_thumb": 200,
-        "size_img": 1024
+        "size_img": 1024,
+        "url": "http://localhost:8083/img"
     }
 }

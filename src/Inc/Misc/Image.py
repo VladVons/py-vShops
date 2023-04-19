@@ -2,6 +2,7 @@
 # Author: Vladimir Vons <VladVons@gmail.com>
 # License: GNU, see LICENSE for more details
 #
+# pip3 install pillow
 # Image1 = TImage()
 # Image1.ResizeFile('Pic1.jpg', 'Pic2.jpg', 1024, 50)
 

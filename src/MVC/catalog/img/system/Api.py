@@ -31,8 +31,8 @@ async def UploadUrls(self, aUrls: list[str], aDir: str, aSaveAs: list[str] = Non
 async def Thumbs(self, aFiles: list[str]) -> dict:
     Res = []
     for x in aFiles:
-        Thumb = f'{self.Conf.dir_thumb}/{x}'
-        FileOut = f'{self.Conf.dir_root}/{Thumb}'
+        Thumb = f'{self.Conf.url}/{self.Conf.dir_thumb}/{x}'
+        FileOut = f'{self.Conf.dir_root}/{self.Conf.dir_thumb}/{x}'
         if (not os.path.isfile(FileOut)):
             FileIn = f'{self.Conf.dir_root}/{x}'
             if (os.path.isfile(FileIn)):
@@ -43,7 +43,7 @@ async def Thumbs(self, aFiles: list[str]) -> dict:
             else:
                 Thumb = ''
         Res.append(Thumb)
-    return {'thumbs': Res}
+    return {'thumb': Res}
 
 async def Remove(self, aFiles: list[str]) -> dict:
     Dirs = [self.Conf.dir_root, f'{self.Conf.dir_root}/{self.Conf.dir_thumb}']
