@@ -2,6 +2,7 @@
 *.log
 *.xml
 *.xls
+*.xlsx
 *.ods
 *.dat
 *.txt
