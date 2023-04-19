@@ -10,6 +10,8 @@ import time
 import gspread
 import asyncio
 import aiohttp
+#
+from Inc.Misc.Request import TDownload
 
 
 def Test_05():
@@ -58,6 +60,15 @@ async def Test_08():
                 print(Len)
     print('done', round((time.time() - StartAt) / Cnt, 3))
 
-StartAt = time.time()
-asyncio.run(Test_08())
+async def Test_09():
+    StartAt = time.time()
 
+    Cnt = 10
+    Download = TDownload('Temp')
+    Urls = ['https://loremflickr.com/800/600/girl' for x in range(Cnt)]
+    SaveAs = [f'girl_{i:02}.jpg' for i in range(Cnt)]
+    Res = await Download.Get(Urls, SaveAs)
+    print('done', round((time.time() - StartAt) / Cnt, 3))
+
+
+asyncio.run(Test_09())

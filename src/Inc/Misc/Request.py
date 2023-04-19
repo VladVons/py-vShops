@@ -124,12 +124,12 @@ class TDownload():
         self.MaxConn = aMaxConn
         os.makedirs(aDir, exist_ok = True)
 
-    def WriteFile(self, aName: str, aData: bytes):
+    async def _Write(self, aUrl: str, aName: str, aData: bytes):
         Path = f'{self.Dir}/{aName}'
         with open(Path, 'wb') as F:
             F.write(aData)
 
-    async def Fetch(self, aUrl: tuple, aSession: aiohttp.ClientSession):
+    async def _Fetch(self, aUrl: tuple, aSession: aiohttp.ClientSession):
         Url, SaveAs = aUrl
         async with aSession.get(Url) as Response:
             try:
@@ -137,14 +137,14 @@ class TDownload():
                 if (Response.status == 200):
                     if (not SaveAs):
                         SaveAs = aUrl.rsplit('/', maxsplit=1)[-1]
-                    self.WriteFile(SaveAs, Data)
+                    await self._Write(Url, SaveAs, Data)
             except Exception:
                 pass
             return (Response.status == 200)
 
-    async def FetchSem(self, aUrl: tuple, aSession: aiohttp.ClientSession, aSem: asyncio.Semaphore):
+    async def _FetchSem(self, aUrl: tuple, aSession: aiohttp.ClientSession, aSem: asyncio.Semaphore):
         async with aSem:
-            return await self.Fetch(aUrl, aSession)
+            return await self._Fetch(aUrl, aSession)
 
     async def Get(self, aUrls: list[str], aSaveAs: list[str] = None) -> list:
         if (not aSaveAs):
@@ -152,5 +152,5 @@ class TDownload():
 
         Sem = asyncio.Semaphore(self.MaxConn)
         async with aiohttp.ClientSession() as Session:
-            Tasks = [asyncio.create_task(self.FetchSem(Url, Session, Sem)) for Url in zip(aUrls, aSaveAs)]
+            Tasks = [asyncio.create_task(self._FetchSem(Url, Session, Sem)) for Url in zip(aUrls, aSaveAs)]
             return await asyncio.gather(*Tasks)
