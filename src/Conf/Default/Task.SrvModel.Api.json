@@ -1,7 +1,5 @@
 {
-   "api_conf": {
-        "dir_route": "MVC/catalog/model"
-    },
+    "dir_route": "MVC/catalog/model",
     "db_auth" : {
         "host": "10.10.1.1",
         "port": 5432,

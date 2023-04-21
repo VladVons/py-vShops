@@ -4,7 +4,6 @@
 
 from Inc.Sql.ADb import TDbAuth
 from Inc.SrvWeb.SrvBase import TSrvConf
-from .Api import ApiModel
 from .Main import TSrvModel
 
 
@@ -16,5 +15,3 @@ def Main(aConf) -> tuple:
     else:
         Res = (Obj, Obj.RunApp())
     return Res
-
-ApiModel.LoadConf()

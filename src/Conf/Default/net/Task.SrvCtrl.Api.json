@@ -1,17 +1,26 @@
 {
-    "api_conf": {
-        "dir_route": "MVC/catalog/ctrl",
-        "cache_route": {
-            "max_age": 25,
-            "excl_route": ["RegSession"]
+    "dir_route": "MVC/catalog/ctrl",
+    "cache_route": {
+        "max_age": 25,
+        "excl_route": ["RegSession"]
+    },
+    "lang": {
+        "type": "fs",
+        "default": "ua",
+        "dir": "MVC/catalog/lang"
+    },
+    "loader": {
+        "model": {
+            "type": "url",
+            "url": "http://localhost:8081/api",
+            "user": "user01",
+            "password": "passw01"
         },
-        "loader": {
-            "model": {
-                "type": "url",
-                "url": "http://localhost:8081/api",
-                "user": "user01",
-                "password": "passw01"
-            }
+        "img": {
+            "type": "url",
+            "url": "http://localhost:8083/api",
+            "user": "user01",
+            "password": "passw01"
         }
     }
 }

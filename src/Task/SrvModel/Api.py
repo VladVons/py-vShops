@@ -3,12 +3,9 @@
 # License: GNU, see LICENSE for more details
 
 
-import re
-#
 from Inc.Misc.Time import SecondsToDHMS_Str
 from Inc.Sql import TDbExecPool, TDbMeta, TDbPg
 from Inc.Sql.ADb import TDbAuth
-from Inc.Util.ModHelp import GetHelp, GetMethod
 from IncP.ApiBase import TApiBase
 from IncP.Plugins import TModels
 from IncP.Log import Log, TEchoDb
@@ -17,82 +14,33 @@ from IncP.Log import Log, TEchoDb
 class TApiModel(TApiBase):
     def __init__(self):
         super().__init__()
-        self.DbAuth: TDbAuth = None
-        self.DbMeta: TDbMeta = None
-        self.Models: TModels = None
 
-    @staticmethod
-    def _GetMethodHelp(aMod: object, aMethod: str) -> dict:
-        Obj = getattr(aMod, aMethod, None)
-        if (Obj is None):
-            Res = {
-                'err': f'unknown method {aMethod}',
-                'help': GetHelp(aMod)
-            }
-        else:
-            Data = GetMethod(Obj)
-            Res = {
-                'help': {'decl': Data[2],
-                'doc': Data[3]}
-            }
-        return Res
+        Conf = self.GetConf()
+        DbAuth = Conf['db_auth']
+        self.DbAuth = TDbAuth(**DbAuth)
+        Db = TDbPg(self.DbAuth)
+        self.DbMeta = TDbMeta(Db)
+        self.Models = TModels(Conf['dir_route'], self.DbMeta)
+
+        self.Helper = {'route': 'system', 'method': 'Api'}
 
     async def Exec(self, aRoute: str, aData: dict) -> dict:
         self.ExecCnt += 1
 
-        if (not self.Models.IsModule(aRoute)):
-            if (self.Conf.helper):
-                aRoute = self.Conf.helper.get('route')
-                aData['method'] = self.Conf.helper.get('method')
-                aData['param'] = [self.Conf.dir_module]
-            else:
-                return {'err': f'unknown route {aRoute}'}
+        Data = self.GetMethod(self.Models, aRoute, aData)
+        if ('err' in Data):
+            return Data
 
-        self.Models.LoadMod(aRoute)
-        ModuleObj = self.Models[aRoute]
-
-        if (not aData):
-            return {'err': 'undefined data'}
-
-        Method = aData.get('method')
-        if (not Method):
-            return {'err': 'undefined key `method`'}
-
-        if (Method.startswith('Help ')):
-            Method = re.split(r'\s+', Method)[1]
-            return self._GetMethodHelp(ModuleObj.Api, Method)
-
-        MethodObj = getattr(ModuleObj.Api, Method, None)
-        if (MethodObj is None):
-            return {
-                'err': f'unknown method {Method}',
-                'help': GetHelp(ModuleObj.Api),
-            }
-
+        Method, Module = (Data['method'], Data['module'])
         Param = aData.get('param', {})
-        try:
-            if (isinstance(Param, dict)):
-                Data = await MethodObj(ModuleObj, **Param)
-            else:
-                Data = await MethodObj(ModuleObj, *Param)
-
-            if (Data):
-                Res = {'data': Data[0]}
-                if (aData.get('query')):
-                    Res['query'] = Data[1]
-            else:
-                Res = {'data': None}
-        except Exception as E:
-            Res = {'err': str(E)}
-            Log.Print(1, 'x', 'TApi.Exec()', str(E))
+        Data = await Method(Module, **Param)
+        if (Data):
+            Res = {'data': Data[0]}
+            if (aData.get('query')):
+                Res['query'] = Data[1]
+        else:
+            Res = {'data': None}
         return Res
-
-    def Init(self, aConf: dict):
-        Db = TDbPg(self.DbAuth)
-        self.DbMeta = TDbMeta(Db)
-        self.Models = TModels(aConf['dir_route'], self.DbMeta)
-
-        #self.Conf.helper = {'module': 'system', 'method': 'Api'}
 
     async def DbConnect(self):
         await self.DbMeta.Db.Connect()
@@ -125,13 +73,5 @@ class TApiModel(TApiBase):
         if (self.DbMeta):
             await self.DbMeta.Db.Close()
 
-    def LoadConf(self):
-        Conf = self.GetConf()
-
-        DbAuth = Conf['db_auth']
-        self.DbAuth = TDbAuth(**DbAuth)
-
-        ApiConf = Conf['api_conf']
-        self.Init(ApiConf)
 
 ApiModel = TApiModel()

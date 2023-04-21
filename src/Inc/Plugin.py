@@ -16,6 +16,7 @@ class TPlugin(dict):
 
         self.Dir = aDirMod
         self.DirConf = aDirConf
+        self.Cache = {}
 
     def _Create(self, aModule: object, aPath: str) -> object:
         raise NotImplementedError()

@@ -45,13 +45,8 @@ class TApiView(TApiBase):
     def __init__(self):
         super().__init__()
 
-        self.Cache: TCacheFileView = None
-        self.Conf: TApiViewConf = None
-        self.Tpl: TTemplate = None
-        self.Viewes: TViewes = None
-
-    def Init(self, aConf: dict):
-        self.Conf = TApiViewConf(**aConf)
+        Conf = self.GetConf()
+        self.Conf = TApiViewConf(**Conf)
         self.Viewes = TViewes(self.Conf.dir_route)
         self.InitLoader(self.Conf.loader)
 
@@ -138,11 +133,6 @@ class TApiView(TApiBase):
         else:
             Res = web.Response(text = Data['data'], content_type = 'text/html')
         return Res
-
-    def LoadConf(self):
-        Conf = self.GetConf()
-        ApiConf = Conf['api_conf']
-        self.Init(ApiConf)
 
 
 ApiView = TApiView()

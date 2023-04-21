@@ -4,7 +4,6 @@
 
 
 from Inc.SrvWeb.SrvBase import TSrvConf
-from .Api import ApiImg
 from .Main import TSrvImg
 
 
@@ -16,5 +15,3 @@ def Main(aConf) -> tuple:
     else:
         Res = (Obj, Obj.RunApp())
     return Res
-
-ApiImg.LoadConf()

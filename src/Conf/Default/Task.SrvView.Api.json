@@ -1,18 +1,16 @@
 {
-    "api_conf": {
-        "dir_route": "MVC/catalog/view",
-        "dir_root": "MVC/catalog/view",
-        "cache_route": {
-            "path": "Data/cache/view",
-            "max_age": 0,
-            "excl_route": []
-        },
-        "loader": {
-            "ctrl": {
-                "type": "fs",
-                "module": "Task.SrvCtrl.Api",
-                "class": "ApiCtrl"
-            }
+    "dir_route": "MVC/catalog/view",
+    "dir_root": "MVC/catalog/view",
+    "cache_route": {
+        "path": "Data/cache/view",
+        "max_age": 0,
+        "excl_route": []
+    },
+    "loader": {
+        "ctrl": {
+            "type": "fs",
+            "module": "Task.SrvCtrl.Api",
+            "class": "ApiCtrl"
         }
     }
 }

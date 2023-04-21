@@ -70,7 +70,7 @@ async def Main(self, aData: dict = None) -> dict:
     DblData = ResProduct.get('data')
     if (DblData):
         Dbl = TDbSql().Import(DblData)
-        Images = Dbl.ExportStr(['tenant_id', 'image'], '{}/{}')
+        Images = Dbl.ExportStr(['tenant_id', 'image'], 'product/{}/{}')
         ResThumbs = await self.ExecImg('system',
             {
                 'method': 'Thumbs',

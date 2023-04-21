@@ -17,5 +17,3 @@ def Main(aConf) -> tuple:
     else:
         Res = (Obj, Obj.RunApp())
     return Res
-
-ApiCtrl.LoadConf()

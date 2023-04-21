@@ -74,7 +74,7 @@ class TFormBase(Form):
             self.Session['session_id'] = Dbl.Rec.id
 
     async def ExecCtrlDef(self) -> dict:
-        return await self.ExecCtrl(f'{self.out.route}')
+        return await self.ExecCtrl(self.out.route, {'method': 'Main'})
 
     async def ExecCtrl(self, aRoute: str, aData: dict = None) -> dict:
         File = self.Tpl.SearchModule(aRoute)
@@ -86,7 +86,6 @@ class TFormBase(Form):
             Extends = []
 
         Data = {
-            'data': aData,
             'route': self.out.route,
             'path_qs': self.Request.path_qs,
             'path': self.Request.path,
@@ -95,6 +94,8 @@ class TFormBase(Form):
             'session': dict(self.Session),
             'extends': Extends
         }
+        if (aData):
+            Data.update(aData)
         return await self.Ctrl.Get(aRoute, Data)
 
     async def PostToData(self) -> bool:

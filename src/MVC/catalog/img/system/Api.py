@@ -24,7 +24,7 @@ async def UploadUrl(self, aUrl: str, aFile: str) -> dict:
 
 async def UploadUrls(self, aUrls: list[str], aDir: str, aSaveAs: list[str] = None) -> dict:
     Download = TDownloadResize(f'{self.Conf.dir_root}/{aDir}')
-    Download.MaxSize = self.Conf.size_img
+    Download.MaxSize = self.Conf.size_product
     Res = await Download.Get(aUrls, aSaveAs)
     return {'status': Res}
 

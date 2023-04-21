@@ -1,5 +1,4 @@
 from Task import ConfTask
-from .Api import ApiView
 from .Main import TSrvView, TSrvViewConf
 
 
@@ -8,5 +7,3 @@ def Main(aConf) -> tuple:
     SrvViewFormConf = TSrvViewConf(**Conf)
     Obj = TSrvView(SrvViewFormConf)
     return (Obj, Obj.RunApp())
-
-ApiView.LoadConf()
