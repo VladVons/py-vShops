@@ -178,6 +178,13 @@ def GetNotNone(aData: dict, aKey: str, aDef: object) -> object:
 def Filter(aData: dict, aKeys: list) -> dict:
     return {Key: aData[Key] for Key in aKeys }
 
+def GetDict(aData: dict, aKeys: list, aStrict: bool = False) -> list:
+    if (aStrict):
+        Res = [aData[x] for x in aKeys]
+    else:
+        Res = [aData.get(x) for x in aKeys]
+    return Res
+
 def GetDictDef(aData: dict, aKeys: list, aDef: list, aDefType: bool = False) -> list:
     if (aData):
         if (aDefType):
@@ -188,9 +195,9 @@ def GetDictDef(aData: dict, aKeys: list, aDef: list, aDefType: bool = False) -> 
         Res = aDef
     return Res
 
-def GetDict(aData: dict, aKeys: list, aStrict: bool = False) -> list:
-    if (aStrict):
-        Res = [aData[x] for x in aKeys]
+def GetDictDefDeep(aData: dict, aKeys: list, aDef: list) -> list:
+    if (aData):
+        Res = [DeepGetByList(aData, Key.split('.'), Def) for Key, Def in zip(aKeys, aDef)]
     else:
-        Res = [aData.get(x) for x in aKeys]
+        Res = aDef
     return Res
