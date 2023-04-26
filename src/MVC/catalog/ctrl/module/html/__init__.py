@@ -8,6 +8,6 @@ from IncP.CtrlBase import TCtrlBase
 from . import Api
 
 
-@DAddModules([Api], True)
+@DAddModules([Api], '*')
 class TMain(TCtrlBase):
     pass

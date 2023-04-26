@@ -7,10 +7,10 @@ left join
     ref_product_price rpp on
     (rpph.price_id = rpp.id)
 where
-    rpph.qty = {aQty} and
-    rpph.create_date <= '{aDate}' and
-    rpp.price_id = {aPriceId} and
-    rpp.product_id = {aProductId}
+    (rpph.qty = {aQty}) and
+    (rpph.create_date <= '{aDate}') and
+    (rpp.price_id = {aPriceId}) and
+    (rpp.product_id = {aProductId})
 order by
     rpph.create_date desc
 limit

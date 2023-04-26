@@ -3,18 +3,14 @@
 # License: GNU, see LICENSE for more details
 
 
-from Inc.Sql.ADb import ListIntToComma
-
-
-async def GetProductsPrice(self, aProductIds: list[int])  -> dict:
-    ProductIds = ListIntToComma(aProductIds)
-    return await self.ExecQuery(
-        'fmtGetProductsPrice.sql',
-        {'ProductIds': ProductIds}
-    )
-
 async def GetProductPriceOnDate(self, aProductId: int, aPriceId: int, aDate: str, aQty: int = 1) -> dict:
     return await self.ExecQuery(
-        'fmtGetProductPriceOnDate.sql',
+        'fmtGet_ProductPriceOnDate.sql',
         {'aProductId': aProductId, 'aPriceId': aPriceId, 'aDate': aDate, 'aQty': aQty}
+    )
+
+async def Get_ProductPrices(self, aProductId: int) -> dict:
+    return await self.ExecQuery(
+        'fmtGet_ProductPrices.sql',
+        {'aProductId': aProductId}
     )

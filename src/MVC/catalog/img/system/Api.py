@@ -15,7 +15,6 @@ class TDownloadResize(TDownload):
     async def _Write(self, _aUrl, aFile, aData):
         TImage.ResizeImg(aData, aFile, self.MaxSize)
 
-
 async def UploadUrl(self, aUrl: str, aFile: str) -> dict:
     Path, File = aFile.rsplit('/', maxsplit = 1)
     Download = TDownload(f'{self.Conf.dir_root}/{Path}')
@@ -28,7 +27,7 @@ async def UploadUrls(self, aUrls: list[str], aDir: str, aSaveAs: list[str] = Non
     Res = await Download.Get(aUrls, aSaveAs)
     return {'status': Res}
 
-async def Thumbs(self, aFiles: list[str]) -> dict:
+async def GetThumbs(self, aFiles: list[str]) -> dict:
     Res = []
     for x in aFiles:
         Thumb = f'{self.Conf.url}/{self.Conf.dir_thumb}/{x}'
@@ -43,7 +42,16 @@ async def Thumbs(self, aFiles: list[str]) -> dict:
             else:
                 Thumb = ''
         Res.append(Thumb)
-    return {'thumb': Res}
+    return  {'thumb': Res}
+
+async def GetImages(self, aFiles: list[str]) -> dict:
+    Res = []
+    for x in aFiles:
+        File = f'{self.Conf.dir_root}/{x}'
+        if (os.path.isfile(File)):
+            Image = f'{self.Conf.url}/{x}'
+            Res.append(Image)
+    return {'image': Res}
 
 async def Remove(self, aFiles: list[str]) -> dict:
     Dirs = [self.Conf.dir_root, f'{self.Conf.dir_root}/{self.Conf.dir_thumb}']

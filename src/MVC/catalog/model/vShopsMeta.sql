@@ -24,6 +24,7 @@
 -- delete from ref_product_image;
 -- delete from ref_product_price;
 -- delete from ref_product_category;
+-- delete from hist_session;
 ---- select sequencename from pg_sequences where (sequencename like 'ref_product\_%');
 -- ALTER SEQUENCE ref_product_id_seq RESTART 1;
 -- ALTER SEQUENCE ref_product_image_id_seq RESTART 1;
@@ -49,7 +50,6 @@ create type val_enum as enum (
     'float',
     'bool'
 );
-
 
 -----------------------------------------------------------------------------
 -- references. user auth --
@@ -124,6 +124,8 @@ create table if not exists ref_query (
     query               text not null,
     unique (path, title)
 );
+COMMENT ON TABLE ref_query IS 'alternative file system queries storage';
+
 -----------------------------------------------------------------------------
 -- references. common tables --
 -----------------------------------------------------------------------------
@@ -147,6 +149,22 @@ create table if not exists ref_lang (
     title               varchar(16) not null,
     alias               varchar(3)
 );
+
+
+-- SEO --
+
+create table if not exists ref_seo_url (
+    id                  serial primary key,
+    attr                varchar(32) not null,
+    val                 varchar(128) not null,
+    keyword             varchar(128) not null,
+    sort_order          smallint default 0,
+    lang_id             integer not null,
+    foreign key (lang_id) references ref_lang(id)
+);
+create index if not exists ref_seo_url_keyword on ref_seo_url(keyword);
+create index if not exists ref_seo_url_query on ref_seo_url(attr, val);
+COMMENT ON TABLE public.ref_seo_url IS 'key+value urls into SEO';
 
 -- currency --
 
@@ -221,6 +239,7 @@ create table if not exists ref_tenant (
     address_id          integer not null,
     foreign key (address_id) references ref_address(id)
 );
+COMMENT ON TABLE ref_tenant IS 'company separator';
 
 -- product0_category --
 
@@ -308,8 +327,8 @@ create table if not exists ref_product0_crawl (
 
 create table if not exists ref_conf (
     id                  serial primary key,
-    title               varchar(32) not null,
-    descr               text not null,
+    attr                varchar(32) not null,
+    val                 text not null,
     serialized          boolean,
     tenant_id           integer not null,
     foreign key (tenant_id) references ref_tenant(id)
@@ -490,12 +509,21 @@ create table if not exists ref_product_price (
     id                  serial primary key,
     product_id          integer not null,
     price_id            integer not null,
-    price               float not null,
-    qty                 integer not null default 1,
+    price               numeric(10, 2) not null,
+    qty                 smallint not null default 1,
     foreign key (product_id) references ref_product(id) on delete cascade,
     foreign key (price_id) references ref_price(id),
     unique (product_id, price_id, qty)
 );
+
+create table if not exists ref_product_price_date (
+    id                  serial primary key,
+    begin_date          date not null,
+    end_date            date not null,
+    product_price_id    integer not null,
+    foreign key (product_price_id) references ref_product_price(id) on delete cascade
+);
+
 
 create table if not exists ref_product_barcode (
     id                  serial primary key,
@@ -596,8 +624,8 @@ create table if not exists ref_kind_attr_product (
 create table if not exists hist_ref_product_price (
     id                  serial primary key,
     create_date         timestamp default current_timestamp,
-    price               float,
-    qty                 int,
+    price               numeric(10, 2),
+    qty                 smallint,
     price_id            integer not null,
     foreign key (price_id) references ref_product_price(id) on delete cascade
 );
@@ -666,10 +694,10 @@ create table if not exists doc_sale (
 create table if not exists doc_sale_table_product (
     id                  serial primary key,
     unit_id             integer not null,
-    qty                 float not null,
-    price               float not null,
-    discount            float default 0,
-    summ                float default 0,
+    qty                 numeric(10, 3) not null,
+    price               numeric(10, 2) not null,
+    discount            numeric(10, 2) default 0,
+    summ                numeric(10, 2) default 0,
     product_id          integer not null,
     doc_sale_id         integer not null,
     foreign key (product_id) references ref_product(id),

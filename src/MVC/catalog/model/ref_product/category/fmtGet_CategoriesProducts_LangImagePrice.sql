@@ -1,4 +1,5 @@
 select
+    rptc.category_id,
     rptc.product_id,
     rp.tenant_id,
     rpl.title,

@@ -1,4 +1,4 @@
-with t1 as (
+with wt1 as (
     select 
         distinct on (rlm.module_id, rlm.place) rlm.module_id as id,
         rlm.place,
@@ -36,7 +36,7 @@ select
     intro,
     descr
 from 
-    t1
+    wt1
 order by 
     place, 
     sort_order

@@ -65,3 +65,21 @@ async def Get_ModuleGroup(self, aLangId: int, aModuleId: int) -> dict:
         'fmtGet_ModuleGroup.sql',
         {'aLangId': aLangId, 'aModuleId': aModuleId}
     )
+
+async def Get_ConfTenant(self, aTenantId: int, aAttr: str = None) -> dict:
+    CondAttr = ''
+    if (aAttr):
+        CondAttr = f"and attr like '{aAttr}%'"
+
+    return await self.ExecQuery(
+        'fmtGet_ConfTenant.sql',
+        {'aTenantId': aTenantId, 'CondAttr': CondAttr}
+    )
+
+async def Get_SeoToDict_LangPath(self, aLangId: int, aPath: list[str]) -> dict:
+    Arr = [f"(keyword = '{x}' or keyword like '%/{x}')" for x in aPath]
+    CondKeyword = ' or\n'.join(Arr)
+    return await self.ExecQuery(
+        'fmtGet_SeoToDict_LangPath.sql',
+        {'aLangId': aLangId, 'CondKeyword': CondKeyword}
+    )

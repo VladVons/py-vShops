@@ -151,16 +151,6 @@ class TDbBase():
             Data = [[Val[i] for i in FieldsNo] for Val in self.Data[Start:Finish]]
         return Data
 
-    def ExportList(self, aField: str, aUniq = False) -> list:
-        '''
-        Returns one field as list
-        '''
-        FieldNo = self.GetFieldNo(aField)
-        Res = [x[FieldNo] for x in self.Data]
-        if (aUniq):
-            Res = list(set(Res))
-        return Res
-
     def ExportStr(self, aFields: list[str], aFormat: str) -> list[str]:
         '''
             ExportStr(['User', 'Price'], '{}/{}')

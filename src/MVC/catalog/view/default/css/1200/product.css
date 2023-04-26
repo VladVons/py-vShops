@@ -1,0 +1,222 @@
+/* ======================= */
+/* === product section === */
+/* ======================= */
+
+.green {color: #090}
+
+item {
+  display: flex;
+  white-space: no-wrap;
+}
+
+item images, item info {
+  display: inline-block;
+  white-space: no-wrap;
+  width: 50%;
+}
+
+item images zoom {
+  display: flex;
+  aspect-ratio: 1 / 1;
+  width: calc(100% - 20px);
+  background: #fff;
+  border-radius: 4px;
+  transition: .5s ease;
+  cursor: zoom-in;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+}
+
+item images zoom:hover {
+  border: 1px solid #069;
+}
+
+item images img {
+  max-width: 360px;
+  max-height: 360px;
+  margin: auto;
+}
+
+item images thumbs {
+  white-space: no-wrap;
+}
+
+item images thumbs thumb {
+  display: inline-block;
+  width: 96px;
+  height: 54px;
+  margin-bottom: 5px;
+  border: 1px solid #ccc;
+  background-size: 96px;
+  background-repeat: no-repeat;
+  background-position: center center;
+  cursor: pointer;
+}
+
+item images thumbs thumb:hover {
+  border: 1px solid #669;
+}
+
+item info panel, item info panel buttons {
+  display: flex;
+  height: 32px;
+  line-height: 32px;
+}
+
+item info panel buttons button {
+  width: 42px;
+  height: 32px;
+  cursor: pointer;
+  color: #777;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
+  background: #e7e7e7;
+  border: 1px solid #ccc;
+}
+
+item info buttons button:hover {
+  border: 1px solid #999;
+}
+
+item info buttons button.favorite {
+  background: url(../../icons/32/favorite.png) center center no-repeat, linear-gradient(to bottom, #eee, #ccc);
+  border-radius: 4px 0 0 4px;
+  border-right: 0;
+}
+
+item info buttons button.compare {
+  background: url(../../icons/32/compare.png) center center no-repeat, linear-gradient(to bottom, #eee, #ccc);
+  border-radius: 0 4px 4px 0;
+}
+
+item info panel code {
+  text-align: right;
+}
+
+item info props name {
+  margin: 10px 0 0 0;
+  font-weight: bold;
+}
+
+item info props value {
+  display: inline-block;
+  font-weight: normal;
+  font-style: italic;
+}
+
+item control {
+  position: relative;
+  text-align: center;
+  margin-top: 40px;
+}
+
+item control maxprice, item control price {
+  display: inline-block;
+}
+
+item control oldprice {
+  font-size: 18px;
+  color: #999;
+  margin-bottom: 5px;
+  text-decoration: line-through;
+}
+
+item control price, item control promo, item control discount {
+  display: inline-block;
+  font-size: 28rem;
+  height: 36px;
+  line-height: 36px;
+}
+
+item control promo {
+  color: #c00;
+}
+
+item control discount {
+  position: absolute;
+  top: 27rem;
+  background: #c00;
+  color: #fff;
+  font-size: 16rem;
+  padding: 0 5px 0 5px;
+  margin-left: 10px;
+  border-radius: 4px;
+}
+
+item control button {
+  width: 100%;
+  height: 40px;
+  line-height: 40px;
+  margin-top: 20px;
+  font-size: 18rem;
+  color: #ffffff;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+  background: #229ac8 linear-gradient(to bottom, #23a1d1, #1f90bb) repeat-x;
+  border-color: #1f90bb #1f90bb #145e7a;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+tabs panel {
+  margin-top: 40px;
+  height: 32px;
+  line-height: 32px;
+  border-bottom: 1px solid #ccc;
+  background: #fff;
+}
+
+tabs panel tab {
+  display: inline-block;
+  height: 33px;
+  padding: 0 10px 0 10px;
+  font-size: 14px;
+  color: #333;
+  cursor: pointer;
+}
+
+tabs panel tab.active {
+  border: 1px solid #ccc;
+  border-bottom-color: transparent;
+  background: #fff;
+  color: #09f;
+  font-weight: bold;
+}
+
+tabs panel tab:hover {
+  color: #09f;
+}
+
+tabs data {
+  margin-TOP: 20px;
+  text-align: justify;
+}
+
+tabs label.tabprop name, tabs label.tabprop value {
+  padding: 10px;
+  display: inline-block;
+}
+
+tabs label.tabprop name:nth-of-type(odd), tabs label.tabprop value:nth-of-type(odd){
+  background: #eee;
+}
+
+tabs label.tabprop name {
+  width: 200px;
+  font-weight: bold;
+}
+
+tabs label.tabprop value {
+  width: calc(100% - 200px);
+}
+
+tabs plus, tabs minus {
+  margin-top: 20px;
+  font-weight: bold;
+}
+
+tabs plus {
+  color: #090;
+}
+
+tabs minus {
+  color: #c00;
+}

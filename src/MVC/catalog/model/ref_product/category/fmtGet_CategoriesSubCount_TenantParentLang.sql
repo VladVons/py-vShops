@@ -59,7 +59,7 @@ select
     wrpc.idt,
     wrpc.parent_idt,
     wrpc.deep,
-    --wrpc.arr_path,
+    wrpc.arr_path,
     --wrpc.sort,
     wrpc.title,
     cc.products

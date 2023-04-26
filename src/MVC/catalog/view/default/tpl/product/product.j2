@@ -1,0 +1,77 @@
+{% extends 'inc/layout1.j2' %}
+
+{% block head %}
+  <meta property="og:image" content="http://img"/>
+  <script type='module' src='/default/js/product.js' ></script>
+{% endblock %}
+
+{% block content %}
+  <item>
+    <images>
+      <zoom title='{{lang.zoom_in}}'><img src='{{image}}'></img></zoom>
+      <thumbs>
+        {% for x in images %}
+          <thumb style='background-image: url({{x}})'></thumb>
+        {% endfor %}
+      </thumbs>
+    </images>
+
+    <info>
+      <panel>
+        <buttons>
+          <button class='favorite' title='{{lang.to_favorite}}'></button>
+          <button class='compare' title='{{lang.compare}}'></button>
+        </buttons>
+        <code class='flex'>{{lang.product_code}}: <b>{{product['code']}}</b></code>
+      </panel>
+
+      <title>{{product['title']}}</title>
+
+      <props>
+        <name>{{lang.category}}: <value>{{product['category']}}</value></name>
+        <name>Модель: <value>Acer</value></name>
+        <name>Напруга: <value>19v</value></name>
+        <name>Наявність: <value class='green'>{{lang.available}}</value></name>
+      </props>
+
+      <control>
+        <oldprice>450.00грн</oldprice>
+        <promo>387.00грн</promo>
+        <!--price>387.00грн</price-->
+        <discount>-14%</discount>
+        <button>{{lang.buy}}</button>
+      </control>
+
+    </info>
+
+  </item>
+
+  <tabs>
+    <panel>
+      <tab id='tabdesc' class='active'>{{lang.description}}</tab>
+      <tab id='tabprop'>{{lang.features}}</tab>
+      <tab id='tabcomm'>{{lang.reviews}}</tab>
+    </panel>
+    <data>
+      <label class='tabdesc'>
+        Сетевой адаптер Intel GbE LAN и приложение cFosSpeed
+        Тандем в составе контроллера Intel Gigabit LAN и приложения cFosSpeed для управления сетевым трафиком способны минимизировать задержки и время отклика, демонстрируя наилучшее  быстродействия в условиях высокой нагрузки локальной сети.
+
+        Разъём NVMe PCIe 3.0 x4 / 2280 M.2
+        Материнские платы GIGABYTE адресованы энтузиастам, которые практикуют применение M.2-технологических решений с целью наиболее полно раскрыть потенциал дисковой подсистемы.
+      </label>
+      <label class='tabprop hide'>
+        <name>Модель:</name><value>Acer</value>
+        <name>Напруга:</name><value>19v</value>
+        <name>Колір:</name><value>чорний</value>
+      </label>
+      <label class='tabcomm hide'>
+        Простенькая, аккуратная материнская плата с достаточным количеством разъемов на задней панели порадовало наличие слота M.2.
+        <plus>Переваги:</plus>
+        м2 слот
+        <minus>Недоліки:</minus>
+        Отличная плата на свою цену
+      </label>
+    </data>
+  </tabs>
+{% endblock %}

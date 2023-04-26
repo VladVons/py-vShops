@@ -8,6 +8,6 @@ from IncP.ImgBase import TImgBase
 from . import Api
 
 
-@DAddModules([Api], True)
+@DAddModules([Api], '*')
 class TMain(TImgBase):
     pass

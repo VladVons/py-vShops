@@ -2,9 +2,9 @@
   <grid>
     {% for Rec in TDbList().Import(dbl_product) %}
     <item>
-      <a href='#'><img src='{{Rec.thumb}}' title='{{Rec.title}}' /></a>
+      <a href='{{Rec.href}}'><img src='{{Rec.thumb}}' title='{{Rec.title}}' /></a>
       <block>
-        <a href='#'><name>{{Rec.title}}</name></a>
+        <a href='{{Rec.href}}'><name>{{Rec.title}}</name></a>
         <info></info>
         <price>{{Rec.price}}</price>
         <panel>

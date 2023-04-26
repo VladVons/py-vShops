@@ -31,7 +31,7 @@ async def Main(self, aData: dict = None) -> dict:
         Images = Dbl.ExportStr(['tenant_id', 'image'], 'product/{}/{}')
         ResThumbs = await self.ExecImg('system',
             {
-                'method': 'Thumbs',
+                'method': 'GetThumbs',
                 'param': {'aFiles': Images}
             }
         )

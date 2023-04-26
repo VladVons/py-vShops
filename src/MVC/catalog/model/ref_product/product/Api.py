@@ -28,4 +28,9 @@ async def Get_Products_LangFilter(self, aLangId: int, aFilter: str, aLimit: int 
         'fmtGet_Products_LangFilter.sql',
         {'aLangId': aLangId, 'aFilter': aFilter, 'FilterRe': ', '.join(FilterRe), 'aLimit': aLimit, 'aOffset': aOffset}
     )
-    rp.sort_order
+
+async def Get_Product_LangId(self, aLangId: int, aProductId: int) -> dict:
+    return await self.ExecQuery(
+        'fmtGet_Product_LangId.sql',
+        {'aLangId': aLangId, 'aProductId': aProductId}
+    )

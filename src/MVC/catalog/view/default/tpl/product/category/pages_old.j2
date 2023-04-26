@@ -1,0 +1,13 @@
+<pages>
+  <start title='{{lang.to_begin}}'><<</start>
+  <left title='{{lang.backward}}'><</left>
+  <data>
+    <list>
+    {% for i in pages %}
+        <page>{{i}}</page>
+    {% endfor %}
+    </list>
+  </data> 
+  <right title='{{lang.forward}}'>></right>
+  <end title='{{lang.to_end}}'>>></end>
+</pages>

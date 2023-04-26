@@ -3,7 +3,9 @@
 # License: GNU, see LICENSE for more details
 
 
+import os
 import sys
+import re
 
 
 def GetImportsLocal() -> set[str]: #//
@@ -38,6 +40,28 @@ def DynImport(aPath: str, aClass: str) -> tuple:
 #---
 #http://www.qtrac.eu/pyclassmulti.html
 
+
+def _AddModules(aClassA: object, aModules: list, aAs: str = None):
+    def FilterDunder(aClassB: object, aModule: object):
+        for Method in dir(aModule):
+            if (not Method.endswith('__')):
+                Obj = getattr(Module, Method)
+                setattr(aClassB, Method, Obj)
+
+    for Module in aModules:
+        if (aAs):
+            if (aAs == '*'):
+                Name = Module.__name__.split('.')[-1]
+                setattr(aClassA, Name, Module)
+            else:
+                Class = getattr(aClassA, aAs, None)
+                if (not Class):
+                    Class = type('TClass', (object,), {})
+                FilterDunder(Class, Module)
+                setattr(aClassA, aAs, Class)
+        else:
+            FilterDunder(aClassA, Module)
+
 def DAddMethods(aMethods: list):
     def Decor(aClass):
         for Method in aMethods:
@@ -45,17 +69,28 @@ def DAddMethods(aMethods: list):
         return aClass
     return Decor
 
-def DAddModules(aModules: list, aSeparate: bool = False):
+def DAddModules(aModules: list, aAs: str = None):
     def Decor(aClass):
-        for Module in aModules:
-            if (aSeparate):
-                Name = Module.__name__.split('.')[-1]
-                setattr(aClass, Name, Module)
-            else:
-                for Method in dir(Module):
-                    if (not Method.endswith('__')):
-                        Obj = getattr(Module, Method)
-                        setattr(aClass, Method, Obj)
+        _AddModules(aClass, aModules, aAs)
+        return aClass
+    return Decor
+
+def DAddFiles(aPath: str, aMask: str, aAs: str = None):
+    '''
+    Add modules to class. aAs can be one of <None, *, Name>
+    @DAddFiles(__name__, 'Api.*', 'MyApi')
+    class TMyClass(): pass
+    '''
+    def Decor(aClass):
+        Modules = []
+        Path = aPath.replace('.', '/')
+        for File in os.listdir(Path):
+            if (re.search(aMask, File)):
+                PathMod = '%s.%s' % (aPath, File.rsplit('.', maxsplit = 1)[0])
+                __import__(PathMod)
+                Module = sys.modules.get(PathMod)
+                Modules.append(Module)
+        _AddModules(aClass, Modules, aAs)
         return aClass
     return Decor
 

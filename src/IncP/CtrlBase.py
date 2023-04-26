@@ -8,6 +8,7 @@ from Inc.Loader.Lang import TLoaderLang
 from Task.SrvCtrl.Api import TApiCtrl
 from IncP.LibCtrl import TDbSql, GetDictDef
 
+
 class TCtrlBase():
     def __init__(self):
         self.ApiCtrl: TApiCtrl

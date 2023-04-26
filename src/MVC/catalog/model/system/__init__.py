@@ -3,11 +3,12 @@
 # License: GNU, see LICENSE for more details
 
 
-from Inc.Util.Mod import DAddModules
+from Inc.Util.Mod import DAddModules, DAddFiles
 from Inc.Sql.DbModel import TDbModel
 from . import Api
 
 
-@DAddModules([Api], True)
+@DAddModules([Api], '*')
+#@DAddFiles(__name__, 'Api.*', '*')
 class TMain(TDbModel):
     pass

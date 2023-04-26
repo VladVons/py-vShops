@@ -2,11 +2,25 @@
 
 export class Pages {
   constructor(param) {
-    let self = this
     this.width = param.width
     this.margin = param.margin
+    let self = this
+    let pages = $$('pages')[0]
+    let nodes = $$(
+      '<start title="на початок списку"><<</start>'+
+      '<left title="прокрутка вліво"><</left>'+
+      '<data><list></list></data>'+
+      '<right title="прокрутка вправо">></right>'+
+      '<end title="в кінець списку">>></end>'
+    )
+    for(let i=0; i<nodes.length; i++) {
+      pages.appendChild(nodes[i])
+    }
     this.data = $$('pages data')[0]
     this.list = $$('pages data list')[0]
+    for(let i=1; i<=parseInt(pages.getAttribute('count')); i++) {
+      this.list.appendChild($$('<page>'+i+'</page>')[0])
+    }
     this.pages = $$('pages data list page')
     this.count = 0
     $$('pages start')[0].addEventListener('click', this.scroll.bind(this))
