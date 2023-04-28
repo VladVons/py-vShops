@@ -13,7 +13,7 @@ async def UploadUrl(self, aUrl: str, aFile: str) -> dict:
     Path, File = aFile.rsplit('/', maxsplit = 1)
     Download = TDownload(f'{self.Conf.dir_root}/{Path}')
     Res = await Download.Get([aUrl], [File])
-    return {'status': Res[0]}
+    return {'status': Res}
 
 async def UploadUrls(self, aUrlD: list, aDir: str, aDownload: bool = True) -> dict:
     Download = TDownloadImage(f'{self.Conf.dir_root}/{aDir}', self.Conf.size_product)

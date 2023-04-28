@@ -228,7 +228,7 @@ class TSql(TSqlBase):
                 Url = x['src_url']
                 UrlD.append([Url, Urls.get(Url, 0), x['product_id']])
 
-            ImgInfo = await self._ImgUpdate(
+            DataImg = await self._ImgUpdate(
                 {
                     'method': 'UploadUrls',
                     'param': {
@@ -238,13 +238,13 @@ class TSql(TSqlBase):
                     }
                 }
             )
-            Sizes = DeepGetByList(ImgInfo, ['data', 'status'])
-            if (Sizes):
+            Status = DeepGetByList(DataImg, ['data', 'status'])
+            if (Status):
                 Values = []
-                for Idx, Size in enumerate(Sizes):
-                    if (Size > 0):
+                for Idx, x in enumerate(Status):
+                    if (x['status'] == 200):
                         iData = Data[Idx]
-                        Value = f"({iData['product_id']}, '{iData['image']}', '{iData['src_url']}', {Size}, now())"
+                        Value = f"({iData['product_id']}, '{iData['image']}', '{iData['src_url']}', {x['size']}, now())"
                         Values.append(Value)
 
                 Query = f'''

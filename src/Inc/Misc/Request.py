@@ -5,6 +5,7 @@
 
 import os
 import time
+from datetime import datetime
 import asyncio
 import aiohttp
 #
@@ -131,32 +132,37 @@ class TDownloadBase():
     async def _DoFetch(self, aUrlD: tuple, aResponse: aiohttp.ClientResponse):
         raise NotImplementedError()
 
-    async def _Fetch(self, aUrlD: tuple, aSession: aiohttp.ClientSession) -> int:
+    async def _Fetch(self, aUrlD: tuple, aSession: aiohttp.ClientSession) -> dict:
         '''
         if success returns file size, otherwise negative error code
         '''
 
-        Res = -1
-        async with aSession.get(aUrlD[0]) as Response:
+        Size = 0
+        Time = 0
+        Url = aUrlD[0]
+        async with aSession.get(Url) as Response:
             try:
                 if (Response.status == 200):
-                    Res = Response.content_length
                     await self._DoFetch(aUrlD, Response)
-                else:
-                    Res = -Response.status
+
+                    Size = Response.content_length
+                    LastMod = Response.headers.get('Last-Modified')
+                    if (LastMod):
+                        Time = datetime.strptime(LastMod, '%a, %d %b %Y %H:%M:%S %Z').timestamp()
             except Exception:
                 pass
-        return Res
+        return {'url': Url, 'status': Response.status, 'size': Size, 'time': Time}
 
-    async def _FetchSem(self, aUrlD: tuple, aSession: aiohttp.ClientSession, aSem: asyncio.Semaphore) -> list[int]:
+    async def _FetchSem(self, aUrlD: tuple, aSession: aiohttp.ClientSession, aSem: asyncio.Semaphore) -> dict:
         async with aSem:
             return await self._Fetch(aUrlD, aSession)
 
-    async def Fetch(self, aUrlD: list) -> list[int]:
+    async def Fetch(self, aUrlD: list) -> list[dict]:
         Sem = asyncio.Semaphore(self.MaxConn)
         async with aiohttp.ClientSession() as Session:
             Tasks = [asyncio.create_task(self._FetchSem(UrlD, Session, Sem)) for UrlD in aUrlD]
             return await asyncio.gather(*Tasks)
+
 
 
 class TDownload(TDownloadBase):
@@ -177,11 +183,11 @@ class TDownload(TDownloadBase):
             Data = await aResponse.read()
             await self._FileWrite(File, Data)
 
-    async def Get(self, aUrls: list[str], aSaveAs: list = None) -> list[int]:
+    async def Get(self, aUrls: list[str], aSaveAs: list = None) -> list[tuple]:
         if (not aSaveAs):
             aSaveAs = [None] * len(aUrls)
         else:
-            assert(len(aUrls) == len(aSaveAs)), 'Size mismatch'
+            assert(len(aUrls) == len(aSaveAs)), f'Size mismatch {len(aUrls)} {len(aSaveAs)}'
         return await self.Fetch(zip(aUrls, aSaveAs))
 
 
@@ -216,7 +222,7 @@ class TDownloadImage(TDownloadBase):
             else:
                 self._FileWrite(File, Data)
 
-    async def Get(self, aUrls: list[str]) -> list[int]:
+    async def Get(self, aUrls: list[str]) -> list[tuple]:
         Len = len(aUrls)
         Data = zip(aUrls, [0] * Len, [''] * Len)
         return await self.Fetch(Data)

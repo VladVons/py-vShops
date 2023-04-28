@@ -24,7 +24,7 @@ class TSrvView(TSrvBase):
     def __init__(self, aSrvConf: TSrvViewConf):
         super().__init__(aSrvConf)
         self._SrvConf = aSrvConf
-        assert (os.path.isdir(ApiView.Conf.dir_root)), 'Directory not exists'
+        assert(os.path.isdir(ApiView.Conf.dir_root)), f'Directory not exists {ApiView.Conf.dir_root}'
 
     def _GetDefRoutes(self) -> list:
         return [

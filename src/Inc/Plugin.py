@@ -11,7 +11,7 @@ from IncP.Log import Log
 
 class TPlugin(dict):
     def __init__(self, aDirMod: str = '', aDirConf: str = ''):
-        assert (os.path.isdir(aDirMod)), 'Directory not exists'
+        assert (os.path.isdir(aDirMod)), f'Directory not exists {aDirMod}'
         super().__init__()
 
         self.Dir = aDirMod
@@ -67,7 +67,7 @@ class TPlugin(dict):
                 self.LoadMod(Path)
 
     def LoadDir(self, aDir: str):
-        assert (os.path.isdir(aDir)), 'Directory not exists'
+        assert (os.path.isdir(aDir)), f'Directory not exists {aDir}'
 
         Files = os.listdir(aDir)
         for Info in Files:

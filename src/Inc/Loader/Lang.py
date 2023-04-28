@@ -27,7 +27,7 @@ class TLoaderLang(dict):
 class TLoaderLangFs(TLoaderLang):
     def __init__(self, aLang: str, aDirRoot: str):
         self.Dir = f'{aDirRoot}/{aLang}'
-        assert (os.path.isdir(self.Dir)), 'Directory not exists'
+        assert(os.path.isdir(self.Dir)), f'Directory not exists {self.Dir}'
 
     async def Add(self, aPath: str) -> dict:
         File = f'{self.Dir}/{aPath}.json'

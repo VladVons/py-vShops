@@ -15,7 +15,7 @@ from .Api import ApiImg
 class TSrvImg(TSrvBase):
     def __init__(self, aSrvConf: TSrvConf):
         super().__init__(aSrvConf)
-        assert (os.path.isdir(ApiImg.Conf.dir_root)), 'Directory not exists'
+        assert(os.path.isdir(ApiImg.Conf.dir_root)), f'Directory not exists {ApiImg.Conf.dir_root}'
 
     def _GetDefRoutes(self) -> list:
         return [

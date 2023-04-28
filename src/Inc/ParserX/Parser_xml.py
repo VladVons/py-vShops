@@ -14,7 +14,7 @@ class TParser_xml(TEngine):
             return dom.parse(F)
 
     async def _Load(self):
-        assert self._Engine, 'InitEngine() not invoked %s' % self.GetFile()
+        assert(self._Engine), f'InitEngine() not invoked {self.GetFile()}'
 
         Nodes = self._Engine.getElementsByTagName(self._Sheet)
         for Row in Nodes:

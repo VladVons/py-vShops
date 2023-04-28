@@ -2,7 +2,8 @@
 # Author: Vladimir Vons <VladVons@gmail.com>
 # License: GNU, see LICENSE for more details
 
-
+import math
+#
 from IncP.LibCtrl import TDbSql, GetDictDef
 
 
@@ -10,7 +11,7 @@ async def Main(self, aData: dict = None) -> dict:
     aPath, aTenantId, aLangId, aPage, aLimit = GetDictDef(
         aData.get('query'),
         ('path', 'tenant', 'lang', 'page', 'limit'),
-        ('0', 1, 1, 0, 15), True
+        ('0', 1, 1, 1, 15), True
     )
 
     CategoriyIds = list(map(int, aPath.split('_')))
@@ -55,18 +56,17 @@ async def Main(self, aData: dict = None) -> dict:
     if (not Products):
         return Res
 
-    PageCount = Products // aLimit
+    Res['pages'] = math.ceil(Products / aLimit)
     #Pages = [f'route=product/category&path={aPath}&page={i+1}' for i in range(PageCount)]
     #DblPage = TDbSql(['page'], [Pages])
     #ResCategory['dbl_pages'] = DblPage.Export()
     #Res['pages'] = list(range(1, PageCount + 1))
-    Res['pages'] = PageCount
 
     ResProduct = await self.ExecModel(
         'ref_product/category',
         {
             'method': 'Get_CategoriesProducts_LangImagePrice',
-            'param': {'aCategoryIds': CategoryIds, 'aLangId': aLangId, 'aPriceId': 1, 'aLimit': aLimit, 'aOffset': aPage * aLimit}
+            'param': {'aCategoryIds': CategoryIds, 'aLangId': aLangId, 'aPriceId': 1, 'aLimit': aLimit, 'aOffset': (aPage - 1) * aLimit}
         }
     )
 

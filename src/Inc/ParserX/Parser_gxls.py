@@ -17,7 +17,7 @@ class TParser_gxls(TEngine):
         pass
 
     async def _Load(self):
-        assert self._Engine, 'InitEngine() not invoked %s' % self.GetFile()
+        assert(self._Engine), f'InitEngine() not invoked {self.GetFile()}'
 
         #Auth = '~/.config/gspread/service_account.json'
         gsa = gspread.service_account()

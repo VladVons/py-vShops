@@ -1,11 +1,18 @@
 select
     count(*) over() as total,
-    rp.id,
+    rp.id as product_id,
     --rp.idt,
+    rptc.category_id,
     rp.tenant_id,
-    --max(rt.title),
-    max(rpl.title) as title,
-    min(rpp.price) as price,
+    rt.title as tenant,
+    rpl.title,
+    (
+        select rpp.price
+        from ref_product_price rpp
+        where (rp.id = rpp.product_id) and (rpp.qty = 1)
+        order by rpp.price
+        limit 1
+    ) as price,
     (
         select rpi.image
         from ref_product_image rpi
@@ -28,22 +35,16 @@ left join
     ref_product_category_lang rpcl on
     (rptc.category_id = rpcl.category_id) and (rpl.lang_id = {aLangId})
 left join
-    ref_price rp2 on
-    (rp.tenant_id = rp2.tenant_id)
-    -- and (rp2.idt in (1, 2))
-left join
-    ref_product_price rpp on
-    (rp.id = rpp.product_id) and (rpp.qty = 1) and (rpp.price_id = rp2.id) 
---left join
---    ref_tenant rt on
---    (rp.tenant_id = rt.id) 
+    ref_tenant rt on
+    (rp.tenant_id = rt.id) 
 where
-    (rpl.title ilike all (values {FilterRe})) or
-    (rpcl.title ilike all (values {FilterRe})) or
-    (rp.idt::varchar = '{aFilter}' ) or
-    (rpb.code = '{aFilter}')
-group by
-    rp.id
+    (rp.enabled) and
+    (
+        (rpl.title ilike all (values {FilterRe})) or
+        (rpcl.title ilike all (values {FilterRe})) or
+        (rp.idt::varchar = '{aFilter}' ) or
+        (rpb.code = '{aFilter}')
+    )
 limit
     {aLimit}
 offset

@@ -28,7 +28,7 @@ class TDbFields(dict):
 
     def Get(self, aName: str) -> TDbField:
         R = self.get(aName)
-        assert R, 'Field not found %s' % aName
+        assert(R), f'Field not found {aName}'
         return R
 
 
@@ -85,7 +85,7 @@ class TDb():
         self.Buf[aField.Ofst:Len] = aData
 
     def RecSet(self, aBuf: bytearray):
-        assert (len(self.Buf) == len(aBuf)), 'buf len mismatch'
+        assert (len(self.Buf) == len(aBuf)), f'buf len mismatch {len(self.Buf)} {len(aBuf)}'
         self.RecSave = True
         self.Buf = aBuf
 

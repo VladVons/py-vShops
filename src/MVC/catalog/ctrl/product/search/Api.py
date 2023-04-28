@@ -3,6 +3,8 @@
 # License: GNU, see LICENSE for more details
 
 
+import math
+#
 from IncP.LibCtrl import TDbSql, GetDictDef
 
 
@@ -12,37 +14,56 @@ async def Main(self, aData: dict = None) -> dict:
     aSearch, aLangId, aPage, aLimit = GetDictDef(
         aData.get('query'),
         ('search', 'lang', 'page', 'limit'),
-        ('', 1, 0, 15),
+        ('', 1, 1, 15),
         True
     )
 
-    Res = await self.ExecModel(
+    ResProduct = await self.ExecModel(
         'ref_product/product',
         {
             'method': 'Get_Products_LangFilter',
-            'param': {'aLangId': aLangId, 'aFilter': aSearch, 'aLimit': aLimit, 'aOffset': aPage * aLimit}
+            'param': {'aLangId': aLangId, 'aFilter': aSearch, 'aLimit': aLimit, 'aOffset': (aPage - 1) * aLimit},
+            'query': False
         }
     )
+    #print(Res.get('query'))
 
-    DblData = Res.get('data')
-    if (DblData):
-        Dbl = TDbSql().Import(DblData)
+    DblProduct = ResProduct.get('data')
+    if (DblProduct):
+        DblProduct = TDbSql().Import(DblProduct)
 
-        Images = Dbl.ExportStr(['tenant_id', 'image'], 'product/{}/{}')
+        ResCategory = await self.ExecModel(
+            'ref_product/category',
+            {
+                'method': 'Get_CategoryPath_Lang',
+                'param': {'aLangId': aLangId, 'aIds': DblProduct.ExportList('category_id')}
+            }
+        )
+        DblCategory = TDbSql().Import(ResCategory.get('data'))
+
+        CategoryIdToPath = DblCategory.ExportPair('id', 'path_idt')
+        Hrefs = []
+        for Rec in DblProduct:
+            Path = '0_' + '_'.join(map(str, CategoryIdToPath[Rec.category_id]))
+            Href = f'?route=product/product&path={Path}&product_id={Rec.product_id}'
+            Hrefs.append(Href)
+
+        Images = DblProduct.ExportStr(['tenant_id', 'image'], 'product/{}/{}')
         ResThumbs = await self.ExecImg('system',
             {
                 'method': 'GetThumbs',
                 'param': {'aFiles': Images}
             }
         )
-        Dbl.AddFields(['thumb'], [ResThumbs['thumb']])
-        Res['dbl_product'] = Dbl.Export()
-        del Res['data']
+        DblProduct.AddFields(['thumb', 'href'], [ResThumbs['thumb'], Hrefs])
+        ResProduct['dbl_product'] = DblProduct.Export()
 
-        PageCount = Dbl.Rec.total // aLimit
-        Res['pages'] = list(range(1, PageCount + 1))
-        Res['total'] = Dbl.Rec.total
+        ResProduct['pages'] = math.ceil(DblProduct.Rec.total / aLimit)
+        ResProduct['total'] = DblProduct.Rec.total
+
+        del ResProduct['data']
     else:
-        Res['total'] = 0
-    Res['search'] = aSearch
-    return Res
+        ResProduct['total'] = 0
+    ResProduct['search'] = aSearch
+
+    return ResProduct

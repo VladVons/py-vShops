@@ -44,7 +44,7 @@ class TDbRec():
 
     def GetField(self, aName: str, aDef = None) -> object:
         Idx = self.Fields.get(aName)
-        assert(Idx is not None), 'Field not found'
+        assert(Idx is not None), f'Field not found {aName}'
 
         Res = self.Data[Idx]
         if (Res is None):
@@ -56,7 +56,7 @@ class TDbRec():
 
     def GetFieldNo(self, aName: str) -> int:
         Res = self.Fields.get(aName)
-        assert(Res is not None), 'Field not found'
+        assert(Res is not None), f'Field not found {aName}'
         return Res
 
     def Init(self, aFields: list, aData: list) -> 'TDbRec':
@@ -96,7 +96,7 @@ class TDbRec():
 
     def SetField(self, aName: str, aValue: object) -> 'TDbRec':
         Idx = self.Fields.get(aName)
-        assert(Idx is not None), 'Field not found'
+        assert(Idx is not None), f'Field not found {aName}'
 
         self.Data[Idx] = aValue
         return self

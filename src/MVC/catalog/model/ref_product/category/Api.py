@@ -58,3 +58,10 @@ async def Get_CategoriesProducts_LangImagePrice(self, aCategoryIds: list[int], a
         'fmtGet_CategoriesProducts_LangImagePrice.sql',
         {'CategoryIds': CategoryIds, 'aLangId': aLangId, 'aPriceId': aPriceId, 'aLimit': aLimit, 'aOffset': aOffset}
     )
+
+async def Get_CategoryPath_Lang(self, aLangId: int, aIds: list[int]) -> dict:
+    Ids = ListIntToComma(aIds)
+    return await self.ExecQuery(
+        'fmtGet_CategoryPath_Lang.sql',
+        {'aLangId': aLangId, 'Ids': Ids}
+    )

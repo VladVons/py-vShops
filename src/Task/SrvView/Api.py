@@ -55,11 +55,11 @@ class TApiView(TApiBase):
             f'{self.Conf.dir_route}/{self.Conf.theme_def}/tpl'
         ]
         SearchPath = [x for x in Dirs if (os.path.isdir(x))]
-        assert (SearchPath), 'no tempate directories'
+        assert(SearchPath), f'No tempate directories {Dirs}'
         self.Tpl = TTemplate(SearchPath)
 
         FormInfo = f'{self.Conf.dir_route}/{self.Conf.theme_def}/tpl/{self.Conf.form_info}.{self.Tpl.Ext}'
-        assert(os.path.isfile(FormInfo)), 'Default template not found'
+        assert(os.path.isfile(FormInfo)), f'Default template not found {FormInfo}'
 
         Dir = self.Conf.cache_route.get('path', 'Data/cache/view')
         os.makedirs(Dir, exist_ok = True)

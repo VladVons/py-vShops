@@ -143,7 +143,7 @@ class TEngine(TFileDbl):
 
     def GetConfSheet(self) -> dict:
         Res = DeepGetByList(self.Parent.Conf, ['sheet', self._Sheet])
-        assert(Res), 'sheet not found'
+        assert(Res), f'sheet not found {self._Sheet}'
         return Res
 
     def InitEngine(self, aEngine = None):
