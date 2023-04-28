@@ -44,7 +44,7 @@
         },
         "Out_vShop_db": {
             "sql": {
-                "parts": 50,
+                "parts": 100,
                 "lang_id": 1
             },
             "auth": "{% file Conf/Default/Task.SrvModel.Api.json:db_auth %}",

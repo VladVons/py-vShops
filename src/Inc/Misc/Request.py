@@ -7,6 +7,8 @@ import os
 import time
 import asyncio
 import aiohttp
+#
+from Inc.Misc.Image import TImage
 
 
 _Excepts = (aiohttp.ClientConnectorError, aiohttp.ClientError, aiohttp.InvalidURL, asyncio.TimeoutError)
@@ -118,45 +120,103 @@ class TCheckUrls(TRequestGet):
         return Res
 
 
-class TDownload():
-    def __init__(self, aDir: str, aMaxConn: int = 5, aForce: bool = False):
-        self.Dir = aDir
+class TDownloadBase():
+    def __init__(self, aMaxConn: int = 5):
         self.MaxConn = aMaxConn
-        self.Force = aForce
-        os.makedirs(aDir, exist_ok = True)
 
-    async def _Write(self, _aUrl: str, aFile: str, aData: bytes):
+    async def _FileWrite(self, aFile: str, aData: bytes):
         with open(aFile, 'wb') as F:
             F.write(aData)
 
-    async def _Fetch(self, aUrl: tuple, aSession: aiohttp.ClientSession) -> bool:
-        Res = False
+    async def _DoFetch(self, aUrlD: tuple, aResponse: aiohttp.ClientResponse):
+        raise NotImplementedError()
 
-        Url, SaveAs = aUrl
-        async with aSession.get(Url) as Response:
+    async def _Fetch(self, aUrlD: tuple, aSession: aiohttp.ClientSession) -> int:
+        '''
+        if success returns file size, otherwise negative error code
+        '''
+
+        Res = -1
+        async with aSession.get(aUrlD[0]) as Response:
             try:
                 if (Response.status == 200):
-                    if (not SaveAs):
-                        SaveAs = Url.rsplit('/', maxsplit=1)[-1]
-
-                    File = f'{self.Dir}/{SaveAs}'
-                    if (not os.path.isfile(File)) or (self.Force) or (os.path.getsize(File) != Response.content_length):
-                        Data = await Response.read()
-                        await self._Write(Url, File, Data)
-                    Res = (Response.status == 200)
+                    Res = Response.content_length
+                    await self._DoFetch(aUrlD, Response)
+                else:
+                    Res = -Response.status
             except Exception:
                 pass
         return Res
 
-    async def _FetchSem(self, aUrl: tuple, aSession: aiohttp.ClientSession, aSem: asyncio.Semaphore) -> list[bool]:
+    async def _FetchSem(self, aUrlD: tuple, aSession: aiohttp.ClientSession, aSem: asyncio.Semaphore) -> list[int]:
         async with aSem:
-            return await self._Fetch(aUrl, aSession)
+            return await self._Fetch(aUrlD, aSession)
 
-    async def Get(self, aUrls: list[str], aSaveAs: list[str] = None) -> list[bool]:
-        if (not aSaveAs):
-            aSaveAs = [None] * len(aUrls)
-
+    async def Fetch(self, aUrlD: list) -> list[int]:
         Sem = asyncio.Semaphore(self.MaxConn)
         async with aiohttp.ClientSession() as Session:
-            Tasks = [asyncio.create_task(self._FetchSem(Url, Session, Sem)) for Url in zip(aUrls, aSaveAs)]
+            Tasks = [asyncio.create_task(self._FetchSem(UrlD, Session, Sem)) for UrlD in aUrlD]
             return await asyncio.gather(*Tasks)
+
+
+class TDownload(TDownloadBase):
+    def __init__(self, aDir: str, aMaxConn: int = 5, aForce: bool = False):
+        super().__init__(aMaxConn)
+
+        self.Dir = aDir
+        self.Force = aForce
+        os.makedirs(aDir, exist_ok = True)
+
+    async def _DoFetch(self, aUrlD: tuple, aResponse: aiohttp.ClientResponse):
+        Url, SaveAs = aUrlD
+        if (not SaveAs):
+            SaveAs = Url.rsplit('/', maxsplit=1)[-1]
+
+        File = f'{self.Dir}/{SaveAs}'
+        if (not os.path.isfile(File)) or (self.Force) or (os.path.getsize(File) != aResponse.content_length):
+            Data = await aResponse.read()
+            await self._FileWrite(File, Data)
+
+    async def Get(self, aUrls: list[str], aSaveAs: list = None) -> list[int]:
+        if (not aSaveAs):
+            aSaveAs = [None] * len(aUrls)
+        else:
+            assert(len(aUrls) == len(aSaveAs)), 'Size mismatch'
+        return await self.Fetch(zip(aUrls, aSaveAs))
+
+
+class TDownloadImage(TDownloadBase):
+    def __init__(self, aDir: str, aMaxSize: int = 1024, aMaxConn: int = 5):
+        super().__init__(aMaxConn)
+        self.Dir = aDir
+        self.MaxSize = aMaxSize
+        self.Download = True
+
+    def _GetDir(self, aId: int) -> str:
+        # Last = '/'.join(reversed(str(aId)[-2:]))
+        # return f'{self.Dir}/{Last}'
+        return self.Dir
+
+    async def _DoFetch(self, aUrlD, aResponse: aiohttp.ClientResponse):
+        aUrl, aSize, aImageId = aUrlD
+
+        Dir = self._GetDir(aImageId).rstrip('/')
+        SaveAs = aUrl.rsplit('/', maxsplit=1)[-1]
+        File = f'{Dir}/{SaveAs}'
+
+        FileOk = os.path.isfile(File)
+        if (aSize == 0 and FileOk):
+            aSize = os.path.getsize(File)
+
+        if (self.Download) and ((not FileOk) or (aSize != aResponse.content_length)):
+            os.makedirs(Dir, exist_ok=True)
+            Data = await aResponse.read()
+            if (self.MaxSize):
+                TImage.ResizeImg(Data, File, self.MaxSize)
+            else:
+                self._FileWrite(File, Data)
+
+    async def Get(self, aUrls: list[str]) -> list[int]:
+        Len = len(aUrls)
+        Data = zip(aUrls, [0] * Len, [''] * Len)
+        return await self.Fetch(Data)

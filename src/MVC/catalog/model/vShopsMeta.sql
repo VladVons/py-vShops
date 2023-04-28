@@ -4,34 +4,6 @@
 
 
 -----------------------------------------------------------------------------
--- syntax --
------------------------------------------------------------------------------
--- alter type product_ident add value 'new_value';
--- alter table transaction_history add foreign key (branch_id) references banking.branch;
--- alter table logins add constraint at_least_one_of_ip4_or_ip6 check ((ip_v4 is not null) or (ip_v6 is not null));
--- create_date         timestamp default current_timestamp
--- update_date         date,
-
---very slow in function
---EXECUTE 'SELECT max(idt) + 1 FROM ' || TG_TABLE_NAME;
-
---https://stackoverflow.com/questions/26703476/how-to-perform-update-operations-on-columns-of-type-jsonb-in-postgres-9-4
-
---create extension hstore;
---drop extension hstore;
-
--- delete from ref_product;
--- delete from ref_product_image;
--- delete from ref_product_price;
--- delete from ref_product_category;
--- delete from hist_session;
----- select sequencename from pg_sequences where (sequencename like 'ref_product\_%');
--- ALTER SEQUENCE ref_product_id_seq RESTART 1;
--- ALTER SEQUENCE ref_product_image_id_seq RESTART 1;
--- ALTER SEQUENCE ref_product_price_id_seq RESTART 1;
--- ALTER SEQUENCE ref_product_category_id_seq RESTART 1;
-
------------------------------------------------------------------------------
 -- common enums --
 -----------------------------------------------------------------------------
 
@@ -42,13 +14,6 @@ create type product_enum as enum (
 
 create type doc_enum as enum (
    'doc_sale'
-);
-
-create type val_enum as enum (
-    'char',
-    'int',
-    'float',
-    'bool'
 );
 
 -----------------------------------------------------------------------------
@@ -422,8 +387,8 @@ create table if not exists ref_news (
     public_date         timestamp,
     tenant_id           integer not null,
     group_id            integer not null,
-    foreign key (tenant_id) references ref_tenant(id)
-    foreign key (group_id) references ref_news_group(id) on delete cascade,
+    foreign key (tenant_id) references ref_tenant(id),
+    foreign key (group_id) references ref_news_group(id) on delete cascade
 );
 
 create table if not exists ref_news_lang (
@@ -493,7 +458,6 @@ create table if not exists ref_product_category_lang (
 create table if not exists ref_product (
     id                  serial primary key,
     enabled             boolean default true,
-    deleted             boolean default false,
     model               varchar(16),
     is_service          boolean default false,
     sort_order          smallint default 0,
@@ -539,13 +503,16 @@ create table if not exists ref_product_barcode (
 create table if not exists ref_product_image (
     id                  serial primary key,
     enabled             boolean default true,
-    deleted             boolean default false,
     image               varchar(64),
     sort_order          smallint default 0,
+    src_url             varchar(128),
+    src_size            integer,
+    src_date            timestamp,
     product_id          integer not null,
-    foreign key (product_id) references ref_product(id) on delete cascade
+    foreign key (product_id) references ref_product(id) on delete cascade,
+    unique (product_id, image)
 );
-create index if not exists ref_product_image_product_id_idx on ref_product_image(product_id);
+# ?create index if not exists ref_product_image_product_id_idx on ref_product_image(product_id);
 
 create table if not exists ref_product_lang (
     title               varchar(128) not null,
@@ -706,8 +673,8 @@ create table if not exists doc_sale_table_product (
 
 --
 
-create or replace function ref_product_price_faiu() returns trigger
-as $$
+create or replace function ref_product_price_faiu()
+returns trigger as $$
 begin
     if (old.price is null) or (old.price != new.price) or (old.qty != new.qty) then
         insert into hist_ref_product_price (price_id, price, qty)
@@ -726,8 +693,8 @@ create or replace trigger ref_product_price_taiu
 
 --
 
-create or replace function ref_product_category_fbi() returns trigger
-as $$
+create or replace function ref_product_category_fbi()
+returns trigger as $$
 begin
     if (new.idt is null) then
         select
@@ -749,8 +716,8 @@ create or replace trigger ref_product_category_tbi
 
 --
 
-create or replace function ref_product_fbi() returns trigger
-as $$
+create or replace function ref_product_fbi()
+returns trigger as $$
 begin
     if (new.idt is null) then
         select
@@ -772,8 +739,8 @@ create or replace trigger ref_product_tbi
 
 --
 
-create or replace function ref_price_fbi() returns trigger
-as $$
+create or replace function ref_price_fbi()
+returns trigger as $$
 begin
     if (new.idt is null) then
         select
@@ -792,3 +759,20 @@ create or replace trigger ref_price_tbi
     before insert on ref_price
     for each row
     execute procedure ref_price_fbi();
+
+---
+
+-- create or replace function ref_product_image_import_fau()
+-- returns trigger as $$
+-- begin
+--   new.update_date = now();
+--   return new;
+-- end;
+-- $$ language plpgsql;
+
+-- create trigger ref_product_image_import_tau
+--     after update on ref_product_image_import
+--     for each row
+--     execute procedure ref_product_image_import_fau();
+
+---

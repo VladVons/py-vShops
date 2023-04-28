@@ -237,3 +237,15 @@ class TDbPg(TADb):
             ) t4
         '''
         return await TDbExecPool(self.Pool).Exec(Query)
+
+    async def GetCount(self) -> TDbSql:
+        Query = '''
+            select
+                relname as table,
+                n_live_tup as records
+            from
+                pg_stat_user_tables
+            order by
+                n_live_tup desc
+        '''
+        return await TDbExecPool(self.Pool).Exec(Query)

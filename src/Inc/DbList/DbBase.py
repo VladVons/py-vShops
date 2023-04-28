@@ -151,6 +151,16 @@ class TDbBase():
             Data = [[Val[i] for i in FieldsNo] for Val in self.Data[Start:Finish]]
         return Data
 
+    def ExportList(self, aField: str, aUniq = False) -> list:
+        '''
+        Returns one field as list
+        '''
+        FieldNo = self.GetFieldNo(aField)
+        Res = [x[FieldNo] for x in self.Data]
+        if (aUniq):
+            Res = list(set(Res))
+        return Res
+
     def ExportStr(self, aFields: list[str], aFormat: str) -> list[str]:
         '''
             ExportStr(['User', 'Price'], '{}/{}')
@@ -169,6 +179,14 @@ class TDbBase():
         KeyNo = self.GetFieldNo(aFieldKey)
         ValNo = self.GetFieldNo(aFieldVal)
         return {x[KeyNo]: x[ValNo] for x in self.Data}
+
+    def ExportPairs(self, aFieldKey: str, aFields: list[str]) -> dict:
+        '''
+        Returns two binded fields as key:[val1, val2, ...]
+        '''
+        KeyNo = self.GetFieldNo(aFieldKey)
+        FieldsNo = [self.GetFieldNo(x) for x in aFields]
+        return {x[KeyNo]: [x[i] for i in FieldsNo] for x in self.Data}
 
     def GetDiff(self, aField: str, aList: list) -> tuple:
         Set1 = set(self.ExportList(aField))

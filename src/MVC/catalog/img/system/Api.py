@@ -5,15 +5,9 @@
 
 import os
 #
-from Inc.Misc.Request import TDownload
+from Inc.Misc.Request import TDownload, TDownloadImage
 from Inc.Misc.Image import TImage
 
-
-class TDownloadResize(TDownload):
-    MaxSize = 0
-
-    async def _Write(self, _aUrl, aFile, aData):
-        TImage.ResizeImg(aData, aFile, self.MaxSize)
 
 async def UploadUrl(self, aUrl: str, aFile: str) -> dict:
     Path, File = aFile.rsplit('/', maxsplit = 1)
@@ -21,10 +15,10 @@ async def UploadUrl(self, aUrl: str, aFile: str) -> dict:
     Res = await Download.Get([aUrl], [File])
     return {'status': Res[0]}
 
-async def UploadUrls(self, aUrls: list[str], aDir: str, aSaveAs: list[str] = None) -> dict:
-    Download = TDownloadResize(f'{self.Conf.dir_root}/{aDir}')
-    Download.MaxSize = self.Conf.size_product
-    Res = await Download.Get(aUrls, aSaveAs)
+async def UploadUrls(self, aUrlD: list, aDir: str, aDownload: bool = True) -> dict:
+    Download = TDownloadImage(f'{self.Conf.dir_root}/{aDir}', self.Conf.size_product)
+    Download.Download = aDownload
+    Res = await Download.Fetch(aUrlD)
     return {'status': Res}
 
 async def GetThumbs(self, aFiles: list[str]) -> dict:

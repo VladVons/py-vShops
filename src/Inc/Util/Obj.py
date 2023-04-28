@@ -61,10 +61,12 @@ def DictUpdate(aMaster: dict, aSlave: dict, aJoin = False, aDepth: int = 99) -> 
                 if (Type == 'env'):
                     aVal = os.getenv(Val, Val)
                 elif (Type == 'file'):
-                    File, Path = Val.split(':')
+                    File, *Path = Val.split(':')
                     with open(File, 'r', encoding = 'utf8') as F:
-                        Data = json.load(F)
-                    aVal = DeepGet(Data, Path)
+                        aVal = json.load(F)
+
+                    if (Path):
+                        aVal = DeepGet(aVal, Path[0])
                 else:
                     raise ValueError()
         return aVal
