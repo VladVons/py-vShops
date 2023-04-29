@@ -1,7 +1,6 @@
 select
     count(*) over() as total,
     rp.id as product_id,
-    --rp.idt,
     rptc.category_id,
     rp.tenant_id,
     rt.title as tenant,
@@ -45,6 +44,8 @@ where
         (rp.idt::varchar = '{aFilter}' ) or
         (rpb.code = '{aFilter}')
     )
+order by
+    {aOrder}
 limit
     {aLimit}
 offset

@@ -25,7 +25,7 @@ left join
 where
     (rptc.category_id in ({CategoryIds}))
 order by 
-    rp.sort_order
+    {aOrder}
 limit
     {aLimit}
 offset 

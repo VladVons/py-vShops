@@ -3,13 +3,18 @@ with recursive wrpc as (
         rpc.id,
         rpc.idt,
         rpc.parent_idt,
-        1 as level,
-        ARRAY[rpc.idt] as path
+        1 as deep,
+        array[rpc.idt] as path_idt,
+        rpc.sort_order || '-' || rpcl.title as sort,
+        rpcl.title
     from
         ref_product_category rpc
+    left join
+        ref_product_category_lang rpcl on
+        (rpc.id = rpcl.category_id) and (rpcl.lang_id = {aLangId})
     where
         (tenant_id = {aTenantId}) and
-        (parent_idt in ({aParentIdts}))
+        (parent_idt = {aParentIdtRoot})
 
     union all
 
@@ -17,28 +22,30 @@ with recursive wrpc as (
         rpc.id,
         rpc.idt,
         rpc.parent_idt,
-        wrpc.level + 1,
-        wrpc.path  || array[rpc.idt]
+        wrpc.deep + 1,
+        wrpc.path_idt  || array[rpc.idt],
+        wrpc.sort  || '/' || rpc.sort_order || '-' || rpcl.title,
+        rpcl.title
     from
         ref_product_category rpc
     join
         wrpc on
         (rpc.parent_idt = wrpc.idt)
-    where
-        wrpc.level < {aDepth}
+    left join
+        ref_product_category_lang rpcl on
+        (rpc.id = rpcl.category_id) and (rpcl.lang_id = {aLangId})
 )
-
 select
     id,
     idt,
     parent_idt,
-    level,
-    path,
-    rpcl.title
+    deep,
+    path_idt,
+    title
 from
-    wrpc
-left join
-    ref_product_category_lang rpcl on
-    (id = rpcl.category_id)
- where 
-    rpcl.lang_id = {aLangId}
+     wrpc
+where
+    (deep between 0 and 99)
+    {CondParentIdts}
+order by 
+    sort

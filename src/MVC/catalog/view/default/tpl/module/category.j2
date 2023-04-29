@@ -2,12 +2,12 @@
 <catalog>
 {% for Rec in TDbList().Import(data) %}
     {% if Rec.parent_idt == 0 %}
-        <a href='{{Rec.href}}'>{{Rec.title}} ({{Rec.products}})</a>
+        <a href='{{Rec.href}}'>{{Rec.title}}</a>
     {% else %}
         {% if Rec.idt == category_id %}
-            <a class='second active' href='{{Rec.href}}'>{{Rec.title}} ({{Rec.products}})</a>
+            <a class='second active' href='{{Rec.href}}'>{{Rec.title}}</a>
         {% else %}
-            <a class='second' href='{{Rec.href}}'>{{Rec.title}} ({{Rec.products}})</a>
+            <a class='second' href='{{Rec.href}}'>{{Rec.title}}</a>
         {% endif %}
     {% endif %}
 {% endfor %}

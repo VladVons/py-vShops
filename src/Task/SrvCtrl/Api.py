@@ -9,6 +9,7 @@ from Inc.Misc.Cache import TCacheMem
 from IncP.ApiBase import TApiBase
 from IncP.Plugins import TCtrls
 from IncP.LibCtrl import GetDictDef
+from IncP.Log import Log
 
 
 class TApiCtrl(TApiBase):
@@ -46,6 +47,7 @@ class TApiCtrl(TApiBase):
 
         Data = self.GetMethod(self.Ctrls, aRoute, aData)
         if ('err' in Data):
+            Log.Print(1, 'e', f"TApiCtrl.Exec() {Data['err']}")
             return Data
 
         Module = Data['module']

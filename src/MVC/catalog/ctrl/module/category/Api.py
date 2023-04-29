@@ -10,17 +10,15 @@ async def Main(self, aData: dict = None) -> dict:
     aPath, aTenantId, aLangId = GetDictDef(
         aData.get('query'),
         ('path', 'tenant', 'lang'),
-        ('0', 1, 1),
-        True
+        ('0', 1, 1)
     )
 
     CategoriyIds = aPath.split('_')
     Res = await self.ExecModel(
         'ref_product/category',
         {
-            'method': 'Get_CategoriesSubCount_TenantParentLang',
-            'param': {'aTenantId': aTenantId, 'aLangId': aLangId, 'aParentIdtRoot': 0, 'aParentIdts': CategoriyIds[:2]},
-            'query': True
+            'method': 'Get_Categories_TenantParentLang',
+            'param': {'aTenantId': aTenantId, 'aLangId': aLangId, 'aParentIdtRoot': 0, 'aParentIdts': CategoriyIds[:2]}
         }
     )
 

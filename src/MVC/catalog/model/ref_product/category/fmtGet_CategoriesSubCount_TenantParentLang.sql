@@ -4,7 +4,7 @@ with recursive wrpc as (
         rpc.idt,
         rpc.parent_idt,
         1 as deep,
-        ARRAY[rpc.idt] as arr_path,
+        ARRAY[rpc.idt] as path_idt,
         rpc.sort_order || '-' || rpcl.title as sort,
         rpcl.title
     from
@@ -23,7 +23,7 @@ with recursive wrpc as (
         rpc.idt,
         rpc.parent_idt,
         wrpc.deep + 1,
-        wrpc.arr_path  || array[rpc.idt],
+        wrpc.path_idt  || array[rpc.idt],
         wrpc.sort  || '/' || rpc.sort_order || '-' || rpcl.title,
         rpcl.title
     from
@@ -36,9 +36,9 @@ with recursive wrpc as (
         on (rpc.id = rpcl.category_id and rpcl.lang_id = {aLangId})
 ),
 
-category_cardinatilies as (
+category_products as (
     select
-        rpc.cat_id,
+        rpc.cat_idt,
         count(*) as products
     from
         ref_product_to_category rptc
@@ -46,12 +46,12 @@ category_cardinatilies as (
         (
             select 
                 id,
-                unnest(arr_path) as cat_id
+                unnest(path_idt) as cat_idt
             from wrpc
         ) rpc 
         on (rptc.category_id = rpc.id)
     group by
-        rpc.cat_id
+        rpc.cat_idt
 )
 
 select
@@ -59,18 +59,16 @@ select
     wrpc.idt,
     wrpc.parent_idt,
     wrpc.deep,
-    wrpc.arr_path,
-    --wrpc.sort,
+    wrpc.path_idt,
     wrpc.title,
-    cc.products
+    cp.products
 from
      wrpc
 left join 
-    category_cardinatilies cc 
-    on (wrpc.idt = cc.cat_id)
+    category_products cp 
+    on (wrpc.idt = cp.cat_idt)
 where 
-    (cc.products is not null) and
-    (wrpc.deep between 0 and 99)
+    (cp.products is not null)
     {CondParentIdts}
 order by 
     wrpc.sort

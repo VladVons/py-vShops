@@ -187,12 +187,27 @@ def GetDict(aData: dict, aKeys: list, aStrict: bool = False) -> list:
         Res = [aData.get(x) for x in aKeys]
     return Res
 
-def GetDictDef(aData: dict, aKeys: list, aDef: list, aDefType: bool = False) -> list:
+def GetDictDef(aData: dict, aKeys: list, aDef: list) -> list:
     if (aData):
-        if (aDefType):
-            Res = [type(Def)(aData.get(Key, Def)) for Key, Def in zip(aKeys, aDef)]
+        assert(len(aKeys) == len(aDef)), 'Length mismatch'
+        Res = [aData.get(Key, Def) for Key, Def in zip(aKeys, aDef)]
+    else:
+        Res = aDef
+    return Res
+
+def GetDictDefs(aData: dict, aKeys: list, aDef: list) -> list:
+    def _Get(aKey, aDef) -> object:
+        if (isinstance(aDef, tuple)):
+            Res = aData.get(aKey)
+            if (Res not in aDef):
+                Res = aDef[0]
         else:
-            Res = [aData.get(Key, Def) for Key, Def in zip(aKeys, aDef)]
+            Res = type(aDef)(aData.get(aKey, aDef))
+        return Res
+
+    if (aData):
+        assert(len(aKeys) == len(aDef)), 'Length mismatch'
+        Res = [_Get(Key, Def) for Key, Def in zip(aKeys, aDef)]
     else:
         Res = aDef
     return Res

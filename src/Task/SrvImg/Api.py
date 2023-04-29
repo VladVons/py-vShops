@@ -6,6 +6,7 @@
 from Inc.DataClass import DDataClass
 from IncP.ApiBase import TApiBase
 from IncP.Plugins import TImgs
+from IncP.Log import Log
 
 
 @DDataClass
@@ -37,6 +38,7 @@ class TApiImg(TApiBase):
 
         Data = self.GetMethod(self.Imgs, aRoute, aData)
         if ('err' in Data):
+            Log.Print(1, 'e', f"TApiImg.Exec() {Data['err']}")
             return Data
 
         Param = aData.get('param', {})

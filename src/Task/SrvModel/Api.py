@@ -29,6 +29,7 @@ class TApiModel(TApiBase):
 
         Data = self.GetMethod(self.Models, aRoute, aData)
         if ('err' in Data):
+            Log.Print(1, 'e', f"TApiModel.Exec() {Data['err']}")
             return Data
 
         Method, Module = (Data['method'], Data['module'])
@@ -61,7 +62,7 @@ class TApiModel(TApiBase):
         if (Dbl.Rec.tables == 0):
             Log.Print(1, 'i', 'Database is empty. Creating tables ...')
             await TDbExecPool(self.DbMeta.Db.Pool).ExecFile(f'{self.Models.Dir}/vShopsMeta.sql')
-            await TDbExecPool(self.DbMeta.Db.Pool).ExecFile(f'{self.Models.Dir}/vShopsData.sql')
+            #await TDbExecPool(self.DbMeta.Db.Pool).ExecFile(f'{self.Models.Dir}/vShopsData.sql')
 
         Log.AddEcho(TEchoDb(self.DbMeta.Db))
 

@@ -5,28 +5,27 @@
 
 import math
 #
-from IncP.LibCtrl import TDbSql, GetDictDef
+from IncP.LibCtrl import TDbSql, GetDictDefs
 
 
 async def Main(self, aData: dict = None) -> dict:
     await self.Lang.Add('product/category')
 
-    aSearch, aLangId, aPage, aLimit = GetDictDef(
+    aSearch, aLangId, aSort, aOrder, aPage, aLimit = GetDictDefs(
         aData.get('query'),
-        ('search', 'lang', 'page', 'limit'),
-        ('', 1, 1, 15),
-        True
+        ('search', 'lang', 'sort', 'order', 'page', 'limit'),
+        ('', 1, ('sort_order, title', 'title', 'price'), ('asc', 'desc'), 1, 15)
     )
 
     ResProduct = await self.ExecModel(
         'ref_product/product',
         {
             'method': 'Get_Products_LangFilter',
-            'param': {'aLangId': aLangId, 'aFilter': aSearch, 'aLimit': aLimit, 'aOffset': (aPage - 1) * aLimit},
-            'query': False
+            'param': {'aLangId': aLangId, 'aFilter': aSearch, 'aOrder': f'{aSort} {aOrder}', 'aLimit': aLimit, 'aOffset': (aPage - 1) * aLimit},
+            'query': True
         }
     )
-    #print(Res.get('query'))
+    print(ResProduct.get('query'))
 
     DblProduct = ResProduct.get('data')
     if (DblProduct):

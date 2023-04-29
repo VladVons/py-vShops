@@ -5,5 +5,5 @@
 
 # pylint: skip-file
 from Inc.DbList import TDbSql, TDbRec
-from Inc.Util.Obj import DeepGetByList, GetDictDef
+from Inc.Util.Obj import DeepGetByList, GetDictDef, GetDictDefs
 from .Log import Log

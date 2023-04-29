@@ -3,15 +3,14 @@
 # License: GNU, see LICENSE for more details
 
 
-from IncP.LibCtrl import TDbSql, GetDictDef
+from IncP.LibCtrl import TDbSql, GetDictDefs
 
 
 async def Main(self, aData: dict = None) -> dict:
-    aLangId, aProductId = GetDictDef(
+    aLangId, aProductId = GetDictDefs(
         aData.get('query'),
         ('lang', 'product_id'),
-        (1, 0),
-        True
+        (1, 0)
     )
 
     Res = await self.ExecModel(

@@ -4,14 +4,14 @@
 
 import math
 #
-from IncP.LibCtrl import TDbSql, GetDictDef
+from IncP.LibCtrl import TDbSql, GetDictDefs
 
 
 async def Main(self, aData: dict = None) -> dict:
-    aPath, aTenantId, aLangId, aPage, aLimit = GetDictDef(
+    aPath, aTenantId, aLangId, aSort, aOrder, aPage, aLimit = GetDictDefs(
         aData.get('query'),
-        ('path', 'tenant', 'lang', 'page', 'limit'),
-        ('0', 1, 1, 1, 15), True
+        ('path', 'tenant', 'lang', 'sort', 'order', 'page', 'limit'),
+        ('0', 1, 1, ('sort_order, title', 'title', 'price'), ('asc', 'desc'), 1, 15)
     )
 
     CategoriyIds = list(map(int, aPath.split('_')))
@@ -56,6 +56,7 @@ async def Main(self, aData: dict = None) -> dict:
     if (not Products):
         return Res
 
+    Res['products'] = Products
     Res['pages'] = math.ceil(Products / aLimit)
     #Pages = [f'route=product/category&path={aPath}&page={i+1}' for i in range(PageCount)]
     #DblPage = TDbSql(['page'], [Pages])
@@ -66,7 +67,7 @@ async def Main(self, aData: dict = None) -> dict:
         'ref_product/category',
         {
             'method': 'Get_CategoriesProducts_LangImagePrice',
-            'param': {'aCategoryIds': CategoryIds, 'aLangId': aLangId, 'aPriceId': 1, 'aLimit': aLimit, 'aOffset': (aPage - 1) * aLimit}
+            'param': {'aCategoryIds': CategoryIds, 'aLangId': aLangId, 'aPriceId': 1, 'aOrder': f'{aSort} {aOrder}', 'aLimit': aLimit, 'aOffset': (aPage - 1) * aLimit}
         }
     )
 
@@ -83,7 +84,7 @@ async def Main(self, aData: dict = None) -> dict:
             }
         )
 
-        CategoryIdToPath = DblCategory.ExportPair('id', 'arr_path')
+        CategoryIdToPath = DblCategory.ExportPair('id', 'path_idt')
         Hrefs = []
         for Rec in DblProduct:
             Path = '0_' + '_'.join(map(str, CategoryIdToPath[Rec.category_id]))
