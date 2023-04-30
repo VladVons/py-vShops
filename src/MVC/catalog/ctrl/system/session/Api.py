@@ -10,6 +10,8 @@ async def RegSession(self, aData: dict) -> dict:
     return await self.ExecModel('system', Filter(aData, ['method', 'param']))
 
 async def OnExec(self, aData: dict) -> dict:
+    await self.Cache.ProxyA('conf', {}, self.GetConf, [aData])
+
     SessionId = DeepGetByList(aData, ['session', 'session_id'])
     if (SessionId):
         await self.ExecModel(

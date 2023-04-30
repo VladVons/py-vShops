@@ -20,8 +20,8 @@ class TApiCtrl(TApiBase):
         self.Ctrls = TCtrls(Conf['dir_route'], self)
         self.InitLoader(Conf['loader'])
 
-        Def = GetDictDef(Conf['cache_route'], ['max_age', 'incl_route', 'excl_route'], [5, None, None])
-        self.CacheModel = TCacheMem('/', *Def)
+        #Def = GetDictDef(Conf['cache_route'], ['max_age', 'incl_route', 'excl_route'], [5, None, None])
+        #self.CacheModel = TCacheMem('/', *Def)
 
         Section = Conf['lang']
         if (Section['type'] == 'fs'):
@@ -29,6 +29,10 @@ class TApiCtrl(TApiBase):
             self.Lang = TLoaderLangFs(*Def)
         else:
             raise ValueError()
+
+    async def _GetConf(self):
+
+        return True
 
     async def GetMethodData(self, aRoute: str, aData: dict) -> dict:
         self.ExecCnt += 1

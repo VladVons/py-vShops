@@ -16,6 +16,7 @@ async def Main(self, aData: dict = None) -> dict:
         ('search', 'lang', 'sort', 'order', 'page', 'limit'),
         ('', 1, ('sort_order, title', 'title', 'price'), ('asc', 'desc'), 1, 15)
     )
+    aLimit = min(100, aLimit)
 
     ResProduct = await self.ExecModel(
         'ref_product/product',

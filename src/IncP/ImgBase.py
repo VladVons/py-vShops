@@ -7,8 +7,8 @@ from Task.SrvImg.Api import TApiImg, TApiImgConf
 
 
 class TImgBase():
-    def __init__(self):
-        self.ApiImg: TApiImg
+    def __init__(self, aApiImg: TApiImg):
+        self.ApiImg = aApiImg
         self.Conf: TApiImgConf
 
     def _init_(self):

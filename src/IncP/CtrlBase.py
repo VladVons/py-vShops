@@ -3,6 +3,7 @@
 # License: GNU, see LICENSE for more details
 
 
+from Inc.Misc.Cache import TCacheMem
 from Inc.Misc.Profiler import TTimerLog
 from Inc.Loader.Lang import TLoaderLang
 from Task.SrvCtrl.Api import TApiCtrl
@@ -10,10 +11,11 @@ from IncP.LibCtrl import TDbSql, GetDictDef
 
 
 class TCtrlBase():
-    def __init__(self):
-        self.ApiCtrl: TApiCtrl
+    def __init__(self, aApiCtrl: TApiCtrl):
+        self.ApiCtrl = aApiCtrl
         self.ApiModel = None
         self.ApiImg = None
+        self.Cache = TCacheMem(aMaxAge = 30)
 
     def _init_(self):
         self.ApiModel = self.ApiCtrl.Loader['model'].Get
@@ -34,6 +36,16 @@ class TCtrlBase():
 
     async def ExecSelf(self, aRoute: str, aData: dict) -> dict:
         return await self.ApiCtrl.GetMethodData(aRoute, aData)
+
+    async def GetConf(self, aData: dict) -> dict:
+        Res = await self.ExecModel(
+            'system',
+            {
+                'method': 'Get_ConfTenant',
+                'param': {'aTenantId': 0}
+            }
+        )
+        return Res.get('data')
 
     async def LoadModules(self, aData: dict) -> list:
         aTenantId, aLangId = GetDictDef(aData.get('query'), ('tenant', 'lang'), (1, 1))

@@ -13,8 +13,7 @@ class TModels(TPlugin):
         self.DbMeta = aDbMeta
 
     def _Create(self, aModule: object, aPath: str) -> object:
-        Res = aModule.TMain(self.DbMeta, self.Dir + '/' + aPath)
-        return Res
+        return aModule.TMain(self.DbMeta, self.Dir + '/' + aPath)
 
 class TImgs(TPlugin):
     def __init__(self, aDir: str, aApi):
@@ -22,9 +21,7 @@ class TImgs(TPlugin):
         self.ApiImg = aApi
 
     def _Create(self, aModule: object, aPath: str) -> object:
-        Res = aModule.TMain()
-        Res.ApiImg = self.ApiImg
-        return Res
+        return aModule.TMain(self.ApiImg)
 
 class TCtrls(TPlugin):
     def __init__(self, aDir: str, aApi):
@@ -32,9 +29,7 @@ class TCtrls(TPlugin):
         self.ApiCtrl = aApi
 
     def _Create(self, aModule: object, aPath: str) -> object:
-        Res = aModule.TMain()
-        Res.ApiCtrl = self.ApiCtrl
-        return Res
+        return aModule.TMain(self.ApiCtrl)
 
 class TViewes(TPlugin):
     def _Create(self, aModule: object, aPath: str) -> object:

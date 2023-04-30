@@ -61,12 +61,15 @@ class TCache():
     def GetSize(self):
         raise NotImplementedError()
 
-    async def ProxyA(self, aRoute: str, aQuery: dict, aFunc: callable, aFuncArgs: list) -> object:
+    async def ProxyA(self, aRoute: str, aQuery: dict, aFunc: callable, aFuncArgs: list = None) -> object:
         if (self._Filter(aRoute)):
             #Args = tuple(map(aFuncArgs.__getitem__, [1, 2]))
             Res = self.Get(aRoute, aQuery)
             if (not Res):
-                Res = await aFunc(*aFuncArgs)
+                if (aFuncArgs):
+                    Res = await aFunc(*aFuncArgs)
+                else:
+                    Res = await aFunc()
                 self.Set(aRoute, aQuery, Res)
         else:
             Res = await aFunc(*aFuncArgs)
