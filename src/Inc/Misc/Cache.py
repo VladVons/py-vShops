@@ -32,7 +32,9 @@ class TCache():
             #Arr = [f'{Key}:{Val}'for Key, Val in aQuery.items()]
             #File = '_'.join(Arr)
             #File = hash(json.dumps(aQuery))
-            File = hex(hash(frozenset(sorted(aQuery))))
+            #File = hex(hash(frozenset(sorted(aQuery))))
+            Str = str(sorted(aQuery.items()))
+            File = hex(abs(hash(Str)))
         else:
             File = 'index'
         return f'{self.Root}/{aRoute}/{File}'

@@ -18,9 +18,6 @@ def Run():
     else:
         print(f'Need python >= {PyNeed}')
 
-#if (__name__ == '__main__'):
-#    Run()
 
-
-from xlrd import open_workbook
-WBook = xlrd.open_workbook('1')
+if (__name__ == '__main__'):
+    Run()
