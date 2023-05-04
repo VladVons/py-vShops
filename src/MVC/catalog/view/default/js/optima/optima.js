@@ -35,4 +35,11 @@ class $Optima {
       }
     }
   }
+  //append event to nodes
+  on(event, fn) {
+    for(let i=0; i<this.length; i++) {
+      this[i].addEventListener(event, fn)
+    }
+    return this
+  }
 }

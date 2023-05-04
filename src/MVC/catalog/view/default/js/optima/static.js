@@ -71,6 +71,25 @@ class $ExtClass {
   send() {
     // WebSocket request to server
   }
+  
+  tip(msg, opt) {
+    let tip = $$('<tip>'+msg+'</tip>')[0]
+    tip.classList.add((opt) ? opt.cls || 'x' : 'x')
+    tip.on = (opt) ? opt.on || 3*1000 : 3*1000
+    tip.off = (opt) ? opt.off || 1*1000 : 1*1000
+    
+    $$('body')[0].appendChild(tip)
+    setTimeout(function(){
+      tip.classList.add('x-on')
+      setTimeout(function(){
+        tip.classList.add('x-off')
+        setTimeout(function(){
+          tip.parentNode.removeChild(tip)
+          tip = null
+        }, tip.off)
+      }, tip.on)
+    },100)
+  }
 
 }
 

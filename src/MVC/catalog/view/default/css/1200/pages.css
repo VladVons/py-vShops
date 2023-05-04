@@ -53,7 +53,7 @@ pages data list {
   top: 0;
   left: 0;
   max-height: 50px;
-  transition: 2s;
+  transition: 2s ease;
 }
 
 pages data list page {

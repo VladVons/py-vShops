@@ -1,0 +1,48 @@
+{% extends '_inc/layout1.j2' %}
+
+{% block head %}
+  <script type='module' src='/default/js/cart.js' ></script>
+{% endblock %}
+
+{% block content %}
+      <title class='cart'>{{lang.shopping_cart}}</title>
+      <!-- item model for cart -->
+      <model class='hide'>
+        <name>
+          <thumb style='background-image:url(/default/img/pixel.gif)'></thumb>
+        </name>
+        <code></code>
+        <count><icon class='minus'></icon><input type='text' maxlength='3' value='' required></input><icon class='plus'></icon></count>
+        <price></price>
+        <summ></summ>
+        <trash><icon class='trash'></icon></trash>
+      </model>
+      <!-- /item model for cart -->
+
+      <cart>
+        <title class='s'>{{lang.name}}</title>
+        <title class='s'>{{lang.code}}</title>
+        <title class='s'>{{lang.quantity}}</title>
+        <title class='s'>{{lang.price}}</title>
+        <title class='s'>{{lang.together}}</title>
+        <title class='s'></title>
+      </cart>
+
+      <total>
+        <label>{{lang.to_pay}}</label>
+        <summ></summ>
+      </total>
+
+      <payment>
+        <label>{{lang.payment_type}}: </label>
+        <icon class='visa'></icon>
+        <icon class='mastercard'></icon>
+        <icon class='american'></icon>
+        <icon class='cash'></icon>
+      </payment>
+
+      <buttons>
+        <a href='catalog.shtml' class='continue'>{{lang.continue_shopping}}</a>
+        <a href='#' class='checkout'>{{lang.checkout}}</a>
+      </buttons>
+{% endblock %}

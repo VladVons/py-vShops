@@ -1,0 +1,12 @@
+{
+    "shopping_cart": "Кошик для покупок",
+    "name": "назва",
+    "code": "код",
+    "quantity": "кількість",
+    "price": "ціна",
+    "together": "разом",
+    "to_pay": "до сплати",
+    "payment_type": "способи оплати",
+    "continue_shopping": "продовжити покупки",
+    "checkout": "оформити замовлення"
+}

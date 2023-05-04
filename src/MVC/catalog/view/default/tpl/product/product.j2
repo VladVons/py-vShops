@@ -1,4 +1,4 @@
-{% extends 'inc/layout1.j2' %}
+{% extends '_inc/layout1.j2' %}
 
 {% block head %}
   <meta property="og:image" content="http://img"/>
@@ -6,7 +6,7 @@
 {% endblock %}
 
 {% block content %}
-  <item>
+  <item code='{{product['product_id']}}'>
     <images>
       <zoom title='{{lang.zoom_in}}'><img src='{{image}}'></img></zoom>
       <thumbs>
@@ -39,7 +39,7 @@
         <promo>387.00грн</promo>
         <!--price>387.00грн</price-->
         <discount>-14%</discount>
-        <button>{{lang.buy}}</button>
+        <a href='#' class='buy'><icon class='buy'></icon>{{lang.buy}}</a>
       </control>
 
     </info>

@@ -5,7 +5,6 @@
 
 from Inc.DictDef import TDictKey
 from Inc.Loader.Lang import TLoaderLangFs
-from Inc.Misc.Cache import TCacheMem
 from IncP.ApiBase import TApiBase
 from IncP.Plugins import TCtrls
 from IncP.LibCtrl import GetDictDef
@@ -46,25 +45,26 @@ class TApiCtrl(TApiBase):
     async def Exec(self, aRoute: str, aData: dict) -> dict:
         self.ExecCnt += 1
 
-        Data = self.GetMethod(self.Ctrls, 'system/session', {'method': 'OnExec'})
-        await Data['method'](Data['module'], aData)
+        Caller = self.GetMethod(self.Ctrls, 'system/session', {'method': 'OnExec'})
+        await Caller['method'](Caller['module'], aData)
 
-        Data = self.GetMethod(self.Ctrls, aRoute, aData)
-        if ('err' in Data):
-            Log.Print(1, 'e', f"TApiCtrl.Exec() {Data['err']}")
-            return Data
+        LangRoutes = aData.get('extends', [])
+        LangRoutes.append(aData.get('route'))
+        for x in LangRoutes:
+            await self.Lang.Add(x)
+        Lang = TDictKey('', self.Lang.Join())
 
-        Module = Data['module']
-        Res = await Data['method'](Module, aData)
+        Caller = self.GetMethod(self.Ctrls, aRoute, aData)
+        if ('err' in Caller):
+            Log.Print(1, 'e', f"TApiCtrl.Exec() {Caller['err']}")
+            Caller['lang'] = Lang
+            return Caller
+
+        Module = Caller['module']
+        Res = await Caller['method'](Module, aData)
         if (not Res):
             Res = {}
-
-        Langs = aData.get('extends', [])
-        Langs.append(aData.get('route'))
-        for x in Langs:
-            await Module.Lang.Add(x)
-        Res['lang'] = TDictKey('', Module.Lang.Join())
-
+        Res['lang'] = Lang
         Res['modules'] = await Module.LoadModules(aData)
         return Res
 

@@ -8,6 +8,7 @@ class Catalog {
     let self = this
     $$.ready( () => {
       $$.css([
+        '/default/css/optima/tip.css',
         '/default/css/1200/common.css',
         '/default/css/1200/header.css',
         '/default/css/1200/top.css',
@@ -32,6 +33,8 @@ class Catalog {
             }
             select[i].addEventListener('change', self.setParam.bind(self))
           }
+          //add to cart link
+          $$('a.buy').on('click', self.toCart.bind(self))
       
           // list view for old browsers
           self.setMode((LEGACY) ? 'list' : 'grid', null)
@@ -73,7 +76,39 @@ class Catalog {
       }
     }
   }
-
+  
+  toCart(event) {
+    let store = localStorage.getItem('Cart')
+    let data = (store) ? JSON.parse(store) : []
+    let item = event.target
+    while(item.nodeName.toUpperCase() != 'ITEM'){
+      item = item.parentNode
+    }
+    //check if exist
+    let exist = false
+    for(let product of data){
+      if(product.code == item.getAttribute('code')){
+        product.count++
+        exist = true
+        break
+      }
+    }
+    
+    if(!exist) {
+      data.push({
+        code: item.getAttribute('code'),
+        name: item.getElementsByTagName('name')[0].textContent,
+        img: item.getElementsByTagName('img')[0].src,
+        count: 1,
+        price: parseFloat(item.getElementsByTagName('price')[0].textContent)
+      })
+      $$.tip('Товар доданий до кошика')
+    }else{
+      $$.tip('Товар вже в кошику - кількість оновлена')
+    }
+    localStorage.setItem('Cart', JSON.stringify(data))
+    event.returnValue = false
+  }
 }
 
 window.catalog = new Catalog()

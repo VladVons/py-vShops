@@ -36,7 +36,7 @@ async def Main(self, aData: dict = None) -> dict:
         Images = ResImg['image']
         if (Images):
             Res['image'] = Images[0]
-            Res['images'] = Images[1:]
+            Res['images'] = Images
         else:
             Res['image'] = 'no image'
 

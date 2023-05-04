@@ -1,5 +1,5 @@
 select
-    rp.id,
+    rp.id as product_id,
     rp.idt,
     coalesce(rp.idt, rp.id) as code,
     rp.tenant_id,

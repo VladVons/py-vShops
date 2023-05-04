@@ -1,5 +1,6 @@
 with wrsu as (
     select
+        1 as idx,
         sort_order,
         attr,
         val,
@@ -13,6 +14,8 @@ with wrsu as (
 )
 
 select
+    --json_agg(json_build_object(attr, keyword))
+    --
     attr,
     val,
     keyword
