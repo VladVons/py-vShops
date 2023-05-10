@@ -8,7 +8,7 @@ import os
 from Inc.DbList import TDbList, TDbRec, TDbRecSafe
 from Inc.Util.Obj import DeepGet, DeepGetByList, GetClassPath
 from Inc.Misc.Time import TASleep
-from Inc.Misc.Request import TRequestGet
+from Inc.Misc.Request import TRequestGet, TRequestJson
 from IncP.Log import Log
 
 
@@ -22,7 +22,8 @@ class TTranslate():
 
 class TApiBase():
     def __init__(self):
-        self.Request = TRequestGet()
+        self.RequestGet = TRequestGet()
+        self.RequestJson = TRequestJson()
 
     @staticmethod
     def GetModName(aPath: str) -> str:

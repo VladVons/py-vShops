@@ -7,6 +7,8 @@
 # https://timedetector.comel-it.com/ukportals/Promua.xml
 
 
+import re
+#
 from Inc.Util.Str import ToInt, ToFloat, ToBool
 from Inc.ParserX.Parser_xml import TParser_xml
 from ..CommonDb import TDbCategory, TDbProductEx
@@ -59,10 +61,11 @@ class TProduct(TParser_xml):
         if (Data):
             Rec.SetField('vendor', Data[0].firstChild.data)
 
-        # Data = aRow.getElementsByTagName('description')[0].firstChild
-        # if (Data):
-        #    Val = Data.data
-        #    Rec.SetField('descr', Val)
+        Data = aRow.getElementsByTagName('description')[0].firstChild
+        if (Data):
+            Val = re.sub(r'<.*?>', '', Data.data)
+            Val = Val.replace('\n', '<br>')
+            Rec.SetField('descr', Val)
 
         Data = aRow.getElementsByTagName('image')
         Val = [x.firstChild.data for x in Data]

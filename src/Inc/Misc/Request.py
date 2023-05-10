@@ -103,6 +103,12 @@ class TRequestGet(TRequest):
                 Res = await Response.read()
             return {'data': Res, 'status': Response.status}
 
+class TRequestPost(TRequest):
+    async def _SendRec(self, aRecSes: TRecSes) -> dict:
+        async with self.Session.post(aRecSes.Url, data=aRecSes.DataSend) as Response:
+            Res = await Response.read()
+            return {'data': Res, 'status': Response.status}
+
 
 class TCheckUrls(TRequestGet):
     _Count = 0
