@@ -232,9 +232,7 @@ create table if not exists ref_product0_category_lang (
 
 create table if not exists ref_product0 (
     id                  serial primary key,
-    deleted             boolean default false,
-    ean                 varchar(13) unique,
-    mpn                 varchar(16) unique
+    enabled             boolean default false
 );
 
 create table if not exists ref_product0_image (
@@ -534,6 +532,15 @@ create table if not exists ref_product_to_category (
     primary key (product_id, category_id)
 );
 
+create table if not exists ref_product_idt (
+    idt                 integer not null,
+    title               varchar(128) not null check (title = lower(title )),
+    update_date         timestamp,
+    tenant_id           integer not null,
+    foreign key (tenant_id) references ref_tenant(id),
+    primary key (tenant_id, title)
+);
+
 -- product attribute--
 
 create table if not exists ref_kind (
@@ -759,6 +766,29 @@ create or replace trigger ref_price_tbi
     before insert on ref_price
     for each row
     execute procedure ref_price_fbi();
+
+---
+
+create or replace function ref_product_idt_fbi()
+returns trigger as $$
+begin
+    if (new.idt is null) then
+        select
+            COALESCE(max(idt), 0) + 1 into new.idt
+        from
+            ref_product_idt
+        where
+            tenant_id = new.tenant_id;
+    end if;
+
+    return new;
+end
+$$ language plpgsql;
+
+create or replace trigger ref_product_idt_tbi
+    before insert on ref_product_idt
+    for each row
+    execute procedure ref_product_idt_fbi();
 
 ---
 

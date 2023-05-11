@@ -22,8 +22,8 @@ class TSqlConf():
     LangId: int
     TenantId: int
     PriceId: int
+    AutoIdt: bool
     Parts: int = 100
-
 
 class TCatalogToDb():
     def __init__(self, aDbl: TDbList):
@@ -157,27 +157,62 @@ class TSql(TSqlBase):
             nonlocal DbRec
             print('SProduct()', aIdx, aLen)
 
-            Ids = []
+            if (self.Conf.AutoIdt):
+                Values = [f"({self.Conf.TenantId}, '{DbRec.name.lower()}')" for DbRec.Data in aData]
+                Values = ', '.join(Values)
+
+                # (tenant_id, title) can be duplicated and DO UPDATE causes error. Use DO NOTHING
+                Query = f'''
+                    with
+                        t1 as (
+                            insert into ref_product_idt (tenant_id, title)
+                            values {Values}
+                            on conflict (tenant_id, title) do nothing
+                            returning idt, title
+                        ),
+                        t2 as (
+                            select idt,	title
+                            from ref_product_idt
+                            where (tenant_id, title) in ({Values})
+                        )
+                        select idt,	title
+                        from t1
+                        union all
+                        table t2
+                '''
+                DblCur = await TDbExecPool(self.Db.Pool).Exec(Query)
+
+                Pairs = DblCur.ExportPair('title', 'idt')
+                for DbRec.Data in aData:
+                    Name = DbRec.name.lower()
+                    Idt = Pairs.get(Name)
+                    DbRec.SetField('id', Idt)
+
+            Idts = []
             Values = []
             for DbRec.Data in aData:
-                Id = DbRec.GetField('id')
+                Idt = DbRec.GetField('id')
 
-                Value = f'({Id}, {self.Conf.TenantId}, {bool(DbRec.available)})'
+                Value = f'({Idt}, {self.Conf.TenantId}, {bool(DbRec.available)})'
                 Values.append(Value)
-                Ids.append(Id)
+                Idts.append(Idt)
 
+            # (idt, tenant_id) can be duplicated and DO UPDATE causes error. Use DO NOTHING
             Query = f'''
                 insert into ref_product (idt, tenant_id, enabled)
                 values {', '.join(Values)}
-                on conflict (idt, tenant_id) do update
-                set enabled = excluded.enabled
+                on conflict (idt, tenant_id)
+                do nothing
+                --do update
+                --set enabled = excluded.enabled
             '''
             await TDbExecPool(self.Db.Pool).Exec(Query)
 
             Query = f'''
-                select id, idt
-                from ref_product
-                where idt in ({ListIntToComma(Ids)})
+                update ref_product
+                set enabled = true
+                where (tenant_id = {self.Conf.TenantId} and idt in ({ListIntToComma(Idts)}))
+                returning id, idt
             '''
             return await TDbExecPool(self.Db.Pool).Exec(Query)
 
@@ -186,13 +221,18 @@ class TSql(TSqlBase):
             nonlocal DbRec
             print('SProduct_Lang()', aIdx, aLen)
 
+            Uniq = {}
             Values = []
             for DbRec.Data in aData:
-                Descr = DbRec.GetField('descr', '').translate(self.Escape)
-                Feature = DbRec.GetField('feature', '')
-                Feature = json.dumps(Feature, ensure_ascii=False).replace("'", '`')
-                Value = f"({self.ProductIdt[DbRec.id]}, {self.Conf.LangId}, '{DbRec.name.translate(self.Escape)}', '{Descr}', '{Feature}')"
-                Values.append(Value)
+                Key = (self.ProductIdt[DbRec.id], self.Conf.LangId)
+                if (Key not in Uniq):
+                    Uniq[Key] = ''
+
+                    Descr = DbRec.GetField('descr', '').translate(self.Escape)
+                    Feature = DbRec.GetField('feature', '')
+                    Feature = json.dumps(Feature, ensure_ascii=False).replace("'", '`')
+                    Value = f"({self.ProductIdt[DbRec.id]}, {self.Conf.LangId}, '{DbRec.name.translate(self.Escape)}', '{Descr}', '{Feature}')"
+                    Values.append(Value)
 
             Query = f'''
                 insert into ref_product_lang (product_id, lang_id, title, descr, feature)
@@ -277,10 +317,14 @@ class TSql(TSqlBase):
             nonlocal DbRec
             print('SProduct_Price()', aIdx, aLen)
 
+            Uniq = {}
             Values = []
             for DbRec.Data in aData:
-                Value = f'({self.ProductIdt[DbRec.id]}, {self.Conf.PriceId}, {DbRec.price})'
-                Values.append(Value)
+                Key = (self.ProductIdt[DbRec.id], self.Conf.PriceId)
+                if (Key not in Uniq):
+                    Uniq[Key] = ''
+                    Value = f'({self.ProductIdt[DbRec.id]}, {self.Conf.PriceId}, {DbRec.price})'
+                    Values.append(Value)
 
             Query = f'''
                 insert into ref_product_price (product_id, price_id, price)
@@ -326,7 +370,8 @@ class TMain(TFileBase):
             TenantId = SqlDef.get('tenant_id'),
             LangId = SqlDef.get('lang_id'),
             PriceId = SqlDef.get('price_id'),
-            Parts = SqlDef.get('parts', 50)
+            Parts = SqlDef.get('parts', 50),
+            AutoIdt = SqlDef.get('auto_idt', False)
         )
 
         ConfImg = self.Parent.Conf.GetKey('img_loader')

@@ -13,6 +13,8 @@ import sys
 import time
 import cProfile
 import inspect
+#
+from .Log import GetStackChain
 
 
 class _TTimer():
@@ -80,13 +82,7 @@ class TTimerLog(_TTimer):
         print(Msg)
 
         SelfLevel = 2
-        Stack = inspect.stack()[SelfLevel:self.StackLevel + SelfLevel]
-        AppDir = sys.path[0]
-        Chain = [
-            f'{os.path.basename(x.filename)}:{x.function}()'
-            for x in Stack
-            if (AppDir in x.filename)
-        ]
+        Chain = GetStackChain(SelfLevel, self.StackLevel)
         Msg = f'{Msg :45} {", ".join(Chain)}'
 
         with open(f'{self.File}.log', 'a+', encoding='utf-8') as F:

@@ -5,7 +5,8 @@
                 "Out_vShop_db": {
                     "sql": {
                         "tenant_id": 2,
-                        "price_id": 3
+                        "price_id": 3,
+                        "auto_idt": true
                     }
                 },
                 "Out_Save_txt": {

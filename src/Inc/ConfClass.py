@@ -24,7 +24,8 @@ class TConfClass(TConf):
         for Item in Items:
             Repl = self.Conf.get(Item)
             if (Repl is None):
-                Log.Print(1, 'e', 'unknown %s' % (Item))
+                #Log.Print(1, 'e', 'unknown %s' % (Item))
+                pass
             else:
                 Find = Delim + Item + Delim
                 if (not isinstance(Repl, str)):
