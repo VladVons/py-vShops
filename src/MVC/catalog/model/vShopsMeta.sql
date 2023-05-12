@@ -534,11 +534,10 @@ create table if not exists ref_product_to_category (
 
 create table if not exists ref_product_idt (
     idt                 integer not null,
-    title               varchar(128) not null check (title = lower(title )),
-    update_date         timestamp,
+    hash                varchar(128) not null,
     tenant_id           integer not null,
     foreign key (tenant_id) references ref_tenant(id),
-    primary key (tenant_id, title)
+    primary key (tenant_id, hash)
 );
 
 -- product attribute--

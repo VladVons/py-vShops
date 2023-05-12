@@ -3,6 +3,9 @@
 # License: GNU, see LICENSE for more details
 
 
+import re
+
+
 def SplitPad(aCnt: int, aStr: str, aDelim: str) -> list:
     R = aStr.split(aDelim, aCnt - 1)
     for _i in range(aCnt - len(R)):
@@ -30,3 +33,9 @@ def ToInt(aVal: str) -> int:
 
 def ToBool(aVal: str) -> bool:
     return aVal.lower() in ('true', '1', 'yes', 'y', 't')
+
+def ToHashW(aText: str) -> str:
+    Data = re.sub(r'[^\w]', '', aText).lower()
+    #Data = ''.join(sorted(list(Data)))
+    #Data = hex(hash(Data) & 0xFFFFFFFFFFFFFFFF)[2:]
+    return Data

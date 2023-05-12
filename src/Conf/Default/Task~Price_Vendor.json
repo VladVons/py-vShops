@@ -36,7 +36,8 @@
                         "vga": 10,
                         "price": 11
                     },
-                    "title": ["model", "cpu", "ram", "disk", "os"]
+                    "title": ["model", "cpu", "ram", "disk", "os"],
+                    "model": ["model", "case"]
                 },
                 "MONITORS": {
                     "skip": 1,

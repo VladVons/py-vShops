@@ -13,6 +13,7 @@ from Inc.ParserX.CommonSql import TSqlBase, DASplit, TLogEx
 from Inc.Sql.DbPg import TDbPg
 from Inc.Sql.ADb import TDbExecPool, ListIntToComma
 from Inc.Util.Obj import DeepGetByList
+from Inc.Util.Str import ToHashW
 from IncP.Log import Log
 from ..CommonDb import TDbCategory, TDbProductEx
 
@@ -158,34 +159,33 @@ class TSql(TSqlBase):
             print('SProduct()', aIdx, aLen)
 
             if (self.Conf.AutoIdt):
-                Values = [f"({self.Conf.TenantId}, '{DbRec.name.lower()}')" for DbRec.Data in aData]
+                Values = [f"({self.Conf.TenantId}, '{ToHashW(DbRec.name)}')" for DbRec.Data in aData]
                 Values = ', '.join(Values)
 
                 # (tenant_id, title) can be duplicated and DO UPDATE causes error. Use DO NOTHING
                 Query = f'''
                     with
                         t1 as (
-                            insert into ref_product_idt (tenant_id, title)
+                            insert into ref_product_idt (tenant_id, hash)
                             values {Values}
-                            on conflict (tenant_id, title) do nothing
-                            returning idt, title
+                            on conflict (tenant_id, hash) do nothing
+                            returning idt, hash
                         ),
                         t2 as (
-                            select idt,	title
+                            select idt,	hash
                             from ref_product_idt
-                            where (tenant_id, title) in ({Values})
+                            where (tenant_id, hash) in ({Values})
                         )
-                        select idt,	title
+                        select idt,	hash
                         from t1
                         union all
                         table t2
                 '''
                 DblCur = await TDbExecPool(self.Db.Pool).Exec(Query)
 
-                Pairs = DblCur.ExportPair('title', 'idt')
+                Pairs = DblCur.ExportPair('hash', 'idt')
                 for DbRec.Data in aData:
-                    Name = DbRec.name.lower()
-                    Idt = Pairs.get(Name)
+                    Idt = Pairs.get(ToHashW(DbRec.name))
                     DbRec.SetField('id', Idt)
 
             Idts = []
