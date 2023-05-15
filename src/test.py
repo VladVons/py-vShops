@@ -1,19 +1,17 @@
 import re
-import hashlib
 
 
 def Test_01():
-    p1 = r'[^\w]'
-    q1 = 'This 1     _(2))" ` text [3]'
-    #q2 = re.sub(p1, '', q1).lower()
-    #print(q2)
-    h1 = hash(''.join(sorted(list('1231'))))
-    h2 = hash(''.join(sorted(list('132'))))
-    print(h1)
-    print(h2)
-    #h1 = hex(hash(frozenset('13421')) & 0xFFFFFFFFFFFFFFFF)[2:]
-    #h2 = hex(hash(frozenset('3421')) & 0xFFFFFFFFFFFFFFFF)[2:]
-    #print(h1)
-    #print(h2)
+    #p1 = r'[\W_]'
+    #p1 = r'[^\w\s]'
+    #p1 = r'[^a-zA-Z0-9\s]'
+    #p1 = r'''[!_"'`]\s+'''
+
+    s1 = 'This      1   i7-1200/8GB/  / hdd 500////     _(2)" ` text [3]'
+    print(s1)
+    s1 = re.sub(r'[\s/]+', ' ', s1)
+    s1 = re.sub(r'[^a-zA-Z0-9\s]', '', s1)
+    s1 = s1.lower()
+    print(s1)
 
 Test_01()

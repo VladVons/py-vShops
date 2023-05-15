@@ -9,7 +9,8 @@
 
 create type product_enum as enum (
    'ean',
-   'mpn'
+   'mpn',
+   'model'
 );
 
 create type doc_enum as enum (
@@ -251,12 +252,13 @@ create table if not exists ref_product0_lang (
     product_id          integer not null,
     lang_id             integer not null,
     foreign key (product_id) references ref_product0(id) on delete cascade,
-    foreign key (lang_id) references ref_lang(id)
+    foreign key (lang_id) references ref_lang(id),
+    unique(product_id, lang_id)
 );
 
 create table if not exists ref_product0_barcode (
     id                  serial primary key,
-    code                varchar(16) not null,
+    code                varchar(32) not null,
     product_en          product_enum not null,
     product_id          integer not null,
     foreign key (product_id) references ref_product0(id) on delete cascade,
@@ -456,7 +458,7 @@ create table if not exists ref_product_category_lang (
 create table if not exists ref_product (
     id                  serial primary key,
     enabled             boolean default true,
-    model               varchar(16),
+    model               varchar(32),
     is_service          boolean default false,
     sort_order          smallint default 0,
     idt                 integer,
@@ -489,7 +491,7 @@ create table if not exists ref_product_price_date (
 
 create table if not exists ref_product_barcode (
     id                  serial primary key,
-    code                varchar(13),
+    code                varchar(32),
     product_en          product_enum not null,
     product_id          integer not null,
     tenant_id           integer not null,

@@ -35,7 +35,10 @@ def ToBool(aVal: str) -> bool:
     return aVal.lower() in ('true', '1', 'yes', 'y', 't')
 
 def ToHashW(aText: str) -> str:
-    Data = re.sub(r'[^\w]', '', aText).lower()
-    #Data = ''.join(sorted(list(Data)))
-    #Data = hex(hash(Data) & 0xFFFFFFFFFFFFFFFF)[2:]
-    return Data
+    Res = re.sub(r'[\s/]+', ' ', aText)
+    Res = re.sub(r'[^a-zA-Z0-9\s]', '', Res)
+    Res = Res.lower()
+    #Res = re.sub(r'[^\w]', '', Res).lower()
+    #Res = ''.join(sorted(list(Res)))
+    #Res = hex(hash(Res) & 0xFFFFFFFFFFFFFFFF)[2:]
+    return Res

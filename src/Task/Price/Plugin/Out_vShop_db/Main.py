@@ -5,13 +5,13 @@
 
 import json
 #
-from Inc.DbList  import TDbList, TDbRec
 from Inc.DataClass import DDataClass
+from Inc.DbList  import TDbList, TDbRec
 from Inc.Misc.Request import TRequestJson, TAuth
 from Inc.ParserX.Common import TFileBase
 from Inc.ParserX.CommonSql import TSqlBase, DASplit, TLogEx
-from Inc.Sql.DbPg import TDbPg
 from Inc.Sql.ADb import TDbExecPool, ListIntToComma
+from Inc.Sql.DbPg import TDbPg
 from Inc.Util.Obj import DeepGetByList
 from Inc.Util.Str import ToHashW
 from IncP.Log import Log
@@ -188,30 +188,22 @@ class TSql(TSqlBase):
                     Idt = Pairs.get(ToHashW(DbRec.name))
                     DbRec.SetField('id', Idt)
 
-            Idts = []
+            Uniq = {}
             Values = []
             for DbRec.Data in aData:
                 Idt = DbRec.GetField('id')
+                Key = (Idt, self.Conf.TenantId)
+                if (Key not in Uniq):
+                    Uniq[Key] = ''
 
-                Value = f'({Idt}, {self.Conf.TenantId}, {bool(DbRec.available)})'
-                Values.append(Value)
-                Idts.append(Idt)
+                    Value = f"({Idt}, {self.Conf.TenantId}, {bool(DbRec.available)}, '{DbRec.mpn}')"
+                    Values.append(Value)
 
-            # (idt, tenant_id) can be duplicated and DO UPDATE causes error. Use DO NOTHING
             Query = f'''
-                insert into ref_product (idt, tenant_id, enabled)
+                insert into ref_product (idt, tenant_id, enabled, model)
                 values {', '.join(Values)}
-                on conflict (idt, tenant_id)
-                do nothing
-                --do update
-                --set enabled = excluded.enabled
-            '''
-            await TDbExecPool(self.Db.Pool).Exec(Query)
-
-            Query = f'''
-                update ref_product
-                set enabled = true
-                where (tenant_id = {self.Conf.TenantId} and idt in ({ListIntToComma(Idts)}))
+                on conflict (idt, tenant_id) do update
+                set enabled = excluded.enabled, model = excluded.model
                 returning id, idt
             '''
             return await TDbExecPool(self.Db.Pool).Exec(Query)
