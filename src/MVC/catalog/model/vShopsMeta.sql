@@ -69,7 +69,6 @@ create table if not exists ref_auth_ext(
 create table if not exists ref_crawl_site(
     id                  serial primary key,
     enabled             boolean default false,
-    deleted             boolean default false,
     url                 varchar(64) not null unique,
     scheme              text not null
 );
@@ -240,6 +239,9 @@ create table if not exists ref_product0_image (
     id                  serial primary key,
     image               varchar(64) not null,
     sort_order          smallint default 0,
+    src_url             varchar(128),
+    src_size            integer,
+    src_date            timestamp,
     product_id          integer not null,
     foreign key (product_id) references ref_product0(id) on delete cascade
 );
@@ -275,14 +277,13 @@ create table if not exists ref_product0_to_category (
 
 create table if not exists ref_product0_crawl (
     id                  serial primary key,
-    url                 varchar(256) not null,
+    code                varchar(32),
     product_en          product_enum not null,
-    code                varchar(16) not null,
-    succsess            boolean not null,
-    body                text,
-    product_id          integer not null,
+    url                 varchar(256) not null,
+    status              smallint,
+    update_date         timestamp,
+    info                jsonb,
     crawl_site_id       integer not null,
-    foreign key (product_id) references ref_product0(id) on delete cascade,
     foreign key (crawl_site_id) references ref_crawl_site(id)
 );
 

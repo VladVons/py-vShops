@@ -13,14 +13,16 @@ class TParser_csv(TEngine):
         return True
 
     async def _Load(self):
-        Conf = self.GetConfSheet()
-        ConfFields = Conf.get('fields')
-        ConfSkip = Conf.get('skip', 3)
-        ConfEncoding = Conf.get('encoding', 'cp1251')
+        ConfEncoding = self.Parent.Conf.get('encoding', 'cp1251')
+        ConfDelim = self.Parent.Conf.get('delimiter', ',')
+
+        ConfSheet = self.GetConfSheet()
+        ConfFields = ConfSheet.get('fields')
+        ConfSkip = ConfSheet.get('skip', 0)
         ConfFile = self.Parent.GetFile()
 
         with open(ConfFile, 'r',  encoding=ConfEncoding, errors='ignore') as File:
-            Data = csv.reader(File, delimiter = ',')
+            Data = csv.reader(File, delimiter = ConfDelim)
             for _i in range(ConfSkip):
                 next(Data)
 

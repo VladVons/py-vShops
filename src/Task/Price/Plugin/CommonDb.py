@@ -75,3 +75,17 @@ class TDbCompPricePl(TDbList):
         super().__init__([
             'model'
         ])
+
+
+class TDbCrawl(TDbList):
+    def __init__(self):
+        super().__init__([
+            'mpn',
+            'ean',
+            'url',
+            'category',
+            'product',
+            'image',
+            'descr'
+        ])
+

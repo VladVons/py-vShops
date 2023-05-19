@@ -176,7 +176,7 @@ class TSql(TSqlBase):
                             from ref_product_idt
                             where (tenant_id, hash) in ({Values})
                         )
-                        select idt,	hash
+                        select idt, hash
                         from t1
                         union all
                         table t2

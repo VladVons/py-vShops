@@ -1,8 +1,35 @@
 {
     "plugin": {
+        "In_Crawl_ean_txt": {
+            "encoding": "cp1251",
+            "delimiter": "|",
+            "sheet": {
+                "default": {
+                    "fields": {
+                        "ean": 2,
+                        "category": 3,
+                        "product": 4
+                    }
+                }
+            }
+        },
+        "In_Crawl_model_xlsx": {
+            "sheet": {
+                "default": {
+                    "skip": 1,
+                    "fields": {
+                        "mpn": 2,
+                        "url": 3,
+                        "image1": 6,
+                        "image2": 7,
+                        "image3": 8
+                    }
+                }
+            }
+        },
         "In_Price_pl01_xlsx": {
             "export": {
-                "Out_vShop_db": {
+                "Out_vShopTenant_db": {
                     "sql": {
                         "tenant_id": 2,
                         "price_id": 3,
@@ -56,7 +83,7 @@
         "In_Price_oster1c_xml": {
             "encoding": "cp1251",
             "export": {
-                "Out_vShop_db": {
+                "Out_vShopTenant_db": {
                     "sql": {
                         "tenant_id": 3,
                         "price_id": 3
@@ -66,7 +93,7 @@
         },
         "In_Price_prom_xml": {
             "export": {
-                "Out_vShop_db": {
+                "Out_vShopTenant_db": {
                     "sql": {
                         "tenant_id": 1,
                         "price_id": 1

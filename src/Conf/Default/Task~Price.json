@@ -9,8 +9,11 @@
         "Task~Price_Vendor.json"
     ],
     "plugins": [
-        {"name": "Out_vShop_db", "enable": true},
-        {"name": "Out_Save_txt", "enable": true},
+        {"name": "In_Crawl_ean_txt", "enable": false},
+        {"name": "In_Crawl_model_xlsx", "enable": false},
+        {"name": "Out_vShopTenant_db", "enable": false},
+        {"name": "Out_vShopCrawl_db", "enable": true},
+        {"name": "Out_Save_txt", "enable": false},
         {"name": "Out_Save_xlsx", "enable": false}
     ],
     "common": {
@@ -42,7 +45,7 @@
             ],
             "dir": "./Data/Pl/Out"
         },
-        "Out_vShop_db": {
+        "Out_vShopTenant_db": {
             "sql": {
                 "parts": 100,
                 "lang_id": 1
@@ -52,6 +55,19 @@
                 "-In_Price_prom_xml",
                 "-In_Price_oster1c_xml",
                 "In_Price_pl01_xlsx"
+            ],
+            "img_loader": "{% file Conf/Default/Task.SrvCtrl.Api.json:loader.img %}",
+            "img_conf": "{% file Conf/Default/Task.SrvImg.Api.json %}"
+        },
+        "Out_vShopCrawl_db": {
+            "sql": {
+                "parts": 10,
+                "lang_id": 1,
+                "scheme_url": "https://listex.info"
+            },
+            "auth": "{% file Conf/Default/Task.SrvModel.Api.json:db_auth %}",
+            "depends": [
+                "In_Crawl_ean_txt"
             ],
             "img_loader": "{% file Conf/Default/Task.SrvCtrl.Api.json:loader.img %}",
             "img_conf": "{% file Conf/Default/Task.SrvImg.Api.json %}"
