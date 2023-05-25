@@ -2,12 +2,15 @@
 # Author: Vladimir Vons <VladVons@gmail.com>
 # License: GNU, see LICENSE for more details
 
+
 import time
 import re
 import os
 #
+from Inc.DbList import TDbList
 from Inc.Util.Arr import Parts
 from Inc.Log import TLog, TEchoFile
+
 
 def StripQuery(aData: str) -> str:
     return re.sub(r'\s+', ' ', aData).strip()
@@ -27,6 +30,17 @@ def DASplit(aFunc: callable) -> list[str]:
         Len = len(aData) // aMax
         for Idx, Part in enumerate(Parts(aData, aMax)):
             Data = await aFunc(Part, aMax, Idx, Len)
+            Res.append(Data)
+        return Res
+    return Decor
+
+def DASplitDbl(aFunc: callable) -> list:
+    async def Decor(aDbl: TDbList, aMax: int) -> list:
+        Res = []
+        Len = aDbl.GetSize() // aMax
+        for Idx, Part in enumerate(Parts(aDbl.Data, aMax)):
+            Dbl = aDbl.New(Part)
+            Data = await aFunc(Dbl, aMax, Idx, Len)
             Res.append(Data)
         return Res
     return Decor

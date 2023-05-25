@@ -1,5 +1,19 @@
 {
     "plugin": {
+        "In_Crawl_kalina_xls": {
+            "sheet": {
+                "default": {
+                    "skip": 1,
+                    "fields": {
+                        "ean": 1,
+                        "product": 2,
+                        "category": 3,
+                        "rest": 4,
+                        "price": 6
+                    }
+                }
+            }
+        },
         "In_Crawl_ean_txt": {
             "encoding": "cp1251",
             "delimiter": "|",

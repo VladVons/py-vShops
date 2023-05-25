@@ -258,7 +258,7 @@ class TSql(TSqlBase):
             UrlD = []
             for x in Data:
                 Url = x['src_url']
-                UrlD.append([Url, Urls.get(Url, 0), x['product_id']])
+                UrlD.append([Url, None, Urls.get(Url, 0), x['product_id']])
 
             DataImg = await self._ImgUpdate(
                 {

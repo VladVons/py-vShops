@@ -211,8 +211,7 @@ COMMENT ON TABLE ref_tenant IS 'company separator';
 create table if not exists ref_product0_category (
     id                  serial primary key,
     enabled             boolean default true,
-    deleted             boolean default false,
-    parent_id           integer not null,
+    parent_id           integer references ref_product0_category(id) on delete cascade,
     image               varchar(64),
     sort_order          smallint default 0
 );
@@ -237,13 +236,15 @@ create table if not exists ref_product0 (
 
 create table if not exists ref_product0_image (
     id                  serial primary key,
+    enabled             boolean default true,
     image               varchar(64) not null,
     sort_order          smallint default 0,
     src_url             varchar(128),
     src_size            integer,
     src_date            timestamp,
     product_id          integer not null,
-    foreign key (product_id) references ref_product0(id) on delete cascade
+    foreign key (product_id) references ref_product0(id) on delete cascade,
+    unique (product_id, image)
 );
 
 create table if not exists ref_product0_lang (
@@ -280,11 +281,11 @@ create table if not exists ref_product0_crawl (
     code                varchar(32),
     product_en          product_enum not null,
     url                 varchar(256) not null,
-    status              smallint,
     update_date         timestamp,
-    info                jsonb,
+    info                json,
     crawl_site_id       integer not null,
-    foreign key (crawl_site_id) references ref_crawl_site(id)
+    foreign key (crawl_site_id) references ref_crawl_site(id),
+    unique (code, product_en)
 );
 
 -----------------------------------------------------------------------------
@@ -308,7 +309,7 @@ create table if not exists ref_module (
     caption             varchar(64) not null,
     code                varchar(32) not null,
     image               varchar(64),
-    conf                jsonb,
+    conf                json,
     tenant_id           integer not null,
     foreign key (tenant_id) references ref_tenant(id)
 );
@@ -434,11 +435,12 @@ create table if not exists ref_product_category (
     enabled             boolean default true,
     deleted             boolean default false,
     idt                 integer not null,
-    parent_idt          integer not null,
+    parent_idt          integer,
     image               varchar(64),
     sort_order          smallint default 0,
     tenant_id           integer not null,
     foreign key (tenant_id) references ref_tenant(id),
+    foreign key (parent_idt, tenant_id) references ref_product_category(idt, tenant_id) on delete cascade,
     unique (idt, tenant_id)
 );
 --? create index if not exists ref_product_category_tenant_idx on ref_product_category(tenant_id);
@@ -517,7 +519,7 @@ create table if not exists ref_product_image (
 
 create table if not exists ref_product_lang (
     title               varchar(128) not null,
-    feature             jsonb,
+    feature             json,
     descr               text,
     meta_key            varchar(128),
     product_id          integer not null,
@@ -586,7 +588,7 @@ create table if not exists ref_kind_category (
 );
 
 create table if not exists ref_kind_attr_product (
-    val                 jsonb not null,
+    val                 json not null,
     product_id          integer not null,
     attr_id             integer not null,
     foreign key (product_id) references ref_product(id) on delete cascade,
@@ -791,6 +793,37 @@ create or replace trigger ref_product_idt_tbi
     before insert on ref_product_idt
     for each row
     execute procedure ref_product_idt_fbi();
+
+---
+
+create or replace function ref_product0_category_create(aLang int, aPath text) returns integer as $$
+declare
+    ParentId int := 0;
+    CategoryId int;
+    CategoryName text;
+begin
+    foreach CategoryName in array string_to_array(aPath, '/')
+    loop
+        select rpc.id into CategoryId
+        from ref_product0_category rpc
+        left join ref_product0_category_lang rpcl on (rpc.id = rpcl.category_id)
+        where (rpc.parent_id = parentid) and (rpcl.lang_id = alang) and (rpcl.title = CategoryName);
+
+        if (CategoryId is null) then
+            insert into ref_product0_category (parent_id)
+            values (parentid)
+            returning id into CategoryId;
+
+            insert into ref_product0_category_lang (category_id, lang_id, title)
+            values (categoryid, 1, CategoryName);
+        end if;
+
+        ParentId := CategoryId;
+    end loop;
+
+    return CategoryId;
+end;
+$$ language plpgsql;
 
 ---
 

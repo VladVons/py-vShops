@@ -155,7 +155,7 @@ class TDownloadBase():
                     LastMod = Response.headers.get('Last-Modified')
                     if (LastMod):
                         Time = datetime.strptime(LastMod, '%a, %d %b %Y %H:%M:%S %Z').timestamp()
-            except Exception:
+            except Exception as E:
                 pass
         return {'url': Url, 'status': Response.status, 'size': Size, 'time': Time}
 
@@ -210,17 +210,18 @@ class TDownloadImage(TDownloadBase):
         return self.Dir
 
     async def _DoFetch(self, aUrlD, aResponse: aiohttp.ClientResponse):
-        aUrl, aSize, aImageId = aUrlD
+        aUrl, aSaveAs, aSize, aImageId = aUrlD
 
-        Dir = self._GetDir(aImageId).rstrip('/')
-        SaveAs = aUrl.rsplit('/', maxsplit=1)[-1]
-        File = f'{Dir}/{SaveAs}'
+        if (not aSaveAs):
+            aSaveAs = aUrl.rsplit('/', maxsplit=1)[-1]
+        File = self._GetDir(aImageId) + '/' + aSaveAs
 
         FileOk = os.path.isfile(File)
         if (aSize == 0 and FileOk):
             aSize = os.path.getsize(File)
 
         if (self.Download) and ((not FileOk) or (aSize != aResponse.content_length)):
+            Dir = File.rsplit('/', maxsplit=1)[0]
             os.makedirs(Dir, exist_ok=True)
             Data = await aResponse.read()
             if (self.MaxSize):

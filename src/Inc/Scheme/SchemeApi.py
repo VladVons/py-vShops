@@ -20,6 +20,19 @@ class TSchemeExt():
     def __init__(self, aParent):
         self.Parent = aParent
 
+    def list_map(self, aVal: list, aItem: list) -> list:
+        '''
+        call pipe mapper over a list
+        ['list_map', [ ["get", ["src"]]] ]
+        '''
+
+        Res = []
+        for x in aVal:
+            Data = self.Parent.ParsePipe(x, aItem, 'list_map')
+            if (Data is not None):
+                Res.append(Data)
+        return Res
+
     def url_pad(self, aVal: str) -> str:
         '''
         pad url with host prefix
@@ -102,14 +115,18 @@ class TSchemeApi():
         return len(aVal)
 
     @staticmethod
-    def list(aVal: list, aIdx: int) -> object:
+    def list(aVal: list, aIdx: int, aEnd: int = 0) -> object:
         '''
         get object from list by index
         ["list", [1]]
         '''
 
         if (aIdx < len(aVal)):
-            return aVal[aIdx]
+            if (aEnd):
+                Res = aVal[aIdx:aEnd]
+            else:
+                Res = aVal[aIdx]
+            return Res
 
     @staticmethod
     def list_sort(aVal: list, aReverse: bool = False) -> list:
@@ -392,6 +409,14 @@ class TSchemeApi():
         ["replace", ["1", "one"]]
         '''
         return aVal.replace(aFind, aRepl)
+
+    @staticmethod
+    def replace_re(aVal: str, aFind: str, aRepl: str) -> str:
+        '''
+        regEx replace string
+        ["replace_re", ["\s*,\s*", "/"]]
+        '''
+        return re.sub(aFind, aRepl, aVal)
 
     @staticmethod
     def _translate(aVal: str, aFind: str, aRepl: str, aDel: str = None) -> str:

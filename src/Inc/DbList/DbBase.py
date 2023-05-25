@@ -239,8 +239,10 @@ class TDbBase():
             self.Import(Data)
             return self
 
-    def New(self) -> 'TDbBase':
-        return self._DbExp([], [])
+    def New(self, aData: list = None) -> 'TDbBase':
+        if (not aData):
+            aData = []
+        return self._DbExp(aData, [])
 
     @property
     def RecNo(self) -> int:

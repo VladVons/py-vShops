@@ -88,4 +88,3 @@ class TDbCrawl(TDbList):
             'image',
             'descr'
         ])
-

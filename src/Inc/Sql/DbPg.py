@@ -7,6 +7,14 @@
 
 import asyncio
 import aiopg
+from psycopg2 import errors
+from psycopg2.errorcodes import (
+    UNIQUE_VIOLATION,
+    NOT_NULL_VIOLATION,
+    UNDEFINED_COLUMN,
+    FOREIGN_KEY_VIOLATION,
+    SYNTAX_ERROR
+)
 #
 from IncP.Log import Log
 from Inc.DbList import TDbSql
@@ -249,3 +257,29 @@ class TDbPg(TADb):
                 n_live_tup desc
         '''
         return await TDbExecPool(self.Pool).Exec(Query)
+
+def DTransaction(aMethod):
+    async def Decor(self, aData, *_aArgs):
+        async with self.Db.Pool.acquire() as Connect:
+            async with Connect.cursor() as Cursor:
+                Trans = await Cursor.begin()
+                try:
+                    Res = await aMethod(self, aData, Cursor)
+                except (
+                    errors.lookup(UNIQUE_VIOLATION),
+                    errors.lookup(NOT_NULL_VIOLATION),
+                    errors.lookup(UNDEFINED_COLUMN),
+                    errors.lookup(FOREIGN_KEY_VIOLATION),
+                    errors.lookup(SYNTAX_ERROR)
+                ) as E:
+                    Res = {'err': str(E).split('\n', maxsplit = 1)[0]}
+                    Log.Print(1, 'x', 'DTransaction()', aE=E, aSkipEcho=['TEchoDb'])
+
+                if (Res) and ('err' in Res):
+                    #TransStat = await Connect.get_transaction_status()
+                    #Res['trans'] = (TransStat != psycopg2.extensions.TRANSACTION_STATUS_INERROR)
+                    await Trans.rollback()
+                else:
+                    await Trans.commit()
+            return Res
+    return Decor

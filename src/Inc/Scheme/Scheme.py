@@ -11,8 +11,9 @@ import random
 import re
 import sys
 from urllib.parse import urlparse
+from bs4 import BeautifulSoup
 #
-from Inc.Util.Obj import DeepGet
+from Inc.Util.Obj import DeepGetByList
 from Inc.Misc.Python import TPython
 from Inc.Misc.Misc import FilterKey, FilterKeyErr
 from .SchemeApi import TSchemeApi, TSchemeApiExt, TSchemeExt
@@ -216,7 +217,7 @@ class TSoupScheme():
             Res = aData
         return Res
 
-    def Parse(self, aSoup, aData: dict) -> dict:
+    def Parse(self, aSoup: BeautifulSoup, aData: dict) -> dict:
         self.Clear()
         self.Var['$root'] = aSoup
         Res = self._ParseRecurs(aSoup, aData, '')
@@ -234,7 +235,7 @@ class TSchemePy():
         # pylint: disable-next=no-member
         self.Clear()
 
-    def Parse(self, aSoup):
+    def Parse(self, aSoup: BeautifulSoup):
         # pylint: disable-next=no-member
         self.Clear()
 
@@ -274,7 +275,7 @@ class TSchemeJson():
         # pylint: disable-next=no-member
         self.Clear()
 
-    def Parse(self, aSoup):
+    def Parse(self, aSoup: BeautifulSoup):
         # pylint: disable-next=no-member
         self.Clear()
         if (aSoup):
@@ -288,7 +289,7 @@ class TSchemeJson():
         return self
 
     def GetUrl(self) -> list:
-        return DeepGet(self.Scheme, 'product.info.url')
+        return DeepGetByList(self.Scheme, ['product', 'info', 'url'])
 
     def GetFields(self) -> list:
         raise NotImplementedError()
