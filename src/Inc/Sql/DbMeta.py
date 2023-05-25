@@ -5,7 +5,7 @@
 
 from Inc.Util.Obj import DeepSetByList, DeepGet
 from Inc.DbList import TDbSql
-from .ADb import TDbExecCurs
+from .ADb import TDbExecCursor
 from .DbPg import TDbPg
 
 
@@ -26,7 +26,7 @@ class TDbMeta():
             delete from {aTable}
             {Where}
         '''
-        return await TDbExecCurs(aCursor).Exec(Query)
+        return await TDbExecCursor(aCursor).Exec(Query)
 
 class TMeta():
     def __init__(self, aParent: TDbMeta):

@@ -9,7 +9,7 @@ import json
 from IncP.Log import Log
 from Inc.DbList import TDbSql
 from Inc.Loader.Query import TLoaderQueryFs
-from . import TDbMeta, TDbExecCurs, TDbExecPool, DTransaction
+from . import TDbMeta, TDbExecCursor, TDbExecPool, DTransaction
 
 
 class TDbModel():
@@ -67,7 +67,7 @@ class TDbModel():
         if (self.Master):
             DblIn.Import(aData.get(self.Master))
             Query = DblIn.GetSqlInsert(self.Master, ['id'])
-            Dbl = await TDbExecCurs(aCursor).Exec(Query)
+            Dbl = await TDbExecCursor(aCursor).Exec(Query)
             ResId = [self.Master, Dbl.Rec.id]
 
         for TableK, DataV in aData.items():
@@ -77,7 +77,7 @@ class TDbModel():
                 if (ForeignVal):
                     DblIn.AddFields(ForeignVal.keys(), ForeignVal.values())
                 Query = DblIn.GetSqlInsert(TableK)
-                await TDbExecCurs(aCursor).Exec(Query)
+                await TDbExecCursor(aCursor).Exec(Query)
         return {'id': ResId}
 
     async def _Del(self, aId: int, aCursor = None) -> dict:
@@ -135,7 +135,7 @@ class TDbModel():
                 where
                     id = {aId}
         '''
-        Dbl = await TDbExecCurs(aCursor).Exec(Query)
+        Dbl = await TDbExecCursor(aCursor).Exec(Query)
         #Dbl = await TDbExecPool(self.DbMeta.Db.Pool).Exec(Query)
         return (Dbl.Rec.count > 0)
 

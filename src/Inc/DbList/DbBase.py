@@ -172,13 +172,18 @@ class TDbBase():
         ]
         return Res
 
-    def ExportPair(self, aFieldKey: str, aFieldVal: str) -> dict:
+    def ExportPair(self, aFieldKey: str, aFieldVal: str = '') -> dict:
         '''
         Returns two binded fields as key:val
         '''
+
         KeyNo = self.GetFieldNo(aFieldKey)
-        ValNo = self.GetFieldNo(aFieldVal)
-        return {x[KeyNo]: x[ValNo] for x in self.Data}
+        if (aFieldVal in self.GetFields()):
+            ValNo = self.GetFieldNo(aFieldVal)
+            Res = {x[KeyNo]: x[ValNo] for x in self.Data}
+        else:
+            Res = {x[KeyNo]: aFieldVal for x in self.Data}
+        return Res
 
     def ExportPairs(self, aFieldKey: str, aFields: list[str]) -> dict:
         '''

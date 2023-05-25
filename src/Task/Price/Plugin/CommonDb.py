@@ -86,5 +86,6 @@ class TDbCrawl(TDbList):
             'category',
             'product',
             'image',
+            'features',
             'descr'
         ])

@@ -1,6 +1,7 @@
 # Created: 2023.02.13
 # Author: Vladimir Vons <VladVons@gmail.com>
 # License: GNU, see LICENSE for more details
+# 4823096802060 long name
 
 
 import json
@@ -86,6 +87,37 @@ class TSql(TSqlBase):
                         Res['data'] = ResParse
         await Request.Close()
         return Res
+
+    async def EanNullInfo(self):
+        Query = '''
+            select code
+            from ref_product0_crawl rpc
+            where (product_en = 'ean') and (info is null)
+        '''
+        return await TDbExecPool(self.Db.Pool).Exec(Query)
+
+    async def EanPotentialFind(self, aDbl: TDbList):
+        Dbl = await self.EanNullInfo()
+        Pairs = Dbl.ExportPair('code', 1)
+        Res = [Rec.ean for Rec in aDbl if Rec.ean in Pairs]
+        print(f'Need ean: {len(Dbl)}, records in file: {len(aDbl)}, matches: {len(Res)}')
+
+    async def EanRemoveBad(self):
+        DblCur = await self.EanNullInfo()
+
+        EanCrc = TEan()
+        Eans = []
+        for Rec in DblCur:
+            Ean = Rec.code.strip()
+            if (len(Ean) < 8) or (Ean.startswith('02')) or (not EanCrc.Init(Ean).Check()):
+                Eans.append(Ean)
+
+        Query = f'''
+            delete
+            from ref_product0_crawl
+            where (product_en = 'ean') and (code in ({ListToComma(Eans)}))
+        '''
+        DblCur = await TDbExecPool(self.Db.Pool).Exec(Query)
 
     async def Product0_Create(self, aDbl: TDbCrawl):
         async def ReportCrawl():
@@ -233,7 +265,10 @@ class TSql(TSqlBase):
             for Rec in aDbl:
                 Ean = Rec.ean
                 if (EanCrc.Init(Ean).Check()):
-                    Values.append(f"('{Ean}')")
+                    if (Ean.startswith('02')):
+                        Log.Print(1, 'i', f'EAN internal {Ean}')
+                    else:
+                        Values.append(f"('{Ean}')")
                 else:
                     Log.Print(1, 'i', f'EAN error {Ean}')
 
@@ -293,4 +328,7 @@ class TMain(TFileBase):
 
 
     async def InsertToDb(self, aDbCrawl: TDbCrawl):
-        await self.Sql.Product0_Create(aDbCrawl)
+        #await self.Sql.EanPotentialFind(aDbCrawl)
+        #await self.Sql.EanRemoveBad()
+        #await self.Sql.Product0_Create(aDbCrawl)
+        pass
