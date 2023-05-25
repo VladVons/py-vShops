@@ -3,8 +3,9 @@
 # License: GNU, see LICENSE for more details
 
 
-from Inc.Util.Str import ToFloat
 from Inc.ParserX.Parser_xls import TParser_xls
+from Inc.Ean import TEan
+from IncP.Log import Log
 from ..CommonDb import TDbCrawl
 
 
@@ -14,16 +15,23 @@ class TMain(TParser_xls):
 
 
     def _Fill(self, aRow: dict):
-        Ean = aRow.get('ean')
-        if (Ean):
-            if (',' in Ean):
-                Ean = Ean.split(',')[0]
+        aEan = aRow.get('ean')
+        if (not aEan):
+            return
 
-            Rec = self.Dbl.RecAdd()
+        if (',' in aEan):
+            aEan = aEan.split(',')[0]
 
-            Rec.SetField('ean', Ean)
+        Ean = TEan()
+        if (not Ean.Init(aEan).Check()):
+            Log.Print(1, 'i', f'EAN error {aEan}')
+            return
 
-            for x in ['category', 'product']:
-                self.Copy(x, aRow, Rec)
+        Rec = self.Dbl.RecAdd()
 
-            Rec.Flush()
+        Rec.SetField('ean', aEan)
+
+        for x in ['category', 'product']:
+            self.Copy(x, aRow, Rec)
+
+        Rec.Flush()

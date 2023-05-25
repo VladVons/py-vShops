@@ -11,6 +11,7 @@ import lxml
 #
 from Inc.DataClass import DDataClass
 from Inc.DbList  import TDbList
+from Inc.Ean import TEan
 from Inc.Misc.Request import TRequestJson, TRequestGet, TAuth
 from Inc.ParserX.Common import TFileBase
 from Inc.ParserX.CommonSql import TSqlBase, DASplitDbl, TLogEx
@@ -227,7 +228,15 @@ class TSql(TSqlBase):
         async def SProduct0(aDbl: TDbList, _aMax: int, aIdx: int = 0, aLen: int = 0) -> TDbList:
             print('SProduct0()', aIdx, aLen)
 
-            Values = [f"('{Rec.ean}')" for Rec in aDbl]
+            EanCrc = TEan()
+            Values = []
+            for Rec in aDbl:
+                Ean = Rec.ean
+                if (EanCrc.Init(Ean).Check()):
+                    Values.append(f"('{Ean}')")
+                else:
+                    Log.Print(1, 'i', f'EAN error {Ean}')
+
             Query = f'''
                 select
                     t2.code
