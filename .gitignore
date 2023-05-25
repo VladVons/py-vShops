@@ -5,6 +5,7 @@
 *.xlsx
 *.ods
 *.dat
+*.sqlite
 *.txt
 __pycache__
 cache
