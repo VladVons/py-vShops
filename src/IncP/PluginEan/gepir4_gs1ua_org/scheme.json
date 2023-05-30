@@ -1,0 +1,38 @@
+{
+  "product": {
+    "info": {
+      "author": "vladvons",
+      "date": "2023-05-28 10:00:00",
+      "url": [
+        "https://gepir4.gs1ua.org/search/gtin"
+      ]
+    },
+    "pipe": [
+      ["find", ["div", {"class": "panel-body"}]],
+      ["as_dict", {
+        "name": [
+          ["find", ["b"], {"string": "Назва:"}],
+          ["find_next_sibling", [], {"string": true}],
+          ["text"],
+          ["strip"]
+        ],
+        "descr": [
+          ["find", ["b"], {"string": "Опис:"}],
+          ["find_next_sibling", [], {"string": true}],
+          ["text"],
+          ["strip"]
+        ],
+        "features": [
+          ["as_dict", {
+            "size": [
+                ["find", ["b"], {"string": "Упаковка:"}],
+                ["find_next_sibling", [], {"string": true}],
+                ["text"],
+                ["strip"]
+            ]
+          }]
+        ]
+       }]
+    ]
+  }
+}

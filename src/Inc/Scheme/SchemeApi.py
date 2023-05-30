@@ -69,6 +69,14 @@ class TSchemeApi():
         raise TypeError('Cant instantiate static class')
 
     @staticmethod
+    def get_text(aVal: BeautifulSoup, aDelim = '\n') -> str:
+        '''
+        strip object from any tags
+        ["get_text", [": "]]
+        '''
+        return aVal.get_text(strip=True, separator=aDelim)
+
+    @staticmethod
     def _text(aVal: BeautifulSoup) -> str:
         '''
         equal to text + strip
@@ -158,6 +166,22 @@ class TSchemeApi():
         Res = aVal.split(aDelim)
         if (aIdx is not None):
             Res = Res[aIdx].strip()
+        return Res
+
+    @staticmethod
+    def split_keys(aVal: str, aDelim: list) -> dict:
+        '''
+        split string by list of delimiters and get dict Delim: Value
+        ["split_keys", [["color:", "weight:", "size:"]]]
+
+        aVal = "color: red, green white. size: big, smal, mini. weight: 1.2, 30"
+        Res = {'color': 'red, green white.', 'size': 'big, smal, mini.', 'weight': '1.2, 30'}
+        '''
+
+        RDelim = "|".join(map(re.escape, aDelim))
+        Pattern = fr'\s*({RDelim})\s*'
+        Matches = re.split(Pattern, aVal, re.IGNORECASE | re.UNICODE)[1:]
+        Res = {Matches[i]: Matches[i + 1] for i in range(0, len(Matches), 2)}
         return Res
 
     @staticmethod
@@ -319,7 +343,7 @@ class TSchemeApi():
         return float(aVal.replace(',', ''))
 
     @staticmethod
-    def _json2txt(aVal: dict) -> str:
+    def json2txt(aVal: dict) -> str:
         '''
         convert json to text
         ["json2txt"]
@@ -490,6 +514,10 @@ class TSchemeApi():
             return Res[0][-1]
 
     @staticmethod
+    def find_next_string(aVal: BeautifulSoup, aStr: str) -> object:
+        return soup.find('b', string='Назва:')
+
+    @staticmethod
     def table(aVal: BeautifulSoup) -> list:
         '''
         parse table by tr, th+td
@@ -524,7 +552,7 @@ class TSchemeApi():
         return Res
 
     @staticmethod
-    def _concat(aVal: str, aStr: str, aRight: bool =  True) -> str:
+    def concat(aVal: str, aStr: str, aRight: bool =  True) -> str:
         '''
         concatinate string to left or right side
         ["concat", ["hello", true]]
@@ -537,10 +565,10 @@ class TSchemeApi():
         return Res
 
     @staticmethod
-    def _print(aVal: object) -> object:
+    def show(aVal: object) -> object:
         '''
         show value
-        ["print"]
+        ["show"]
         '''
 
         print(aVal)

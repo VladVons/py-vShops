@@ -1,0 +1,47 @@
+{
+  "product": {
+    "info": {
+      "author": "vladvons",
+      "date": "2023-05-30 09:00:00",
+      "url": [
+        "https://via.com.ua/makarony-pasta-lenka-pero-800-h"
+      ]
+    },
+    "pipe": [
+      ["app_json", [{"@type": "Product"}]],
+      ["-show"],
+      ["as_dict", {
+        "name": [
+          ["get", ["name"]]
+        ],
+        "descr": [
+          ["get", ["description"]],
+          ["split_keys", [[":"]]]
+        ],
+        "price": [
+          ["ext_price_app", [false]]
+        ],
+        "stock": [
+          ["gets", ["offers.availability"]],
+          ["stock"]
+        ],
+        "images": [
+          ["get", ["image"]]
+        ],
+        "category": [
+          ["var_get", ["$root"]],
+          ["find", ["ul", {"class": "breadcrumb"}]],
+          ["breadcrumb", [["a"], -1]],
+          ["concat", ["_vi/", false]]
+        ],
+        "ean": [
+          ["var_get", ["$root"]],
+          ["find", ["div", {"class": "product-block"}]],
+          ["find", ["div"], {"class": "product-data__item model"}],
+          ["text"],
+          ["replace", ["Модель: ", ""]]
+        ]
+      }]
+    ]
+  }
+}

@@ -1,0 +1,89 @@
+{
+  "product": {
+    "info": {
+      "author": "vladvons",
+      "date": "2023-05-23 10:00:00",
+      "url": [
+        "https://listex.info/uk/product/maslo-podsolnechnoe-schedriy-dar-nerafinirovannoe-pet-05l-ua-4820078571419",
+        "https://listex.info/uk/product/dietichna-dobavka-hair-intensiv-ua-4305615900254"
+      ]
+    },
+    "pipe": [
+      ["find", ["section", {"class": "site-content"}]],
+      ["as_dict", {
+        "name": [
+          ["find",["h1"]],
+          ["text"],
+          ["strip"]
+        ],
+        "images": [
+          ["find", ["div", {"class": "single-product__slider-navs__list"}]],
+          ["find_all", ["img"]],
+          ["list_map", [ ["get", ["src"]]] ],
+          ["list_map", [ ["replace", ["300x200", "med"]]] ]
+        ],
+        "image-small": [
+          ["find", ["img", {"class": "productSinglePhoto"}]],
+          ["get", ["src"]],
+          ["var_set", ["$ImageSmall"]]
+        ],
+        "image": [
+          ["var_get", ["$ImageSmall"]],
+          ["replace", ["300x200", "med"]]
+        ],
+        "category": [
+          ["var_get", ["$root"]],
+          ["find", ["ol", {"class": "breadcrumb"}]],
+          ["breadcrumb", [["li"], -2]],
+          ["lower"],
+          ["replace", ["головна/", ""]],
+          ["replace_re", ["\\s*,\\s*", "/"]]
+        ],
+        "descr": [
+        ],
+        "features": [
+          ["find",["div",{"class":"product-info-tab"}]],
+          ["find",["div",{"class":"col-lg-9"}]],
+          ["as_dict", {
+            "size": [
+              ["find_parent", ["Вагогабаритні характеристики", 3]],
+              ["find",["table",{"class":"table"}]],
+              ["table"],
+              ["-list", [1, 5]]
+            ],
+            "name": [
+              ["find_parent", ["Назва товару", 3]],
+              ["find",["table",{"class":"table"}]],
+              ["table"]
+            ],
+            "misc": [
+              ["find_parent", ["Інше", 3]],
+              ["find",["table",{"class":"table"}]],
+              ["table"]
+            ],
+            "nutrition": [
+              ["find_parent", ["Поживні характеристики", 3]],
+              ["find",["table",{"class":"table"}]],
+              ["table"]
+            ],
+            "main": [
+              ["find_parent", ["Основні", 3]],
+              ["find",["table",{"class":"table"}]],
+              ["table"]
+            ],
+            "ingredients": [
+              ["find_parent", ["Склад товару", 3]],
+              ["find",["table",{"class":"table"}]],
+              ["table"]
+            ],
+            "retention": [
+              ["find_parent", ["Умови зберігання", 3]],
+              ["find",["table",{"class":"table"}]],
+              ["table"]
+            ]
+          }]
+        ]
+      }]
+    ]
+  }
+}

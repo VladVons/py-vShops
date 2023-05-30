@@ -119,7 +119,6 @@ class TSoupScheme():
             Param = [aObj]
             if (len(aItem) == 2):
                 Param += aItem[1]
-
             try:
                 aObj = Obj(*Param)
             except Exception as E:
@@ -150,9 +149,16 @@ class TSoupScheme():
 
             aObj = getattr(aObj, Name, None)
             if (aObj):
-                if (len(aItem) == 2):
+                ParamCnt = len(aItem)
+                if (ParamCnt >= 2):
                     try:
-                        aObj = aObj(*aItem[1])
+                        if (ParamCnt == 2):
+                            aObj = aObj(*aItem[1])
+                        elif (ParamCnt == 3):
+                            if (aItem[1]):
+                                aObj = aObj(*aItem[1], **aItem[2])
+                            else:
+                                aObj = aObj(**aItem[2])
                     except Exception as E:
                         self.Err.append('%s->%s %s (exception)' % (aPath, aItem, E))
                         return

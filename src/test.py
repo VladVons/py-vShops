@@ -1,33 +1,36 @@
-import re
-import barcodenumber
-from Inc.Ean import TEan
+import asyncio
+import requests
+from IncP.PluginEan import TPluginEan
+
+
+def WriteFile(aName: str, aData):
+    with open(aName, 'wb') as F:
+        F.write(aData)
 
 
 def Test_01():
-    #p1 = r'[\W_]'
-    #p1 = r'[^\w\s]'
-    #p1 = r'[^a-zA-Z0-9\s]'
-    #p1 = r'''[!_"'`]\s+'''
+    url = "https://barcodes1.p.rapidapi.com/"
+    querystring = {"query": "5099206092723"}
+    headers = {
+        "X-RapidAPI-Key": "9d4fed06e8msh1bba3309889ce47p1cf00bjsn6d36087ed9d5",
+        "X-RapidAPI-Host": "barcodes1.p.rapidapi.com"
+    }
 
-    s1 = 'This      1   i7-1200/8GB/  / hdd 500////     _(2)" ` text [3]'
-    print(s1)
-    s1 = re.sub(r'[\s/]+', ' ', s1)
-    s1 = re.sub(r'[^a-zA-Z0-9\s]', '', s1)
-    s1 = s1.lower()
-    print(s1)
+    response = requests.get(url, headers=headers, params=querystring)
 
-def Test_02():
-    Code = '48209621'
-    Code = '48210721'
-    Code = '5413149333529'
-
-    #q1 = barcodenumber.check_code('ean8', Code)
-    #print(q1)
-
-    Ean = TEan(Code)
-    q1 = Ean.Check()
-    print(q1)
+    print(response.json())
 
 
-#Test_01()
-Test_02()
+async def Test_02():
+    #PData = {'plugin': 'gepir4_gs1ua_org', 'ean': '4820182065705'}
+    #PData = {'plugin': 'rozetka_com_ua', 'ean': '5000299618240'}
+    #PData = {'plugin': 'listex_info', 'ean': '4823003207513'}
+    #PData = {'plugin': 'himopt_com_ua', 'ean': '5903719640855'}
+    PData = {'plugin': 'via_com_ua', 'ean': '5900657217927'}
+
+    PluginEan = TPluginEan('IncP/PluginEan')
+    PluginEan.Load(PData['plugin'])
+    Data = await PluginEan.GetData(PData['ean'])
+    print(Data)
+
+asyncio.run(Test_02())

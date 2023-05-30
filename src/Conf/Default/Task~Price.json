@@ -61,16 +61,16 @@
         },
         "Out_vShopCrawl_db": {
             "sql": {
-                "parts": 20,
+                "parts": 10,
                 "lang_id": 1,
-                "max_conn": 3,
-                "scheme_url": "https://listex.info"
+                "max_conn": 1,
+                "parser": "rozetka_com_ua"
             },
             "auth": "{% file Conf/Default/Task.SrvModel.Api.json:db_auth %}",
             "depends": [
-                "-In_Crawl_ean_txt",
+                "In_Crawl_ean_txt",
                 "-In_Crawl_kalina_xls",
-                "In_Crawl_fozzy_sqlite"
+                "-In_Crawl_fozzy_sqlite"
             ],
             "img_loader": "{% file Conf/Default/Task.SrvCtrl.Api.json:loader.img %}",
             "img_conf": "{% file Conf/Default/Task.SrvImg.Api.json %}"

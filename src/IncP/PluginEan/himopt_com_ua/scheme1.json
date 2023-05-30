@@ -1,0 +1,30 @@
+{
+  "product": {
+    "info": {
+      "author": "vladvons",
+      "date": "2023-05-30 10:00:00",
+      "url": [
+        "https://himopt.com.ua/ua/search?search=5903719640855"
+      ]
+    },
+    "pipe": [
+      ["find", ["div", {"class": "sort-result"}]],
+      ["find", ["div", {"class": "product-item"}]],
+      ["-show"],
+      ["as_dict", {
+        "name": [
+          ["find",["span",{"class":"slideNameBlock"}]],
+          ["text"],
+          ["strip"]
+        ],
+        "image": [
+          ["ext_image"]
+        ],
+        "url": [
+          ["find",["a"]],
+          ["get",["href"]]
+        ]
+      }]
+    ]
+  }
+}

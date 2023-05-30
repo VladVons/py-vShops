@@ -1,0 +1,39 @@
+{
+  "product": {
+    "info": {
+      "author": "vladvons",
+      "date": "2023-01-01 10:00:00",
+      "pattern": "https://listex.info/uk/search/?&type=goods&q=%s",
+      "url": [
+        "https://listex.info/uk/search/?&type=goods&q=4823003207513"
+      ]
+    },
+    "pipe": [
+      [
+        "find", ["div", {"class": "catalog__grid-view"}]
+      ],
+      ["as_dict", {
+        "name": [
+          ["find",["div",{"class":"products-slider__item__name"}]],
+          ["text"],
+          ["strip"]
+        ],
+        "image-small": [
+          ["find",["img",{"class": "products-slider__item__image"}]],
+          ["get", ["src"]],
+          ["var_set", ["$ImageSmall"]]
+        ],
+        "image": [
+          ["var_get", ["$ImageSmall"]],
+          ["replace", ["300x200", "med"]]
+        ],
+        "url": [
+          ["find",["div",{"class": "products-slider__item__name"}]],
+          ["find",["a"]],
+          ["get",["href"]],
+          ["url_pad"]
+        ]
+      }]
+    ]
+  }
+}

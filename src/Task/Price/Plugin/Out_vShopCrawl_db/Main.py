@@ -2,6 +2,7 @@
 # Author: Vladimir Vons <VladVons@gmail.com>
 # License: GNU, see LICENSE for more details
 # 4823096802060 long name
+# '3086126726984'
 
 
 import json
@@ -13,13 +14,13 @@ import lxml
 from Inc.DataClass import DDataClass
 from Inc.DbList  import TDbList
 from Inc.Ean import TEan
-from Inc.Misc.Request import TRequestJson, TRequestGet, TAuth
+from Inc.Misc.Request import TRequestJson, TAuth
 from Inc.ParserX.Common import TFileBase
 from Inc.ParserX.CommonSql import TSqlBase, DASplitDbl, TLogEx
-from Inc.Scheme.Scheme import TSoupScheme
 from Inc.Sql import TDbExecPool, TDbPg, ListToComma
 from Inc.Util.Obj import DeepGetByList
 from IncP.Log import Log
+from IncP.PluginEan import TPluginEan, TParserBase
 from ..CommonDb import TDbCrawl
 
 
@@ -33,7 +34,7 @@ def GetSoup(aData: str) -> BeautifulSoup:
 @DDataClass
 class TSqlConf():
     LangId: int
-    SchemeUrl: str
+    Parser: str
     MaxDays: int = 30
     Parts: int = 100
     MaxConn: int = 1
@@ -47,46 +48,22 @@ class TSql(TSqlBase):
         self.Conf = aSqlConf
         self.ImgApi = aImgApi
         self.ConfCrawl: TDbList
-        self.Parser = None
+        self.Parser: TParserBase = None
 
-    async def GetConfCrawl(self) -> TDbList:
+    async def GetConfCrawl(self, aHost: str) -> TDbList:
         Query = f'''
             select
                 id, scheme, max_days
             from
                 ref_crawl_site rcs
             where
-                (enabled) and (url = '{self.Conf.SchemeUrl}')
+                (enabled) and (url = '{aHost}')
         '''
         return await TDbExecPool(self.Db.Pool).Exec(Query)
 
     async def _ImgUpdate(self, aData):
         Url = f'{self.ImgApi.Url}/system'
         return await self.ImgApi.Send(Url, aData)
-
-    async def _Parse_ListexInfo(self, aEan: str) -> dict:
-        Scheme = self.ConfCrawl.Rec.scheme
-        Pattern = DeepGetByList(Scheme[0], ['product', 'info', 'pattern'])
-
-        Res = {'url': Pattern % (aEan)}
-        Request = TRequestGet()
-        Data = await Request.Send(Res['url'])
-        if ('err' not in Data):
-            Soup = GetSoup(Data['data'])
-            SoupScheme = TSoupScheme()
-            ResParse = SoupScheme.Parse(Soup, Scheme[0])
-            if (not SoupScheme.Err):
-                Url = DeepGetByList(ResParse, ['product', 'pipe', 'product'])
-                Data = await Request.Send(Url)
-                if ('err' not in Data):
-                    Soup = GetSoup(Data['data'])
-                    SoupScheme = TSoupScheme()
-                    ResParse = SoupScheme.Parse(Soup, Scheme[1])
-                    Images = DeepGetByList(ResParse, ['product', 'pipe', 'images'])
-                    if (Images):
-                        Res['data'] = ResParse
-        await Request.Close()
-        return Res
 
     async def EanNullInfo(self):
         Query = '''
@@ -132,16 +109,18 @@ class TSql(TSqlBase):
             DblCur = await TDbExecPool(self.Db.Pool).Exec(Query)
             Log.Print(1, 'i', f'ReportCrawl(), {DblCur.Rec.GetAsDict()}')
 
-        async def UpdateCrawl(aEan: str, aUrl: str, aInfo: dict):
+        async def UpdateCrawl(aEan: str, aInfo: dict):
             if (aInfo):
+                Url = aInfo.get('url', '')
                 Info = "'" + json.dumps(aInfo, ensure_ascii=False).replace("'", '`') + "'"
             else:
+                Url = 'null'
                 Info = 'null'
 
             Query = f'''
                 insert into ref_product0_crawl (code, product_en, url, update_date, info, crawl_site_id)
-                values ('{aEan}', 'ean', '{aUrl}', now(), {Info}, {self.ConfCrawl.Rec.id})
-                on conflict (code, product_en) do update
+                values ('{aEan}', 'ean', '{Url}', now(), {Info}, {self.ConfCrawl.Rec.id})
+                on conflict (code, product_en, crawl_site_id) do update
                 set update_date = now(), info = {Info}
             '''
             await TDbExecPool(self.Db.Pool).Exec(Query)
@@ -185,8 +164,10 @@ class TSql(TSqlBase):
             return Res
 
         async def UpdateProduct(aEan: str, aInfo: dict, aImgValues: list):
-            Features = json.dumps(aInfo['features'], ensure_ascii=False).replace("'", '`')
             Name = aInfo['name'].replace("'", '`')
+            Descr = aInfo['descr'].replace("'", '`')
+            Category = aInfo.get('category', '???').replace("'", '`')
+            Features = json.dumps(aInfo['features'], ensure_ascii=False).replace("'", '`')
 
             Query = f'''
                 with
@@ -205,12 +186,13 @@ class TSql(TSqlBase):
                         on conflict (code, product_en) do nothing
                     ),
                     wrpl as (
-                        insert into ref_product0_lang (product_id, lang_id, title, features)
+                        insert into ref_product0_lang (product_id, lang_id, title, features, descr)
                         select
                             wrp.id,
                             {self.Conf.LangId},
                             '{Name}',
-                            '{Features}'
+                            '{Features}',
+                            '{Descr}'
                         from wrp
                     ),
                     wrpi_1 as (
@@ -236,7 +218,7 @@ class TSql(TSqlBase):
                         insert into ref_product0_to_category (product_id, category_id)
                         select
                             wrp.id,
-                            (select ref_product0_category_create({self.Conf.LangId}, '{aInfo.get('category')}'))
+                            (select ref_product0_category_create({self.Conf.LangId}, '{Category}'))
                         from wrp
                     )
                 select id
@@ -246,15 +228,14 @@ class TSql(TSqlBase):
 
         async def FetchSem(aEan: str, aSem: asyncio.Semaphore):
             async with aSem:
-                Parser = await self.Parser(aEan)
-                Info = DeepGetByList(Parser, ['data', 'product', 'pipe'])
-                await UpdateCrawl(aEan, Parser['url'], Info)
+                Info = await self.Parser.GetData(aEan)
+                await UpdateCrawl(aEan, Info)
                 if (Info):
                     ImgValues = await UpdateImage(aEan, Info)
                     if (ImgValues):
                         await UpdateProduct(aEan, Info, ImgValues)
                 else:
-                    Log.Print(1, 'i', f"FetchSem(), ean {aEan} not found at {Parser['url']}")
+                    Log.Print(1, 'i', f"FetchSem(), ean {aEan} not found at {self.Parser.UrlRoot}")
 
         @DASplitDbl
         async def SProduct0(aDbl: TDbList, _aMax: int, aIdx: int = 0, aLen: int = 0) -> TDbList:
@@ -273,19 +254,34 @@ class TSql(TSqlBase):
                     Log.Print(1, 'i', f'EAN error {Ean}')
 
             Query = f'''
-                select
-                    t2.code
-                from (
-                    values {', '.join(Values)}
-                ) as t2 (code)
-                left join ref_product0_barcode rpb on
-                    (t2.code = rpb.code) and (rpb.product_en = 'ean')
+                with
+                    wt1	as (
+                        select
+                            t2.code
+                        from (
+                            values {', '.join(Values)}
+                        ) as t2 (code)
+                        left join ref_product0_barcode rpb on
+                            (t2.code = rpb.code) and (rpb.product_en = 'ean')
+                        where
+                            (rpb.code is null)
+                )
+                select wt1.code
+                from wt1
                 left join ref_product0_crawl rpc on
-                    (t2.code = rpc.code) and (rpc.product_en = 'ean')
+                    (wt1.code = rpc.code) and (rpc.product_en = 'ean') and (rpc.crawl_site_id = {self.ConfCrawl.Rec.id})
                 where
-                    (rpc.code is null) or
-                    ((rpb.code is null) and (rpc.info is null) and (DATE_PART('day', now() - rpc.update_date) > {self.Conf.MaxDays}))
+                    (
+                        (rpc.info is null) and
+                        (DATE_PART('day', now() - rpc.update_date) > {self.Conf.MaxDays}) and
+                        (rpc.url like '{self.Parser.UrlRoot}%')
+                    )
+                    or
+                    (
+                        (rpc.code is null)
+                    )
             '''
+            #print(Query)
             DblCur = await TDbExecPool(self.Db.Pool).Exec(Query)
 
             if (not DblCur.IsEmpty()):
@@ -293,11 +289,9 @@ class TSql(TSqlBase):
                 Tasks = [asyncio.create_task(FetchSem(Rec.code, Sem)) for Rec in DblCur]
                 await asyncio.gather(*Tasks)
 
-        self.ConfCrawl = await self.GetConfCrawl()
-        Parsers = {'https://listex.info': self._Parse_ListexInfo}
-        self.Parser = Parsers.get(self.Conf.SchemeUrl)
-        assert(self.Parser), f'Unknown parser for {self.Conf.SchemeUrl}'
-
+        PluginEan = TPluginEan('IncP/PluginEan')
+        self.Parser = PluginEan.Load(self.Conf.Parser)
+        self.ConfCrawl = await self.GetConfCrawl(self.Parser.UrlRoot)
         await ReportCrawl()
 
         Log.Print(1, 'i', 'Product0')
@@ -315,7 +309,7 @@ class TMain(TFileBase):
         SqlDef = self.Parent.Conf.GetKey('sql', {})
         SqlConf = TSqlConf(
             LangId = SqlDef.get('lang_id'),
-            SchemeUrl = SqlDef.get('scheme_url'),
+            Parser = SqlDef.get('parser'),
             Parts = SqlDef.get('parts', 50),
             MaxConn = SqlDef.get('max_conn', 1)
         )
@@ -330,5 +324,5 @@ class TMain(TFileBase):
     async def InsertToDb(self, aDbCrawl: TDbCrawl):
         #await self.Sql.EanPotentialFind(aDbCrawl)
         #await self.Sql.EanRemoveBad()
-        #await self.Sql.Product0_Create(aDbCrawl)
+        await self.Sql.Product0_Create(aDbCrawl)
         pass

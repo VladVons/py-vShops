@@ -280,12 +280,12 @@ create table if not exists ref_product0_crawl (
     id                  serial primary key,
     code                varchar(32),
     product_en          product_enum not null,
-    url                 varchar(256) not null,
+    url                 varchar(256),
     update_date         timestamp,
     info                json,
     crawl_site_id       integer not null,
     foreign key (crawl_site_id) references ref_crawl_site(id),
-    unique (code, product_en)
+    unique (code, product_en, crawl_site_id)
 );
 
 -----------------------------------------------------------------------------
@@ -684,8 +684,8 @@ create table if not exists doc_sale_table_product (
 
 --
 
-create or replace function ref_product_price_faiu()
-returns trigger as $$
+create or replace function ref_product_price_faiu() returns trigger
+as $$
 begin
     if (old.price is null) or (old.price != new.price) or (old.qty != new.qty) then
         insert into hist_ref_product_price (price_id, price, qty)
@@ -704,8 +704,8 @@ create or replace trigger ref_product_price_taiu
 
 --
 
-create or replace function ref_product_category_fbi()
-returns trigger as $$
+create or replace function ref_product_category_fbi() returns trigger
+as $$
 begin
     if (new.idt is null) then
         select
@@ -727,8 +727,8 @@ create or replace trigger ref_product_category_tbi
 
 --
 
-create or replace function ref_product_fbi()
-returns trigger as $$
+create or replace function ref_product_fbi() returns trigger
+as $$
 begin
     if (new.idt is null) then
         select
@@ -750,8 +750,8 @@ create or replace trigger ref_product_tbi
 
 --
 
-create or replace function ref_price_fbi()
-returns trigger as $$
+create or replace function ref_price_fbi() returns trigger
+as $$
 begin
     if (new.idt is null) then
         select
@@ -773,8 +773,8 @@ create or replace trigger ref_price_tbi
 
 ---
 
-create or replace function ref_product_idt_fbi()
-returns trigger as $$
+create or replace function ref_product_idt_fbi() returns trigger
+as $$
 begin
     if (new.idt is null) then
         select
@@ -796,7 +796,8 @@ create or replace trigger ref_product_idt_tbi
 
 ---
 
-create or replace function ref_product0_category_create(aLang int, aPath text) returns integer as $$
+create or replace function ref_product0_category_create(aLang int, aPath text) returns integer
+as $$
 declare
     ParentId int := 0;
     CategoryId int;
