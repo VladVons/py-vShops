@@ -1,6 +1,10 @@
 # Created: 2023.05.28
 # Author: Vladimir Vons <VladVons@gmail.com>
 # License: GNU, see LICENSE for more details
+#
+#PluginEan = TPluginEan('IncP/PluginEan')
+#PluginEan.Load('listex_info')
+#Data = await PluginEan.GetData('4823003207513')
 
 
 import os
@@ -13,11 +17,22 @@ from Inc.Util.Obj import DeepGetByList
 
 
 class TParserBase():
+    UrlRoot = ''
+    EanAllow = '.*'
+
     async def _GetData(self, aEan: str) -> dict:
         raise NotImplementedError()
 
     async def _Init(self):
         pass
+
+    @staticmethod
+    def _WriteFile(aFile: str, aData, aMod = 'w'):
+        if (isinstance(aData, dict)):
+            aData = json.dumps(aData, indent=2, ensure_ascii=False)
+
+        with open(aFile, aMod) as F:
+            F.write(aData)
 
     def ParseScheme(self, aData: str, aFile: str = 'scheme.json') -> dict:
         Res = {}

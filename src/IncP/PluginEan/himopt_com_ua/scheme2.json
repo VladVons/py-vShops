@@ -29,13 +29,13 @@
         ],
         "images": [
           ["get", ["image"]],
-          ["-list_map", [ ["replace", ["base_action", "original"]]] ]
+          ["replace", ["base_action", "original"]]
         ],
         "category": [
           ["var_get", ["$root"]],
           ["find", ["div", {"class": "breadcrumbs"}]],
           ["breadcrumb", [["a"], -1]],
-          ["replace", ["Головна/", ""]]
+          ["replace", ["Головна/", "_hi/"]]
         ],
         "ean": [
           ["var_get", ["$root"]],
@@ -43,6 +43,8 @@
           ["find", ["td"], {"string": "Штрихкод:"}],
           ["find_next_sibling", [], {"string": false}],
           ["text"]
+        ],
+        "features": [
         ]
       }]
     ]

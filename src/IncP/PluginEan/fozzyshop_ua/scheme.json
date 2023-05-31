@@ -1,0 +1,54 @@
+{
+  "product": {
+    "info": {
+      "author": "vladvons",
+      "date": "2022-12-31 19:00:00",
+      "url": [
+        "https://fozzyshop.ua/kofe-molotyj/12619-kofe-molotyj-tchibo-exclusive-4006067888250.html"
+      ]
+    },
+    "pipe": [
+      ["find", ["section", {"itemtype": "https://schema.org/Product"}]],
+      ["as_dict", {
+        "name": [
+          ["find",["h1",{"itemprop":"name"}]],
+          ["text"]
+        ],
+        "descr": [
+          ["find",["section",{"class":"product-description-section"}]],
+          ["find",["div",{"class":"product-description"}]],
+          ["text"]
+        ],
+        "ean": [
+          ["find",["div",{"class":"product-information-block"}]],
+          ["find_all",["section",{"class":"product-features"}]],
+          ["list", [0]],
+          ["find",["dd",{"class":"value"}]],
+          ["text"],
+          ["dig"]
+        ],
+        "images": [
+          ["find",["div",{"class":"easyzoom"}]],
+          ["find",["a"]],
+          ["get", ["href"]]
+        ],
+        "category": [
+          ["var_get", ["$root"]],
+          ["find", ["ol", {"itemtype": "https://schema.org/BreadcrumbList"}]],
+          ["breadcrumb", [["li"], -2]],
+          ["replace", ["На Головну/", "_fo/"]]
+        ],
+        "features": [
+            ["as_dict", {
+                "main": [
+                    ["find",["div",{"class":"product-information-block"}]],
+                    ["find_all",["section",{"class":"product-features"}]],
+                    ["list", [1]],
+                    ["table_tag", [["dt", "dd"]]]
+                ]
+            }]
+        ]
+      }]
+    ]
+  }
+}

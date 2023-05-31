@@ -1,3 +1,4 @@
+import re
 import aiohttp
 from bs4 import BeautifulSoup
 #
@@ -6,6 +7,7 @@ from .. import TParserBase
 
 class TParser(TParserBase):
     UrlRoot = 'https://gepir4.gs1ua.org'
+    EanAllow = r'^(48)\d{11}$'
 
     def __init__(self):
         self.Url = f'{self.UrlRoot}/search/gtin'

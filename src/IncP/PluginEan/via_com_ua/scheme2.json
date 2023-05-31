@@ -4,7 +4,7 @@
       "author": "vladvons",
       "date": "2023-05-30 09:00:00",
       "url": [
-        "https://via.com.ua/makarony-pasta-lenka-pero-800-h"
+        "https://via.com.ua/zasib-dlia-unitazu-tytan-khvoia-700-ml"
       ]
     },
     "pipe": [
@@ -15,8 +15,7 @@
           ["get", ["name"]]
         ],
         "descr": [
-          ["get", ["description"]],
-          ["split_keys", [[":"]]]
+          ["get", ["description"]]
         ],
         "price": [
           ["ext_price_app", [false]]
@@ -40,6 +39,17 @@
           ["find", ["div"], {"class": "product-data__item model"}],
           ["text"],
           ["replace", ["Модель: ", ""]]
+        ],
+        "features": [
+            ["as_dict", {
+                "main": [
+                    ["var_get", ["$root"]],
+                    ["find", ["div", {"class": "tab-content"}]],
+                    ["find", ["div", {"class": "product-data"}]],
+                    ["find_all", ["div", {"class": "product-data__item"}]],
+                    ["list_map", [ ["get_text", [": "]] ]]
+                ]
+            }]
         ]
       }]
     ]

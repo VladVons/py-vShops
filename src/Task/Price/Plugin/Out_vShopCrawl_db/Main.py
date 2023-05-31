@@ -5,11 +5,13 @@
 # '3086126726984'
 
 
+import re
 import json
 import asyncio
 import hashlib
-from bs4 import BeautifulSoup
+import webbrowser
 import lxml
+from bs4 import BeautifulSoup
 #
 from Inc.DataClass import DDataClass
 from Inc.DbList  import TDbList
@@ -18,7 +20,7 @@ from Inc.Misc.Request import TRequestJson, TAuth
 from Inc.ParserX.Common import TFileBase
 from Inc.ParserX.CommonSql import TSqlBase, DASplitDbl, TLogEx
 from Inc.Sql import TDbExecPool, TDbPg, ListToComma
-from Inc.Util.Obj import DeepGetByList
+from Inc.Util.Obj import DeepGetByList, GetNotNone
 from IncP.Log import Log
 from IncP.PluginEan import TPluginEan, TParserBase
 from ..CommonDb import TDbCrawl
@@ -38,7 +40,7 @@ class TSqlConf():
     MaxDays: int = 30
     Parts: int = 100
     MaxConn: int = 1
-
+    CheckImage: bool = False
 
 class TSql(TSqlBase):
     def __init__(self, aDb: TDbPg, aSqlConf: TSqlConf, aImgApi: TRequestJson):
@@ -98,20 +100,27 @@ class TSql(TSqlBase):
 
     async def Product0_Create(self, aDbl: TDbCrawl):
         async def ReportCrawl():
+            # Query = '''
+            #     select
+            #         count(*) as ean_all,
+            #         count(info) as ean_yes,
+            #         count(case when info is null then 1 end) as ean_no
+            #     from
+            #         ref_product0_crawl rpc
+            # '''
             Query = '''
                 select
-                    count(*) as ean_all,
-                    count(info) as ean_yes,
-                    count(case when info is null then 1 end) as ean_no
-                from
-                    ref_product0_crawl rpc
+                    (select count(distinct code) from ref_product0_crawl) as ean_all,
+                    (select count(distinct code) from ref_product0_crawl where (info is not null)) as ean_yes,
+                    (select count(distinct code) from ref_product0_crawl where (info is null)) as ean_no
             '''
+
             DblCur = await TDbExecPool(self.Db.Pool).Exec(Query)
             Log.Print(1, 'i', f'ReportCrawl(), {DblCur.Rec.GetAsDict()}')
 
         async def UpdateCrawl(aEan: str, aInfo: dict):
             if (aInfo):
-                Url = aInfo.get('url', '')
+                Url = "'" + aInfo.get('url', '') + "'"
                 Info = "'" + json.dumps(aInfo, ensure_ascii=False).replace("'", '`') + "'"
             else:
                 Url = 'null'
@@ -119,7 +128,7 @@ class TSql(TSqlBase):
 
             Query = f'''
                 insert into ref_product0_crawl (code, product_en, url, update_date, info, crawl_site_id)
-                values ('{aEan}', 'ean', '{Url}', now(), {Info}, {self.ConfCrawl.Rec.id})
+                values ('{aEan}', 'ean', {Url}, now(), {Info}, {self.ConfCrawl.Rec.id})
                 on conflict (code, product_en, crawl_site_id) do update
                 set update_date = now(), info = {Info}
             '''
@@ -127,6 +136,8 @@ class TSql(TSqlBase):
 
         async def UpdateImage(aEan: str, aInfo: dict) -> list:
             Images = aInfo.get('images', [])
+            if (isinstance(Images, str)):
+                Images = [Images]
 
             Query = f'''
                 select src_url, src_size
@@ -142,7 +153,18 @@ class TSql(TSqlBase):
                 Hash = hashlib.md5(aEan.encode('utf-8')).hexdigest()[8::3]
                 Dir = '/'.join(Hash[:2])
                 Name = f'{Dir}/{Hash}_{aEan}_{Idx}.{Ext}'
+
+                if (self.Conf.CheckImage):
+                    webbrowser.open(x, new=0, autoraise=False)
+                    BaseName = x.rsplit('/', maxsplit=1)[-1]
+                    Answer = input(f'Add image {BaseName} y/n ?:')
+                    if (Answer != 'y'):
+                        continue
+
                 UrlD.append([x, Name, UrlSize.get(x, 0), aEan])
+
+            if (not UrlD):
+                return []
 
             DataImg = await self._ImgUpdate({
                     'method': 'UploadUrls',
@@ -164,10 +186,10 @@ class TSql(TSqlBase):
             return Res
 
         async def UpdateProduct(aEan: str, aInfo: dict, aImgValues: list):
-            Name = aInfo['name'].replace("'", '`')
-            Descr = aInfo['descr'].replace("'", '`')
+            Name = aInfo.get('name', '').replace("'", '`')
+            Descr = GetNotNone(aInfo, 'descr', '').replace("'", '`')
             Category = aInfo.get('category', '???').replace("'", '`')
-            Features = json.dumps(aInfo['features'], ensure_ascii=False).replace("'", '`')
+            Features = json.dumps(aInfo.get('features', {}), ensure_ascii=False).replace("'", '`')
 
             Query = f'''
                 with
@@ -241,17 +263,17 @@ class TSql(TSqlBase):
         async def SProduct0(aDbl: TDbList, _aMax: int, aIdx: int = 0, aLen: int = 0) -> TDbList:
             print('SProduct0()', aIdx, aLen)
 
-            EanCrc = TEan()
             Values = []
             for Rec in aDbl:
                 Ean = Rec.ean
-                if (EanCrc.Init(Ean).Check()):
-                    if (Ean.startswith('02')):
-                        Log.Print(1, 'i', f'EAN internal {Ean}')
-                    else:
-                        Values.append(f"('{Ean}')")
-                else:
+                if (Ean.startswith('02')):
+                    Log.Print(1, 'i', f'EAN internal {Ean}')
+                elif (not re.match(self.Parser.EanAllow, Ean)):
+                    Log.Print(1, 'i', f'EAN filter {Ean}')
+                elif (not TEan(Ean).Check()):
                     Log.Print(1, 'i', f'EAN error {Ean}')
+                else:
+                    Values.append(f"('{Ean}')")
 
             Query = f'''
                 with
@@ -292,6 +314,8 @@ class TSql(TSqlBase):
         PluginEan = TPluginEan('IncP/PluginEan')
         self.Parser = PluginEan.Load(self.Conf.Parser)
         self.ConfCrawl = await self.GetConfCrawl(self.Parser.UrlRoot)
+        assert(not self.ConfCrawl.IsEmpty()), f'No DB config for {self.Parser.UrlRoot}'
+
         await ReportCrawl()
 
         Log.Print(1, 'i', 'Product0')
@@ -311,7 +335,8 @@ class TMain(TFileBase):
             LangId = SqlDef.get('lang_id'),
             Parser = SqlDef.get('parser'),
             Parts = SqlDef.get('parts', 50),
-            MaxConn = SqlDef.get('max_conn', 1)
+            MaxConn = SqlDef.get('max_conn', 1),
+            CheckImage = SqlDef.get('check_image', False)
         )
 
         ConfImg = self.Parent.Conf.GetKey('img_loader')
@@ -325,4 +350,3 @@ class TMain(TFileBase):
         #await self.Sql.EanPotentialFind(aDbCrawl)
         #await self.Sql.EanRemoveBad()
         await self.Sql.Product0_Create(aDbCrawl)
-        pass

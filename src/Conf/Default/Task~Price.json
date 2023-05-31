@@ -61,10 +61,11 @@
         },
         "Out_vShopCrawl_db": {
             "sql": {
-                "parts": 10,
+                "parts": 20,
                 "lang_id": 1,
-                "max_conn": 1,
-                "parser": "rozetka_com_ua"
+                "max_conn": 3,
+                "parser": "fozzyshop_ua",
+                "check_image": true
             },
             "auth": "{% file Conf/Default/Task.SrvModel.Api.json:db_auth %}",
             "depends": [

@@ -239,7 +239,7 @@ create table if not exists ref_product0_image (
     enabled             boolean default true,
     image               varchar(64) not null,
     sort_order          smallint default 0,
-    src_url             varchar(128),
+    src_url             varchar(256),
     src_size            integer,
     src_date            timestamp,
     product_id          integer not null,
