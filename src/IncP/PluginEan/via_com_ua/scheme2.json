@@ -31,6 +31,7 @@
           ["var_get", ["$root"]],
           ["find", ["ul", {"class": "breadcrumb"}]],
           ["breadcrumb", [["a"], -1]],
+          ["lower"],
           ["concat", ["_vi/", false]]
         ],
         "ean": [

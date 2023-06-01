@@ -63,9 +63,9 @@
             "sql": {
                 "parts": 20,
                 "lang_id": 1,
-                "max_conn": 3,
-                "parser": "fozzyshop_ua",
-                "check_image": true
+                "max_conn": 1,
+                "parser": "kaluna_te_ua",
+                "-check_image": true
             },
             "auth": "{% file Conf/Default/Task.SrvModel.Api.json:db_auth %}",
             "depends": [

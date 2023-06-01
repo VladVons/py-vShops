@@ -1,0 +1,40 @@
+{
+  "product": {
+    "info": {
+      "author": "vladvons",
+      "date": "2023-01-01 10:00:00",
+      "url": [
+        "https://kaluna.te.ua/catalog/bakaliia-2138/konservatsiia-pripravi-ta-spetsiyi-2141/konservovani-ovochi-ta-gribi-2204/ogirki-marinovani-marinado-720g-s-b/"
+      ]
+    },
+    "pipe": [
+      ["find", ["div", {"class": "page__product"}]],
+      ["as_dict", {
+        "name": [
+          ["find",["h1",{"class":"product_name"}]],
+          ["text"]
+        ],
+        "price": [
+          ["find",["div",{"class":"current_price"}]],
+          ["text"],
+          ["price"]
+        ],
+        "code": [
+          ["find",["div",{"class":"product_code"}]],
+          ["text"],
+          ["dig"]
+        ],
+        "images": [
+          ["ext_image"]
+        ],
+        "category": [
+          ["var_get", ["$root"]],
+          ["find", ["ol", {"class": "breadcrumbs_wrapper"}]],
+          ["breadcrumb", [["li"], -2]],
+          ["lower"],
+          ["replace", ["головна", "_ka"]]
+        ]
+      }]
+    ]
+  }
+}

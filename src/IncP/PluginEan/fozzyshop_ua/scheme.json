@@ -36,7 +36,8 @@
           ["var_get", ["$root"]],
           ["find", ["ol", {"itemtype": "https://schema.org/BreadcrumbList"}]],
           ["breadcrumb", [["li"], -2]],
-          ["replace", ["На Головну/", "_fo/"]]
+          ["lower"],
+          ["replace", ["на головну", "_fo"]]
         ],
         "features": [
             ["as_dict", {
