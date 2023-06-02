@@ -1,3 +1,8 @@
+# Created: 2023.05.30
+# Author: Vladimir Vons <VladVons@gmail.com>
+# License: GNU, see LICENSE for more details
+
+
 import aiohttp
 from bs4 import BeautifulSoup
 #

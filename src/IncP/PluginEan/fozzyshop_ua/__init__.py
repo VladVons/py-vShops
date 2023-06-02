@@ -1,3 +1,8 @@
+# Created: 2023.05.29
+# Author: Vladimir Vons <VladVons@gmail.com>
+# License: GNU, see LICENSE for more details
+
+
 import aiohttp
 from bs4 import BeautifulSoup
 #
@@ -7,6 +12,7 @@ from .. import TParserBase
 
 class TParser(TParserBase):
     UrlRoot = 'https://fozzyshop.ua'
+    Moderate = True
 
     async def _GetData(self, aEan: str):
         Headers = {

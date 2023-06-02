@@ -1,4 +1,8 @@
-import re
+# Created: 2023.05.28
+# Author: Vladimir Vons <VladVons@gmail.com>
+# License: GNU, see LICENSE for more details
+
+
 import aiohttp
 from bs4 import BeautifulSoup
 #
@@ -14,7 +18,6 @@ class TParser(TParserBase):
         self.Headers = {
             'Content-Type': 'application/x-www-form-urlencoded',
             'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36',
-            'Cookie': ''
         }
         self.Token = None
 
@@ -24,11 +27,11 @@ class TParser(TParserBase):
                 Data = await Response.read()
                 Soup = BeautifulSoup(Data, 'lxml')
                 Obj = Soup.find('input', attrs = {'type': 'hidden'})
-                if (Obj):
-                    self.Token = Obj.get('value')
+                assert(Obj), 'cant find tag'
+                self.Token = Obj.get('value')
 
-                Arr = [f'{Val.key}={Val.value}' for Key, Val in Response.cookies.items()]
-                self.Headers['Cookie'] = '; '.join(Arr)
+                Cookie = {Val.key:Val.value for Key, Val in Response.cookies.items()}
+                self.Headers['Cookie'] = self._DictToCookie(Cookie)
 
     async def _GetData(self, aEan: str):
         async with aiohttp.ClientSession() as Session:

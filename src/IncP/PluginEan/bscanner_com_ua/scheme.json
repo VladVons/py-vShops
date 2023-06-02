@@ -2,7 +2,7 @@
   "product": {
     "info": {
       "author": "vladvons",
-      "date": "2023-06-01 10:00:00",
+      "date": "2023-05-31 10:00:00",
       "url": [
         "https://bscanner.com.ua/cipsi-kartopliani-sir-chipsters-mu-180g-2",
         "https://bscanner.com.ua/borosno-psenicne-vg-xatinka-v-1kg"
@@ -16,7 +16,9 @@
         "name": [
           ["find", ["section", {"class": "product"}]],
           ["find", ["h4"]],
-          ["text"]
+          ["text"],
+          ["replace_re", ["\\(\\d+\\)", ""]],
+          ["strip"]
         ],
         "images": [
           ["find", ["section", {"class": "product"}]],
@@ -39,7 +41,8 @@
               ["find",["div",{"class":"info__block"}]],
               ["find",["ul",{"class":"info_content"}]],
               ["find_all",["li"]],
-              ["list_map", [ ["get_text"] ]]
+              ["list_map", [ ["get_text"] ]],
+              ["list_map", [ ["replace_re", ["\nhelp\n*", " "]] ]]
             ]
           }]
         ]

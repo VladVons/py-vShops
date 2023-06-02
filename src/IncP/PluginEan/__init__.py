@@ -19,6 +19,7 @@ from Inc.Util.Obj import DeepGetByList
 class TParserBase():
     UrlRoot = ''
     EanAllow = '.*'
+    Moderate = False
 
     async def _GetData(self, aEan: str) -> dict:
         raise NotImplementedError()
@@ -33,6 +34,10 @@ class TParserBase():
 
         with open(aFile, aMod) as F:
             F.write(aData)
+
+    @staticmethod
+    def _DictToCookie(aDict) -> str:
+        return '; '.join([f'{Key}={Val}' for Key, Val in aDict.items()])
 
     def ParseScheme(self, aData: str, aFile: str = 'scheme.json') -> dict:
         Res = {}

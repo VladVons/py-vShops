@@ -6,6 +6,7 @@
 
 
 import re
+import random
 import json
 import asyncio
 import hashlib
@@ -40,7 +41,7 @@ class TSqlConf():
     MaxDays: int = 30
     Parts: int = 100
     MaxConn: int = 1
-    CheckImage: bool = False
+    RandSleep: list = []
 
 class TSql(TSqlBase):
     def __init__(self, aDb: TDbPg, aSqlConf: TSqlConf, aImgApi: TRequestJson):
@@ -154,10 +155,12 @@ class TSql(TSqlBase):
                 Dir = '/'.join(Hash[:2])
                 Name = f'{Dir}/{Hash}_{aEan}_{Idx}.{Ext}'
 
-                if (self.Conf.CheckImage):
+                if (self.Parser.Moderate):
                     webbrowser.open(x, new=0, autoraise=False)
-                    BaseName = x.rsplit('/', maxsplit=1)[-1]
-                    Answer = input(f'Add image {BaseName} y/n ?:')
+                    print()
+                    print(f"ean: {aEan}, name {aInfo['name']}")
+                    print(f'image: {x}')
+                    Answer = input('add image y/n ?:')
                     if (Answer != 'y'):
                         continue
 
@@ -188,7 +191,7 @@ class TSql(TSqlBase):
         async def UpdateProduct(aEan: str, aInfo: dict, aImgValues: list):
             Name = aInfo.get('name', '').replace("'", '`')
             Descr = GetNotNone(aInfo, 'descr', '').replace("'", '`')
-            Category = aInfo.get('category', '???').replace("'", '`')
+            Category = GetNotNone(aInfo, 'category', '_???').replace("'", '`')
             Features = json.dumps(aInfo.get('features', {}), ensure_ascii=False).replace("'", '`')
 
             Query = f'''
@@ -250,6 +253,10 @@ class TSql(TSqlBase):
 
         async def FetchSem(aEan: str, aSem: asyncio.Semaphore):
             async with aSem:
+                if (self.Conf.RandSleep):
+                    Sleep = random.randint(*self.Conf.RandSleep)
+                    await asyncio.sleep(Sleep)
+
                 Info = await self.Parser.GetData(aEan)
                 await UpdateCrawl(aEan, Info)
                 if (Info):
@@ -336,7 +343,7 @@ class TMain(TFileBase):
             Parser = SqlDef.get('parser'),
             Parts = SqlDef.get('parts', 50),
             MaxConn = SqlDef.get('max_conn', 1),
-            CheckImage = SqlDef.get('check_image', False)
+            RandSleep = SqlDef.get('rand_sleep', []),
         )
 
         ConfImg = self.Parent.Conf.GetKey('img_loader')

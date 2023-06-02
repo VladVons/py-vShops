@@ -1,4 +1,8 @@
-import re
+# Created: 2023.05.31
+# Author: Vladimir Vons <VladVons@gmail.com>
+# License: GNU, see LICENSE for more details
+
+
 import aiohttp
 from bs4 import BeautifulSoup
 #
@@ -15,8 +19,8 @@ class TParser(TParserBase):
 
         async with aiohttp.ClientSession() as Session:
             async with Session.get(self.UrlRoot) as Response:
-                Arr = [f'{Val.key}={Val.value}' for Key, Val in Response.cookies.items()]
-                self.Headers['Cookie'] = '; '.join(Arr)
+                Cookie = {Val.key:Val.value for Key, Val in Response.cookies.items()}
+                self.Headers['Cookie'] = self._DictToCookie(Cookie)
 
     async def _GetData(self, aEan: str):
         Url = f'{self.UrlRoot}/api/search/'

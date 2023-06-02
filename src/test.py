@@ -29,7 +29,11 @@ async def Test_02():
     #PData = {'plugin': 'via_com_ua', 'ean': '5900657217927'}
     #PData = {'plugin': 'fozzyshop_ua', 'ean': '4820179000788'}
     #PData = {'plugin': 'kaluna_te_ua', 'ean': '4823003207513'}
-    PData = {'plugin': 'bscanner_com_ua', 'ean': '4820182745881'}
+
+    #PData = {'plugin': 'bscanner_com_ua', 'ean': '4820182745881'}
+    #PData = {'plugin': 'bscanner_com_ua', 'ean': '4850001274759'}
+
+    PData = {'plugin': 'artdrink_com_ua', 'ean': '4049366003191'}
 
     PluginEan = TPluginEan('IncP/PluginEan')
     PluginEan.Load(PData['plugin'])
