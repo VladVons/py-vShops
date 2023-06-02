@@ -431,6 +431,7 @@ class TSchemeApi():
         '''
         replace string
         ["replace", ["1", "one"]]
+        hint. use \u00a0 to represen \xa0
         '''
         return aVal.replace(aFind, aRepl)
 
@@ -440,7 +441,9 @@ class TSchemeApi():
         regEx replace string
         ["replace_re", ["\s*,\s*", "/"]]
         '''
-        return re.sub(aFind, aRepl, aVal)
+
+        Res = re.sub(aFind, aRepl, aVal)
+        return Res
 
     @staticmethod
     def _translate(aVal: str, aFind: str, aRepl: str, aDel: str = None) -> str:

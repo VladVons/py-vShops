@@ -1,0 +1,50 @@
+{
+  "product": {
+    "info": {
+      "author": "vladvons",
+      "date": "2023-05-30 09:00:00",
+      "url": [
+        "https://himopt.com.ua/ua/parfumovanyj-sprej-dlya-tila-ta-volossya-la-rive-summer-joy-200-ml"
+      ]
+    },
+    "pipe": [
+      ["app_json", [{"@type": "Product"}]],
+      ["as_dict", {
+        "name": [
+          ["get", ["name"]],
+          ["replace_re", ["\\(\\d+\\)", ""]],
+          ["strip"]
+        ],
+        "price": [
+          ["ext_price_app", [false]]
+        ],
+        "stock": [
+          ["gets", ["offers.availability"]],
+          ["stock"]
+        ],
+        "images": [
+          ["get", ["image"]]
+        ],
+        "ean": [
+          ["get", ["gtin8"]]
+        ],
+        "category": [
+          ["var_get", ["$root"]],
+          ["find", ["div", {"class": "breadcrumb"}]],
+          ["breadcrumb", [["a"], -1]],
+          ["lower"],
+          ["replace", ["головна", "_ar"]]
+        ],
+        "features": [
+          ["as_dict", {
+            "main": [
+              ["get", ["description"]],
+              ["replace", [" \u00a0 ", ""]],
+              ["split", ["  "]]
+            ]
+          }]
+        ]
+      }]
+    ]
+  }
+}

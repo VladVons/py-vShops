@@ -3,16 +3,18 @@
 # License: GNU, see LICENSE for more details
 
 
+import asyncio
 import aiohttp
 from bs4 import BeautifulSoup
 #
+from IncP.Log import Log
 from .. import TParserBase
 
 
 class TParser(TParserBase):
     UrlRoot = 'https://kaluna.te.ua'
 
-    async def _Init(self):
+    async def Init(self):
         self.Headers = {
             'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
         }
@@ -28,14 +30,23 @@ class TParser(TParserBase):
 
         async with aiohttp.ClientSession() as Session:
             async with Session.post(Url, data=Payload, headers=self.Headers) as Response:
-                Data = await Response.json()
+                try:
+                    Data = await Response.json()
+                except ValueError:
+                    Log.Print(1, 'x', f'_GetData({aEan}) Err: {Url}')
+                    await asyncio.sleep(3)
+                    return
+
                 if (Data['success']):
+                    #self._WriteFile('q.json', Data)
                     Soup = BeautifulSoup(Data['html'], 'lxml')
-                    Url = self.UrlRoot + Soup.find('a').get('href')
-                    async with Session.get(Url) as Response:
-                        Data = await Response.read()
-                        ResParse = self.ParseScheme(Data)
-                        Res = ResParse.get('data')
-                        if (Res):
-                            Res['url'] = Url
-                            return Res
+                    Obj = Soup.find('a')
+                    if (Obj):
+                        Url = self.UrlRoot + Obj.get('href')
+                        async with Session.get(Url) as Response:
+                            Data = await Response.read()
+                            ResParse = self.ParseScheme(Data)
+                            Res = ResParse.get('data')
+                            if (Res) and (not Res['images'].endswith('no_image.jpg')):
+                                Res['url'] = Url
+                                return Res

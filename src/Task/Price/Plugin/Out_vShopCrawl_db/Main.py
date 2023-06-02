@@ -252,9 +252,10 @@ class TSql(TSqlBase):
             await TDbExecPool(self.Db.Pool).Exec(Query)
 
         async def FetchSem(aEan: str, aSem: asyncio.Semaphore):
+            # core
             async with aSem:
                 if (self.Conf.RandSleep):
-                    Sleep = random.randint(*self.Conf.RandSleep)
+                    Sleep = random.uniform(*self.Conf.RandSleep)
                     await asyncio.sleep(Sleep)
 
                 Info = await self.Parser.GetData(aEan)
@@ -320,6 +321,7 @@ class TSql(TSqlBase):
 
         PluginEan = TPluginEan('IncP/PluginEan')
         self.Parser = PluginEan.Load(self.Conf.Parser)
+        await self.Parser.Init()
         self.ConfCrawl = await self.GetConfCrawl(self.Parser.UrlRoot)
         assert(not self.ConfCrawl.IsEmpty()), f'No DB config for {self.Parser.UrlRoot}'
 

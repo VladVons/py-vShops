@@ -63,9 +63,9 @@
             "sql": {
                 "parts": 50,
                 "lang_id": 1,
-                "max_conn": 3,
-                "-rand_sleep": [3, 5],
-                "parser": "bscanner_com_ua"
+                "max_conn": 1,
+                "-rand_sleep": [0.5, 1.5],
+                "parser": "kaluna_te_ua"
             },
             "auth": "{% file Conf/Default/Task.SrvModel.Api.json:db_auth %}",
             "depends": [

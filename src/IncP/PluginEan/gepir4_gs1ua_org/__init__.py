@@ -21,7 +21,7 @@ class TParser(TParserBase):
         }
         self.Token = None
 
-    async def _Init(self):
+    async def Init(self):
         async with aiohttp.ClientSession() as Session:
             async with Session.get(self.Url) as Response:
                 Data = await Response.read()

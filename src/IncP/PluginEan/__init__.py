@@ -3,34 +3,39 @@
 # License: GNU, see LICENSE for more details
 #
 #PluginEan = TPluginEan('IncP/PluginEan')
-#PluginEan.Load('listex_info')
-#Data = await PluginEan.GetData('4823003207513')
+#Parser = PluginEan.Load('listex_info')
+#await Parser.Init()
+#Data = await Parser.GetData('4823003207513')
 
 
 import os
 import json
+import asyncio
+from aiohttp import ClientConnectorError
 from bs4 import BeautifulSoup
 #
 from Inc.Scheme.Scheme import TSoupScheme
 from Inc.Util.Mod import DynImport
 from Inc.Util.Obj import DeepGetByList
-
+from IncP.Log import Log
 
 class TParserBase():
     UrlRoot = ''
     EanAllow = '.*'
-    Moderate = False
+    Moderate = not False
 
     async def _GetData(self, aEan: str) -> dict:
         raise NotImplementedError()
 
-    async def _Init(self):
+    async def Init(self):
         pass
 
     @staticmethod
     def _WriteFile(aFile: str, aData, aMod = 'w'):
         if (isinstance(aData, dict)):
             aData = json.dumps(aData, indent=2, ensure_ascii=False)
+        elif (isinstance(aData, bytes)) and (aMod != 'wb'):
+            aData = aData.decode('utf-8')
 
         with open(aFile, aMod) as F:
             F.write(aData)
@@ -38,6 +43,13 @@ class TParserBase():
     @staticmethod
     def _DictToCookie(aDict) -> str:
         return '; '.join([f'{Key}={Val}' for Key, Val in aDict.items()])
+
+    async def GetData(self, aEan: str) -> dict:
+        try:
+            return await self._GetData(aEan)
+        except ClientConnectorError as E:
+            Log.Print(1, 'x', f'GetData({aEan})', aE = E)
+            await asyncio.sleep(3)
 
     def ParseScheme(self, aData: str, aFile: str = 'scheme.json') -> dict:
         Res = {}
@@ -54,23 +66,14 @@ class TParserBase():
                 Res['err'] = SoupScheme.Err
         return Res
 
-    async def GetData(self, aEan: str) -> dict:
-        await self._Init()
-        return await self._GetData(aEan)
-
 
 class TPluginEan():
     def __init__(self, aDir: str):
         self.Dir = aDir
-        self.Parser: TParserBase = None
 
     def Load(self, aParser: str) -> TParserBase:
         Module = f"{self.Dir.replace('/', '.')}.{aParser}"
         TClass, Err = DynImport(Module, 'TParser')
         assert(not Err), f'{Err}'
 
-        self.Parser = TClass()
-        return self.Parser
-
-    async def GetData(self, aCode: str) -> dict:
-        return await self.Parser.GetData(aCode)
+        return TClass()

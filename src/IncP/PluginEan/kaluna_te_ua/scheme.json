@@ -32,7 +32,8 @@
           ["find", ["ol", {"class": "breadcrumbs_wrapper"}]],
           ["breadcrumb", [["li"], -2]],
           ["lower"],
-          ["replace", ["головна", "_ka"]]
+          ["replace", ["головна", "_ka"]],
+          ["replace", ["каталог/", ""]]
         ]
       }]
     ]
