@@ -1,5 +1,4 @@
 import asyncio
-import webbrowser
 #
 from IncP.PluginEan import TPluginEan
 
@@ -18,7 +17,6 @@ async def Test_01():
     Data = set([x.strip().lower() for x in Data.split(',')])
     print(len(Data))
     print(sorted(Data))
-
 
 
 async def Test_02():
@@ -42,4 +40,3 @@ async def Test_02():
     print(Data)
 
 asyncio.run(Test_02())
-
