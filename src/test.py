@@ -1,6 +1,12 @@
+import os
+import json
 import asyncio
+import shutil
 #
 from IncP.PluginEan import TPluginEan
+from Inc.Misc.Crypt import CryptSimple
+from Inc.Misc.FS import DirWalk
+
 
 async def Test_01():
     Data = '''
@@ -39,4 +45,26 @@ async def Test_02():
     Data = await Parser.GetData(PData['ean'])
     print(Data)
 
-asyncio.run(Test_02())
+
+async def Test_03():
+    Xlat = {}
+
+    Dir = 'Data/img/product'
+    for i, x in enumerate(DirWalk(f'{Dir}/0')):
+        File = x[0].rsplit('/', maxsplit=1)[-1]
+        Hash, Ean, Ext = File.split('_')
+        EanX = CryptSimple(Ean, 71)
+        DirDst = f'{Dir}/00/{EanX[-2:]}'
+        os.makedirs(DirDst, exist_ok=True)
+        FileDst = f'{DirDst}/{EanX}_{Ext}'
+
+        if (i % 100 == 0):
+            print(i, x[0], FileDst)
+        Xlat[x[0]] = FileDst
+        shutil.copyfile(x[0], FileDst)
+
+    with open('Xlat.json', 'w') as F:
+        json.dump(Xlat, F, indent=2, ensure_ascii=False)
+
+asyncio.run(Test_03())
+
