@@ -26,11 +26,13 @@ as $$
             aKey %= len(aVal)
             return aVal[aKey:] + aVal[:aKey]
 
+        LenText = len(aText)
+        if (LenText == 0):
+        	return aText
+
         LenNum = ord('9') - ord('0') + 1
         LenLat = ord('z') - ord('a') + 1
         LenCyr = ord('я') - ord('а') + 1
-
-        LenText = len(aText)
         aKey = aKey + LenText if (aKey > 0) else aKey - LenText
 
         Arr = []

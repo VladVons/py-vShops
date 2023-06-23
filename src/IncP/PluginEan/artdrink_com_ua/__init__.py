@@ -27,9 +27,13 @@ class TParser(TParserBase):
             'cookie': self._DictToCookie(Cookie)
         }
 
-    async def _GetData(self, aEan: str):
+    async def _GetData(self, aCode: str) -> dict:
+        if (not self.CheckEan(aCode)):
+            return
+
+        Url = f'{self.UrlRoot}/index.php?route=module/autosearch/ajax_asr&keyword={aCode}'
+
         async with aiohttp.ClientSession() as Session:
-            Url = f'{self.UrlRoot}/index.php?route=module/autosearch/ajax_asr&keyword={aEan}'
             async with Session.get(Url, headers=self.Headers) as Response:
                 Data = await Response.read()
                 try:

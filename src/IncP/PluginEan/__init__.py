@@ -8,23 +8,30 @@
 #Data = await Parser.GetData('4823003207513')
 
 
+import re
 import os
 import json
 import asyncio
 from aiohttp import ClientConnectorError
 from bs4 import BeautifulSoup
 #
+from Inc.Ean import TEan
 from Inc.Scheme.Scheme import TSoupScheme
 from Inc.Util.Mod import DynImport
 from Inc.Util.Obj import DeepGetByList
 from IncP.Log import Log
 
-class TParserBase():
-    UrlRoot = ''
-    EanAllow = '.*'
-    Moderate = not False
 
-    async def _GetData(self, aEan: str) -> dict:
+class TParserBase():
+    CodeAllow = '.*'
+    CodeType = 'ean'
+    Headers = {}
+    ImageNeed = True
+    Moderate = True
+    SkipFeatures = {}
+    UrlRoot = ''
+
+    async def _GetData(self, aCode: str) -> dict:
         raise NotImplementedError()
 
     async def Init(self):
@@ -44,12 +51,24 @@ class TParserBase():
     def _DictToCookie(aDict) -> str:
         return '; '.join([f'{Key}={Val}' for Key, Val in aDict.items()])
 
-    async def GetData(self, aEan: str) -> dict:
+    async def GetData(self, aCode: str) -> dict:
         try:
-            return await self._GetData(aEan)
+            return await self._GetData(aCode)
         except ClientConnectorError as E:
-            Log.Print(1, 'x', f'GetData({aEan})', aE = E)
+            Log.Print(1, 'x', f'GetData({aCode})', aE = E)
             await asyncio.sleep(3)
+
+    def CheckEan(self, aCode: str) -> bool:
+        Res = False
+        if (aCode.startswith('02')):
+            Log.Print(1, 'i', f'EAN internal {aCode}')
+        elif (not re.match(self.CodeAllow, aCode)):
+            Log.Print(1, 'i', f'EAN filter {aCode}')
+        elif (not TEan(aCode).Check()):
+            Log.Print(1, 'i', f'EAN error {aCode}')
+        else:
+            Res = True
+        return Res
 
     def ParseScheme(self, aData: str, aFile: str = 'scheme.json') -> dict:
         Res = {}

@@ -13,9 +13,13 @@ from .. import TParserBase
 class TParser(TParserBase):
     UrlRoot = 'https://himopt.com.ua'
 
-    async def _GetData(self, aEan: str):
+    async def _GetData(self, aCode: str) -> dict:
+        if (not self.CheckEan(aCode)):
+            return
+
+        Url = f'{self.UrlRoot}/ua/search?search={aCode}'
+
         async with aiohttp.ClientSession() as Session:
-            Url = f'{self.UrlRoot}/ua/search?search={aEan}'
             async with Session.get(Url) as Response:
                 Data = await Response.read()
                 ResParse1 = self.ParseScheme(Data, 'scheme1.json')

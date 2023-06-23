@@ -14,8 +14,8 @@ class TMain(TParser_sqlite):
     def _Fill(self, aRow: dict):
         Rec = self.Dbl.RecAdd()
 
-        Val = str(aRow['ean'])
-        Rec.SetField('ean', Val)
+        Val = str(aRow['code'])
+        Rec.SetField('code', Val)
 
         Val = aRow['images'].split(',')
         Rec.SetField('image', Val)

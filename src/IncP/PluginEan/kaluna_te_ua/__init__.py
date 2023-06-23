@@ -24,16 +24,19 @@ class TParser(TParserBase):
                 Cookie = {Val.key:Val.value for Key, Val in Response.cookies.items()}
                 self.Headers['Cookie'] = self._DictToCookie(Cookie)
 
-    async def _GetData(self, aEan: str):
+    async def _GetData(self, aCode: str) -> dict:
+        if (not self.CheckEan(aCode)):
+            return
+
         Url = f'{self.UrlRoot}/api/search/'
-        Payload = f'q={aEan}'
+        Payload = f'q={aCode}'
 
         async with aiohttp.ClientSession() as Session:
             async with Session.post(Url, data=Payload, headers=self.Headers) as Response:
                 try:
                     Data = await Response.json()
                 except ValueError:
-                    Log.Print(1, 'x', f'_GetData({aEan}) Err: {Url}')
+                    Log.Print(1, 'x', f'_GetData({aCode}) Err: {Url}')
                     await asyncio.sleep(3)
                     return
 

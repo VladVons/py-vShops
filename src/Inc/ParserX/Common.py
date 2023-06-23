@@ -111,7 +111,7 @@ class TFileDbl(TFileBase):
             Val = Field[1](Val)
         aRec.SetField(aName, Val)
 
-    async def Load(self):
+    async def Load(self, aSave: bool = True):
         File = self.GetFile()
         Log.Print(1, 'i', f'Load {File}')
         if (os.path.exists(File)):
@@ -126,7 +126,7 @@ class TFileDbl(TFileBase):
 
             self._OnLoad()
             await self._Load()
-            if (self.Parent.Conf.get('save_cache')):
+            if (aSave and self.Parent.Conf.get('save_cache')):
                 os.makedirs(os.path.dirname(File), exist_ok=True)
                 self.Dbl.Save(File, True)
         Log.Print(1, 'i', f'Done {File}. Records {self.Dbl.GetSize()}')

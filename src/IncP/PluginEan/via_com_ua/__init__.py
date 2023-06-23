@@ -14,16 +14,19 @@ from .. import TParserBase
 class TParser(TParserBase):
     UrlRoot = 'https://via.com.ua'
 
-    async def _GetData(self, aEan: str):
-        Headers = {
+    async def _GetData(self, aCode: str) -> dict:
+        if (not self.CheckEan(aCode)):
+            return
+
+        self.Headers = {
             'content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
             'x-requested-with': 'XMLHttpRequest'
         }
         Url = f'{self.UrlRoot}/index.php?route=extension/module/uni_live_search'
-        Payload = f'filter_name={aEan}'
+        Payload = f'filter_name={aCode}'
 
         async with aiohttp.ClientSession() as Session:
-            async with Session.post(Url, data=Payload, headers=Headers) as Response:
+            async with Session.post(Url, data=Payload, headers=self.Headers) as Response:
                 Data = await Response.read()
                 Soup = BeautifulSoup(Data, 'lxml')
                 Obj = Soup.find('li', {'class': 'live-search__item'})

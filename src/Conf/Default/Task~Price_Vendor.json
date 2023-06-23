@@ -5,7 +5,7 @@
                 "default": {
                     "skip": 1,
                     "fields": {
-                        "ean": 1,
+                        "code": 1,
                         "product": 2,
                         "category": 3,
                         "rest": 4,
@@ -20,7 +20,7 @@
             "sheet": {
                 "default": {
                     "fields": {
-                        "ean": 2,
+                        "code": 2,
                         "category": 3,
                         "product": 4
                     }
@@ -32,11 +32,35 @@
                 "default": {
                     "skip": 1,
                     "fields": {
-                        "mpn": 2,
+                        "code": 2,
                         "url": 3,
                         "image1": 6,
                         "image2": 7,
                         "image3": 8
+                    }
+                }
+            }
+        },
+        "In_Crawl_icecat_xlsx": {
+            "sheet": {
+                "computer": {
+                    "skip": 1,
+                    "fields": {
+                        "tenant": 1,
+                        "category": 2,
+                        "model": 3,
+                        "code": 4,
+                        "url": 5
+                    }
+                },
+                "monitor": {
+                    "skip": 1,
+                    "fields": {
+                        "tenant": 1,
+                        "category": 2,
+                        "model": 3,
+                        "code": 4,
+                        "url": 5
                     }
                 }
             }
@@ -78,7 +102,7 @@
                         "price": 11
                     },
                     "title": ["model", "case", "cpu", "ram", "disk", "os"],
-                    "model": ["model", "case"]
+                    "model": ["model", "case", "cpu"]
                 },
                 "MONITORS": {
                     "skip": 1,

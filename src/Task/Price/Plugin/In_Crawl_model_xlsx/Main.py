@@ -17,7 +17,7 @@ class TCrawl(TParser_xlsx):
 
         Rec = self.Dbl.RecAdd()
 
-        for x in ['mpn', 'url']:
+        for x in ['code', 'url']:
             self.Copy(x, aRow, Rec)
 
         Images = [aRow.get(x) for x in ['image1', 'image2', 'image3'] if aRow.get(x)]

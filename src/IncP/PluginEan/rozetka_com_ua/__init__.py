@@ -13,16 +13,20 @@ from .. import TParserBase
 class TParser(TParserBase):
     UrlRoot = 'https://search.rozetka.com.ua'
 
-    async def _GetData(self, aEan: str):
+    async def _GetData(self, aCode: str) -> dict:
+        if (not self.CheckEan(aCode)):
+            return
+
+        Url = f'{self.UrlRoot}/ua/search/api/v6/autocomplete/?lang=ua&text={aCode}'
+
         async with aiohttp.ClientSession() as Session:
-            Url = f'{self.UrlRoot}/ua/search/api/v6/autocomplete/?lang=ua&text={aEan}'
             async with Session.get(Url) as Response:
                 Data = await Response.json()
                 if (DeepGetByList(Data, ['data', 'code'], 0) == 1):
                     Products = DeepGetByList(Data, ['data', 'content', 'records', 'goods'], [])
                     if (Products):
                         Product = Products[0]
-                        Code = f'({aEan})'
+                        Code = f'({aCode})'
                         if (Code in Product['title']):
                             Url = Product['href']
                             async with Session.get(Url) as Response:

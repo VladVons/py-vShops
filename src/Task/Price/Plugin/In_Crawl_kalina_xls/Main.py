@@ -15,7 +15,7 @@ class TMain(TParser_xls):
 
 
     def _Fill(self, aRow: dict):
-        aEan = aRow.get('ean')
+        aEan = aRow.get('code')
         if (not aEan):
             return
 
@@ -29,7 +29,7 @@ class TMain(TParser_xls):
 
         Rec = self.Dbl.RecAdd()
 
-        Rec.SetField('ean', aEan)
+        Rec.SetField('code', aEan)
 
         for x in ['category', 'product']:
             self.Copy(x, aRow, Rec)

@@ -545,6 +545,17 @@ create table if not exists ref_product_idt (
     primary key (tenant_id, hash)
 );
 
+create table if not exists ref_product_product0 (
+    id                  serial primary key,
+    code                varchar(32),
+    product_en          product_enum not null,
+    product0_id         integer not null,
+    tenant_id           integer not null,
+    foreign key (product0_id) references ref_product0(id) on delete cascade,
+    foreign key (tenant_id) references ref_tenant(id),
+    unique (tenant_id, code, product_en)
+);
+
 -- product attribute--
 
 create table if not exists ref_kind (

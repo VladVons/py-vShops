@@ -41,7 +41,8 @@
             "depends": [
                 "-In_Price_prom_xml",
                 "-In_Price_oster1c_xml",
-                "In_Price_pl01_xlsx"
+                "-In_Price_pl01_xlsx",
+                "In_Crawl_icecat_xlsx"
             ],
             "dir": "./Data/Pl/Out"
         },
@@ -65,13 +66,14 @@
                 "lang_id": 1,
                 "max_conn": 1,
                 "-rand_sleep": [0.5, 1.5],
-                "parser": "kaluna_te_ua"
+                "parser": "icecat_biz"
             },
             "auth": "{% file Conf/Default/Task.SrvModel.Api.json:db_auth %}",
             "depends": [
-                "In_Crawl_ean_txt",
+                "-In_Crawl_ean_txt",
                 "-In_Crawl_kalina_xls",
-                "-In_Crawl_fozzy_sqlite"
+                "-In_Crawl_fozzy_sqlite",
+                "In_Crawl_icecat_xlsx"
             ],
             "img_loader": "{% file Conf/Default/Task.SrvCtrl.Api.json:loader.img %}",
             "img_conf": "{% file Conf/Default/Task.SrvImg.Api.json %}"

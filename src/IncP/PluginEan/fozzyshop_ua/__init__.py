@@ -12,15 +12,17 @@ from .. import TParserBase
 
 class TParser(TParserBase):
     UrlRoot = 'https://fozzyshop.ua'
-    Moderate = True
 
-    async def _GetData(self, aEan: str):
+    async def _GetData(self, aCode: str) -> dict:
+        if (not self.CheckEan(aCode)):
+            return
+
         Headers = {
             'content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
             'accept': 'application/json'
         }
         Url = f'{self.UrlRoot}/search'
-        Payload = f's={aEan}&resultsPerPage=1&ajax=true'
+        Payload = f's={aCode}&resultsPerPage=1&ajax=true'
 
         async with aiohttp.ClientSession() as Session:
             async with Session.post(Url, data=Payload, headers=Headers) as Response:

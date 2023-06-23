@@ -1,0 +1,5749 @@
+{
+  "msg": "OK",
+  "data": {
+    "Dictionary": {
+      "zoom_panel_dragg": "Mouse dragging",
+      "specs": "Специфікації",
+      "link_integrate_desk": "How to integrate Icecat LIVE JavaScript.",
+      "release_date": "Release date",
+      "model_name": "Назва продукту",
+      "reviews_head_name": "Огляди",
+      "prod_code": "Код продукту",
+      "eu_energy_label": "EU Energy Label",
+      "eu_product_fiche": "EU Product Fiche",
+      "marketing_text": "Маркетинговий текст",
+      "options_head_name": "Options",
+      "ean_code": "Код EAN/UPC",
+      "reasons_to_buy": "Причини для покупки",
+      "demo_msg_part3": "Якщо у вас немає облікового запису Icecat, будь ласка, зареєструйтесь безкоштовно.",
+      "video": "Video",
+      "demo_msg_part1": "Ви зараз використовуєте обліковий запис для презентації. Будь ласка, використовуйте ваш особистий обліковий запис Icecat.",
+      "product_family": "Сімейство продуктів",
+      "html_content": "",
+      "zoom_panel_out": "Zoom out",
+      "zoom_panel_in": "Zoom in",
+      "product_series": "Серія продукту",
+      "demo_insert_desc": "This is a demo of a seamless insert of an Icecat LIVE product data-sheet in your website. Imagine that this responsive data-sheet is included in the product page of your webshop.",
+      "supplier_name": "Виробник",
+      "pdf_url": "Посiбник користувача",
+      "flash360": "3D tour",
+      "cat_name": "Категорія",
+      "zoom_panel_init": "Original size",
+      "pdf_specs": "Брошура",
+      "back_to_top": "Back to top",
+      "desc": "Опис",
+      "demo_msg_part2": "ваш обліковий запис Icecat"
+    },
+    "GeneralInfo": {
+      "IcecatId": 33583558,
+      "ReleaseDate": "05-11-2016",
+      "EndOfLifeDate": "",
+      "Title": "DELL OptiPlex 7040 MFF + Microsoft Office Home & Business 2016 i7-6700T mini PC Intel® Core™ i7 8 ГБ DDR4-SDRAM 500 ГБ Жорсткий диск Windows 10 Pro Міні-ПК Чорний",
+      "TitleInfo": {
+        "GeneratedIntTitle": "DELL OptiPlex 7040 MFF + Microsoft Office Home & Business 2016",
+        "GeneratedLocalTitle": {
+          "Value": "DELL OptiPlex 7040 MFF + Microsoft Office Home & Business 2016 i7-6700T mini PC Intel® Core™ i7 8 ГБ DDR4-SDRAM 500 ГБ Жорсткий диск Windows 10 Pro Міні-ПК Чорний",
+          "Language": "UK"
+        },
+        "BrandLocalTitle": {
+          "Value": "",
+          "Language": "UK"
+        }
+      },
+      "Brand": "DELL",
+      "BrandID": "292",
+      "BrandLogo": "https://images.icecat.biz/img/brand/thumb/292_c443d59832f54da8b0ac6ad41fecbdb0.jpg",
+      "BrandInfo": {
+        "BrandName": "DELL",
+        "BrandLocalName": "",
+        "BrandLogo": "https://images.icecat.biz/img/brand/thumb/292_c443d59832f54da8b0ac6ad41fecbdb0.jpg"
+      },
+      "ProductName": "7040 MFF + Microsoft Office Home & Business 2016",
+      "ProductNameInfo": {
+        "ProductIntName": "7040 MFF + Microsoft Office Home & Business 2016",
+        "ProductLocalName": {
+          "Value": "",
+          "Language": "UK"
+        }
+      },
+      "BrandPartCode": "FGXK4+630-ABDD",
+      "GTIN": [],
+      "Category": {
+        "CategoryID": "153",
+        "Name": {
+          "Value": "ПК/Робочі Станції",
+          "Language": "UK"
+        }
+      },
+      "ProductFamily": {
+        "ProductFamilyID": "63715",
+        "Value": "OptiPlex",
+        "Language": "EN"
+      },
+      "ProductSeries": {
+        "SeriesID": "1"
+      },
+      "Description": {},
+      "SummaryDescription": {
+        "ShortSummaryDescription": "DELL OptiPlex 7040 MFF + Microsoft Office Home & Business 2016, 2,8 ГГц, Intel® Core™ i7, i7-6700T, 8 ГБ, 500 ГБ, Windows 10 Pro",
+        "LongSummaryDescription": "DELL OptiPlex 7040 MFF + Microsoft Office Home & Business 2016. Тактова частота процесора: 2,8 ГГц, Родина процесорів: Intel® Core™ i7, Модель процесора: i7-6700T. Оперативна пам'ять: 8 ГБ, Тип внутрішньої пам'яті: DDR4-SDRAM, Тактова частота пам'яті: 2133 МГц. Повний об'єм зберігання: 500 ГБ, Носій: Жорсткий диск. Модель вбудованого графічного адаптера: Intel® HD Graphics 530. Операційна система, яку встановлено: Windows 10 Pro, Архітектура операційної системи: 64-розрядний. Джерело живлення: 65 Вт. Тип корпуса: mini PC. Тип продукту: Міні-ПК. Колір продукту: Чорний"
+      },
+      "BulletPoints": {},
+      "GeneratedBulletPoints": {
+        "Language": "UK",
+        "Values": [
+          "Міні-ПК Чорний 65 Вт",
+          "Intel® Core™ i7 i7-6700T 2,8 ГГц",
+          "8 ГБ DDR4-SDRAM 2133 МГц 1 x 8 ГБ",
+          "500 ГБ Жорсткий диск",
+          "Intel® HD Graphics 530",
+          "Підключення Ethernet 10,100,1000 Мбіт/с Bluetooth",
+          "Windows 10 Pro 64-розрядний"
+        ]
+      },
+      "VirtualCategory": [
+        {
+          "VirtualCategoryID": "352",
+          "UNCATID": "43171897",
+          "Value": "Mini PCs",
+          "Language": "EN"
+        }
+      ]
+    },
+    "Image": {
+      "HighPic": "https://images.icecat.biz/img/gallery/b2de6c10b86df1c8d065a1dafbfd8779.jpg",
+      "HighPicSize": "201095",
+      "HighPicHeight": "1453",
+      "HighPicWidth": "893",
+      "LowPic": "https://images.icecat.biz/img/gallery_lows/b2de6c10b86df1c8d065a1dafbfd8779.jpg",
+      "LowPicSize": "7731",
+      "LowPicHeight": "200",
+      "LowPicWidth": "123",
+      "Pic500x500": "https://images.icecat.biz/img/gallery_mediums/b2de6c10b86df1c8d065a1dafbfd8779.jpg",
+      "Pic500x500Size": "38321",
+      "Pic500x500Height": "500",
+      "Pic500x500Width": "307",
+      "ThumbPic": "https://images.icecat.biz/img/gallery_thumbs/b2de6c10b86df1c8d065a1dafbfd8779.jpg",
+      "ThumbPicSize": "1925"
+    },
+    "Multimedia": [],
+    "Gallery": [
+      {
+        "ID": "20433460",
+        "LowPic": "https://images.icecat.biz/img/gallery_lows/b2de6c10b86df1c8d065a1dafbfd8779.jpg",
+        "LowSize": "7731",
+        "LowHeight": "200",
+        "LowWidth": "123",
+        "ThumbPic": "https://images.icecat.biz/img/gallery_thumbs/b2de6c10b86df1c8d065a1dafbfd8779.jpg",
+        "ThumbPicSize": "1925",
+        "Pic": "https://images.icecat.biz/img/gallery/b2de6c10b86df1c8d065a1dafbfd8779.jpg",
+        "Size": "201095",
+        "PicHeight": "1453",
+        "PicWidth": "893",
+        "Pic500x500": "https://images.icecat.biz/img/gallery_mediums/b2de6c10b86df1c8d065a1dafbfd8779.jpg",
+        "Pic500x500Size": "38321",
+        "Pic500x500Height": "500",
+        "Pic500x500Width": "307",
+        "No": "1",
+        "IsMain": "Y",
+        "Updated": "2023-05-25 11:17:58",
+        "IsPrivate": "0",
+        "Type": "ProductImage",
+        "Attributes": {
+          "OriginalFileName": ""
+        }
+      },
+      {
+        "ID": "20433466",
+        "LowPic": "https://images.icecat.biz/img/gallery_lows/30083834_1768.jpg",
+        "LowSize": "7964",
+        "LowHeight": "200",
+        "LowWidth": "183",
+        "ThumbPic": "https://images.icecat.biz/img/gallery_thumbs/30083834_1768.jpg",
+        "ThumbPicSize": "989",
+        "Pic": "https://images.icecat.biz/img/gallery/30083834_1768.jpg",
+        "Size": "234436",
+        "PicHeight": "1311",
+        "PicWidth": "1203",
+        "Pic500x500": "https://images.icecat.biz/img/gallery_mediums/30083834_1768.jpg",
+        "Pic500x500Size": "52300",
+        "Pic500x500Height": "500",
+        "Pic500x500Width": "458",
+        "No": "2",
+        "IsMain": "N",
+        "Updated": "2023-03-30 23:06:25",
+        "IsPrivate": "0",
+        "Type": "ProductImage",
+        "Attributes": {
+          "OriginalFileName": ""
+        }
+      },
+      {
+        "ID": "20433469",
+        "LowPic": "https://images.icecat.biz/img/gallery_lows/30083834_0386.jpg",
+        "LowSize": "8728",
+        "LowHeight": "200",
+        "LowWidth": "163",
+        "ThumbPic": "https://images.icecat.biz/img/gallery_thumbs/30083834_0386.jpg",
+        "ThumbPicSize": "1163",
+        "Pic": "https://images.icecat.biz/img/gallery/30083834_0386.jpg",
+        "Size": "236593",
+        "PicHeight": "1393",
+        "PicWidth": "1141",
+        "Pic500x500": "https://images.icecat.biz/img/gallery_mediums/30083834_0386.jpg",
+        "Pic500x500Size": "49195",
+        "Pic500x500Height": "500",
+        "Pic500x500Width": "409",
+        "No": "3",
+        "IsMain": "N",
+        "Updated": "2023-03-30 22:49:11",
+        "IsPrivate": "0",
+        "Type": "ProductImage",
+        "Attributes": {
+          "OriginalFileName": ""
+        }
+      },
+      {
+        "ID": "20433471",
+        "LowPic": "https://images.icecat.biz/img/gallery_lows/30083834_1928.jpg",
+        "LowSize": "8799",
+        "LowHeight": "200",
+        "LowWidth": "131",
+        "ThumbPic": "https://images.icecat.biz/img/gallery_thumbs/30083834_1928.jpg",
+        "ThumbPicSize": "1148",
+        "Pic": "https://images.icecat.biz/img/gallery/30083834_1928.jpg",
+        "Size": "193254",
+        "PicHeight": "1417",
+        "PicWidth": "933",
+        "Pic500x500": "https://images.icecat.biz/img/gallery_mediums/30083834_1928.jpg",
+        "Pic500x500Size": "42899",
+        "Pic500x500Height": "500",
+        "Pic500x500Width": "329",
+        "No": "4",
+        "IsMain": "N",
+        "Updated": "2023-03-30 21:33:34",
+        "IsPrivate": "0",
+        "Type": "ProductImage",
+        "Attributes": {
+          "OriginalFileName": ""
+        }
+      },
+      {
+        "ID": "20433463",
+        "LowPic": "https://images.icecat.biz/img/gallery_lows/30083834_5461.jpg",
+        "LowSize": "9176",
+        "LowHeight": "200",
+        "LowWidth": "131",
+        "ThumbPic": "https://images.icecat.biz/img/gallery_thumbs/30083834_5461.jpg",
+        "ThumbPicSize": "1252",
+        "Pic": "https://images.icecat.biz/img/gallery/30083834_5461.jpg",
+        "Size": "172206",
+        "PicHeight": "1313",
+        "PicWidth": "865",
+        "Pic500x500": "https://images.icecat.biz/img/gallery_mediums/30083834_5461.jpg",
+        "Pic500x500Size": "45385",
+        "Pic500x500Height": "500",
+        "Pic500x500Width": "329",
+        "No": "5",
+        "IsMain": "N",
+        "Updated": "2023-03-30 18:12:53",
+        "IsPrivate": "0",
+        "Type": "ProductImage",
+        "Attributes": {
+          "OriginalFileName": ""
+        }
+      },
+      {
+        "ID": "20433473",
+        "LowPic": "https://images.icecat.biz/img/gallery_lows/30083834_9960.jpg",
+        "LowSize": "8312",
+        "LowHeight": "200",
+        "LowWidth": "178",
+        "ThumbPic": "https://images.icecat.biz/img/gallery_thumbs/30083834_9960.jpg",
+        "ThumbPicSize": "1098",
+        "Pic": "https://images.icecat.biz/img/gallery/30083834_9960.jpg",
+        "Size": "237422",
+        "PicHeight": "1333",
+        "PicWidth": "1189",
+        "Pic500x500": "https://images.icecat.biz/img/gallery_mediums/30083834_9960.jpg",
+        "Pic500x500Size": "52173",
+        "Pic500x500Height": "500",
+        "Pic500x500Width": "445",
+        "No": "6",
+        "IsMain": "N",
+        "Updated": "2023-03-30 20:19:32",
+        "IsPrivate": "0",
+        "Type": "ProductImage",
+        "Attributes": {
+          "OriginalFileName": ""
+        }
+      },
+      {
+        "ID": "20433474",
+        "LowPic": "https://images.icecat.biz/img/gallery_lows/30083834_1541.jpg",
+        "LowSize": "15482",
+        "LowHeight": "148",
+        "LowWidth": "200",
+        "ThumbPic": "https://images.icecat.biz/img/gallery_thumbs/30083834_1541.jpg",
+        "ThumbPicSize": "1735",
+        "Pic": "https://images.icecat.biz/img/gallery/30083834_1541.jpg",
+        "Size": "502433",
+        "PicHeight": "1272",
+        "PicWidth": "1712",
+        "Pic500x500": "https://images.icecat.biz/img/gallery_mediums/30083834_1541.jpg",
+        "Pic500x500Size": "76063",
+        "Pic500x500Height": "371",
+        "Pic500x500Width": "500",
+        "No": "7",
+        "IsMain": "N",
+        "Updated": "2023-03-30 19:02:04",
+        "IsPrivate": "0",
+        "Type": "ProductImage",
+        "Attributes": {
+          "OriginalFileName": ""
+        }
+      },
+      {
+        "ID": "20433476",
+        "LowPic": "https://images.icecat.biz/img/gallery_lows/33583558_5395262030.jpg",
+        "LowSize": "5645",
+        "LowHeight": "200",
+        "LowWidth": "73",
+        "ThumbPic": "https://images.icecat.biz/img/gallery_thumbs/33583558_5395262030.jpg",
+        "ThumbPicSize": "920",
+        "Pic": "https://images.icecat.biz/img/gallery/33583558_5395262030.jpg",
+        "Size": "91324",
+        "PicHeight": "1365",
+        "PicWidth": "501",
+        "Pic500x500": "https://images.icecat.biz/img/gallery_mediums/33583558_5395262030.jpg",
+        "Pic500x500Size": "23777",
+        "Pic500x500Height": "500",
+        "Pic500x500Width": "183",
+        "No": "8",
+        "IsMain": "N",
+        "Updated": "2017-02-08 09:55:39",
+        "IsPrivate": "0",
+        "Type": "ProductImage",
+        "Attributes": {
+          "OriginalFileName": ""
+        }
+      },
+      {
+        "ID": "20433527",
+        "LowPic": "https://images.icecat.biz/img/gallery_lows/4d8d6d465288e985272a30d2f51c11f9.jpg",
+        "LowSize": "7563",
+        "LowHeight": "113",
+        "LowWidth": "200",
+        "ThumbPic": "https://images.icecat.biz/img/gallery_thumbs/4d8d6d465288e985272a30d2f51c11f9.jpg",
+        "ThumbPicSize": "2344",
+        "Pic": "https://images.icecat.biz/img/gallery/4d8d6d465288e985272a30d2f51c11f9.jpg",
+        "Size": "30543",
+        "PicHeight": "332",
+        "PicWidth": "590",
+        "Pic500x500": "https://images.icecat.biz/img/gallery_mediums/4d8d6d465288e985272a30d2f51c11f9.jpg",
+        "Pic500x500Size": "27688",
+        "Pic500x500Height": "281",
+        "Pic500x500Width": "500",
+        "No": "9",
+        "IsMain": "N",
+        "Updated": "2023-05-23 16:40:40",
+        "IsPrivate": "0",
+        "Type": "ProductImage",
+        "Attributes": {
+          "OriginalFileName": ""
+        }
+      },
+      {
+        "ID": "43132450",
+        "LowPic": "https://images.icecat.biz/img/gallery_lows/33583558_9404949346.jpg",
+        "LowSize": "37563",
+        "LowHeight": "117",
+        "LowWidth": "200",
+        "ThumbPic": "https://images.icecat.biz/img/gallery_thumbs/33583558_9404949346.jpg",
+        "ThumbPicSize": "7635",
+        "Pic": "https://images.icecat.biz/img/gallery/33583558_9404949346.jpg",
+        "Size": "485727",
+        "PicHeight": "527",
+        "PicWidth": "900",
+        "Pic500x500": "https://images.icecat.biz/img/gallery_mediums/33583558_9404949346.jpg",
+        "Pic500x500Size": "188631",
+        "Pic500x500Height": "293",
+        "Pic500x500Width": "500",
+        "No": "17",
+        "IsMain": "N",
+        "Updated": "2020-05-05 19:48:43",
+        "IsPrivate": "0",
+        "Type": "ProductImageAnnotated",
+        "Attributes": {
+          "OriginalFileName": ""
+        }
+      }
+    ],
+    "FeaturesGroups": [
+      {
+        "ID": 2,
+        "SortNo": "100",
+        "FeatureGroup": {
+          "ID": "1",
+          "Name": {
+            "Value": "Процесор",
+            "Language": "UK"
+          }
+        },
+        "Features": [
+          {
+            "Localized": 0,
+            "ID": 357088925,
+            "LocalID": 0,
+            "Type": "dropdown",
+            "Value": "Intel",
+            "CategoryFeatureId": "3032",
+            "CategoryFeatureGroupID": "2",
+            "SortNo": "10100801",
+            "PresentationValue": "Intel",
+            "RawValue": "Intel",
+            "LocalValue": "Intel",
+            "Description": "The manufacturer that produced the processor.",
+            "Mandatory": "1",
+            "Searchable": "0",
+            "Optional": "0",
+            "Feature": {
+              "ID": "1013",
+              "Sign": "",
+              "Measure": {
+                "ID": "29",
+                "Sign": "",
+                "Signs": {
+                  "ID": "",
+                  "_": "",
+                  "Language": "UK"
+                }
+              },
+              "Name": {
+                "Value": "Виробник процесора",
+                "Language": "UK"
+              }
+            }
+          },
+          {
+            "Localized": 0,
+            "ID": 457608690,
+            "LocalID": 0,
+            "Type": "dropdown",
+            "Value": "Intel Core i7-6xxx",
+            "CategoryFeatureId": "893380",
+            "CategoryFeatureGroupID": "2",
+            "SortNo": "10005300",
+            "PresentationValue": "6th gen Intel® Core™ i7",
+            "RawValue": "Intel Core i7-6xxx",
+            "LocalValue": "6th gen Intel® Core™ i7",
+            "Description": "",
+            "Mandatory": "0",
+            "Searchable": "0",
+            "Optional": "0",
+            "Feature": {
+              "ID": "44870",
+              "Sign": "",
+              "Measure": {
+                "ID": "29",
+                "Sign": "",
+                "Signs": {
+                  "ID": "",
+                  "_": "",
+                  "Language": "UK"
+                }
+              },
+              "Name": {
+                "Value": "Покоління процесора",
+                "Language": "UK"
+              }
+            }
+          },
+          {
+            "Localized": 0,
+            "ID": 237061752,
+            "LocalID": 0,
+            "Type": "dropdown",
+            "Value": "i7-6700T",
+            "CategoryFeatureId": "62",
+            "CategoryFeatureGroupID": "2",
+            "SortNo": "10005200",
+            "PresentationValue": "i7-6700T",
+            "RawValue": "i7-6700T",
+            "LocalValue": "i7-6700T",
+            "Description": "The model number for the processor in a computer.",
+            "Mandatory": "1",
+            "Searchable": "0",
+            "Optional": "0",
+            "Feature": {
+              "ID": "47",
+              "Sign": "",
+              "Measure": {
+                "ID": "29",
+                "Sign": "",
+                "Signs": {
+                  "ID": "",
+                  "_": "",
+                  "Language": "UK"
+                }
+              },
+              "Name": {
+                "Value": "Модель процесора",
+                "Language": "UK"
+              }
+            }
+          },
+          {
+            "Localized": 0,
+            "ID": 237061748,
+            "LocalID": 0,
+            "Type": "dropdown",
+            "Value": "Intel Core i7",
+            "CategoryFeatureId": "11561",
+            "CategoryFeatureGroupID": "2",
+            "SortNo": "53000",
+            "PresentationValue": "Intel® Core™ i7",
+            "RawValue": "Intel Core i7",
+            "LocalValue": "Intel® Core™ i7",
+            "Description": "A family of processors is a group of processors produced by one company over a short period of time e.g. Intel Pentium processors.",
+            "Mandatory": "1",
+            "Searchable": "1",
+            "Optional": "0",
+            "Feature": {
+              "ID": "2196",
+              "Sign": "",
+              "Measure": {
+                "ID": "29",
+                "Sign": "",
+                "Signs": {
+                  "ID": "",
+                  "_": "",
+                  "Language": "UK"
+                }
+              },
+              "Name": {
+                "Value": "Родина процесорів",
+                "Language": "UK"
+              }
+            }
+          },
+          {
+            "Localized": 0,
+            "ID": 237061757,
+            "LocalID": 0,
+            "Type": "dropdown",
+            "Value": "4",
+            "CategoryFeatureId": "36486",
+            "CategoryFeatureGroupID": "2",
+            "SortNo": "90",
+            "PresentationValue": "4",
+            "RawValue": "4",
+            "LocalValue": "4",
+            "Description": "The number of central processing units ('cores') in a processor. Some processors have 1 core, others have 2 (e.g. Intel Core Duo) or more (e.g. the Intel Xeon E7-2850 has 10 cores).",
+            "Mandatory": "0",
+            "Searchable": "0",
+            "Optional": "0",
+            "Feature": {
+              "ID": "6089",
+              "Sign": "",
+              "Measure": {
+                "ID": "29",
+                "Sign": "",
+                "Signs": {
+                  "ID": "",
+                  "_": "",
+                  "Language": "UK"
+                }
+              },
+              "Name": {
+                "Value": "Кількість ядер процесору",
+                "Language": "UK"
+              }
+            }
+          },
+          {
+            "Localized": 0,
+            "ID": 237061746,
+            "LocalID": 0,
+            "Type": "numerical",
+            "Value": "2.8",
+            "CategoryFeatureId": "73716",
+            "CategoryFeatureGroupID": "2",
+            "SortNo": "85",
+            "PresentationValue": "2,8 ГГц",
+            "RawValue": "2.8",
+            "LocalValue": "2,8",
+            "Description": "The speed that the microprocessor executes each instruction or each vibration of the clock. The CPU requires a fixed number of clock ticks, or cycles, to execute each instruction. The faster the clocks rate, the faster the CPU, or the faster it can execute instructions. Clock Speeds are usually determined in MHz, 1 MHz representing 1 million cycles per second, or in GHz, 1 GHz representing 1 thousand million cycles per second. The higher the CPU speed, the better a computer will perform.",
+            "Mandatory": "1",
+            "Searchable": "0",
+            "Optional": "0",
+            "Feature": {
+              "ID": "11379",
+              "Sign": "",
+              "Measure": {
+                "ID": "37",
+                "Sign": "",
+                "Signs": {
+                  "ID": "3632",
+                  "_": "ГГц",
+                  "Language": "UK"
+                }
+              },
+              "Name": {
+                "Value": "Тактова частота процесора",
+                "Language": "UK"
+              }
+            }
+          },
+          {
+            "Localized": 0,
+            "ID": 237061758,
+            "LocalID": 0,
+            "Type": "numerical",
+            "Value": "3.6",
+            "CategoryFeatureId": "52264",
+            "CategoryFeatureGroupID": "2",
+            "SortNo": "80",
+            "PresentationValue": "3,6 ГГц",
+            "RawValue": "3.6",
+            "LocalValue": "3,6",
+            "Description": "The turbo boost is an automatic, managed accelleration of the processor when one of the cores is overloaded.",
+            "Mandatory": "0",
+            "Searchable": "0",
+            "Optional": "0",
+            "Feature": {
+              "ID": "7978",
+              "Sign": "",
+              "Measure": {
+                "ID": "37",
+                "Sign": "",
+                "Signs": {
+                  "ID": "3632",
+                  "_": "ГГц",
+                  "Language": "UK"
+                }
+              },
+              "Name": {
+                "Value": "Підвищена частота процесора",
+                "Language": "UK"
+              }
+            }
+          },
+          {
+            "Localized": 0,
+            "ID": 237061759,
+            "LocalID": 0,
+            "Type": "dropdown",
+            "Value": "LGA 1151 (Socket H4)",
+            "CategoryFeatureId": "31184",
+            "CategoryFeatureGroupID": "2",
+            "SortNo": "70",
+            "PresentationValue": "LGA 1151 (Socket H4)",
+            "RawValue": "LGA 1151 (Socket H4)",
+            "LocalValue": "LGA 1151 (Socket H4)",
+            "Description": "Mechanical component(s) that provides mechanical and electrical connections between a microprocessor and a printed circuit board (PCB). This allows the processor to be replaced without soldering.",
+            "Mandatory": "0",
+            "Searchable": "0",
+            "Optional": "1",
+            "Feature": {
+              "ID": "2325",
+              "Sign": "",
+              "Measure": {
+                "ID": "29",
+                "Sign": "",
+                "Signs": {
+                  "ID": "",
+                  "_": "",
+                  "Language": "UK"
+                }
+              },
+              "Name": {
+                "Value": "Сокет процесора",
+                "Language": "UK"
+              }
+            }
+          },
+          {
+            "Localized": 0,
+            "ID": 237061760,
+            "LocalID": 0,
+            "Type": "numerical",
+            "Value": "8",
+            "CategoryFeatureId": "101563",
+            "CategoryFeatureGroupID": "2",
+            "SortNo": "60",
+            "PresentationValue": "8 МБ",
+            "RawValue": "8",
+            "LocalValue": "8",
+            "Description": "",
+            "Mandatory": "0",
+            "Searchable": "0",
+            "Optional": "0",
+            "Feature": {
+              "ID": "10041",
+              "Sign": "",
+              "Measure": {
+                "ID": "19",
+                "Sign": "",
+                "Signs": {
+                  "ID": "3615",
+                  "_": "МБ",
+                  "Language": "UK"
+                }
+              },
+              "Name": {
+                "Value": "Кеш-пам'ять процесора",
+                "Language": "UK"
+              }
+            }
+          },
+          {
+            "Localized": 0,
+            "ID": 237061761,
+            "LocalID": 0,
+            "Type": "dropdown",
+            "Value": "Smart Cache",
+            "CategoryFeatureId": "135208",
+            "CategoryFeatureGroupID": "2",
+            "SortNo": "59",
+            "PresentationValue": "Smart Cache",
+            "RawValue": "Smart Cache",
+            "LocalValue": "Smart Cache",
+            "Description": "",
+            "Mandatory": "0",
+            "Searchable": "0",
+            "Optional": "0",
+            "Feature": {
+              "ID": "21716",
+              "Sign": "",
+              "Measure": {
+                "ID": "29",
+                "Sign": "",
+                "Signs": {
+                  "ID": "",
+                  "_": "",
+                  "Language": "UK"
+                }
+              },
+              "Name": {
+                "Value": "Тип кешу процесора",
+                "Language": "UK"
+              }
+            }
+          },
+          {
+            "Localized": 0,
+            "ID": 237061763,
+            "LocalID": 0,
+            "Type": "dropdown",
+            "Value": "8",
+            "CategoryFeatureId": "52263",
+            "CategoryFeatureGroupID": "2",
+            "SortNo": "58",
+            "PresentationValue": "8",
+            "RawValue": "8",
+            "LocalValue": "8",
+            "Description": "",
+            "Mandatory": "0",
+            "Searchable": "0",
+            "Optional": "0",
+            "Feature": {
+              "ID": "7337",
+              "Sign": "",
+              "Measure": {
+                "ID": "29",
+                "Sign": "",
+                "Signs": {
+                  "ID": "",
+                  "_": "",
+                  "Language": "UK"
+                }
+              },
+              "Name": {
+                "Value": "Потоки процесора",
+                "Language": "UK"
+              }
+            }
+          },
+          {
+            "Localized": 0,
+            "ID": 237061762,
+            "LocalID": 0,
+            "Type": "numerical",
+            "Value": "8",
+            "CategoryFeatureId": "39186",
+            "CategoryFeatureGroupID": "2",
+            "SortNo": "38",
+            "PresentationValue": "8 ГТ/с",
+            "RawValue": "8",
+            "LocalValue": "8",
+            "Description": "A bus is a communication system that transfers data between components inside a computer, or between computers. The system bus rate is the speed at which data is transferred in this communication system.",
+            "Mandatory": "0",
+            "Searchable": "0",
+            "Optional": "1",
+            "Feature": {
+              "ID": "6975",
+              "Sign": "",
+              "Measure": {
+                "ID": "176",
+                "Sign": "",
+                "Signs": {
+                  "ID": "10891",
+                  "_": "ГТ/с",
+                  "Language": "UK"
+                }
+              },
+              "Name": {
+                "Value": "Швидкість передачі даних системною шиною",
+                "Language": "UK"
+              }
+            }
+          },
+          {
+            "Localized": 0,
+            "ID": 237142465,
+            "LocalID": 0,
+            "Type": "dropdown",
+            "Value": "DMI3",
+            "CategoryFeatureId": "132810",
+            "CategoryFeatureGroupID": "2",
+            "SortNo": "38",
+            "PresentationValue": "DMI3",
+            "RawValue": "DMI3",
+            "LocalValue": "DMI3",
+            "Description": "",
+            "Mandatory": "0",
+            "Searchable": "0",
+            "Optional": "1",
+            "Feature": {
+              "ID": "10286",
+              "Sign": "",
+              "Measure": {
+                "ID": "29",
+                "Sign": "",
+                "Signs": {
+                  "ID": "",
+                  "_": "",
+                  "Language": "UK"
+                }
+              },
+              "Name": {
+                "Value": "Тип шини",
+                "Language": "UK"
+              }
+            }
+          },
+          {
+            "Localized": 0,
+            "ID": 237129175,
+            "LocalID": 0,
+            "Type": "numerical",
+            "Value": "14",
+            "CategoryFeatureId": "132794",
+            "CategoryFeatureGroupID": "2",
+            "SortNo": "37",
+            "PresentationValue": "14 нм",
+            "RawValue": "14",
+            "LocalValue": "14",
+            "Description": "The process which is performed by the processor e.g. CPU (Central Processing Unit).",
+            "Mandatory": "0",
+            "Searchable": "0",
+            "Optional": "1",
+            "Feature": {
+              "ID": "1623",
+              "Sign": "",
+              "Measure": {
+                "ID": "98",
+                "Sign": "",
+                "Signs": {
+                  "ID": "3689",
+                  "_": "нм",
+                  "Language": "UK"
+                }
+              },
+              "Name": {
+                "Value": "Технічний процес",
+                "Language": "UK"
+              }
+            }
+          },
+          {
+            "Localized": 0,
+            "ID": 237131864,
+            "LocalID": 0,
+            "Type": "multi_dropdown",
+            "Value": "64-bit",
+            "CategoryFeatureId": "132799",
+            "CategoryFeatureGroupID": "2",
+            "SortNo": "37",
+            "PresentationValue": "64-розрядний",
+            "RawValue": "64-bit",
+            "LocalValue": "64-розрядний",
+            "Description": "Operating modes for the processors that place restrictions on the type and scope of operations for certain processes run by the CPU. This design allows the operating system to run with more privileges than application software.",
+            "Mandatory": "0",
+            "Searchable": "0",
+            "Optional": "1",
+            "Feature": {
+              "ID": "7975",
+              "Sign": "",
+              "Measure": {
+                "ID": "29",
+                "Sign": "",
+                "Signs": {
+                  "ID": "",
+                  "_": "",
+                  "Language": "UK"
+                }
+              },
+              "Name": {
+                "Value": "Операційні режими процесора",
+                "Language": "UK"
+              }
+            }
+          },
+          {
+            "Localized": 0,
+            "ID": 237149293,
+            "LocalID": 0,
+            "Type": "dropdown",
+            "Value": "Intel Core i7-6700 Desktop series",
+            "CategoryFeatureId": "133011",
+            "CategoryFeatureGroupID": "2",
+            "SortNo": "37",
+            "PresentationValue": "Intel Core i7-6700 Desktop series",
+            "RawValue": "Intel Core i7-6700 Desktop series",
+            "LocalValue": "Intel Core i7-6700 Desktop series",
+            "Description": "",
+            "Mandatory": "0",
+            "Searchable": "0",
+            "Optional": "1",
+            "Feature": {
+              "ID": "21719",
+              "Sign": "",
+              "Measure": {
+                "ID": "29",
+                "Sign": "",
+                "Signs": {
+                  "ID": "",
+                  "_": "",
+                  "Language": "UK"
+                }
+              },
+              "Name": {
+                "Value": "Серія процесора",
+                "Language": "UK"
+              }
+            }
+          },
+          {
+            "Localized": 0,
+            "ID": 237146685,
+            "LocalID": 0,
+            "Type": "dropdown",
+            "Value": "Skylake",
+            "CategoryFeatureId": "132816",
+            "CategoryFeatureGroupID": "2",
+            "SortNo": "36",
+            "PresentationValue": "Skylake",
+            "RawValue": "Skylake",
+            "LocalValue": "Skylake",
+            "Description": "",
+            "Mandatory": "0",
+            "Searchable": "0",
+            "Optional": "1",
+            "Feature": {
+              "ID": "18767",
+              "Sign": "",
+              "Measure": {
+                "ID": "29",
+                "Sign": "",
+                "Signs": {
+                  "ID": "",
+                  "_": "",
+                  "Language": "UK"
+                }
+              },
+              "Name": {
+                "Value": "Кодова назва процесора",
+                "Language": "UK"
+              }
+            }
+          },
+          {
+            "Localized": 0,
+            "ID": 237143651,
+            "LocalID": 0,
+            "Type": "numerical",
+            "Value": "35",
+            "CategoryFeatureId": "133008",
+            "CategoryFeatureGroupID": "2",
+            "SortNo": "36",
+            "PresentationValue": "35 Вт",
+            "RawValue": "35",
+            "LocalValue": "35",
+            "Description": "",
+            "Mandatory": "0",
+            "Searchable": "0",
+            "Optional": "1",
+            "Feature": {
+              "ID": "11778",
+              "Sign": "",
+              "Measure": {
+                "ID": "44",
+                "Sign": "",
+                "Signs": {
+                  "ID": "3639",
+                  "_": "Вт",
+                  "Language": "UK"
+                }
+              },
+              "Name": {
+                "Value": "TDP",
+                "Language": "UK"
+              }
+            }
+          },
+          {
+            "Localized": 0,
+            "ID": 237141096,
+            "LocalID": 0,
+            "Type": "numerical",
+            "Value": "66",
+            "CategoryFeatureId": "133076",
+            "CategoryFeatureGroupID": "2",
+            "SortNo": "33",
+            "PresentationValue": "66 °C",
+            "RawValue": "66",
+            "LocalValue": "66",
+            "Description": "",
+            "Mandatory": "0",
+            "Searchable": "0",
+            "Optional": "1",
+            "Feature": {
+              "ID": "10278",
+              "Sign": "",
+              "Measure": {
+                "ID": "65",
+                "Sign": "",
+                "Signs": {
+                  "ID": "3659",
+                  "_": "°C",
+                  "Language": "UK"
+                }
+              },
+              "Name": {
+                "Value": "Tcase",
+                "Language": "UK"
+              }
+            }
+          },
+          {
+            "Localized": 0,
+            "ID": 237131445,
+            "LocalID": 0,
+            "Type": "multi_dropdown",
+            "Value": "3.0",
+            "CategoryFeatureId": "46577",
+            "CategoryFeatureGroupID": "2",
+            "SortNo": "31",
+            "PresentationValue": "3.0",
+            "RawValue": "3.0",
+            "LocalValue": "3.0",
+            "Description": "",
+            "Mandatory": "0",
+            "Searchable": "0",
+            "Optional": "1",
+            "Feature": {
+              "ID": "7825",
+              "Sign": "",
+              "Measure": {
+                "ID": "29",
+                "Sign": "",
+                "Signs": {
+                  "ID": "",
+                  "_": "",
+                  "Language": "UK"
+                }
+              },
+              "Name": {
+                "Value": "Версія PCI Express слотів",
+                "Language": "UK"
+              }
+            }
+          },
+          {
+            "Localized": 0,
+            "ID": 237147433,
+            "LocalID": 0,
+            "Type": "numerical",
+            "Value": "16",
+            "CategoryFeatureId": "133028",
+            "CategoryFeatureGroupID": "2",
+            "SortNo": "31",
+            "PresentationValue": "16",
+            "RawValue": "16",
+            "LocalValue": "16",
+            "Description": "",
+            "Mandatory": "0",
+            "Searchable": "0",
+            "Optional": "1",
+            "Feature": {
+              "ID": "20905",
+              "Sign": "",
+              "Measure": {
+                "ID": "29",
+                "Sign": "",
+                "Signs": {
+                  "ID": "",
+                  "_": "",
+                  "Language": "UK"
+                }
+              },
+              "Name": {
+                "Value": "Максимальна кількість смуг PCI Express",
+                "Language": "UK"
+              }
+            }
+          },
+          {
+            "Localized": 0,
+            "ID": 237143260,
+            "LocalID": 0,
+            "Type": "multi_dropdown",
+            "Value": "1x16,2x8,1x8+2x4",
+            "CategoryFeatureId": "133032",
+            "CategoryFeatureGroupID": "2",
+            "SortNo": "31",
+            "PresentationValue": "1x16, 2x8, 1x8+2x4",
+            "RawValue": "1x16,2x8,1x8+2x4",
+            "LocalValue": "1x16, 2x8, 1x8+2x4",
+            "Description": "",
+            "Mandatory": "0",
+            "Searchable": "0",
+            "Optional": "1",
+            "Feature": {
+              "ID": "10351",
+              "Sign": "",
+              "Measure": {
+                "ID": "29",
+                "Sign": "",
+                "Signs": {
+                  "ID": "",
+                  "_": "",
+                  "Language": "UK"
+                }
+              },
+              "Name": {
+                "Value": "Конфігурації PCI Express",
+                "Language": "UK"
+              }
+            }
+          },
+          {
+            "Localized": 0,
+            "ID": 237061764,
+            "LocalID": 0,
+            "Type": "numerical",
+            "Value": "1",
+            "CategoryFeatureId": "2216",
+            "CategoryFeatureGroupID": "2",
+            "SortNo": "30",
+            "PresentationValue": "1",
+            "RawValue": "1",
+            "LocalValue": "1",
+            "Description": "Number of processors in the product.",
+            "Mandatory": "0",
+            "Searchable": "0",
+            "Optional": "0",
+            "Feature": {
+              "ID": "596",
+              "Sign": "",
+              "Measure": {
+                "ID": "29",
+                "Sign": "",
+                "Signs": {
+                  "ID": "",
+                  "_": "",
+                  "Language": "UK"
+                }
+              },
+              "Name": {
+                "Value": "Кількість установлених процесорів",
+                "Language": "UK"
+              }
+            }
+          },
+          {
+            "Localized": 0,
+            "ID": 237129896,
+            "LocalID": 0,
+            "Type": "alphanumeric",
+            "Value": "R0",
+            "CategoryFeatureId": "132806",
+            "CategoryFeatureGroupID": "2",
+            "SortNo": "0",
+            "PresentationValue": "R0",
+            "RawValue": "R0",
+            "LocalValue": "R0",
+            "Description": "",
+            "Mandatory": "0",
+            "Searchable": "0",
+            "Optional": "1",
+            "Feature": {
+              "ID": "3254",
+              "Sign": "",
+              "Measure": {
+                "ID": "29",
+                "Sign": "",
+                "Signs": {
+                  "ID": "",
+                  "_": "",
+                  "Language": "UK"
+                }
+              },
+              "Name": {
+                "Value": "Покрокове виконання",
+                "Language": "UK"
+              }
+            }
+          },
+          {
+            "Localized": 0,
+            "ID": 237150504,
+            "LocalID": 0,
+            "Type": "numerical",
+            "Value": "64",
+            "CategoryFeatureId": "132867",
+            "CategoryFeatureGroupID": "2",
+            "SortNo": "-10",
+            "PresentationValue": "64 ГБ",
+            "RawValue": "64",
+            "LocalValue": "64",
+            "Description": "",
+            "Mandatory": "0",
+            "Searchable": "0",
+            "Optional": "1",
+            "Feature": {
+              "ID": "21987",
+              "Sign": "",
+              "Measure": {
+                "ID": "20",
+                "Sign": "",
+                "Signs": {
+                  "ID": "3616",
+                  "_": "ГБ",
+                  "Language": "UK"
+                }
+              },
+              "Name": {
+                "Value": "Максимальна внутрішня пам'ять, підтримувана процесором",
+                "Language": "UK"
+              }
+            }
+          },
+          {
+            "Localized": 0,
+            "ID": 237150683,
+            "LocalID": 0,
+            "Type": "multi_dropdown",
+            "Value": "DDR3L-SDRAM,DDR4-SDRAM",
+            "CategoryFeatureId": "132870",
+            "CategoryFeatureGroupID": "2",
+            "SortNo": "-11",
+            "PresentationValue": "DDR3L-SDRAM, DDR4-SDRAM",
+            "RawValue": "DDR3L-SDRAM,DDR4-SDRAM",
+            "LocalValue": "DDR3L-SDRAM, DDR4-SDRAM",
+            "Description": "",
+            "Mandatory": "0",
+            "Searchable": "0",
+            "Optional": "1",
+            "Feature": {
+              "ID": "21994",
+              "Sign": "",
+              "Measure": {
+                "ID": "29",
+                "Sign": "",
+                "Signs": {
+                  "ID": "",
+                  "_": "",
+                  "Language": "UK"
+                }
+              },
+              "Name": {
+                "Value": "Типи пам'яті, підтримувані процесором",
+                "Language": "UK"
+              }
+            }
+          },
+          {
+            "Localized": 0,
+            "ID": 237150854,
+            "LocalID": 0,
+            "Type": "multi_dropdown",
+            "Value": "2133,1333,1600,1866",
+            "CategoryFeatureId": "132874",
+            "CategoryFeatureGroupID": "2",
+            "SortNo": "-12",
+            "PresentationValue": "2133,1333,1600,1866 МГц",
+            "RawValue": "2133,1333,1600,1866",
+            "LocalValue": "2133,1333,1600,1866",
+            "Description": "",
+            "Mandatory": "0",
+            "Searchable": "0",
+            "Optional": "1",
+            "Feature": {
+              "ID": "21995",
+              "Sign": "",
+              "Measure": {
+                "ID": "18",
+                "Sign": "",
+                "Signs": {
+                  "ID": "3614",
+                  "_": "МГц",
+                  "Language": "UK"
+                }
+              },
+              "Name": {
+                "Value": "Частоти пам'яті, підтримувані процесором",
+                "Language": "UK"
+              }
+            }
+          },
+          {
+            "Localized": 0,
+            "ID": 237151028,
+            "LocalID": 0,
+            "Type": "numerical",
+            "Value": "34.1",
+            "CategoryFeatureId": "132877",
+            "CategoryFeatureGroupID": "2",
+            "SortNo": "-13",
+            "PresentationValue": "34,1 ГБ/с",
+            "RawValue": "34.1",
+            "LocalValue": "34,1",
+            "Description": "",
+            "Mandatory": "0",
+            "Searchable": "0",
+            "Optional": "1",
+            "Feature": {
+              "ID": "21996",
+              "Sign": "",
+              "Measure": {
+                "ID": "160",
+                "Sign": "",
+                "Signs": {
+                  "ID": "3747",
+                  "_": "ГБ/с",
+                  "Language": "UK"
+                }
+              },
+              "Name": {
+                "Value": "Пропускна здатність пам'яті підтримувана процесором (макс.)",
+                "Language": "UK"
+              }
+            }
+          },
+          {
+            "Localized": 0,
+            "ID": 237151590,
+            "LocalID": 0,
+            "Type": "y_n",
+            "Value": "N",
+            "CategoryFeatureId": "132884",
+            "CategoryFeatureGroupID": "2",
+            "SortNo": "-15",
+            "PresentationValue": "Ні",
+            "RawValue": "N",
+            "LocalValue": "Ні",
+            "Description": "",
+            "Mandatory": "0",
+            "Searchable": "0",
+            "Optional": "1",
+            "Feature": {
+              "ID": "21998",
+              "Sign": "",
+              "Measure": {
+                "ID": "26",
+                "Sign": "",
+                "Signs": {
+                  "ID": "",
+                  "_": "",
+                  "Language": "UK"
+                }
+              },
+              "Name": {
+                "Value": "ECC-пам'ять підтримується процесором",
+                "Language": "UK"
+              }
+            }
+          },
+          {
+            "Localized": 0,
+            "ID": 237151745,
+            "LocalID": 0,
+            "Type": "numerical",
+            "Value": "1.35",
+            "CategoryFeatureId": "132887",
+            "CategoryFeatureGroupID": "2",
+            "SortNo": "-16",
+            "PresentationValue": "1,35 В",
+            "RawValue": "1.35",
+            "LocalValue": "1,35",
+            "Description": "",
+            "Mandatory": "0",
+            "Searchable": "0",
+            "Optional": "1",
+            "Feature": {
+              "ID": "21999",
+              "Sign": "",
+              "Measure": {
+                "ID": "42",
+                "Sign": "",
+                "Signs": {
+                  "ID": "3637",
+                  "_": "В",
+                  "Language": "UK"
+                }
+              },
+              "Name": {
+                "Value": "Напруга пам'яті, підтримувана процесором",
+                "Language": "UK"
+              }
+            }
+          }
+        ]
+      },
+      {
+        "ID": 3,
+        "SortNo": "95",
+        "FeatureGroup": {
+          "ID": "3",
+          "Name": {
+            "Value": "Пам'ять",
+            "Language": "UK"
+          }
+        },
+        "Features": [
+          {
+            "Localized": 0,
+            "ID": 237061776,
+            "LocalID": 0,
+            "Type": "numerical",
+            "Value": "8",
+            "CategoryFeatureId": "73752",
+            "CategoryFeatureGroupID": "3",
+            "SortNo": "5100",
+            "PresentationValue": "8 ГБ",
+            "RawValue": "8",
+            "LocalValue": "8",
+            "Description": "A computer's memory which is directly accessible to the CPU.",
+            "Mandatory": "1",
+            "Searchable": "1",
+            "Optional": "0",
+            "Feature": {
+              "ID": "11381",
+              "Sign": "",
+              "Measure": {
+                "ID": "20",
+                "Sign": "",
+                "Signs": {
+                  "ID": "3616",
+                  "_": "ГБ",
+                  "Language": "UK"
+                }
+              },
+              "Name": {
+                "Value": "Оперативна пам'ять",
+                "Language": "UK"
+              }
+            }
+          },
+          {
+            "Localized": 0,
+            "ID": 237061789,
+            "LocalID": 0,
+            "Type": "numerical",
+            "Value": "16",
+            "CategoryFeatureId": "12118",
+            "CategoryFeatureGroupID": "3",
+            "SortNo": "5099",
+            "PresentationValue": "16 ГБ",
+            "RawValue": "16",
+            "LocalValue": "16",
+            "Description": "The maximum internal memory which is available in the product.",
+            "Mandatory": "1",
+            "Searchable": "0",
+            "Optional": "0",
+            "Feature": {
+              "ID": "1452",
+              "Sign": "",
+              "Measure": {
+                "ID": "20",
+                "Sign": "",
+                "Signs": {
+                  "ID": "3616",
+                  "_": "ГБ",
+                  "Language": "UK"
+                }
+              },
+              "Name": {
+                "Value": "Максимальний об'єм внутрішної пам'яті",
+                "Language": "UK"
+              }
+            }
+          },
+          {
+            "Localized": 0,
+            "ID": 237061779,
+            "LocalID": 0,
+            "Type": "dropdown",
+            "Value": "DDR4-SDRAM",
+            "CategoryFeatureId": "1226",
+            "CategoryFeatureGroupID": "3",
+            "SortNo": "5098",
+            "PresentationValue": "DDR4-SDRAM",
+            "RawValue": "DDR4-SDRAM",
+            "LocalValue": "DDR4-SDRAM",
+            "Description": "The type of internal memory such as RAM, GDDR5.",
+            "Mandatory": "0",
+            "Searchable": "0",
+            "Optional": "0",
+            "Feature": {
+              "ID": "427",
+              "Sign": "",
+              "Measure": {
+                "ID": "29",
+                "Sign": "",
+                "Signs": {
+                  "ID": "",
+                  "_": "",
+                  "Language": "UK"
+                }
+              },
+              "Name": {
+                "Value": "Тип внутрішньої пам'яті",
+                "Language": "UK"
+              }
+            }
+          },
+          {
+            "Localized": 0,
+            "ID": 237061791,
+            "LocalID": 0,
+            "Type": "dropdown",
+            "Value": "1 x 8",
+            "CategoryFeatureId": "73737",
+            "CategoryFeatureGroupID": "3",
+            "SortNo": "180",
+            "PresentationValue": "1 x 8 ГБ",
+            "RawValue": "1 x 8",
+            "LocalValue": "1 x 8",
+            "Description": "The slots and size of the memory for the CPU.",
+            "Mandatory": "0",
+            "Searchable": "0",
+            "Optional": "0",
+            "Feature": {
+              "ID": "11380",
+              "Sign": "",
+              "Measure": {
+                "ID": "20",
+                "Sign": "",
+                "Signs": {
+                  "ID": "3616",
+                  "_": "ГБ",
+                  "Language": "UK"
+                }
+              },
+              "Name": {
+                "Value": "Конфігурація пам'яті (слоти х розмір)",
+                "Language": "UK"
+              }
+            }
+          },
+          {
+            "Localized": 0,
+            "ID": 237061798,
+            "LocalID": 0,
+            "Type": "dropdown",
+            "Value": "2x SO-DIMM",
+            "CategoryFeatureId": "2193",
+            "CategoryFeatureGroupID": "3",
+            "SortNo": "170",
+            "PresentationValue": "2x SO-DIMM",
+            "RawValue": "2x SO-DIMM",
+            "LocalValue": "2x SO-DIMM",
+            "Description": "Number and type of memory expansion slots, including connector and memory module descriptions.",
+            "Mandatory": "0",
+            "Searchable": "0",
+            "Optional": "0",
+            "Feature": {
+              "ID": "672",
+              "Sign": "",
+              "Measure": {
+                "ID": "29",
+                "Sign": "",
+                "Signs": {
+                  "ID": "",
+                  "_": "",
+                  "Language": "UK"
+                }
+              },
+              "Name": {
+                "Value": "Слоти пам'яті",
+                "Language": "UK"
+              }
+            }
+          },
+          {
+            "Localized": 0,
+            "ID": 237061805,
+            "LocalID": 0,
+            "Type": "numerical",
+            "Value": "2133",
+            "CategoryFeatureId": "28836",
+            "CategoryFeatureGroupID": "3",
+            "SortNo": "160",
+            "PresentationValue": "2133 МГц",
+            "RawValue": "2133",
+            "LocalValue": "2133",
+            "Description": "The frequency at which the memory (e.g. RAM) runs.",
+            "Mandatory": "0",
+            "Searchable": "0",
+            "Optional": "0",
+            "Feature": {
+              "ID": "2900",
+              "Sign": "",
+              "Measure": {
+                "ID": "18",
+                "Sign": "",
+                "Signs": {
+                  "ID": "3614",
+                  "_": "МГц",
+                  "Language": "UK"
+                }
+              },
+              "Name": {
+                "Value": "Тактова частота пам'яті",
+                "Language": "UK"
+              }
+            }
+          },
+          {
+            "Localized": 0,
+            "ID": 237151184,
+            "LocalID": 0,
+            "Type": "dropdown",
+            "Value": "Dual-channel",
+            "CategoryFeatureId": "315209",
+            "CategoryFeatureGroupID": "3",
+            "SortNo": "0",
+            "PresentationValue": "Dual-channel",
+            "RawValue": "Dual-channel",
+            "LocalValue": "Dual-channel",
+            "Description": "",
+            "Mandatory": "0",
+            "Searchable": "0",
+            "Optional": "0",
+            "Feature": {
+              "ID": "7788",
+              "Sign": "",
+              "Measure": {
+                "ID": "29",
+                "Sign": "",
+                "Signs": {
+                  "ID": "",
+                  "_": "",
+                  "Language": "UK"
+                }
+              },
+              "Name": {
+                "Value": "Канали пам'яті",
+                "Language": "UK"
+              }
+            }
+          }
+        ]
+      },
+      {
+        "ID": 4138,
+        "SortNo": "90",
+        "FeatureGroup": {
+          "ID": "47",
+          "Name": {
+            "Value": "Носії зберігання даних",
+            "Language": "UK"
+          }
+        },
+        "Features": [
+          {
+            "Localized": 0,
+            "ID": 237061815,
+            "LocalID": 0,
+            "Type": "y_n",
+            "Value": "N",
+            "CategoryFeatureId": "31167",
+            "CategoryFeatureGroupID": "4138",
+            "SortNo": "10100010",
+            "PresentationValue": "Ні",
+            "RawValue": "N",
+            "LocalValue": "Ні",
+            "Description": "The device includes a card reader e.g. a card reader in the disk bay of a computer or thin client to permit log-on using smart/pin cards.",
+            "Mandatory": "0",
+            "Searchable": "0",
+            "Optional": "0",
+            "Feature": {
+              "ID": "3374",
+              "Sign": "",
+              "Measure": {
+                "ID": "26",
+                "Sign": "",
+                "Signs": {
+                  "ID": "",
+                  "_": "",
+                  "Language": "UK"
+                }
+              },
+              "Name": {
+                "Value": "Вбудований зчитувач карт пам'яті",
+                "Language": "UK"
+              }
+            }
+          },
+          {
+            "Localized": 0,
+            "ID": 237061811,
+            "LocalID": 0,
+            "Type": "numerical",
+            "Value": "500",
+            "CategoryFeatureId": "33231",
+            "CategoryFeatureGroupID": "4138",
+            "SortNo": "5000",
+            "PresentationValue": "500 ГБ",
+            "RawValue": "500",
+            "LocalValue": "500",
+            "Description": "The total amount of data that can be stored on the device.",
+            "Mandatory": "1",
+            "Searchable": "1",
+            "Optional": "0",
+            "Feature": {
+              "ID": "3318",
+              "Sign": "",
+              "Measure": {
+                "ID": "20",
+                "Sign": "",
+                "Signs": {
+                  "ID": "3616",
+                  "_": "ГБ",
+                  "Language": "UK"
+                }
+              },
+              "Name": {
+                "Value": "Повний об'єм зберігання",
+                "Language": "UK"
+              }
+            }
+          },
+          {
+            "Localized": 0,
+            "ID": 237061818,
+            "LocalID": 0,
+            "Type": "dropdown",
+            "Value": "HDD",
+            "CategoryFeatureId": "96404",
+            "CategoryFeatureGroupID": "4138",
+            "SortNo": "4000",
+            "PresentationValue": "Жорсткий диск",
+            "RawValue": "HDD",
+            "LocalValue": "Жорсткий диск",
+            "Description": "Used for the storage of data e.g. HDD (hard disk drive), SSD (solid-state drive).",
+            "Mandatory": "1",
+            "Searchable": "0",
+            "Optional": "0",
+            "Feature": {
+              "ID": "11441",
+              "Sign": "",
+              "Measure": {
+                "ID": "29",
+                "Sign": "",
+                "Signs": {
+                  "ID": "",
+                  "_": "",
+                  "Language": "UK"
+                }
+              },
+              "Name": {
+                "Value": "Носій",
+                "Language": "UK"
+              }
+            }
+          },
+          {
+            "Localized": 0,
+            "ID": 237062263,
+            "LocalID": 0,
+            "Type": "dropdown",
+            "Value": "N",
+            "CategoryFeatureId": "2968",
+            "CategoryFeatureGroupID": "4138",
+            "SortNo": "500",
+            "PresentationValue": "Ні",
+            "RawValue": "N",
+            "LocalValue": "Ні",
+            "Description": "An optical drive uses laser to read optical discs such as CDs, DVDs and Blu-Ray. Some types of optical drive are: CD ROM drive, CR-RW (CD writer) drive, DVD-ROM.",
+            "Mandatory": "1",
+            "Searchable": "1",
+            "Optional": "0",
+            "Feature": {
+              "ID": "1120",
+              "Sign": "",
+              "Measure": {
+                "ID": "29",
+                "Sign": "",
+                "Signs": {
+                  "ID": "",
+                  "_": "",
+                  "Language": "UK"
+                }
+              },
+              "Name": {
+                "Value": "Тип оптичного приводу",
+                "Language": "UK"
+              }
+            }
+          },
+          {
+            "Localized": 0,
+            "ID": 237061821,
+            "LocalID": 0,
+            "Type": "numerical",
+            "Value": "1",
+            "CategoryFeatureId": "96410",
+            "CategoryFeatureGroupID": "4138",
+            "SortNo": "70",
+            "PresentationValue": "1",
+            "RawValue": "1",
+            "LocalValue": "1",
+            "Description": "Amount of storage drives built into the device.",
+            "Mandatory": "0",
+            "Searchable": "0",
+            "Optional": "0",
+            "Feature": {
+              "ID": "16115",
+              "Sign": "",
+              "Measure": {
+                "ID": "29",
+                "Sign": "",
+                "Signs": {
+                  "ID": "",
+                  "_": "",
+                  "Language": "UK"
+                }
+              },
+              "Name": {
+                "Value": "Кількість встановлених накопичувачів",
+                "Language": "UK"
+              }
+            }
+          },
+          {
+            "Localized": 0,
+            "ID": 237061824,
+            "LocalID": 0,
+            "Type": "numerical",
+            "Value": "1",
+            "CategoryFeatureId": "31177",
+            "CategoryFeatureGroupID": "4138",
+            "SortNo": "60",
+            "PresentationValue": "1",
+            "RawValue": "1",
+            "LocalValue": "1",
+            "Description": "The number of hard drives built into the device.",
+            "Mandatory": "0",
+            "Searchable": "0",
+            "Optional": "0",
+            "Feature": {
+              "ID": "3319",
+              "Sign": "",
+              "Measure": {
+                "ID": "29",
+                "Sign": "",
+                "Signs": {
+                  "ID": "",
+                  "_": "",
+                  "Language": "UK"
+                }
+              },
+              "Name": {
+                "Value": "Кількість встановлених жорстких дисків",
+                "Language": "UK"
+              }
+            }
+          },
+          {
+            "Localized": 0,
+            "ID": 237061827,
+            "LocalID": 0,
+            "Type": "numerical",
+            "Value": "500",
+            "CategoryFeatureId": "39779",
+            "CategoryFeatureGroupID": "4138",
+            "SortNo": "59",
+            "PresentationValue": "500 ГБ",
+            "RawValue": "500",
+            "LocalValue": "500",
+            "Description": "The maximum storage capacity of the hard disk, usually measured in bytes e.g. GB.",
+            "Mandatory": "0",
+            "Searchable": "0",
+            "Optional": "0",
+            "Feature": {
+              "ID": "7",
+              "Sign": "",
+              "Measure": {
+                "ID": "20",
+                "Sign": "",
+                "Signs": {
+                  "ID": "3616",
+                  "_": "ГБ",
+                  "Language": "UK"
+                }
+              },
+              "Name": {
+                "Value": "Об'єм жорсткого диску",
+                "Language": "UK"
+              }
+            }
+          },
+          {
+            "Localized": 0,
+            "ID": 237062255,
+            "LocalID": 0,
+            "Type": "dropdown",
+            "Value": "SATA III",
+            "CategoryFeatureId": "3023",
+            "CategoryFeatureGroupID": "4138",
+            "SortNo": "40",
+            "PresentationValue": "SATA III",
+            "RawValue": "SATA III",
+            "LocalValue": "SATA III",
+            "Description": "The way that a hard disk drive (HDD) is connected to the rest of the computer through a 'bus' such as ATA or SCSI.",
+            "Mandatory": "0",
+            "Searchable": "0",
+            "Optional": "0",
+            "Feature": {
+              "ID": "982",
+              "Sign": "",
+              "Measure": {
+                "ID": "29",
+                "Sign": "",
+                "Signs": {
+                  "ID": "",
+                  "_": "",
+                  "Language": "UK"
+                }
+              },
+              "Name": {
+                "Value": "Інтерфейс жорсткого диску",
+                "Language": "UK"
+              }
+            }
+          },
+          {
+            "Localized": 0,
+            "ID": 237062259,
+            "LocalID": 0,
+            "Type": "dropdown",
+            "Value": "7200",
+            "CategoryFeatureId": "1207",
+            "CategoryFeatureGroupID": "4138",
+            "SortNo": "39",
+            "PresentationValue": "7200 об/хв",
+            "RawValue": "7200",
+            "LocalValue": "7200",
+            "Description": "The rotational speed of a hard disk expressed in rotations per minute. The faster the better.",
+            "Mandatory": "0",
+            "Searchable": "0",
+            "Optional": "0",
+            "Feature": {
+              "ID": "430",
+              "Sign": "",
+              "Measure": {
+                "ID": "28",
+                "Sign": "",
+                "Signs": {
+                  "ID": "3623",
+                  "_": "об/хв",
+                  "Language": "UK"
+                }
+              },
+              "Name": {
+                "Value": "Швидкість обертання шпинделя",
+                "Language": "UK"
+              }
+            }
+          },
+          {
+            "Localized": 0,
+            "ID": 237062260,
+            "LocalID": 0,
+            "Type": "dropdown",
+            "Value": "2.5",
+            "CategoryFeatureId": "46263",
+            "CategoryFeatureGroupID": "4138",
+            "SortNo": "38",
+            "PresentationValue": "2.5\"",
+            "RawValue": "2.5",
+            "LocalValue": "2.5",
+            "Description": "The amount of data that the hard drive can store.",
+            "Mandatory": "0",
+            "Searchable": "0",
+            "Optional": "0",
+            "Feature": {
+              "ID": "1926",
+              "Sign": "",
+              "Measure": {
+                "ID": "16",
+                "Sign": "",
+                "Signs": {
+                  "ID": "3612",
+                  "_": "\"",
+                  "Language": "UK"
+                }
+              },
+              "Name": {
+                "Value": "Розмір жорсткого диска",
+                "Language": "UK"
+              }
+            }
+          }
+        ]
+      },
+      {
+        "ID": 8603,
+        "SortNo": "85",
+        "FeatureGroup": {
+          "ID": "163",
+          "Name": {
+            "Value": "Графический адаптер",
+            "Language": "UK"
+          }
+        },
+        "Features": [
+          {
+            "Localized": 0,
+            "ID": 237062266,
+            "LocalID": 0,
+            "Type": "y_n",
+            "Value": "N",
+            "CategoryFeatureId": "192532",
+            "CategoryFeatureGroupID": "8603",
+            "SortNo": "481",
+            "PresentationValue": "Ні",
+            "RawValue": "N",
+            "LocalValue": "Ні",
+            "Description": "",
+            "Mandatory": "1",
+            "Searchable": "1",
+            "Optional": "0",
+            "Feature": {
+              "ID": "27905",
+              "Sign": "",
+              "Measure": {
+                "ID": "26",
+                "Sign": "",
+                "Signs": {
+                  "ID": "",
+                  "_": "",
+                  "Language": "UK"
+                }
+              },
+              "Name": {
+                "Value": "Дискретний графічний адаптер",
+                "Language": "UK"
+              }
+            }
+          },
+          {
+            "Localized": 0,
+            "ID": 237062267,
+            "LocalID": 0,
+            "Type": "y_n",
+            "Value": "Y",
+            "CategoryFeatureId": "74328",
+            "CategoryFeatureGroupID": "8603",
+            "SortNo": "447",
+            "PresentationValue": "Так",
+            "RawValue": "Y",
+            "LocalValue": "Так",
+            "Description": "Graphics hardware which is built into the motherboard or CPU, as opposed to a separate graphics adapter (video card). On-board graphics uses CPU and RAM for graphics processing.",
+            "Mandatory": "1",
+            "Searchable": "1",
+            "Optional": "0",
+            "Feature": {
+              "ID": "9997",
+              "Sign": "",
+              "Measure": {
+                "ID": "26",
+                "Sign": "",
+                "Signs": {
+                  "ID": "",
+                  "_": "",
+                  "Language": "UK"
+                }
+              },
+              "Name": {
+                "Value": "Вбудований графічний адаптер",
+                "Language": "UK"
+              }
+            }
+          },
+          {
+            "Localized": 0,
+            "ID": 237062752,
+            "LocalID": 0,
+            "Type": "dropdown",
+            "Value": "Intel HD Graphics 530",
+            "CategoryFeatureId": "53944",
+            "CategoryFeatureGroupID": "8603",
+            "SortNo": "446",
+            "PresentationValue": "Intel® HD Graphics 530",
+            "RawValue": "Intel HD Graphics 530",
+            "LocalValue": "Intel® HD Graphics 530",
+            "Description": "\"Graphic adapter\" is the hardware that produces images on a display. \"On-board\" means that the graphics adapter is intergrated inside the motherboard.",
+            "Mandatory": "1",
+            "Searchable": "0",
+            "Optional": "0",
+            "Feature": {
+              "ID": "9016",
+              "Sign": "",
+              "Measure": {
+                "ID": "29",
+                "Sign": "",
+                "Signs": {
+                  "ID": "",
+                  "_": "",
+                  "Language": "UK"
+                }
+              },
+              "Name": {
+                "Value": "Модель вбудованого графічного адаптера",
+                "Language": "UK"
+              }
+            }
+          },
+          {
+            "Localized": 0,
+            "ID": 237139308,
+            "LocalID": 0,
+            "Type": "numerical",
+            "Value": "350",
+            "CategoryFeatureId": "132906",
+            "CategoryFeatureGroupID": "8603",
+            "SortNo": "444",
+            "PresentationValue": "350 МГц",
+            "RawValue": "350",
+            "LocalValue": "350",
+            "Description": "",
+            "Mandatory": "0",
+            "Searchable": "0",
+            "Optional": "1",
+            "Feature": {
+              "ID": "10201",
+              "Sign": "",
+              "Measure": {
+                "ID": "18",
+                "Sign": "",
+                "Signs": {
+                  "ID": "3614",
+                  "_": "МГц",
+                  "Language": "UK"
+                }
+              },
+              "Name": {
+                "Value": "Базова частота графіки вбудованого графічного адаптера",
+                "Language": "UK"
+              }
+            }
+          },
+          {
+            "Localized": 0,
+            "ID": 237139678,
+            "LocalID": 0,
+            "Type": "numerical",
+            "Value": "1100",
+            "CategoryFeatureId": "132914",
+            "CategoryFeatureGroupID": "8603",
+            "SortNo": "444",
+            "PresentationValue": "1100 МГц",
+            "RawValue": "1100",
+            "LocalValue": "1100",
+            "Description": "",
+            "Mandatory": "0",
+            "Searchable": "0",
+            "Optional": "1",
+            "Feature": {
+              "ID": "10202",
+              "Sign": "",
+              "Measure": {
+                "ID": "18",
+                "Sign": "",
+                "Signs": {
+                  "ID": "3614",
+                  "_": "МГц",
+                  "Language": "UK"
+                }
+              },
+              "Name": {
+                "Value": "Динамічна частота вбудованого графічного адаптера (макс.)",
+                "Language": "UK"
+              }
+            }
+          },
+          {
+            "Localized": 0,
+            "ID": 237152106,
+            "LocalID": 0,
+            "Type": "numerical",
+            "Value": "1.74",
+            "CategoryFeatureId": "132918",
+            "CategoryFeatureGroupID": "8603",
+            "SortNo": "444",
+            "PresentationValue": "1,74 ГБ",
+            "RawValue": "1.74",
+            "LocalValue": "1,74",
+            "Description": "",
+            "Mandatory": "0",
+            "Searchable": "0",
+            "Optional": "0",
+            "Feature": {
+              "ID": "22000",
+              "Sign": "",
+              "Measure": {
+                "ID": "20",
+                "Sign": "",
+                "Signs": {
+                  "ID": "3616",
+                  "_": "ГБ",
+                  "Language": "UK"
+                }
+              },
+              "Name": {
+                "Value": "Максимальний об'єм пам'яті вбудованого графічного адаптера",
+                "Language": "UK"
+              }
+            }
+          },
+          {
+            "Localized": 0,
+            "ID": 237152491,
+            "LocalID": 0,
+            "Type": "numerical",
+            "Value": "3",
+            "CategoryFeatureId": "133017",
+            "CategoryFeatureGroupID": "8603",
+            "SortNo": "444",
+            "PresentationValue": "3",
+            "RawValue": "3",
+            "LocalValue": "3",
+            "Description": "The feature may not be available on all computing systems. Functionality, performance, and other benefits of this feature may vary depending on system configuration.",
+            "Mandatory": "0",
+            "Searchable": "0",
+            "Optional": "1",
+            "Feature": {
+              "ID": "22001",
+              "Sign": "",
+              "Measure": {
+                "ID": "29",
+                "Sign": "",
+                "Signs": {
+                  "ID": "",
+                  "_": "",
+                  "Language": "UK"
+                }
+              },
+              "Name": {
+                "Value": "Кількість дисплеїв, підтримувана вбудованим графічним адаптером",
+                "Language": "UK"
+              }
+            }
+          },
+          {
+            "Localized": 0,
+            "ID": 380691439,
+            "LocalID": 0,
+            "Type": "dropdown",
+            "Value": "12.0",
+            "CategoryFeatureId": "132952",
+            "CategoryFeatureGroupID": "8603",
+            "SortNo": "440",
+            "PresentationValue": "12.0",
+            "RawValue": "12.0",
+            "LocalValue": "12.0",
+            "Description": "",
+            "Mandatory": "0",
+            "Searchable": "0",
+            "Optional": "1",
+            "Feature": {
+              "ID": "22004",
+              "Sign": "",
+              "Measure": {
+                "ID": "29",
+                "Sign": "",
+                "Signs": {
+                  "ID": "",
+                  "_": "",
+                  "Language": "UK"
+                }
+              },
+              "Name": {
+                "Value": "Версия DirectX вбудованого графічного адаптера",
+                "Language": "UK"
+              }
+            }
+          },
+          {
+            "Localized": 0,
+            "ID": 237153017,
+            "LocalID": 0,
+            "Type": "dropdown",
+            "Value": "4.4",
+            "CategoryFeatureId": "132955",
+            "CategoryFeatureGroupID": "8603",
+            "SortNo": "440",
+            "PresentationValue": "4.4",
+            "RawValue": "4.4",
+            "LocalValue": "4.4",
+            "Description": "",
+            "Mandatory": "0",
+            "Searchable": "0",
+            "Optional": "1",
+            "Feature": {
+              "ID": "22005",
+              "Sign": "",
+              "Measure": {
+                "ID": "29",
+                "Sign": "",
+                "Signs": {
+                  "ID": "",
+                  "_": "",
+                  "Language": "UK"
+                }
+              },
+              "Name": {
+                "Value": "Версия OpenGL вбудованого графічного адаптера",
+                "Language": "UK"
+              }
+            }
+          },
+          {
+            "Localized": 0,
+            "ID": 237147068,
+            "LocalID": 0,
+            "Type": "alphanumeric",
+            "Value": "1912",
+            "CategoryFeatureId": "135142",
+            "CategoryFeatureGroupID": "8603",
+            "SortNo": "440",
+            "PresentationValue": "1912",
+            "RawValue": "1912",
+            "LocalValue": "1912",
+            "Description": "",
+            "Mandatory": "0",
+            "Searchable": "0",
+            "Optional": "1",
+            "Feature": {
+              "ID": "20625",
+              "Sign": "",
+              "Measure": {
+                "ID": "29",
+                "Sign": "",
+                "Signs": {
+                  "ID": "",
+                  "_": "",
+                  "Language": "UK"
+                }
+              },
+              "Name": {
+                "Value": "Ідентифікатор вбудованого графічного адаптера",
+                "Language": "UK"
+              }
+            }
+          }
+        ]
+      },
+      {
+        "ID": 2066,
+        "SortNo": "75",
+        "FeatureGroup": {
+          "ID": "35",
+          "Name": {
+            "Value": "Мережа",
+            "Language": "UK"
+          }
+        },
+        "Features": [
+          {
+            "Localized": 0,
+            "ID": 237062910,
+            "LocalID": 0,
+            "Type": "y_n",
+            "Value": "Y",
+            "CategoryFeatureId": "36488",
+            "CategoryFeatureGroupID": "2066",
+            "SortNo": "100",
+            "PresentationValue": "Так",
+            "RawValue": "Y",
+            "LocalValue": "Так",
+            "Description": "An Ethernet LAN (Local Area Network) interface is present, for a wired conection via a cable.",
+            "Mandatory": "1",
+            "Searchable": "0",
+            "Optional": "0",
+            "Feature": {
+              "ID": "1347",
+              "Sign": "",
+              "Measure": {
+                "ID": "26",
+                "Sign": "",
+                "Signs": {
+                  "ID": "",
+                  "_": "",
+                  "Language": "UK"
+                }
+              },
+              "Name": {
+                "Value": "Підключення Ethernet",
+                "Language": "UK"
+              }
+            }
+          },
+          {
+            "Localized": 0,
+            "ID": 237062912,
+            "LocalID": 0,
+            "Type": "multi_dropdown",
+            "Value": "10,100,1000",
+            "CategoryFeatureId": "31181",
+            "CategoryFeatureGroupID": "2066",
+            "SortNo": "99",
+            "PresentationValue": "10,100,1000 Мбіт/с",
+            "RawValue": "10,100,1000",
+            "LocalValue": "10,100,1000",
+            "Description": "The different speed levels of the Ethernet LAN connection.",
+            "Mandatory": "0",
+            "Searchable": "0",
+            "Optional": "0",
+            "Feature": {
+              "ID": "3768",
+              "Sign": "",
+              "Measure": {
+                "ID": "23",
+                "Sign": "",
+                "Signs": {
+                  "ID": "3619",
+                  "_": "Мбіт/с",
+                  "Language": "UK"
+                }
+              },
+              "Name": {
+                "Value": "Швидкість передачі даних Ethernet LAN",
+                "Language": "UK"
+              }
+            }
+          },
+          {
+            "Localized": 0,
+            "ID": 237062919,
+            "LocalID": 0,
+            "Type": "dropdown",
+            "Value": "10/100Base-T(X)",
+            "CategoryFeatureId": "31179",
+            "CategoryFeatureGroupID": "2066",
+            "SortNo": "98",
+            "PresentationValue": "10/100Base-T(X)",
+            "RawValue": "10/100Base-T(X)",
+            "LocalValue": "10/100Base-T(X)",
+            "Description": "Type of cable technology performance.",
+            "Mandatory": "0",
+            "Searchable": "0",
+            "Optional": "0",
+            "Feature": {
+              "ID": "747",
+              "Sign": "",
+              "Measure": {
+                "ID": "29",
+                "Sign": "",
+                "Signs": {
+                  "ID": "",
+                  "_": "",
+                  "Language": "UK"
+                }
+              },
+              "Name": {
+                "Value": "Свивка кабеля",
+                "Language": "UK"
+              }
+            }
+          },
+          {
+            "Localized": 0,
+            "ID": 237062924,
+            "LocalID": 0,
+            "Type": "y_n",
+            "Value": "Y",
+            "CategoryFeatureId": "36487",
+            "CategoryFeatureGroupID": "2066",
+            "SortNo": "81",
+            "PresentationValue": "Так",
+            "RawValue": "Y",
+            "LocalValue": "Так",
+            "Description": "Popular technology that allows an electronic device to exchange data or connect to the internet wirelessly using radio waves.",
+            "Mandatory": "1",
+            "Searchable": "0",
+            "Optional": "0",
+            "Feature": {
+              "ID": "3239",
+              "Sign": "",
+              "Measure": {
+                "ID": "26",
+                "Sign": "",
+                "Signs": {
+                  "ID": "",
+                  "_": "",
+                  "Language": "UK"
+                }
+              },
+              "Name": {
+                "Value": "Wi-Fi",
+                "Language": "UK"
+              }
+            }
+          },
+          {
+            "Localized": 0,
+            "ID": 237062935,
+            "LocalID": 0,
+            "Type": "y_n",
+            "Value": "Y",
+            "CategoryFeatureId": "33715",
+            "CategoryFeatureGroupID": "2066",
+            "SortNo": "50",
+            "PresentationValue": "Так",
+            "RawValue": "Y",
+            "LocalValue": "Так",
+            "Description": "Bluetooth is a low-power radio technology developed to replace the cables and wires currently used to link or connect electronic devices such as personal computers, printers, and a wide variety of handheld devices including mobile phones. Because it uses radio-wave connectivity, a Bluetooth-enabled device has a constant, established connection to whatever browser it uses. This saves the user the trouble of logging on to check for emails or news updates, for example.",
+            "Mandatory": "0",
+            "Searchable": "0",
+            "Optional": "0",
+            "Feature": {
+              "ID": "2183",
+              "Sign": "",
+              "Measure": {
+                "ID": "26",
+                "Sign": "",
+                "Signs": {
+                  "ID": "",
+                  "_": "",
+                  "Language": "UK"
+                }
+              },
+              "Name": {
+                "Value": "Bluetooth",
+                "Language": "UK"
+              }
+            }
+          }
+        ]
+      },
+      {
+        "ID": 821,
+        "SortNo": "70",
+        "FeatureGroup": {
+          "ID": "12",
+          "Name": {
+            "Value": "Порти та інтерфейси",
+            "Language": "UK"
+          }
+        },
+        "Features": [
+          {
+            "Localized": 0,
+            "ID": 237064420,
+            "LocalID": 0,
+            "Type": "numerical",
+            "Value": "6",
+            "CategoryFeatureId": "138381",
+            "CategoryFeatureGroupID": "821",
+            "SortNo": "499",
+            "PresentationValue": "6",
+            "RawValue": "6",
+            "LocalValue": "6",
+            "Description": "",
+            "Mandatory": "1",
+            "Searchable": "0",
+            "Optional": "0",
+            "Feature": {
+              "ID": "22701",
+              "Sign": "",
+              "Measure": {
+                "ID": "29",
+                "Sign": "",
+                "Signs": {
+                  "ID": "",
+                  "_": "",
+                  "Language": "UK"
+                }
+              },
+              "Name": {
+                "Value": "Кількість портів USB 3.2 Gen 1 (3.1 Gen 1) Type-A",
+                "Language": "UK"
+              }
+            }
+          },
+          {
+            "Localized": 0,
+            "ID": 237064438,
+            "LocalID": 0,
+            "Type": "y_n",
+            "Value": "N",
+            "CategoryFeatureId": "15957",
+            "CategoryFeatureGroupID": "821",
+            "SortNo": "399",
+            "PresentationValue": "Ні",
+            "RawValue": "N",
+            "LocalValue": "Ні",
+            "Description": "Digital Visual Interface (DVI) is a video display interface to connect a video source to a display device, such as a computer monitor.",
+            "Mandatory": "0",
+            "Searchable": "0",
+            "Optional": "0",
+            "Feature": {
+              "ID": "2319",
+              "Sign": "",
+              "Measure": {
+                "ID": "26",
+                "Sign": "",
+                "Signs": {
+                  "ID": "",
+                  "_": "",
+                  "Language": "UK"
+                }
+              },
+              "Name": {
+                "Value": "Порт DVI",
+                "Language": "UK"
+              }
+            }
+          },
+          {
+            "Localized": 0,
+            "ID": 237064439,
+            "LocalID": 0,
+            "Type": "numerical",
+            "Value": "1",
+            "CategoryFeatureId": "31178",
+            "CategoryFeatureGroupID": "821",
+            "SortNo": "398",
+            "PresentationValue": "1",
+            "RawValue": "1",
+            "LocalValue": "1",
+            "Description": "The number of sockets (ports) for HDMI connections. HDMI (High-Definition Multimedia Interface) is a compact audio/video interface for transferring uncompressed video data and compressed/uncompressed digital audio data from a HDMI-compliant device (\"the source device\") to a compatible computer monitor, video projector, digital television, or digital audio device. HDMI is a digital replacement for existing analog video standards.",
+            "Mandatory": "1",
+            "Searchable": "0",
+            "Optional": "0",
+            "Feature": {
+              "ID": "3566",
+              "Sign": "",
+              "Measure": {
+                "ID": "29",
+                "Sign": "",
+                "Signs": {
+                  "ID": "",
+                  "_": "",
+                  "Language": "UK"
+                }
+              },
+              "Name": {
+                "Value": "Кількість HDMI портів",
+                "Language": "UK"
+              }
+            }
+          },
+          {
+            "Localized": 0,
+            "ID": 237064441,
+            "LocalID": 0,
+            "Type": "numerical",
+            "Value": "1",
+            "CategoryFeatureId": "49713",
+            "CategoryFeatureGroupID": "821",
+            "SortNo": "391",
+            "PresentationValue": "1",
+            "RawValue": "1",
+            "LocalValue": "1",
+            "Description": "The new HDMI mini connector, next to the regular HDMI connector, is designed to be used with small portable devices such as camcorders and digital still cameras.",
+            "Mandatory": "0",
+            "Searchable": "0",
+            "Optional": "1",
+            "Feature": {
+              "ID": "7271",
+              "Sign": "",
+              "Measure": {
+                "ID": "29",
+                "Sign": "",
+                "Signs": {
+                  "ID": "",
+                  "_": "",
+                  "Language": "UK"
+                }
+              },
+              "Name": {
+                "Value": "Кількість mini HDMI портів",
+                "Language": "UK"
+              }
+            }
+          },
+          {
+            "Localized": 0,
+            "ID": 237064599,
+            "LocalID": 0,
+            "Type": "numerical",
+            "Value": "1",
+            "CategoryFeatureId": "35742",
+            "CategoryFeatureGroupID": "821",
+            "SortNo": "390",
+            "PresentationValue": "1",
+            "RawValue": "1",
+            "LocalValue": "1",
+            "Description": "Number of DisplayPorts. A DisplayPort is a digital display interface developed by the Video Electronics Standards Association (VESA). The interface is primarily used to connect a video source to a display device such as a computer monitor, though it can also be used to carry audio, USB, and other forms of data.",
+            "Mandatory": "0",
+            "Searchable": "0",
+            "Optional": "0",
+            "Feature": {
+              "ID": "6611",
+              "Sign": "",
+              "Measure": {
+                "ID": "29",
+                "Sign": "",
+                "Signs": {
+                  "ID": "",
+                  "_": "",
+                  "Language": "UK"
+                }
+              },
+              "Name": {
+                "Value": "Кількість портів DisplayPort",
+                "Language": "UK"
+              }
+            }
+          },
+          {
+            "Localized": 0,
+            "ID": 237064607,
+            "LocalID": 0,
+            "Type": "numerical",
+            "Value": "1",
+            "CategoryFeatureId": "14590",
+            "CategoryFeatureGroupID": "821",
+            "SortNo": "340",
+            "PresentationValue": "1",
+            "RawValue": "1",
+            "LocalValue": "1",
+            "Description": "Number of Ethernet LAN (RJ-45) ports (connecting interfaces) in the device.  Ethernet LAN (RJ-45) ports allow a computer to connect to the ethernet.",
+            "Mandatory": "0",
+            "Searchable": "0",
+            "Optional": "0",
+            "Feature": {
+              "ID": "2312",
+              "Sign": "",
+              "Measure": {
+                "ID": "29",
+                "Sign": "",
+                "Signs": {
+                  "ID": "",
+                  "_": "",
+                  "Language": "UK"
+                }
+              },
+              "Name": {
+                "Value": "Кількість портів Ethernet LAN (RJ-45)",
+                "Language": "UK"
+              }
+            }
+          },
+          {
+            "Localized": 0,
+            "ID": 237064620,
+            "LocalID": 0,
+            "Type": "y_n",
+            "Value": "N",
+            "CategoryFeatureId": "14588",
+            "CategoryFeatureGroupID": "821",
+            "SortNo": "100",
+            "PresentationValue": "Ні",
+            "RawValue": "N",
+            "LocalValue": "Ні",
+            "Description": "The socket where a microphone is connected to the device.",
+            "Mandatory": "0",
+            "Searchable": "0",
+            "Optional": "0",
+            "Feature": {
+              "ID": "2314",
+              "Sign": "",
+              "Measure": {
+                "ID": "26",
+                "Sign": "",
+                "Signs": {
+                  "ID": "",
+                  "_": "",
+                  "Language": "UK"
+                }
+              },
+              "Name": {
+                "Value": "Мікрофон, лінійний вхід",
+                "Language": "UK"
+              }
+            }
+          },
+          {
+            "Localized": 0,
+            "ID": 237064615,
+            "LocalID": 0,
+            "Type": "y_n",
+            "Value": "Y",
+            "CategoryFeatureId": "14589",
+            "CategoryFeatureGroupID": "821",
+            "SortNo": "97",
+            "PresentationValue": "Так",
+            "RawValue": "Y",
+            "LocalValue": "Так",
+            "Description": "",
+            "Mandatory": "0",
+            "Searchable": "0",
+            "Optional": "0",
+            "Feature": {
+              "ID": "1345",
+              "Sign": "",
+              "Measure": {
+                "ID": "26",
+                "Sign": "",
+                "Signs": {
+                  "ID": "",
+                  "_": "",
+                  "Language": "UK"
+                }
+              },
+              "Name": {
+                "Value": "Лінійний вихід",
+                "Language": "UK"
+              }
+            }
+          },
+          {
+            "Localized": 0,
+            "ID": 237064624,
+            "LocalID": 0,
+            "Type": "y_n",
+            "Value": "Y",
+            "CategoryFeatureId": "113477",
+            "CategoryFeatureGroupID": "821",
+            "SortNo": "96",
+            "PresentationValue": "Так",
+            "RawValue": "Y",
+            "LocalValue": "Так",
+            "Description": "",
+            "Mandatory": "0",
+            "Searchable": "0",
+            "Optional": "0",
+            "Feature": {
+              "ID": "9858",
+              "Sign": "",
+              "Measure": {
+                "ID": "26",
+                "Sign": "",
+                "Signs": {
+                  "ID": "",
+                  "_": "",
+                  "Language": "UK"
+                }
+              },
+              "Name": {
+                "Value": "Комбiнований порт навушникiв/мiкрофона",
+                "Language": "UK"
+              }
+            }
+          },
+          {
+            "Localized": 0,
+            "ID": 237064608,
+            "LocalID": 0,
+            "Type": "y_n",
+            "Value": "Y",
+            "CategoryFeatureId": "41063",
+            "CategoryFeatureGroupID": "821",
+            "SortNo": "70",
+            "PresentationValue": "Так",
+            "RawValue": "Y",
+            "LocalValue": "Так",
+            "Description": "The socket/plug where the DC electricity supply connects to the device.",
+            "Mandatory": "0",
+            "Searchable": "0",
+            "Optional": "0",
+            "Feature": {
+              "ID": "2316",
+              "Sign": "",
+              "Measure": {
+                "ID": "26",
+                "Sign": "",
+                "Signs": {
+                  "ID": "",
+                  "_": "",
+                  "Language": "UK"
+                }
+              },
+              "Name": {
+                "Value": "Гніздо постійного струму (DC)",
+                "Language": "UK"
+              }
+            }
+          }
+        ]
+      },
+      {
+        "ID": 10928,
+        "SortNo": "60",
+        "FeatureGroup": {
+          "ID": "148",
+          "Name": {
+            "Value": "Дизайн",
+            "Language": "UK"
+          }
+        },
+        "Features": [
+          {
+            "Localized": 0,
+            "ID": 237064913,
+            "LocalID": 0,
+            "Type": "dropdown",
+            "Value": "Mini PC",
+            "CategoryFeatureId": "2195",
+            "CategoryFeatureGroupID": "10928",
+            "SortNo": "10000600",
+            "PresentationValue": "mini PC",
+            "RawValue": "Mini PC",
+            "LocalValue": "mini PC",
+            "Description": "The type of rigid framework onto which is the hosuing for device components.",
+            "Mandatory": "1",
+            "Searchable": "0",
+            "Optional": "0",
+            "Feature": {
+              "ID": "734",
+              "Sign": "",
+              "Measure": {
+                "ID": "29",
+                "Sign": "",
+                "Signs": {
+                  "ID": "",
+                  "_": "",
+                  "Language": "UK"
+                }
+              },
+              "Name": {
+                "Value": "Тип корпуса",
+                "Language": "UK"
+              }
+            }
+          },
+          {
+            "Localized": 0,
+            "ID": 275233964,
+            "LocalID": 0,
+            "Type": "numerical",
+            "Value": "1.2",
+            "CategoryFeatureId": "206469",
+            "CategoryFeatureGroupID": "10928",
+            "SortNo": "489",
+            "PresentationValue": "1,2 л",
+            "RawValue": "1.2",
+            "LocalValue": "1,2",
+            "Description": "The amount of a substance contained.",
+            "Mandatory": "0",
+            "Searchable": "0",
+            "Optional": "0",
+            "Feature": {
+              "ID": "4794",
+              "Sign": "",
+              "Measure": {
+                "ID": "100",
+                "Sign": "",
+                "Signs": {
+                  "ID": "10873",
+                  "_": "л",
+                  "Language": "UK"
+                }
+              },
+              "Name": {
+                "Value": "Об'єм",
+                "Language": "UK"
+              }
+            }
+          },
+          {
+            "Localized": 0,
+            "ID": 237061714,
+            "LocalID": 0,
+            "Type": "dropdown",
+            "Value": "Horizontal/Vertical",
+            "CategoryFeatureId": "63696",
+            "CategoryFeatureGroupID": "10928",
+            "SortNo": "390",
+            "PresentationValue": "Горизонтальний / Вертикальний",
+            "RawValue": "Horizontal/Vertical",
+            "LocalValue": "Горизонтальний / Вертикальний",
+            "Description": "Where the product can be placed e.g. indoor/outdoor, horizontal/vertical.",
+            "Mandatory": "0",
+            "Searchable": "0",
+            "Optional": "0",
+            "Feature": {
+              "ID": "3416",
+              "Sign": "",
+              "Measure": {
+                "ID": "29",
+                "Sign": "",
+                "Signs": {
+                  "ID": "",
+                  "_": "",
+                  "Language": "UK"
+                }
+              },
+              "Name": {
+                "Value": "Розміщення, яке підтримується",
+                "Language": "UK"
+              }
+            }
+          },
+          {
+            "Localized": 0,
+            "ID": 237061715,
+            "LocalID": 0,
+            "Type": "dropdown",
+            "Value": "1",
+            "CategoryFeatureId": "95730",
+            "CategoryFeatureGroupID": "10928",
+            "SortNo": "365",
+            "PresentationValue": "1",
+            "RawValue": "1",
+            "LocalValue": "1",
+            "Description": "",
+            "Mandatory": "0",
+            "Searchable": "0",
+            "Optional": "0",
+            "Feature": {
+              "ID": "10206",
+              "Sign": "",
+              "Measure": {
+                "ID": "29",
+                "Sign": "",
+                "Signs": {
+                  "ID": "",
+                  "_": "",
+                  "Language": "UK"
+                }
+              },
+              "Name": {
+                "Value": "Кількість 2.5\" слотів",
+                "Language": "UK"
+              }
+            }
+          },
+          {
+            "Localized": 0,
+            "ID": 237061720,
+            "LocalID": 0,
+            "Type": "y_n",
+            "Value": "Y",
+            "CategoryFeatureId": "18563",
+            "CategoryFeatureGroupID": "10928",
+            "SortNo": "100",
+            "PresentationValue": "Так",
+            "RawValue": "Y",
+            "LocalValue": "Так",
+            "Description": "Holes on the edge of devices through which a cable lock can be passed, so the device can be locked to a desk etc.",
+            "Mandatory": "0",
+            "Searchable": "0",
+            "Optional": "0",
+            "Feature": {
+              "ID": "1352",
+              "Sign": "",
+              "Measure": {
+                "ID": "26",
+                "Sign": "",
+                "Signs": {
+                  "ID": "",
+                  "_": "",
+                  "Language": "UK"
+                }
+              },
+              "Name": {
+                "Value": "Слот кабельного блокування",
+                "Language": "UK"
+              }
+            }
+          },
+          {
+            "Localized": 0,
+            "ID": 237061729,
+            "LocalID": 0,
+            "Type": "dropdown",
+            "Value": "Kensington",
+            "CategoryFeatureId": "86800",
+            "CategoryFeatureGroupID": "10928",
+            "SortNo": "99",
+            "PresentationValue": "Kensington",
+            "RawValue": "Kensington",
+            "LocalValue": "Kensington",
+            "Description": "",
+            "Mandatory": "0",
+            "Searchable": "0",
+            "Optional": "0",
+            "Feature": {
+              "ID": "14097",
+              "Sign": "",
+              "Measure": {
+                "ID": "29",
+                "Sign": "",
+                "Signs": {
+                  "ID": "",
+                  "_": "",
+                  "Language": "UK"
+                }
+              },
+              "Name": {
+                "Value": "Тип слоту кабельного блокування",
+                "Language": "UK"
+              }
+            }
+          },
+          {
+            "Localized": 0,
+            "ID": 237061709,
+            "LocalID": 0,
+            "Type": "dropdown",
+            "Value": "Black",
+            "CategoryFeatureId": "28831",
+            "CategoryFeatureGroupID": "10928",
+            "SortNo": "1",
+            "PresentationValue": "Чорний",
+            "RawValue": "Black",
+            "LocalValue": "Чорний",
+            "Description": "Цвет продукции, например: красный, синий, зеленый, черный, белый.",
+            "Mandatory": "1",
+            "Searchable": "0",
+            "Optional": "0",
+            "Feature": {
+              "ID": "1766",
+              "Sign": "",
+              "Measure": {
+                "ID": "29",
+                "Sign": "",
+                "Signs": {
+                  "ID": "",
+                  "_": "",
+                  "Language": "UK"
+                }
+              },
+              "Name": {
+                "Value": "Колір продукту",
+                "Language": "UK"
+              }
+            }
+          }
+        ]
+      },
+      {
+        "ID": 10929,
+        "SortNo": "58",
+        "FeatureGroup": {
+          "ID": "184",
+          "Name": {
+            "Value": "Характеристики",
+            "Language": "UK"
+          }
+        },
+        "Features": [
+          {
+            "Localized": 0,
+            "ID": 237061742,
+            "LocalID": 0,
+            "Type": "dropdown",
+            "Value": "Intel Q170",
+            "CategoryFeatureId": "47146",
+            "CategoryFeatureGroupID": "10929",
+            "SortNo": "300",
+            "PresentationValue": "Intel® Q170",
+            "RawValue": "Intel Q170",
+            "LocalValue": "Intel® Q170",
+            "Description": "The chipset connects the microprocessor to the rest of the motherboard.",
+            "Mandatory": "0",
+            "Searchable": "0",
+            "Optional": "0",
+            "Feature": {
+              "ID": "436",
+              "Sign": "",
+              "Measure": {
+                "ID": "29",
+                "Sign": "",
+                "Signs": {
+                  "ID": "",
+                  "_": "",
+                  "Language": "UK"
+                }
+              },
+              "Name": {
+                "Value": "Чипсет материнської плати",
+                "Language": "UK"
+              }
+            }
+          },
+          {
+            "Localized": 0,
+            "ID": 237061745,
+            "LocalID": 0,
+            "Type": "y_n",
+            "Value": "Y",
+            "CategoryFeatureId": "96548",
+            "CategoryFeatureGroupID": "10929",
+            "SortNo": "97",
+            "PresentationValue": "Так",
+            "RawValue": "Y",
+            "LocalValue": "Так",
+            "Description": "The computer, smartphone etc. can only be used when the correct password is entered, therefore making it more secure.",
+            "Mandatory": "0",
+            "Searchable": "0",
+            "Optional": "0",
+            "Feature": {
+              "ID": "16095",
+              "Sign": "",
+              "Measure": {
+                "ID": "26",
+                "Sign": "",
+                "Signs": {
+                  "ID": "",
+                  "_": "",
+                  "Language": "UK"
+                }
+              },
+              "Name": {
+                "Value": "Захист паролем",
+                "Language": "UK"
+              }
+            }
+          },
+          {
+            "Localized": 0,
+            "ID": 237061739,
+            "LocalID": 0,
+            "Type": "dropdown",
+            "Value": "Mini PC (<= 3L)",
+            "CategoryFeatureId": "86787",
+            "CategoryFeatureGroupID": "10929",
+            "SortNo": "2",
+            "PresentationValue": "Міні-ПК",
+            "RawValue": "Mini PC (<= 3L)",
+            "LocalValue": "Міні-ПК",
+            "Description": "The sub-category of the product.",
+            "Mandatory": "1",
+            "Searchable": "1",
+            "Optional": "0",
+            "Feature": {
+              "ID": "14052",
+              "Sign": "",
+              "Measure": {
+                "ID": "29",
+                "Sign": "",
+                "Signs": {
+                  "ID": "",
+                  "_": "",
+                  "Language": "UK"
+                }
+              },
+              "Name": {
+                "Value": "Тип продукту",
+                "Language": "UK"
+              }
+            }
+          }
+        ]
+      },
+      {
+        "ID": 3402,
+        "SortNo": "56",
+        "FeatureGroup": {
+          "ID": "90",
+          "Name": {
+            "Value": "Програмне забезпечення",
+            "Language": "UK"
+          }
+        },
+        "Features": [
+          {
+            "Localized": 0,
+            "ID": 237062899,
+            "LocalID": 0,
+            "Type": "dropdown",
+            "Value": "Windows 10 Pro",
+            "CategoryFeatureId": "20011",
+            "CategoryFeatureGroupID": "3402",
+            "SortNo": "601",
+            "PresentationValue": "Windows 10 Pro",
+            "RawValue": "Windows 10 Pro",
+            "LocalValue": "Windows 10 Pro",
+            "Description": "Type of operating system on a device e.g. IOS on Apple devices, Android for mobile devices.",
+            "Mandatory": "1",
+            "Searchable": "1",
+            "Optional": "0",
+            "Feature": {
+              "ID": "3233",
+              "Sign": "",
+              "Measure": {
+                "ID": "29",
+                "Sign": "",
+                "Signs": {
+                  "ID": "",
+                  "_": "",
+                  "Language": "UK"
+                }
+              },
+              "Name": {
+                "Value": "Операційна система, яку встановлено",
+                "Language": "UK"
+              }
+            }
+          },
+          {
+            "Localized": 0,
+            "ID": 237062904,
+            "LocalID": 0,
+            "Type": "dropdown",
+            "Value": "64-bit",
+            "CategoryFeatureId": "45086",
+            "CategoryFeatureGroupID": "3402",
+            "SortNo": "15",
+            "PresentationValue": "64-розрядний",
+            "RawValue": "64-bit",
+            "LocalValue": "64-розрядний",
+            "Description": "The way in which the operating system of a computer/smartphone (32-bit/64-bit) is set up.",
+            "Mandatory": "0",
+            "Searchable": "0",
+            "Optional": "0",
+            "Feature": {
+              "ID": "7563",
+              "Sign": "",
+              "Measure": {
+                "ID": "29",
+                "Sign": "",
+                "Signs": {
+                  "ID": "",
+                  "_": "",
+                  "Language": "UK"
+                }
+              },
+              "Name": {
+                "Value": "Архітектура операційної системи",
+                "Language": "UK"
+              }
+            }
+          },
+          {
+            "Localized": 0,
+            "ID": 237064835,
+            "LocalID": 0,
+            "Type": "y_n",
+            "Value": "Y",
+            "CategoryFeatureId": "31165",
+            "CategoryFeatureGroupID": "3402",
+            "SortNo": "-1",
+            "PresentationValue": "Так",
+            "RawValue": "Y",
+            "LocalValue": "Так",
+            "Description": "",
+            "Mandatory": "0",
+            "Searchable": "0",
+            "Optional": "0",
+            "Feature": {
+              "ID": "6220",
+              "Sign": "",
+              "Measure": {
+                "ID": "26",
+                "Sign": "",
+                "Signs": {
+                  "ID": "",
+                  "_": "",
+                  "Language": "UK"
+                }
+              },
+              "Name": {
+                "Value": "Драйвера в комплекті",
+                "Language": "UK"
+              }
+            }
+          },
+          {
+            "Localized": 0,
+            "ID": 237065013,
+            "LocalID": 0,
+            "Type": "textarea",
+            "Value": "Microsoft Office Home & Business 2016",
+            "CategoryFeatureId": "1034",
+            "CategoryFeatureGroupID": "3402",
+            "SortNo": "-10",
+            "PresentationValue": "Microsoft Office Home & Business 2016",
+            "RawValue": "Microsoft Office Home & Business 2016",
+            "LocalValue": "Microsoft Office Home & Business 2016",
+            "Description": "Software distributed with another product such as a piece of computer hardware or other electronic device, or a group of software packages which are sold together. A software suite is an example of bundled software, as is software which is pre-installed on a new computer.",
+            "Mandatory": "0",
+            "Searchable": "0",
+            "Optional": "0",
+            "Feature": {
+              "ID": "251",
+              "Sign": "",
+              "Measure": {
+                "ID": "29",
+                "Sign": "",
+                "Signs": {
+                  "ID": "",
+                  "_": "",
+                  "Language": "UK"
+                }
+              },
+              "Name": {
+                "Value": "ПЗ, що поставляюється",
+                "Language": "UK"
+              }
+            }
+          }
+        ]
+      },
+      {
+        "ID": 10386,
+        "SortNo": "55",
+        "FeatureGroup": {
+          "ID": "183",
+          "Name": {
+            "Value": "Особливі властивості процесора",
+            "Language": "UK"
+          }
+        },
+        "Features": [
+          {
+            "Localized": 0,
+            "ID": 237143960,
+            "LocalID": 0,
+            "Type": "y_n",
+            "Value": "Y",
+            "CategoryFeatureId": "83901",
+            "CategoryFeatureGroupID": "10386",
+            "SortNo": "0",
+            "PresentationValue": "Так",
+            "RawValue": "Y",
+            "LocalValue": "Так",
+            "Description": "<b>Рішення, які допоможуть Вам зосередитися на вашому малому бізнесі.</b>\r\nIntel® Small Business Advantage (Intel® SBA) допомагає малим підприємствам без керованої мережі управляти питаннями безпеки і продуктивності. Це рішення допомагає підтримувати і захищати ПК автоматично, так що Ви можете зосередитися на веденні бізнесу.",
+            "Mandatory": "0",
+            "Searchable": "0",
+            "Optional": "1",
+            "Feature": {
+              "ID": "11779",
+              "Sign": "",
+              "Measure": {
+                "ID": "26",
+                "Sign": "",
+                "Signs": {
+                  "ID": "",
+                  "_": "",
+                  "Language": "UK"
+                }
+              },
+              "Name": {
+                "Value": "Intel Small Business Advantage (SBA)",
+                "Language": "UK"
+              }
+            }
+          },
+          {
+            "Localized": 0,
+            "ID": 237135292,
+            "LocalID": 0,
+            "Type": "y_n",
+            "Value": "Y",
+            "CategoryFeatureId": "87475",
+            "CategoryFeatureGroupID": "10386",
+            "SortNo": "0",
+            "PresentationValue": "Так",
+            "RawValue": "Y",
+            "LocalValue": "Так",
+            "Description": "<b>Connect to TV Wirelessly</b>\r\nWith a few clicks, Intel® Wireless Display expands your screen’s potential, linking mobile devices and laptops to TV screens wirelessly. Stream family favorites and view personal experiences while turning your device’s small screen into a superior, sharable experience.",
+            "Mandatory": "0",
+            "Searchable": "0",
+            "Optional": "1",
+            "Feature": {
+              "ID": "10111",
+              "Sign": "",
+              "Measure": {
+                "ID": "26",
+                "Sign": "",
+                "Signs": {
+                  "ID": "",
+                  "_": "",
+                  "Language": "UK"
+                }
+              },
+              "Name": {
+                "Value": "Технологiя Intel Wireless Display (WiDi)",
+                "Language": "UK"
+              }
+            }
+          },
+          {
+            "Localized": 0,
+            "ID": 237145139,
+            "LocalID": 0,
+            "Type": "y_n",
+            "Value": "Y",
+            "CategoryFeatureId": "91943",
+            "CategoryFeatureGroupID": "10386",
+            "SortNo": "0",
+            "PresentationValue": "Так",
+            "RawValue": "Y",
+            "LocalValue": "Так",
+            "Description": "",
+            "Mandatory": "0",
+            "Searchable": "0",
+            "Optional": "1",
+            "Feature": {
+              "ID": "15741",
+              "Sign": "",
+              "Measure": {
+                "ID": "26",
+                "Sign": "",
+                "Signs": {
+                  "ID": "",
+                  "_": "",
+                  "Language": "UK"
+                }
+              },
+              "Name": {
+                "Value": "Intel® 64",
+                "Language": "UK"
+              }
+            }
+          },
+          {
+            "Localized": 0,
+            "ID": 237137297,
+            "LocalID": 0,
+            "Type": "y_n",
+            "Value": "Y",
+            "CategoryFeatureId": "105681",
+            "CategoryFeatureGroupID": "10386",
+            "SortNo": "0",
+            "PresentationValue": "Так",
+            "RawValue": "Y",
+            "LocalValue": "Так",
+            "Description": "",
+            "Mandatory": "0",
+            "Searchable": "0",
+            "Optional": "1",
+            "Feature": {
+              "ID": "10195",
+              "Sign": "",
+              "Measure": {
+                "ID": "26",
+                "Sign": "",
+                "Signs": {
+                  "ID": "",
+                  "_": "",
+                  "Language": "UK"
+                }
+              },
+              "Name": {
+                "Value": "Технологiя Enhanced Intel SpeedStep",
+                "Language": "UK"
+              }
+            }
+          },
+          {
+            "Localized": 0,
+            "ID": 237142138,
+            "LocalID": 0,
+            "Type": "y_n",
+            "Value": "N",
+            "CategoryFeatureId": "117977",
+            "CategoryFeatureGroupID": "10386",
+            "SortNo": "0",
+            "PresentationValue": "Ні",
+            "RawValue": "N",
+            "LocalValue": "Ні",
+            "Description": "",
+            "Mandatory": "0",
+            "Searchable": "0",
+            "Optional": "1",
+            "Feature": {
+              "ID": "10283",
+              "Sign": "",
+              "Measure": {
+                "ID": "26",
+                "Sign": "",
+                "Signs": {
+                  "ID": "",
+                  "_": "",
+                  "Language": "UK"
+                }
+              },
+              "Name": {
+                "Value": "Доступні вбудовані варіанти",
+                "Language": "UK"
+              }
+            }
+          },
+          {
+            "Localized": 0,
+            "ID": 237134906,
+            "LocalID": 0,
+            "Type": "y_n",
+            "Value": "Y",
+            "CategoryFeatureId": "129356",
+            "CategoryFeatureGroupID": "10386",
+            "SortNo": "0",
+            "PresentationValue": "Так",
+            "RawValue": "Y",
+            "LocalValue": "Так",
+            "Description": "<b>Що таке технологія Intel® InTru™ 3D?</b>\r\nТехнологія Intel® InTru™ 3D - це стереоскопічна 3D-технологія, що розроблена Intel і Dreamworks. Ця технологія дозволяє грати в ігри або дивитися 3D Blu-ray фільми з використанням 3D очок з активним затвором в Full HD з роздільною здатністю 1080p через HDMI 1.4.",
+            "Mandatory": "0",
+            "Searchable": "0",
+            "Optional": "1",
+            "Feature": {
+              "ID": "10109",
+              "Sign": "",
+              "Measure": {
+                "ID": "26",
+                "Sign": "",
+                "Signs": {
+                  "ID": "",
+                  "_": "",
+                  "Language": "UK"
+                }
+              },
+              "Name": {
+                "Value": "Intel® InTru™ 3D Technology",
+                "Language": "UK"
+              }
+            }
+          },
+          {
+            "Localized": 0,
+            "ID": 237136110,
+            "LocalID": 0,
+            "Type": "y_n",
+            "Value": "Y",
+            "CategoryFeatureId": "129357",
+            "CategoryFeatureGroupID": "10386",
+            "SortNo": "0",
+            "PresentationValue": "Так",
+            "RawValue": "Y",
+            "LocalValue": "Так",
+            "Description": "Відкрийте для себе новий рівень розваг у форматі HD завдяки технології Intel® Insider™, яка реалізована тільки в процесорах Intel® Core ™ 5-го покоління.",
+            "Mandatory": "0",
+            "Searchable": "0",
+            "Optional": "1",
+            "Feature": {
+              "ID": "10187",
+              "Sign": "",
+              "Measure": {
+                "ID": "26",
+                "Sign": "",
+                "Signs": {
+                  "ID": "",
+                  "_": "",
+                  "Language": "UK"
+                }
+              },
+              "Name": {
+                "Value": "Intel® Insider™",
+                "Language": "UK"
+              }
+            }
+          },
+          {
+            "Localized": 0,
+            "ID": 237135731,
+            "LocalID": 0,
+            "Type": "y_n",
+            "Value": "Y",
+            "CategoryFeatureId": "129359",
+            "CategoryFeatureGroupID": "10386",
+            "SortNo": "0",
+            "PresentationValue": "Так",
+            "RawValue": "Y",
+            "LocalValue": "Так",
+            "Description": "<b>Побачте світ більш живим</b>\r\nТехнолонгія Intel® Clear Video HD забезпечує більш чисті і чіткі зображення, більш природні, точні і яскраві кольори. Побачте зображення такими, якими вони повинні бути з допомогою процесорів Intel® Core™ з технологією Intel® Graphics.",
+            "Mandatory": "0",
+            "Searchable": "0",
+            "Optional": "1",
+            "Feature": {
+              "ID": "10113",
+              "Sign": "",
+              "Measure": {
+                "ID": "26",
+                "Sign": "",
+                "Signs": {
+                  "ID": "",
+                  "_": "",
+                  "Language": "UK"
+                }
+              },
+              "Name": {
+                "Value": "Intel Clear Video HD Technology",
+                "Language": "UK"
+              }
+            }
+          },
+          {
+            "Localized": 0,
+            "ID": 237147800,
+            "LocalID": 0,
+            "Type": "y_n",
+            "Value": "Y",
+            "CategoryFeatureId": "129360",
+            "CategoryFeatureGroupID": "10386",
+            "SortNo": "0",
+            "PresentationValue": "Так",
+            "RawValue": "Y",
+            "LocalValue": "Так",
+            "Description": "",
+            "Mandatory": "0",
+            "Searchable": "0",
+            "Optional": "1",
+            "Feature": {
+              "ID": "21539",
+              "Sign": "",
+              "Measure": {
+                "ID": "26",
+                "Sign": "",
+                "Signs": {
+                  "ID": "",
+                  "_": "",
+                  "Language": "UK"
+                }
+              },
+              "Name": {
+                "Value": "Технологія Intel® Clear Video",
+                "Language": "UK"
+              }
+            }
+          },
+          {
+            "Localized": 0,
+            "ID": 237141748,
+            "LocalID": 0,
+            "Type": "y_n",
+            "Value": "Y",
+            "CategoryFeatureId": "129361",
+            "CategoryFeatureGroupID": "10386",
+            "SortNo": "0",
+            "PresentationValue": "Так",
+            "RawValue": "Y",
+            "LocalValue": "Так",
+            "Description": "",
+            "Mandatory": "0",
+            "Searchable": "0",
+            "Optional": "1",
+            "Feature": {
+              "ID": "10282",
+              "Sign": "",
+              "Measure": {
+                "ID": "26",
+                "Sign": "",
+                "Signs": {
+                  "ID": "",
+                  "_": "",
+                  "Language": "UK"
+                }
+              },
+              "Name": {
+                "Value": "Intel VT-x with Extended Page Tables (EPT)",
+                "Language": "UK"
+              }
+            }
+          },
+          {
+            "Localized": 0,
+            "ID": 379587167,
+            "LocalID": 0,
+            "Type": "y_n",
+            "Value": "Y",
+            "CategoryFeatureId": "129362",
+            "CategoryFeatureGroupID": "10386",
+            "SortNo": "0",
+            "PresentationValue": "Так",
+            "RawValue": "Y",
+            "LocalValue": "Так",
+            "Description": "",
+            "Mandatory": "0",
+            "Searchable": "0",
+            "Optional": "1",
+            "Feature": {
+              "ID": "14803",
+              "Sign": "",
+              "Measure": {
+                "ID": "26",
+                "Sign": "",
+                "Signs": {
+                  "ID": "",
+                  "_": "",
+                  "Language": "UK"
+                }
+              },
+              "Name": {
+                "Value": "Intel® TSX-NI",
+                "Language": "UK"
+              }
+            }
+          },
+          {
+            "Localized": 0,
+            "ID": 237138111,
+            "LocalID": 0,
+            "Type": "y_n",
+            "Value": "Y",
+            "CategoryFeatureId": "129363",
+            "CategoryFeatureGroupID": "10386",
+            "SortNo": "0",
+            "PresentationValue": "Так",
+            "RawValue": "Y",
+            "LocalValue": "Так",
+            "Description": "",
+            "Mandatory": "0",
+            "Searchable": "0",
+            "Optional": "1",
+            "Feature": {
+              "ID": "10197",
+              "Sign": "",
+              "Measure": {
+                "ID": "26",
+                "Sign": "",
+                "Signs": {
+                  "ID": "",
+                  "_": "",
+                  "Language": "UK"
+                }
+              },
+              "Name": {
+                "Value": "Стан простою",
+                "Language": "UK"
+              }
+            }
+          },
+          {
+            "Localized": 0,
+            "ID": 237138520,
+            "LocalID": 0,
+            "Type": "y_n",
+            "Value": "Y",
+            "CategoryFeatureId": "129364",
+            "CategoryFeatureGroupID": "10386",
+            "SortNo": "0",
+            "PresentationValue": "Так",
+            "RawValue": "Y",
+            "LocalValue": "Так",
+            "Description": "",
+            "Mandatory": "0",
+            "Searchable": "0",
+            "Optional": "1",
+            "Feature": {
+              "ID": "10199",
+              "Sign": "",
+              "Measure": {
+                "ID": "26",
+                "Sign": "",
+                "Signs": {
+                  "ID": "",
+                  "_": "",
+                  "Language": "UK"
+                }
+              },
+              "Name": {
+                "Value": "Технології Thermal Monitoring",
+                "Language": "UK"
+              }
+            }
+          },
+          {
+            "Localized": 0,
+            "ID": 237145502,
+            "LocalID": 0,
+            "Type": "y_n",
+            "Value": "Y",
+            "CategoryFeatureId": "129365",
+            "CategoryFeatureGroupID": "10386",
+            "SortNo": "0",
+            "PresentationValue": "Так",
+            "RawValue": "Y",
+            "LocalValue": "Так",
+            "Description": "",
+            "Mandatory": "0",
+            "Searchable": "0",
+            "Optional": "1",
+            "Feature": {
+              "ID": "16685",
+              "Sign": "",
+              "Measure": {
+                "ID": "26",
+                "Sign": "",
+                "Signs": {
+                  "ID": "",
+                  "_": "",
+                  "Language": "UK"
+                }
+              },
+              "Name": {
+                "Value": "Intel® Stable Image Platform Program (SIPP)",
+                "Language": "UK"
+              }
+            }
+          },
+          {
+            "Localized": 0,
+            "ID": 237136882,
+            "LocalID": 0,
+            "Type": "y_n",
+            "Value": "Y",
+            "CategoryFeatureId": "129366",
+            "CategoryFeatureGroupID": "10386",
+            "SortNo": "0",
+            "PresentationValue": "Так",
+            "RawValue": "Y",
+            "LocalValue": "Так",
+            "Description": "<b>Додаткові заходи безпеки з прискореним шифруванням даних</b>\r\nIntel® Advanced Encryption Standard New Instructions (Intel® AES-NI) забезпечують швидке і безпечне шифрування даних із забезпеченням високої продуктивності при зменшенні ризику атак за часом і атак на кеш (в порівнянні з захистом на основі табличних програмних реалізацій). Intel AES-NI можуть бути використані для ключів стандартної довжини, стандартних режимів роботи і навіть для деяких нестандартних або можливих в майбутньому варіантів.",
+            "Mandatory": "0",
+            "Searchable": "0",
+            "Optional": "1",
+            "Feature": {
+              "ID": "10194",
+              "Sign": "",
+              "Measure": {
+                "ID": "26",
+                "Sign": "",
+                "Signs": {
+                  "ID": "",
+                  "_": "",
+                  "Language": "UK"
+                }
+              },
+              "Name": {
+                "Value": "Intel AES New Instructions",
+                "Language": "UK"
+              }
+            }
+          },
+          {
+            "Localized": 0,
+            "ID": 237144591,
+            "LocalID": 0,
+            "Type": "y_n",
+            "Value": "Y",
+            "CategoryFeatureId": "129367",
+            "CategoryFeatureGroupID": "10386",
+            "SortNo": "0",
+            "PresentationValue": "Так",
+            "RawValue": "Y",
+            "LocalValue": "Так",
+            "Description": "<b>Generate Cryptographic Security Protocols</b>\r\nIntel® Secure Key is a security hardware-based random number generator that can generate high-quality keys for cryptographic (encryption and decryption) protocols. These keys provide quality entropy that is highly sought after in the cryptography world for added security.",
+            "Mandatory": "0",
+            "Searchable": "0",
+            "Optional": "1",
+            "Feature": {
+              "ID": "14804",
+              "Sign": "",
+              "Measure": {
+                "ID": "26",
+                "Sign": "",
+                "Signs": {
+                  "ID": "",
+                  "_": "",
+                  "Language": "UK"
+                }
+              },
+              "Name": {
+                "Value": "Intel® Secure Key",
+                "Language": "UK"
+              }
+            }
+          },
+          {
+            "Localized": 0,
+            "ID": 237145840,
+            "LocalID": 0,
+            "Type": "y_n",
+            "Value": "Y",
+            "CategoryFeatureId": "129368",
+            "CategoryFeatureGroupID": "10386",
+            "SortNo": "0",
+            "PresentationValue": "Так",
+            "RawValue": "Y",
+            "LocalValue": "Так",
+            "Description": "<b>Protect Your Operating Environment</b>\r\nIntel® OS Guard, a hardware-based security feature that protects the operating system kernel, defends against malicious data or attack code located in areas of memory marked as user mode pages, preventing any application from taking over or compromising the OS kernel.",
+            "Mandatory": "0",
+            "Searchable": "0",
+            "Optional": "1",
+            "Feature": {
+              "ID": "17742",
+              "Sign": "",
+              "Measure": {
+                "ID": "26",
+                "Sign": "",
+                "Signs": {
+                  "ID": "",
+                  "_": "",
+                  "Language": "UK"
+                }
+              },
+              "Name": {
+                "Value": "Intel® OS Guard",
+                "Language": "UK"
+              }
+            }
+          },
+          {
+            "Localized": 0,
+            "ID": 237138921,
+            "LocalID": 0,
+            "Type": "y_n",
+            "Value": "Y",
+            "CategoryFeatureId": "129369",
+            "CategoryFeatureGroupID": "10386",
+            "SortNo": "0",
+            "PresentationValue": "Так",
+            "RawValue": "Y",
+            "LocalValue": "Так",
+            "Description": "",
+            "Mandatory": "0",
+            "Searchable": "0",
+            "Optional": "1",
+            "Feature": {
+              "ID": "10200",
+              "Sign": "",
+              "Measure": {
+                "ID": "26",
+                "Sign": "",
+                "Signs": {
+                  "ID": "",
+                  "_": "",
+                  "Language": "UK"
+                }
+              },
+              "Name": {
+                "Value": "Intel Trusted Execution Technology",
+                "Language": "UK"
+              }
+            }
+          },
+          {
+            "Localized": 0,
+            "ID": 237137710,
+            "LocalID": 0,
+            "Type": "y_n",
+            "Value": "Y",
+            "CategoryFeatureId": "129370",
+            "CategoryFeatureGroupID": "10386",
+            "SortNo": "0",
+            "PresentationValue": "Так",
+            "RawValue": "Y",
+            "LocalValue": "Так",
+            "Description": "",
+            "Mandatory": "0",
+            "Searchable": "0",
+            "Optional": "1",
+            "Feature": {
+              "ID": "10196",
+              "Sign": "",
+              "Measure": {
+                "ID": "26",
+                "Sign": "",
+                "Signs": {
+                  "ID": "",
+                  "_": "",
+                  "Language": "UK"
+                }
+              },
+              "Name": {
+                "Value": "Execute Disable Bit",
+                "Language": "UK"
+              }
+            }
+          },
+          {
+            "Localized": 0,
+            "ID": 237140647,
+            "LocalID": 0,
+            "Type": "y_n",
+            "Value": "Y",
+            "CategoryFeatureId": "132834",
+            "CategoryFeatureGroupID": "10386",
+            "SortNo": "0",
+            "PresentationValue": "Так",
+            "RawValue": "Y",
+            "LocalValue": "Так",
+            "Description": "",
+            "Mandatory": "0",
+            "Searchable": "0",
+            "Optional": "1",
+            "Feature": {
+              "ID": "10276",
+              "Sign": "",
+              "Measure": {
+                "ID": "26",
+                "Sign": "",
+                "Signs": {
+                  "ID": "",
+                  "_": "",
+                  "Language": "UK"
+                }
+              },
+              "Name": {
+                "Value": "Intel Enhanced Halt State",
+                "Language": "UK"
+              }
+            }
+          },
+          {
+            "Localized": 0,
+            "ID": 392424601,
+            "LocalID": 0,
+            "Type": "y_n",
+            "Value": "Y",
+            "CategoryFeatureId": "132849",
+            "CategoryFeatureGroupID": "10386",
+            "SortNo": "0",
+            "PresentationValue": "Так",
+            "RawValue": "Y",
+            "LocalValue": "Так",
+            "Description": "",
+            "Mandatory": "0",
+            "Searchable": "0",
+            "Optional": "1",
+            "Feature": {
+              "ID": "21556",
+              "Sign": "",
+              "Measure": {
+                "ID": "26",
+                "Sign": "",
+                "Signs": {
+                  "ID": "",
+                  "_": "",
+                  "Language": "UK"
+                }
+              },
+              "Name": {
+                "Value": "Intel® Software Guard Extensions (Intel® SGX)",
+                "Language": "UK"
+              }
+            }
+          },
+          {
+            "Localized": 0,
+            "ID": 237140966,
+            "LocalID": 0,
+            "Type": "y_n",
+            "Value": "Y",
+            "CategoryFeatureId": "132853",
+            "CategoryFeatureGroupID": "10386",
+            "SortNo": "0",
+            "PresentationValue": "Так",
+            "RawValue": "Y",
+            "LocalValue": "Так",
+            "Description": "",
+            "Mandatory": "0",
+            "Searchable": "0",
+            "Optional": "1",
+            "Feature": {
+              "ID": "10277",
+              "Sign": "",
+              "Measure": {
+                "ID": "26",
+                "Sign": "",
+                "Signs": {
+                  "ID": "",
+                  "_": "",
+                  "Language": "UK"
+                }
+              },
+              "Name": {
+                "Value": "Технологія Intel® Clear Video для мобільних інтернет-пристроїв (Intel CVT for MID)",
+                "Language": "UK"
+              }
+            }
+          },
+          {
+            "Localized": 0,
+            "ID": 237153404,
+            "LocalID": 0,
+            "Type": "alphanumeric",
+            "Value": "37.5 x 37.5",
+            "CategoryFeatureId": "133035",
+            "CategoryFeatureGroupID": "10386",
+            "SortNo": "0",
+            "PresentationValue": "37.5 x 37.5 мм",
+            "RawValue": "37.5 x 37.5",
+            "LocalValue": "37.5 x 37.5",
+            "Description": "",
+            "Mandatory": "0",
+            "Searchable": "0",
+            "Optional": "1",
+            "Feature": {
+              "ID": "22011",
+              "Sign": "",
+              "Measure": {
+                "ID": "24",
+                "Sign": "",
+                "Signs": {
+                  "ID": "3620",
+                  "_": "мм",
+                  "Language": "UK"
+                }
+              },
+              "Name": {
+                "Value": "Розмір корпусу процесора",
+                "Language": "UK"
+              }
+            }
+          },
+          {
+            "Localized": 0,
+            "ID": 237130281,
+            "LocalID": 0,
+            "Type": "multi_dropdown",
+            "Value": "SSE4.2,AVX 2.0,SSE4.1",
+            "CategoryFeatureId": "133038",
+            "CategoryFeatureGroupID": "10386",
+            "SortNo": "0",
+            "PresentationValue": "SSE4.2, AVX 2.0, SSE4.1",
+            "RawValue": "SSE4.2,AVX 2.0,SSE4.1",
+            "LocalValue": "SSE4.2, AVX 2.0, SSE4.1",
+            "Description": "",
+            "Mandatory": "0",
+            "Searchable": "0",
+            "Optional": "1",
+            "Feature": {
+              "ID": "3260",
+              "Sign": "",
+              "Measure": {
+                "ID": "29",
+                "Sign": "",
+                "Signs": {
+                  "ID": "",
+                  "_": "",
+                  "Language": "UK"
+                }
+              },
+              "Name": {
+                "Value": "Набори команд, що підтримуються",
+                "Language": "UK"
+              }
+            }
+          },
+          {
+            "Localized": 0,
+            "ID": 237130677,
+            "LocalID": 0,
+            "Type": "text",
+            "Value": "SR2BU",
+            "CategoryFeatureId": "133041",
+            "CategoryFeatureGroupID": "10386",
+            "SortNo": "0",
+            "PresentationValue": "SR2BU",
+            "RawValue": "SR2BU",
+            "LocalValue": "SR2BU",
+            "Description": "",
+            "Mandatory": "0",
+            "Searchable": "0",
+            "Optional": "1",
+            "Feature": {
+              "ID": "6090",
+              "Sign": "",
+              "Measure": {
+                "ID": "29",
+                "Sign": "",
+                "Signs": {
+                  "ID": "",
+                  "_": "",
+                  "Language": "UK"
+                }
+              },
+              "Name": {
+                "Value": "Код процесору",
+                "Language": "UK"
+              }
+            }
+          },
+          {
+            "Localized": 0,
+            "ID": 237139837,
+            "LocalID": 0,
+            "Type": "dropdown",
+            "Value": "1S",
+            "CategoryFeatureId": "133044",
+            "CategoryFeatureGroupID": "10386",
+            "SortNo": "0",
+            "PresentationValue": "1S",
+            "RawValue": "1S",
+            "LocalValue": "1S",
+            "Description": "",
+            "Mandatory": "0",
+            "Searchable": "0",
+            "Optional": "1",
+            "Feature": {
+              "ID": "10265",
+              "Sign": "",
+              "Measure": {
+                "ID": "29",
+                "Sign": "",
+                "Signs": {
+                  "ID": "",
+                  "_": "",
+                  "Language": "UK"
+                }
+              },
+              "Name": {
+                "Value": "Масштабованість",
+                "Language": "UK"
+              }
+            }
+          },
+          {
+            "Localized": 0,
+            "ID": 237140262,
+            "LocalID": 0,
+            "Type": "numerical",
+            "Value": "1",
+            "CategoryFeatureId": "133053",
+            "CategoryFeatureGroupID": "10386",
+            "SortNo": "0",
+            "PresentationValue": "1",
+            "RawValue": "1",
+            "LocalValue": "1",
+            "Description": "",
+            "Mandatory": "0",
+            "Searchable": "0",
+            "Optional": "1",
+            "Feature": {
+              "ID": "10275",
+              "Sign": "",
+              "Measure": {
+                "ID": "29",
+                "Sign": "",
+                "Signs": {
+                  "ID": "",
+                  "_": "",
+                  "Language": "UK"
+                }
+              },
+              "Name": {
+                "Value": "Конфігурація центрального процесора (макс.)",
+                "Language": "UK"
+              }
+            }
+          },
+          {
+            "Localized": 0,
+            "ID": 237142854,
+            "LocalID": 0,
+            "Type": "numerical",
+            "Value": "14",
+            "CategoryFeatureId": "133058",
+            "CategoryFeatureGroupID": "10386",
+            "SortNo": "0",
+            "PresentationValue": "14 нм",
+            "RawValue": "14",
+            "LocalValue": "14",
+            "Description": "",
+            "Mandatory": "0",
+            "Searchable": "0",
+            "Optional": "1",
+            "Feature": {
+              "ID": "10326",
+              "Sign": "",
+              "Measure": {
+                "ID": "98",
+                "Sign": "",
+                "Signs": {
+                  "ID": "3689",
+                  "_": "нм",
+                  "Language": "UK"
+                }
+              },
+              "Name": {
+                "Value": "Літографія графічної системи та вбудованого контролера пам’яті (IMC)",
+                "Language": "UK"
+              }
+            }
+          },
+          {
+            "Localized": 0,
+            "ID": 237144755,
+            "LocalID": 0,
+            "Type": "dropdown",
+            "Value": "PCG 2015A",
+            "CategoryFeatureId": "133061",
+            "CategoryFeatureGroupID": "10386",
+            "SortNo": "0",
+            "PresentationValue": "PCG 2015A",
+            "RawValue": "PCG 2015A",
+            "LocalValue": "PCG 2015A",
+            "Description": "Intel Reference Heat Sink specification for proper operation of this SKU.",
+            "Mandatory": "0",
+            "Searchable": "0",
+            "Optional": "1",
+            "Feature": {
+              "ID": "15165",
+              "Sign": "",
+              "Measure": {
+                "ID": "29",
+                "Sign": "",
+                "Signs": {
+                  "ID": "",
+                  "_": "",
+                  "Language": "UK"
+                }
+              },
+              "Name": {
+                "Value": "Специфікація теплотехнічного рішення",
+                "Language": "UK"
+              }
+            }
+          },
+          {
+            "Localized": 0,
+            "ID": 237146290,
+            "LocalID": 0,
+            "Type": "y_n",
+            "Value": "Y",
+            "CategoryFeatureId": "133086",
+            "CategoryFeatureGroupID": "10386",
+            "SortNo": "0",
+            "PresentationValue": "Так",
+            "RawValue": "Y",
+            "LocalValue": "Так",
+            "Description": "<b>Simplify Virtualization and Reduce Overheads</b>\r\nIntel® Virtualization Technology (Intel® VT) helps make virtualization practical by eliminating performance overheads, reducing complexity, and improving security with hardware assistance. Virtualization allows multiple workloads to share a common set of resources so that a variety of workloads can co-locate while maintaining full isolation from each other.",
+            "Mandatory": "0",
+            "Searchable": "0",
+            "Optional": "1",
+            "Feature": {
+              "ID": "18653",
+              "Sign": "",
+              "Measure": {
+                "ID": "26",
+                "Sign": "",
+                "Signs": {
+                  "ID": "",
+                  "_": "",
+                  "Language": "UK"
+                }
+              },
+              "Name": {
+                "Value": "Технологiя Intel Virtualization for Directed I/O (VT-d)",
+                "Language": "UK"
+              }
+            }
+          },
+          {
+            "Localized": 0,
+            "ID": 380023204,
+            "LocalID": 0,
+            "Type": "text",
+            "Value": "1.00",
+            "CategoryFeatureId": "135083",
+            "CategoryFeatureGroupID": "10386",
+            "SortNo": "0",
+            "PresentationValue": "1,00",
+            "RawValue": "1.00",
+            "LocalValue": "1,00",
+            "Description": "",
+            "Mandatory": "0",
+            "Searchable": "0",
+            "Optional": "1",
+            "Feature": {
+              "ID": "21709",
+              "Sign": "",
+              "Measure": {
+                "ID": "29",
+                "Sign": "",
+                "Signs": {
+                  "ID": "",
+                  "_": "",
+                  "Language": "UK"
+                }
+              },
+              "Name": {
+                "Value": "Версія технології Intel® Identity Protection",
+                "Language": "UK"
+              }
+            }
+          },
+          {
+            "Localized": 0,
+            "ID": 237150065,
+            "LocalID": 0,
+            "Type": "numerical",
+            "Value": "1.00",
+            "CategoryFeatureId": "135086",
+            "CategoryFeatureGroupID": "10386",
+            "SortNo": "0",
+            "PresentationValue": "1,00",
+            "RawValue": "1.00",
+            "LocalValue": "1,00",
+            "Description": "",
+            "Mandatory": "0",
+            "Searchable": "0",
+            "Optional": "1",
+            "Feature": {
+              "ID": "21770",
+              "Sign": "",
+              "Measure": {
+                "ID": "29",
+                "Sign": "",
+                "Signs": {
+                  "ID": "",
+                  "_": "",
+                  "Language": "UK"
+                }
+              },
+              "Name": {
+                "Value": "Версія Intel® Stable Image Platform Program (SIPP)",
+                "Language": "UK"
+              }
+            }
+          },
+          {
+            "Localized": 0,
+            "ID": 237148379,
+            "LocalID": 0,
+            "Type": "text",
+            "Value": "1.00",
+            "CategoryFeatureId": "135087",
+            "CategoryFeatureGroupID": "10386",
+            "SortNo": "0",
+            "PresentationValue": "1,00",
+            "RawValue": "1.00",
+            "LocalValue": "1,00",
+            "Description": "",
+            "Mandatory": "0",
+            "Searchable": "0",
+            "Optional": "1",
+            "Feature": {
+              "ID": "21711",
+              "Sign": "",
+              "Measure": {
+                "ID": "29",
+                "Sign": "",
+                "Signs": {
+                  "ID": "",
+                  "_": "",
+                  "Language": "UK"
+                }
+              },
+              "Name": {
+                "Value": "Версія технології Intel® Secure Key",
+                "Language": "UK"
+              }
+            }
+          },
+          {
+            "Localized": 0,
+            "ID": 237149788,
+            "LocalID": 0,
+            "Type": "y_n",
+            "Value": "Y",
+            "CategoryFeatureId": "135088",
+            "CategoryFeatureGroupID": "10386",
+            "SortNo": "0",
+            "PresentationValue": "Так",
+            "RawValue": "Y",
+            "LocalValue": "Так",
+            "Description": "<b>Simplify Virtualization and Reduce Overheads</b>\r\nIntel® Virtualization Technology (Intel® VT) helps make virtualization practical by eliminating performance overheads, reducing complexity, and improving security with hardware assistance. Virtualization allows multiple workloads to share a common set of resources so that a variety of workloads can co-locate while maintaining full isolation from each other.",
+            "Mandatory": "0",
+            "Searchable": "0",
+            "Optional": "1",
+            "Feature": {
+              "ID": "21759",
+              "Sign": "",
+              "Measure": {
+                "ID": "26",
+                "Sign": "",
+                "Signs": {
+                  "ID": "",
+                  "_": "",
+                  "Language": "UK"
+                }
+              },
+              "Name": {
+                "Value": "Технологія віртуалізації Intel® (VT-x)",
+                "Language": "UK"
+              }
+            }
+          },
+          {
+            "Localized": 0,
+            "ID": 237148621,
+            "LocalID": 0,
+            "Type": "text",
+            "Value": "1.00",
+            "CategoryFeatureId": "135089",
+            "CategoryFeatureGroupID": "10386",
+            "SortNo": "0",
+            "PresentationValue": "1,00",
+            "RawValue": "1.00",
+            "LocalValue": "1,00",
+            "Description": "",
+            "Mandatory": "0",
+            "Searchable": "0",
+            "Optional": "1",
+            "Feature": {
+              "ID": "21713",
+              "Sign": "",
+              "Measure": {
+                "ID": "29",
+                "Sign": "",
+                "Signs": {
+                  "ID": "",
+                  "_": "",
+                  "Language": "UK"
+                }
+              },
+              "Name": {
+                "Value": "Версия Intel Преимущество для Малого Бизнеса",
+                "Language": "RU"
+              }
+            }
+          },
+          {
+            "Localized": 0,
+            "ID": 237150364,
+            "LocalID": 0,
+            "Type": "text",
+            "Value": "1.00",
+            "CategoryFeatureId": "135123",
+            "CategoryFeatureGroupID": "10386",
+            "SortNo": "0",
+            "PresentationValue": "1,00",
+            "RawValue": "1.00",
+            "LocalValue": "1,00",
+            "Description": "",
+            "Mandatory": "0",
+            "Searchable": "0",
+            "Optional": "1",
+            "Feature": {
+              "ID": "21835",
+              "Sign": "",
+              "Measure": {
+                "ID": "29",
+                "Sign": "",
+                "Signs": {
+                  "ID": "",
+                  "_": "",
+                  "Language": "UK"
+                }
+              },
+              "Name": {
+                "Value": "Версія Intel® TSX-NI",
+                "Language": "UK"
+              }
+            }
+          },
+          {
+            "Localized": 0,
+            "ID": 237154289,
+            "LocalID": 0,
+            "Type": "numerical",
+            "Value": "88200",
+            "CategoryFeatureId": "176705",
+            "CategoryFeatureGroupID": "10386",
+            "SortNo": "0",
+            "PresentationValue": "88200",
+            "RawValue": "88200",
+            "LocalValue": "88200",
+            "Description": "",
+            "Mandatory": "0",
+            "Searchable": "0",
+            "Optional": "1",
+            "Feature": {
+              "ID": "27646",
+              "Sign": "",
+              "Measure": {
+                "ID": "29",
+                "Sign": "",
+                "Signs": {
+                  "ID": "",
+                  "_": "",
+                  "Language": "UK"
+                }
+              },
+              "Name": {
+                "Value": "ARK ID процесора",
+                "Language": "UK"
+              }
+            }
+          },
+          {
+            "Localized": 0,
+            "ID": 237133749,
+            "LocalID": 0,
+            "Type": "dropdown",
+            "Value": "2.0",
+            "CategoryFeatureId": "74231",
+            "CategoryFeatureGroupID": "10386",
+            "SortNo": "-23",
+            "PresentationValue": "2.0",
+            "RawValue": "2.0",
+            "LocalValue": "2.0",
+            "Description": "<b>Підвищення продуктивності, коли Вам це потрібно.</b>\r\nТехнологія Intel® Turbo Boost 2.0 збільшує швидкість процесора і продуктивність відеокарти за рахунок підвищення робочої частоти при роботі нижче меж специфікації. Максимальна частота залежить від навантаження, апаратних засобів, програмного забезпечення і загальної конфігурації системи.",
+            "Mandatory": "0",
+            "Searchable": "0",
+            "Optional": "1",
+            "Feature": {
+              "ID": "9733",
+              "Sign": "",
+              "Measure": {
+                "ID": "29",
+                "Sign": "",
+                "Signs": {
+                  "ID": "",
+                  "_": "",
+                  "Language": "UK"
+                }
+              },
+              "Name": {
+                "Value": "Технологiя Intel® Turbo Boost",
+                "Language": "UK"
+              }
+            }
+          },
+          {
+            "Localized": 0,
+            "ID": 237133337,
+            "LocalID": 0,
+            "Type": "y_n",
+            "Value": "Y",
+            "CategoryFeatureId": "74232",
+            "CategoryFeatureGroupID": "10386",
+            "SortNo": "-25",
+            "PresentationValue": "Так",
+            "RawValue": "Y",
+            "LocalValue": "Так",
+            "Description": "<b>Improved Performance for Threaded Software</b>\r\nIntel® Hyper-Threading Technology (Intel® HT Technology) makes efficient use of processor resources, enabling multiple threads to run on each core and increasing processor throughput. Available on Intel® Core™ and Intel® Xeon® processors, Intel HT Technology helps run demanding applications simultaneously, protect and manage systems, and provide headroom for business growth.",
+            "Mandatory": "0",
+            "Searchable": "0",
+            "Optional": "1",
+            "Feature": {
+              "ID": "9672",
+              "Sign": "",
+              "Measure": {
+                "ID": "26",
+                "Sign": "",
+                "Signs": {
+                  "ID": "",
+                  "_": "",
+                  "Language": "UK"
+                }
+              },
+              "Name": {
+                "Value": "Технологiя Intel Hyper-Threading",
+                "Language": "UK"
+              }
+            }
+          },
+          {
+            "Localized": 0,
+            "ID": 237134514,
+            "LocalID": 0,
+            "Type": "y_n",
+            "Value": "Y",
+            "CategoryFeatureId": "74233",
+            "CategoryFeatureGroupID": "10386",
+            "SortNo": "-26",
+            "PresentationValue": "Так",
+            "RawValue": "Y",
+            "LocalValue": "Так",
+            "Description": "<b>Створюйте, редагуйте і обмінюйтеся відео за допомогою Flash</b>\r\nIntel® Quick Sync Video використовує спеціальні можливості технології Intel® Graphics для обробки мультимедіа, щоб спростити і прискорити виконання завдань з перетворення відео, наприклад створення DVD або Blu-Ray дисків, створення і редагування 3D-відео, перетворення 2D відеофайлів в 3D і конвертування відео для портативних медіаплеєрів і соціальних мереж.",
+            "Mandatory": "0",
+            "Searchable": "0",
+            "Optional": "1",
+            "Feature": {
+              "ID": "10108",
+              "Sign": "",
+              "Measure": {
+                "ID": "26",
+                "Sign": "",
+                "Signs": {
+                  "ID": "",
+                  "_": "",
+                  "Language": "UK"
+                }
+              },
+              "Name": {
+                "Value": "Intel® Quick Sync Video Technology",
+                "Language": "UK"
+              }
+            }
+          },
+          {
+            "Localized": 0,
+            "ID": 379278812,
+            "LocalID": 0,
+            "Type": "y_n",
+            "Value": "Y",
+            "CategoryFeatureId": "74235",
+            "CategoryFeatureGroupID": "10386",
+            "SortNo": "-28",
+            "PresentationValue": "Так",
+            "RawValue": "Y",
+            "LocalValue": "Так",
+            "Description": "<b>Захистіть ваші персональні і корпоративні пристрої</b>\r\nТехнологія Intel® Identity Protection (Intel® IPT) захищає підприємства від несанкціонованого доступу з використанням вкрадених облікових даних і доступу до облікових даних користувачів в Інтернеті за допомогою додаткового рівня апаратного захисту і аутентифікації, а також багатофакторної аутентифікації для управління різними методами перевірки автентичності.",
+            "Mandatory": "0",
+            "Searchable": "0",
+            "Optional": "1",
+            "Feature": {
+              "ID": "9665",
+              "Sign": "",
+              "Measure": {
+                "ID": "26",
+                "Sign": "",
+                "Signs": {
+                  "ID": "",
+                  "_": "",
+                  "Language": "UK"
+                }
+              },
+              "Name": {
+                "Value": "Технологiя Intel Identity Protection",
+                "Language": "UK"
+              }
+            }
+          },
+          {
+            "Localized": 0,
+            "ID": 237153822,
+            "LocalID": 0,
+            "Type": "y_n",
+            "Value": "Y",
+            "CategoryFeatureId": "135139",
+            "CategoryFeatureGroupID": "10386",
+            "SortNo": "-100",
+            "PresentationValue": "Так",
+            "RawValue": "Y",
+            "LocalValue": "Так",
+            "Description": "\"Conflict free\" means \"DRC conflict free\", which is defined by the U.S. Securities and Exchange Commission rules to mean products that do not contain conflict minerals (tin, tantalum, tungsten and/or gold) that directly or indirectly finance or benefit armed groups in the Democratic Republic of the Congo (DRC) or adjoining countries.",
+            "Mandatory": "0",
+            "Searchable": "0",
+            "Optional": "1",
+            "Feature": {
+              "ID": "22268",
+              "Sign": "",
+              "Measure": {
+                "ID": "26",
+                "Sign": "",
+                "Signs": {
+                  "ID": "",
+                  "_": "",
+                  "Language": "UK"
+                }
+              },
+              "Name": {
+                "Value": "Безконфліктний процесор",
+                "Language": "UK"
+              }
+            }
+          }
+        ]
+      },
+      {
+        "ID": 1306,
+        "SortNo": "30",
+        "FeatureGroup": {
+          "ID": "27",
+          "Name": {
+            "Value": "Енергоживлення",
+            "Language": "UK"
+          }
+        },
+        "Features": [
+          {
+            "Localized": 0,
+            "ID": 237062937,
+            "LocalID": 0,
+            "Type": "numerical",
+            "Value": "65",
+            "CategoryFeatureId": "3028",
+            "CategoryFeatureGroupID": "1306",
+            "SortNo": "10000",
+            "PresentationValue": "65 Вт",
+            "RawValue": "65",
+            "LocalValue": "65",
+            "Description": "The way in which the product is powered e.g. rechargeable battery, mains electricity connected via a plug and cable.",
+            "Mandatory": "1",
+            "Searchable": "0",
+            "Optional": "0",
+            "Feature": {
+              "ID": "1242",
+              "Sign": "",
+              "Measure": {
+                "ID": "44",
+                "Sign": "",
+                "Signs": {
+                  "ID": "3639",
+                  "_": "Вт",
+                  "Language": "UK"
+                }
+              },
+              "Name": {
+                "Value": "Джерело живлення",
+                "Language": "UK"
+              }
+            }
+          },
+          {
+            "Localized": 0,
+            "ID": 237062959,
+            "LocalID": 0,
+            "Type": "alphanumeric",
+            "Value": "100 - 240",
+            "CategoryFeatureId": "3029",
+            "CategoryFeatureGroupID": "1306",
+            "SortNo": "414",
+            "PresentationValue": "100 - 240 В",
+            "RawValue": "100 - 240",
+            "LocalValue": "100 - 240",
+            "Description": "",
+            "Mandatory": "0",
+            "Searchable": "0",
+            "Optional": "0",
+            "Feature": {
+              "ID": "1243",
+              "Sign": "",
+              "Measure": {
+                "ID": "42",
+                "Sign": "",
+                "Signs": {
+                  "ID": "3637",
+                  "_": "В",
+                  "Language": "UK"
+                }
+              },
+              "Name": {
+                "Value": "Вхідна напруга джерела живлення",
+                "Language": "UK"
+              }
+            }
+          },
+          {
+            "Localized": 0,
+            "ID": 237062949,
+            "LocalID": 0,
+            "Type": "alphanumeric",
+            "Value": "50 - 60",
+            "CategoryFeatureId": "3030",
+            "CategoryFeatureGroupID": "1306",
+            "SortNo": "413",
+            "PresentationValue": "50 - 60 Гц",
+            "RawValue": "50 - 60",
+            "LocalValue": "50 - 60",
+            "Description": "The frequency of the electricity, usually measured in Hertz (Hz), which is supplied by the power supply. Mains electricity in many parts of the world is 50Hz.",
+            "Mandatory": "0",
+            "Searchable": "0",
+            "Optional": "0",
+            "Feature": {
+              "ID": "1244",
+              "Sign": "",
+              "Measure": {
+                "ID": "36",
+                "Sign": "",
+                "Signs": {
+                  "ID": "3631",
+                  "_": "Гц",
+                  "Language": "UK"
+                }
+              },
+              "Name": {
+                "Value": "Вхідна частота джерела живлення",
+                "Language": "UK"
+              }
+            }
+          }
+        ]
+      },
+      {
+        "ID": 1307,
+        "SortNo": "25",
+        "FeatureGroup": {
+          "ID": "28",
+          "Name": {
+            "Value": "Зовнішні умови",
+            "Language": "UK"
+          }
+        },
+        "Features": [
+          {
+            "Localized": 0,
+            "ID": 237064445,
+            "LocalID": 0,
+            "Type": "range",
+            "Value": "0 - 35",
+            "CategoryFeatureId": "5561",
+            "CategoryFeatureGroupID": "1307",
+            "SortNo": "1200",
+            "PresentationValue": "0 - 35 °C",
+            "RawValue": "0 - 35",
+            "LocalValue": "0 - 35",
+            "Description": "The minimum and maximum temperatures at which the product can be safely operated.",
+            "Mandatory": "0",
+            "Searchable": "0",
+            "Optional": "0",
+            "Feature": {
+              "ID": "1112",
+              "Sign": "",
+              "Measure": {
+                "ID": "65",
+                "Sign": "",
+                "Signs": {
+                  "ID": "3659",
+                  "_": "°C",
+                  "Language": "UK"
+                }
+              },
+              "Name": {
+                "Value": "Діапазон робочих температур",
+                "Language": "UK"
+              }
+            }
+          },
+          {
+            "Localized": 0,
+            "ID": 237064550,
+            "LocalID": 0,
+            "Type": "range",
+            "Value": "-40 - 65",
+            "CategoryFeatureId": "2205",
+            "CategoryFeatureGroupID": "1307",
+            "SortNo": "1199",
+            "PresentationValue": "-40 - 65 °C",
+            "RawValue": "-40 - 65",
+            "LocalValue": "-40 - 65",
+            "Description": "The minimum and maximum temperatures at which the product can be safely stored.",
+            "Mandatory": "0",
+            "Searchable": "0",
+            "Optional": "0",
+            "Feature": {
+              "ID": "757",
+              "Sign": "",
+              "Measure": {
+                "ID": "65",
+                "Sign": "",
+                "Signs": {
+                  "ID": "3659",
+                  "_": "°C",
+                  "Language": "UK"
+                }
+              },
+              "Name": {
+                "Value": "Діапазон температури зберігання",
+                "Language": "UK"
+              }
+            }
+          },
+          {
+            "Localized": 0,
+            "ID": 237064447,
+            "LocalID": 0,
+            "Type": "range",
+            "Value": "20 - 80",
+            "CategoryFeatureId": "2200",
+            "CategoryFeatureGroupID": "1307",
+            "SortNo": "999",
+            "PresentationValue": "20 - 80%",
+            "RawValue": "20 - 80",
+            "LocalValue": "20 - 80",
+            "Description": "",
+            "Mandatory": "0",
+            "Searchable": "0",
+            "Optional": "0",
+            "Feature": {
+              "ID": "703",
+              "Sign": "",
+              "Measure": {
+                "ID": "64",
+                "Sign": "",
+                "Signs": {
+                  "ID": "3658",
+                  "_": "%",
+                  "Language": "UK"
+                }
+              },
+              "Name": {
+                "Value": "Діапазон відносної вологості при експлуатації",
+                "Language": "UK"
+              }
+            }
+          },
+          {
+            "Localized": 0,
+            "ID": 237064555,
+            "LocalID": 0,
+            "Type": "range",
+            "Value": "5 - 95",
+            "CategoryFeatureId": "12121",
+            "CategoryFeatureGroupID": "1307",
+            "SortNo": "998",
+            "PresentationValue": "5 - 95%",
+            "RawValue": "5 - 95",
+            "LocalValue": "5 - 95",
+            "Description": "",
+            "Mandatory": "0",
+            "Searchable": "0",
+            "Optional": "0",
+            "Feature": {
+              "ID": "1383",
+              "Sign": "",
+              "Measure": {
+                "ID": "64",
+                "Sign": "",
+                "Signs": {
+                  "ID": "3658",
+                  "_": "%",
+                  "Language": "UK"
+                }
+              },
+              "Name": {
+                "Value": "Діапазон відносної вологості при зберіганні",
+                "Language": "UK"
+              }
+            }
+          },
+          {
+            "Localized": 0,
+            "ID": 237064449,
+            "LocalID": 0,
+            "Type": "range",
+            "Value": "-15.2 - 3048",
+            "CategoryFeatureId": "2219",
+            "CategoryFeatureGroupID": "1307",
+            "SortNo": "47",
+            "PresentationValue": "-15,2 - 3048 м",
+            "RawValue": "-15.2 - 3048",
+            "LocalValue": "-15,2 - 3048",
+            "Description": "",
+            "Mandatory": "0",
+            "Searchable": "0",
+            "Optional": "0",
+            "Feature": {
+              "ID": "667",
+              "Sign": "",
+              "Measure": {
+                "ID": "54",
+                "Sign": "",
+                "Signs": {
+                  "ID": "3648",
+                  "_": "м",
+                  "Language": "UK"
+                }
+              },
+              "Name": {
+                "Value": "Робоча висота",
+                "Language": "UK"
+              }
+            }
+          },
+          {
+            "Localized": 0,
+            "ID": 237064544,
+            "LocalID": 0,
+            "Type": "range",
+            "Value": "-15.2 - 10668",
+            "CategoryFeatureId": "4641",
+            "CategoryFeatureGroupID": "1307",
+            "SortNo": "46",
+            "PresentationValue": "-15,2 - 10668 м",
+            "RawValue": "-15.2 - 10668",
+            "LocalValue": "-15,2 - 10668",
+            "Description": "",
+            "Mandatory": "0",
+            "Searchable": "0",
+            "Optional": "0",
+            "Feature": {
+              "ID": "1449",
+              "Sign": "",
+              "Measure": {
+                "ID": "54",
+                "Sign": "",
+                "Signs": {
+                  "ID": "3648",
+                  "_": "м",
+                  "Language": "UK"
+                }
+              },
+              "Name": {
+                "Value": "Висота над рівнем моря в неробочому режимі",
+                "Language": "UK"
+              }
+            }
+          }
+        ]
+      },
+      {
+        "ID": 2693,
+        "SortNo": "20",
+        "FeatureGroup": {
+          "ID": "76",
+          "Name": {
+            "Value": "Сертифікати",
+            "Language": "UK"
+          }
+        },
+        "Features": [
+          {
+            "Localized": 0,
+            "ID": 237064575,
+            "LocalID": 0,
+            "Type": "textarea",
+            "Value": "CECP, WEEE",
+            "CategoryFeatureId": "1032",
+            "CategoryFeatureGroupID": "2693",
+            "SortNo": "-100",
+            "PresentationValue": "CECP, WEEE",
+            "RawValue": "CECP, WEEE",
+            "LocalValue": "CECP, WEEE",
+            "Description": "",
+            "Mandatory": "0",
+            "Searchable": "0",
+            "Optional": "0",
+            "Feature": {
+              "ID": "249",
+              "Sign": "",
+              "Measure": {
+                "ID": "29",
+                "Sign": "",
+                "Signs": {
+                  "ID": "",
+                  "_": "",
+                  "Language": "UK"
+                }
+              },
+              "Name": {
+                "Value": "Сертифікація",
+                "Language": "UK"
+              }
+            }
+          }
+        ]
+      },
+      {
+        "ID": 72247,
+        "SortNo": "19",
+        "FeatureGroup": {
+          "ID": "279",
+          "Name": {
+            "Value": "Sustainability",
+            "Language": "EN"
+          }
+        },
+        "Features": [
+          {
+            "Localized": 0,
+            "ID": 237064557,
+            "LocalID": 0,
+            "Type": "multi_dropdown",
+            "Value": "RoHS,ENERGY STAR",
+            "CategoryFeatureId": "603214",
+            "CategoryFeatureGroupID": "72247",
+            "SortNo": "0",
+            "PresentationValue": "RoHS, ENERGY STAR",
+            "RawValue": "RoHS,ENERGY STAR",
+            "LocalValue": "RoHS, ENERGY STAR",
+            "Description": "",
+            "Mandatory": "0",
+            "Searchable": "0",
+            "Optional": "0",
+            "Feature": {
+              "ID": "42513",
+              "Sign": "",
+              "Measure": {
+                "ID": "29",
+                "Sign": "",
+                "Signs": {
+                  "ID": "",
+                  "_": "",
+                  "Language": "UK"
+                }
+              },
+              "Name": {
+                "Value": "Сертифікати відповідності принципам сталого розвитку",
+                "Language": "UK"
+              }
+            }
+          }
+        ]
+      },
+      {
+        "ID": 1309,
+        "SortNo": "10",
+        "FeatureGroup": {
+          "ID": "14",
+          "Name": {
+            "Value": "Вага та розміри",
+            "Language": "UK"
+          }
+        },
+        "Features": [
+          {
+            "Localized": 0,
+            "ID": 237062982,
+            "LocalID": 0,
+            "Type": "numerical",
+            "Value": "36",
+            "CategoryFeatureId": "6228",
+            "CategoryFeatureGroupID": "1309",
+            "SortNo": "55",
+            "PresentationValue": "36 мм",
+            "RawValue": "36",
+            "LocalValue": "36",
+            "Description": "The measurement or extent of something from side to side.",
+            "Mandatory": "1",
+            "Searchable": "0",
+            "Optional": "0",
+            "Feature": {
+              "ID": "1649",
+              "Sign": "",
+              "Measure": {
+                "ID": "24",
+                "Sign": "",
+                "Signs": {
+                  "ID": "3620",
+                  "_": "мм",
+                  "Language": "UK"
+                }
+              },
+              "Name": {
+                "Value": "Ширина",
+                "Language": "UK"
+              }
+            }
+          },
+          {
+            "Localized": 0,
+            "ID": 237064407,
+            "LocalID": 0,
+            "Type": "numerical",
+            "Value": "176",
+            "CategoryFeatureId": "6225",
+            "CategoryFeatureGroupID": "1309",
+            "SortNo": "54",
+            "PresentationValue": "176 мм",
+            "RawValue": "176",
+            "LocalValue": "176",
+            "Description": "The distance from the front to the back of something.",
+            "Mandatory": "1",
+            "Searchable": "0",
+            "Optional": "0",
+            "Feature": {
+              "ID": "1650",
+              "Sign": "",
+              "Measure": {
+                "ID": "24",
+                "Sign": "",
+                "Signs": {
+                  "ID": "3620",
+                  "_": "мм",
+                  "Language": "UK"
+                }
+              },
+              "Name": {
+                "Value": "Глибина",
+                "Language": "UK"
+              }
+            }
+          },
+          {
+            "Localized": 0,
+            "ID": 237064408,
+            "LocalID": 0,
+            "Type": "numerical",
+            "Value": "182",
+            "CategoryFeatureId": "6226",
+            "CategoryFeatureGroupID": "1309",
+            "SortNo": "53",
+            "PresentationValue": "182 мм",
+            "RawValue": "182",
+            "LocalValue": "182",
+            "Description": "The measurement of the product from head to foot or from base to top.",
+            "Mandatory": "1",
+            "Searchable": "0",
+            "Optional": "0",
+            "Feature": {
+              "ID": "1464",
+              "Sign": "",
+              "Measure": {
+                "ID": "24",
+                "Sign": "",
+                "Signs": {
+                  "ID": "3620",
+                  "_": "мм",
+                  "Language": "UK"
+                }
+              },
+              "Name": {
+                "Value": "Висота",
+                "Language": "UK"
+              }
+            }
+          },
+          {
+            "Localized": 0,
+            "ID": 237064411,
+            "LocalID": 0,
+            "Type": "numerical",
+            "Value": "1280",
+            "CategoryFeatureId": "8718",
+            "CategoryFeatureGroupID": "1309",
+            "SortNo": "45",
+            "PresentationValue": "1,28 кг",
+            "RawValue": "1280",
+            "LocalValue": "1,28",
+            "Description": "Weight of the product without packaging (net weight). If possible, the net weight is given including standard accessories and supplies. Please note that sometimes the manufacturer leaves out the weight of accessories and/or supplies.",
+            "Mandatory": "1",
+            "Searchable": "0",
+            "Optional": "0",
+            "Feature": {
+              "ID": "94",
+              "Sign": "",
+              "Measure": {
+                "ID": "38",
+                "Sign": "",
+                "Signs": {
+                  "ID": "3633",
+                  "_": "г",
+                  "Language": "UK"
+                }
+              },
+              "Name": {
+                "Value": "Вага",
+                "Language": "UK"
+              }
+            }
+          }
+        ]
+      },
+      {
+        "ID": 9610,
+        "SortNo": "3",
+        "FeatureGroup": {
+          "ID": "116",
+          "Name": {
+            "Value": "Вміст упаковки",
+            "Language": "UK"
+          }
+        },
+        "Features": [
+          {
+            "Localized": 0,
+            "ID": 237064562,
+            "LocalID": 0,
+            "Type": "y_n",
+            "Value": "N",
+            "CategoryFeatureId": "11391",
+            "CategoryFeatureGroupID": "9610",
+            "SortNo": "500",
+            "PresentationValue": "Ні",
+            "RawValue": "N",
+            "LocalValue": "Ні",
+            "Description": "This product includes a display.",
+            "Mandatory": "1",
+            "Searchable": "1",
+            "Optional": "0",
+            "Feature": {
+              "ID": "2177",
+              "Sign": "",
+              "Measure": {
+                "ID": "26",
+                "Sign": "",
+                "Signs": {
+                  "ID": "",
+                  "_": "",
+                  "Language": "UK"
+                }
+              },
+              "Name": {
+                "Value": "Дисплей в комплекті",
+                "Language": "UK"
+              }
+            }
+          },
+          {
+            "Localized": 0,
+            "ID": 237064807,
+            "LocalID": 0,
+            "Type": "y_n",
+            "Value": "Y",
+            "CategoryFeatureId": "20512",
+            "CategoryFeatureGroupID": "9610",
+            "SortNo": "475",
+            "PresentationValue": "Так",
+            "RawValue": "Y",
+            "LocalValue": "Так",
+            "Description": "A mouse is included with this product.",
+            "Mandatory": "0",
+            "Searchable": "0",
+            "Optional": "0",
+            "Feature": {
+              "ID": "2944",
+              "Sign": "",
+              "Measure": {
+                "ID": "26",
+                "Sign": "",
+                "Signs": {
+                  "ID": "",
+                  "_": "",
+                  "Language": "UK"
+                }
+              },
+              "Name": {
+                "Value": "Миша в комплекті",
+                "Language": "UK"
+              }
+            }
+          },
+          {
+            "Localized": 0,
+            "ID": 237064802,
+            "LocalID": 0,
+            "Type": "y_n",
+            "Value": "Y",
+            "CategoryFeatureId": "238768",
+            "CategoryFeatureGroupID": "9610",
+            "SortNo": "471",
+            "PresentationValue": "Так",
+            "RawValue": "Y",
+            "LocalValue": "Так",
+            "Description": "A keyboard is part of the bundle/set.",
+            "Mandatory": "0",
+            "Searchable": "0",
+            "Optional": "0",
+            "Feature": {
+              "ID": "33532",
+              "Sign": "",
+              "Measure": {
+                "ID": "26",
+                "Sign": "",
+                "Signs": {
+                  "ID": "",
+                  "_": "",
+                  "Language": "UK"
+                }
+              },
+              "Name": {
+                "Value": "Клавіатура в комплекті",
+                "Language": "UK"
+              }
+            }
+          },
+          {
+            "Localized": 0,
+            "ID": 237064809,
+            "LocalID": 0,
+            "Type": "multi_dropdown",
+            "Value": "AC",
+            "CategoryFeatureId": "83907",
+            "CategoryFeatureGroupID": "9610",
+            "SortNo": "300",
+            "PresentationValue": "Кабель змінного струму",
+            "RawValue": "AC",
+            "LocalValue": "Кабель змінного струму",
+            "Description": "",
+            "Mandatory": "0",
+            "Searchable": "0",
+            "Optional": "0",
+            "Feature": {
+              "ID": "1830",
+              "Sign": "",
+              "Measure": {
+                "ID": "29",
+                "Sign": "",
+                "Signs": {
+                  "ID": "",
+                  "_": "",
+                  "Language": "UK"
+                }
+              },
+              "Name": {
+                "Value": "Кабелі, що поставляються",
+                "Language": "UK"
+              }
+            }
+          },
+          {
+            "Localized": 0,
+            "ID": 237064860,
+            "LocalID": 0,
+            "Type": "y_n",
+            "Value": "Y",
+            "CategoryFeatureId": "83908",
+            "CategoryFeatureGroupID": "9610",
+            "SortNo": "0",
+            "PresentationValue": "Так",
+            "RawValue": "Y",
+            "LocalValue": "Так",
+            "Description": "",
+            "Mandatory": "0",
+            "Searchable": "0",
+            "Optional": "1",
+            "Feature": {
+              "ID": "3965",
+              "Sign": "",
+              "Measure": {
+                "ID": "26",
+                "Sign": "",
+                "Signs": {
+                  "ID": "",
+                  "_": "",
+                  "Language": "UK"
+                }
+              },
+              "Name": {
+                "Value": "Інструкція",
+                "Language": "UK"
+              }
+            }
+          }
+        ]
+      },
+      {
+        "ID": 6656,
+        "SortNo": "-1000",
+        "FeatureGroup": {
+          "ID": "146",
+          "Name": {
+            "Value": "Інші характеристики",
+            "Language": "UK"
+          }
+        },
+        "Features": [
+          {
+            "Localized": 0,
+            "ID": 237061733,
+            "LocalID": 0,
+            "Type": "dropdown",
+            "Value": "Enterprise,Small Business",
+            "CategoryFeatureId": "157561",
+            "CategoryFeatureGroupID": "6656",
+            "SortNo": "-10",
+            "PresentationValue": "Корпоративна, Малий бізнес",
+            "RawValue": "Enterprise,Small Business",
+            "LocalValue": "Корпоративна, Малий бізнес",
+            "Description": "",
+            "Mandatory": "0",
+            "Searchable": "0",
+            "Optional": "1",
+            "Feature": {
+              "ID": "25339",
+              "Sign": "",
+              "Measure": {
+                "ID": "29",
+                "Sign": "",
+                "Signs": {
+                  "ID": "",
+                  "_": "",
+                  "Language": "UK"
+                }
+              },
+              "Name": {
+                "Value": "Позначення сегмента ринку Intel",
+                "Language": "UK"
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "FeatureLogos": [
+      {
+        "LogoPic": "https://images.icecat.biz/img/feature_logo/61-5887.png",
+        "Width": "300",
+        "Height": "299",
+        "Size": "0",
+        "ThumbPic": "https://images.icecat.biz/img/feature_logo_thumbs/61-5887.png",
+        "FeatureID": "9733",
+        "Value": "2.0",
+        "KeyLogo": 0,
+        "Description": {
+          "Value": "<b>Підвищення продуктивності, коли Вам це потрібно.</b>\r\nТехнологія Intel® Turbo Boost 2.0 збільшує швидкість процесора і продуктивність відеокарти за рахунок підвищення робочої частоти при роботі нижче меж специфікації. Максимальна частота залежить від навантаження, апаратних засобів, програмного забезпечення і загальної конфігурації системи.",
+          "Language": "UK"
+        }
+      },
+      {
+        "LogoPic": "https://images.icecat.biz/img/feature_logo/61-5887.png",
+        "Width": "300",
+        "Height": "299",
+        "Size": "0",
+        "ThumbPic": "https://images.icecat.biz/img/feature_logo_thumbs/61-5887.png",
+        "FeatureID": "9733",
+        "Value": "Y",
+        "KeyLogo": 0,
+        "Description": {
+          "Value": "<b>Підвищення продуктивності, коли Вам це потрібно.</b>\r\nТехнологія Intel® Turbo Boost 2.0 збільшує швидкість процесора і продуктивність відеокарти за рахунок підвищення робочої частоти при роботі нижче меж специфікації. Максимальна частота залежить від навантаження, апаратних засобів, програмного забезпечення і загальної конфігурації системи.",
+          "Language": "UK"
+        }
+      },
+      {
+        "LogoPic": "https://images.icecat.biz/img/feature_logo/91-5976.png",
+        "Width": "200",
+        "Height": "200",
+        "Size": "0",
+        "ThumbPic": "https://images.icecat.biz/img/feature_logo_thumbs/91-5976.png",
+        "FeatureID": "22268",
+        "Value": "Y",
+        "KeyLogo": 1
+      },
+      {
+        "LogoPic": "https://images.icecat.biz/img/feature_logo/145-5610.png",
+        "Width": "300",
+        "Height": "300",
+        "Size": "0",
+        "ThumbPic": "https://images.icecat.biz/img/feature_logo_thumbs/145-5610.png",
+        "FeatureID": "3233",
+        "Value": "Windows 10 Pro",
+        "KeyLogo": 2
+      },
+      {
+        "LogoPic": "https://images.icecat.biz/img/feature_logo/145-5610.png",
+        "Width": "300",
+        "Height": "300",
+        "Size": "0",
+        "ThumbPic": "https://images.icecat.biz/img/feature_logo_thumbs/145-5610.png",
+        "FeatureID": "3233",
+        "Value": "Windows 10 Pro for Workstations",
+        "KeyLogo": 2
+      },
+      {
+        "LogoPic": "https://images.icecat.biz/img/feature_logo/342-2393.png",
+        "Width": "299",
+        "Height": "300",
+        "Size": "0",
+        "ThumbPic": "https://images.icecat.biz/img/feature_logo_thumbs/342-2393.png",
+        "FeatureID": "44870",
+        "Value": "Intel Core i7-6xxx",
+        "KeyLogo": 3
+      }
+    ],
+    "ReasonsToBuy": [],
+    "Reviews": [],
+    "TaxonomyDescriptions": [],
+    "ProductRelated": [],
+    "Variants": [],
+    "ProductStory": [],
+    "DemoAccount": false
+  }
+}

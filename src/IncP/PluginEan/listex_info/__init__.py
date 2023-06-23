@@ -13,9 +13,13 @@ from .. import TParserBase
 class TParser(TParserBase):
     UrlRoot = 'https://listex.info'
 
-    async def _GetData(self, aEan: str):
+    async def _GetData(self, aCode: str) -> dict:
+        if (not self.CheckEan(aCode)):
+            return
+
+        Url = f'{self.UrlRoot}/uk/search/?&type=goods&q={aCode}'
+
         async with aiohttp.ClientSession() as Session:
-            Url = f'{self.UrlRoot}/uk/search/?&type=goods&q={aEan}'
             async with Session.get(Url) as Response:
                 Data = await Response.read()
                 ResParse1 = self.ParseScheme(Data, 'scheme1.json')

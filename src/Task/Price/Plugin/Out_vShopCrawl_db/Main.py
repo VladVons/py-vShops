@@ -1,15 +1,11 @@
 # Created: 2023.02.13
 # Author: Vladimir Vons <VladVons@gmail.com>
 # License: GNU, see LICENSE for more details
-# 4823096802060 long name
-# '3086126726984'
 
 
-import re
 import random
 import json
 import asyncio
-import hashlib
 import webbrowser
 import lxml
 from bs4 import BeautifulSoup
@@ -17,6 +13,7 @@ from bs4 import BeautifulSoup
 from Inc.DataClass import DDataClass
 from Inc.DbList  import TDbList
 from Inc.Ean import TEan
+from Inc.Misc.Crypt import CryptSimple
 from Inc.Misc.Request import TRequestJson, TAuth
 from Inc.ParserX.Common import TFileBase
 from Inc.ParserX.CommonSql import TSqlBase, DASplitDbl, TLogEx
@@ -68,29 +65,30 @@ class TSql(TSqlBase):
         Url = f'{self.ImgApi.Url}/system'
         return await self.ImgApi.Send(Url, aData)
 
-    async def EanNullInfo(self):
-        Query = '''
+    async def CodeNullInfo(self):
+        Query = f'''
             select code
             from ref_product0_crawl rpc
-            where (product_en = 'ean') and (info is null)
+            where (product_en = '{self.Parser.CodeType}') and (info is null)
         '''
         return await TDbExecPool(self.Db.Pool).Exec(Query)
 
     async def EanPotentialFind(self, aDbl: TDbList):
-        Dbl = await self.EanNullInfo()
+        Dbl = await self.CodeNullInfo()
         Pairs = Dbl.ExportPair('code', 1)
-        Res = [Rec.ean for Rec in aDbl if Rec.ean in Pairs]
+        Res = [Rec.code for Rec in aDbl if Rec.code in Pairs]
         print(f'Need ean: {len(Dbl)}, records in file: {len(aDbl)}, matches: {len(Res)}')
 
     async def EanRemoveBad(self):
-        DblCur = await self.EanNullInfo()
+        assert(self.Parser.CodeType == 'ean'), 'Not ean parser'
 
         EanCrc = TEan()
         Eans = []
+        DblCur = await self.CodeNullInfo()
         for Rec in DblCur:
-            Ean = Rec.code.strip()
-            if (len(Ean) < 8) or (Ean.startswith('02')) or (not EanCrc.Init(Ean).Check()):
-                Eans.append(Ean)
+            Code = Rec.code.strip()
+            if (len(Code) < 8) or (Code.startswith('02')) or (not EanCrc.Init(Code).Check()):
+                Eans.append(Code)
 
         Query = f'''
             delete
@@ -119,7 +117,7 @@ class TSql(TSqlBase):
             DblCur = await TDbExecPool(self.Db.Pool).Exec(Query)
             Log.Print(1, 'i', f'ReportCrawl(), {DblCur.Rec.GetAsDict()}')
 
-        async def UpdateCrawl(aEan: str, aInfo: dict):
+        async def UpdateCrawl(aCode: str, aInfo: dict):
             if (aInfo):
                 Url = "'" + aInfo.get('url', '') + "'"
                 Info = "'" + json.dumps(aInfo, ensure_ascii=False).replace("'", '`') + "'"
@@ -129,13 +127,13 @@ class TSql(TSqlBase):
 
             Query = f'''
                 insert into ref_product0_crawl (code, product_en, url, update_date, info, crawl_site_id)
-                values ('{aEan}', 'ean', {Url}, now(), {Info}, {self.ConfCrawl.Rec.id})
+                values ('{aCode}', '{self.Parser.CodeType}', {Url}, now(), {Info}, {self.ConfCrawl.Rec.id})
                 on conflict (code, product_en, crawl_site_id) do update
                 set update_date = now(), info = {Info}
             '''
             await TDbExecPool(self.Db.Pool).Exec(Query)
 
-        async def UpdateImage(aEan: str, aInfo: dict) -> list:
+        async def UpdateImage(aCode: str, aInfo: dict) -> list:
             Images = aInfo.get('images', [])
             if (isinstance(Images, str)):
                 Images = [Images]
@@ -151,20 +149,22 @@ class TSql(TSqlBase):
             UrlD = []
             for Idx, x in enumerate(Images):
                 Ext = x.rsplit('.', maxsplit=1)[-1]
-                Hash = hashlib.md5(aEan.encode('utf-8')).hexdigest()[8::3]
-                Dir = '/'.join(Hash[:2])
-                Name = f'{Dir}/{Hash}_{aEan}_{Idx}.{Ext}'
+                #Hash = hashlib.md5(aCode.encode('utf-8')).hexdigest()[8::3]
+                #Dir = '/'.join(Hash[:2])
+                #Name = f'{Dir}/{Hash}_{aCode}_{Idx}.{Ext}'
+                CodeX = CryptSimple(aCode, 71)
+                Name = f'{self.Parser.CodeType[::-1]}/{CodeX[-2:]}/{CodeX}_{Idx}.{Ext}'
 
                 if (self.Parser.Moderate):
                     webbrowser.open(x, new=0, autoraise=False)
                     print()
-                    print(f"ean: {aEan}, name {aInfo['name']}")
+                    print(f"Code: {aCode}, name {aInfo['name']}")
                     print(f'image: {x}')
                     Answer = input('add image y/n ?:')
                     if (Answer != 'y'):
                         continue
 
-                UrlD.append([x, Name, UrlSize.get(x, 0), aEan])
+                UrlD.append([x, Name, UrlSize.get(x, 0), aCode])
 
             if (not UrlD):
                 return []
@@ -188,7 +188,7 @@ class TSql(TSqlBase):
                         Res.append(Value)
             return Res
 
-        async def UpdateProduct(aEan: str, aInfo: dict, aImgValues: list):
+        async def UpdateProduct(aCode: str, aInfo: dict, aImgValues: list):
             Name = aInfo.get('name', '').replace("'", '`')
             Descr = GetNotNone(aInfo, 'descr', '').replace("'", '`')
             Category = GetNotNone(aInfo, 'category', '_???').replace("'", '`')
@@ -205,8 +205,8 @@ class TSql(TSqlBase):
                         insert into ref_product0_barcode (product_id, code, product_en)
                         select
                             wrp.id,
-                            '{aEan}',
-                            'ean'
+                            '{aCode}',
+                            '{self.Parser.CodeType}'
                         from wrp
                         on conflict (code, product_en) do nothing
                     ),
@@ -251,21 +251,21 @@ class TSql(TSqlBase):
             '''
             await TDbExecPool(self.Db.Pool).Exec(Query)
 
-        async def FetchSem(aEan: str, aSem: asyncio.Semaphore):
+        async def FetchSem(aCode: str, aSem: asyncio.Semaphore):
             # core
             async with aSem:
                 if (self.Conf.RandSleep):
                     Sleep = random.uniform(*self.Conf.RandSleep)
                     await asyncio.sleep(Sleep)
 
-                Info = await self.Parser.GetData(aEan)
-                await UpdateCrawl(aEan, Info)
+                Info = await self.Parser.GetData(aCode)
+                await UpdateCrawl(aCode, Info)
                 if (Info):
-                    ImgValues = await UpdateImage(aEan, Info)
+                    ImgValues = await UpdateImage(aCode, Info)
                     if (ImgValues):
-                        await UpdateProduct(aEan, Info, ImgValues)
+                        await UpdateProduct(aCode, Info, ImgValues)
                 else:
-                    Log.Print(1, 'i', f"FetchSem(), ean {aEan} not found at {self.Parser.UrlRoot}")
+                    Log.Print(1, 'i', f"FetchSem(), code {aCode} not found at {self.Parser.UrlRoot}")
 
         @DASplitDbl
         async def SProduct0(aDbl: TDbList, _aMax: int, aIdx: int = 0, aLen: int = 0) -> TDbList:
@@ -273,15 +273,7 @@ class TSql(TSqlBase):
 
             Values = []
             for Rec in aDbl:
-                Ean = Rec.ean
-                if (Ean.startswith('02')):
-                    Log.Print(1, 'i', f'EAN internal {Ean}')
-                elif (not re.match(self.Parser.EanAllow, Ean)):
-                    Log.Print(1, 'i', f'EAN filter {Ean}')
-                elif (not TEan(Ean).Check()):
-                    Log.Print(1, 'i', f'EAN error {Ean}')
-                else:
-                    Values.append(f"('{Ean}')")
+                Values.append(f"('{Rec.code}')")
 
             Query = f'''
                 with
@@ -292,14 +284,14 @@ class TSql(TSqlBase):
                             values {', '.join(Values)}
                         ) as t2 (code)
                         left join ref_product0_barcode rpb on
-                            (t2.code = rpb.code) and (rpb.product_en = 'ean')
+                            (t2.code = rpb.code) and (rpb.product_en = '{self.Parser.CodeType}')
                         where
                             (rpb.code is null)
                 )
                 select wt1.code
                 from wt1
                 left join ref_product0_crawl rpc on
-                    (wt1.code = rpc.code) and (rpc.product_en = 'ean') and (rpc.crawl_site_id = {self.ConfCrawl.Rec.id})
+                    (wt1.code = rpc.code) and (rpc.product_en = '{self.Parser.CodeType}') and (rpc.crawl_site_id = {self.ConfCrawl.Rec.id})
                 where
                     (
                         (rpc.info is null) and

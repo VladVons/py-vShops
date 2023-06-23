@@ -18,6 +18,7 @@ class TParser_xlsx(TEngine):
         if (self._Sheet == 'default'):
             WSheet = self._Engine.active
         else:
+            assert(self._Sheet in self._Engine.sheetnames), f'Sheet not found {self._Sheet}'
             WSheet = self._Engine[self._Sheet]
 
         Conf = self.GetConfSheet()
@@ -27,7 +28,10 @@ class TParser_xlsx(TEngine):
             if (RowNo >= ConfSkip):
                 Data = {'no': RowNo}
                 for Field, FieldIdx in ConfFields.items():
-                    Val = Row[FieldIdx - 1].value
+                    if (FieldIdx <= len(Row)):
+                        Val = Row[FieldIdx - 1].value
+                    else:
+                        Val = None
                     Data[Field] = Val
                 self._Fill(Data)
                 await self.Sleep.Update()

@@ -39,7 +39,7 @@ class TDbCompPC(TDbList):
     def __init__(self):
         super().__init__(
             aFields = [
-                'model',
+                'code',
                 'case',
                 'cpu',
                 'disk_size',
@@ -61,7 +61,7 @@ class TDbCompMonit(TDbList):
     def __init__(self):
         super().__init__(
             aFields = [
-                'model',
+                'code',
                 'screen',
                 'price',
                 'grade',
@@ -76,13 +76,13 @@ class TDbCompPricePl(TDbList):
             'model'
         ])
 
-
 class TDbCrawl(TDbList):
     def __init__(self):
         super().__init__([
-            'mpn',
-            'ean',
+            'tenant',
+            'code',
             'url',
+            'model',
             'category',
             'product',
             'image',
