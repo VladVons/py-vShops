@@ -12,7 +12,8 @@
         {"name": "In_Crawl_ean_txt", "enable": false},
         {"name": "In_Crawl_model_xlsx", "enable": false},
         {"name": "Out_vShopTenant_db", "enable": false},
-        {"name": "Out_vShopCrawl_db", "enable": true},
+        {"name": "Out_vShopTenantModel_db", "enable": true},
+        {"name": "Out_vShopCrawl_db", "enable": false},
         {"name": "Out_Save_txt", "enable": false},
         {"name": "Out_Save_xlsx", "enable": false}
     ],
@@ -65,7 +66,7 @@
                 "parts": 50,
                 "lang_id": 1,
                 "max_conn": 1,
-                "-rand_sleep": [0.5, 1.5],
+                "rand_sleep": [0.1, 1.1],
                 "parser": "icecat_biz"
             },
             "auth": "{% file Conf/Default/Task.SrvModel.Api.json:db_auth %}",
@@ -77,6 +78,18 @@
             ],
             "img_loader": "{% file Conf/Default/Task.SrvCtrl.Api.json:loader.img %}",
             "img_conf": "{% file Conf/Default/Task.SrvImg.Api.json %}"
+        },
+        "Out_vShopTenantModel_db": {
+            "sql": {
+                "lang_id": 1,
+                "tenant_id": 2,
+                "parts": 50
+            },
+            "auth": "{% file Conf/Default/Task.SrvModel.Api.json:db_auth %}",
+            "depends": [
+                "Out_vShopCrawl_db",
+                "In_Crawl_icecat_xlsx"
+            ]
         }
     }
 }

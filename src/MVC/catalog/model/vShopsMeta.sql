@@ -547,7 +547,7 @@ create table if not exists ref_product_idt (
 
 create table if not exists ref_product_product0 (
     id                  serial primary key,
-    code                varchar(32),
+    code                varchar(64),
     product_en          product_enum not null,
     product0_id         integer not null,
     tenant_id           integer not null,

@@ -8,7 +8,7 @@ from Inc.Sql import TDbPg, TDbAuth
 from .Main import TMain
 
 
-class TOut_vShopCrawl_db(TPluginBase):
+class TOut_vShopTenantModel_db(TPluginBase):
     async def Run(self):
         Conf = self.Conf.GetKey('auth')
         DbAuth = TDbAuth(**Conf)

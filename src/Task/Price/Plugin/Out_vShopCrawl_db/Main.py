@@ -33,12 +33,12 @@ def GetSoup(aData: str) -> BeautifulSoup:
 
 @DDataClass
 class TSqlConf():
-    LangId: int
-    Parser: str
-    MaxDays: int = 30
-    Parts: int = 100
-    MaxConn: int = 1
-    RandSleep: list = []
+    lang_id: int
+    parser: str
+    max_days: int = 30
+    parts: int = 100
+    max_conn: int = 1
+    rand_sleep: list = [0.25, 1.0]
 
 class TSql(TSqlBase):
     def __init__(self, aDb: TDbPg, aSqlConf: TSqlConf, aImgApi: TRequestJson):
@@ -159,7 +159,7 @@ class TSql(TSqlBase):
                     webbrowser.open(x, new=0, autoraise=False)
                     print()
                     print(f"Code: {aCode}, name {aInfo['name']}")
-                    print(f'image: {x}')
+                    print('\n'.join(Images[Idx:]))
                     Answer = input('add image y/n ?:')
                     if (Answer != 'y'):
                         continue
@@ -214,7 +214,7 @@ class TSql(TSqlBase):
                         insert into ref_product0_lang (product_id, lang_id, title, features, descr)
                         select
                             wrp.id,
-                            {self.Conf.LangId},
+                            {self.Conf.lang_id},
                             '{Name}',
                             '{Features}',
                             '{Descr}'
@@ -243,7 +243,7 @@ class TSql(TSqlBase):
                         insert into ref_product0_to_category (product_id, category_id)
                         select
                             wrp.id,
-                            (select ref_product0_category_create({self.Conf.LangId}, '{Category}'))
+                            (select ref_product0_category_create({self.Conf.lang_id}, '{Category}'))
                         from wrp
                     )
                 select id
@@ -254,8 +254,8 @@ class TSql(TSqlBase):
         async def FetchSem(aCode: str, aSem: asyncio.Semaphore):
             # core
             async with aSem:
-                if (self.Conf.RandSleep):
-                    Sleep = random.uniform(*self.Conf.RandSleep)
+                if (self.Conf.rand_sleep):
+                    Sleep = random.uniform(*self.Conf.rand_sleep)
                     await asyncio.sleep(Sleep)
 
                 Info = await self.Parser.GetData(aCode)
@@ -295,7 +295,7 @@ class TSql(TSqlBase):
                 where
                     (
                         (rpc.info is null) and
-                        (DATE_PART('day', now() - rpc.update_date) > {self.Conf.MaxDays}) and
+                        (DATE_PART('day', now() - rpc.update_date) > {self.Conf.max_days}) and
                         (rpc.url like '{self.Parser.UrlRoot}%')
                     )
                     or
@@ -307,12 +307,12 @@ class TSql(TSqlBase):
             DblCur = await TDbExecPool(self.Db.Pool).Exec(Query)
 
             if (not DblCur.IsEmpty()):
-                Sem = asyncio.Semaphore(self.Conf.MaxConn)
+                Sem = asyncio.Semaphore(self.Conf.max_conn)
                 Tasks = [asyncio.create_task(FetchSem(Rec.code, Sem)) for Rec in DblCur]
                 await asyncio.gather(*Tasks)
 
         PluginEan = TPluginEan('IncP/PluginEan')
-        self.Parser = PluginEan.Load(self.Conf.Parser)
+        self.Parser = PluginEan.Load(self.Conf.parser)
         await self.Parser.Init()
         self.ConfCrawl = await self.GetConfCrawl(self.Parser.UrlRoot)
         assert(not self.ConfCrawl.IsEmpty()), f'No DB config for {self.Parser.UrlRoot}'
@@ -320,7 +320,7 @@ class TSql(TSqlBase):
         await ReportCrawl()
 
         Log.Print(1, 'i', 'Product0')
-        await SProduct0(aDbl, self.Conf.Parts)
+        await SProduct0(aDbl, self.Conf.parts)
 
 
 class TMain(TFileBase):
@@ -332,13 +332,7 @@ class TMain(TFileBase):
         self.LogEx = self.LogEx.Init(ConfFile)
 
         SqlDef = self.Parent.Conf.GetKey('sql', {})
-        SqlConf = TSqlConf(
-            LangId = SqlDef.get('lang_id'),
-            Parser = SqlDef.get('parser'),
-            Parts = SqlDef.get('parts', 50),
-            MaxConn = SqlDef.get('max_conn', 1),
-            RandSleep = SqlDef.get('rand_sleep', []),
-        )
+        SqlConf = TSqlConf(**SqlDef)
 
         ConfImg = self.Parent.Conf.GetKey('img_loader')
         ImgApi = TRequestJson(aAuth=TAuth(ConfImg.get('user'), ConfImg.get('password')))

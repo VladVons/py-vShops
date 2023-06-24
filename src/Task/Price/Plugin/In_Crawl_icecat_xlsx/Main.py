@@ -14,8 +14,10 @@ class TMain(TParser_xlsx):
     def _Fill(self, aRow: dict):
         aCode = aRow.get('code')
         if (aCode):
-            Rec = self.Dbl.RecAdd()
-            for x in ['tenant', 'category', 'model', 'code', 'url']:
-                self.Copy(x, aRow, Rec)
+            aCode = str(aCode).strip()
+            if (len(aCode) >= 4):
+                Rec = self.Dbl.RecAdd()
+                for x in ['tenant', 'category', 'code', 'model', 'url']:
+                    self.Copy(x, aRow, Rec)
 
-            Rec.Flush()
+                Rec.Flush()

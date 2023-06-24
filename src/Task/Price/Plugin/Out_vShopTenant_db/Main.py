@@ -20,11 +20,11 @@ from ..CommonDb import TDbCategory, TDbProductEx
 
 @DDataClass
 class TSqlConf():
-    LangId: int
-    TenantId: int
-    PriceId: int
-    AutoIdt: bool
-    Parts: int = 100
+    lang_id: int
+    tenant_id: int
+    price_id: int
+    auto_idt: bool = False
+    parts: int = 100
 
 class TCatalogToDb():
     def __init__(self, aDbl: TDbList):
@@ -76,7 +76,7 @@ class TSql(TSqlBase):
         Query = f'''
             update {aTable}
             set enabled = false
-            where (tenant_id = {self.Conf.TenantId})
+            where (tenant_id = {self.Conf.tenant_id})
         '''
         await TDbExecPool(self.Db.Pool).Exec(Query)
 
@@ -88,7 +88,7 @@ class TSql(TSqlBase):
                 product_id in (
                     select id
                     from ref_product
-                    where (tenant_id = {self.Conf.TenantId})
+                    where (tenant_id = {self.Conf.tenant_id})
                 )
                 {aCond}
         '''
@@ -96,7 +96,7 @@ class TSql(TSqlBase):
 
     async def Category_Create(self, aData: list):
         async def Category(aData: list):
-            Dbls: list[TDbList] = await SCategory(aData, self.Conf.Parts)
+            Dbls: list[TDbList] = await SCategory(aData, self.Conf.parts)
             Dbl = Dbls[0].New()
             Dbl.Append(Dbls)
             self.CategoryIdt = Dbl.ExportPair('idt', 'id')
@@ -105,7 +105,7 @@ class TSql(TSqlBase):
         async def SCategory(aData: list, _aMax: int, aIdx: int = 0, aLen: int = 0) -> TDbList:
             print('SCategory()', aIdx, aLen)
 
-            Values = [f"({Row['id']}, {Row['parent_id']}, {self.Conf.TenantId})" for Row in aData]
+            Values = [f"({Row['id']}, {Row['parent_id']}, {self.Conf.tenant_id})" for Row in aData]
             Query = f'''
                 insert into ref_product_category (idt, parent_idt, tenant_id)
                 values {', '.join(Values)}
@@ -128,7 +128,7 @@ class TSql(TSqlBase):
             print('SCategory_Lang()', aIdx, aLen)
 
             Values = [
-                f"({self.CategoryIdt[Row['id']]}, {self.Conf.LangId}, '{Row['name'].translate(self.Escape)}')"
+                f"({self.CategoryIdt[Row['id']]}, {self.Conf.lang_id}, '{Row['name'].translate(self.Escape)}')"
                 for Row in aData
             ]
             Query = f'''
@@ -144,11 +144,11 @@ class TSql(TSqlBase):
         await Category(aData)
 
         Log.Print(1, 'i', 'Category_Lang')
-        await SCategory_Lang(aData, self.Conf.Parts)
+        await SCategory_Lang(aData, self.Conf.parts)
 
     async def Product_Create(self, aDbl: TDbProductEx):
         async def Product(aData: list):
-            Dbls: list[TDbList] = await SProduct(aData, self.Conf.Parts)
+            Dbls: list[TDbList] = await SProduct(aData, self.Conf.parts)
             Dbl = Dbls[0].New()
             Dbl.Append(Dbls)
             self.ProductIdt = Dbl.ExportPair('idt', 'id')
@@ -158,8 +158,8 @@ class TSql(TSqlBase):
             nonlocal DbRec
             print('SProduct()', aIdx, aLen)
 
-            if (self.Conf.AutoIdt):
-                Values = [f"({self.Conf.TenantId}, '{ToHashW(DbRec.name)}')" for DbRec.Data in aData]
+            if (self.Conf.auto_idt):
+                Values = [f"({self.Conf.tenant_id}, '{ToHashW(DbRec.name)}')" for DbRec.Data in aData]
                 Values = ', '.join(Values)
 
                 # (tenant_id, title) can be duplicated and DO UPDATE causes error. Use DO NOTHING
@@ -192,11 +192,11 @@ class TSql(TSqlBase):
             Values = []
             for DbRec.Data in aData:
                 Idt = DbRec.GetField('id')
-                Key = (Idt, self.Conf.TenantId)
+                Key = (Idt, self.Conf.tenant_id)
                 if (Key not in Uniq):
                     Uniq[Key] = ''
 
-                    Value = f"({Idt}, {self.Conf.TenantId}, {bool(DbRec.available)}, '{DbRec.mpn}')"
+                    Value = f"({Idt}, {self.Conf.tenant_id}, {bool(DbRec.available)}, '{DbRec.mpn}')"
                     Values.append(Value)
 
             Query = f'''
@@ -216,14 +216,14 @@ class TSql(TSqlBase):
             Uniq = {}
             Values = []
             for DbRec.Data in aData:
-                Key = (self.ProductIdt[DbRec.id], self.Conf.LangId)
+                Key = (self.ProductIdt[DbRec.id], self.Conf.lang_id)
                 if (Key not in Uniq):
                     Uniq[Key] = ''
 
                     Descr = DbRec.GetField('descr', '').translate(self.Escape)
                     Feature = DbRec.GetField('feature', '')
                     Feature = json.dumps(Feature, ensure_ascii=False).replace("'", '`')
-                    Value = f"({self.ProductIdt[DbRec.id]}, {self.Conf.LangId}, '{DbRec.name.translate(self.Escape)}', '{Descr}', '{Feature}')"
+                    Value = f"({self.ProductIdt[DbRec.id]}, {self.Conf.lang_id}, '{DbRec.name.translate(self.Escape)}', '{Descr}', '{Feature}')"
                     Values.append(Value)
 
             Query = f'''
@@ -265,7 +265,7 @@ class TSql(TSqlBase):
                     'method': 'UploadUrls',
                     'param': {
                         'aUrlD': UrlD,
-                        'aDir': f'product/{self.Conf.TenantId}',
+                        'aDir': f'product/{self.Conf.tenant_id}',
                         'aDownload': True
                     }
                 }
@@ -312,10 +312,10 @@ class TSql(TSqlBase):
             Uniq = {}
             Values = []
             for DbRec.Data in aData:
-                Key = (self.ProductIdt[DbRec.id], self.Conf.PriceId)
+                Key = (self.ProductIdt[DbRec.id], self.Conf.price_id)
                 if (Key not in Uniq):
                     Uniq[Key] = ''
-                    Value = f'({self.ProductIdt[DbRec.id]}, {self.Conf.PriceId}, {DbRec.price})'
+                    Value = f'({self.ProductIdt[DbRec.id]}, {self.Conf.price_id}, {DbRec.price})'
                     Values.append(Value)
 
             Query = f'''
@@ -335,17 +335,17 @@ class TSql(TSqlBase):
         await Product(aDbl.Data)
 
         Log.Print(1, 'i', 'Product_Lang')
-        await SProduct_Lang(aDbl.Data, self.Conf.Parts)
+        await SProduct_Lang(aDbl.Data, self.Conf.parts)
 
         Log.Print(1, 'i', 'Product_ToCategory')
-        await SProduct_ToCategory(aDbl.Data, self.Conf.Parts)
+        await SProduct_ToCategory(aDbl.Data, self.Conf.parts)
 
         Log.Print(1, 'i', 'Product_Price')
-        await SProduct_Price(aDbl.Data, self.Conf.Parts)
+        await SProduct_Price(aDbl.Data, self.Conf.parts)
 
         Log.Print(1, 'i', 'Product_Image')
         await self.DisableTableByProduct('ref_product_image', 'and (src_url is not null)')
-        await SProduct_Image(aDbl.Data, self.Conf.Parts)
+        await SProduct_Image(aDbl.Data, self.Conf.parts)
 
 
 class TMain(TFileBase):
@@ -358,13 +358,7 @@ class TMain(TFileBase):
 
         SqlDef = self.Parent.Conf.GetKey('sql', {})
         SqlDef.update(aExport.get('sql'))
-        SqlConf = TSqlConf(
-            TenantId = SqlDef.get('tenant_id'),
-            LangId = SqlDef.get('lang_id'),
-            PriceId = SqlDef.get('price_id'),
-            Parts = SqlDef.get('parts', 50),
-            AutoIdt = SqlDef.get('auto_idt', False)
-        )
+        SqlConf = TSqlConf(**SqlDef)
 
         ConfImg = self.Parent.Conf.GetKey('img_loader')
         ImgApi = TRequestJson(aAuth=TAuth(ConfImg.get('user'), ConfImg.get('password')))

@@ -13,8 +13,8 @@ class TIn_Crawl_icecat_xlsx(TPluginBase):
         Main.InitEngine()
 
         Main.SetSheet('computer')
-        await Main.Load(not False)
-        #Main.SetSheet('monitor')
-        #await Main.Load()
+        await Main.Load(False)
+        Main.SetSheet('monitor')
+        await Main.Load()
 
         return {'TDbCrawl': Main.Dbl}
