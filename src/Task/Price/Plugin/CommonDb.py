@@ -18,7 +18,7 @@ class TDbProductEx(TDbList):
                 'name',
                 'price',
                 'image',
-                'feature',
+                'features',
                 'vendor',
                 'available',
                 'descr'

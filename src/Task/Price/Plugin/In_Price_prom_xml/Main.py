@@ -73,6 +73,6 @@ class TProduct(TParser_xml):
 
         Data = aRow.getElementsByTagName('param')
         Val = {x.getAttribute('name'): x.firstChild.data for x in Data}
-        Rec.SetField('feature', Val)
+        Rec.SetField('features', Val)
 
         Rec.Flush()

@@ -280,16 +280,16 @@ class TSql(TSqlBase):
                     Uniq[Key] = ''
 
                     Descr = Rec.GetField('descr', '').translate(self.Escape)
-                    Feature = Rec.GetField('feature', '')
-                    Feature = json.dumps(Feature, ensure_ascii=False).replace("'", '`')
-                    Value = f"({self.ProductIdt[Rec.id]}, {self.Conf.lang_id}, '{Rec.name.translate(self.Escape)}', '{Descr}', '{Feature}')"
+                    Features = Rec.GetField('features', '')
+                    Features = json.dumps(Features, ensure_ascii=False).replace("'", '`')
+                    Value = f"({self.ProductIdt[Rec.id]}, {self.Conf.lang_id}, '{Rec.name.translate(self.Escape)}', '{Descr}', '{Features}')"
                     Values.append(Value)
 
             Query = f'''
-                insert into ref_product_lang (product_id, lang_id, title, descr, feature)
+                insert into ref_product_lang (product_id, lang_id, title, descr, features)
                 values {', '.join(Values)}
                 on conflict (product_id, lang_id) do update
-                set title = excluded.title, feature = excluded.feature, descr = excluded.descr
+                set title = excluded.title, features = excluded.features, descr = excluded.descr
             '''
             return await TDbExecPool(self.Db.Pool).Exec(Query)
 

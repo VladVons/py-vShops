@@ -6,7 +6,7 @@ select
     rt.title as tenant,
     rpl.title,
     rpl.descr,
-    rpl.feature,
+    rpl.features,
     rpl.meta_key,
     rpcl.title as category,
     array (

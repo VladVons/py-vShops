@@ -491,7 +491,6 @@ create table if not exists ref_product_price_date (
     foreign key (product_price_id) references ref_product_price(id) on delete cascade
 );
 
-
 create table if not exists ref_product_barcode (
     id                  serial primary key,
     code                varchar(32),
@@ -519,7 +518,7 @@ create table if not exists ref_product_image (
 
 create table if not exists ref_product_lang (
     title               varchar(128) not null,
-    feature             json,
+    features            json,
     descr               text,
     meta_key            varchar(128),
     product_id          integer not null,
