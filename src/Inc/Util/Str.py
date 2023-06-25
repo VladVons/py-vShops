@@ -42,3 +42,9 @@ def ToHashW(aText: str) -> str:
     #Res = ''.join(sorted(list(Res)))
     #Res = hex(hash(Res) & 0xFFFFFFFFFFFFFFFF)[2:]
     return Res
+
+def ToHashWM(aText: str) -> str:
+    Res = re.sub(r'[\s/]+', ' ', aText)
+    Res = re.sub(r'[^a-zA-Z0-9\s-]', '', Res)
+    Res = Res.lower()
+    return Res

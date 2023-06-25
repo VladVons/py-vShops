@@ -461,7 +461,7 @@ create table if not exists ref_product_category_lang (
 create table if not exists ref_product (
     id                  serial primary key,
     enabled             boolean default true,
-    model               varchar(32),
+    model               varchar(64),
     is_service          boolean default false,
     sort_order          smallint default 0,
     idt                 integer,
@@ -547,6 +547,7 @@ create table if not exists ref_product_idt (
 
 create table if not exists ref_product_product0 (
     id                  serial primary key,
+    enabled             boolean default true,
     code                varchar(64),
     product_en          product_enum not null,
     product0_id         integer not null,

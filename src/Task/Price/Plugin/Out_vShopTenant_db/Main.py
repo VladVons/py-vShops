@@ -6,11 +6,11 @@
 import json
 #
 from Inc.DataClass import DDataClass
-from Inc.DbList  import TDbList, TDbRec
+from Inc.DbList import TDbList
 from Inc.Misc.Request import TRequestJson, TAuth
 from Inc.ParserX.Common import TFileBase
-from Inc.ParserX.CommonSql import TSqlBase, DASplit, TLogEx
-from Inc.Sql.ADb import TDbExecPool, ListIntToComma
+from Inc.ParserX.CommonSql import TSqlBase, DASplit, DASplitDbl, TLogEx
+from Inc.Sql.ADb import TDbExecPool, ListIntToComma, ListToComma
 from Inc.Sql.DbPg import TDbPg
 from Inc.Util.Obj import DeepGetByList
 from Inc.Util.Str import ToHashW
@@ -94,6 +94,25 @@ class TSql(TSqlBase):
         '''
         await TDbExecPool(self.Db.Pool).Exec(Query)
 
+    async def ProductModelUnknown(self):
+        Query = f'''
+            select
+		        rp.model,
+		        count(*)
+            from
+                ref_product rp
+            left join
+                ref_product_product0 rpp on
+                (rpp.tenant_id = {self.Conf.tenant_id}) and (rpp.product_en = 'model') and (rpp.code = rp.model)
+            where
+                (rp.enabled) and (rp.model is not null) and (rp.tenant_id = {self.Conf.tenant_id}) and (rpp.code is null)
+            group by
+                model
+            order by
+                model
+        '''
+        return await TDbExecPool(self.Db.Pool).Exec(Query)
+
     async def Category_Create(self, aData: list):
         async def Category(aData: list):
             Dbls: list[TDbList] = await SCategory(aData, self.Conf.parts)
@@ -153,13 +172,12 @@ class TSql(TSqlBase):
             Dbl.Append(Dbls)
             self.ProductIdt = Dbl.ExportPair('idt', 'id')
 
-        @DASplit
-        async def SProduct(aData: list, _aMax: int, aIdx: int = 0, aLen: int = 0) -> TDbList:
-            nonlocal DbRec
+        @DASplitDbl
+        async def SProduct(aDbl: TDbProductEx, _aMax: int, aIdx: int = 0, aLen: int = 0) -> TDbList:
             print('SProduct()', aIdx, aLen)
 
             if (self.Conf.auto_idt):
-                Values = [f"({self.Conf.tenant_id}, '{ToHashW(DbRec.name)}')" for DbRec.Data in aData]
+                Values = [f"({self.Conf.tenant_id}, '{ToHashW(Rec.name)}')" for Rec in aDbl]
                 Values = ', '.join(Values)
 
                 # (tenant_id, title) can be duplicated and DO UPDATE causes error. Use DO NOTHING
@@ -184,46 +202,87 @@ class TSql(TSqlBase):
                 DblCur = await TDbExecPool(self.Db.Pool).Exec(Query)
 
                 Pairs = DblCur.ExportPair('hash', 'idt')
-                for DbRec.Data in aData:
-                    Idt = Pairs.get(ToHashW(DbRec.name))
-                    DbRec.SetField('id', Idt)
+                for Rec in aDbl:
+                    Idt = Pairs.get(ToHashW(Rec.name))
+                    Rec.SetField('id', Idt)
 
             Uniq = {}
             Values = []
-            for DbRec.Data in aData:
-                Idt = DbRec.GetField('id')
+            for Rec in aDbl:
+                Idt = Rec.GetField('id')
                 Key = (Idt, self.Conf.tenant_id)
                 if (Key not in Uniq):
                     Uniq[Key] = ''
 
-                    Value = f"({Idt}, {self.Conf.tenant_id}, {bool(DbRec.available)}, '{DbRec.mpn}')"
+                    Value = f"({Idt}, {self.Conf.tenant_id}, {bool(Rec.available)}, '{Rec.model}')"
                     Values.append(Value)
 
-            Query = f'''
-                insert into ref_product (idt, tenant_id, enabled, model)
-                values {', '.join(Values)}
-                on conflict (idt, tenant_id) do update
-                set enabled = excluded.enabled, model = excluded.model
-                returning id, idt
-            '''
-            return await TDbExecPool(self.Db.Pool).Exec(Query)
+            if (Values):
+                Query = f'''
+                    insert into ref_product (idt, tenant_id, enabled, model)
+                    values {', '.join(Values)}
+                    on conflict (idt, tenant_id) do update
+                    set enabled = excluded.enabled, model = excluded.model
+                    returning id, idt
+                '''
+                return await TDbExecPool(self.Db.Pool).Exec(Query)
 
-        @DASplit
-        async def SProduct_Lang(aData: list, _aMax: int, aIdx: int = 0, aLen: int = 0) -> TDbList:
-            nonlocal DbRec
+        @DASplitDbl
+        async def SProduct_Product0(aDbl: TDbProductEx, _aMax: int, aIdx: int = 0, aLen: int = 0) -> TDbList:
+            print('SProduct_Product()', aIdx, aLen)
+
+            Models = aDbl.ExportList('model')
+            Query = f'''
+                with wrp as (
+                    select
+                        rp.id as protuct_id,
+                        rpp.product0_id
+                    from
+                        ref_product rp
+                    left join
+                        ref_product_product0 rpp on
+                        (rpp.tenant_id = {self.Conf.tenant_id}) and (rpp.product_en = 'model') and (rpp.code = rp.model)
+                    where
+                        (rp.enabled) and
+                        (rp.model is not null) and
+                        (rp.tenant_id = {self.Conf.tenant_id}) and
+                        (rp.model in ({ListToComma(Models)})) and
+                        (rpp.enabled) and
+                        (rpp.code is not null)
+                )
+                update
+                    ref_product rp
+                set
+                    product0_id = subquery.product_id
+                from (
+                    select
+                        protuct_id,
+                        product0_id
+                    from
+                        wrp
+                ) as subquery (id, product_id)
+                where
+                    (rp.id = subquery.id)
+                returning
+                    rp.id, rp.product0_id
+            '''
+            await TDbExecPool(self.Db.Pool).Exec(Query)
+
+        @DASplitDbl
+        async def SProduct_Lang(aDbl: TDbProductEx, _aMax: int, aIdx: int = 0, aLen: int = 0) -> TDbList:
             print('SProduct_Lang()', aIdx, aLen)
 
             Uniq = {}
             Values = []
-            for DbRec.Data in aData:
-                Key = (self.ProductIdt[DbRec.id], self.Conf.lang_id)
+            for Rec in aDbl:
+                Key = (self.ProductIdt[Rec.id], self.Conf.lang_id)
                 if (Key not in Uniq):
                     Uniq[Key] = ''
 
-                    Descr = DbRec.GetField('descr', '').translate(self.Escape)
-                    Feature = DbRec.GetField('feature', '')
+                    Descr = Rec.GetField('descr', '').translate(self.Escape)
+                    Feature = Rec.GetField('feature', '')
                     Feature = json.dumps(Feature, ensure_ascii=False).replace("'", '`')
-                    Value = f"({self.ProductIdt[DbRec.id]}, {self.Conf.lang_id}, '{DbRec.name.translate(self.Escape)}', '{Descr}', '{Feature}')"
+                    Value = f"({self.ProductIdt[Rec.id]}, {self.Conf.lang_id}, '{Rec.name.translate(self.Escape)}', '{Descr}', '{Feature}')"
                     Values.append(Value)
 
             Query = f'''
@@ -234,17 +293,16 @@ class TSql(TSqlBase):
             '''
             return await TDbExecPool(self.Db.Pool).Exec(Query)
 
-        @DASplit
-        async def SProduct_Image(aData: list, _aMax: int, aIdx: int = 0, aLen: int = 0) -> TDbList:
-            nonlocal DbRec
+        @DASplitDbl
+        async def SProduct_Image(aDbl: TDbProductEx, _aMax: int, aIdx: int = 0, aLen: int = 0) -> TDbList:
             print('SProduct_Image()', aIdx, aLen)
 
             Data = []
             ProductIds = []
-            for DbRec.Data in aData:
-                ProductId = self.ProductIdt[DbRec.id]
+            for Rec in aDbl:
+                ProductId = self.ProductIdt[Rec.id]
                 ProductIds.append(ProductId)
-                for xImage in DbRec.GetField('image', []):
+                for xImage in Rec.GetField('image', []):
                     Data.append({'product_id': ProductId, 'image': xImage.split('/')[-1], 'src_url': xImage})
 
             Query = f'''
@@ -288,14 +346,13 @@ class TSql(TSqlBase):
                 '''
                 await TDbExecPool(self.Db.Pool).Exec(Query)
 
-        @DASplit
-        async def SProduct_ToCategory(aData: list, _aMax: int, aIdx: int = 0, aLen: int = 0) -> TDbList:
-            nonlocal DbRec
+        @DASplitDbl
+        async def SProduct_ToCategory(aDbl: TDbProductEx, _aMax: int, aIdx: int = 0, aLen: int = 0) -> TDbList:
             print('SProduct_ToCategory()', aIdx, aLen)
 
             Values = []
-            for DbRec.Data in aData:
-                Values.append(f'({self.ProductIdt[DbRec.id]}, {self.CategoryIdt[DbRec.category_id]})')
+            for Rec in aDbl:
+                Values.append(f'({self.ProductIdt[Rec.id]}, {self.CategoryIdt[Rec.category_id]})')
 
             Query = f'''
                 insert into ref_product_to_category (product_id, category_id)
@@ -304,18 +361,17 @@ class TSql(TSqlBase):
             '''
             return await TDbExecPool(self.Db.Pool).Exec(Query)
 
-        @DASplit
-        async def SProduct_Price(aData: list, _aMax: int, aIdx: int = 0, aLen: int = 0) -> TDbList:
-            nonlocal DbRec
+        @DASplitDbl
+        async def SProduct_Price(aDbl: TDbProductEx, _aMax: int, aIdx: int = 0, aLen: int = 0) -> TDbList:
             print('SProduct_Price()', aIdx, aLen)
 
             Uniq = {}
             Values = []
-            for DbRec.Data in aData:
-                Key = (self.ProductIdt[DbRec.id], self.Conf.price_id)
+            for Rec in aDbl:
+                Key = (self.ProductIdt[Rec.id], self.Conf.price_id)
                 if (Key not in Uniq):
                     Uniq[Key] = ''
-                    Value = f'({self.ProductIdt[DbRec.id]}, {self.Conf.price_id}, {DbRec.price})'
+                    Value = f'({self.ProductIdt[Rec.id]}, {self.Conf.price_id}, {Rec.price})'
                     Values.append(Value)
 
             Query = f'''
@@ -327,26 +383,25 @@ class TSql(TSqlBase):
             return await TDbExecPool(self.Db.Pool).Exec(Query)
 
 
-        DbRec = TDbRec()
-        DbRec.Fields = aDbl.Rec.Fields
-
         Log.Print(1, 'i', 'Product')
         await self.DisableTable('ref_product')
-        await Product(aDbl.Data)
+        await Product(aDbl)
 
         Log.Print(1, 'i', 'Product_Lang')
-        await SProduct_Lang(aDbl.Data, self.Conf.parts)
+        await SProduct_Lang(aDbl, self.Conf.parts)
 
         Log.Print(1, 'i', 'Product_ToCategory')
-        await SProduct_ToCategory(aDbl.Data, self.Conf.parts)
+        await SProduct_ToCategory(aDbl, self.Conf.parts)
 
         Log.Print(1, 'i', 'Product_Price')
-        await SProduct_Price(aDbl.Data, self.Conf.parts)
+        await SProduct_Price(aDbl, self.Conf.parts)
 
         Log.Print(1, 'i', 'Product_Image')
         await self.DisableTableByProduct('ref_product_image', 'and (src_url is not null)')
-        await SProduct_Image(aDbl.Data, self.Conf.parts)
+        await SProduct_Image(aDbl, self.Conf.parts)
 
+        Log.Print(1, 'i', 'Product_Product0')
+        await SProduct_Product0(aDbl, self.Conf.parts)
 
 class TMain(TFileBase):
     def __init__(self, aParent, aDb: TDbPg, aExport: dict):

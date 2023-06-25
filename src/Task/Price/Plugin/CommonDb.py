@@ -14,7 +14,7 @@ class TDbProductEx(TDbList):
                 'category_id',
                 'code',
                 'barcode',
-                'mpn',
+                'model',
                 'name',
                 'price',
                 'image',
