@@ -18,3 +18,9 @@ async def Get_Product_LangId(self, aLangId: int, aProductId: int) -> dict:
         'fmtGet_Product_LangId.sql',
         {'aLangId': aLangId, 'aProductId': aProductId}
     )
+
+async def Get_Product0_LangId(self, aLangId: int, aProductId: int) -> dict:
+    return await self.ExecQuery(
+        'fmtGet_Product0_LangId.sql',
+        {'aLangId': aLangId, 'aProductId': aProductId}
+    )
