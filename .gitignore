@@ -7,6 +7,7 @@
 *.dat
 *.sqlite
 *.txt
+
 __pycache__
 cache
 .idea

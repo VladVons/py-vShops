@@ -2,7 +2,7 @@
 # Created: 28.09.2016
 # Vladimir Vons, VladVons@gmail.com
 #
-rsync -vPrlt --delete 192.168.2.13::vShops /admin/1
+#rsync -vPrlt --delete 192.168.2.13::vShops /admin/1
 
 source ./common.sh
 
