@@ -147,4 +147,5 @@ class TDbModel():
     async def ExecQuery(self, aPath: str, aValues: dict) -> tuple:
         Query = await self.Query.Get(aPath, aValues)
         #print('debug--\n', Query)
-        return await self.ExecQueryText(Query)
+        Res = await self.ExecQueryText(Query)
+        return Res

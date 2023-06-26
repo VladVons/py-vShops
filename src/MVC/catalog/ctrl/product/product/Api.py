@@ -25,7 +25,7 @@ async def Main(self, aData: dict = None) -> dict:
     if (DblData):
         Dbl = TDbSql().Import(DblData)
 
-        Images = [f'product/{Dbl.Rec.tenant_id}/{x}' for x in Dbl.Rec.images]
+        Images = [f'product/{x}' for x in Dbl.Rec.images]
         ResImg = await self.ExecImg(
             'system',
             {

@@ -49,6 +49,7 @@ class TSql(TSqlBase):
         self.ImgApi = aImgApi
         self.ConfCrawl: TDbList
         self.Parser: TParserBase = None
+        self.TenantId = 0
 
     async def GetConfCrawl(self, aHost: str) -> TDbList:
         Query = f'''
@@ -153,7 +154,7 @@ class TSql(TSqlBase):
                 #Dir = '/'.join(Hash[:2])
                 #Name = f'{Dir}/{Hash}_{aCode}_{Idx}.{Ext}'
                 CodeX = CryptSimple(aCode, 71)
-                Name = f'{self.Parser.CodeType[::-1]}/{CodeX[-2:]}/{CodeX}_{Idx}.{Ext}'
+                Name = f'{self.TenantId}/{self.Parser.CodeType[::-1]}/{CodeX[-2:]}/{CodeX}_{Idx}.{Ext}'
 
                 if (self.Parser.Moderate):
                     webbrowser.open(x, new=0, autoraise=False)
@@ -173,7 +174,7 @@ class TSql(TSqlBase):
                     'method': 'UploadUrls',
                     'param': {
                         'aUrlD': UrlD,
-                        'aDir': 'product/0',
+                        'aDir': 'product',
                         'aDownload': True
                     }
                 })

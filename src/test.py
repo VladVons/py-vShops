@@ -44,8 +44,19 @@ async def Test_02():
     with open('Xlat.json', 'w') as F:
         json.dump(Xlat, F, indent=2, ensure_ascii=False)
 
-
 async def Test_03():
+    DirSrc = 'Data/img/product/1'
+    for i, x in enumerate(DirWalk(f'{DirSrc}')):
+        File = x[0].rsplit('/', maxsplit=1)[-1]
+        BaseName = File.split('.', maxsplit=1)[0]
+        DirDst = f'{DirSrc}/x/{BaseName[:2]}'
+        FileDst = f'{DirDst}/{File}'
+
+        print(FileDst)
+        #os.makedirs(DirDst, exist_ok=True)
+        #shutil.copyfile(x[0], FileDst)
+
+async def Test_04():
     #PData = {'plugin': 'gepir4_gs1ua_org', 'code': '4820182065705'}
     #PData = {'plugin': 'rozetka_com_ua', 'code': '5000299618240'}
     #PData = {'plugin': 'listex_info', 'code': '4823003207513'}
@@ -67,4 +78,3 @@ async def Test_03():
 
 
 asyncio.run(Test_03())
-

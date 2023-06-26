@@ -316,14 +316,17 @@ class TSql(TSqlBase):
             UrlD = []
             for x in Data:
                 Url = x['src_url']
-                UrlD.append([Url, None, Urls.get(Url, 0), x['product_id']])
+                File = Url.rsplit('/', maxsplit=1)[-1]
+                BaseName = File.split('.', maxsplit=1)[0]
+                Name = f'{self.Conf.tenant_id}/{BaseName[:2]}/{File}'
+                UrlD.append([Url, Name, Urls.get(Url, 0), x['product_id']])
 
             DataImg = await self._ImgUpdate(
                 {
                     'method': 'UploadUrls',
                     'param': {
                         'aUrlD': UrlD,
-                        'aDir': f'product/{self.Conf.tenant_id}',
+                        'aDir': 'product',
                         'aDownload': True
                     }
                 }

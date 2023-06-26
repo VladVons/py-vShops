@@ -19,4 +19,8 @@ def Run():
         print(f'Need python >= {PyNeed}')
 
 if (__name__ == '__main__'):
-    Run()
+    #Run()
+    File = '/long/path/file.jpg'.rsplit('/', maxsplit=1)[-1].split('.', maxsplit=1)[0]
+    print(f'{File[0]}{File[-1]}')
+    pass
+
