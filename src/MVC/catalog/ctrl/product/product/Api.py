@@ -16,7 +16,7 @@ async def Main(self, aData: dict = None) -> dict:
     Res = await self.ExecModel(
         'ref_product/product',
         {
-            'method': 'Get_Product_LangId',
+            'method': 'Get_Product0_LangId',
             'param': {'aLangId': aLangId, 'aProductId': aProductId}
         }
     )

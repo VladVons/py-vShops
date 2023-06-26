@@ -20,6 +20,7 @@ class TParser(TParserBase):
         ShopName = 'VladVons'
         AppKey = '0Bu9AgccFpvGA44Lp2Uvp83rq41QlRF8'
         Url = f'https://live.icecat.biz/api?shopname={ShopName}&lang=uk&icecat_id={aCode}&app_key={AppKey}'
+        #Url = 'https://icecat.biz/p/vendorName/mpn/desc-{aCode}.html'
 
         async with aiohttp.ClientSession() as Session:
             async with Session.get(Url) as Response:
