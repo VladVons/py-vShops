@@ -21,22 +21,22 @@ async def Main(self, aData: dict = None) -> dict:
     ResProduct = await self.ExecModel(
         'ref_product/product',
         {
-            'method': 'Get_Products_LangFilter',
+            'method': 'Get_Products0_LangFilter',
             'param': {'aLangId': aLangId, 'aFilter': aSearch, 'aOrder': f'{aSort} {aOrder}', 'aLimit': aLimit, 'aOffset': (aPage - 1) * aLimit},
             'query': True
         }
     )
-    print(ResProduct.get('query'))
+    #print(ResProduct.get('query'))
 
     DblProduct = ResProduct.get('data')
     if (DblProduct):
         DblProduct = TDbSql().Import(DblProduct)
-
+        CategoryIds = DblProduct.ExportList('category_id', True)
         ResCategory = await self.ExecModel(
             'ref_product/category',
             {
                 'method': 'Get_CategoryPath_Lang',
-                'param': {'aLangId': aLangId, 'aIds': DblProduct.ExportList('category_id')}
+                'param': {'aLangId': aLangId, 'aIds': CategoryIds}
             }
         )
         DblCategory = TDbSql().Import(ResCategory.get('data'))
@@ -48,7 +48,7 @@ async def Main(self, aData: dict = None) -> dict:
             Href = f'?route=product/product&path={Path}&product_id={Rec.product_id}'
             Hrefs.append(Href)
 
-        Images = DblProduct.ExportStr(['tenant_id', 'image'], 'product/{}/{}')
+        Images = DblProduct.ExportStr(['image'], 'product/{}')
         ResThumbs = await self.ExecImg('system',
             {
                 'method': 'GetThumbs',

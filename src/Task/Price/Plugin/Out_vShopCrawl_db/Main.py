@@ -31,6 +31,12 @@ def GetSoup(aData: str) -> BeautifulSoup:
         Res = BeautifulSoup(aData, 'html.parser')
     return Res
 
+def InputKey(aMsg: str, aKeys: list):
+    while True:
+        Answer = input(f"{aMsg} [{'/'.join(aKeys)}] :").lower()
+        if (Answer in aKeys):
+            return Answer
+
 @DDataClass
 class TSqlConf():
     lang_id: int
@@ -139,6 +145,9 @@ class TSql(TSqlBase):
             if (isinstance(Images, str)):
                 Images = [Images]
 
+            if (not Images):
+                return
+
             Query = f'''
                 select src_url, src_size
                 from ref_product0_image
@@ -161,11 +170,11 @@ class TSql(TSqlBase):
                     print()
                     print(f"Code: {aCode}, name {aInfo['name']}")
                     print('\n'.join(Images[Idx:]))
-                    Answer = input('add image y/n ?:')
-                    if (Answer != 'y'):
-                        continue
-
-                UrlD.append([x, Name, UrlSize.get(x, 0), aCode])
+                    Answer = InputKey('Add image ?', ['y', 'n', 'c'])
+                    if (Answer == 'y'):
+                        UrlD.append([x, Name, UrlSize.get(x, 0), aCode])
+                    elif (Answer == 'c'):
+                        break
 
             if (not UrlD):
                 return []
@@ -193,7 +202,12 @@ class TSql(TSqlBase):
             Name = aInfo.get('name', '').replace("'", '`')
             Descr = GetNotNone(aInfo, 'descr', '').replace("'", '`')
             Category = GetNotNone(aInfo, 'category', '_???').replace("'", '`')
-            Features = json.dumps(aInfo.get('features', {}), ensure_ascii=False).replace("'", '`')
+
+            Features = aInfo.get('features')
+            if (Features):
+                Features = "'" + json.dumps(aInfo.get('features', {}), ensure_ascii=False).replace("'", '`') + "'"
+            else:
+                Features = 'null'
 
             Query = f'''
                 with
@@ -217,7 +231,7 @@ class TSql(TSqlBase):
                             wrp.id,
                             {self.Conf.lang_id},
                             '{Name}',
-                            '{Features}',
+                            {Features},
                             '{Descr}'
                         from wrp
                     ),
@@ -253,7 +267,7 @@ class TSql(TSqlBase):
             await TDbExecPool(self.Db.Pool).Exec(Query)
 
         async def FetchSem(aCode: str, aSem: asyncio.Semaphore):
-            # core
+            # debug
             async with aSem:
                 if (self.Conf.rand_sleep):
                     Sleep = random.uniform(*self.Conf.rand_sleep)

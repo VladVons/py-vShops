@@ -43,24 +43,13 @@
         },
         "In_Crawl_icecat_xlsx": {
             "sheet": {
-                "computer": {
+                "default": {
                     "skip": 1,
                     "fields": {
-                        "tenant": 1,
-                        "category": 2,
-                        "model": 3,
-                        "code": 4,
-                        "url": 5
-                    }
-                },
-                "monitor": {
-                    "skip": 1,
-                    "fields": {
-                        "tenant": 1,
-                        "category": 2,
-                        "model": 3,
-                        "code": 4,
-                        "url": 5
+                        "model": 1,
+                        "code": 2,
+                        "url": 3,
+                        "comment": 4
                     }
                 }
             }
@@ -113,6 +102,17 @@
                         "grade": 3,
                         "color": 7,
                         "stand": 4
+                    },
+                    "title": ["model", "screen", "grade", "color"]
+                },
+                "INDUSTRIAL MONITORS": {
+                    "skip": 1,
+                    "fields": {
+                        "model": 2,
+                        "screen": 3,
+                        "price": 6,
+                        "grade": 4,
+                        "color": 5
                     },
                     "title": ["model", "screen", "grade", "color"]
                 }

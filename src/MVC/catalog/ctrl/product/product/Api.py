@@ -4,6 +4,7 @@
 
 
 from IncP.LibCtrl import TDbSql, GetDictDefs
+from .Features import TFeatures
 
 
 async def Main(self, aData: dict = None) -> dict:
@@ -17,9 +18,11 @@ async def Main(self, aData: dict = None) -> dict:
         'ref_product/product',
         {
             'method': 'Get_Product0_LangId',
-            'param': {'aLangId': aLangId, 'aProductId': aProductId}
+            'param': {'aLangId': aLangId, 'aProductId': aProductId},
+            'query': True
         }
     )
+    #print(Res.get('query'))
 
     DblData = Res.get('data')
     if (DblData):
@@ -41,5 +44,9 @@ async def Main(self, aData: dict = None) -> dict:
             Res['image'] = 'no image'
 
         Res['product'] = Dbl.Rec.GetAsDict()
+
+        Features = Res['product'].get('features', {})
+        Res['product']['features'] = TFeatures(aLangId).Adjust(Features)
+
         del Res['data']
     return Res

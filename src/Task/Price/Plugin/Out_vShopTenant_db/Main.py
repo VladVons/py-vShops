@@ -280,9 +280,14 @@ class TSql(TSqlBase):
                     Uniq[Key] = ''
 
                     Descr = Rec.GetField('descr', '').translate(self.Escape)
-                    Features = Rec.GetField('features', '')
-                    Features = json.dumps(Features, ensure_ascii=False).replace("'", '`')
-                    Value = f"({self.ProductIdt[Rec.id]}, {self.Conf.lang_id}, '{Rec.name.translate(self.Escape)}', '{Descr}', '{Features}')"
+
+                    Features = Rec.GetField('features')
+                    if (Features):
+                        Features = "'" + json.dumps(Features, ensure_ascii=False).replace("'", '`') + "'"
+                    else:
+                        Features = 'null'
+
+                    Value = f"({self.ProductIdt[Rec.id]}, {self.Conf.lang_id}, '{Rec.name.translate(self.Escape)}', '{Descr}', {Features})"
                     Values.append(Value)
 
             Query = f'''
@@ -317,8 +322,7 @@ class TSql(TSqlBase):
             for x in Data:
                 Url = x['src_url']
                 File = Url.rsplit('/', maxsplit=1)[-1]
-                BaseName = File.split('.', maxsplit=1)[0]
-                Name = f'{self.Conf.tenant_id}/{BaseName[:2]}/{File}'
+                Name = f'{self.Conf.tenant_id}/{File[:2]}/{File}'
                 UrlD.append([Url, Name, Urls.get(Url, 0), x['product_id']])
 
             DataImg = await self._ImgUpdate(

@@ -48,25 +48,34 @@
 
   <tabs>
     <panel>
-      <tab id='tabdesc' class='active'>{{lang.description}}</tab>
-      <tab id='tabprop'>{{lang.features}}</tab>
-      <tab id='tabcomm'>{{lang.reviews}}</tab>
+        <tab id='tabprop' class='active'>{{lang.features}}</tab>
+        <tab id='tabdesc'>{{lang.description}}</tab>
+        <tab id='tabcomm'>{{lang.reviews}}</tab>
     </panel>
     <data>
-      <label class='tabdesc'>
-        {{product['descr']}}'
+      <label class='tabprop'>
+        <!-- <name>Модель:</name><value>Acer</value> -->
+        {%- for xType, xVal in product['features'] %}
+            {%- if xType == 'g' -%}
+                <plus>{{xVal}}</plus>
+            {%- else -%}
+                <value>{{xVal}}</value>
+            {%- endif %}
+        {%- endfor %}
       </label>
-      <label class='tabprop hide'>
-        <name>Модель:</name><value>Acer</value>
-        <name>Напруга:</name><value>19v</value>
-        <name>Колір:</name><value>чорний</value>
+
+      <label class='tabdesc' hide>
+        {{product['descr']}}
       </label>
+
       <label class='tabcomm hide'>
-        Простенькая, аккуратная материнская плата с достаточным количеством разъемов на задней панели порадовало наличие слота M.2.
+        <!--
+        аккуратная материнская плата
         <plus>Переваги:</plus>
         м2 слот
         <minus>Недоліки:</minus>
         Отличная плата на свою цену
+        -->
       </label>
     </data>
   </tabs>
