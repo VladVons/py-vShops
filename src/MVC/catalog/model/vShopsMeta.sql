@@ -471,6 +471,7 @@ create table if not exists ref_product (
     foreign key (tenant_id) references ref_tenant(id),
     unique (tenant_id, idt)
 );
+create index if not exists ref_product_product0_id_idx ON ref_product (product0_id);
 
 create table if not exists ref_product_price (
     id                  serial primary key,
@@ -485,6 +486,7 @@ create table if not exists ref_product_price (
 
 create table if not exists ref_product_price_date (
     id                  serial primary key,
+    enabled             boolean,
     begin_date          date not null,
     end_date            date not null,
     product_price_id    integer not null,
@@ -555,6 +557,27 @@ create table if not exists ref_product_product0 (
     foreign key (tenant_id) references ref_tenant(id),
     unique (tenant_id, code, product_en)
 );
+
+create table if not exists ref_product_related (
+    product_id          integer not null,
+    related_id          integer not null,
+    foreign key (product_id) references ref_product(id) on delete cascade,
+    foreign key (related_id) references ref_product(id) on delete cascade,
+    primary key (product_id, related_id)
+);
+
+create table if not exists ref_product_review (
+    id                  serial primary key,
+    enabled             boolean default true,
+    product_id          integer not null,
+    customer_id         integer not null,
+    descr               text,
+    rating              smallint,
+    create_date         timestamp default current_timestamp,
+    foreign key (product_id) references ref_product(id) on delete cascade,
+    foreign key (customer_id) references ref_customer(id) on delete cascade,
+);
+create index if not exists ref_product_review_product_id_idx ON ref_product_review (product_id);
 
 -- product attribute--
 

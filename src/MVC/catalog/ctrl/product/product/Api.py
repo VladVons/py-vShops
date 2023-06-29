@@ -8,6 +8,20 @@ from .Features import TFeatures
 
 
 async def Main(self, aData: dict = None) -> dict:
+    async def GetPrice(aProductId: int) -> dict:
+        Res = await self.ExecModel(
+            'ref_product/price',
+            {
+                'method': 'Get_Price_Product',
+                'param': {'aProductId': aProductId}
+            }
+        )
+
+        DblData = Res.get('data')
+        if (DblData):
+            Dbl = TDbSql().Import(DblData)
+            return Dbl.Export()
+
     async def GetPriceHist(aProductId: int) -> dict:
         Res = await self.ExecModel(
             'ref_product/price',
@@ -49,11 +63,9 @@ async def Main(self, aData: dict = None) -> dict:
         'ref_product/product',
         {
             'method': 'Get_Product0_LangId',
-            'param': {'aLangId': aLangId, 'aProductId': aProductId},
-            'query': True
+            'param': {'aLangId': aLangId, 'aProductId': aProductId}
         }
     )
-    #print(Res.get('query'))
 
     DblData = Res.get('data')
     if (DblData):
@@ -68,6 +80,7 @@ async def Main(self, aData: dict = None) -> dict:
         Images = await GetImages(Dbl.Rec.images)
         Product.update(Images)
 
+        Product['price'] = await GetPrice(aProductId)
         Product['price_hist'] = await GetPriceHist(aProductId)
 
         Res['product'] = Product

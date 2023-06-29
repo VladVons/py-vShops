@@ -1,3 +1,4 @@
+-- get price history by product id
 select
     --rpp.product_id,
     hrpp.create_date::date,
@@ -17,6 +18,7 @@ left join
     ref_currency rc on
     (rp.currency_id = rc.id)
 where 
-    (rpp.product_id = {aProductId})
+    (rpp.product_id = {aProductId}) and
+    (rpp.qty = 1)
 order by 
     hrpp.create_date 
