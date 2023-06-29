@@ -167,7 +167,8 @@ class TFeatures():
             'misc': 'Різне',
             'nutrition': 'Складники',
             'ingredients': 'Вміст',
-            'retention': 'Зберігання'
+            'retention': 'Зберігання',
+            'sustainability': 'Стабільність'
         }
     }
 
@@ -177,7 +178,7 @@ class TFeatures():
     def Translate(self, aKey: str) -> str:
         return DeepGetByList(self.Lang, [self.LangId, aKey.lower()], aKey)
 
-    def Adjust(self, aObj: object) -> list: 
+    def Adjust(self, aObj: object) -> list:
         def Recurs(aObj: object, aDepth: int) -> list:
             Res = []
             if (isinstance(aObj, dict)):
@@ -194,7 +195,7 @@ class TFeatures():
                     Res.append(['i', xVal])
             return Res
         return Recurs(aObj, 0)
-        
+
 print()
 Features = TFeatures(1)
 Data1 = Features.Adjust(q5)

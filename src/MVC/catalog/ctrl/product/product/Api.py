@@ -8,6 +8,37 @@ from .Features import TFeatures
 
 
 async def Main(self, aData: dict = None) -> dict:
+    async def GetPriceHist(aProductId: int) -> dict:
+        Res = await self.ExecModel(
+            'ref_product/price',
+            {
+                'method': 'Get_PriceHist_Product',
+                'param': {'aProductId': aProductId}
+            }
+        )
+
+        DblData = Res.get('data')
+        if (DblData):
+            Dbl = TDbSql().Import(DblData)
+            return Dbl.Export()
+
+    async def GetImages(aImages: list[str]) -> dict:
+        Images = [f'product/{x}' for x in aImages]
+        ResEI = await self.ExecImg(
+            'system',
+            {
+                'method': 'GetImages',
+                'param': {'aFiles': Images}
+            }
+        )
+
+        Images = ResEI['image']
+        if (Images):
+            Res = {'image': Images[0], 'images': Images}
+        else:
+            Res = {'image': 'http://ToDo/NoImage.jpg', 'images': []}
+        return Res
+
     aLangId, aProductId = GetDictDefs(
         aData.get('query'),
         ('lang', 'product_id'),
@@ -26,27 +57,18 @@ async def Main(self, aData: dict = None) -> dict:
 
     DblData = Res.get('data')
     if (DblData):
-        Dbl = TDbSql().Import(DblData)
-
-        Images = [f'product/{x}' for x in Dbl.Rec.images]
-        ResImg = await self.ExecImg(
-            'system',
-            {
-                'method': 'GetImages',
-                'param': {'aFiles': Images}
-            }
-        )
-        Images = ResImg['image']
-        if (Images):
-            Res['image'] = Images[0]
-            Res['images'] = Images
-        else:
-            Res['image'] = 'no image'
-
-        Res['product'] = Dbl.Rec.GetAsDict()
-
-        Features = Res['product'].get('features', {})
-        Res['product']['features'] = TFeatures(aLangId).Adjust(Features)
-
         del Res['data']
+
+        Dbl = TDbSql().Import(DblData)
+        Product = Dbl.Rec.GetAsDict()
+
+        Features = Product.get('features', {})
+        Product['features'] = TFeatures(aLangId).Adjust(Features)
+
+        Images = await GetImages(Dbl.Rec.images)
+        Product.update(Images)
+
+        Product['price_hist'] = await GetPriceHist(aProductId)
+
+        Res['product'] = Product
     return Res
