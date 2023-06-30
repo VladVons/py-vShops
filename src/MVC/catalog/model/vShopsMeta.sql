@@ -475,6 +475,7 @@ create index if not exists ref_product_product0_id_idx ON ref_product (product0_
 
 create table if not exists ref_product_price (
     id                  serial primary key,
+    enabled             boolean default true,
     product_id          integer not null,
     price_id            integer not null,
     price               numeric(10, 2) not null,
