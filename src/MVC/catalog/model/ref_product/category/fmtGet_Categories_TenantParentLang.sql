@@ -1,3 +1,4 @@
+-- in: aLangId, aTenantId, aParentIdtRoot, CondParentIdts
 with recursive wrpc as (
     select
         rpc.id,
@@ -47,5 +48,5 @@ from
 where
     (deep between 0 and 99)
     {CondParentIdts}
-order by 
+order by
     sort

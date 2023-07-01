@@ -1,3 +1,4 @@
+-- in: aLangId, aPriceId, CategoryIds, aOrder, aLimit, aOffset
 select
     rptc.category_id,
     rptc.product_id,
@@ -14,19 +15,19 @@ select
 from
     ref_product_to_category rptc
 left join
-    ref_product rp on 
+    ref_product rp on
     (rptc.product_id = rp.id and rp.enabled)
 left join
-    ref_product_lang rpl 
+    ref_product_lang rpl
     on (rptc.product_id = rpl.product_id and rpl.lang_id = {aLangId})
 left join
-    ref_product_price rpp 
+    ref_product_price rpp
     on (rptc.product_id = rpp.product_id and rpp.price_id = {aPriceId})
 where
     (rptc.category_id in ({CategoryIds}))
-order by 
+order by
     {aOrder}
 limit
     {aLimit}
-offset 
+offset
     {aOffset}

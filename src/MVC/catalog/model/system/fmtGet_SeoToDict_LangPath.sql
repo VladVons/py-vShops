@@ -1,3 +1,4 @@
+-- in: aLangId, CondKeyword
 with wrsu as (
     select
         1 as idx,

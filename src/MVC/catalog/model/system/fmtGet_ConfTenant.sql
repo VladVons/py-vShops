@@ -1,3 +1,4 @@
+-- aTenantId, CondAttr
 select
     attr,
     val,

@@ -1,3 +1,4 @@
+-- in: aLangId, aTenantId, aParentIdtRoot, CondParentIdts
 with recursive wrpc as (
     select
         rpc.id,
@@ -10,7 +11,7 @@ with recursive wrpc as (
     from
         ref_product_category rpc
     left join
-        ref_product_category_lang rpcl 
+        ref_product_category_lang rpcl
         on (rpc.id = rpcl.category_id and rpcl.lang_id = {aLangId})
     where
         (tenant_id = {aTenantId}) and

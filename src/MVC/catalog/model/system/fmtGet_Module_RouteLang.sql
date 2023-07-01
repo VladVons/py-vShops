@@ -1,5 +1,6 @@
+-- in: aLangId, aTenantId, aRoute
 with wt1 as (
-    select 
+    select
         distinct on (rlm.module_id, rlm.place) rlm.module_id as id,
         rlm.place,
         rlm.sort_order,
@@ -35,8 +36,8 @@ select
     title,
     intro,
     descr
-from 
+from
     wt1
-order by 
-    place, 
+order by
+    place,
     sort_order

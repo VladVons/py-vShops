@@ -1,3 +1,4 @@
+-- in: aProductId, aPriceId, aQty, aDate
 select
     rpph.price,
     rpph.create_date

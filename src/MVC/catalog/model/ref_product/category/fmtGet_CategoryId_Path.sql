@@ -1,10 +1,11 @@
+-- in: aLangId, CategoryIds
 with recursive wrpc as (
     select
-        rpc.id, 
-        rpc.idt, 
-        rpc.parent_idt, 
-        array[rpc.id] as path_id, 
-        array[rpcl.title::varchar] as path_title, 
+        rpc.id,
+        rpc.idt,
+        rpc.parent_idt,
+        array[rpc.id] as path_id,
+        array[rpcl.title::varchar] as path_title,
         array[rpc.idt] as path_idt
     from
         ref_product_category rpc
@@ -12,16 +13,16 @@ with recursive wrpc as (
         ref_product_category_lang rpcl on
         (rpc.id = rpcl.category_id) and (rpcl.lang_id = {aLangId})
     where
-        (rpc.id in ({Ids}))
+        (rpc.id in ({CategoryIds}))
 
     union all
 
     select
         rpc.id,
         rpc.idt,
-        rpc.parent_idt, 
+        rpc.parent_idt,
         wrpc.path_id || array[rpc.id],
-        array[rpcl.title] || wrpc.path_title, 
+        array[rpcl.title] || wrpc.path_title,
         array[rpc.idt] || wrpc.path_idt
     from
         ref_product_category rpc
@@ -38,5 +39,5 @@ select
     path_id[1] as id
 from
     wrpc
-where 
+where
     parent_idt = 0

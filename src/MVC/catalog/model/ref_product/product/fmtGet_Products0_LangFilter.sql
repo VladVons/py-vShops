@@ -1,3 +1,4 @@
+-- in: aLangId, FilterRe, aOrder, aLimit, aOffset
 with wt1 as (
     select
         count(*) over() as total,
@@ -11,8 +12,8 @@ with wt1 as (
             select rpp.price
             from ref_product_price rpp
             left join ref_product_price_date rppd on (rpp.id  = rppd.product_price_id)
-            where (rpp.enabled) and 
-                ((rpp.product_id = rp.id) and (rppd.id is null)) or 
+            where (rpp.enabled) and
+                ((rpp.product_id = rp.id) and (rppd.id is null)) or
                 ((rpp.product_id = rp.id) and rppd.enabled and (now() between rppd.begin_date and rppd.end_date))
             order by rpp.price
             limit 1
@@ -40,7 +41,7 @@ with wt1 as (
         (rptc.category_id = rpcl.category_id) and (rpl.lang_id = {aLangId})
     left join
         ref_tenant rt on
-        (rp.tenant_id = rt.id) 
+        (rp.tenant_id = rt.id)
     where
         (rp.enabled) and
         (
@@ -57,7 +58,7 @@ with wt1 as (
         {aOffset}
 ),
 wt2 as (
-    select 
+    select
         wt1.product_id,
         (
             select rpi.image
@@ -66,7 +67,7 @@ wt2 as (
             order by rpi.sort_order
             limit 1
          ) as image
-    from 
+    from
         wt1
     where
         (wt1.product0_id is not null)
@@ -80,7 +81,7 @@ select
     wt1.title,
     wt1.price,
     coalesce(wt1.image, wt2.image) as image
-from 
+from
     wt1
 left join wt2 on
     (wt1.product_id = wt2.product_id)

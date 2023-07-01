@@ -1,16 +1,17 @@
 -- get product0 with one image and size less than aSize
+-- aSize
 with wrpi as (
     select
         product_id,
         count(*)
-    from 
+    from
         ref_product0_image rpi
-    group by 
+    group by
         product_id
-    having 
+    having
         (count(product_id) = 1)
 )
-select 
+select
     rpi.product_id,
     rpi.src_url,
     rpi.src_size

@@ -1,3 +1,4 @@
+-- in: aLangId, aProductId
 with wt1 as (
     select
         rp.id,
@@ -74,7 +75,7 @@ select
     coalesce(wt1.meta_key, wt2.meta_key) as meta_key,
     coalesce(wt1.category, wt2.category) as category,
     case when (cardinality(wt1.images) = 0) then wt2.images else wt1.images end as images
-from 
+from
     wt1
 left join wt2 on
     (wt1.id = wt2.id)

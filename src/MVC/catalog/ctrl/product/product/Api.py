@@ -8,33 +8,24 @@ from .Features import TFeatures
 
 
 async def Main(self, aData: dict = None) -> dict:
-    async def GetPrice(aProductId: int) -> dict:
-        Res = await self.ExecModel(
-            'ref_product/price',
+    async def GetBreadcrumbs(aLangId: int, aCategoryIdt: int, aTenantId: int) -> dict:
+        Data = await self.ExecModel(
+            'ref_product/category',
             {
-                'method': 'Get_Price_Product',
-                'param': {'aProductId': aProductId}
+                'method': 'Get_CategoryIdt_Path',
+                'param': {'aLangId': aLangId, 'aCategoryIdts': [aCategoryIdt], 'aTenantId': aTenantId}
             }
         )
 
-        DblData = Res.get('data')
+        DblData = Data.get('data')
         if (DblData):
+            Res = []
+            Path = '0'
             Dbl = TDbSql().Import(DblData)
-            return Dbl.Export()
-
-    async def GetPriceHist(aProductId: int) -> dict:
-        Res = await self.ExecModel(
-            'ref_product/price',
-            {
-                'method': 'Get_PriceHist_Product',
-                'param': {'aProductId': aProductId}
-            }
-        )
-
-        DblData = Res.get('data')
-        if (DblData):
-            Dbl = TDbSql().Import(DblData)
-            return Dbl.Export()
+            for Title, Idt in zip(Dbl.Rec.path_title, Dbl.Rec.path_idt):
+                Path += f'_{Idt}'
+                Res.append({'href': f'?route=product/category&path={Path}', 'title': Title})
+            return Res
 
     async def GetImages(aImages: list[str]) -> dict:
         Images = [f'product/{x}' for x in aImages]
@@ -53,10 +44,10 @@ async def Main(self, aData: dict = None) -> dict:
             Res = {'image': 'http://ToDo/NoImage.jpg', 'images': []}
         return Res
 
-    aLangId, aProductId = GetDictDefs(
+    aPath, aLangId, aProductId, aTenantId = GetDictDefs(
         aData.get('query'),
-        ('lang', 'product_id'),
-        (1, 0)
+        ('path', 'lang', 'product_id', 'tenant'),
+        ('0', 1, 0, 1)
     )
 
     Res = await self.ExecModel(
@@ -80,8 +71,23 @@ async def Main(self, aData: dict = None) -> dict:
         Images = await GetImages(Dbl.Rec.images)
         Product.update(Images)
 
-        Product['price'] = await GetPrice(aProductId)
-        Product['price_hist'] = await GetPriceHist(aProductId)
+        Product['price'] = await self.ExecModelExport(
+            'ref_product/price',
+            {
+                'method': 'Get_Price_Product',
+                'param': {'aProductId': aProductId}
+            }
+        )
 
+        Product['price_hist'] = await self.ExecModelExport(
+            'ref_product/price',
+            {
+                'method': 'Get_PriceHist_Product',
+                'param': {'aProductId': aProductId}
+            }
+        )
+
+        CategoryIdt = list(map(int, aPath.split('_')))[-1]
+        Product['breadcrumbs'] = await GetBreadcrumbs(aLangId, CategoryIdt, aTenantId)
         Res['product'] = Product
     return Res

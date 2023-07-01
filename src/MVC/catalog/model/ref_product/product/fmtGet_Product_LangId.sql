@@ -1,3 +1,4 @@
+-- in: aLangId, aProductId
 select
     rp.id as product_id,
     rp.idt,

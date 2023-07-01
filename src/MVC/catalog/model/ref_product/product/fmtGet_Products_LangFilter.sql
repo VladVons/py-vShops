@@ -1,3 +1,4 @@
+-- in: aLangId, FilterRe, aOrder, aLimit, aOffset
 select
     count(*) over() as total,
     rp.id as product_id,
@@ -35,7 +36,7 @@ left join
     (rptc.category_id = rpcl.category_id) and (rpl.lang_id = {aLangId})
 left join
     ref_tenant rt on
-    (rp.tenant_id = rt.id) 
+    (rp.tenant_id = rt.id)
 where
     (rp.enabled) and
     (

@@ -6,7 +6,7 @@
 from Inc.Sql.ADb import ListIntToComma
 
 
-async def Get_CategoriesSubCount_TenantParentLang(self, aTenantId: int, aParentIdtRoot: int, aParentIdts: list[int], aLangId: int) -> dict:
+async def Get_CategoriesSubCount_TenantParentLang(self, aLangId: int, aTenantId: int, aParentIdtRoot: int, aParentIdts: list[int]) -> dict:
     CondParentIdts = ''
     if (aParentIdts):
         CondParentIdts = 'and (wrpc.parent_idt in (%s))' % ListIntToComma(aParentIdts)
@@ -16,7 +16,7 @@ async def Get_CategoriesSubCount_TenantParentLang(self, aTenantId: int, aParentI
         {'aTenantId': aTenantId, 'aParentIdtRoot': aParentIdtRoot, 'CondParentIdts': CondParentIdts, 'aLangId': aLangId}
     )
 
-async def Get_Categories_TenantParentLang(self, aTenantId: int, aParentIdtRoot: int, aParentIdts: list[int], aLangId: int, aDepth: int = 99) -> dict:
+async def Get_Categories_TenantParentLang(self, aLangId: int, aTenantId: int, aParentIdtRoot: int, aParentIdts: list[int]) -> dict:
     CondParentIdts = ''
     if (aParentIdts):
         CondParentIdts = 'and (parent_idt in (%s))' % ListIntToComma(aParentIdts)
@@ -26,7 +26,7 @@ async def Get_Categories_TenantParentLang(self, aTenantId: int, aParentIdtRoot: 
         {'aTenantId': aTenantId, 'aParentIdtRoot': aParentIdtRoot, 'CondParentIdts': CondParentIdts, 'aLangId': aLangId}
     )
 
-async def Get_CategoriesProducts_LangImagePrice(self, aCategoryIds: list[int], aLangId: int, aPriceId: int, aOrder: str, aLimit: int = 100, aOffset: int = 0) -> dict:
+async def Get_CategoriesProducts_LangImagePrice(self, aLangId: int, aCategoryIds: list[int], aPriceId: int, aOrder: str, aLimit: int = 100, aOffset: int = 0) -> dict:
     CategoryIds = ListIntToComma(aCategoryIds)
 
     return await self.ExecQuery(
@@ -34,9 +34,16 @@ async def Get_CategoriesProducts_LangImagePrice(self, aCategoryIds: list[int], a
         {'CategoryIds': CategoryIds, 'aLangId': aLangId, 'aPriceId': aPriceId, 'aOrder': aOrder, 'aLimit': aLimit, 'aOffset': aOffset}
     )
 
-async def Get_CategoryPath_Lang(self, aLangId: int, aIds: list[int]) -> dict:
-    Ids = ListIntToComma(aIds)
+async def Get_CategoryId_Path(self, aLangId: int, aCategoryIds: list[int]) -> dict:
+    CategoryIds = ListIntToComma(aCategoryIds)
     return await self.ExecQuery(
-        'fmtGet_CategoryPath_Lang.sql',
-        {'aLangId': aLangId, 'Ids': Ids}
+        'fmtGet_CategoryId_Path.sql',
+        {'aLangId': aLangId, 'CategoryIds': CategoryIds}
+    )
+
+async def Get_CategoryIdt_Path(self, aLangId: int, aCategoryIdts: list[int], aTenantId: int) -> dict:
+    CategoryIdts = ListIntToComma(aCategoryIdts)
+    return await self.ExecQuery(
+        'fmtGet_CategoryIdt_Path.sql',
+        {'aLangId': aLangId, 'CategoryIdts': CategoryIdts, 'aTenantId': aTenantId}
     )

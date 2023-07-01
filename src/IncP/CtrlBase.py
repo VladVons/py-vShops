@@ -34,10 +34,17 @@ class TCtrlBase():
             Res = await self.ApiModel(aMethod, aData)
         return Res
 
+    async def ExecModelExport(self, aMethod: str, aData: dict) -> dict:
+        Data = await self.ApiModel(aMethod, aData)
+        DblData = Data.get('data')
+        if (DblData):
+            Dbl = TDbSql().Import(DblData)
+            return Dbl.Export()
+
     async def ExecSelf(self, aRoute: str, aData: dict) -> dict:
         return await self.ApiCtrl.GetMethodData(aRoute, aData)
 
-    async def GetConf(self, aData: dict) -> dict:
+    async def GetConf(self, _aData: dict) -> dict:
         Res = await self.ExecModel(
             'system',
             {

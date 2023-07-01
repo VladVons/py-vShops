@@ -5,6 +5,10 @@
   <script type='module' src='/default/js/product.js' ></script>
 {% endblock %}
 
+{% block page_top %}
+{% include './category/breadcrumbs.j2' %}
+{% endblock %}
+
 {% block content %}
   <item code='{{product['product_id']}}'>
     <images>
