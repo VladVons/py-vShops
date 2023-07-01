@@ -168,7 +168,7 @@ class TSql(TSqlBase):
                 if (self.Parser.Moderate):
                     webbrowser.open(x, new=0, autoraise=False)
                     print()
-                    print(f"Code: {aCode}, name {aInfo['name']}")
+                    print(f"Code: {aCode}, name {aInfo['name']}, {Idx}")
                     print('\n'.join(Images[Idx:]))
                     Answer = InputKey('Add image ?', ['y', 'n', 'c'])
                     if (Answer == 'y'):

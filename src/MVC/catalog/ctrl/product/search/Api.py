@@ -26,7 +26,7 @@ async def Main(self, aData: dict = None) -> dict:
             'query': True
         }
     )
-    #print(ResProduct.get('query'))
+    print(ResProduct.get('query'))
 
     DblProduct = ResProduct.get('data')
     if (DblProduct):

@@ -10,7 +10,10 @@ with wt1 as (
         (
             select rpp.price
             from ref_product_price rpp
-            where (rp.id = rpp.product_id) and (rpp.qty = 1)
+            left join ref_product_price_date rppd on (rpp.id  = rppd.product_price_id)
+            where (rpp.enabled) and 
+                ((rpp.product_id = rp.id) and (rppd.id is null)) or 
+                ((rpp.product_id = rp.id) and rppd.enabled and (now() between rppd.begin_date and rppd.end_date))
             order by rpp.price
             limit 1
         ) as price,

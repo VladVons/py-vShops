@@ -105,7 +105,8 @@ class TSql(TSqlBase):
                 ref_product_product0 rpp on
                 (rpp.tenant_id = {self.Conf.tenant_id}) and (rpp.product_en = 'model') and (rpp.code = rp.model)
             where
-                (rp.enabled) and (rp.model is not null) and (rp.tenant_id = {self.Conf.tenant_id}) and (rpp.code is null)
+                (rp.enabled) and (rp.model is not null) and (rp.tenant_id = {self.Conf.tenant_id}) and (rpp.code is null) and
+                (rp.modeled is null)
             group by
                 model
             order by
@@ -138,9 +139,10 @@ class TSql(TSqlBase):
             Query = f'''
                 select id, idt
                 from ref_product_category
-                where idt in ({ListIntToComma(Ids)})
+                where (tenant_id = {self.Conf.tenant_id}) and (idt in ({ListIntToComma(Ids)}))
             '''
-            return await TDbExecPool(self.Db.Pool).Exec(Query)
+            Res = await TDbExecPool(self.Db.Pool).Exec(Query)
+            return Res
 
         @DASplit
         async def SCategory_Lang(aData: list, _aMax: int, aIdx: int = 0, aLen: int = 0) -> TDbList:

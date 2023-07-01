@@ -35,11 +35,11 @@
       <control>
         {% for Rec in TDbList().Import(product['price']) %}
             {%- if Rec.price_new -%}
-                <oldprice>{{Rec.qty}}x {{Rec.price}}</oldprice>
-                <promo>{{Rec.qty}}x {{Rec.price_new}}</promo>
+                <oldprice>{{Rec.qty}}{{lang.qty}} {{Rec.price}}</oldprice>
+                <promo>{{Rec.qty}}{{lang.qty}} {{Rec.price_new}}</promo>
                 <discount>{{ "%.1f"|format(100-(Rec.price_new/Rec.price*100)) }}%</discount>
             {%- else -%}
-                <price>{{Rec.qty}}x {{Rec.price}}</price>
+                <price>{{Rec.qty}}{{lang.qty}} {{Rec.price}}</price>
             {%- endif %}
           {% endfor %}
         <a href='#' class='buy'><icon class='buy'></icon>{{lang.buy}}</a>

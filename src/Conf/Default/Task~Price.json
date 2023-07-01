@@ -9,10 +9,11 @@
         "Task~Price_Vendor.json"
     ],
     "plugins": [
+        {"name": "Out_vShopTenantModel_db", "enable": false},
+        {"name": "Out_vShopTenant_db", "enable": true},
+
         {"name": "In_Crawl_ean_txt", "enable": false},
         {"name": "In_Crawl_model_xlsx", "enable": false},
-        {"name": "Out_vShopTenant_db", "enable": true},
-        {"name": "Out_vShopTenantModel_db", "enable": false},
         {"name": "Out_vShopCrawl_db", "enable": false},
         {"name": "Out_Save_txt", "enable": false},
         {"name": "Out_Save_xlsx", "enable": false}
