@@ -26,18 +26,21 @@ class TLoaderLang(dict):
 
 class TLoaderLangFs(TLoaderLang):
     def __init__(self, aLang: str, aDirRoot: str):
+        self.Common = '__init__'
         self.Dir = f'{aDirRoot}/{aLang}'
         assert(os.path.isdir(self.Dir)), f'Directory not exists {self.Dir}'
 
     async def Add(self, aPath: str) -> dict:
-        File = f'{self.Dir}/{aPath}.json'
-        if (os.path.exists(File)):
-            with open(File, 'r', encoding = 'utf8') as F:
-                Data = json.load(F)
-        else:
-            Data = {}
-        self[aPath] = Data
-        return Data
+        Res = {}
+        Common = aPath.rsplit('/', maxsplit=1)[0] + '/' + self.Common
+        for xPath in [Common, aPath]:
+            File = f'{self.Dir}/{xPath}.json'
+            if (os.path.exists(File)):
+                with open(File, 'r', encoding = 'utf8') as F:
+                    Data = json.load(F)
+                    Res.update(Data)
+        self[aPath] = Res
+        return Res
 
 
 class TLoaderLangDb(TLoaderLang):

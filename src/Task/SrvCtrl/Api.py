@@ -49,7 +49,8 @@ class TApiCtrl(TApiBase):
         await Caller['method'](Caller['module'], aData)
 
         LangRoutes = aData.get('extends', [])
-        LangRoutes.append(aData.get('route'))
+        Route = aData.get('route')
+        LangRoutes.append(Route)
         for x in LangRoutes:
             await self.Lang.Add(x)
         Lang = TDictKey('', self.Lang.Join())
