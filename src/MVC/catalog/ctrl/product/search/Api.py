@@ -26,7 +26,7 @@ async def Main(self, aData: dict = None) -> dict:
             'query': True
         }
     )
-    print(ResProduct.get('query'))
+    #print(ResProduct.get('query'))
 
     DblProduct = ResProduct.get('data')
     if (DblProduct):
@@ -35,8 +35,8 @@ async def Main(self, aData: dict = None) -> dict:
         ResCategory = await self.ExecModel(
             'ref_product/category',
             {
-                'method': 'Get_CategoryPath_Lang',
-                'param': {'aLangId': aLangId, 'aIds': CategoryIds}
+                'method': 'Get_CategoryId_Path',
+                'param': {'aLangId': aLangId, 'aCategoryIds': CategoryIds}
             }
         )
         DblCategory = TDbSql().Import(ResCategory.get('data'))
