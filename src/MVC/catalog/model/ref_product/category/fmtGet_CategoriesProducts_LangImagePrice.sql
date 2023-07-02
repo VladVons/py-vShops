@@ -4,7 +4,16 @@ select
     rptc.product_id,
     rp.tenant_id,
     rpl.title,
-    rpp.price,
+    (
+        select rpp.price
+        from ref_product_price rpp
+        left join ref_product_price_date rppd on (rpp.id  = rppd.product_price_id)
+        where (rpp.enabled) and
+            ((rpp.product_id = rp.id) and (rppd.id is null)) or
+            ((rpp.product_id = rp.id) and rppd.enabled and (now() between rppd.begin_date and rppd.end_date))
+        order by rpp.price
+        limit 1
+    ) as price,
     (
         select rpi.image
         from ref_product_image rpi
@@ -20,9 +29,6 @@ left join
 left join
     ref_product_lang rpl
     on (rptc.product_id = rpl.product_id and rpl.lang_id = {aLangId})
-left join
-    ref_product_price rpp
-    on (rptc.product_id = rpp.product_id and rpp.price_id = {aPriceId})
 where
     (rptc.category_id in ({CategoryIds}))
 order by
