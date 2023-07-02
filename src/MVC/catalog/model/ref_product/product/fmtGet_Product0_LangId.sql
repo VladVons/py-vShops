@@ -45,7 +45,7 @@ wt2 as (
         array (
             select rpi.image
             from ref_product0_image rpi
-            where (rpi.product_id = rp.product0_id and rpi.enabled)
+            where (rpi.product_id = rp.product0_id) and (rpi.enabled)
             order by rpi.sort_order, rpi.image
         ) as images
     from
@@ -61,7 +61,8 @@ wt2 as (
         (rptc.category_id = rpcl.category_id)
     where
         (rp.id = {aProductId}) and
-        (rp.product0_id is not null)
+        (rp.product0_id is not null) and 
+        (not rp.product0_skip)
 )
 select
     wt1.id as product_id,

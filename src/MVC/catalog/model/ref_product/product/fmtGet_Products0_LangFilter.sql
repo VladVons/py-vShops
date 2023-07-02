@@ -4,6 +4,7 @@ with wt1 as (
         count(*) over() as total,
         rp.id as product_id,
         rp.product0_id,
+        rp.product0_skip,
         rptc.category_id,
         rp.tenant_id,
         rt.title as tenant,
@@ -63,14 +64,15 @@ wt2 as (
         (
             select rpi.image
             from ref_product0_image rpi
-            where (rpi.product_id = wt1.product0_id and rpi.enabled)
+            where (rpi.product_id = wt1.product0_id) and (rpi.enabled)
             order by rpi.sort_order
             limit 1
          ) as image
     from
         wt1
     where
-        (wt1.product0_id is not null)
+        (wt1.product0_id is not null) and 
+        (not rp.product0_skip)
 )
 select
     wt1.total,

@@ -465,6 +465,7 @@ create table if not exists ref_product (
     is_service          boolean default false,
     sort_order          smallint default 0,
     idt                 integer,
+    product0_skip       boolean,
     product0_id         integer,
     tenant_id           integer not null,
     foreign key (product0_id) references ref_product0(id),

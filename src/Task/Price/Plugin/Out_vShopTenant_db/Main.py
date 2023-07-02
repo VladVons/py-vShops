@@ -106,7 +106,7 @@ class TSql(TSqlBase):
                 (rpp.tenant_id = {self.Conf.tenant_id}) and (rpp.product_en = 'model') and (rpp.code = rp.model)
             where
                 (rp.enabled) and (rp.model is not null) and (rp.tenant_id = {self.Conf.tenant_id}) and (rpp.code is null) and
-                (rp.modeled is null)
+                (not rp.product0_skip)
             group by
                 model
             order by
@@ -246,6 +246,7 @@ class TSql(TSqlBase):
                         (rpp.tenant_id = {self.Conf.tenant_id}) and (rpp.product_en = 'model') and (rpp.code = rp.model)
                     where
                         (rp.enabled) and
+                        (not rp.product0_skip) and
                         (rp.model is not null) and
                         (rp.tenant_id = {self.Conf.tenant_id}) and
                         (rp.model in ({ListToComma(Models)})) and
