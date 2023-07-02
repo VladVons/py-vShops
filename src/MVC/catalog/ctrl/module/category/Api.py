@@ -33,7 +33,7 @@ async def Main(self, aData: dict = None) -> dict:
                     Res['category_id'] = int(CategoriyIds[-1])
             else:
                 Path = '0'
-            Href.append(f'?route=product/category&path={Path}_{Rec.idt}')
+            Href.append(f'?route=product/category&path={Path}_{Rec.idt}&tenant={aTenantId}')
         Dbl.AddFields(['href'], [Href])
         Res['data'] = Dbl.Export()
     return Res

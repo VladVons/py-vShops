@@ -17,6 +17,7 @@ async def Main(self, aData: dict = None) -> dict:
             }
         )
 
+        Res = []
         DblData = Data.get('data')
         if (DblData):
             Res = []
@@ -25,22 +26,25 @@ async def Main(self, aData: dict = None) -> dict:
             for Title, Idt in zip(Dbl.Rec.path_title, Dbl.Rec.path_idt):
                 Path += f'_{Idt}'
                 Res.append({'href': f'?route=product/category&path={Path}', 'title': Title})
-            return Res
+        return Res
 
     async def GetImages(aImages: list[str]) -> dict:
-        Images = [f'product/{x}' for x in aImages]
-        ResEI = await self.ExecImg(
-            'system',
-            {
-                'method': 'GetImages',
-                'param': {'aFiles': Images}
-            }
-        )
+        Res = []
+        if (aImages):
+            Images = [f'product/{x}' for x in aImages]
+            ResEI = await self.ExecImg(
+                'system',
+                {
+                    'method': 'GetImages',
+                    'param': {'aFiles': Images}
+                }
+            )
 
-        Images = ResEI['image']
-        if (Images):
-            Res = {'image': Images[0], 'images': Images}
-        else:
+            Images = ResEI['image']
+            if (Images):
+                Res = {'image': Images[0], 'images': Images}
+
+        if (not Res):
             Res = {'image': 'http://ToDo/NoImage.jpg', 'images': []}
         return Res
 

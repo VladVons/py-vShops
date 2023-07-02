@@ -71,8 +71,7 @@ wt2 as (
     from
         wt1
     where
-        (wt1.product0_id is not null) and 
-        (not rp.product0_skip)
+        (wt1.product0_id is not null) and (wt1.product0_skip is null)
 )
 select
     wt1.total,

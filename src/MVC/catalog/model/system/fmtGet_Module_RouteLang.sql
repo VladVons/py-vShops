@@ -21,9 +21,9 @@ with wt1 as (
     join ref_module_lang rml
         on rlm.module_id = rml.module_id
     where
+        ((rl.tenant_id = 0) or (rl.tenant_id = {aTenantId})) and
         (rm.enabled) and
         (rlm.enabled) and
-        (rt.id = {aTenantId}) and
         ((rl.route = '{aRoute}') or (rl.id = 0)) and
         (rml.lang_id = {aLangId})
 )

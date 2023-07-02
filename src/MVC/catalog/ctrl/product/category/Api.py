@@ -41,7 +41,7 @@ async def Main(self, aData: dict = None) -> dict:
     CategoryInfo = {}
     for Rec in DblCategory:
         if (Rec.deep == Deep):
-            Data = Rec.GetAsList() + (f'?route=product/category&path={aPath}_{Rec.idt}',)
+            Data = Rec.GetAsList() + (f'?route=product/category&path={aPath}_{Rec.idt}&tenant={aTenantId}',)
             DblOut.RecAdd(Data)
             CategoryIds.append(Rec.id)
         elif (Rec.idt == CategoriyId):
@@ -67,10 +67,12 @@ async def Main(self, aData: dict = None) -> dict:
     ResProduct = await self.ExecModel(
         'ref_product/category',
         {
-            'method': 'Get_CategoriesProducts_LangImagePrice',
-            'param': {'aCategoryIds': CategoryIds, 'aLangId': aLangId, 'aPriceId': 1, 'aOrder': f'{aSort} {aOrder}', 'aLimit': aLimit, 'aOffset': (aPage - 1) * aLimit}
+            'method': 'Get_CategoriesProducts0_LangImagePrice',
+            'param': {'aCategoryIds': CategoryIds, 'aLangId': aLangId, 'aPriceId': 1, 'aOrder': f'{aSort} {aOrder}', 'aLimit': aLimit, 'aOffset': (aPage - 1) * aLimit},
+            'query': True
         }
     )
+    print(ResProduct.get('query'))
 
     DblData = ResProduct.get('data')
     if (DblData):
@@ -89,7 +91,7 @@ async def Main(self, aData: dict = None) -> dict:
         Hrefs = []
         for Rec in DblProduct:
             Path = '0_' + '_'.join(map(str, CategoryIdToPath[Rec.category_id]))
-            Href = f'?route=product/product&path={Path}&product_id={Rec.product_id}'
+            Href = f'?route=product/product&path={Path}&product_id={Rec.product_id}&tenant={aTenantId}'
             Hrefs.append(Href)
 
         DblProduct.AddFields(['thumb', 'href'], [ResThumbs['thumb'], Hrefs])
