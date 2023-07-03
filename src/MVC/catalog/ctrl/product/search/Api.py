@@ -45,7 +45,7 @@ async def Main(self, aData: dict = None) -> dict:
         Hrefs = []
         for Rec in DblProduct:
             Path = '0_' + '_'.join(map(str, CategoryIdToPath[Rec.category_id]))
-            Href = f'?route=product/product&path={Path}&product_id={Rec.product_id}'
+            Href = f'?route=product/product&path={Path}&product_id={Rec.product_id}&tenant={Rec.tenant_id}'
             Hrefs.append(Href)
 
         Images = DblProduct.ExportStr(['image'], 'product/{}')
