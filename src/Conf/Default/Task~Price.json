@@ -10,7 +10,8 @@
     ],
     "plugins": [
         {"name": "Out_vShopTenantModel_db", "enable": false},
-        {"name": "Out_vShopTenant_db", "enable": true},
+        {"name": "Out_vShopTenant_db", "enable": false},
+        {"name": "Out_vShopSitemap_db", "enable": true},
 
         {"name": "In_Crawl_ean_txt", "enable": false},
         {"name": "In_Crawl_model_xlsx", "enable": false},
@@ -89,8 +90,18 @@
             "auth": "{% file Conf/Default/Task.SrvModel.Api.json:db_auth %}",
             "depends": [
                 "Out_vShopCrawl_db",
-                "In_Crawl_icecat_xlsx"
+                "In_Crawl_icecat_xlsx",
+                "-Out_vShopSitemap_db"
             ]
+        },
+        "Out_vShopSitemap_db": {
+            "sql": {
+                "url_root": "http://used.1x1.com.ua",
+                "lang_id": 1,
+                "parts": 1000
+            },
+            "auth": "{% file Conf/Default/Task.SrvModel.Api.json:db_auth %}",
+            "dir": "./Data/Pl/Out/Sitemap"
         }
     }
 }

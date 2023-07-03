@@ -60,9 +60,8 @@ class TCatalogToDb():
 
 class TSql(TSqlBase):
     def __init__(self, aDb: TDbPg, aSqlConf: TSqlConf, aImgApi: TRequestJson):
-        super().__init__()
+        super().__init__(aDb)
 
-        self.Db = aDb
         self.Conf = aSqlConf
         self.ImgApi = aImgApi
         self.CategoryIdt = {}

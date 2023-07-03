@@ -8,8 +8,10 @@ import re
 import os
 #
 from Inc.DbList import TDbList
-from Inc.Util.Arr import Parts
 from Inc.Log import TLog, TEchoFile
+from Inc.Misc.Template import FormatFile
+from Inc.Sql import TDbExecPool, TDbPg
+from Inc.Util.Arr import Parts
 
 
 def StripQuery(aData: str) -> str:
@@ -62,7 +64,8 @@ class TLogEx(TLog):
 
 
 class TSqlBase():
-    def __init__(self):
+    def __init__(self, aDb: TDbPg):
+        self.Db = aDb
         self.Now = time.strftime('%Y-%m-%d %H:%M:%S')
         self.Escape = ''.maketrans({
             '<': '&lt;',
@@ -71,3 +74,8 @@ class TSqlBase():
             "'": '&apos;',
             '"': '&quot;'
             })
+
+    async def ExecQuery(self, aPackage: str, aFile: str, aFormat: dict) -> TDbList:
+        Dir = aPackage.replace('.', '/')
+        Query = FormatFile(f'{Dir}/{aFile}', aFormat)
+        return await TDbExecPool(self.Db.Pool).Exec(Query)

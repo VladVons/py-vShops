@@ -20,9 +20,8 @@ class TSqlConf():
 
 class TSql(TSqlBase):
     def __init__(self, aDb: TDbPg, aSqlConf: TSqlConf):
-        super().__init__()
+        super().__init__(aDb)
 
-        self.Db = aDb
         self.Conf = aSqlConf
 
     async def Product0(self, aDbl: TDbCrawl):
