@@ -72,7 +72,7 @@ async def Main(self, aData: dict = None) -> dict:
             'query': True
         }
     )
-    print(ResProduct.get('query'))
+    #print(ResProduct.get('query'))
 
     DblData = ResProduct.get('data')
     if (DblData):

@@ -7,6 +7,7 @@ wt1 as (
         rp.product0_id,
         rp.product0_skip,
         rp.tenant_id,
+        rt.title as tenant,
         rpl.title,
         (
             select rpp.price
@@ -29,10 +30,13 @@ wt1 as (
         ref_product_to_category rptc
     left join
         ref_product rp on
-        (rptc.product_id = rp.id and rp.enabled)
+        (rptc.product_id = rp.id) and rp.enabled
     left join
         ref_product_lang rpl
         on (rptc.product_id = rpl.product_id and rpl.lang_id = {aLangId})
+    left join
+        ref_tenant rt
+        on (rp.tenant_id = rt.id)
     where
         (rptc.category_id in ({CategoryIds}))
     order by
@@ -68,6 +72,7 @@ select
     wt1.category_id,
     wt1.product_id,
     wt1.tenant_id,
+    wt1.tenant,
     wt1.price,
     coalesce(wt1.title, wt2.title) as title,
     coalesce(wt1.image, wt2.image) as image

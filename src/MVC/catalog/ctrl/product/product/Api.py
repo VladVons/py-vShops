@@ -93,5 +93,8 @@ async def Main(self, aData: dict = None) -> dict:
 
         CategoryIdt = list(map(int, aPath.split('_')))[-1]
         Product['breadcrumbs'] = await GetBreadcrumbs(aLangId, CategoryIdt, aTenantId)
+
+        Product['tenant_href'] = f'?tenant={aTenantId}'
+
         Res['product'] = Product
     return Res
