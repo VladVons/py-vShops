@@ -49,7 +49,7 @@ class TProduct(TParser_xml):
         Rec.SetField('name', Val)
 
         Val = aRow.getElementsByTagName('vendorCode')[0].firstChild.data
-        Rec.SetField('mpn', Val)
+        Rec.SetField('code', Val)
 
         Val = aRow.getElementsByTagName('price')[0].firstChild.data
         Rec.SetField('price', ToFloat(Val))

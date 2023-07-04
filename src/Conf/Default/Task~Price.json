@@ -6,17 +6,19 @@
     ],
     "comment": "Used PC",
     "include": [
-        "Task~Price_Vendor.json"
+        "Task~Price_vendors.json",
+        "Task~Price_pcdata.json",
+        "Task~Price_mdm.json"
     ],
     "plugins": [
         {"name": "Out_vShopTenantModel_db", "enable": false},
         {"name": "Out_vShopTenant_db", "enable": false},
-        {"name": "Out_vShopSitemap_db", "enable": true},
+        {"name": "Out_vShopSitemap_db", "enable": false},
 
         {"name": "In_Crawl_ean_txt", "enable": false},
         {"name": "In_Crawl_model_xlsx", "enable": false},
         {"name": "Out_vShopCrawl_db", "enable": false},
-        {"name": "Out_Save_txt", "enable": false},
+        {"name": "Out_Save_txt", "enable": true},
         {"name": "Out_Save_xlsx", "enable": false}
     ],
     "common": {
@@ -26,14 +28,15 @@
     "plugin": {
         "PricesPl": {
             "depends": [
-                "In_Price_pl01_xlsx"
+                "In_Price_pcdata_xlsx"
             ]
         },
         "Out_Save_txt" : {
             "depends": [
-                "-In_Price_prom_xml",
+                "-In_Price_mdm_xlsx",
+                "-In_Price_comelit_xml",
                 "-In_Price_oster1c_xml",
-                "In_Price_pl01_xlsx"
+                "In_Price_pcdata_xlsx"
             ],
             "dir": "./Data/Pl/Out",
             "db_list": { 
@@ -42,10 +45,10 @@
         },
         "Out_Save_xlsx" : {
             "depends": [
-                "-In_Price_prom_xml",
+                "In_Price_comelit_xml",
                 "-In_Price_oster1c_xml",
-                "-In_Price_pl01_xlsx",
-                "In_Crawl_icecat_xlsx"
+                "-In_Price_pcdata_xlsx",
+                "-In_Crawl_icecat_xlsx"
             ],
             "dir": "./Data/Pl/Out"
         },
@@ -56,9 +59,9 @@
             },
             "auth": "{% file Conf/Default/Task.SrvModel.Api.json:db_auth %}",
             "depends": [
-                "-In_Price_prom_xml",
+                "-In_Price_comelit_xml",
                 "-In_Price_oster1c_xml",
-                "In_Price_pl01_xlsx"
+                "In_Price_pcdata_xlsx"
             ],
             "img_loader": "{% file Conf/Default/Task.SrvCtrl.Api.json:loader.img %}",
             "img_conf": "{% file Conf/Default/Task.SrvImg.Api.json %}"
