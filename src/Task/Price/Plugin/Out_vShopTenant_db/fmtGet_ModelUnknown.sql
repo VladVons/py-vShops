@@ -20,6 +20,7 @@ wt2 as (
     select
         rpp.code as model,
         rpb.code,
+        rpb.product_en,
         rpb.product_en
     from
         ref_product_product0 rpp
@@ -31,7 +32,8 @@ wt2 as (
 )
 select
     wt1.model,
-    wt2.code
+    wt2.code,
+    wt2.product_id
 from
     wt1
 left join wt2 on

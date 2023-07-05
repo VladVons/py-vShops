@@ -1,4 +1,4 @@
--- in: aTenantId, aLimit, aOffset
+-- in: aLimit, aOffset
 with wt1 as (
     with recursive wrpc as (
         select
@@ -36,11 +36,11 @@ select
     rptc.category_id,
     wt1.path_idt,
     wt1.tenant_id
-from 
+from
     ref_product_to_category rptc
-join wt1 on 
+join wt1 on
     (wt1.category_id = rptc.category_id)
-order by 
+order by
     tenant_id,
     category_id,
     product_id
