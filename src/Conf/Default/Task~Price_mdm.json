@@ -12,7 +12,7 @@
                 "Out_Save_txt": {
                     "TDbProductEx": {
                         "len": 70,
-                        "fields": ["category_id", "code", "name", "available", "price"]
+                        "fields": ["category_id", "model", "name", "available", "price"]
                     }
                 }
             },
@@ -25,13 +25,13 @@
                         "manufacture": 3,
                         "model": 4,
                         "cpu": 5,
-                        "ram": 6
+                        "ram": 6,
                         "disk": 7,
                         "os": 8,
                         "price": 10,
                         "grade": 11
                     },
-                    "title": ["manufacture", "model", "case", "cpu", "ram", "disk", "os", "grade"],
+                    "title": [["manufacture", "model"], "case", "cpu", "ram", "disk", "os", "grade"],
                     "model": ["manufacture", "model", "case", "cpu"]
                 },
                 "Monitors": {
@@ -45,7 +45,8 @@
                         "price": 7,
                         "grade": 8
                     },
-                    "title": ["manufacture", "model", "screen", "grade"]
+                    "title": [["manufacture", "model"], "screen", "grade"],
+                    "model": ["manufacture", "model"]
                 },
                 "Laptopy": {
                     "skip": 1,
@@ -58,11 +59,12 @@
                         "ram": 6,
                         "disk": 7,
                         "os": 8,
-                        "resolution":9,
+                        "resolution": 9,
                         "price": 11,
                         "grade": 12
                     },
-                    "title": ["manufacture", "model", "cpu", "ram", "disk", "resolution", "os", "grade"]
+                    "title": [["manufacture", "model"], "cpu", "ram", "disk", ["resolution", "screen"], "os", "grade"],
+                    "model": ["manufacture", "model", "cpu"]
                 }
             }
         }

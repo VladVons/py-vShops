@@ -8,7 +8,7 @@
 import os
 #
 from Inc.ParserX.Common import TPluginBase
-from .Price import TPricePC, TPriceMonit, TPriceMonitInd
+from .Price import TPricePC, TPriceMonit, TPriceNotebook
 from ..CommonDb import TDbCategory, TDbProductEx
 
 
@@ -30,7 +30,7 @@ class TIn_Price_mdm_xlsx(TPluginBase):
                 'price': Avg,
                 'available': Rec.count
                 })
-        #Dbl.Sort(['model', 'screen'])
+        aDbProductEx.Sort(['model'])
 
     async def Run(self):
         XTable = {
@@ -38,7 +38,10 @@ class TIn_Price_mdm_xlsx(TPluginBase):
                 'parser': TPricePC, 'category_id': 1, 'category': 'Компютер'
             },
             'Monitors': {
-                'parser': TPriceMonit,'category_id': 2, 'category': 'Монітор'
+                'parser': TPriceMonit,'category_id': 2, 'category': 'Монітор', 'enable': not False
+            },
+            'Laptopy': {
+                'parser': TPriceNotebook,'category_id': 3, 'category': 'Ноутбук',
             }
         }
 
@@ -46,14 +49,15 @@ class TIn_Price_mdm_xlsx(TPluginBase):
         DbCategory = TDbCategory()
         Engine = None
         for xKey, xVal in XTable.items():
-            Parser = xVal['parser'](self)
-            if (Engine):
-                Parser.InitEngine(Engine)
-            else:
-                Engine = Parser.InitEngine()
-            Parser.SetSheet(xKey)
-            await Parser.Load()
-            self.ToDbProductEx(Parser, DbProductEx, xVal['category_id'])
-            DbCategory.RecAdd().SetAsDict({'id': xVal['category_id'], 'parent_id': 0, 'name': xVal['category']})
+            if (xVal.get('enable', True)):
+                Parser = xVal['parser'](self)
+                if (Engine):
+                    Parser.InitEngine(Engine)
+                else:
+                    Engine = Parser.InitEngine()
+                Parser.SetSheet(xKey)
+                await Parser.Load()
+                self.ToDbProductEx(Parser, DbProductEx, xVal['category_id'])
+                DbCategory.RecAdd().SetAsDict({'id': xVal['category_id'], 'parent_id': 0, 'name': xVal['category']})
 
         return {'TDbCategory': DbCategory, 'TDbProductEx': DbProductEx}

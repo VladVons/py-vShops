@@ -94,24 +94,7 @@ class TSql(TSqlBase):
         await TDbExecPool(self.Db.Pool).Exec(Query)
 
     async def ProductModelUnknown(self):
-        Query = f'''
-            select
-		        rp.model,
-		        count(*)
-            from
-                ref_product rp
-            left join
-                ref_product_product0 rpp on
-                (rpp.tenant_id = {self.Conf.tenant_id}) and (rpp.product_en = 'model') and (rpp.code = rp.model)
-            where
-                (rp.enabled) and (rp.model is not null) and (rp.tenant_id = {self.Conf.tenant_id}) and (rpp.code is null) and
-                (not rp.product0_skip)
-            group by
-                model
-            order by
-                model
-        '''
-        return await TDbExecPool(self.Db.Pool).Exec(Query)
+        return await self.ExecQuery(__package__, 'fmtGet_ModelUnknown.sql', {'aTenantId': self.Conf.tenant_id})
 
     async def Category_Create(self, aData: list):
         async def Category(aData: list):

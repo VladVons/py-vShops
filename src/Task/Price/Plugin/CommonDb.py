@@ -6,6 +6,17 @@
 from Inc.DbList import TDbList
 
 
+def GetTitle(aRow: dict, aKeys: list, aDelim) -> str:
+    Res = []
+    for Key in aKeys:
+        if (isinstance(Key, list)):
+            Val = GetTitle(aRow, Key, ' ')
+        else:
+            Val = str(aRow.get(Key, ''))
+        Res.append(Val)
+    return aDelim.join(Res)
+
+
 class TDbProductEx(TDbList):
     def __init__(self):
         super().__init__(
@@ -13,7 +24,7 @@ class TDbProductEx(TDbList):
                 'id',
                 'category_id',
                 'code',
-                'barcode',
+                'barcoode',
                 'model',
                 'name',
                 'price',

@@ -20,24 +20,20 @@ class TFiller():
         self.ConfTitle = Conf.get('title', [])
         self.ConfModel = Conf.get('model', ['model'])
 
-    def Add(self, aRow: dict, aFieldsCopy: list) -> TDbRec:
-        Rec = self.Parent.Dbl.RecAdd()
-
+    def Add(self, aRow: dict, aRec: TDbRec, aFieldsCopy: list):
         for x in aFieldsCopy:
-            self.Parent.Copy(x, aRow, Rec)
+            self.Parent.Copy(x, aRow, aRec)
 
         Arr = [str(aRow.get(x, '')) for x in self.ConfModel]
         Model = ToHashWM(' '.join(Arr))
-        Rec.SetField('code', Model)
+        aRec.SetField('code', Model)
 
         Arr = [str(aRow[x]) for x in self.ConfTitle]
         Title = '/'.join(Arr).replace('"', '')
-        Rec.SetField('title', Title)
+        aRec.SetField('title', Title)
 
         Val = ToFloat(aRow.get('price'))
-        Rec.SetField('price', Val)
-
-        return Rec
+        aRec.SetField('price', Val)
 
 
 class TPricePC(TParser_xlsx):
@@ -55,7 +51,8 @@ class TPricePC(TParser_xlsx):
         if (not aRow.get('price')):
             return
 
-        Rec = self.Filler.Add(aRow, ['cpu', 'case', 'dvd', 'vga', 'os'])
+        Rec = self.Dbl.RecAdd()
+        self.Filler.Add(aRow, Rec, ['cpu', 'case', 'dvd', 'vga', 'os'])
 
         Val = aRow.get('disk', '')
         Data = self.ReDisk.findall(Val)
@@ -88,7 +85,8 @@ class TPriceMonit(TParser_xlsx):
         if (self._Filter(aRow)):
             return
 
-        Rec = self.Filler.Add(aRow, ['grade', 'color'])
+        Rec = self.Dbl.RecAdd()
+        self.Filler.Add(aRow, Rec, ['grade', 'color'])
 
         Val = GetNotNone(aRow, 'screen', '').replace('"', '')
         Rec.SetField('screen', Val)

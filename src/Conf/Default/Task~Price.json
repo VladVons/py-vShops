@@ -11,14 +11,15 @@
         "Task~Price_mdm.json"
     ],
     "plugins": [
-        {"name": "Out_vShopTenantModel_db", "enable": false},
-        {"name": "Out_vShopTenant_db", "enable": false},
-        {"name": "Out_vShopSitemap_db", "enable": false},
+        {"name": "Out_Save_txt", "enable": false},
 
+        {"name": "Out_vShopTenant_db", "enable": true},
+        {"name": "Out_vShopTenantModel_db", "enable": false},
+
+        {"name": "Out_vShopSitemap_db", "enable": false},
         {"name": "In_Crawl_ean_txt", "enable": false},
         {"name": "In_Crawl_model_xlsx", "enable": false},
         {"name": "Out_vShopCrawl_db", "enable": false},
-        {"name": "Out_Save_txt", "enable": true},
         {"name": "Out_Save_xlsx", "enable": false}
     ],
     "common": {
@@ -33,10 +34,10 @@
         },
         "Out_Save_txt" : {
             "depends": [
-                "-In_Price_mdm_xlsx",
+                "In_Price_mdm_xlsx",
                 "-In_Price_comelit_xml",
                 "-In_Price_oster1c_xml",
-                "In_Price_pcdata_xlsx"
+                "-In_Price_pcdata_xlsx"
             ],
             "dir": "./Data/Pl/Out",
             "db_list": { 
@@ -59,9 +60,11 @@
             },
             "auth": "{% file Conf/Default/Task.SrvModel.Api.json:db_auth %}",
             "depends": [
-                "-In_Price_comelit_xml",
                 "-In_Price_oster1c_xml",
-                "In_Price_pcdata_xlsx"
+
+                "-In_Price_comelit_xml",
+                "-In_Price_pcdata_xlsx",
+                "In_Price_mdm_xlsx"
             ],
             "img_loader": "{% file Conf/Default/Task.SrvCtrl.Api.json:loader.img %}",
             "img_conf": "{% file Conf/Default/Task.SrvImg.Api.json %}"

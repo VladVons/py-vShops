@@ -46,5 +46,5 @@ def ToHashW(aText: str) -> str:
 def ToHashWM(aText: str) -> str:
     Res = re.sub(r'[\s/]+', ' ', aText)
     Res = re.sub(r'[^a-zA-Z0-9\s-]', '', Res)
-    Res = Res.lower()
+    Res = Res.lower().rstrip('-')
     return Res
