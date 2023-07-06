@@ -22,6 +22,10 @@ class TDbRec():
         Res = [f'{Key}={Val}' for Key, Val in zip(self.Fields, self.Data)]
         return ', '.join(Res)
 
+    def _GetFieldsOrder(self) -> list:
+        Fields = sorted(self.Fields.items(), key=lambda x: x[1])
+        return [x[0] for x in Fields]
+
     def Find(self, aCond: TDbCond) -> bool:
         return aCond.Find(self)
 
@@ -63,6 +67,11 @@ class TDbRec():
         self.Fields = {x: i for i, x in enumerate(aFields)}
         self.Data = aData
         return self
+
+    def RenField(self, aOld: str, aNew: str):
+        assert (aOld in self.Fields), f'Field not found {aOld}'
+        self.Fields[aNew] = self.Fields.pop(aOld)
+        self.Fields = {Val:Idx for Idx, Val in enumerate(self._GetFieldsOrder())}
 
     def SetAsDict(self, aData: dict) -> 'TDbRec':
         for Key, Val in aData.items():

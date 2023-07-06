@@ -55,7 +55,7 @@ class TProduct(TParser_xml):
         Rec.SetField('price', ToFloat(Val))
 
         Val = aRow.getElementsByTagName('available')[0].firstChild.data
-        Rec.SetField('available', int(ToBool(Val)))
+        Rec.SetField('qty', int(ToBool(Val)))
 
         Data = aRow.getElementsByTagName('vendor')
         if (Data):

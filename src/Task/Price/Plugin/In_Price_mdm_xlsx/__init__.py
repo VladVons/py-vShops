@@ -25,12 +25,12 @@ class TIn_Price_mdm_xlsx(TPluginBase):
 
             aDbProductEx.RecAdd().SetAsDict({
                 'category_id': aCategoryId,
-                'model': Rec.code,
+                'code': Rec.code,
                 'name': Rec.title,
                 'price': Avg,
-                'available': Rec.count
+                'qty': Rec.count
                 })
-        aDbProductEx.Sort(['model'])
+        aDbProductEx.Sort(['code'])
 
     async def Run(self):
         XTable = {

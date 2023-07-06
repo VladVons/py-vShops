@@ -41,7 +41,7 @@ class TIn_Price_pcdata_xlsx(TPluginBase):
                 'model': Rec.code,
                 'name': Rec.title,
                 'price': Avg,
-                'available': Rec.count
+                'qty': Rec.count
                 })
         #Dbl.Sort(['model', 'screen'])
 

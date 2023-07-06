@@ -198,7 +198,7 @@ class TSql(TSqlBase):
                 if (Key not in Uniq):
                     Uniq[Key] = ''
 
-                    Value = f"({Idt}, {self.Conf.tenant_id}, {bool(Rec.available)}, '{Rec.model}')"
+                    Value = f"({Idt}, {self.Conf.tenant_id}, bool({Rec.qty}), '{Rec.code}')"
                     Values.append(Value)
 
             if (Values):
@@ -215,7 +215,7 @@ class TSql(TSqlBase):
         async def SProduct_Product0(aDbl: TDbProductEx, _aMax: int, aIdx: int = 0, aLen: int = 0) -> TDbList:
             print('SProduct_Product()', aIdx, aLen)
 
-            Models = aDbl.ExportList('model')
+            Models = aDbl.ExportList('code')
             Query = f'''
                 with wrp as (
                     select
@@ -228,7 +228,7 @@ class TSql(TSqlBase):
                         (rpp.tenant_id = {self.Conf.tenant_id}) and (rpp.product_en = 'model') and (rpp.code = rp.model)
                     where
                         (rp.enabled) and
-                        (not rp.product0_skip) and
+                        (rp.product0_skip is null) and
                         (rp.model is not null) and
                         (rp.tenant_id = {self.Conf.tenant_id}) and
                         (rp.model in ({ListToComma(Models)})) and

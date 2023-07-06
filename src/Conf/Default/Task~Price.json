@@ -34,7 +34,8 @@
         },
         "Out_Save_txt" : {
             "depends": [
-                "In_Price_mdm_xlsx",
+                "In_Price_oster1c7_json",
+                "-In_Price_mdm_xlsx",
                 "-In_Price_comelit_xml",
                 "-In_Price_oster1c_xml",
                 "-In_Price_pcdata_xlsx"
@@ -90,7 +91,7 @@
         "Out_vShopTenantModel_db": {
             "sql": {
                 "lang_id": 1,
-                "tenant_id": 2,
+                "tenant_id": 3,
                 "parts": 50
             },
             "auth": "{% file Conf/Default/Task.SrvModel.Api.json:db_auth %}",

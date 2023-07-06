@@ -21,7 +21,7 @@ wt2 as (
         rpp.code as model,
         rpb.code,
         rpb.product_en,
-        rpb.product_en
+        rpb.product_id
     from
         ref_product_product0 rpp
     left join

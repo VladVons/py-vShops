@@ -65,6 +65,17 @@
                 }
             }
         },
+        "In_Price_oster1c_json": {
+            "encoding": "cp1251",
+            "export": {
+                "Out_vShopTenant_db": {
+                    "sql": {
+                        "tenant_id": 4,
+                        "price_id": 6
+                    }
+                }
+            }
+        },
         "In_Price_comelit_xml": {
             "export": {
                 "Out_vShopTenant_db": {
