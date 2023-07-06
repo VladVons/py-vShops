@@ -522,6 +522,7 @@ create table if not exists ref_product_image (
 
 create table if not exists ref_product_lang (
     title               varchar(128) not null,
+    summary             json,
     features            json,
     descr               text,
     meta_key            varchar(128),

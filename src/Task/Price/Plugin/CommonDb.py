@@ -24,14 +24,15 @@ class TDbProductEx(TDbList):
                 'id',
                 'category_id',
                 'code',
-                'name',
                 'price',
                 'qty',
                 'image',
+                'name',
+                'summary',
                 'features',
-                'vendor',
                 'descr'
-            ]
+                'vendor',
+                  ]
         )
 
 class TDbCategory(TDbList):

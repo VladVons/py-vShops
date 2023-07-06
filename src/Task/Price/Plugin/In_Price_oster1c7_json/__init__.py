@@ -11,7 +11,14 @@ from .Main import TCategory, TProduct
 
 class TIn_Price_oster1c7_json(TPluginBase):
     async def Run(self):
-        File = self.GetFile()
-        with open(File, 'r', encoding='cp1251') as F:
-            Data = json.load(F)
+        Category = TCategory(self)
+        Engine = Category.InitEngine()
+        Category.SetSheet('category')
+        await Category.Load()
+
+        Product = TProduct(self)
+        Product.InitEngine(Engine)
+        Product.SetSheet('product')
+        await Product.Load()
+
         return {'TDbCategory': Category.Dbl, 'TDbProductEx': Product.Dbl}
