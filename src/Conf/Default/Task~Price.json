@@ -11,9 +11,9 @@
         "Task~Price_mdm.json"
     ],
     "plugins": [
-        {"name": "Out_Save_txt", "enable": true},
+        {"name": "Out_Save_txt", "enable": false},
 
-        {"name": "Out_vShopTenant_db", "enable": false},
+        {"name": "Out_vShopTenant_db", "enable": true},
         {"name": "Out_vShopTenantModel_db", "enable": false},
 
         {"name": "Out_vShopSitemap_db", "enable": false},
@@ -34,7 +34,7 @@
         },
         "Out_Save_txt" : {
             "depends": [
-                "In_Price_oster1c7_json",
+                "In_Price_oster1c7_dbl",
                 "-In_Price_mdm_xlsx",
                 "-In_Price_comelit_xml",
                 "-In_Price_oster1c_xml",
@@ -65,7 +65,8 @@
 
                 "-In_Price_comelit_xml",
                 "-In_Price_pcdata_xlsx",
-                "In_Price_mdm_xlsx"
+                "-In_Price_mdm_xlsx",
+                "In_Price_oster1c7_dbl"
             ],
             "img_loader": "{% file Conf/Default/Task.SrvCtrl.Api.json:loader.img %}",
             "img_conf": "{% file Conf/Default/Task.SrvImg.Api.json %}"

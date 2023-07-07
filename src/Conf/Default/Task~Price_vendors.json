@@ -65,13 +65,14 @@
                 }
             }
         },
-        "In_Price_oster1c7_json": {
+        "In_Price_oster1c7_dbl": {
             "encoding": "cp1251",
             "export": {
                 "Out_vShopTenant_db": {
                     "sql": {
                         "tenant_id": 4,
-                        "price_id": 6
+                        "price_id": 6,
+                        "product0": "ean"
                     }
                 }
             }

@@ -22,6 +22,7 @@ from ..CommonDb import TDbCategory, TDbProductEx
 class TSqlConf():
     lang_id: int
     tenant_id: int
+    product0: str
     price_id: int
     auto_idt: bool = False
     parts: int = 100
@@ -41,16 +42,16 @@ class TCatalogToDb():
         return Res
 
     def GetSequence(self, aTree: dict) -> list:
-        def Recurs(aTree: dict, aParentId: int) -> list:
+        def Recurs(aParentId: int) -> list:
             ResR = []
             for x in aTree.get(aParentId, {}):
                 RecNo = self.BTree.Search(x)
                 Rec = self.Dbl.RecGo(RecNo)
                 ResR.append({'id': x, 'parent_id': aParentId, 'name': Rec.name})
                 if (x in aTree):
-                    ResR += Recurs(aTree, x)
+                    ResR += Recurs(x)
             return ResR
-        return Recurs(aTree, 0)
+        return Recurs(0)
 
     def Get(self) -> list:
         Tree = self.GetTree()
@@ -158,9 +159,7 @@ class TSql(TSqlBase):
 
         @DASplitDbl
         async def SProduct(aDbl: TDbProductEx, _aMax: int, aIdx: int = 0, aLen: int = 0) -> TDbList:
-            print('SProduct()', aIdx, aLen)
-
-            if (self.Conf.auto_idt):
+            async def SetAutoIdt():
                 Values = [f"({self.Conf.tenant_id}, '{ToHashW(Rec.name)}')" for Rec in aDbl]
                 Values = ', '.join(Values)
 
@@ -190,6 +189,10 @@ class TSql(TSqlBase):
                     Idt = Pairs.get(ToHashW(Rec.name))
                     Rec.SetField('id', Idt)
 
+            print('SProduct()', aIdx, aLen)
+            if (self.Conf.auto_idt):
+                await SetAutoIdt()
+
             Uniq = {}
             Values = []
             for Rec in aDbl:
@@ -198,7 +201,7 @@ class TSql(TSqlBase):
                 if (Key not in Uniq):
                     Uniq[Key] = ''
 
-                    Value = f"({Idt}, {self.Conf.tenant_id}, bool({Rec.qty}), '{Rec.code}')"
+                    Value = f"({Idt}, {self.Conf.tenant_id}, ({Rec.qty} > 0), '{Rec.code}')"
                     Values.append(Value)
 
             if (Values):
@@ -213,13 +216,13 @@ class TSql(TSqlBase):
 
         @DASplitDbl
         async def SProduct_Product0(aDbl: TDbProductEx, _aMax: int, aIdx: int = 0, aLen: int = 0) -> TDbList:
-            print('SProduct_Product()', aIdx, aLen)
+            print('SProduct_Product0()', aIdx, aLen)
 
-            Models = aDbl.ExportList('code')
-            Query = f'''
-                with wrp as (
+            Codes = aDbl.ExportList('code')
+            if (self.Conf.product0 == 'model'):
+                SubQuery =  f'''
                     select
-                        rp.id as protuct_id,
+                        rp.id as product_id,
                         rpp.product0_id
                     from
                         ref_product rp
@@ -231,9 +234,31 @@ class TSql(TSqlBase):
                         (rp.product0_skip is null) and
                         (rp.model is not null) and
                         (rp.tenant_id = {self.Conf.tenant_id}) and
-                        (rp.model in ({ListToComma(Models)})) and
+                        (rp.model in ({ListToComma(Codes)})) and
                         (rpp.enabled) and
                         (rpp.code is not null)
+
+                '''
+            elif (self.Conf.product0 == 'ean'):
+                SubQuery = f'''
+                    select
+                        rpb.product_id,
+                        rpb0.product_id as product0_id
+                    from
+                        ref_product_barcode rpb
+                    left join
+                        ref_product0_barcode rpb0 on
+                        (rpb.code = rpb0.code) and (rpb.product_en = rpb.product_en)
+                    where
+                        (rpb.tenant_id = {self.Conf.tenant_id}) and
+                        (rpb.code in ({ListToComma(Codes)}))
+                '''
+            else:
+                raise ValueError(f'{self.Conf.product0}')
+
+            Query = f'''
+                with wrp as (
+                    {SubQuery}
                 )
                 update
                     ref_product rp
@@ -241,7 +266,7 @@ class TSql(TSqlBase):
                     product0_id = subquery.product_id
                 from (
                     select
-                        protuct_id,
+                        product_id,
                         product0_id
                     from
                         wrp
@@ -251,6 +276,7 @@ class TSql(TSqlBase):
                 returning
                     rp.id, rp.product0_id
             '''
+
             await TDbExecPool(self.Db.Pool).Exec(Query)
 
         @DASplitDbl
@@ -374,10 +400,34 @@ class TSql(TSqlBase):
             '''
             return await TDbExecPool(self.Db.Pool).Exec(Query)
 
+        @DASplitDbl
+        async def SProduct_Barcode(aDbl: TDbProductEx, _aMax: int, aIdx: int = 0, aLen: int = 0) -> TDbList:
+            print('SProduct_Barcode()', aIdx, aLen)
+
+            Values = []
+            for Rec in aDbl:
+                Value = f"('{Rec.code}', 'ean', {self.ProductIdt[Rec.id]}, {self.Conf.tenant_id})"
+                Values.append(Value)
+
+            Query = f'''
+                insert into ref_product_barcode (code, product_en, product_id, tenant_id)
+                values {', '.join(Values)}
+                on conflict (tenant_id, code, product_en) do update
+                set product_id = excluded.product_id
+            '''
+            return await TDbExecPool(self.Db.Pool).Exec(Query)
+
 
         Log.Print(1, 'i', 'Product')
         await self.DisableTable('ref_product')
         await Product(aDbl)
+
+        if (self.Conf.product0 == 'ean'):
+            Log.Print(1, 'i', 'Product_Barcode')
+            await SProduct_Barcode(aDbl, self.Conf.parts)
+
+        Log.Print(1, 'i', 'Product_Product0')
+        await SProduct_Product0(aDbl, self.Conf.parts)
 
         Log.Print(1, 'i', 'Product_Lang')
         await SProduct_Lang(aDbl, self.Conf.parts)
@@ -392,8 +442,6 @@ class TSql(TSqlBase):
         await self.DisableTableByProduct('ref_product_image', 'and (src_url is not null)')
         await SProduct_Image(aDbl, self.Conf.parts)
 
-        Log.Print(1, 'i', 'Product_Product0')
-        await SProduct_Product0(aDbl, self.Conf.parts)
 
 class TMain(TFileBase):
     def __init__(self, aParent, aDb: TDbPg, aExport: dict):

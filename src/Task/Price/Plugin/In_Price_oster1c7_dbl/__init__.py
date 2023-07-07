@@ -9,7 +9,7 @@ from Inc.ParserX.Common import TPluginBase
 from .Main import TCategory, TProduct
 
 
-class TIn_Price_oster1c7_json(TPluginBase):
+class TIn_Price_oster1c7_dbl(TPluginBase):
     async def Run(self):
         Category = TCategory(self)
         Engine = Category.InitEngine()

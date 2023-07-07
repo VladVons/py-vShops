@@ -30,8 +30,8 @@ class TDbProductEx(TDbList):
                 'name',
                 'summary',
                 'features',
-                'descr'
-                'vendor',
+                'descr',
+                'vendor'
                   ]
         )
 
