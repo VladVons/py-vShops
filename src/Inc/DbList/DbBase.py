@@ -155,6 +155,7 @@ class TDbBase():
         '''
         Returns one field as list
         '''
+
         FieldNo = self.GetFieldNo(aField)
         Res = [x[FieldNo] for x in self.Data]
         if (aUniq):

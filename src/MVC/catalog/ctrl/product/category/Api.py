@@ -15,12 +15,12 @@ async def Main(self, aData: dict = None) -> dict:
     )
     aLimit = min(100, aLimit)
 
-    CategoriyIds = list(map(int, aPath.split('_')))
+    CategoryIds = list(map(int, aPath.split('_')))
     Res = await self.ExecModel(
         'ref_product/category',
         {
             'method': 'Get_CategoriesSubCount_TenantParentLang',
-            'param': {'aTenantId': aTenantId, 'aLangId': aLangId, 'aParentIdtRoot': 0, 'aParentIdts': CategoriyIds},
+            'param': {'aTenantId': aTenantId, 'aLangId': aLangId, 'aParentIdtRoot': 0, 'aParentIdts': CategoryIds},
             'query': True
         }
     )
@@ -35,22 +35,15 @@ async def Main(self, aData: dict = None) -> dict:
     DblOut = DblCategory.New()
     DblOut.AddFields(['href'])
 
-    Deep = len(CategoriyIds)
-    CategoriyId = CategoriyIds[-1]
-    CategoryIds = []
+    Deep = len(CategoryIds)
+    CategoryId = CategoryIds[-1]
     CategoryInfo = {}
     for Rec in DblCategory:
         if (Rec.deep == Deep):
             Data = Rec.GetAsList() + (f'?route=product/category&path={aPath}_{Rec.idt}&tenant={aTenantId}',)
             DblOut.RecAdd(Data)
-            CategoryIds.append(Rec.id)
-        elif (Rec.idt == CategoriyId):
+        elif (Rec.idt == CategoryId):
             CategoryInfo = Rec.GetAsDict()
-
-    if (DblOut.GetSize() > 0):
-        Res['dbl_category'] = DblOut.Export()
-    else:
-        CategoryIds.append(CategoryInfo.get('id'))
 
     Res['category'] = CategoryInfo.get('title')
     Products = CategoryInfo.get('products')
@@ -59,21 +52,33 @@ async def Main(self, aData: dict = None) -> dict:
 
     Res['products'] = Products
     Res['pages'] = math.ceil(Products / aLimit)
-    #Pages = [f'route=product/category&path={aPath}&page={i+1}' for i in range(PageCount)]
-    #DblPage = TDbSql(['page'], [Pages])
-    #ResCategory['dbl_pages'] = DblPage.Export()
-    #Res['pages'] = list(range(1, PageCount + 1))
+
+    ResEM = await self.ExecModel(
+        'ref_product/category',
+        {
+            'method': 'Get_CategoryIdtTenant_Sub',
+            'param': {'aCategoryIdt': CategoryId, 'aTenantId': aTenantId}
+        }
+    )
+
+    DblData = ResEM.get('data')
+    Dbl = TDbSql().Import(DblData)
+    if (Dbl.GetSize() > 0):
+        Res['dbl_category'] = DblOut.Export()
+        CategoryIds = Dbl.ExportList('id')
+        CategoryIdToPath = Dbl.ExportPair('id', 'path_idt')
+    else:
+        Id = CategoryInfo.get('id')
+        CategoryIds = [Id]
+        CategoryIdToPath = {Id: CategoryInfo.get('path_idt')}
 
     ResProduct = await self.ExecModel(
         'ref_product/category',
         {
             'method': 'Get_CategoriesProducts0_LangImagePrice',
             'param': {'aCategoryIds': CategoryIds, 'aLangId': aLangId, 'aPriceId': 1, 'aOrder': f'{aSort} {aOrder}', 'aLimit': aLimit, 'aOffset': (aPage - 1) * aLimit},
-            'query': True
         }
     )
-    #print(ResProduct.get('query'))
-
     DblData = ResProduct.get('data')
     if (DblData):
         DblProduct = TDbSql().Import(DblData)
@@ -87,10 +92,9 @@ async def Main(self, aData: dict = None) -> dict:
             }
         )
 
-        CategoryIdToPath = DblCategory.ExportPair('id', 'path_idt')
         Hrefs = []
         for Rec in DblProduct:
-            Path = '0_' + '_'.join(map(str, CategoryIdToPath[Rec.category_id]))
+            Path = f'0_{CategoryId}_'.join(map(str, CategoryIdToPath[Rec.category_id]))
             Href = f'?route=product/product&path={Path}&product_id={Rec.product_id}&tenant={aTenantId}'
             Hrefs.append(Href)
 

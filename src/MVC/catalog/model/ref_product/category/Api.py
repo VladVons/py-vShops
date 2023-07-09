@@ -55,3 +55,9 @@ async def Get_CategoryIdt_Path(self, aLangId: int, aCategoryIdts: list[int], aTe
         'fmtGet_CategoryIdt_Path.sql',
         {'aLangId': aLangId, 'CategoryIdts': CategoryIdts, 'aTenantId': aTenantId}
     )
+
+async def Get_CategoryIdtTenant_Sub(self, aCategoryIdt: int, aTenantId: int) -> dict:
+    return await self.ExecQuery(
+        'fmtGet_CategoryIdtTenant_Sub.sql',
+        {'aCategoryIdt': aCategoryIdt, 'aTenantId': aTenantId}
+    )

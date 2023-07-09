@@ -77,7 +77,8 @@ class TDbList(TDbBase):
 
             self.Init(Head, aData.get('data'))
         else:
-            self.Rec.Fields = []
+            self.Rec.Fields = {}
+            self.Rec.Data = []
             self.Data = []
         return self
 
