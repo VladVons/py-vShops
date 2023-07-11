@@ -77,6 +77,17 @@
                 }
             }
         },
+        "In_Price_oster1c8_dbl": {
+            "export": {
+                "Out_vShopTenant_db": {
+                    "sql": {
+                        "tenant_id": 5,
+                        "price_id": 7,
+                        "product0": "ean"
+                    }
+                }
+            }
+        },
         "In_Price_comelit_xml": {
             "export": {
                 "Out_vShopTenant_db": {

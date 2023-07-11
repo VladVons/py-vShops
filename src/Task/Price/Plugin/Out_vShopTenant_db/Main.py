@@ -404,10 +404,18 @@ class TSql(TSqlBase):
         async def SProduct_Barcode(aDbl: TDbProductEx, _aMax: int, aIdx: int = 0, aLen: int = 0) -> TDbList:
             print('SProduct_Barcode()', aIdx, aLen)
 
+            Uniq = {}
             Values = []
             for Rec in aDbl:
-                Value = f"('{Rec.code}', 'ean', {self.ProductIdt[Rec.id]}, {self.Conf.tenant_id})"
-                Values.append(Value)
+                Key = Rec.code
+                if (Key):
+                    if (Key not in Uniq):
+                        Uniq[Key] = ''
+                        Value = f"('{Rec.code}', 'ean', {self.ProductIdt[Rec.id]}, {self.Conf.tenant_id})"
+                        Values.append(Value)
+                    else:
+                        Log.Print(1, 'i', f'SProduct_Barcode(). Not uniq code: {Rec.code}, id: {Rec.id}, name: {Rec.name}')
+
 
             Query = f'''
                 insert into ref_product_barcode (code, product_en, product_id, tenant_id)
