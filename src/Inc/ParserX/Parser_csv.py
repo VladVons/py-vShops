@@ -13,7 +13,7 @@ class TParser_csv(TEngine):
         return True
 
     async def _Load(self):
-        ConfEncoding = self.Parent.Conf.get('encoding', 'cp1251')
+        ConfEncoding = self.Parent.Conf.get('encoding', 'utf8')
         ConfDelim = self.Parent.Conf.get('delimiter', ',')
 
         ConfSheet = self.GetConfSheet()

@@ -12,6 +12,7 @@ from .. import TParserBase
 
 class TParser(TParserBase):
     UrlRoot = 'https://listex.info'
+    Moderate = False
 
     async def _GetData(self, aCode: str) -> dict:
         if (not self.CheckEan(aCode)):

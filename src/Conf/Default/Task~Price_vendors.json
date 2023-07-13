@@ -16,13 +16,22 @@
         },
         "In_Crawl_ean_txt": {
             "encoding": "cp1251",
-            "delimiter": "|",
+            "delimiter": ",",
             "sheet": {
                 "default": {
                     "fields": {
                         "code": 2,
                         "category": 3,
                         "product": 4
+                    }
+                }
+            }
+        },
+        "In_Crawl_ean0_txt": {
+            "sheet": {
+                "default": {
+                    "fields": {
+                        "code": 1
                     }
                 }
             }

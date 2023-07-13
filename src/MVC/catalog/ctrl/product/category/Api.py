@@ -66,17 +66,15 @@ async def Main(self, aData: dict = None) -> dict:
     if (Dbl.GetSize() > 0):
         Res['dbl_category'] = DblOut.Export()
         CategoryIds = Dbl.ExportList('id')
-        CategoryIdToPath = Dbl.ExportPair('id', 'path_idt')
     else:
         Id = CategoryInfo.get('id')
         CategoryIds = [Id]
-        CategoryIdToPath = {Id: CategoryInfo.get('path_idt')}
 
     ResProduct = await self.ExecModel(
         'ref_product/category',
         {
             'method': 'Get_CategoriesProducts0_LangImagePrice',
-            'param': {'aCategoryIds': CategoryIds, 'aLangId': aLangId, 'aPriceId': 1, 'aOrder': f'{aSort} {aOrder}', 'aLimit': aLimit, 'aOffset': (aPage - 1) * aLimit},
+            'param': {'aCategoryIds': CategoryIds, 'aLangId': aLangId, 'aPriceId': 1, 'aOrder': f'{aSort} {aOrder}', 'aLimit': aLimit, 'aOffset': (aPage - 1) * aLimit}
         }
     )
     DblData = ResProduct.get('data')

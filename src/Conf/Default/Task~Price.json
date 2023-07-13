@@ -13,13 +13,12 @@
     "plugins": [
         {"name": "Out_Save_txt", "enable": false},
 
-        {"name": "Out_vShopTenant_db", "enable": true},
+        {"name": "Out_vShopTenant_db", "enable": false},
         {"name": "Out_vShopTenantModel_db", "enable": false},
 
         {"name": "Out_vShopSitemap_db", "enable": false},
-        {"name": "In_Crawl_ean_txt", "enable": false},
         {"name": "In_Crawl_model_xlsx", "enable": false},
-        {"name": "Out_vShopCrawl_db", "enable": false},
+        {"name": "Out_vShopCrawl_db", "enable": true},
         {"name": "Out_Save_xlsx", "enable": false}
     ],
     "common": {
@@ -74,18 +73,19 @@
         },
         "Out_vShopCrawl_db": {
             "sql": {
-                "parts": 50,
+                "parts": 10,
                 "lang_id": 1,
                 "max_conn": 1,
                 "rand_sleep": [0.1, 1.1],
-                "parser": "icecat_biz"
+                "parser": "listex_info"
             },
             "auth": "{% file Conf/Default/Task.SrvModel.Api.json:db_auth %}",
             "depends": [
+                "In_Crawl_ean0_txt",
                 "-In_Crawl_ean_txt",
                 "-In_Crawl_kalina_xls",
                 "-In_Crawl_fozzy_sqlite",
-                "In_Crawl_icecat_xlsx"
+                "-In_Crawl_icecat_xlsx"
             ],
             "img_loader": "{% file Conf/Default/Task.SrvCtrl.Api.json:loader.img %}",
             "img_conf": "{% file Conf/Default/Task.SrvImg.Api.json %}"

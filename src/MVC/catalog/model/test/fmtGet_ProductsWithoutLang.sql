@@ -1,3 +1,4 @@
+-- in: aTenantId, aLangId
 with wrpl as (
     select
         rpl.product_id

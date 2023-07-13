@@ -1,3 +1,4 @@
+-- in: aTenantId
 select
     rp.id,
     rp.tenant_id,

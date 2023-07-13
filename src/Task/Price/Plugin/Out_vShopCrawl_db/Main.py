@@ -174,6 +174,8 @@ class TSql(TSqlBase):
                         UrlD.append([x, Name, UrlSize.get(x, 0), aCode])
                     elif (Answer == 'c'):
                         break
+                else:
+                    UrlD.append([x, Name, UrlSize.get(x, 0), aCode])
 
             if (not UrlD):
                 return []

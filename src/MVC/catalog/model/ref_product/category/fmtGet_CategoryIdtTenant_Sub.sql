@@ -8,8 +8,8 @@ with recursive wrpc as (
     from
         ref_product_category rpc
     where
-        (tenant_id = {aTenantId}) and
-        (idt = {aCategoryIdt})
+        (rpc.tenant_id = {aTenantId}) and
+        (rpc.idt = {aCategoryIdt})
 
     union all
 
@@ -23,6 +23,8 @@ with recursive wrpc as (
     join
         wrpc on
         (rpc.parent_idt = wrpc.idt)
+    where
+        (rpc.tenant_id = {aTenantId})
 )
 select
     wrpc.id,

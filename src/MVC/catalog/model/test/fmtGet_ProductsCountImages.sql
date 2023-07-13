@@ -1,3 +1,4 @@
+-- in: aTenantId
 select
     rp.id,
     count(*) as images
