@@ -13,8 +13,8 @@ with recursive wrpc as (
         ref_product_category_lang rpcl on
         (rpc.id = rpcl.category_id) and (rpcl.lang_id = {aLangId})
     where
-        (rpc.idt in ({CategoryIdts})) and
-        (tenant_id = {aTenantId})
+        (rpc.tenant_id = {aTenantId}) and
+        (rpc.idt in ({CategoryIdts}))
 
     union all
 
@@ -33,6 +33,8 @@ with recursive wrpc as (
     left join
         ref_product_category_lang rpcl on
         (rpc.id = rpcl.category_id) and (rpcl.lang_id = {aLangId})
+    where
+        (rpc.tenant_id = {aTenantId})
 )
 select
     path_title,

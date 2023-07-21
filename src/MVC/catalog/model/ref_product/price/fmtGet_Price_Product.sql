@@ -40,7 +40,7 @@ wt2 as (
 select
     --wt1.id,
     --wt1.product_id,
-    wt1.price,
+    wt1.price::float,
     wt1.qty,
     wt2.price as price_new,
     wt2.begin_date,

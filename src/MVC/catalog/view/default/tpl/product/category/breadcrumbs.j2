@@ -1,6 +1,6 @@
 <path>
-  <a class='home' href='/'>&nbsp;</a>
-  {% for x in product['breadcrumbs'] %}
-    <a href='{{x['href']}}'>{{x['title']}}</a>
+  <a href='/' class='icon-home'>&nbsp;</a>
+  {% for x in product.breadcrumbs %}
+    <a href='{{x.href}}'>{{x.title}}</a>
   {% endfor %}
 </path>

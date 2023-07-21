@@ -1,0 +1,89 @@
+/* =================== */
+/* === top section === */
+/* =================== */
+top {
+  display: flex;
+  justify-content: space-between;
+  height: 150px;
+  background: url(/default/img/bg-header.jpg) top center no-repeat;
+}
+
+top logo {
+  width: 320px;
+  margin: 15px 0 0 30px;
+  font-size: 16rem;
+  color: #fff;
+  text-align: center;
+}
+
+top logo > a img {
+  width: 320px;
+}
+
+top logo address  {
+  margin-top: 10px;
+  color: #ccc;
+}
+
+top info {
+  width: 300px;
+  margin: 10px 20px 0 0;
+}
+
+top info * {
+  height: 40px;
+  line-height: 40px;
+  margin-top: 15px;
+  float: left;
+  border: 0;
+}
+
+top info button.cart {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  background: linear-gradient(to bottom, #444, #000) repeat-x;
+  font-size: 14rem;
+  color: #cff;
+  border-radius: 4px;
+}
+
+top info button.cart:hover {
+  background: linear-gradient(to bottom, #000, #444) repeat-x;
+  color: #fff;
+}
+
+top info button.cart num, top info button.cart sum {
+  display: flex;
+  align-items: center;
+  margin: 0px 10px 0px 10px;
+}
+
+top info button.cart num:before {
+  font-size: 20rem;
+  margin: -4px 10px 0 0;
+}
+
+top info input.search {
+  width: 250px;
+  padding: 0 10px 0 10px;
+  border-radius: 4px 0 0 4px;
+  color: #333;
+  font-size: 14rem;
+}
+
+top info button.search {
+  font-family: icons;
+  font-size: 20px;
+  width: 50px;
+  color: #666;
+  border-left: 1px solid #999;
+  border-radius: 0 4px 4px 0;
+}
+
+top info button.search:hover {
+  background-color: #ffe;
+  font-size: 24px;
+  color: #000;
+}

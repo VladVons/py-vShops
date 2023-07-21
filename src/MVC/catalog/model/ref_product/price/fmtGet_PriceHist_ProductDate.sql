@@ -1,6 +1,6 @@
 -- in: aProductId, aPriceId, aQty, aDate
 select
-    rpph.price,
+    rpph.price::float,
     rpph.create_date
 from
     ref_product_price_history rpph

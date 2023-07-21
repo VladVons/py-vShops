@@ -1,43 +1,67 @@
 "use strict"
 
-let LEGACY = !CSS.supports("container: name")
+// jMagic imports
+await $$.import('plugins.scss')
+
+// User imports
+import('./common.js')
+
+const 
+  TITLE = 'ОСТЕР: кошик',
+  PAYMENT = {
+    cash: 'готівкою',
+    visa: 'карткою VISA',
+    mastercard: 'карткою Mastercard',
+    bitcoin: 'криптовалютою'
+  }
+  
+
 
 class Cart {
   constructor() {
-    $$.ready( () => {
-      $$.css([
-        '/default/css/optima/tip.css',
-        '/default/css/1200/common.css',
-        '/default/css/1200/header.css',
-        '/default/css/1200/top.css',
-        '/default/css/1200/menu.css',
-        '/default/css/1200/page.css',
-        '/default/css/1200/nav.css',
-        '/default/css/1200/footer.css',
-        '/default/css/1200/social.css',
-        '/default/css/1200/cart.css'
-        ],
-        () => {
-          $$('body').css({display: 'initial'})
-          // cart from storage
-          this.init()
-          // trash title
-          $$('icon.trash')
-            .attr({title:'видалити з кошика'})
-            .on('click', this.removeItem.bind(this))
-          // count events
-          $$('count input')
-            .on('focus',(event)=>{event.target.select()})
-            .on('keyup',this.change.bind(this))
-            .on('paste',this.change.bind(this))
-          $$('count icon.minus')
-            .attr({title:'зменьшити кількість'})
-            .on('click',this.change.bind(this))
-          $$('count icon.plus')
-            .attr({title:'збільшити кількість'})
-            .on('click',this.change.bind(this))
-        }
-      )
+    
+    $$(async () => {
+      //load css rules
+      let rules = await SCSS.load([`${$$.conf.path.css}/common.css`,`${$$.conf.path.css}/desktop/cart.css`])
+      $$.css(SCSS.dump(rules))
+      
+      // global title
+      $$('head title').text(TITLE)
+      //unmask page
+      $$('body').css({opacity: 1})      
+      
+      // cart from storage
+      this.init()
+      
+      // trash title
+      $$('trash icon')
+        .attr({title:'видалити з кошика'})
+        .on('click', this.removeItem.bind(this))
+      // count events
+      $$('count input')
+        .on('focus',(event)=>{event.target.select()})
+        .on('keyup',this.change.bind(this))
+        .on('paste',this.change.bind(this))
+      $$('count minus')
+        .attr({title:'зменьшити кількість'})
+        .on('click',this.change.bind(this))
+      $$('count plus')
+        .attr({title:'збільшити кількість'})
+        .on('click',this.change.bind(this))
+      $$('body')
+        .on('copy', event => {event.clipboardData.setData('text/plain','ХУЙ ВАМ!'); event.preventDefault();})
+      
+      //payment method
+      this.setPayment()
+      $$('payment icon')
+        .on('click', this.setPayment.bind(this))
+      $$('payment input')
+        .on('click', this.setPayment.bind(this))
+      
+      //set checkout event
+      $$('buttons button.checkout')
+        .on('click', this.confirm.bind(this))
+      
     })
   }
   
@@ -45,14 +69,15 @@ class Cart {
     let store = localStorage.getItem('Cart')
     let data = (store) ? JSON.parse(store) : []
     let cart = $$('cart')[0]
+    let fragment = $$('template')[0]
     for(let i=0; i<data.length; i++) {
-      let model = $$('model')[0].cloneNode(true)
-      model.getElementsByTagName('thumb')[0].style.backgroundImage = 'url('+data[i].img+')'
-      model.getElementsByTagName('name')[0].appendChild(document.createTextNode(data[i].name))
-      model.getElementsByTagName('code')[0].textContent = data[i].code
-      model.getElementsByTagName('input')[0].value = data[i].count
-      model.getElementsByTagName('price')[0].textContent = data[i].price+'грн'
-      model.getElementsByTagName('summ')[0].textContent = data[i].count*parseFloat(data[i].price)+'грн'
+      let model = fragment.content.cloneNode(true)
+      model.querySelector('thumb').style.backgroundImage = 'url('+data[i].img+')'
+      model.querySelector('item a name').appendChild(document.createTextNode(data[i].name))
+      model.querySelector('code').textContent = data[i].code
+      model.querySelector('input').value = data[i].count
+      model.querySelector('price').textContent = data[i].price.toFixed(2)+' грн'
+      model.querySelector('sum').textContent = (data[i].count * data[i].price).toFixed(2)+' грн'
       while(model.childNodes.length){
         cart.appendChild(model.firstChild)
       }
@@ -66,7 +91,7 @@ class Cart {
     let nodes = [node]
     let store = localStorage.getItem('Cart')
     let code = null
-    while(node.previousSibling.nodeName.toUpperCase() != 'NAME') {
+    while(node.previousSibling.nodeName.toUpperCase() != 'ITEM') {
       nodes.push(node.previousSibling)
       node = node.previousSibling
       if(node.nodeName.toUpperCase() == 'CODE'){
@@ -106,10 +131,10 @@ class Cart {
     if(!count) {
       input.value = 1
     }else{
-      if(count>1 &&  event.target.className == 'minus') {
+      if(count>1 &&  event.target.nodeName.toUpperCase() == 'MINUS') {
         input.value--
       }
-      if(count<999 && event.target.className == 'plus') {
+      if(count<999 && event.target.nodeName.toUpperCase() == 'PLUS') {
         input.value++
       }
     }
@@ -131,30 +156,87 @@ class Cart {
     //calculate summ and total
     this.checkSumm(input)
     this.checkTotal()
+    return false
   }
   
   checkSumm(target) {
     let node = target.parentNode
     let price = 0.0
-    while(node.nextSibling.nodeName.toUpperCase() != 'SUMM'){
+    while(node.nextSibling.nodeName.toUpperCase() != 'SUM'){
       node = node.nextSibling
       if(node.nodeName.toUpperCase() == 'PRICE'){
         price = parseFloat(node.textContent)
       }
     }
-    node.nextSibling.textContent = (parseInt(target.value) * price).toFixed(2)+'грн'    
+    node.nextSibling.textContent = (parseInt(target.value) * price).toFixed(2)+' грн'    
   }
   
   checkTotal() {
-    let summ = $$('cart summ')
+    let sum = $$('cart sum')
     let total = 0
-    for(let i=0; i<summ.length; i++) {
-      total += parseFloat(summ[i].textContent)
+    for(let i=0; i<sum.length; i++) {
+      total += parseFloat(sum[i].textContent)
     }
-    $$('total summ').text(total.toFixed(2)+'грн')
+    $$('total num, top info num').text(sum.length)
+    $$('total sum, top info sum').text(total.toFixed(2)+' грн')
+    $$('panel links a.icon-basket num').text(sum.length)
+    this.toggleButtons(sum.length)
+  }
+
+  setPayment(event) {
+    if(event) {
+      let node = event.target
+      if(node.nodeName !== 'INPUT') {
+        while(node.previousSibling.nodeName !== 'INPUT') {
+          node = node.previousSibling
+        }
+        node.previousSibling.checked = true
+        //update store
+        localStorage.setItem('Payment', JSON.stringify(
+          {type: node.previousSibling.value, text: PAYMENT[node.previousSibling.value]})
+        )
+      }else{
+        localStorage.setItem('Payment', JSON.stringify({type: node.value, text: PAYMENT[node.value]}))
+      }
+    }else{
+      let payment = localStorage.getItem('Payment')
+      if(!payment) {
+        payment = {type: 'cash', text: PAYMENT['cash']}
+        localStorage.setItem('Payment', JSON.stringify(payment))
+      }else{
+        payment = JSON.parse(payment)
+      }
+      let input = $$('payment input')
+      for(let i=0; i<input.length; i++) {
+        if(input[i].value === payment.type) {
+          input[i].checked = true
+          break
+        }
+      }
+    }
+  }
+  
+  toggleButtons(num) {
+    if(!num) {
+      let buttons = $$('buttons button.checkout, buttons button.continue')
+      for(let i=0; i<buttons.length; i++) {
+        buttons[i].classList.toggle('continue')
+        buttons[i].classList.toggle('checkout')
+      }
+      //show empty
+      $$('empty')[0].classList.toggle('hide')
+    }
+  }
+  
+  confirm(event) {
+    if(!parseInt($$('total num')[0].textContent)) {
+      event.preventDefault();
+    }else{
+      document.location.href = event.target.getAttribute('href')
+    }
   }
   
 }
 
-window.cart = new Cart()
+new Cart()
 

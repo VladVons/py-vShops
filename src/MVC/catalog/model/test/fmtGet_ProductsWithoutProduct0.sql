@@ -1,6 +1,6 @@
 select
     rpb.product_id,
-    rpb.tenant_id, 
+    rpb.tenant_id,
     rpb.code,
     rpb2.product_id as product0_id,
     rpl.title,
@@ -18,7 +18,7 @@ left join ref_product_lang rpl on
 left join ref_product0_lang rpl0 on
     (rpb2.product_id = rpl0.product_id)
 where
-    (rp.enabled) and 
-    (rp.product0_id is null) and 
-    (rpb.product_en = 'ean') and 
+    (rp.enabled) and
+    (rp.product0_id is null) and
+    (rpb.product_en = 'ean') and
     (rpb2.code is not null)

@@ -8,8 +8,8 @@ insert into ref_product_to_category (product_id, category_id)
         ref_product_to_category rptc on
         (rp.id = rptc.product_id)
     where
-        (rptc.category_id is null) and 
+        (rptc.category_id is null) and
         (rp.tenant_id = 2)
-    order by    
+    order by
         rp.id
     returning product_id, category_id

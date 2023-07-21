@@ -3,7 +3,7 @@
 # License: GNU, see LICENSE for more details
 
 
-from IncP.LibCtrl import GetDictDef, TDbSql, DeepGetByList
+from IncP.LibCtrl import TDbSql, DeepGetByList
 
 
 async def Main(self, aData: dict = None) -> dict:
@@ -23,7 +23,8 @@ async def Main(self, aData: dict = None) -> dict:
         Href = []
         Dbl = TDbSql().Import(DblData)
         for Rec in Dbl:
-            Href.append(f'information/information&path={Rec.id}')
+            Route = Rec.GetField('route', 'information/information')
+            Href.append(f'?route={Route}&module_id={Rec.id}')
         Dbl.AddFields(['href'], [Href])
         Res['data'] = Dbl.Export()
     return Res

@@ -11,10 +11,8 @@ left join
     ref_product rp on
     (rpb.product_id = rp.id)
 where
-    (rp.enabled) and 
-    (rpb.product_en = 'ean') and 
-    (rpb2.code is null) and 
+    (rp.enabled) and
+    (rpb.product_en = 'ean') and
+    (rpb2.code is null) and
     (check_ean(rpb.code)) and
     (rpb.code like '48%')
-order by
-     rpb.code   

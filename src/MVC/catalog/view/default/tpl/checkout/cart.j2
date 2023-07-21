@@ -6,18 +6,23 @@
 
 {% block content %}
       <title class='cart'>{{lang.shopping_cart}}</title>
-      <!-- item model for cart -->
-      <model class='hide'>
-        <name>
-          <thumb style='background-image:url(/default/img/pixel.gif)'></thumb>
-        </name>
+      <!-- template for cart -->
+      <template class='hide'>
+        <item>
+          <a href='/product.shtml' title='{{lang.product_view}}'><thumb style='background-image:url(/default/img/pixel.gif)'></thumb></a>
+          <a href='/product.shtml' title='{{lang.product_view}}'><name></name></a>
+        </item>
         <code></code>
-        <count><icon class='minus'></icon><input type='text' maxlength='3' value='' required></input><icon class='plus'></icon></count>
+        <count>
+          <minus>-</minus>
+          <input type='text' maxlength='3' value='' required>
+          <plus>+</plus>
+        </count>
         <price></price>
-        <summ></summ>
-        <trash><icon class='trash'></icon></trash>
-      </model>
-      <!-- /item model for cart -->
+        <sum></sum>
+        <trash><icon>t</icon></trash>
+      </template>
+      <!-- /template for cart -->
 
       <cart>
         <title class='s'>{{lang.name}}</title>
@@ -27,22 +32,27 @@
         <title class='s'>{{lang.together}}</title>
         <title class='s'></title>
       </cart>
-
+      <empty class='hide'>{{lang.cart_empty}}</empty>
       <total>
-        <label>{{lang.to_pay}}</label>
-        <summ></summ>
+        <label>{{lang.product_count}}:</label>
+        <num></num>
+        <flex></flex>
+        <label>{{lang.to_pay}}:</label>
+        <sum></sum>
       </total>
-
       <payment>
-        <label>{{lang.payment_type}}: </label>
+        <label>{{lang.payment_type}}:</label>
+        <input type='radio' name='payment' value='bitcoin'>
+        <icon class='bitcoin'></icon>
+        <input type='radio' name='payment' value='visa'>
         <icon class='visa'></icon>
+        <input type='radio' name='payment' value='mastercard'>
         <icon class='mastercard'></icon>
-        <icon class='american'></icon>
+        <input type='radio' name='payment' value='cash'>
         <icon class='cash'></icon>
       </payment>
-
       <buttons>
-        <a href='catalog.shtml' class='continue'>{{lang.continue_shopping}}</a>
-        <a href='#' class='checkout'>{{lang.checkout}}</a>
+        <button href='/catalog.shtml' class='continue' onclick='history.go(-1)'>{{lang.continue_shopping}}</button>
+        <button href='/confirm.shtml' class='checkout'>{{lang.checkout}}</button>
       </buttons>
 {% endblock %}

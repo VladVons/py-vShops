@@ -1,38 +1,34 @@
 "use strict"
 
-let LEGACY = !CSS.supports("container: name")
+// jMagic imports
+await $$.import('plugins.scss')
+
+// User imports
+import('./common.js')
+
+const
+  TITLE = 'ОСТЕР: про товар'
 
 class Product {
   constructor() {
     let self = this
-    $$.ready( () => {
-      $$.css([
-        '/default/css/optima/tip.css',
-        '/default/css/1200/common.css',
-        '/default/css/1200/header.css',
-        '/default/css/1200/top.css',
-        '/default/css/1200/menu.css',
-        '/default/css/1200/page.css',
-        '/default/css/1200/path.css',
-        '/default/css/1200/nav.css',
-        '/default/css/1200/footer.css',
-        '/default/css/1200/social.css',
-        '/default/css/1200/product.css'
-        ],
-        () => {
-          $$('body').css({display: 'initial'})
+    $$(async () => {
+      //load css rules
+      let rules = await SCSS.load([`${$$.conf.path.css}/common.css`,`${$$.conf.path.css}/desktop/product.css`])
+      $$.css(SCSS.dump(rules))
+      
+      // global title
+      $$('head title').text(TITLE)
+      //unmask page
+      $$('body').css({opacity: 1})
+
+      //set listeners
+      $$('tabs tab').on('click', self.setActive.bind(self))
+      //set thumbs
+      $$('thumbs thumb').on('click', self.setImage.bind(self))
+      //set link for cart
+      $$('control a.buy').on('click', self.toCart.bind(self))
           
-          //set listeners
-          $$('tabs tab').on('click', self.setActive.bind(self))
-          
-          //set thumbs
-          $$('thumbs thumb').on('click', self.setImage.bind(self))
-          
-          //set link for cart
-          $$('control a.buy').on('click', self.toCart.bind(self))
-          
-        }
-      )
     })
   }
   
@@ -87,8 +83,19 @@ class Product {
     }
     localStorage.setItem('Cart', JSON.stringify(data))
     event.returnValue = false
+    
+    //calculate new sum
+    let sum = 0.0
+    for(let elem of data) {
+      sum+=elem.count * parseFloat(elem.price)
+    }    
+    //update cart button
+    $$('top info num').text(data.length)
+    $$('top info sum').text(sum + ' грн')
+    $$('panel links a.icon-basket num').text(data.length)
+    
   }
   
 }
 
-window.product = new Product()
+new Product()

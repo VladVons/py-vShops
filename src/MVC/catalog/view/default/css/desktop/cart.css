@@ -1,0 +1,327 @@
+@import url("common.css") screen;
+@import url("header.css") screen;
+@import url("top.css") screen;
+@import url("menu.css") screen;
+@import url("page.css") screen;
+@import url("nav.css") screen;
+@import url("footer.css") screen;
+@import url("social.css") screen;
+
+/* ==================== */
+/* === cart section === */
+/* ==================== */
+
+cart {
+  display: grid;
+  grid-template-columns: 45% 12.5% 12.5% 12.5% 12.5% 5%;
+  text-align: center;
+}
+
+cart item, cart code, cart price, cart count, cart sum, cart trash {
+  height: 100px;
+  line-height: 80px;
+  padding: 10px;
+  vertical-align: center;
+}
+
+title.cart, title.eye {
+  height: 72px;
+  line-height: 72px;
+  margin: 0 0 20px 0;
+}
+
+title.cart::before, title.eye::before {
+  font-family: icons;
+  font-size: 24rem;
+  margin-right: 20px;
+  padding: 16px 16px 16px 19px;
+  color: #fff;
+  background: #660 linear-gradient(to bottom, #09c, #033) repeat-x;
+  text-shadow: 5px 5px 10px rgb(0, 0, 0);
+  box-shadow: 3px 3px 6px rgb(0, 0, 0);
+  border-radius: 50%;
+}
+
+title.cart::before { content: 'b' }
+title.eye::before { content: 'e' }
+
+cart title {
+  height: 50px;
+  line-height: 50px;
+  margin: 0;
+  color: #fff;
+  background: #09c linear-gradient(to bottom, #09c, #033) repeat-x;
+}
+
+cart item:nth-child(12n+13),
+cart code:nth-child(12n+14),
+cart count:nth-child(12n+15),
+cart price:nth-child(12n+16),
+cart sum:nth-child(12n+17),
+cart trash:nth-child(12n+18)
+{
+  background: #f6f6f6;
+}
+
+cart item, cart item a {
+  display: flex;
+  align-items: center;
+  line-height: 24px;
+  text-align: left;
+}
+
+cart item thumb {
+  display: inline-block;
+  width: 80px;
+  height: 80px;
+  min-width: 80px;
+  margin-right: 10px;
+  border: 1px solid #ccc;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+cart item thumb:hover {
+  border: 1px solid #000;
+}
+
+cart item name:hover {
+  color: #09f;
+}
+
+cart count {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 0;
+}
+
+cart count input {
+  width: 48px;
+  height: 48px;
+  font-size: 16rem;
+  text-align: center;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+
+cart count minus, cart count plus {
+  font-family: icons;
+  font-size: 14rem;
+  cursor: pointer;
+  line-height: 24rem;
+  width: 24px;
+  height: 24px;
+  vertical-align: center;
+  user-select: none;
+}
+
+cart count minus:hover, cart count plus:hover {
+  font-size: 18rem;
+}
+
+cart count minus {
+  color: #f00;
+  margin-right: 10px;
+}
+
+cart count plus {
+  color: #090;
+  margin-left: 10px;
+}
+
+cart trash icon {
+  display: inline;
+  font-family: icons;
+  font-size: 24rem;
+  color: #369;
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+}
+
+cart trash icon:hover {
+  font-size: 30rem;
+  color: #f00;
+}
+
+total {
+  display: flex;
+  justify-content: space-around;
+  height: 48px;
+  line-height: 48px;
+  border-radius: 4px;
+  background: #eee;
+  border: 1px solid #333;
+  margin-top: 50px;
+  color: #333;
+  font-size: 20rem;  
+}
+
+total num, total sum, total pay {
+  font-weight: bold;
+  padding: 0 20px 0 20px;
+}
+
+total num[label]:before, total sum[label]:before, total pay[label]:before {
+	content: attr(label);
+  font-weight: normal;
+}
+
+total label {
+  padding-left: 20px;
+}
+
+buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+
+buttons button {
+  width: 200px;
+  height: 36px;
+  line-height: 36px;
+  font-size: 16rem;
+  border-radius: 4px;
+  cursor: pointer;
+  text-align: center;
+  border: 1px solid;
+  border-radius: 4px;
+}
+
+buttons button.continue {
+  color: #000;
+  border-color: #ccc;
+  background: #ccc linear-gradient(to bottom, #fff, #ccc) repeat-x;
+}
+
+buttons button.continue:hover {
+  background: #ccc linear-gradient(to bottom, #ccc, #fff) repeat-x;
+}
+
+buttons button.checkout {
+  color: #fff;
+  border-color: #333;
+  background: #09c linear-gradient(to bottom, #09c, #033) repeat-x;
+}
+
+buttons button.checkout:hover {
+  color: #fee;
+  background: #09c linear-gradient(to bottom, #033, #09c) repeat-x;
+}
+
+payment {
+  display: flex;
+  justify-content: center;
+  height: 64px;
+  line-height: 64px;
+  margin-top: 10px;
+  font-weight: bold;
+}
+
+payment label {
+  margin-right: 30px;
+}
+
+payment icon::before {
+  font-family: icons;
+  font-size: 36rem;
+  font-weight: normal;
+  margin: 0 30px 0 10px;
+  text-align: center;
+  cursor: pointer;
+}
+
+payment icon.visa::before {
+  content: 'v';
+  color: #36f;
+}
+
+payment icon.mastercard::before {
+  content: 'm';
+  color: #f63;
+}
+
+payment icon.bitcoin::before {
+  content: 'B';
+  color: #990;
+}
+
+payment icon.cash::before {
+  content: '$';
+  color: #396;
+}
+
+empty {
+  height: 64px;
+  line-height: 64px;
+  font-size: 24rem;
+  text-align: center;
+}
+
+/*===== confirm =====*/
+confirm {
+  display: block;
+  width: 660px;
+  margin: 40px auto 40px auto;
+  padding: 20px;
+  text-align: center;
+  background: #eff;
+  border: 1px solid;
+  border-radius: 8px;
+}
+
+confirm label {
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+
+confirm input {
+  width: 100%;
+  height: 40px;
+  margin: auto;
+  margin-top: 20px;
+  padding: 0 10px 0 10px;
+  font-size: 20rem;
+}
+
+confirm example {
+  margin-top: 10px;
+  font-size: 14rem;
+  font-style: italic;
+  color: #999;
+}
+
+confirm phone, confirm user {
+  position: relative;
+  display: inline-block;
+  width: 50%;
+  padding-top: 10px;
+}
+
+confirm placeholder {
+  position: absolute;
+  pointer-events: none;
+  left: 10px;
+  top: 40px;
+  opacity: 0.4;
+  transition: 0.5s ease all;
+}
+
+confirm placeholder:before {
+  margin-right: 5px;
+}
+
+input:focus ~ placeholder,
+input:focus ~ placeholder,
+input:not(:focus):valid ~ placeholder,
+input:not(:focus):valid ~ placeholder
+{
+  top: 5px;
+  left: 0;
+  font-size: 13rem;
+  font-weight: bold;
+  color: #000;
+  opacity: 1;
+}

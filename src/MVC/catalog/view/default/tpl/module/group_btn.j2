@@ -2,7 +2,7 @@
 <services>
 {% for Rec in TDbList().Import(data) %}
   <a class='category' href='{{Rec.href}}'>
-    <logo style='background-image: url(default/{{Rec.image}})'></logo>
+    <logo style='background-image: url(/default/{{Rec.image}})'></logo>
     <name>{{Rec.title}}</name>
     <info>{{Rec.intro}}</info>
   </a>

@@ -1,0 +1,100 @@
+/* =================== */
+/* === nav section === */
+/* =================== */
+nav {
+  flex: 0 300px;
+  padding: 20px;
+}
+
+nav phones, nav times {
+  margin-top: 20px;
+  line-height: 24px;
+}
+
+nav phones phone:first-child:before, nav times open:first-child:before {
+  font-family: icons;
+  font-size: 32px;
+  display: inline-block;
+  float: left;
+  margin: 10px 20px 0 10px;
+}
+
+nav phones phone:first-child:before {
+  content: 'p';
+}
+
+nav times open:first-child:before {
+  content: 'o';
+  height: 100px;
+}
+
+nav phone {
+  font-size: 16rem;
+  font-weight: bold;
+  letter-spacing: 1.5rem;
+}
+
+nav time {
+  font-weight: bold;
+}
+
+nav catalog a {
+  display: flex;
+  padding: 10px 5px 10px 10px;
+  color: #000;
+  font-size: 14rem;
+  font-weight: bold;
+  border: 1px solid #ccc;
+  border-top: 0;
+}
+
+nav catalog a:before {
+  font-family: icons;
+  font-size: 20rem;
+  content: 'l';
+  color: #09f;
+  margin-right: 5px;
+}
+
+nav catalog > a:first-child {
+  border-top: 1px solid #ccc;
+}
+
+nav catalog a:hover {
+  background: #eee;
+}
+
+nav catalog a.active {
+  background: #eec;
+}
+
+nav catalog level2 {
+  height: 0;
+  overflow: hidden;
+  transition: 1s ease;
+}
+
+nav catalog level2 a {
+  padding-left: 30px;
+  font-size: 12rem;
+  color: #000;
+  background: #ffe;
+}
+
+nav catalog level2 a:before {
+  font-family: icons;
+  font-size: 12rem;
+  content: 'O';
+  color: #900;
+  margin-right: 5px;
+}
+
+nav open *, nav close * {
+  display: inline;
+  font-weight: bold;
+}
+
+nav close {
+  color: #900;
+}
+

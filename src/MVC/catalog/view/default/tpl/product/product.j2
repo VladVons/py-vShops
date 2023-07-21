@@ -1,7 +1,7 @@
 {% extends '_inc/layout1.j2' %}
 
 {% block head %}
-  <meta property="og:image" content="{{product['image']}}"/>
+  <meta property="og:image" content="{{product.image}}"/>
   <script type='module' src='/default/js/product.js' ></script>
 {% endblock %}
 
@@ -10,11 +10,11 @@
 {% endblock %}
 
 {% block content %}
-  <item code='{{product['product_id']}}'>
+  <item code='{{product.product_id}}'>
     <images>
-      <zoom title='{{lang.zoom_in}}'><img src='{{product['image']}}'></img></zoom>
+      <zoom title='{{lang.zoom_in}}'><img src='{{product.image}}'></img></zoom>
       <thumbs>
-        {% for xImage in product['images'] %}
+        {% for xImage in product.images %}
           <thumb style='background-image: url({{xImage}})'></thumb>
         {% endfor %}
       </thumbs>
@@ -23,22 +23,22 @@
     <info>
       <panel>
         <buttons>
-          <button class='favorite' title='{{lang.to_favorite}}'></button>
-          <button class='compare' title='{{lang.compare}}'></button>
+          <button class='favorite' title='{{lang.to_favorite}}'>a</button>
+          <button class='compare' title='{{lang.compare}}'>c</button>
         </buttons>
-        <code class='flex'>{{lang.product_code}}: <b>{{product['code']}}</b></code>
+        <code class='flex'>{{lang.product_code}}: <b>{{product.code}}</b></code>
       </panel>
 
-      <title>{{product['title']}}</title>
+      <title>{{product.title}}</title>
 
       <props>
-        <name>{{lang.category}}: <value>{{product['category']}}</value></name>
+        <name>{{lang.category}}: <value>{{product.category}}</value></name>
         <name>{{lang.available}}: <value class='green'>{{lang.yes}}</value></name>
-        <name>{{lang.seller}}: <a href='{{product['tenant_href']}}'>{{product['tenant']}}</a></name>
+        <name>{{lang.seller}}: <a href='{{product.tenant_href}}'>{{product.tenant}}</a></name>
       </props>
 
       <control>
-        {% for Rec in TDbList().Import(product['price']) %}
+        {% for Rec in TDbList().Import(product.price) %}
             {%- if Rec.price_new -%}
                 <oldprice>{{Rec.qty}}{{lang.qty}} {{Rec.price}}</oldprice>
                 <promo>{{Rec.qty}}{{lang.qty}} {{Rec.price_new}}</promo>
@@ -62,7 +62,7 @@
     <data>
       <label class='tabprop'>
         <!-- <name>Модель:</name><value>Acer</value> -->
-        {%- for xType, xVal in product['features'] %}
+        {%- for xType, xVal in product.features %}
             {%- if xType == 'g' -%}
                 <plus>{{xVal}}</plus>
             {%- else -%}
@@ -72,7 +72,7 @@
       </label>
 
       <label class='tabdesc' hide>
-        {{product['descr']}}
+        {{product.descr}}
       </label>
 
       <label class='tabcomm hide'>

@@ -1,0 +1,12 @@
+{
+    "name": "назва",
+    "code": "код",
+    "quantity": "кількість",
+    "price": "ціна",
+    "together": "разом",
+    "products_ordered": "замовлено товарів",
+    "product_view": "переглянути товар",
+    "refresh": "оновити",
+    "orders_all": "всі замовлення",
+    "sum": "сума"
+}

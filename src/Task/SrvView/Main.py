@@ -29,7 +29,7 @@ class TSrvView(TSrvBase):
     def _GetDefRoutes(self) -> list:
         return [
             web.get('/{name:.*}', self._rIndex),
-            web.post('/{name:.*}', self._rIndex),
+            web.post('/api/{name:.*}', self._rApi)
         ]
 
     @staticmethod
@@ -41,6 +41,9 @@ class TSrvView(TSrvBase):
     async def _Err_All(_aRequest: web.Request, aStack: dict) -> web.Response:
         Data = '\n<br>'.join(aStack)
         return web.Response(text = Data, content_type = 'text/html', status = 500)
+
+    async def _rApi(self, aRequest: web.Request) -> web.Response:
+        return await ApiView.ResponseApi(aRequest)
 
     async def _rIndex(self, aRequest: web.Request) -> web.Response:
         Name = aRequest.match_info.get('name')

@@ -5,7 +5,7 @@ select
     rp.tenant_id,
     rpl.title,
     (
-        select rpp.price
+        select rpp.price::float
         from ref_product_price rpp
         left join ref_product_price_date rppd on (rpp.id  = rppd.product_price_id)
         where (rpp.enabled) and

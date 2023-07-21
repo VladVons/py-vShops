@@ -80,7 +80,7 @@ select
     wt1.tenant_id,
     wt1.tenant,
     wt1.title,
-    wt1.price,
+    wt1.price::float,
     coalesce(wt1.image, wt2.image) as image
 from
     wt1

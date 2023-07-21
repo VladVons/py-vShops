@@ -2,10 +2,25 @@
 # Author: Vladimir Vons <VladVons@gmail.com>
 # License: GNU, see LICENSE for more details
 
+
 import math
 #
 from IncP.LibCtrl import TDbSql, GetDictDefs
 
+
+async def GetNav(self, aData: dict = None) -> dict:
+    aPath, aTenantId, aLangId = GetDictDefs(
+        aData.get('query'),
+        ('path', 'tenant', 'lang'),
+        ('0', 1, 1)
+    )
+
+    Res = {
+        'category': {
+            'Monitors': f'?route=product/category&path={aPath}_1001&tenant={aTenantId}'
+        }
+    }
+    return Res
 
 async def Main(self, aData: dict = None) -> dict:
     aPath, aTenantId, aLangId, aSort, aOrder, aPage, aLimit = GetDictDefs(
@@ -15,12 +30,12 @@ async def Main(self, aData: dict = None) -> dict:
     )
     aLimit = min(100, aLimit)
 
-    CategoryIds = list(map(int, aPath.split('_')))
+    CategoryIdts = list(map(int, aPath.split('_')))
     Res = await self.ExecModel(
         'ref_product/category',
         {
             'method': 'Get_CategoriesSubCount_TenantParentLang',
-            'param': {'aTenantId': aTenantId, 'aLangId': aLangId, 'aParentIdtRoot': 0, 'aParentIdts': CategoryIds},
+            'param': {'aTenantId': aTenantId, 'aLangId': aLangId, 'aParentIdtRoot': 0, 'aParentIdts': CategoryIdts},
             'query': True
         }
     )
@@ -35,35 +50,41 @@ async def Main(self, aData: dict = None) -> dict:
     DblOut = DblCategory.New()
     DblOut.AddFields(['href'])
 
-    Deep = len(CategoryIds)
-    CategoryId = CategoryIds[-1]
+    Deep = len(CategoryIdts)
+    CategoryIdt = CategoryIdts[-1]
     CategoryInfo = {}
+    Products = 0
     for Rec in DblCategory:
         if (Rec.deep == Deep):
             Data = Rec.GetAsList() + (f'?route=product/category&path={aPath}_{Rec.idt}&tenant={aTenantId}',)
             DblOut.RecAdd(Data)
-        elif (Rec.idt == CategoryId):
+            Products += Rec.products
+        elif (Rec.idt == CategoryIdt):
             CategoryInfo = Rec.GetAsDict()
 
-    Res['category'] = CategoryInfo.get('title')
-    Products = CategoryInfo.get('products')
+    Products = CategoryInfo.get('products', Products)
+    Res['products'] = Products
+    Res['category'] = CategoryInfo.get('title', '/')
     if (not Products):
         return Res
 
-    Res['products'] = Products
     Res['pages'] = math.ceil(Products / aLimit)
+
+    if (CategoryIdt == 0):
+        CategoryIdt = [Rec.idt for Rec in DblCategory if Rec.parent_idt == 0]
+    else:
+        CategoryIdt = [CategoryIdt]
 
     ResEM = await self.ExecModel(
         'ref_product/category',
         {
-            'method': 'Get_CategoryIdtTenant_Sub',
-            'param': {'aCategoryIdt': CategoryId, 'aTenantId': aTenantId}
+            'method': 'Get_CategoryIdtsTenant_Sub',
+            'param': {'aCategoryIdts': CategoryIdt, 'aTenantId': aTenantId}
         }
     )
-
     DblData = ResEM.get('data')
     Dbl = TDbSql().Import(DblData)
-    if (Dbl.GetSize() > 0):
+    if (DblOut.GetSize() > 0):
         Res['dbl_category'] = DblOut.Export()
         CategoryIds = Dbl.ExportList('id')
     else:

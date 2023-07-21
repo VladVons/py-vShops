@@ -56,8 +56,9 @@ async def Get_CategoryIdt_Path(self, aLangId: int, aCategoryIdts: list[int], aTe
         {'aLangId': aLangId, 'CategoryIdts': CategoryIdts, 'aTenantId': aTenantId}
     )
 
-async def Get_CategoryIdtTenant_Sub(self, aCategoryIdt: int, aTenantId: int) -> dict:
+async def Get_CategoryIdtsTenant_Sub(self, aCategoryIdts: list[int], aTenantId: int) -> dict:
+    CategoryIdts = ListIntToComma(aCategoryIdts)
     return await self.ExecQuery(
-        'fmtGet_CategoryIdtTenant_Sub.sql',
-        {'aCategoryIdt': aCategoryIdt, 'aTenantId': aTenantId}
+        'fmtGet_CategoryIdtsTenant_Sub.sql',
+        {'CategoryIdts': CategoryIdts, 'aTenantId': aTenantId}
     )

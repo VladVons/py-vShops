@@ -1,8 +1,8 @@
-{% if places['inc_left'] %}
+{% if places.inc_left %}
     <nav>
     {% for module in modules %}
-        {% if module['place'] == 'inc_left' %}
-            {{ module['data'] }}
+        {% if module.place == 'inc_left' %}
+            {{ module.data }}
         {% endif %}
     {% endfor %}
     </nav>

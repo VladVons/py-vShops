@@ -5,6 +5,7 @@ select
     rm.code,
     rm.conf,
     rm.image,
+    rm.route,
     rml.title,
     rml.intro,
     rml.descr

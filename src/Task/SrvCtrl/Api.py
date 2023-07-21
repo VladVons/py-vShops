@@ -29,6 +29,9 @@ class TApiCtrl(TApiBase):
         else:
             raise ValueError()
 
+        Mod = self.Ctrls.LoadMod('system')
+        self.BaseCtrl = Mod['system']
+
     async def _GetConf(self):
 
         return True
@@ -42,32 +45,53 @@ class TApiCtrl(TApiBase):
         Method, Module = (Data['method'], Data['module'])
         return await Method(Module, aData)
 
-    async def Exec(self, aRoute: str, aData: dict) -> dict:
-        self.ExecCnt += 1
-
+    async def ExecForm(self, aRoute: str, aData: dict) -> dict:
         Caller = self.GetMethod(self.Ctrls, 'system/session', {'method': 'OnExec'})
         await Caller['method'](Caller['module'], aData)
 
-        LangRoutes = aData.get('extends', [])
-        Route = aData.get('route')
-        LangRoutes.append(Route)
-        for x in LangRoutes:
-            await self.Lang.Add(x)
-        Lang = TDictKey('', self.Lang.Join())
+        Res = {}
+        for xRoute in aData.get('extends', []):
+            Caller = self.GetMethod(self.Ctrls, xRoute, aData)
+            if ('err' not in Caller):
+                Data = await Caller['method'](Caller['module'], aData)
+                if (Data):
+                    Res.update(Data)
 
         Caller = self.GetMethod(self.Ctrls, aRoute, aData)
         if ('err' in Caller):
-            Log.Print(1, 'e', f"TApiCtrl.Exec() {Caller['err']}")
-            Caller['lang'] = Lang
-            return Caller
+            Log.Print(1, 'i', f"TApiCtrl.Exec() {Caller['err']}")
+            Res['modules'] = await self.BaseCtrl.LoadModules(aData)
+        else:
+            Module = Caller['module']
+            Data = await Caller['method'](Module, aData)
+            if (Data):
+                Res.update(Data)
+            Res['modules'] = await Module.LoadModules(aData)
 
-        Module = Caller['module']
-        Res = await Caller['method'](Module, aData)
-        if (not Res):
-            Res = {}
-        Res['lang'] = Lang
-        Res['modules'] = await Module.LoadModules(aData)
+        Routes = aData.get('extends', [])
+        Routes.append(aData.get('route'))
+        for xRoute in Routes:
+            await self.Lang.Add(xRoute)
+        #Res['lang'] = TDictKey('', self.Lang.Join())
+        Res['lang'] = self.Lang.Join()
         return Res
 
+    async def ExecApi(self, aRoute: str, aData: dict) -> dict:
+        Res = self.GetMethod(self.Ctrls, aRoute, aData)
+        if ('err' not in Res):
+            Res = await Res['method'](Res['module'], aData)
+
+        await self.Lang.Add(aRoute)
+        Res['lang'] = self.Lang.Join()
+        return Res
+
+    async def Exec(self, aRoute: str, aData: dict) -> dict:
+        self.ExecCnt += 1
+        Type = aData.get('type')
+        if (Type == 'api'):
+            Res = await self.ExecApi(aRoute, aData)
+        else:
+            Res = await self.ExecForm(aRoute, aData)
+        return Res
 
 ApiCtrl = TApiCtrl()

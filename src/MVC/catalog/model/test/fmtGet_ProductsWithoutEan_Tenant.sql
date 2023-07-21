@@ -2,7 +2,7 @@
 select
     rpb.product_id,
     rpb.code,
-    rpl.title 
+    rpl.title
 from
     ref_product_barcode rpb
 left join
@@ -15,7 +15,7 @@ left join
     ref_product_lang rpl on
     (rpb.product_id = rpl.product_id)
 where
-    (rp.enabled) and 
-    (rpb.product_en = 'ean') and 
-    (rpb.tenant_id = {aTenantId}) and 
+    (rp.enabled) and
+    (rpb.product_en = 'ean') and
+    (rpb.tenant_id = {aTenantId}) and
     (rpb2.code is null)

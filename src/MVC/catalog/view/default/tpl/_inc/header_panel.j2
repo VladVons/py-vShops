@@ -1,10 +1,12 @@
-<panel class='page'>
-    <currency>
-        <icon class='icon16 money'></icon><a href='#'>{{lang.currency}}: грн</a>
-    </currency>
-    <links>
-        <icon class='icon16 user'></icon><a href='#'>{{lang.profile}}</a>
-        <icon class='icon16 favorite'></icon><a href='#'>{{lang.favorites}}(0)</a>
-        <icon class='icon16 cart'></icon><a href='?route=checkout/cart'>{{lang.basket}}</a>
-    </links>
-</panel>
+   <panel class='page'>
+      <currency>
+        <a href='#' class='icon-dollars'>{{lang.currency}}: грн</a>
+      </currency>
+      <flex></flex>
+      <links>
+        <a href='{{url.order}}' class='icon-ok'>{{lang.order}} (<num></num>)</a>
+        <a href='/favorite.shtml' class='icon-favorite'>{{lang.favorites}} (<num></num>)</a>
+        <a href='{{url.compare}}' class='icon-compare'>{{lang.compare}} (<num></num>)</a>
+        <a href='{{url.cart}}' class='icon-basket'>{{lang.basket}} (<num></num>)</a>
+      </links>
+    </panel>

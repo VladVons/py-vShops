@@ -1,79 +1,80 @@
 "use strict"
 
-let LEGACY = !CSS.supports("container: name")
+// jMagic imports
+await $$.import('plugins.scss')
+
+// User imports
 import {Pages} from './pages.js'
+import('./common.js')
+
+const 
+  TITLE = 'ОСТЕР: каталог'
+
 
 class Catalog {
   constructor() {
     let self = this
-    $$.ready( () => {
-      $$.css([
-        '/default/css/optima/tip.css',
-        '/default/css/1200/common.css',
-        '/default/css/1200/header.css',
-        '/default/css/1200/top.css',
-        '/default/css/1200/menu.css',
-        '/default/css/1200/page.css',
-        '/default/css/1200/path.css',
-        '/default/css/1200/nav.css',
-        '/default/css/1200/footer.css',
-        '/default/css/1200/social.css',
-        '/default/css/1200/catalog.css',
-        '/default/css/1200/pages.css'
-        ],
-        () => {
-          $$('body').css({display: 'initial'})
-          self.pages = new Pages({width:50, margin:20})
-          
-          //set selectors and his listeners
-          let select = $$('select')
-          for(let i=0; i<select.length; i++) {
-            if($$.url.param.get(select[i].id)) {
-              self.setValue(select[i])
-            }
-            select[i].addEventListener('change', self.setParam.bind(self))
-          }
-          //add to cart link
-          $$('a.buy').on('click', self.toCart.bind(self))
+    $$(async () => {
+      //load css rules
+      let rules = await SCSS.load([`${$$.conf.path.css}/common.css`,`${$$.conf.path.css}/desktop/catalog.css`])
+      $$.css(SCSS.dump(rules))
       
-          // list view for old browsers
-          self.setMode((LEGACY) ? 'list' : 'grid', null)
-          
-          // calculate pagination
-          self.pages.init()
+      // global title
+      $$('head title').text(TITLE)
+      //unmask page
+      $$('body').css({opacity: 1})
+
+      self.pages = new Pages({width:50, margin:20})
+      
+      //set selectors and his listeners
+      let select = $$('select')
+      for(let i=0; i<select.length; i++) {
+        if($$.url.params(select[i].id)) {
+          self.setValue(select[i])
         }
-      )
+        select[i].addEventListener('change', self.setParam.bind(self))
+      }
+      //add to cart link
+      $$('a.buy').on('click', self.toCart.bind(self))
+      
+      // list view for old browsers
+      self.setMode(($$.conf.LEGACY) ? 'list' : 'grid', null)
+      
+      // calculate pagination
+      self.pages.init()
     })
   }
   
   setMode(mode, mess) {
-    if(LEGACY && mess) {
+    if($$.conf.LEGACY && mess) {
       alert('Режим перегляду не підтримується броузером!')
       return false
     }
-    let active = 'linear-gradient(to bottom, #eee, #fff)'
-    let passive = 'linear-gradient(to bottom, #eee, #ccc)'
     let buts = $$('control mode')
     for(let i=0; i<buts.length; i++) {
-      let styles = window.getComputedStyle(buts[i], null)
-      let back = styles['background-image'].split(/,\s+/)
-      buts[i].style.backgroundImage = [back[0], (mode == buts[i].className) ? active : passive].join(', ')
+      buts[i].classList[(mode === buts[i].className) ? 'add' : 'remove']('active')
     }
     $$('grid')[0].className = mode
   }
   
   setParam(event) {
-    $$.url.param.set(event.target.id, event.target.value)
-    document.location.href = $$.url.href
+    $$.url.params({[event.target.id]: event.target.value}).go()
   }
   
   setValue(select) {
-    let value = $$.url.param.get(select.id)
+    let value = $$.url.params(select.id)
     for(let i=0; i<select.length; i++) {
       if(value == select[i].value) {
         select[i].selected = true
         break
       }
+    }
+  }
+  
+  toggle(node) {
+    let nodes = $$('nav catalog second')
+    for(let i=0; i<nodes.length; i++) {
+      nodes[i].style.height = (parseInt(nodes[i].style.height)) ? '0px' : nodes[i].scrollHeight + 'px'
     }
   }
   
@@ -108,6 +109,16 @@ class Catalog {
     }
     localStorage.setItem('Cart', JSON.stringify(data))
     event.returnValue = false
+    
+    //calculate new sum
+    let sum = 0.0
+    for(let elem of data) {
+      sum+=elem.count * parseFloat(elem.price)
+    }    
+    //update cart button
+    $$('top info num').text(data.length)
+    $$('top info sum').text(sum + ' грн')
+    $$('panel links a.icon-basket num').text(data.length)
   }
 }
 

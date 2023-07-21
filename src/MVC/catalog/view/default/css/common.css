@@ -1,3 +1,5 @@
+@import url(icons.css) screen;
+
 * {
   display: block;
   box-sizing: border-box;
@@ -10,15 +12,15 @@ script, style, meta, link {
   display: none;
 }
 
-html { font-size: 1px }
-body { font-size: 16rem }
 html, body { width: 100% }
+html { font-size: 1px; }
+body { font-size: 16rem; }
 
 a,b,i,u { display: inline-block }
 li, list > item { display: list-item; margin-left: 40px; }
 
 a { text-decoration: none }
-p { margin-top: 20px; text-align: justify; }
+p { margin-top: 20px; text-align: justify }
 
 .left, left { text-align: left }
 .right, right { text-align: right }
@@ -30,6 +32,8 @@ p { margin-top: 20px; text-align: justify; }
 .bold { font-weight: bold }
 .italic { font-style: italic }
 .underline {text-decoration: underline }
+.fl { float: left }
+.fr { float: right }
 
 textarea:focus, input:focus, select:focus { outline: none }
 

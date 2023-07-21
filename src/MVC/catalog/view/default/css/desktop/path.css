@@ -1,0 +1,49 @@
+/* ==================== */
+/* === path section === */
+/* ==================== */
+
+path {
+  display: flex;
+  align-items: center;
+  position: relative;
+  margin: 20px;
+  margin-bottom: 0;
+  border-radius: 4px;
+  font-size: 14rem;
+  line-height: 32px;
+  background: #eee;
+  border: 1px solid #d4d4d4;
+}
+
+path a {
+  display: flex;
+  align-items: center;
+  font-size: 12rem;
+  color: #09f;
+}
+
+path a:before {
+  content: "";
+  display: inline-block;
+  width: 23px;
+  height: 23px;
+  margin-right: 16px;
+  border-top: 1px solid #ccc;
+  border-right: 1px solid #ccc;
+  transform: rotate(45deg);
+}
+
+path a:first-child:before {
+  border: 0px solid;
+  background: transparent;
+  font-family: icons;
+  font-size: 20px;
+  width: 32px;
+  margin-left: 25px;
+  margin-right: 0;
+  transform: rotate(0);
+}
+
+path a:hover {
+  color: #039;
+}

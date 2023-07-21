@@ -1,0 +1,48 @@
+/* ====================== */
+/* === footer section === */
+/* ====================== */
+
+footer {
+  margin-top: 100px;
+  margin-bottom: 20px;
+}
+
+footer grid {
+  display: grid;
+  grid-template-columns: 25% 25% 25% 25%;
+  padding-bottom: 20px;
+  border: 0px solid;
+}
+
+footer cell {
+  text-align: left;
+  padding: 0 0 0 30px;
+}
+
+footer cell title {
+  font-weight: bold;
+  color: #ffc;
+  margin: 0 0 10px 0;
+}
+
+footer cell a {
+  display: block;
+  color: #ccc;
+  line-height: 22px;
+}
+
+footer cell a:hover {
+  color: #fff;
+}
+
+footer line {
+  background: rgb(0,93,127);
+  background: linear-gradient(90deg, rgba(0,93,127,1) 10%, rgba(166,238,251,1) 50%, rgba(0,93,127,1) 90%);
+}
+
+footer copyright {
+  font-size: 12rem;
+  color: #ccc;
+  padding-top: 20px;
+}
+

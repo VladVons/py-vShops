@@ -1,7 +1,7 @@
 <control>
-  <mode class='list' title='{{lang.list}}' onclick='catalog.setMode(this.className)'></mode>
-  <mode class='grid' title='{{lang.grid}}' onclick='catalog.setMode(this.className, true)'></mode>
-  <mode class='compare' title='{{lang.compare}} (0)' onclick='catalog.setMode(this.className)'></mode>
+  <mode class='list' title='{{lang.list}}' onclick='catalog.setMode(this.className); return false;'>l</mode>
+  <mode class='grid' title='{{lang.grid}}' onclick='catalog.setMode(this.className, true); return false;'>g</mode>
+  <mode class='compare' title='{{lang.compare}}' onclick='catalog.setMode(this.className); return false;'>a</mode>
 
   <flex></flex>
 

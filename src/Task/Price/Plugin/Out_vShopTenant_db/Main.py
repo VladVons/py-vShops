@@ -166,21 +166,21 @@ class TSql(TSqlBase):
                 # (tenant_id, title) can be duplicated and DO UPDATE causes error. Use DO NOTHING
                 Query = f'''
                     with
-                        t1 as (
+                        wt1 as (
                             insert into ref_product_idt (tenant_id, hash)
                             values {Values}
                             on conflict (tenant_id, hash) do nothing
                             returning idt, hash
                         ),
-                        t2 as (
+                        wt2 as (
                             select idt,	hash
                             from ref_product_idt
                             where (tenant_id, hash) in ({Values})
                         )
                         select idt, hash
-                        from t1
+                        from wt1
                         union all
-                        table t2
+                        table wt2
                 '''
                 DblCur = await TDbExecPool(self.Db.Pool).Exec(Query)
 

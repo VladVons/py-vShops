@@ -2,7 +2,7 @@
 select
     --rpp.product_id,
     hrpp.create_date::date,
-    hrpp.price,
+    hrpp.price::float,
     hrpp.qty,
     rp.title,
     rc.alias

@@ -3,7 +3,6 @@
 # License: GNU, see LICENSE for more details
 
 
-import re
 import time
 from wtforms import Form
 from aiohttp import web
@@ -86,6 +85,7 @@ class TFormBase(Form):
             Extends = []
 
         Data = {
+            'type': 'form',
             'route': self.out.route,
             'path_qs': self.Request.path_qs,
             'path': self.Request.path,

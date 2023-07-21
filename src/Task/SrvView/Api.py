@@ -4,6 +4,7 @@
 
 
 import os
+import json
 from aiohttp import web
 #
 from Inc.DataClass import DDataClass
@@ -133,6 +134,27 @@ class TApiView(TApiBase):
         else:
             Res = web.Response(text = Data['data'], content_type = 'text/html')
         return Res
+
+    async def ResponseApi(self, aRequest: web.Request) -> web.Response:
+        Query = dict(aRequest.query)
+        Data = {
+            'type': 'api',
+            'path': aRequest.path,
+            'query': Query,
+            'method': Query.get('method', 'Main')
+        }
+
+        Post = await aRequest.text()
+        if (Post):
+            try:
+                Post = json.loads(Post)
+                Data.update(Post)
+            except ValueError:
+                pass
+
+        Ctrl = self.Loader['ctrl']
+        Data = await Ctrl.Get(Query.get('route'), Data)
+        return web.json_response(data = Data)
 
 
 ApiView = TApiView()

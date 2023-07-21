@@ -1,0 +1,208 @@
+@import url("common.css") screen;
+@import url("header.css") screen;
+@import url("top.css") screen;
+@import url("menu.css") screen;
+@import url("page.css") screen;
+@import url("footer.css") screen;
+@import url("social.css") screen;
+
+/* ======================= */
+/* === contact section === */
+/* ======================= */
+
+contact {
+  display: flex;
+}
+
+contact addr, contact times, contact phones  {
+  display: inline-block;
+  width: 25%;
+  min-height: 200px;
+  padding: 0 20px 0 70px;
+  border: 1px solid #d0d0d0;
+  border-radius: 8px;
+}
+
+contact times {
+  margin: 0 20px 0 20px;
+}
+
+contact phones {
+  width: 50%;
+}
+
+contact phones left, contact phones right {
+  display: inline-block;
+  vertical-align: top;
+  text-align: left;
+}
+
+contact phones left {
+  width: calc(55% - 5px);
+}
+
+contact phones right {
+  width: calc(45% - 5px);
+}
+
+contact title {
+  margin-top: 0;
+}
+
+title.fl, title.fr {
+  font-size: 20rem;
+  color: #069;
+  cursor: pointer;
+}
+
+title.fl:hover, title.fr:hover {
+  color: #09f;
+}
+
+title.fl:before, title.fr:before {
+  margin-right: 5px;
+}
+
+contact subtitle {
+  font-weight: normal;
+  color: #09f;
+}
+
+contact phone {
+  font-weight: bold;
+}
+
+contact comment {
+  font-size: 14px;
+  font-weight: normal;
+  font-style: italic;
+  margin-bottom: 10px;
+}
+
+contact addr, contact times, contact phones {
+  position: relative;
+}
+
+contact addr::before, contact times::before, contact phones::before {
+  font-family: icons;
+  font-size: 32rem;
+  position: absolute;
+  top: 0;
+  left: 20px;
+}
+
+contact addr::before{
+  content: 'L';
+  top: 5px;
+}
+
+contact times::before{
+  content: 'o';
+}
+
+contact phones::before{
+  content: 'p';
+  top: 5px;
+}
+
+
+contact times time {
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+contact times close {
+  color: #c00;
+}
+
+contact address {
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+map, google {
+  width: 100%;
+  height: 400px;
+  border: 1px solid #ccc;
+  margin-top: 20px;
+  border-radius: 8px;
+  z-index: 1;
+}
+
+map popup name {
+  font-weight: bold;
+}
+
+
+gallery {
+  display: flex;
+}
+
+gallery a {
+  position: relative;
+  width: 33.333%;
+  height: 180px;
+  margin: 20px;
+  background-color: #fff;
+  background-repeat: no-repeat;
+  background-size: cover;
+  cursor: zoom-in;
+  border: 1px solid #ccc;
+}
+
+gallery a:hover {
+  border: 1px solid #333;
+  background-color: #ffc;
+}
+
+gallery a span {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 32px;
+  line-height: 32px;
+  font-weight: bold;
+  font-size: 16rem;
+  font-weight: inherit;
+  background-color: inherit;
+  text-align: center;
+}
+
+message {
+  width: 100%;
+  min-height: 300px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background: linear-gradient(to bottom, #ddd, #fff) repeat-x;
+}
+
+message input {
+  height: 48px;
+  line-height: 48px;
+  font-size: 18px;
+}
+
+message input[type='text'] {
+  display: inline-block;
+  width: calc(50% - 44px);
+  padding-left: 10px;
+  margin: 20px 20px 0 20px;
+}
+
+message input[type='submit'] {
+  display: block;
+  width: 200px;
+  cursor: pointer;
+  margin: 20px auto 20px auto;
+}
+
+message textarea {
+  width: calc(100% - 44px);
+  height: 150px;
+  margin: 20px;
+  font-size: 18px;
+  padding: 10px;
+  resize: none;
+}
+

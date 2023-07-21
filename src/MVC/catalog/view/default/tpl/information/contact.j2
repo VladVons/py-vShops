@@ -1,0 +1,78 @@
+{% extends '_inc/layout1.j2' %}
+
+{% block head %}
+  <script src="/default/js/leaflet/leaflet.js"></script>
+  <script type='module' src='/default/js/contact.js' ></script>
+{% endblock %}
+
+{% block content %}
+        <contact>
+          <addr>
+            <title class='l'>адреса:</title>
+            <address>
+              46025, м. Тернопіль,<br/>
+              вул. Руська, 41
+            </address>
+
+            <subtitle>пошта:</subtitle>
+            <mail>tr41@oster.com.ua</mail>
+            <comment>(або заповніть форму нижче)</comment>
+          </addr>
+
+          <times>
+            <title class='l'>години роботи:</title>
+
+            <open>понеділок - п'ятниця:</open>
+            <time>9:00 - 18:00</time>
+            <open>субота:</open>
+            <time>10:00 - 15:00</time>
+            <close>неділя: вихідний</close>
+          </times>
+
+          <phones>
+            <title class='l'>телефони:</title>
+
+            <left>
+              <subtitle>магазин:</subtitle>
+              <phone>096-70-07-444</phone>
+              <comment>(viber, телеграм, в робочі години)</comment>
+              <phone>0352-52-37-03</phone>
+              <comment>(стаціонарний)</comment>
+            </left>
+
+            <right>
+              <subtitle>сервіс:</subtitle>
+              <phone>068-44-300-94</phone>
+              <phone>066-219-77-22</phone>
+              <comment>(в робочі години)</comment>
+
+              <subtitle>телефон довіри:</subtitle>
+              <phone>097-664-65-10</phone>
+            </right>
+
+          </phones>
+
+        </contact>
+
+        <title class='m fl icon-location'>Місце розташування магазину</title>
+        <title class='m fr icon-eye'>Інтерактивна мапа Google</title>
+
+        <map id='map'></map>
+
+        <gallery>
+          <a href='#' style='background-image: url(/default/img/contact/01.jpg)' title='збільшити фото'><span>торговий зал</span></a>
+          <a href='#' style='background-image: url(/default/img/contact/02.jpg)' title='збільшити фото'><span>майстерня</span></a>
+          <a href='#' style='background-image: url(/default/img/contact/03.jpg)' title='збільшити фото'><span>персонал</span></a>
+        </gallery>
+
+        <title class='l center'>Написати повідомлення:</title>
+
+        <message>
+          <form action='/cgi/submit.py' method='post' onsubmit='contact.message(this); return false'>
+            <input type='text' placeholder="Ваше ім'я:"/>
+            <input type='text' placeholder="Телефон для контакту:"/>
+            <textarea placeholder='Ваше повідомлення:'></textarea>
+            <input type='submit' value='відправити' onclick='$$.tip("В РОЗРОБЦІ..."); return false;'/>
+          </form>
+        </message>
+{% endblock %}

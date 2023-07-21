@@ -14,7 +14,14 @@ create type product_enum as enum (
 );
 
 create type doc_enum as enum (
-   'doc_sale'
+    'doc_sale_mix',
+    'doc_order_mix'
+);
+
+create type val_enum as enum (
+    'int',
+    'text',
+    'float'
 );
 
 -----------------------------------------------------------------------------
@@ -30,33 +37,30 @@ create table if not exists ref_auth_group (
 
 create table if not exists ref_auth_group_ext (
     id                  serial primary key,
-    auth_group_id       integer not null,
+    auth_group_id       integer not null references ref_auth_group(id),
     title               varchar(24) not null,
     data                text ,
     enabled             boolean default true,
-    foreign key (auth_group_id) references ref_auth_group(id),
     unique (auth_group_id, title)
 );
 
 create table if not exists ref_auth (
     id                  serial primary key,
-    auth_group_id       integer,
+    auth_group_id       integer references ref_auth_group(id),
     create_date         timestamp default current_timestamp,
     valid_date          date,
     login               varchar(16) not null,
     passw               varchar(32) not null,
     enabled             boolean default true,
-    foreign key (auth_group_id) references ref_auth_group(id),
     unique (login)
 );
 
 create table if not exists ref_auth_ext(
     id                  serial primary key,
-    auth_id             integer not null,
+    auth_id             integer not null references ref_auth(id),
     title               varchar(24) not null,
     data                text ,
     enabled             boolean default true,
-    foreign key (auth_id) references ref_auth(id),
     unique (auth_id, title)
 );
 
@@ -115,7 +119,6 @@ create table if not exists ref_lang (
     alias               varchar(3)
 );
 
-
 -- SEO --
 
 create table if not exists ref_seo_url (
@@ -124,8 +127,7 @@ create table if not exists ref_seo_url (
     val                 varchar(128) not null,
     keyword             varchar(128) not null,
     sort_order          smallint default 0,
-    lang_id             integer not null,
-    foreign key (lang_id) references ref_lang(id)
+    lang_id             integer not null references ref_lang(id)
 );
 create index if not exists ref_seo_url_keyword on ref_seo_url(keyword);
 create index if not exists ref_seo_url_query on ref_seo_url(attr, val);
@@ -165,13 +167,12 @@ create table if not exists ref_address (
     id                  serial primary key,
     enabled             boolean default true,
     deleted             boolean default false,
-    city_id             integer not null,
+    city_id             integer not null references ref_city(id),
     post_code           varchar(8),
     street              varchar(32) not null,
     house               varchar(4) not null,
     room                varchar(4),
-    door_code           varchar(8),
-    foreign key (city_id) references ref_city(id)
+    door_code           varchar(8)
 );
 
 -- customer --
@@ -187,10 +188,8 @@ create table if not exists ref_customer (
 );
 
 create table if not exists ref_customer_to_address (
-    customer_id         integer not null,
-    address_id          integer not null,
-    foreign key (customer_id) references ref_customer(id),
-    foreign key (address_id) references ref_address(id),
+    customer_id         integer not null references ref_customer(id),
+    address_id          integer not null references ref_address(id),
     primary key (customer_id, address_id)
 );
 
@@ -201,8 +200,7 @@ create table if not exists ref_tenant (
     enabled             boolean default true,
     deleted             boolean default false,
     title               varchar(32) not null,
-    address_id          integer not null,
-    foreign key (address_id) references ref_address(id)
+    address_id          integer not null references ref_address(id)
 );
 COMMENT ON TABLE ref_tenant IS 'company separator';
 
@@ -218,13 +216,11 @@ create table if not exists ref_product0_category (
 
 create table if not exists ref_product0_category_lang (
     id                  serial primary key,
-    category_id         integer not null,
-    lang_id             integer not null,
+    category_id         integer not null references ref_product0_category(id) on delete cascade,
+    lang_id             integer not null references ref_lang(id),
     title               varchar(128) not null,
     descr               text,
-    meta_key            varchar(128),
-    foreign key (category_id) references ref_product0_category(id) on delete cascade,
-    foreign key (lang_id) references ref_lang(id)
+    meta_key            varchar(128)
 );
 
 -- product0 --
@@ -242,8 +238,7 @@ create table if not exists ref_product0_image (
     src_url             varchar(256),
     src_size            integer,
     src_date            timestamp,
-    product_id          integer not null,
-    foreign key (product_id) references ref_product0(id) on delete cascade,
+    product_id          integer not null references ref_product0(id) on delete cascade,
     unique (product_id, image)
 );
 
@@ -252,10 +247,8 @@ create table if not exists ref_product0_lang (
     title               varchar(128) not null,
     descr               text,
     meta_key            varchar(128),
-    product_id          integer not null,
-    lang_id             integer not null,
-    foreign key (product_id) references ref_product0(id) on delete cascade,
-    foreign key (lang_id) references ref_lang(id),
+    product_id          integer not null references ref_product0(id) on delete cascade,
+    lang_id             integer not null references ref_lang(id),
     unique(product_id, lang_id)
 );
 
@@ -263,16 +256,13 @@ create table if not exists ref_product0_barcode (
     id                  serial primary key,
     code                varchar(32) not null,
     product_en          product_enum not null,
-    product_id          integer not null,
-    foreign key (product_id) references ref_product0(id) on delete cascade,
+    product_id          integer not null references ref_product0(id) on delete cascade,
     unique (code, product_en)
 );
 
 create table if not exists ref_product0_to_category (
-    product_id          integer not null,
-    category_id         integer not null,
-    foreign key (product_id) references ref_product0(id) on delete cascade,
-    foreign key (category_id) references ref_product0_category(id) on delete cascade,
+    product_id          integer not null references ref_product0(id) on delete cascade,
+    category_id         integer not null references ref_product0_category(id) on delete cascade,
     primary key (product_id, category_id)
 );
 
@@ -283,8 +273,7 @@ create table if not exists ref_product0_crawl (
     url                 varchar(256),
     update_date         timestamp,
     info                json,
-    crawl_site_id       integer not null,
-    foreign key (crawl_site_id) references ref_crawl_site(id),
+    crawl_site_id       integer not null references ref_crawl_site(id),
     unique (code, product_en, crawl_site_id)
 );
 
@@ -297,8 +286,7 @@ create table if not exists ref_conf (
     attr                varchar(32) not null,
     val                 text not null,
     serialized          boolean,
-    tenant_id           integer not null,
-    foreign key (tenant_id) references ref_tenant(id)
+    tenant_id           integer not null references ref_tenant(id)
 );
 
 --- module---
@@ -310,8 +298,7 @@ create table if not exists ref_module (
     code                varchar(32) not null,
     image               varchar(64),
     conf                json,
-    tenant_id           integer not null,
-    foreign key (tenant_id) references ref_tenant(id)
+    tenant_id           integer not null references ref_tenant(id)
 );
 
 create table if not exists ref_module_lang (
@@ -319,24 +306,19 @@ create table if not exists ref_module_lang (
     title               varchar(256),
     intro               varchar(256),
     descr               text,
-    module_id           integer not null,
-    lang_id             integer not null,
-    foreign key (module_id) references ref_module(id) on delete cascade,
-    foreign key (lang_id) references ref_lang(id)
+    module_id           integer not null references ref_module(id) on delete cascade,
+    lang_id             integer not null references ref_lang(id)
 );
 
 create table if not exists ref_module_group (
     id                  serial primary key,
     caption             varchar(64) not null,
-    module_id           integer not null,
-    foreign key (module_id) references ref_module(id) on delete cascade
+    module_id           integer not null references ref_module(id) on delete cascade
 );
 
 create table if not exists ref_module_to_group (
-    module_id           integer not null,
-    group_id            integer not null,
-    foreign key (module_id) references ref_module(id) on delete cascade,
-    foreign key (group_id) references ref_module_group(id) on delete cascade,
+    module_id           integer not null references ref_module(id) on delete cascade,
+    group_id            integer not null references ref_module_group(id) on delete cascade,
     primary key (module_id, group_id)
 );
 
@@ -346,8 +328,7 @@ create table if not exists ref_layout (
     id                  serial primary key,
     caption             varchar(32) not null,
     route               varchar(32) not null,
-    tenant_id           integer not null,
-    foreign key (tenant_id) references ref_tenant(id),
+    tenant_id           integer not null references ref_tenant(id),
     unique (tenant_id, route)
 );
 
@@ -356,10 +337,8 @@ create table if not exists ref_layout_module (
     enabled             boolean default true,
     sort_order          smallint default 0,
     place               varchar(16),
-    layout_id           integer not null,
-    module_id           integer not null,
-    foreign key (layout_id) references ref_layout(id) on delete cascade,
-    foreign key (module_id) references ref_module(id) on delete cascade,
+    layout_id           integer not null references ref_layout(id) on delete cascade,
+    module_id           integer not null references ref_module(id) on delete cascade,
     unique (layout_id, module_id)
 );
 
@@ -367,17 +346,14 @@ create table if not exists ref_layout_module (
 
 create table if not exists ref_news_group (
     id                  serial primary key,
-    tenant_id           integer not null,
-    foreign key (tenant_id) references ref_tenant(id)
+    tenant_id           integer not null references ref_tenant(id)
 );
 
 create table if not exists ref_news_group_lang (
     title               varchar(256) not null,
     descr               text,
-    group_id            integer not null,
-    lang_id             integer not null,
-    foreign key (group_id) references ref_news_group(id) on delete cascade,
-    foreign key (lang_id) references ref_lang(id),
+    group_id            integer not null references ref_news_group(id) on delete cascade,
+    lang_id             integer not null references ref_lang(id),
     unique (group_id, lang_id)
 );
 
@@ -387,20 +363,16 @@ create table if not exists ref_news (
     create_date         timestamp default current_timestamp,
     update_date         timestamp,
     public_date         timestamp,
-    tenant_id           integer not null,
-    group_id            integer not null,
-    foreign key (tenant_id) references ref_tenant(id),
-    foreign key (group_id) references ref_news_group(id) on delete cascade
+    tenant_id           integer not null references ref_tenant(id),
+    group_id            integer not null references ref_news_group(id) on delete cascade
 );
 
 create table if not exists ref_news_lang (
     title               varchar(256) not null,
     descr               text,
     meta_key            varchar(128),
-    news_id             integer not null,
-    lang_id             integer not null,
-    foreign key (news_id) references ref_news(id) on delete cascade,
-    foreign key (lang_id) references ref_lang(id),
+    news_id             integer not null references ref_news(id) on delete cascade,
+    lang_id             integer not null references ref_lang(id),
     unique (news_id, lang_id)
 );
 
@@ -409,10 +381,8 @@ create table if not exists ref_news_comment (
     create_date         timestamp default current_timestamp,
     update_date         timestamp,
     descr               text,
-    news_id             integer not null,
-    customer_id         integer not null,
-    foreign key (news_id) references ref_news(id) on delete cascade,
-    foreign key (customer_id) references ref_customer(id) on delete cascade
+    news_id             integer not null references ref_news(id) on delete cascade,
+    customer_id         integer not null references ref_customer(id) on delete cascade
 );
 
 -- price --
@@ -420,11 +390,9 @@ create table if not exists ref_news_comment (
 create table if not exists ref_price (
     id                  serial primary key,
     title               varchar(16) not null,
-    currency_id         integer not null,
     idt                 integer not null,
-    tenant_id           integer not null,
-    foreign key (currency_id) references ref_currency(id),
-    foreign key (tenant_id) references ref_tenant(id),
+    currency_id         integer not null references ref_currency(id),
+    tenant_id           integer not null references ref_tenant(id),
     unique (idt, tenant_id)
 );
 
@@ -438,21 +406,18 @@ create table if not exists ref_product_category (
     parent_idt          integer,
     image               varchar(64),
     sort_order          smallint default 0,
-    tenant_id           integer not null,
-    foreign key (tenant_id) references ref_tenant(id),
+    tenant_id           integer not null references ref_tenant(id),
     foreign key (parent_idt, tenant_id) references ref_product_category(idt, tenant_id) on delete cascade,
     unique (idt, tenant_id)
 );
 --? create index if not exists ref_product_category_tenant_idx on ref_product_category(tenant_id);
 
 create table if not exists ref_product_category_lang (
-    category_id         integer not null,
-    lang_id             integer not null,
+    category_id         integer not null references ref_product_category(id) on delete cascade,
+    lang_id             integer not null references ref_lang(id),
     title               varchar(128) not null,
     descr               text,
     meta_key            varchar(128),
-    foreign key (category_id) references ref_product_category(id) on delete cascade,
-    foreign key (lang_id) references ref_lang(id),
     unique (category_id, lang_id)
 );
 
@@ -466,10 +431,8 @@ create table if not exists ref_product (
     sort_order          smallint default 0,
     idt                 integer,
     product0_skip       boolean,
-    product0_id         integer,
-    tenant_id           integer not null,
-    foreign key (product0_id) references ref_product0(id),
-    foreign key (tenant_id) references ref_tenant(id),
+    product0_id         integer references ref_product0(id),
+    tenant_id           integer not null references ref_tenant(id),
     unique (tenant_id, idt)
 );
 create index if not exists ref_product_product0_id_idx ON ref_product (product0_id);
@@ -477,12 +440,10 @@ create index if not exists ref_product_product0_id_idx ON ref_product (product0_
 create table if not exists ref_product_price (
     id                  serial primary key,
     enabled             boolean default true,
-    product_id          integer not null,
-    price_id            integer not null,
+    product_id          integer not null references ref_product(id) on delete cascade,
+    price_id            integer not null references ref_price(id),
     price               numeric(10, 2) not null,
     qty                 smallint not null default 1,
-    foreign key (product_id) references ref_product(id) on delete cascade,
-    foreign key (price_id) references ref_price(id),
     unique (product_id, price_id, qty)
 );
 
@@ -491,18 +452,15 @@ create table if not exists ref_product_price_date (
     enabled             boolean,
     begin_date          date not null,
     end_date            date not null,
-    product_price_id    integer not null,
-    foreign key (product_price_id) references ref_product_price(id) on delete cascade
+    product_price_id    integer not null references ref_product_price(id) on delete cascade
 );
 
 create table if not exists ref_product_barcode (
     id                  serial primary key,
     code                varchar(32),
     product_en          product_enum not null,
-    product_id          integer not null,
-    tenant_id           integer not null,
-    foreign key (product_id) references ref_product(id) on delete cascade,
-    foreign key (tenant_id) references ref_tenant(id),
+    product_id          integer not null references ref_product(id) on delete cascade,
+    tenant_id           integer not null references ref_tenant(id),
     unique (tenant_id, code, product_en)
 );
 
@@ -514,11 +472,10 @@ create table if not exists ref_product_image (
     src_url             varchar(128),
     src_size            integer,
     src_date            timestamp,
-    product_id          integer not null,
-    foreign key (product_id) references ref_product(id) on delete cascade,
+    product_id          integer not null references ref_product(id) on delete cascade,
     unique (product_id, image)
 );
-# ?create index if not exists ref_product_image_product_id_idx on ref_product_image(product_id);
+--?create index if not exists ref_product_image_product_id_idx on ref_product_image(product_id);
 
 create table if not exists ref_product_lang (
     title               varchar(128) not null,
@@ -526,26 +483,21 @@ create table if not exists ref_product_lang (
     features            json,
     descr               text,
     meta_key            varchar(128),
-    product_id          integer not null,
-    lang_id             integer not null,
-    foreign key (product_id) references ref_product(id) on delete cascade,
-    foreign key (lang_id) references ref_lang(id),
+    product_id          integer not null references ref_product(id) on delete cascade,
+    lang_id             integer not null references ref_lang(id),
     primary key (product_id, lang_id)
 );
 
 create table if not exists ref_product_to_category (
-    product_id          integer not null,
-    category_id         integer not null,
-    foreign key (product_id) references ref_product(id) on delete cascade,
-    foreign key (category_id) references ref_product_category(id) on delete cascade,
+    product_id          integer not null references ref_product(id) on delete cascade,
+    category_id         integer not null references ref_product_category(id) on delete cascade,
     primary key (product_id, category_id)
 );
 
 create table if not exists ref_product_idt (
     idt                 integer not null,
     hash                varchar(128) not null,
-    tenant_id           integer not null,
-    foreign key (tenant_id) references ref_tenant(id),
+    tenant_id           integer not null references ref_tenant(id),
     primary key (tenant_id, hash)
 );
 
@@ -554,31 +506,25 @@ create table if not exists ref_product_product0 (
     enabled             boolean default true,
     code                varchar(64),
     product_en          product_enum not null,
-    product0_id         integer not null,
-    tenant_id           integer not null,
-    foreign key (product0_id) references ref_product0(id) on delete cascade,
-    foreign key (tenant_id) references ref_tenant(id),
+    product0_id         integer not null references ref_product0(id) on delete cascade,
+    tenant_id           integer not null references ref_tenant(id),
     unique (tenant_id, code, product_en)
 );
 
 create table if not exists ref_product_related (
-    product_id          integer not null,
-    related_id          integer not null,
-    foreign key (product_id) references ref_product(id) on delete cascade,
-    foreign key (related_id) references ref_product(id) on delete cascade,
+    product_id          integer not null references ref_product(id) on delete cascade,
+    related_id          integer not null references ref_product(id) on delete cascade,
     primary key (product_id, related_id)
 );
 
 create table if not exists ref_product_review (
     id                  serial primary key,
     enabled             boolean default true,
-    product_id          integer not null,
-    customer_id         integer not null,
     descr               text,
     rating              smallint,
     create_date         timestamp default current_timestamp,
-    foreign key (product_id) references ref_product(id) on delete cascade,
-    foreign key (customer_id) references ref_customer(id) on delete cascade,
+    product_id          integer not null references ref_product(id) on delete cascade,
+    customer_id         integer not null references ref_customer(id) on delete cascade
 );
 create index if not exists ref_product_review_product_id_idx ON ref_product_review (product_id);
 
@@ -587,8 +533,7 @@ create index if not exists ref_product_review_product_id_idx ON ref_product_revi
 create table if not exists ref_kind (
     id                  serial primary key,
     caption             varchar(32),
-    tenant_id           integer not null,
-    foreign key (tenant_id) references ref_tenant(id)
+    tenant_id           integer not null references ref_tenant(id)
 );
 
 create table if not exists ref_kind_attr (
@@ -596,40 +541,32 @@ create table if not exists ref_kind_attr (
     sort_order          smallint default 0,
     reqire              boolean default false,
     val_en              val_enum,
-    kind_id             integer not null,
-    foreign key (kind_id) references ref_kind(id) on delete cascade
+    kind_id             integer not null references ref_kind(id) on delete cascade
 );
 
 create table if not exists ref_kind_attr_lang (
-    attr_id             integer not null,
-    lang_id             integer not null,
+    attr_id             integer not null references ref_kind_attr(id) on delete cascade,
+    lang_id             integer not null references ref_lang(id),
     title               varchar(256) not null,
-    foreign key (attr_id) references ref_kind_attr(id) on delete cascade,
-    foreign key (lang_id) references ref_lang(id),
     unique (attr_id, lang_id)
 );
 
 create table if not exists ref_kind_attr_val (
     id                  serial primary key,
-    attr_id             integer not null,
-    val                 varchar(16) not null,
-    foreign key (attr_id) references ref_kind_attr(id) on delete cascade
+    attr_id             integer not null references ref_kind_attr(id) on delete cascade,
+    val                 varchar(16) not null
 );
 
 create table if not exists ref_kind_category (
-    category_id         integer not null,
-    kind_id             integer not null,
-    foreign key (category_id) references ref_product_category(id) on delete cascade,
-    foreign key (kind_id) references ref_kind(id) on delete cascade,
+    category_id         integer not null references ref_product_category(id) on delete cascade,
+    kind_id             integer not null references ref_kind(id) on delete cascade,
     unique (category_id, kind_id)
 );
 
 create table if not exists ref_kind_attr_product (
     val                 json not null,
-    product_id          integer not null,
-    attr_id             integer not null,
-    foreign key (product_id) references ref_product(id) on delete cascade,
-    foreign key (attr_id) references ref_kind_attr(id) on delete cascade,
+    product_id          integer not null references ref_product(id) on delete cascade,
+    attr_id             integer not null references ref_kind_attr(id) on delete cascade,
     unique (product_id, attr_id)
 );
 
@@ -641,8 +578,7 @@ create table if not exists hist_ref_product_price (
     create_date         timestamp default current_timestamp,
     price               numeric(10, 2),
     qty                 smallint,
-    price_id            integer not null,
-    foreign key (price_id) references ref_product_price(id) on delete cascade
+    price_id            integer not null references ref_product_price(id) on delete cascade
 );
 
 create table if not exists hist_session (
@@ -657,66 +593,92 @@ create table if not exists hist_product_search (
     id                  serial primary key,
     create_date         timestamp default current_timestamp,
     context             varchar(32) not null,
-    lang_id             integer not null,
-    session_id          integer not null,
-    foreign key (lang_id) references ref_lang(id),
-    foreign key (session_id) references hist_session(id) on delete cascade
+    lang_id             integer not null references ref_lang(id),
+    session_id          integer not null references hist_session(id) on delete cascade
 );
 
 create table if not exists hist_product_view (
     id                  serial primary key,
     create_date         timestamp default current_timestamp,
-    product_id          integer not null,
-    session_id          integer not null,
-    foreign key (product_id) references ref_product(id) on delete cascade,
-    foreign key (session_id) references hist_session(id) on delete cascade
+    product_id          integer not null references ref_product(id) on delete cascade,
+    session_id          integer not null references hist_session(id) on delete cascade
 );
 
 create table if not exists hist_page_view (
     id                  serial primary key,
     create_date         timestamp default current_timestamp,
     url                 varchar(128),
-    session_id          integer not null,
-    foreign key (session_id) references hist_session(id) on delete cascade
+    session_id          integer not null references hist_session(id) on delete cascade
 );
 
 
 -----------------------------------------------------------------------------
 -- documents --
 -----------------------------------------------------------------------------
-
-create table if not exists docs (
+create table if not exists doc (
     id                  serial primary key,
-    doc_id              integer not null,
-    doc_en              doc_enum not null
+    parent_id           integer references doc(id),
+    create_date         timestamp not null default current_timestamp,
+    doc_en              doc_enum not null,
+    doc_id              integer not null
 );
 
+--
 
-create table if not exists doc_sale (
+create table if not exists doc_order_mix (
     id                  serial primary key,
-    deleted             boolean default false,
-    create_date         timestamp default current_timestamp,
-    actual_date         timestamp not null,
+    deleted             boolean,
+    actual_date         timestamp not null default current_timestamp,
     notes               varchar(64),
-    customer_id         integer not null,
-    tenant_id           integer not null,
-    currency_id         integer not null,
-    foreign key (customer_id) references ref_customer(id),
-    foreign key (tenant_id) references ref_tenant(id),
-    foreign key (currency_id) references ref_currency(id)
+    customer_id         integer not null references ref_customer(id)
 );
 
-create table if not exists doc_sale_table_product (
-    id                  serial primary key,
-    unit_id             integer not null,
+create table if not exists doc_order_mix_table_product (
     qty                 numeric(10, 3) not null,
     price               numeric(10, 2) not null,
     discount            numeric(10, 2) default 0,
-    summ                numeric(10, 2) default 0,
-    product_id          integer not null,
-    doc_sale_id         integer not null,
-    foreign key (product_id) references ref_product(id),
-    foreign key (doc_sale_id) references doc_sale(id) on delete cascade
+    product_id          integer not null references ref_product(id),
+    doc_id              integer not null references doc_order_mix(id) on delete cascade,
+    primary key (product_id, doc_id)
+);
+
+--
+
+create table if not exists doc_sale_mix (
+    id                  serial primary key,
+    deleted             boolean,
+    actual_date         timestamp not null default current_timestamp,
+    notes               varchar(64),
+    customer_id         integer not null references ref_customer(id)
+);
+
+create table if not exists doc_sale_mix_table_product (
+    qty                 numeric(10, 3) not null,
+    price               numeric(10, 2) not null,
+    discount            numeric(10, 2) default 0,
+    product_id          integer not null references ref_product(id),
+    doc_id              integer not null references doc_sale_mix(id) on delete cascade,
+    primary key (product_id, doc_id)
+);
+
+--
+
+create table if not exists doc_sale (
+    id                  serial primary key,
+    deleted             boolean,
+    actual_date         timestamp not null default current_timestamp,
+    notes               varchar(64),
+    customer_id         integer not null references ref_customer(id),
+    tenant_id           integer not null references ref_tenant(id)
+);
+
+create table if not exists doc_sale_table_product (
+    qty                 numeric(10, 3) not null,
+    price               numeric(10, 2) not null,
+    discount            numeric(10, 2) default 0,
+    product_id          integer not null references ref_product(id),
+    doc_id              integer not null references doc_sale(id) on delete cascade,
+    primary key (product_id, doc_id)
 );
 
 --
@@ -746,7 +708,7 @@ as $$
 begin
     if (new.idt is null) then
         select
-            COALESCE(max(idt), 0) + 1 into new.idt
+            coalesce(max(idt), 0) + 1 into new.idt
         from
             ref_product_category
         where
@@ -769,7 +731,7 @@ as $$
 begin
     if (new.idt is null) then
         select
-            COALESCE(max(idt), 0) + 1 into new.idt
+            coalesce(max(idt), 0) + 1 into new.idt
         from
             ref_product
         where
@@ -792,7 +754,7 @@ as $$
 begin
     if (new.idt is null) then
         select
-            COALESCE(max(idt), 0) + 1 into new.idt
+            coalesce(max(idt), 0) + 1 into new.idt
         from
             ref_price
         where
@@ -815,7 +777,7 @@ as $$
 begin
     if (new.idt is null) then
         select
-            COALESCE(max(idt), 0) + 1 into new.idt
+            coalesce(max(idt), 0) + 1 into new.idt
         from
             ref_product_idt
         where
@@ -864,6 +826,45 @@ end;
 $$ language plpgsql;
 
 ---
+
+create or replace function doc_faid() returns trigger
+as $$
+declare
+    DocEn doc_enum;
+begin
+    DocEn := TG_TABLE_NAME;
+
+    if (TG_OP = 'INSERT') then
+        insert into doc (doc_en, doc_id)
+        values (DocEn, new.id);
+    elsif (TG_OP = 'DELETE') then
+        delete from doc
+        where (DocEn = doc_en) and (doc_id = old.id);
+    end if;
+
+    return null;
+end
+$$ language plpgsql;
+
+--
+
+create or replace trigger doc_taid
+    after insert or delete on doc_order_mix
+    for each row
+    execute procedure doc_faid();
+
+create or replace trigger doc_taid
+    after insert or delete on doc_sale_mix
+    for each row
+    execute procedure doc_faid();
+
+create or replace trigger doc_taid
+    after insert or delete on doc_sale
+    for each row
+    execute procedure doc_faid();
+
+---
+
 
 -- create or replace function ref_product_image_import_fau()
 -- returns trigger as $$

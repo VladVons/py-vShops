@@ -7,7 +7,7 @@ select
     rt.title as tenant,
     rpl.title,
     (
-        select rpp.price
+        select rpp.price::float
         from ref_product_price rpp
         where (rp.id = rpp.product_id) and (rpp.qty = 1)
         order by rpp.price

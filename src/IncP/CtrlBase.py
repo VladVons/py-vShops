@@ -63,11 +63,9 @@ class TCtrlBase():
             'system',
             {
                 'method': 'Get_Module_RouteLang',
-                'param': {'aTenantId': aTenantId, 'aLangId': aLangId, 'aRoute': aData['route']},
-                'query': True
+                'param': {'aTenantId': aTenantId, 'aLangId': aLangId, 'aRoute': aData['route']}
             }
         )
-        #print(Data.get('query'))
 
         Res = []
         Modules = Data.get('data')

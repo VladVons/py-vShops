@@ -23,14 +23,13 @@ export class Pages {
     }
     this.pages = $$('pages data list page')
     this.count = 0
-    $$('pages start')[0].addEventListener('click', this.scroll.bind(this))
-    $$('pages end')[0].addEventListener('click', this.scroll.bind(this))
-    $$('pages left')[0].addEventListener('click', this.scroll.bind(this))
-    $$('pages right')[0].addEventListener('click', this.scroll.bind(this))
+    
+    $$('pages start, pages end, pages left, pages right')
+      .on('click', this.scroll.bind(this))
+    
     for(let i=0; i<this.pages.length; i++){
       this.pages[i].addEventListener('click', (event) => {
-        $$.url.param.set('page', event.target.textContent)
-        document.location.href = $$.url.href
+        $$.url.params({page: event.target.textContent}).go()
       })
     }
   }
@@ -51,7 +50,7 @@ export class Pages {
     $$('pages data list')[0].style.left = this.margin+'px'
     $$('pages data list page').css({marginRight: this.margin+'px'})
     //set active page
-    this.active($$.url.param.get('page') || 1)
+    this.active($$.url.params('page') || 1)
   }
   
   scroll(event) {

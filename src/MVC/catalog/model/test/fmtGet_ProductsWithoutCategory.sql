@@ -15,7 +15,7 @@ left join
     (rp.id = rpl.product_id)
 where
     (rp.enabled) and
-    (rptc.category_id is null) and 
+    (rptc.category_id is null) and
     (rp.tenant_id = {aTenantId})
 order by
     rp.id
