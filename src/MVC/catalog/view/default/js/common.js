@@ -91,7 +91,9 @@ class Common {
           level = event.target.nextSibling
         }else{
           level = await $$.post(NAV, {params: {level2: event.target.getAttribute('level2')}})
-          level = $$(level.trim())[0]
+          //make node from JSON
+          level = this.submenu(level)
+          //append node to DOM
           if(event.target.nextSibling) {
             event.target.parentNode.insertBefore(level, event.target.nextSibling)
           }else{
@@ -103,11 +105,23 @@ class Common {
       }
       event.target.classList.toggle('active')
     }
-    for(let i=0; i<nodes.length; i++) {
-      if(nodes[i].getAttribute('level2')) {
-        nodes[i].addEventListener('click', toggle)
+    for(let node of nodes) {
+      if(node.getAttribute('level2')) {
+        node.addEventListener('click', toggle)
       }
     }
+  }
+  
+  submenu(json) {
+    let level = $$(`<level${json.submenu.level}>`)[0]
+    for(let elem of json.submenu.data) {
+      elem = Object.fromEntries(json.submenu.head.map((key, index) => [key, elem[index]]))
+      $$('<a>')
+        .attr({href: elem.href})
+        .text(elem.name)
+        .to(level)
+    }
+    return level
   }
   
 }

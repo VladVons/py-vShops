@@ -157,7 +157,7 @@ class jMagic {
         current : 0,
         last    : instance.length,
         next() {
-          return this.current < this.last ? {done: false, value: this.current++} : {done: true}
+          return this.current < this.last ? {done: false, value: instance[this.current++]} : {done: true}
         }
       }
     }
