@@ -76,7 +76,9 @@ create table if not exists ref_crawl_site(
     id                  serial primary key,
     enabled             boolean default false,
     url                 varchar(64) not null unique,
-    scheme              text not null
+    scheme              json,
+    parser              varchar(16) unique,
+    max_days            int2 not null default 30
 );
 
 create table if not exists ref_proxy (
@@ -118,7 +120,7 @@ create table if not exists ref_lang (
     enabled             boolean default true,
     deleted             boolean default false,
     title               varchar(16) not null,
-    alias               varchar(3)
+    alias               varchar(3) unique
 );
 
 -- SEO --
@@ -142,7 +144,7 @@ create table if not exists ref_currency (
     enabled             boolean default true,
     deleted             boolean default false,
     title               varchar(16) not null,
-    alias               varchar(3) not null,
+    alias               varchar(3) not null unique,
     code                smallint,
     rate                float default 1
 );
@@ -203,7 +205,8 @@ create table if not exists ref_tenant (
     id                  serial primary key,
     enabled             boolean default true,
     deleted             boolean default false,
-    title               varchar(32) not null,
+    title               varchar(64) not null,
+    alias               varchar(16) unique,
     address_id          integer not null references ref_address(id)
 );
 COMMENT ON TABLE ref_tenant IS 'company separator';

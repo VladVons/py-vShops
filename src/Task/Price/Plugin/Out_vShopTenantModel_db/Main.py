@@ -15,7 +15,7 @@ from ..CommonDb import TDbCrawl
 @DDataClass
 class TSqlConf():
     lang_id: int
-    tenant_id: int
+    alias: str
     parts: int = 100
 
 class TSql(TSqlBase):
@@ -47,7 +47,7 @@ class TSql(TSqlBase):
             for Rec in aDbl:
                 ProductId = Pairs.get(Rec.code)
                 if (ProductId):
-                    Values.append(f"('{Rec.model}', 'model', {ProductId}, {self.Conf.tenant_id})")
+                    Values.append(f"('{Rec.model}', 'model', {ProductId}, {self.tenant_id})")
 
             if (Values):
                 Query = f'''
@@ -74,4 +74,5 @@ class TMain(TFileBase):
         self.Sql = TSql(aDb, SqlConf)
 
     async def InsertToDb(self, aDbCrawl: TDbCrawl):
+        await self.Sql.LoadTenantConf(self.Sql.Conf.alias)
         await self.Sql.Product0(aDbCrawl)

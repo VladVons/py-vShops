@@ -3,6 +3,7 @@ select
     rp.id as product_id,
     rp.idt,
     coalesce(rp.idt, rp.id) as code,
+    rps.rest::int,
     rp.tenant_id,
     rt.title as tenant,
     rpl.title,
@@ -22,6 +23,9 @@ select
     ) as images
 from
     ref_product rp
+left join
+    reg_product_stock rps on
+    (rp.id = rps.product_id)
 left join
     ref_product_lang rpl on
     (rp.id = rpl.product_id) and (rpl.lang_id = {aLangId})

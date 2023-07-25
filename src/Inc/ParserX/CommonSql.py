@@ -75,7 +75,39 @@ class TSqlBase():
             '"': '&quot;'
             })
 
+        self.tenant_id: int
+        self.price_id: int
+        self.stock_id: int
+
     async def ExecQuery(self, aPackage: str, aFile: str, aFormat: dict) -> TDbList:
         Dir = aPackage.replace('.', '/')
         Query = FormatFile(f'{Dir}/{aFile}', aFormat)
         return await TDbExecPool(self.Db.Pool).Exec(Query)
+
+    async def LoadTenantConf(self, aAlias: str):
+        Query = f'''
+            select
+                rt.id tenant_id,
+                rs.id stock_id,
+                rp.id price_id
+            from
+                ref_tenant rt
+            left join
+                ref_price rp on
+                (rt.id = rp.tenant_id) and (rp.idt = 1)
+            left join
+                ref_stock rs on
+                (rt.id = rs.tenant_id) and (rs.idt = 1)
+            where
+                (alias = '{aAlias}')
+        '''
+
+        Dbl = await TDbExecPool(self.Db.Pool).Exec(Query)
+        assert(not Dbl.IsEmpty()), f'No alias found {aAlias}'
+
+        for Field in Dbl.Rec:
+            assert(Dbl.Rec.GetField(Field)), f'Empty field {Field}'
+
+        self.tenant_id = Dbl.Rec.tenant_id
+        self.price_id = Dbl.Rec.price_id
+        self.stock_id = Dbl.Rec.stock_id

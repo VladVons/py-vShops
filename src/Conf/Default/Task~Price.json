@@ -93,7 +93,7 @@
         "Out_vShopTenantModel_db": {
             "sql": {
                 "lang_id": 1,
-                "tenant_id": 3,
+                "alias": "mdm",
                 "parts": 50
             },
             "auth": "{% file Conf/Default/Task.SrvModel.Api.json:db_auth %}",

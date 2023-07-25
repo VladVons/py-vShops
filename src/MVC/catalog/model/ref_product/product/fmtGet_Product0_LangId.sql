@@ -5,6 +5,7 @@ with wt1 as (
         rp.idt,
         coalesce(rp.idt, rp.id) as code,
         rp.tenant_id,
+        rps.rest::int,
         rt.title as tenant,
         rpl.title,
         rpl.descr,
@@ -19,6 +20,9 @@ with wt1 as (
         ) as images
     from
         ref_product rp
+    left join
+        reg_product_stock rps on
+        (rp.id = rps.product_id)
     left join
         ref_product_lang rpl on
         (rp.id = rpl.product_id) and (rpl.lang_id = {aLangId})
@@ -67,6 +71,7 @@ select
     wt1.id as product_id,
     wt1.idt,
     wt1.code,
+    wt1.rest,
     wt1.tenant_id,
     wt1.tenant,
     coalesce(wt1.title, wt2.title) as title,

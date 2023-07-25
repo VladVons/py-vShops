@@ -4,8 +4,7 @@
             "export": {
                 "Out_vShopTenant_db": {
                     "sql": {
-                        "tenant_id": 2,
-                        "price_id": 3,
+                        "alias": "pcdata",
                         "auto_idt": true,
                         "product0": "model"
                     }

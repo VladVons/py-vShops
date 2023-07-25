@@ -21,9 +21,8 @@ from ..CommonDb import TDbCategory, TDbProductEx
 @DDataClass
 class TSqlConf():
     lang_id: int
-    tenant_id: int
+    alias: str
     product0: str
-    price_id: int
     auto_idt: bool = False
     parts: int = 100
 
@@ -76,7 +75,7 @@ class TSql(TSqlBase):
         Query = f'''
             update {aTable}
             set enabled = false
-            where (tenant_id = {self.Conf.tenant_id})
+            where (tenant_id = {self.tenant_id})
         '''
         await TDbExecPool(self.Db.Pool).Exec(Query)
 
@@ -88,14 +87,14 @@ class TSql(TSqlBase):
                 product_id in (
                     select id
                     from ref_product
-                    where (tenant_id = {self.Conf.tenant_id})
+                    where (tenant_id = {self.tenant_id})
                 )
                 {aCond}
         '''
         await TDbExecPool(self.Db.Pool).Exec(Query)
 
     async def ProductModelUnknown(self):
-        return await self.ExecQuery(__package__, 'fmtGet_ModelUnknown.sql', {'aTenantId': self.Conf.tenant_id})
+        return await self.ExecQuery(__package__, 'fmtGet_ModelUnknown.sql', {'aTenantId': self.tenant_id})
 
     async def Category_Create(self, aData: list):
         async def Category(aData: list):
@@ -108,7 +107,7 @@ class TSql(TSqlBase):
         async def SCategory(aData: list, _aMax: int, aIdx: int = 0, aLen: int = 0) -> TDbList:
             print('SCategory()', aIdx, aLen)
 
-            Values = [f"({Row['id']}, {Row['parent_id']}, {self.Conf.tenant_id})" for Row in aData]
+            Values = [f"({Row['id']}, {Row['parent_id']}, {self.tenant_id})" for Row in aData]
             Query = f'''
                 insert into ref_product_category (idt, parent_idt, tenant_id)
                 values {', '.join(Values)}
@@ -122,7 +121,7 @@ class TSql(TSqlBase):
             Query = f'''
                 select id, idt
                 from ref_product_category
-                where (tenant_id = {self.Conf.tenant_id}) and (idt in ({ListIntToComma(Ids)}))
+                where (tenant_id = {self.tenant_id}) and (idt in ({ListIntToComma(Ids)}))
             '''
             Res = await TDbExecPool(self.Db.Pool).Exec(Query)
             return Res
@@ -174,7 +173,7 @@ class TSql(TSqlBase):
         @DASplitDbl
         async def SProduct(aDbl: TDbProductEx, _aMax: int, aIdx: int = 0, aLen: int = 0) -> TDbList:
             async def SetAutoIdt():
-                Values = [f"({self.Conf.tenant_id}, '{ToHashW(Rec.name)}')" for Rec in aDbl]
+                Values = [f"({self.tenant_id}, '{ToHashW(Rec.name)}')" for Rec in aDbl]
                 Values = ', '.join(Values)
 
                 # (tenant_id, title) can be duplicated and DO UPDATE causes error. Use DO NOTHING
@@ -211,11 +210,11 @@ class TSql(TSqlBase):
             Values = []
             for Rec in aDbl:
                 Idt = Rec.GetField('id')
-                Key = (Idt, self.Conf.tenant_id)
+                Key = (Idt, self.tenant_id)
                 if (Key not in Uniq):
                     Uniq[Key] = ''
 
-                    Value = f"({Idt}, {self.Conf.tenant_id}, ({Rec.qty} > 0), '{Rec.code}')"
+                    Value = f"({Idt}, {self.tenant_id}, ({Rec.qty} > 0), '{Rec.code}')"
                     Values.append(Value)
 
             if (Values):
@@ -242,12 +241,12 @@ class TSql(TSqlBase):
                         ref_product rp
                     left join
                         ref_product_product0 rpp on
-                        (rpp.tenant_id = {self.Conf.tenant_id}) and (rpp.product_en = 'model') and (rpp.code = rp.model)
+                        (rpp.tenant_id = {self.tenant_id}) and (rpp.product_en = 'model') and (rpp.code = rp.model)
                     where
                         (rp.enabled) and
                         (rp.product0_skip is null) and
                         (rp.model is not null) and
-                        (rp.tenant_id = {self.Conf.tenant_id}) and
+                        (rp.tenant_id = {self.tenant_id}) and
                         (rp.model in ({ListToComma(Codes)})) and
                         (rpp.enabled) and
                         (rpp.code is not null)
@@ -264,7 +263,7 @@ class TSql(TSqlBase):
                         ref_product0_barcode rpb0 on
                         (rpb.code = rpb0.code) and (rpb.product_en = rpb.product_en)
                     where
-                        (rpb.tenant_id = {self.Conf.tenant_id}) and
+                        (rpb.tenant_id = {self.tenant_id}) and
                         (rpb.code in ({ListToComma(Codes)}))
                 '''
             else:
@@ -347,7 +346,7 @@ class TSql(TSqlBase):
             for x in Data:
                 Url = x['src_url']
                 File = Url.rsplit('/', maxsplit=1)[-1]
-                Name = f'{self.Conf.tenant_id}/{File[:2]}/{File}'
+                Name = f'{self.tenant_id}/{File[:2]}/{File}'
                 UrlD.append([Url, Name, Urls.get(Url, 0), x['product_id']])
 
             DataImg = await self._ImgUpdate(
@@ -400,10 +399,10 @@ class TSql(TSqlBase):
             Uniq = {}
             Values = []
             for Rec in aDbl:
-                Key = (self.ProductIdt[Rec.id], self.Conf.price_id)
+                Key = (self.ProductIdt[Rec.id], self.price_id)
                 if (Key not in Uniq):
                     Uniq[Key] = ''
-                    Value = f'({self.ProductIdt[Rec.id]}, {self.Conf.price_id}, {Rec.price})'
+                    Value = f'({self.ProductIdt[Rec.id]}, {self.price_id}, {Rec.price})'
                     Values.append(Value)
 
             Query = f'''
@@ -430,7 +429,7 @@ class TSql(TSqlBase):
                     stock_set(
                         ARRAY[{ListIntToComma(Ids)}],
                         ARRAY[{ListIntToComma(Qtys)}],
-                        1,
+                        {self.stock_id},
                         'doc_rest'
             	)
             '''
@@ -447,7 +446,7 @@ class TSql(TSqlBase):
                 if (Key):
                     if (Key not in Uniq):
                         Uniq[Key] = ''
-                        Value = f"('{Rec.code}', 'ean', {self.ProductIdt[Rec.id]}, {self.Conf.tenant_id})"
+                        Value = f"('{Rec.code}', 'ean', {self.ProductIdt[Rec.id]}, {self.tenant_id})"
                         Values.append(Value)
                     else:
                         Log.Print(1, 'i', f'SProduct_Barcode(). Not uniq code: {Rec.code}, id: {Rec.id}, name: {Rec.name}')
@@ -509,8 +508,9 @@ class TMain(TFileBase):
 
         self.Sql = TSql(aDb, SqlConf, ImgApi)
 
-
     async def InsertToDb(self, aDbCategory: TDbCategory, aDbProductEx: TDbProductEx):
+        await self.Sql.LoadTenantConf(self.Sql.Conf.alias)
+
         Data = TCatalogToDb(aDbCategory).Get()
         await self.Sql.Category_Create(Data)
         await self.Sql.Product_Create(aDbProductEx)

@@ -15,6 +15,9 @@ class TDbRec():
     def __getattr__(self, aName: str) -> object:
         return self.GetField(aName, self.Def.get(aName))
 
+    def __iter__(self):
+        yield from self.Fields.keys()
+
     def __len__(self):
         return len(self.Fields)
 
