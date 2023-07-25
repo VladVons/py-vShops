@@ -2,8 +2,8 @@
 
 export const
   PATH = {
-    css : '/css',
-    $$  : '/css/jmagic',
+    css : '/default/css',
+    $$  : '/default/css/jmagic',
   },
   ICONS = {
     hex     : emo => {

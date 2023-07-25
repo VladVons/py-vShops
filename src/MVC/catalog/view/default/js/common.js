@@ -79,18 +79,58 @@ class Common {
     return data.length
   }
   
-  catalog() {
+  async catalog() {
+    //active menu
+    let active = sessionStorage.getItem('Menu') || "{}"
+    active = JSON.parse(active)
+    //first level
+    let menu = sessionStorage.getItem('Catalog')
+    if(!menu) {
+      //get from server
+      let data = {}
+      for(let node of $$('nav catalog')) {
+        let json = await $$.post(NAV, {
+          headers: {
+            'Content-type': 'application/json'
+          },
+          body : JSON.stringify(
+            {label: node.getAttribute('label')}
+          )
+        })
+        this.menu(json, node)
+        data[node.getAttribute('label')] = json
+      }
+      sessionStorage.setItem('Catalog', JSON.stringify(data))
+    }else{
+      // get from cache
+      menu = JSON.parse(menu)
+      for(let node of $$('nav catalog')) {
+        this.menu(menu[node.getAttribute('label')], node)
+      }
+    }
+    
+    //next level
     let nodes = $$('nav catalog a')
     let toggle = async event => {
       event.returnValue = false
+      let label = event.target.getAttribute('label')
+      //select menu
       if(event.target.classList.contains('active')) {
         event.target.nextSibling.style.height = '0px'
+        delete active[label]
       }else{
         let level = event.target
         if(event.target.classList.contains('cache')) {
           level = event.target.nextSibling
         }else{
-          level = await $$.post(NAV, {params: {level2: event.target.getAttribute('level2')}})
+          level = await $$.post(NAV, {
+            headers: {
+              'Content-type': 'application/json'
+            },
+            body : JSON.stringify(
+              {label: label}
+            )
+          })
           //make node from JSON
           level = this.submenu(level)
           //append node to DOM
@@ -102,20 +142,43 @@ class Common {
           event.target.classList.add('cache')
         }
         level.style.height = level.scrollHeight + 'px'
+        active[label] = true
       }
+      //save to cache
+      sessionStorage.setItem('Menu', JSON.stringify(active))
+      //set class
       event.target.classList.toggle('active')
+      
     }
+    //set events
     for(let node of nodes) {
-      if(node.getAttribute('level2')) {
+      if(node.getAttribute('label')) {
         node.addEventListener('click', toggle)
       }
+    }
+    //set active
+    for(let node of nodes) {
+      if(active[node.getAttribute('label')]) {
+        await wait(100).then(() => {node.click()})
+      }
+    }
+    
+  }
+  
+  menu(json, node) {
+    for(let elem of json.menu.items.data) {
+      elem = Object.fromEntries(json.menu.items.head.map((key, index) => [key, elem[index]]))
+      $$('<a>')
+        .attr({href: elem.href, label: elem.label})
+        .text(elem.name)
+        .to(node)
     }
   }
   
   submenu(json) {
-    let level = $$(`<level${json.submenu.level}>`)[0]
-    for(let elem of json.submenu.data) {
-      elem = Object.fromEntries(json.submenu.head.map((key, index) => [key, elem[index]]))
+    let level = $$(`<level${json.menu.level}>`)[0]
+    for(let elem of json.menu.items.data) {
+      elem = Object.fromEntries(json.menu.items.head.map((key, index) => [key, elem[index]]))
       $$('<a>')
         .attr({href: elem.href})
         .text(elem.name)

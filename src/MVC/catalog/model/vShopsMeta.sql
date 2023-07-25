@@ -15,7 +15,9 @@ create type product_enum as enum (
 
 create type doc_enum as enum (
     'doc_sale_mix',
-    'doc_order_mix'
+    'doc_order_mix',
+    'doc_sale',
+    'doc_rest'
 );
 
 create type val_enum as enum (
@@ -183,8 +185,10 @@ create table if not exists ref_customer (
     deleted             boolean default false,
     firstname           varchar(32) not null,
     lastname            varchar(32) not null,
-    phone               varchar(15),
-    email               varchar(32) not null
+    phone               varchar(15) unique,
+    email               varchar(32) unique,
+    constraint ref_customer_chk_email_phone check ((email is not null) or (phone is not null)),
+
 );
 
 create table if not exists ref_customer_to_address (
@@ -389,9 +393,19 @@ create table if not exists ref_news_comment (
 
 create table if not exists ref_price (
     id                  serial primary key,
-    title               varchar(16) not null,
     idt                 integer not null,
+    title               varchar(16) not null,
     currency_id         integer not null references ref_currency(id),
+    tenant_id           integer not null references ref_tenant(id),
+    unique (idt, tenant_id)
+);
+
+-- stock --
+
+create table if not exists ref_stock (
+    id                  serial primary key,
+    idt                 integer,
+    title               varchar(16) not null,
     tenant_id           integer not null references ref_tenant(id),
     unique (idt, tenant_id)
 );
@@ -611,6 +625,24 @@ create table if not exists hist_page_view (
     session_id          integer not null references hist_session(id) on delete cascade
 );
 
+create table if not exists hist_product_stock (
+    id                  serial primary key,
+    product_id          integer not null references ref_product(id),
+    doc_en              doc_enum not null,
+    qty                 numeric(10, 3) not null,
+    actual_date         timestamp not null
+);
+
+-----------------------------------------------------------------------------
+-- register --
+-----------------------------------------------------------------------------
+
+create table if not exists reg_product_stock (
+    product_id            integer not null references ref_product(id),
+    stock_id              integer not null references ref_stock(id),
+    rest                  numeric(10, 3) not null,
+    primary key (product_id, stock_id)
+);
 
 -----------------------------------------------------------------------------
 -- documents --
@@ -703,95 +735,65 @@ create or replace trigger ref_product_price_taiu
 
 --
 
-create or replace function ref_product_category_fbi() returns trigger
+create or replace function ref_idt_inc_fbi() returns trigger
 as $$
 begin
+    --tablename = 'ref_price'; fuck
     if (new.idt is null) then
-        select
-            coalesce(max(idt), 0) + 1 into new.idt
-        from
-            ref_product_category
-        where
-            tenant_id = new.tenant_id;
+        case
+            when (TG_TABLE_NAME = 'ref_product')  then
+                select coalesce(max(idt), 0) + 1 into new.idt
+                from ref_product
+                where (tenant_id = new.tenant_id);
+            when (TG_TABLE_NAME = 'ref_product_idt')  then
+                select coalesce(max(idt), 0) + 1 into new.idt
+                from ref_product_idt
+                where (tenant_id = new.tenant_id);
+            when (TG_TABLE_NAME = 'ref_product_category')  then
+                select coalesce(max(idt), 0) + 1 into new.idt
+                from ref_product_category
+                where (tenant_id = new.tenant_id);
+            when (TG_TABLE_NAME = 'ref_price')  then
+                select coalesce(max(idt), 0) + 1 into new.idt
+                from ref_price
+                where (tenant_id = new.tenant_id);
+            when (TG_TABLE_NAME = 'ref_stock')  then
+                select coalesce(max(idt), 0) + 1 into new.idt
+                from ref_stock
+                where (tenant_id = new.tenant_id);
+            else
+                raise exception 'unknown table  %', TG_TABLE_NAME;
+        end case;
     end if;
 
-    return new;
+   return new;
 end
 $$ language plpgsql;
 
-create or replace trigger ref_product_category_tbi
-    before insert on ref_product_category
-    for each row
-    execute procedure ref_product_category_fbi();
-
---
-
-create or replace function ref_product_fbi() returns trigger
-as $$
-begin
-    if (new.idt is null) then
-        select
-            coalesce(max(idt), 0) + 1 into new.idt
-        from
-            ref_product
-        where
-            tenant_id = new.tenant_id;
-    end if;
-
-    return new;
-end
-$$ language plpgsql;
-
-create or replace trigger ref_product_tbi
+create or replace trigger ref_product_idt_inc_tbi
     before insert on ref_product
     for each row
-    execute procedure ref_product_fbi();
+    execute procedure ref_idt_inc_fbi();
 
---
-
-create or replace function ref_price_fbi() returns trigger
-as $$
-begin
-    if (new.idt is null) then
-        select
-            coalesce(max(idt), 0) + 1 into new.idt
-        from
-            ref_price
-        where
-            tenant_id = new.tenant_id;
-    end if;
-
-    return new;
-end
-$$ language plpgsql;
-
-create or replace trigger ref_price_tbi
-    before insert on ref_price
-    for each row
-    execute procedure ref_price_fbi();
-
----
-
-create or replace function ref_product_idt_fbi() returns trigger
-as $$
-begin
-    if (new.idt is null) then
-        select
-            coalesce(max(idt), 0) + 1 into new.idt
-        from
-            ref_product_idt
-        where
-            tenant_id = new.tenant_id;
-    end if;
-
-    return new;
-end
-$$ language plpgsql;
-
-create or replace trigger ref_product_idt_tbi
+create or replace trigger ref_product_idt_idt_inc_tbi
     before insert on ref_product_idt
     for each row
-    execute procedure ref_product_idt_fbi();
+    execute procedure ref_idt_inc_fbi();
+
+create or replace trigger ref_product_category_idt_inc_fbi
+    before insert on ref_product_category
+    for each row
+    execute procedure ref_idt_inc_fbi();
+
+create or replace trigger ref_price_idt_inc_tbi
+    before insert on ref_price
+    for each row
+    execute procedure ref_idt_inc_fbi();
+
+create or replace trigger ref_stock_idt_inc_tbi
+    before insert on ref_stock
+    for each row
+    execute procedure ref_idt_inc_fbi();
 
 ---
 
@@ -865,6 +867,84 @@ create or replace trigger doc_taid
 
 ---
 
+create or replace function stock_add(a_product_ids int[], a_qtys numeric[], a_stock_id int, a_doc_en doc_enum, a_actual_date timestamp default now())
+returns table (_product_id int, _rest numeric)
+as $$
+begin
+    if (array_length(a_product_ids, 1) != array_length(a_qtys, 1)) then
+        raise exception 'product array and quantity array must have same length';
+    end if;
+
+    insert into hist_product_stock (product_id, doc_en, qty, actual_date)
+    select
+        unnest(a_product_ids) as product_id,
+        a_doc_en as doc_en,
+        unnest(a_qtys) as qty,
+        a_actual_date as actual_date;
+
+    return query
+        with wt1 as (
+            select
+                unnest(a_product_ids) as product_id,
+                unnest(a_qtys) as qty
+        )
+        insert into reg_product_stock as rps (stock_id, product_id, rest)
+        select
+            a_stock_id,
+            wt1.product_id,
+            wt1.qty
+        from wt1
+        on conflict (product_id, stock_id) do update
+        set rest = rps.rest + excluded.rest
+        returning product_id, rest;
+end;
+$$language plpgsql;
+
+--
+
+create or replace function stock_set(a_product_ids int[], a_qtys numeric[], a_stock_id int, a_doc_en doc_enum, a_actual_date timestamp default now())
+returns table (_product_id int, _rest numeric)
+as $$
+begin
+    if (array_length(a_product_ids, 1) != array_length(a_qtys, 1)) then
+        raise exception 'product array and quantity array must have same length';
+    end if;
+
+    insert into hist_product_stock as hps (product_id, doc_en, qty, actual_date)
+    with wt1 as (
+        select
+            unnest(a_product_ids) as product_id,
+            a_doc_en as doc_en,
+            unnest(a_qtys) as qty,
+            a_actual_date as actual_date
+    )
+    select wt1.*
+    from wt1
+    left join
+        reg_product_stock rps on
+        (wt1.product_id = rps.product_id) and (rps.stock_id = a_stock_id)
+    where
+        (wt1.qty != rps.rest) or (rps.rest is null);
+
+    return query
+        with wt1 as (
+            select
+                unnest(a_product_ids) as product_id,
+                unnest(a_qtys) as qty
+        )
+        insert into reg_product_stock as rps (stock_id, product_id, rest)
+        select
+            a_stock_id,
+            wt1.product_id,
+            wt1.qty
+        from wt1
+        on conflict (product_id, stock_id) do update
+        set rest = excluded.rest
+        returning product_id, rest;
+end;
+$$language plpgsql;
+
+--
 
 -- create or replace function ref_product_image_import_fau()
 -- returns trigger as $$

@@ -32,7 +32,7 @@ class History {
       
       // cart from storage
       this.init()
-      
+    
     })
   }
   

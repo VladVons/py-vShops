@@ -20,7 +20,10 @@ class TFiller():
         self.ConfTitle = Conf.get('title', [])
         self.ConfModel = Conf.get('model', ['model'])
 
-    def Add(self, aRow: dict, aRec: TDbRec, aFieldsCopy: list):
+    def SetBase(self, aRow: dict, aRec: TDbRec, aFieldsCopy: list):
+        Val = aRow.get('model').upper()
+        aRow['model'] = Val
+
         for x in aFieldsCopy:
             self.Parent.Copy(x, aRow, aRec)
 
@@ -28,7 +31,7 @@ class TFiller():
         Model = ToHashWM(' '.join(Arr))
         aRec.SetField('code', Model)
 
-        Arr = [str(aRow[x]) for x in self.ConfTitle]
+        Arr = [str(aRow[x]).strip() for x in self.ConfTitle]
         Title = '/'.join(Arr).replace('"', '')
         aRec.SetField('title', Title)
 
@@ -52,7 +55,6 @@ class TPricePC(TParser_xlsx):
             return
 
         Rec = self.Dbl.RecAdd()
-        self.Filler.Add(aRow, Rec, ['cpu', 'case', 'dvd', 'vga', 'os'])
 
         Val = aRow.get('disk', '')
         Data = self.ReDisk.findall(Val)
@@ -66,6 +68,9 @@ class TPricePC(TParser_xlsx):
         if (Data):
             Data = Data[0]
             Rec.SetField('ram_size', int(Data[0]))
+
+        #self.Filler.SetBase(aRow, Rec, ['cpu', 'case', 'dvd', 'vga', 'os'])
+        self.Filler.SetBase(aRow, Rec, ['cpu', 'case', 'vga', 'os'])
 
         Rec.Flush()
 
@@ -86,10 +91,15 @@ class TPriceMonit(TParser_xlsx):
             return
 
         Rec = self.Dbl.RecAdd()
-        self.Filler.Add(aRow, Rec, ['grade', 'color'])
+
+        Val = GetNotNone(aRow, 'grade', '').replace('-', '')
+        Rec.SetField('grade', Val)
+        aRow['grade'] = Val
 
         Val = GetNotNone(aRow, 'screen', '').replace('"', '')
         Rec.SetField('screen', Val)
+
+        self.Filler.SetBase(aRow, Rec, ['color'])
 
         Rec.Flush()
 

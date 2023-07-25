@@ -6,7 +6,8 @@
                     "sql": {
                         "tenant_id": 3,
                         "price_id": 5,
-                        "auto_idt": true
+                        "auto_idt": true,
+                        "product0": "model"
                     }
                 },
                 "Out_Save_txt": {

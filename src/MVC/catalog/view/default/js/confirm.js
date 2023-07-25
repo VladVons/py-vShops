@@ -10,7 +10,7 @@ const
   TITLE   = 'ОСТЕР: підтвердження замовлення',
   TIP_OK  = 'Замовлення прийняте! Очікуйте дзвінок для підтвердження',
   TIP_ERR = 'Помилка оформлення замовлення!',
-  ORDER_ID = '/tmp/order_id.txt'
+  ORDER_ID = '/cgi/order.py'
   
 class Confirm {
   constructor() {
@@ -56,7 +56,7 @@ class Confirm {
     
     //get order id
     $$.mask()
-    let order_id = await $$.post(ORDER_ID, {
+    let order_id = await $$.post($$.url.format(ORDER_ID), {
         headers: {
           'Content-type' : 'application/json'
         },
@@ -67,13 +67,13 @@ class Confirm {
       })
       .catch(error => {$$.tip('Помилка реєстрації замовлення')})
     
-    let url = $$.url.format('/history.shtml', {order_id: order_id})
+    let url = $$.url.format('/history.shtml', {params: {order_id: order_id}})
     let msg = 
       `Отримано нове замовлення - <a href='${url}'><b>${order_id}</b></a>\n`+
       `Замовник: <b>${user}</b>, телефон: <b>${phone}</b>`
     
-    //self.history(order_id, user, phone, date)
-    //return false
+    self.history(order_id, user, phone, date)
+    return false
     
     //send telegram message
     $$.telegram.send(msg)

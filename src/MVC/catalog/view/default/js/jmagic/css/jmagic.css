@@ -79,7 +79,7 @@ mask text {
   display: inline-block;
   padding: 5px;
   padding-left: 25px;
-  background: rgba(255, 255, 255, 1) url(/default/img/loading.gif) top 3px left 5px no-repeat;
+  background: rgba(255, 255, 255, 1) url(../img/loading.gif) top 3px left 5px no-repeat;
   font-size: 12px;
   line-height: 12px;
   color: #333;

@@ -10,6 +10,7 @@ import os
 import gspread
 #
 from Inc.ParserX.Common import TPluginBase
+from IncP.Log import Log
 from .Price import TPricePC, TPriceMonit, TPriceMonitInd
 from ..CommonDb import TDbCategory, TDbProductEx
 
@@ -27,23 +28,28 @@ class TIn_Price_pcdata_xlsx(TPluginBase):
             return True
 
     def ToDbProductEx(self, aParser, aDbProductEx: TDbProductEx, aCategoryId):
+        Uniq = {}
         FieldAvg = 'price'
         Fields =  aParser.Dbl.GetFields()
         Fields.remove(FieldAvg)
         Dbl = aParser.Dbl.Group(Fields, [FieldAvg])
         for Rec in Dbl:
-            Avg = round(Rec.GetField(FieldAvg) / Rec.count, 1)
-            Rec.SetField(FieldAvg, Avg)
-            Rec.Flush()
+            Title = Rec.title
+            if (Title in Uniq):
+                Log.Print(1, 'i', f'Not unique title: {Title}')
+            else:
+                Uniq[Title] = ''
+                Avg = round(Rec.GetField(FieldAvg) / Rec.count, 1)
+                Rec.SetField(FieldAvg, Avg)
+                Rec.Flush()
 
-            aDbProductEx.RecAdd().SetAsDict({
-                'category_id': aCategoryId,
-                'model': Rec.code,
-                'name': Rec.title,
-                'price': Avg,
-                'qty': Rec.count
-                })
-        #Dbl.Sort(['model', 'screen'])
+                aDbProductEx.RecAdd().SetAsDict({
+                    'category_id': aCategoryId,
+                    'code': Rec.code,
+                    'name': Rec.title,
+                    'price': Avg,
+                    'qty': Rec.count
+                    })
 
     async def Run(self):
         Url = self.Conf.GetKey('url_gspread')

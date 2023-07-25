@@ -5,7 +5,7 @@
 
 import math
 #
-from IncP.LibCtrl import TDbSql, GetDictDefs
+from IncP.LibCtrl import TDbSql, TDbList, GetDictDefs
 
 
 async def GetNav(self, aData: dict = None) -> dict:
@@ -15,9 +15,34 @@ async def GetNav(self, aData: dict = None) -> dict:
         ('0', 1, 1)
     )
 
+    Label = aData.get('label', '')
+    ArrLabel = Label.split('_')
+    if (ArrLabel[0] != 'catalog'):
+        return {}
+
+    CategoryIdt = ArrLabel[-1]
+    Res = await self.ExecModel(
+        'ref_product/category',
+        {
+            'method': 'Get_CategoriesSubCount_TenantParentLang',
+            'param': {'aTenantId': aTenantId, 'aLangId': aLangId, 'aParentIdtRoot': 0, 'aParentIdts': [CategoryIdt]}
+        }
+    )
+
+    Items = []
+    DblData = Res.get('data')
+    Dbl = TDbSql().Import(DblData)
+    for Rec in Dbl:
+        Path = '_'.join(ArrLabel[1:])
+        Href = f'?route=product/category&path={Path}_{Rec.idt}&tenant=1'
+        Items.append([Rec.title, Href, f'{Label}_{Rec.idt}'])
+
     Res = {
-        'category': {
-            'Monitors': f'?route=product/category&path={aPath}_1001&tenant={aTenantId}'
+        "menu": {
+            'lang': 'ua',
+            'level': len(ArrLabel) - 1,
+            'label': Label,
+            "items": TDbList(['name', 'href', 'label'], Items).Export()
         }
     }
     return Res

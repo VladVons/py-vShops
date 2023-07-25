@@ -151,8 +151,22 @@ class TSql(TSqlBase):
         await SCategory_Lang(aData, self.Conf.parts)
 
     async def Product_Create(self, aDbl: TDbProductEx):
-        async def Product(aData: list):
-            Dbls: list[TDbList] = await SProduct(aData, self.Conf.parts)
+        def GetUnique(aDbl: TDbProductEx) -> TDbList:
+            Uniq = {}
+            Res = aDbl.New()
+            for Rec in aDbl:
+                Id = Rec.id
+                if (Id in Uniq):
+                    print()
+                    Log.Print(1, 'i', f'Not uniq ID. {Rec.GetAsDict()}')
+                    Log.Print(1, 'i', f'Prev record. {Uniq.get(Id)}')
+                else:
+                    Uniq[Id] = Rec.GetAsDict()
+                    Res.RecAdd(Rec.Data)
+            return Res
+
+        async def Product(aDbl: TDbProductEx):
+            Dbls: list[TDbList] = await SProduct(aDbl, self.Conf.parts)
             Dbl = Dbls[0].New()
             Dbl.Append(Dbls)
             self.ProductIdt = Dbl.ExportPair('idt', 'id')
@@ -401,6 +415,28 @@ class TSql(TSqlBase):
             return await TDbExecPool(self.Db.Pool).Exec(Query)
 
         @DASplitDbl
+        async def SProduct_Stock(aDbl: TDbProductEx, _aMax: int, aIdx: int = 0, aLen: int = 0) -> TDbList:
+            print('SProduct_Stock()', aIdx, aLen)
+
+            Ids = []
+            Qtys = []
+            for Rec in aDbl:
+                Ids.append(self.ProductIdt[Rec.id])
+                Qtys.append(Rec.qty)
+
+            Query = f'''
+                select *
+                from
+                    stock_set(
+                        ARRAY[{ListIntToComma(Ids)}],
+                        ARRAY[{ListIntToComma(Qtys)}],
+                        1,
+                        'doc_rest'
+            	)
+            '''
+            return await TDbExecPool(self.Db.Pool).Exec(Query)
+
+        @DASplitDbl
         async def SProduct_Barcode(aDbl: TDbProductEx, _aMax: int, aIdx: int = 0, aLen: int = 0) -> TDbList:
             print('SProduct_Barcode()', aIdx, aLen)
 
@@ -429,6 +465,10 @@ class TSql(TSqlBase):
         Log.Print(1, 'i', 'Product')
         await self.DisableTable('ref_product')
         await Product(aDbl)
+        aDbl = GetUnique(aDbl)
+
+        Log.Print(1, 'i', 'Product_Stock')
+        await SProduct_Stock(aDbl, self.Conf.parts)
 
         if (self.Conf.product0 == 'ean'):
             Log.Print(1, 'i', 'Product_Barcode')

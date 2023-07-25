@@ -3,8 +3,8 @@
 # License: GNU, see LICENSE for more details
 
 
-from Inc.DictDef import TDictKey
 from Inc.Loader.Lang import TLoaderLangFs
+from Inc.Util.Obj import DeepGetByList
 from IncP.ApiBase import TApiBase
 from IncP.Plugins import TCtrls
 from IncP.LibCtrl import GetDictDef
@@ -81,8 +81,9 @@ class TApiCtrl(TApiBase):
         if ('err' not in Res):
             Res = await Res['method'](Res['module'], aData)
 
-        await self.Lang.Add(aRoute)
-        Res['lang'] = self.Lang.Join()
+        if (DeepGetByList(aData, ['query', 'lang']) != '0'):
+            await self.Lang.Add(aRoute)
+            Res['lang'] = self.Lang.Join()
         return Res
 
     async def Exec(self, aRoute: str, aData: dict) -> dict:

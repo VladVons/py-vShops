@@ -6,7 +6,8 @@
                     "sql": {
                         "tenant_id": 2,
                         "price_id": 3,
-                        "auto_idt": true
+                        "auto_idt": true,
+                        "product0": "model"
                     }
                 },
                 "Out_Save_txt": {
@@ -36,7 +37,7 @@
                         "vga": 10,
                         "price": 11
                     },
-                    "title": ["model", "case", "cpu", "ram", "disk", "os"],
+                    "title": ["model", "case", "cpu", "ram", "disk", "vga", "os"],
                     "model": ["model", "case", "cpu"]
                 },
                 "MONITORS": {

@@ -65,6 +65,8 @@ class TDbRec():
 
     def Init(self, aFields: list, aData: list) -> 'TDbRec':
         self.Fields = {x: i for i, x in enumerate(aFields)}
+        if (aData):
+            assert(len(aFields) == len(aData[0])), 'length mismatch'
         self.Data = aData
         return self
 

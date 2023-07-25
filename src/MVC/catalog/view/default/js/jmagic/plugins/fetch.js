@@ -60,7 +60,7 @@ export class Fetch {
             response.text()
               .then(text => {
                 let mime = response.headers.get('Content-Type') || 'text/plain'
-                resolve((MIME_TYPES[mime] === 'json') ? JSON.parse(text) : text)
+                resolve((MIME_TYPES[mime.split(';')[0]]  === 'json') ? JSON.parse(text) : text) //here was problem (charset not allowed in Content-type)
               })
               .catch(error => {
                 // JSON Parse Error
