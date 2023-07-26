@@ -39,6 +39,9 @@ class TDbRec():
     def GetAsDict(self) -> dict:
         return dict(zip(self.Fields, self.Data))
 
+    def GetAsDictVal(self) -> dict:
+        return {Key:Val for Key, Val in zip(self.Fields, self.Data) if (Val is not None)}
+
     def GetAsList(self) -> list:
         return self.Data
 
@@ -48,6 +51,9 @@ class TDbRec():
 
     def GetAsTuple(self) -> list:
         return list(zip(self.Fields, self.Data))
+
+    def GetAsTupleVal(self) -> dict:
+        return ((Key, Val) for Key, Val in zip(self.Fields, self.Data) if (Val is not None))
 
     def GetField(self, aName: str, aDef = None) -> object:
         Idx = self.Fields.get(aName)

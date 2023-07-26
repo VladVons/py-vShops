@@ -5,7 +5,10 @@ select
     rpcl.title as category,
     rpl.title,
     array_agg(hrpp.price order by hrpp.create_date) as price,
-    round(max(hrpp.price) / MIN(hrpp.price) * 100, 1) - 100 as rate
+    case
+        when (min(hrpp.price) = 0) then 0.0
+        else round(max(hrpp.price) / min(hrpp.price) * 100, 1) - 100
+    end as rate
 from 
     ref_product rp
 left join

@@ -157,10 +157,10 @@ class TSql(TSqlBase):
                 Id = Rec.id
                 if (Id in Uniq):
                     print()
-                    Log.Print(1, 'i', f'Not uniq ID. {Rec.GetAsDict()}')
+                    Log.Print(1, 'i', f'Not uniq ID. {Rec.GetAsDictVal()}')
                     Log.Print(1, 'i', f'Prev record. {Uniq.get(Id)}')
                 else:
-                    Uniq[Id] = Rec.GetAsDict()
+                    Uniq[Id] = Rec.GetAsDictVal()
                     Res.RecAdd(Rec.Data)
             return Res
 
