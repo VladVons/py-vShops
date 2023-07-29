@@ -7,10 +7,10 @@ from IncP.LibCtrl import GetDictDef, TDbSql
 
 
 async def Main(self, aData: dict = None) -> dict:
-    aPath, aTenantId, aLangId = GetDictDef(
+    aPath, aTenantId, aLang = GetDictDef(
         aData.get('query'),
         ('path', 'tenant', 'lang'),
-        ('0', 1, 1)
+        ('0', 1, 'ua')
     )
 
     CategoriyIds = aPath.split('_')
@@ -18,7 +18,7 @@ async def Main(self, aData: dict = None) -> dict:
         'ref_product/category',
         {
             'method': 'Get_Categories_TenantParentLang',
-            'param': {'aTenantId': aTenantId, 'aLangId': aLangId, 'aParentIdtRoot': 0, 'aParentIdts': CategoriyIds[:2]}
+            'param': {'aTenantId': aTenantId, 'aLang': aLang, 'aParentIdtRoot': 0, 'aParentIdts': CategoriyIds[:2]}
         }
     )
 

@@ -3,7 +3,7 @@ from Inc.Util.Obj import DeepGetByList
 
 class TFeatures():
     Lang = {
-        1: {
+        'ua': {
             'main': 'Головне',
             'size': 'Розмір',
             'name': 'Назва',
@@ -15,11 +15,11 @@ class TFeatures():
         }
     }
 
-    def __init__(self, aLangId: int):
-        self.LangId = aLangId
+    def __init__(self, aLang: str):
+        self.Lang = aLang
 
     def Translate(self, aKey: str) -> str:
-        return DeepGetByList(self.Lang, [self.LangId, aKey.lower()], aKey)
+        return DeepGetByList(self.Lang, [self.Lang, aKey.lower()], aKey)
 
     def Adjust(self, aObj: object) -> list:
         def Recurs(aObj: object, aDepth: int) -> list:

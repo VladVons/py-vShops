@@ -1,0 +1,36 @@
+{% extends '_inc/layout1.j2' %}
+
+{% block head %}
+  <script type='module' src='/default/js/confirm.js' ></script>
+{% endblock %}
+
+{% block content %}
+     <title class='cart'>{{lang.confirm_order}}</title>
+      <total>
+        <label>{{lang.product_count}}:</label>
+        <num></num>
+        <flex></flex>
+        <label>{{lang.payment_type}}:</label>
+        <pay></pay>
+        <flex></flex>
+        <label>{{lang.to_pay}}:</label>
+        <sum></sum>
+      </total>
+
+      <confirm>
+        <label>{{lang.for_confirm_need}}:</label>
+        <client>
+          <input type='text' maxlength=12 title="{{lang.chars_name_rule}}" required></input>
+          <placeholder class='icon-user'>{{lang.name}}:</placeholder>
+        </client>
+        <phone>
+          <input type='text' maxlength=10 title="{{lang.chars_phone_rule}}" required></input>
+          <placeholder class='icon-phone'>{{lang.phone}}:</placeholder>
+        </phone>
+        <example>{{lang.phone_example}}</example>
+      </confirm>
+      <buttons>
+        <button class='continue' onclick='history.go(-1)'>{{lang.back_to_cart}}</button>
+        <button class='checkout' href='{{href.confirm}}'>{{lang.confirm_order}}</button>
+      </buttons>
+{% endblock %}

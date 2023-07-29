@@ -24,7 +24,7 @@ class TApiCtrl(TApiBase):
 
         Section = Conf['lang']
         if (Section['type'] == 'fs'):
-            Def = GetDictDef(Section, ['default', 'dir'], ['ua', 'MVC/catalog/lang'])
+            Def = GetDictDef(Section, ['dir'], ['MVC/catalog/lang'])
             self.Lang = TLoaderLangFs(*Def)
         else:
             raise ValueError()
@@ -71,8 +71,7 @@ class TApiCtrl(TApiBase):
         Routes = aData.get('extends', [])
         Routes.append(aData.get('route'))
         for xRoute in Routes:
-            await self.Lang.Add(xRoute)
-        #Res['lang'] = TDictKey('', self.Lang.Join())
+            await self.Lang.Add('ua', xRoute, 'tpl')
         Res['lang'] = self.Lang.Join()
         return Res
 
@@ -80,10 +79,6 @@ class TApiCtrl(TApiBase):
         Res = self.GetMethod(self.Ctrls, aRoute, aData)
         if ('err' not in Res):
             Res = await Res['method'](Res['module'], aData)
-
-        if (DeepGetByList(aData, ['query', 'lang']) != '0'):
-            await self.Lang.Add(aRoute)
-            Res['lang'] = self.Lang.Join()
         return Res
 
     async def Exec(self, aRoute: str, aData: dict) -> dict:

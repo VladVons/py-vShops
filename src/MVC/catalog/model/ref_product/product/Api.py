@@ -13,11 +13,11 @@ async def Get_Products_LangFilter(self, aLangId: int, aFilter: str, aOrder: str,
         {'aLangId': aLangId, 'aFilter': aFilter, 'FilterRe': ', '.join(FilterRe), 'aOrder': aOrder, 'aLimit': aLimit, 'aOffset': aOffset}
     )
 
-async def Get_Products0_LangFilter(self, aLangId: int, aFilter: str, aOrder: str, aLimit: int = 100, aOffset: int = 0) -> dict:
+async def Get_Products0_LangFilter(self, aLang: str, aFilter: str, aOrder: str, aLimit: int = 100, aOffset: int = 0) -> dict:
     FilterRe = [f"('%{x}%')" for x in re.split(r'\s+', aFilter)]
     return await self.ExecQuery(
         'fmtGet_Products0_LangFilter.sql',
-        {'aLangId': aLangId, 'aFilter': aFilter, 'FilterRe': ', '.join(FilterRe), 'aOrder': aOrder, 'aLimit': aLimit, 'aOffset': aOffset}
+        {'aLang': aLang, 'aFilter': aFilter, 'FilterRe': ', '.join(FilterRe), 'aOrder': aOrder, 'aLimit': aLimit, 'aOffset': aOffset}
     )
 
 async def Get_Product_LangId(self, aLangId: int, aProductId: int) -> dict:
@@ -26,8 +26,8 @@ async def Get_Product_LangId(self, aLangId: int, aProductId: int) -> dict:
         {'aLangId': aLangId, 'aProductId': aProductId}
     )
 
-async def Get_Product0_LangId(self, aLangId: int, aProductId: int) -> dict:
+async def Get_Product0_LangId(self, aLang: str, aProductId: int) -> dict:
     return await self.ExecQuery(
         'fmtGet_Product0_LangId.sql',
-        {'aLangId': aLangId, 'aProductId': aProductId}
+        {'aLang': aLang, 'aProductId': aProductId}
     )

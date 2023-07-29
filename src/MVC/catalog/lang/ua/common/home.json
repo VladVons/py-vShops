@@ -1,7 +1,9 @@
 {
-    "information": "Інформація",
-    "service": "Сервіс",
-    "contact_us": "Контакти",
-    "my_account": "Мій кабінет",
-    "powered_by": "Розроблено vShops"
+   "tpl": {
+        "information": "Інформація",
+        "service": "Сервіс",
+        "contact_us": "Контакти",
+        "my_account": "Мій кабінет",
+        "powered_by": "Розроблено vShops"
+    }
 }

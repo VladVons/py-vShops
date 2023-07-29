@@ -54,16 +54,16 @@ async def AddHistPageView(self, aSessionId: int, aUrl: str) -> dict:
     '''
     return await self.ExecQueryText(Query)
 
-async def Get_Module_RouteLang(self, aTenantId: int, aLangId: int, aRoute: str) -> dict:
+async def Get_Module_RouteLang(self, aTenantId: int, aLang: str, aRoute: str) -> dict:
     return await self.ExecQuery(
         'fmtGet_Module_RouteLang.sql',
-        {'aTenantId': aTenantId, 'aLangId': aLangId, 'aRoute': aRoute}
+        {'aTenantId': aTenantId, 'aLang': aLang, 'aRoute': aRoute}
     )
 
-async def Get_ModuleGroup(self, aLangId: int, aModuleId: int) -> dict:
+async def Get_ModuleGroup(self, aLang: str, aModuleId: int) -> dict:
     return await self.ExecQuery(
         'fmtGet_ModuleGroup.sql',
-        {'aLangId': aLangId, 'aModuleId': aModuleId}
+        {'aLang': aLang, 'aModuleId': aModuleId}
     )
 
 async def Get_ConfTenant(self, aTenantId: int, aAttr: str = None) -> dict:

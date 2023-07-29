@@ -9,24 +9,23 @@ from IncP.LibCtrl import TDbSql, GetDictDefs
 
 
 async def Main(self, aData: dict = None) -> dict:
-    await self.Lang.Add('product/category')
-
-    aSearch, aLangId, aSort, aOrder, aPage, aLimit = GetDictDefs(
+    aSearch, aLang, aSort, aOrder, aPage, aLimit = GetDictDefs(
         aData.get('query'),
         ('search', 'lang', 'sort', 'order', 'page', 'limit'),
-        ('', 1, ('sort_order, title', 'title', 'price'), ('asc', 'desc'), 1, 15)
+        ('', 'ua', ('sort_order, title', 'title', 'price'), ('asc', 'desc'), 1, 15)
     )
+
+    await self.Lang.Add(aLang, 'product/category')
+
     aLimit = min(100, aLimit)
 
     ResProduct = await self.ExecModel(
         'ref_product/product',
         {
             'method': 'Get_Products0_LangFilter',
-            'param': {'aLangId': aLangId, 'aFilter': aSearch, 'aOrder': f'{aSort} {aOrder}', 'aLimit': aLimit, 'aOffset': (aPage - 1) * aLimit},
-            'query': True
+            'param': {'aLang': aLang, 'aFilter': aSearch, 'aOrder': f'{aSort} {aOrder}', 'aLimit': aLimit, 'aOffset': (aPage - 1) * aLimit}
         }
     )
-    #print(ResProduct.get('query'))
 
     DblProduct = ResProduct.get('data')
     if (DblProduct):
@@ -36,7 +35,7 @@ async def Main(self, aData: dict = None) -> dict:
             'ref_product/category',
             {
                 'method': 'Get_CategoryId_Path',
-                'param': {'aLangId': aLangId, 'aCategoryIds': CategoryIds}
+                'param': {'aLang': aLang, 'aCategoryIds': CategoryIds}
             }
         )
         DblCategory = TDbSql().Import(ResCategory.get('data'))

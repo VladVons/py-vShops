@@ -1,21 +1,23 @@
 {
-    "currency": "Валюта",
-    "profile": "Особистий кабінет",
-    "basket": "Кошик",
-    "favorites": "Закладки",
-    "products": "Товари",
-    "sum": "Сума",
-    "search": "Пошук",
-    "shop_title": "комп'ютерний магазин",
-    "shop_address": "м. Тернопіль, вул. Руська, 41",
-    "call_order": "Замовити дзвінок",
+    "tpl": {
+        "currency": "Валюта",
+        "profile": "Особистий кабінет",
+        "basket": "Кошик",
+        "favorites": "Закладки",
+        "products": "Товари",
+        "sum": "Сума",
+        "search": "Пошук",
+        "shop_title": "комп'ютерний магазин",
+        "shop_address": "м. Тернопіль, вул. Руська, 41",
+        "call_order": "Замовити дзвінок",
 
-    "share": "Поділитись",
-    "share_facebook": "Ми в Meta/Facebook",
-    "share_instagram": "Ми в Imstagram",
-    "share_telegram": "Ми в Telegram",
+        "share": "Поділитись",
+        "share_facebook": "Ми в Meta/Facebook",
+        "share_instagram": "Ми в Imstagram",
+        "share_telegram": "Ми в Telegram",
 
-    "help": "Допомога",
-    "contact": "Контакти",
-    "order": "Замовлення"
+        "help": "Допомога",
+        "contact": "Контакти",
+        "order": "Замовлення"
+    }
 }

@@ -2,7 +2,7 @@
 
 const 
   SEARCH = '?route=product/search&search=',
-  NAV = '/api/?route=product/category&method=GetNav'
+  NAV = '/api/?route=product/category&method=ApiNav'
 
 class Common {
   constructor() {
@@ -143,6 +143,14 @@ class Common {
         }
         level.style.height = level.scrollHeight + 'px'
         active[label] = true
+        //select active submenu
+        let nodes = level.getElementsByTagName('a')
+        for(let i=0; i<nodes.length; i++) {
+          if(nodes[i].href === document.location.href) {
+            wait(250).then(() => nodes[i].classList.add('view'))
+          }
+        }
+        
       }
       //save to cache
       sessionStorage.setItem('Menu', JSON.stringify(active))

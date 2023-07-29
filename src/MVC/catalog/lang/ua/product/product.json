@@ -1,11 +1,13 @@
 {
-    "product_code": "код товару",
-    "available": "в наявності",
-    "description": "опис",
-    "features": "характеристики",
-    "reviews": "відгуки",
-    "zoom_in": "збільшити",
-    "category": "категорія",
-    "qty": "шт",
-    "yes": "так"
+   "tpl": {
+        "product_code": "код товару",
+        "available": "в наявності",
+        "description": "опис",
+        "features": "характеристики",
+        "reviews": "відгуки",
+        "zoom_in": "збільшити",
+        "category": "категорія",
+        "qty": "шт",
+        "yes": "так"
+    }
 }

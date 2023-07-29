@@ -32,6 +32,13 @@ class History {
       
       // cart from storage
       this.init()
+      
+      //show tip first time
+      let tip = sessionStorage.getItem('Tip')
+      if(tip) {
+        $$.tip(tip)
+        sessionStorage.removeItem('Tip')
+      }
     
     })
   }
@@ -46,7 +53,7 @@ class History {
     for(let i=0; i<data.length; i++) {
       let order = order_tpl.content.cloneNode(true)
       let total = 0
-      order.querySelector('title').textContent += data[i].order_id
+      order.querySelector('title').textContent += data[i].oid
       //cart data
       for(let j=0; j<data[i].cart.length; j++) {
         let cart = cart_tpl.content.cloneNode(true)
@@ -57,6 +64,10 @@ class History {
         cart.querySelector('price').textContent = data[i].cart[j].price.toFixed(2)+' грн'
         cart.querySelector('sum').textContent = (data[i].cart[j].count * data[i].cart[j].price).toFixed(2)+' грн'
         total += parseFloat(data[i].cart[j].count * data[i].cart[j].price)
+        let link = cart.querySelectorAll('item a')
+        for(let x=0; x<link.length; x++) {
+          link[x].href = data[i].cart[j].url
+        }
         while(cart.childNodes.length) {
           order.querySelector('cart').appendChild(cart.firstChild)
         }

@@ -1,12 +1,12 @@
--- in: aLangId, aProductId
+-- in: aLang, aProductId
 with wt1 as (
     select
         rp.id,
         rp.idt,
-        coalesce(rp.idt, rp.id) as code,
+        --coalesce(rp.idt, rp.id) as code,
         rp.tenant_id,
         rps.rest::int,
-        rt.title as tenant,
+        rt.title as tenant_title,
         rpl.title,
         rpl.descr,
         rpl.features,
@@ -23,15 +23,17 @@ with wt1 as (
     left join
         reg_product_stock rps on
         (rp.id = rps.product_id)
+    join ref_lang rlng
+        on rlng.alias = '{aLang}'
     left join
         ref_product_lang rpl on
-        (rp.id = rpl.product_id) and (rpl.lang_id = {aLangId})
+        (rp.id = rpl.product_id) and (rpl.lang_id = rlng.id)
     left join
         ref_product_to_category rptc on
         (rp.id = rptc.product_id)
     left join
         ref_product_category_lang rpcl on
-        (rptc.category_id = rpcl.category_id) and (rpl.lang_id = {aLangId})
+        (rptc.category_id = rpcl.category_id) and (rpl.lang_id = rlng.id)
     left join
         ref_tenant rt on
         (rp.tenant_id = rt.id)
@@ -68,12 +70,11 @@ wt2 as (
         (rp.product0_id is not null) and (rp.product0_skip is null)
 )
 select
-    wt1.id as product_id,
+    wt1.id,
     wt1.idt,
-    wt1.code,
     wt1.rest,
     wt1.tenant_id,
-    wt1.tenant,
+    wt1.tenant_title,
     coalesce(wt1.title, wt2.title) as title,
     coalesce(wt1.descr, wt2.descr) as descr,
     coalesce(wt1.features, wt2.features) as features,

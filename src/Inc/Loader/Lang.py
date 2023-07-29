@@ -10,7 +10,7 @@ from Inc.Sql import TDbPg, TDbExecPool
 
 
 class TLoaderLang(dict):
-    async def Add(self, aPath: str) -> dict:
+    async def Add(self, aLang: str, aPath: str, aKey: str) -> dict:
         raise NotImplementedError()
 
     def Get(self, aKey: str) -> str:
@@ -25,20 +25,21 @@ class TLoaderLang(dict):
 
 
 class TLoaderLangFs(TLoaderLang):
-    def __init__(self, aLang: str, aDirRoot: str):
-        self.Common = '__init__'
-        self.Dir = f'{aDirRoot}/{aLang}'
-        assert(os.path.isdir(self.Dir)), f'Directory not exists {self.Dir}'
+    def __init__(self, aDirRoot: str):
+        assert(os.path.isdir(aDirRoot)), f'Directory not exists {aDirRoot}'
 
-    async def Add(self, aPath: str) -> dict:
+        self.Common = '__init__'
+        self.DirRoot = aDirRoot
+
+    async def Add(self, aLang: str, aPath: str, aKey: str = 'tpl') -> dict:
         Res = {}
         Common = aPath.rsplit('/', maxsplit=1)[0] + '/' + self.Common
         for xPath in [Common, aPath]:
-            File = f'{self.Dir}/{xPath}.json'
+            File = f'{self.DirRoot}/{aLang}/{xPath}.json'
             if (os.path.exists(File)):
                 with open(File, 'r', encoding = 'utf8') as F:
                     Data = json.load(F)
-                    Res.update(Data)
+                    Res.update(Data.get(aKey, {}))
         self[aPath] = Res
         return Res
 

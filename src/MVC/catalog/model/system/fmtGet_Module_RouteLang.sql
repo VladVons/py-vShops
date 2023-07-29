@@ -1,4 +1,4 @@
--- in: aLangId, aTenantId, aRoute
+-- in: aLang, aTenantId, aRoute
 with wt1 as (
     select
         distinct on (rlm.module_id, rlm.place) rlm.module_id as id,
@@ -18,14 +18,15 @@ with wt1 as (
         on rl.id = rlm.layout_id
     join ref_module rm
         on rlm.module_id = rm.id
+    join ref_lang rlng
+        on rlng.alias = '{aLang}'
     join ref_module_lang rml
-        on rlm.module_id = rml.module_id
+        on rlm.module_id = rml.module_id and rml.lang_id = rlng.id
     where
         ((rl.tenant_id = 0) or (rl.tenant_id = {aTenantId})) and
         (rm.enabled) and
         (rlm.enabled) and
-        ((rl.route = '{aRoute}') or (rl.id = 0)) and
-        (rml.lang_id = {aLangId})
+        ((rl.route = '{aRoute}') or (rl.id = 0))
 )
 select
     id,

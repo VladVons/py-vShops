@@ -293,7 +293,7 @@ confirm example {
   color: #999;
 }
 
-confirm phone, confirm user {
+confirm phone, confirm client {
   position: relative;
   display: inline-block;
   width: 50%;

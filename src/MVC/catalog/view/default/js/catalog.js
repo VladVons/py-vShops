@@ -71,13 +71,6 @@ class Catalog {
     }
   }
   
-  toggle(node) {
-    let nodes = $$('nav catalog second')
-    for(let i=0; i<nodes.length; i++) {
-      nodes[i].style.height = (parseInt(nodes[i].style.height)) ? '0px' : nodes[i].scrollHeight + 'px'
-    }
-  }
-  
   toCart(event) {
     let store = localStorage.getItem('Cart')
     let data = (store) ? JSON.parse(store) : []
@@ -98,8 +91,10 @@ class Catalog {
     if(!exist) {
       data.push({
         code: item.getAttribute('code'),
+        pid: item.getAttribute('pid'),
         name: item.getElementsByTagName('name')[0].textContent,
         img: item.getElementsByTagName('img')[0].src,
+        url: item.getElementsByTagName('name')[0].parentNode.href,
         count: 1,
         price: parseFloat(item.getElementsByTagName('price')[0].textContent)
       })

@@ -50,8 +50,8 @@ nav catalog a {
 
 nav catalog a:before {
   font-family: icons;
-  font-size: 20rem;
-  content: 'l';
+  font-size: 12rem;
+  content: '+';
   color: #09f;
   margin-right: 5px;
 }
@@ -66,6 +66,10 @@ nav catalog a:hover {
 
 nav catalog a.active {
   background: #eec;
+}
+
+nav catalog a.active:before {
+  content: '-';
 }
 
 nav catalog level2 {
@@ -84,9 +88,17 @@ nav catalog level2 a {
 nav catalog level2 a:before {
   font-family: icons;
   font-size: 12rem;
+  content: 'g';
+  margin-right: 5px;
+}
+
+nav catalog level2 a.view {
+  color: #900;
+}
+
+nav catalog level2 a.view:before {
   content: 'O';
   color: #900;
-  margin-right: 5px;
 }
 
 nav open *, nav close * {

@@ -55,15 +55,15 @@ class TCtrlBase():
         return Res.get('data')
 
     async def LoadModules(self, aData: dict) -> list:
-        aTenantId, aLangId = GetDictDef(
+        aTenantId, aLang = GetDictDef(
             aData.get('query'),
             ('tenant', 'lang'),
-            (1, 1))
+            (1, 'ua'))
         Data = await self.ExecModel(
             'system',
             {
                 'method': 'Get_Module_RouteLang',
-                'param': {'aTenantId': aTenantId, 'aLangId': aLangId, 'aRoute': aData['route']}
+                'param': {'aTenantId': aTenantId, 'aLang': aLang, 'aRoute': aData['route']}
             }
         )
 
@@ -76,7 +76,7 @@ class TCtrlBase():
                 Path = f'module/{Module}'
                 aData['rec'] = Rec.GetAsDict()
                 Data = await self.ExecSelf(Path, aData)
-                Data['lang'] = await self.Lang.Add(Path)
+                Data['lang'] = await self.Lang.Add('ua', Path)
                 Data['layout'] = Rec.GetAsDict()
                 Res.append(Data)
         return Res

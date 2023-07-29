@@ -9,8 +9,8 @@
       <!-- template for cart -->
       <template class='hide'>
         <item>
-          <a href='/product.shtml' title='{{lang.product_view}}'><thumb style='background-image:url(/default/img/pixel.gif)'></thumb></a>
-          <a href='/product.shtml' title='{{lang.product_view}}'><name></name></a>
+          <a href='/product2.shtml' title='{{lang.product_view}}'><thumb style='background-image:url(/default/img/pixel.gif)'></thumb></a>
+          <a href='/product2.shtml' title='{{lang.product_view}}'><name></name></a>
         </item>
         <code></code>
         <count>
@@ -52,7 +52,7 @@
         <icon class='cash'></icon>
       </payment>
       <buttons>
-        <button href='/catalog.shtml' class='continue' onclick='history.go(-1)'>{{lang.continue_shopping}}</button>
-        <button href='/confirm.shtml' class='checkout'>{{lang.checkout}}</button>
+        <button href='{{href.catalog}}' class='continue' onclick='history.go(-1)'>{{lang.continue_shopping}}</button>
+        <button href='{{href.confirm}}' class='checkout'>{{lang.checkout}}</button>
       </buttons>
 {% endblock %}

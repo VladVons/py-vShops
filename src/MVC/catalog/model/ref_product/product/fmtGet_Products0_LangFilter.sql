@@ -1,13 +1,14 @@
--- in: aLangId, FilterRe, aOrder, aLimit, aOffset
+-- in: aLang, FilterRe, aOrder, aLimit, aOffset
 with wt1 as (
     select
         count(*) over() as total,
         rp.id as product_id,
+        rp.idt as product_idt,
         rp.product0_id,
         rp.product0_skip,
         rptc.category_id,
         rp.tenant_id,
-        rt.title as tenant,
+        rt.title as tenant_title,
         rpl.title,
         (
             select rpp.price
@@ -28,9 +29,11 @@ with wt1 as (
          ) as image
     from
         ref_product rp
+    join ref_lang rlng
+        on rlng.alias = '{aLang}'
     left join
         ref_product_lang rpl on
-        (rp.id = rpl.product_id) and (rpl.lang_id = {aLangId})
+        (rp.id = rpl.product_id) and (rpl.lang_id = rlng.id)
     left join
         ref_product_barcode rpb on
         (rp.id = rpb.product_id)
@@ -39,7 +42,7 @@ with wt1 as (
         (rp.id = rptc.product_id)
     left join
         ref_product_category_lang rpcl on
-        (rptc.category_id = rpcl.category_id) and (rpl.lang_id = {aLangId})
+        (rptc.category_id = rpcl.category_id) and (rpl.lang_id = rlng.id)
     left join
         ref_tenant rt on
         (rp.tenant_id = rt.id)
@@ -76,10 +79,11 @@ wt2 as (
 select
     wt1.total,
     wt1.product_id,
+    wt1.product_idt,
     wt1.category_id,
     wt1.tenant_id,
-    wt1.tenant,
-    wt1.title,
+    wt1.tenant_title,
+    wt1.title as product_title,
     wt1.price::float,
     coalesce(wt1.image, wt2.image) as image
 from

@@ -21,6 +21,9 @@ class Product {
       $$('head title').text(TITLE)
       //unmask page
       $$('body').css({opacity: 1})
+      
+      //show code on page
+      $$('item info code b').Text = $$('item')[0].getAttribute('pid')
 
       //set listeners
       $$('tabs tab').on('click', self.setActive.bind(self))
@@ -58,7 +61,8 @@ class Product {
     }
     //check if exist
     let exist = false
-    let code = item.getElementsByTagName('code')[0].getElementsByTagName('b')[0].textContent
+    let code = item.getAttribute('code')
+    let pid = item.getAttribute('pid')
     let price = item.getElementsByTagName('price')
     price = (price.length) ? price[0] : item.getElementsByTagName('promo')[0]
     for(let product of data){
@@ -72,8 +76,10 @@ class Product {
     if(!exist) {
       data.push({
         code: code,
+        pid: pid,
         name: item.getElementsByTagName('title')[0].textContent,
         img: item.getElementsByTagName('thumb')[0].style.backgroundImage.match(/url\(['"]?([^'"]+)['"]?\)/)[1],
+        url: document.location.href,
         count: 1,
         price: parseFloat(price.textContent)
       })

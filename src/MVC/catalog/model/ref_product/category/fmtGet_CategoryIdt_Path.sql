@@ -1,4 +1,4 @@
--- in: aLangId, CategoryIdts, aTenantId
+-- in: aLang, CategoryIdts, aTenantId
 with recursive wrpc as (
     select
         rpc.id,
@@ -9,9 +9,11 @@ with recursive wrpc as (
         array[rpc.idt] as path_idt
     from
         ref_product_category rpc
-    left join
+    join ref_lang rlng
+        on rlng.alias = '{aLang}'
+     left join
         ref_product_category_lang rpcl on
-        (rpc.id = rpcl.category_id) and (rpcl.lang_id = {aLangId})
+        (rpc.id = rpcl.category_id) and (rpcl.lang_id = rlng.id)
     where
         (rpc.tenant_id = {aTenantId}) and
         (rpc.idt in ({CategoryIdts}))
@@ -30,9 +32,11 @@ with recursive wrpc as (
     join
         wrpc on
         (wrpc.parent_idt = rpc.idt)
+    join ref_lang rlng
+        on rlng.alias = '{aLang}'
     left join
         ref_product_category_lang rpcl on
-        (rpc.id = rpcl.category_id) and (rpcl.lang_id = {aLangId})
+        (rpc.id = rpcl.category_id) and (rpcl.lang_id = rlng.id)
     where
         (rpc.tenant_id = {aTenantId})
 )

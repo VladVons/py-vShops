@@ -78,6 +78,10 @@ class Cart {
       model.querySelector('input').value = data[i].count
       model.querySelector('price').textContent = data[i].price.toFixed(2)+' грн'
       model.querySelector('sum').textContent = (data[i].count * data[i].price).toFixed(2)+' грн'
+      let link = model.querySelectorAll('item a')
+      for(let j=0; j<link.length; j++) {
+        link[j].href = data[i].url
+      }
       while(model.childNodes.length){
         cart.appendChild(model.firstChild)
       }

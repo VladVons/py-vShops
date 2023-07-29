@@ -8,12 +8,12 @@ from .Features import TFeatures
 
 
 async def Main(self, aData: dict = None) -> dict:
-    async def GetBreadcrumbs(aLangId: int, aCategoryIdt: int, aTenantId: int) -> dict:
+    async def GetBreadcrumbs(aLang: str, aCategoryIdt: int, aTenantId: int) -> dict:
         Data = await self.ExecModel(
             'ref_product/category',
             {
                 'method': 'Get_CategoryIdt_Path',
-                'param': {'aLangId': aLangId, 'aCategoryIdts': [aCategoryIdt], 'aTenantId': aTenantId}
+                'param': {'aLang': aLang, 'aCategoryIdts': [aCategoryIdt], 'aTenantId': aTenantId}
             }
         )
 
@@ -48,17 +48,17 @@ async def Main(self, aData: dict = None) -> dict:
             Res = {'image': 'http://ToDo/NoImage.jpg', 'images': []}
         return Res
 
-    aPath, aLangId, aProductId, aTenantId = GetDictDefs(
+    aPath, aLang, aProductId, aTenantId = GetDictDefs(
         aData.get('query'),
         ('path', 'lang', 'product_id', 'tenant'),
-        ('0', 1, 0, 1)
+        ('0', 'ua', 0, 1)
     )
 
     Res = await self.ExecModel(
         'ref_product/product',
         {
             'method': 'Get_Product0_LangId',
-            'param': {'aLangId': aLangId, 'aProductId': aProductId}
+            'param': {'aLang': aLang, 'aProductId': aProductId}
         }
     )
 
@@ -70,7 +70,7 @@ async def Main(self, aData: dict = None) -> dict:
         Product = Dbl.Rec.GetAsDict()
 
         Features = Product.get('features', {})
-        Product['features'] = TFeatures(aLangId).Adjust(Features)
+        Product['features'] = TFeatures(aLang).Adjust(Features)
 
         Images = await GetImages(Dbl.Rec.images)
         Product.update(Images)
@@ -92,9 +92,11 @@ async def Main(self, aData: dict = None) -> dict:
         )
 
         CategoryIdt = list(map(int, aPath.split('_')))[-1]
-        Product['breadcrumbs'] = await GetBreadcrumbs(aLangId, CategoryIdt, aTenantId)
+        Product['breadcrumbs'] = await GetBreadcrumbs(aLang, CategoryIdt, aTenantId)
 
-        Product['tenant_href'] = f'?tenant={aTenantId}'
+        Res['href'] = {
+            'tenant': f'?tenant={aTenantId}'
+        }
 
         Res['product'] = Product
     return Res

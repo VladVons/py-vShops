@@ -1,13 +1,14 @@
--- in: aLangId, aPriceId, CategoryIds, aOrder, aLimit, aOffset
+-- in: aLang, aPriceId, CategoryIds, aOrder, aLimit, aOffset
 with 
 wt1 as (
     select
         rptc.category_id,
         rptc.product_id,
+        rp.idt as product_idt,
         rp.product0_id,
         rp.product0_skip,
         rp.tenant_id,
-        rt.title as tenant,
+        rt.title as tenant_title,
         rpl.title,
         (
             select rpp.price
@@ -31,9 +32,11 @@ wt1 as (
     left join
         ref_product rp on
         (rptc.product_id = rp.id) and rp.enabled
+    left join ref_lang rlng
+        on rlng.alias = '{aLang}'
     left join
         ref_product_lang rpl
-        on (rptc.product_id = rpl.product_id and rpl.lang_id = {aLangId})
+        on (rptc.product_id = rpl.product_id and rpl.lang_id = rlng.id)
     left join
         ref_tenant rt
         on (rp.tenant_id = rt.id)
@@ -71,10 +74,11 @@ wt2 as (
 select
     wt1.category_id,
     wt1.product_id,
+    wt1.product_idt,
     wt1.tenant_id,
-    wt1.tenant,
+    wt1.tenant_title,
     wt1.price::float,
-    coalesce(wt1.title, wt2.title) as title,
+    coalesce(wt1.title, wt2.title) as product_title,
     coalesce(wt1.image, wt2.image) as image
 from
     wt1

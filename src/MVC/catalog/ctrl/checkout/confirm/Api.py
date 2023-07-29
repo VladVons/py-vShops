@@ -6,6 +6,13 @@
 from IncP.LibCtrl import TDbSql, GetDictDefs
 
 
+async def ApiOrder(self, aData: dict = None) -> dict:
+    Res = {
+        'status': 'ok',
+        'order_id': 54725
+    }
+    return Res
+
 async def Main(self, aData: dict = None) -> dict:
     Res = {}
 

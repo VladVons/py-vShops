@@ -8,11 +8,11 @@ import math
 from IncP.LibCtrl import TDbSql, TDbList, GetDictDefs
 
 
-async def GetNav(self, aData: dict = None) -> dict:
-    aPath, aTenantId, aLangId = GetDictDefs(
+async def ApiNav(self, aData: dict = None) -> dict:
+    aPath, aTenantId, aLang = GetDictDefs(
         aData.get('query'),
         ('path', 'tenant', 'lang'),
-        ('0', 1, 1)
+        ('0', 1, 'ua')
     )
 
     Label = aData.get('label', '')
@@ -25,7 +25,7 @@ async def GetNav(self, aData: dict = None) -> dict:
         'ref_product/category',
         {
             'method': 'Get_CategoriesSubCount_TenantParentLang',
-            'param': {'aTenantId': aTenantId, 'aLangId': aLangId, 'aParentIdtRoot': 0, 'aParentIdts': [CategoryIdt]}
+            'param': {'aTenantId': aTenantId, 'aLang': aLang, 'aParentIdtRoot': 0, 'aParentIdts': [CategoryIdt]}
         }
     )
 
@@ -48,10 +48,10 @@ async def GetNav(self, aData: dict = None) -> dict:
     return Res
 
 async def Main(self, aData: dict = None) -> dict:
-    aPath, aTenantId, aLangId, aSort, aOrder, aPage, aLimit = GetDictDefs(
+    aPath, aTenantId, aLang, aSort, aOrder, aPage, aLimit = GetDictDefs(
         aData.get('query'),
         ('path', 'tenant', 'lang', 'sort', 'order', 'page', 'limit'),
-        ('0', 1, 1, ('sort_order, title', 'title', 'price'), ('asc', 'desc'), 1, 15)
+        ('0', 1, 'ua', ('sort_order, title', 'title', 'price'), ('asc', 'desc'), 1, 15)
     )
     aLimit = min(100, aLimit)
 
@@ -60,7 +60,7 @@ async def Main(self, aData: dict = None) -> dict:
         'ref_product/category',
         {
             'method': 'Get_CategoriesSubCount_TenantParentLang',
-            'param': {'aTenantId': aTenantId, 'aLangId': aLangId, 'aParentIdtRoot': 0, 'aParentIdts': CategoryIdts},
+            'param': {'aTenantId': aTenantId, 'aLang': aLang, 'aParentIdtRoot': 0, 'aParentIdts': CategoryIdts},
             'query': True
         }
     )
@@ -120,7 +120,7 @@ async def Main(self, aData: dict = None) -> dict:
         'ref_product/category',
         {
             'method': 'Get_CategoriesProducts0_LangImagePrice',
-            'param': {'aCategoryIds': CategoryIds, 'aLangId': aLangId, 'aPriceId': 1, 'aOrder': f'{aSort} {aOrder}', 'aLimit': aLimit, 'aOffset': (aPage - 1) * aLimit}
+            'param': {'aCategoryIds': CategoryIds, 'aLang': aLang, 'aPriceId': 1, 'aOrder': f'{aSort} {aOrder}', 'aLimit': aLimit, 'aOffset': (aPage - 1) * aLimit}
         }
     )
     DblData = ResProduct.get('data')

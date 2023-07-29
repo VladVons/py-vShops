@@ -10,7 +10,35 @@
 {% endblock %}
 
 {% block content %}
-  <item code='{{product.product_id}}'>
+     <template class='lang hide'>
+        <tip>
+            <confirmOrder>Замовлення прийняте. Очікуйте дзвінок для підтвердження</confirmOrder>
+        "errorOrder"    : "Помилка оформлення замовлення",
+        "errorTelegram" : "Замовлення не надіслане в Телеграм",
+        "errorName"     : "Відсутнє, або некоректне ім'я клієнта",
+        "errorPhone"    : "Відсутній, або некоректний номер телефону",
+        "emptyBacket"   : "Кошик порожній, очікується наповнення",
+        </tip>
+        <title class='eye'>Замовлення: </title>
+        <cart>
+          <title class='s'>назва</title>
+          <title class='s'>код</title>
+          <title class='s'>кількість</title>
+          <title class='s'>ціна</title>
+          <title class='s'>разом</title>
+          <title class='s'></title>
+        </cart>
+        <total>
+          <label>замовлено товарів:</label>
+          <num></num>
+          <flex></flex>
+          <label>на сумму:</label>
+          <sum></sum>
+        </total>
+      </template>
+
+
+  <item code='{{product.idt}}' pid='{{product.id}}'>
     <images>
       <zoom title='{{lang.zoom_in}}'><img src='{{product.image}}'></img></zoom>
       <thumbs>
@@ -26,7 +54,7 @@
           <button class='favorite' title='{{lang.to_favorite}}'>a</button>
           <button class='compare' title='{{lang.compare}}'>c</button>
         </buttons>
-        <code class='flex'>{{lang.product_code}}: <b>{{product.code}}</b></code>
+        <code class='flex'>{{lang.product_code}}: <b>{{product.idt}}</b></code>
       </panel>
 
       <title>{{product.title}}</title>
@@ -34,7 +62,7 @@
       <props>
         <name>{{lang.category}}: <value>{{product.category}}</value></name>
         <name>{{lang.available}}: <value class='green'>{{product.rest}}</value></name>
-        <name>{{lang.seller}}: <a href='{{product.tenant_href}}'>{{product.tenant}}</a></name>
+        <name>{{lang.seller}}: <a href='{{href.tenant}}'>{{product.tenant_title}}</a></name>
       </props>
 
       <control>
@@ -47,7 +75,7 @@
                 <price>{{Rec.qty}}{{lang.qty}} {{Rec.price}}</price>
             {%- endif %}
           {% endfor %}
-        <a href='#' class='buy'><icon class='buy'></icon>{{lang.buy}}</a>
+        <a href='/123' class='buy'><icon class='buy'></icon>{{lang.buy}}</a>
       </control>
     </info>
 
@@ -76,13 +104,6 @@
       </label>
 
       <label class='tabcomm hide'>
-        <!--
-        аккуратная материнская плата
-        <plus>Переваги:</plus>
-        м2 слот
-        <minus>Недоліки:</minus>
-        Отличная плата на свою цену
-        -->
       </label>
     </data>
   </tabs>

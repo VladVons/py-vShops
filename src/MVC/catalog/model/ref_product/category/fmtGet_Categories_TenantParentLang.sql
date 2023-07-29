@@ -1,4 +1,4 @@
--- in: aLangId, aTenantId, aParentIdtRoot, CondParentIdts
+-- in: aLang, aTenantId, aParentIdtRoot, CondParentIdts
 with recursive wrpc as (
     select
         rpc.id,
@@ -10,9 +10,11 @@ with recursive wrpc as (
         rpcl.title
     from
         ref_product_category rpc
+    join ref_lang rlng
+        on rlng.alias = '{aLang}'
     left join
         ref_product_category_lang rpcl on
-        (rpc.id = rpcl.category_id) and (rpcl.lang_id = {aLangId})
+        (rpc.id = rpcl.category_id) and (rpcl.lang_id = rlng.id)
     where
         (rpc.tenant_id = {aTenantId}) and
         (rpc.parent_idt = {aParentIdtRoot})
@@ -32,9 +34,11 @@ with recursive wrpc as (
     join
         wrpc on
         (rpc.parent_idt = wrpc.idt)
+    join ref_lang rlng
+        on rlng.alias = '{aLang}'
     left join
         ref_product_category_lang rpcl on
-        (rpc.id = rpcl.category_id) and (rpcl.lang_id = {aLangId})
+        (rpc.id = rpcl.category_id) and (rpcl.lang_id = rlng.id)
     where
         (rpc.tenant_id = {aTenantId})
 )

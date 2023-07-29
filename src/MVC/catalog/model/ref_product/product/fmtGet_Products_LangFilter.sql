@@ -4,8 +4,8 @@ select
     rp.id as product_id,
     rptc.category_id,
     rp.tenant_id,
-    rt.title as tenant,
-    rpl.title,
+    rt.title as tenant_title,
+    rpl.title as product_title,
     (
         select rpp.price::float
         from ref_product_price rpp

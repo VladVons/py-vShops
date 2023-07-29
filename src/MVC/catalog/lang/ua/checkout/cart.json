@@ -1,15 +1,17 @@
 {
-    "shopping_cart": "кошик для покупок",
-    "name": "назва",
-    "code": "код",
-    "quantity": "кількість",
-    "price": "ціна",
-    "together": "разом",
-    "to_pay": "до сплати",
-    "payment_type": "способи оплати",
-    "continue_shopping": "продовжити покупки",
-    "checkout": "оформити замовлення",
-    "product_view": "переглянути товар",
-    "product_count": "товарів в кошику",
-    "cart_empty": "кошик порожній"
+    "tpl": {
+        "shopping_cart": "кошик для покупок",
+        "name": "назва",
+        "code": "код",
+        "quantity": "кількість",
+        "price": "ціна",
+        "together": "разом",
+        "to_pay": "до сплати",
+        "payment_type": "способи оплати",
+        "continue_shopping": "продовжити покупки",
+        "checkout": "оформити замовлення",
+        "product_view": "переглянути товар",
+        "product_count": "товарів в кошику",
+        "cart_empty": "кошик порожній"
+    }
 }
