@@ -143,5 +143,6 @@ async def Main(self, aData: dict = None) -> dict:
 
         DblProduct.AddFields(['thumb', 'href'], [ResThumbs['thumb'], Hrefs])
         Res['dbl_product'] = DblProduct.Export()
+        Res['title'] = '---category---'
 
     return Res

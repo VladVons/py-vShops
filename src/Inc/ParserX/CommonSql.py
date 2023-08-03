@@ -75,6 +75,7 @@ class TSqlBase():
             '"': '&quot;'
             })
 
+        self.lang_id: int
         self.tenant_id: int
         self.price_id: int
         self.stock_id: int
@@ -84,12 +85,13 @@ class TSqlBase():
         Query = FormatFile(f'{Dir}/{aFile}', aFormat)
         return await TDbExecPool(self.Db.Pool).Exec(Query)
 
-    async def LoadTenantConf(self, aAlias: str):
+    async def LoadTenantConf(self, aTenant: str, aLang: str):
         Query = f'''
             select
-                rt.id tenant_id,
-                rs.id stock_id,
-                rp.id price_id
+                rt.id as tenant_id,
+                rs.id as stock_id,
+                rp.id as price_id,
+                (select id from ref_lang where alias = '{aLang}') as lang_id
             from
                 ref_tenant rt
             left join
@@ -99,15 +101,19 @@ class TSqlBase():
                 ref_stock rs on
                 (rt.id = rs.tenant_id) and (rs.idt = 1)
             where
-                (alias = '{aAlias}')
+                (rt.enabled) and
+                (rt.alias = '{aTenant}')
+
+
         '''
 
         Dbl = await TDbExecPool(self.Db.Pool).Exec(Query)
-        assert(not Dbl.IsEmpty()), f'No alias found {aAlias}'
+        assert(not Dbl.IsEmpty()), f'No alias found {aTenant}'
 
         for Field in Dbl.Rec:
             assert(Dbl.Rec.GetField(Field)), f'Empty field {Field}'
 
         self.tenant_id = Dbl.Rec.tenant_id
+        self.lang_id = Dbl.Rec.lang_id
         self.price_id = Dbl.Rec.price_id
         self.stock_id = Dbl.Rec.stock_id

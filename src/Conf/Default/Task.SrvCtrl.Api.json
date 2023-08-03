@@ -6,7 +6,6 @@
     },
     "lang": {
         "type": "fs",
-        "default": "ua",
         "dir": "MVC/catalog/lang"
     },
     "loader": {

@@ -7,10 +7,15 @@
 
 body {
   background-color: var(--bgBody);
-  background-image: url(/default/img/bg-top.png), url(/default/img/bg-bottom.png);
+  background-image: url(img/bg-top.png), url(img/bg-bottom.png);
   background-position: top left, left 0 bottom -370px;
   background-repeat: repeat-x, repeat-x;
 }
+
+mobile, .mobile {
+  display: none;
+}
+
 
 .page {
   width: 1180px;

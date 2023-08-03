@@ -100,7 +100,12 @@ class Common {
         this.menu(json, node)
         data[node.getAttribute('label')] = json
       }
-      sessionStorage.setItem('Catalog', JSON.stringify(data))
+      // save to cache
+      if(Object.keys(data).length) {
+        sessionStorage.setItem('Catalog', JSON.stringify(data))
+      }else{
+        sessionStorage.removeItem('Catalog')
+      }
     }else{
       // get from cache
       menu = JSON.parse(menu)

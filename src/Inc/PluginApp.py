@@ -8,6 +8,7 @@ import time
 #
 from Inc.ConfJson import TConfJson
 from Inc.Util.Mod import DynImport
+from Inc.Util.Obj import DeepGetByList
 from IncP.Log import Log
 
 
@@ -27,7 +28,7 @@ class TPluginApp():
         self.Conf.LoadList(Files)
 
         ConfInclude = self.Conf.get('include', [])
-        Files = [f'{self.Dir}/{x}' for x in ConfInclude]
+        Files = [f'{self.Dir}/{x}' for x in ConfInclude if (not x.startswith('-'))]
         self.Conf.LoadList(Files, True)
 
         Conf = self.Conf.get('conf', [])
@@ -45,18 +46,16 @@ class TPluginApp():
                     if (self.Data.get(Depend) is None):
                         Log.Print(1, 'i', f'{Tab}{aName} depends on {Depend}')
                     await self.Load(Depend, aDepth + 1)
-
-            TClass, Err = DynImport(self.Path + '.' + aName, 'T' + aName)
+            Plugin = DeepGetByList(self.Conf, ['plugin', aName])
+            assert(Plugin), f'plugin not found {aName}'
+            ClassName = Plugin.get('class', aName)
+            TClass, Err = DynImport(self.Path + '.' + ClassName, 'T' + ClassName)
             if (TClass):
                 TimeStart = time.time()
-                Class = TClass()
-                Class.Parent = self
-                Class.Depends = Depends
-                Class.Name = aName
-                Class.Depth = aDepth
-                Class.Conf = TConfJson(self.Conf.JoinKeys(['common', 'plugin.' + aName]))
+                Conf = TConfJson(self.Conf.JoinKeys(['common', 'plugin.' + aName]))
                 ConfEx = self.ConfEx.get(aName, {})
-                Class.Conf.update(ConfEx)
+                Conf.update(ConfEx)
+                Class = TClass(self, Depends, ClassName, aName, Conf, aDepth)
                 self.Data[aName] = await Class.Run()
                 Log.Print(1, 'i', '%sFinish %s. Time: %0.2f' % (Tab, aName, time.time() - TimeStart))
             else:
@@ -67,10 +66,6 @@ class TPluginApp():
         TimeStart = time.time()
         Log.Print(1, 'i', 'Start. TPluginApp.Run()')
         for Plugin in self.Conf.get('plugins', []):
-            if (Plugin.get('enable', True)):
-                Name = Plugin.get('name')
-                Param = Plugin.get('param')
-                if (Param):
-                    Plugin.ConfEx[Name] = Param
-                await self.Load(Name, 0)
+            if (not Plugin.startswith('-')):
+                await self.Load(Plugin, 0)
         Log.Print(1, 'i', 'Finish. TPluginApp.Run(). Time: %0.2f' % (time.time() - TimeStart))

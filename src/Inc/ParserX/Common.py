@@ -31,13 +31,13 @@ class TApiBase():
 
 
 class TPluginBase():
-    def __init__(self):
-        # assigned from TPlugins class creator
-        self.Parent = None
-        self.Depends = None
-        self.Name = None
-        self.Conf = None
-        self.Depth = 0
+    def __init__(self, aParent, aDepends: list, aName: str, aPlugin: str, aConf: dict, aDepth: int):
+        self.Parent = aParent
+        self.Depends = aDepends
+        self.Name = aName
+        self.Plugin = aPlugin
+        self.Conf = aConf
+        self.Depth = aDepth
 
     def GetDepends(self) -> list[str]:
         return [x for x in self.Depends if (not x.startswith('-'))]
@@ -68,9 +68,11 @@ class TPluginBase():
     def GetFile(self) -> str:
         Res = self.Conf.GetKey('file')
         if (not Res):
-            Split = self.Name.split('_')
+            Split = self.Plugin.split('_')
             File = '/'.join(Split[:-1]) + '.' + Split[-1]
             Res = self.Parent.Conf.GetKey('dir_data') + '/' + File
+        elif (os.sep not in Res):
+            Res = self.Parent.Conf.GetKey('dir_data') + '/' + Res
         return Res
 
 
@@ -81,7 +83,7 @@ class TFileBase():
 
     def GetFile(self) -> str:
         TopClass = GetClassPath(self).split('/')[-1]
-        Res = self.Parent.Parent.Conf.GetKey('dir_data') + '/' + self.Parent.Name + '/' + TopClass + '.dat'
+        Res = self.Parent.Parent.Conf.GetKey('dir_data') + '/' + self.Parent.Plugin + '/' + TopClass + '.dat'
         return Res
 
 
@@ -152,6 +154,7 @@ class TEngine(TFileDbl):
             self._Engine = aEngine
         else:
             ConfFile = self.Parent.GetFile()
+            assert(os.path.exists(ConfFile)), f'file not found {ConfFile}'
             self._Engine = self._InitEngine(ConfFile)
         return self._Engine
 
