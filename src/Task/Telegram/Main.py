@@ -8,6 +8,7 @@ from aiogram.filters.command import Command
 #
 from Inc.DataClass import DDataClass
 from Inc.Util.Obj import GetTree
+from IncP import GetSysInfo, DictToText
 from IncP.Log import Log
 from Task.SrvCtrl import ApiCtrl
 
@@ -23,10 +24,15 @@ class TTelegram():
 
     async def cmd_start(self, message: types.Message):
         Keyboard = [
+            [types.KeyboardButton(text = '/AppInfo')],
             [types.KeyboardButton(text = '/DbInfo')]
         ]
         ReplyMarkup = types.ReplyKeyboardMarkup(keyboard=Keyboard, resize_keyboard=True)
         await message.answer('=cmd_start=', reply_markup=ReplyMarkup)
+
+    async def cmd_AppInfo(self, message: types.Message):
+        Data = GetSysInfo()
+        await message.answer(DictToText(Data))
 
     async def cmd_DbInfo(self, message: types.Message):
         Data = await ApiCtrl.Exec('misc/about', {'method': 'Main', 'type': 'api'})
@@ -39,6 +45,8 @@ class TTelegram():
 
         dp = Dispatcher()
         dp.message.register(self.cmd_start, Command('start'))
+        dp.message.register(self.cmd_AppInfo, Command('AppInfo'))
         dp.message.register(self.cmd_DbInfo, Command('DbInfo'))
+
         self.Bot = Bot(self.Conf.token)
         await dp.start_polling(self.Bot)
