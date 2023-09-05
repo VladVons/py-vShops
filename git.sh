@@ -49,10 +49,10 @@ GitAuth()
   #git config --global credential.helper cache
 
   # token
-  #git config --global credential.helper libsecret
-  #git config --global credential.helper store
+  git config --global credential.helper libsecret
+  git config --global credential.helper store
 
-  #git config -l
+  git config -l
 }
 
 
