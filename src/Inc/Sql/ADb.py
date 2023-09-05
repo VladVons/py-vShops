@@ -22,6 +22,10 @@ def ListToComma(aData: list) -> str:
             Res.append(str(x))
     return ', '.join(Res)
 
+def ListsToComma(aData: list) -> str:
+    Res = [ListToComma(x) for x in aData]
+    return '(' + '), ('.join(Res) + ')'
+
 def ListIntToComma(aData: list[int]) -> str:
     return ', '.join(map(str, aData))
 

@@ -1,10 +1,10 @@
 @font-face {
-  font-family: 'icons';
+  font-family: 'Icons';
   src:  url('/default/fonts/icons.eot?f6qx8g');
   src:  url('/default/fonts/icons.eot?f6qx8g#iefix') format('embedded-opentype'),
-    url('/default/fonts/icons.ttf?f6qx8g') format('truetype'),
-    url('/default/fonts/icons.woff?f6qx8g') format('woff');
-    /*url('icons.svg?f6qx8g#icomoon') format('svg');*/
+        url('/default/fonts/icons.ttf?f6qx8g') format('truetype'),
+        url('/default/fonts/icons.woff?f6qx8g') format('woff');
+        /*url('icons.svg?f6qx8g#icomoon') format('svg');*/
   font-weight: normal;
   font-style: normal;
   font-display: block;
@@ -24,11 +24,30 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-
+/*set of 33 icons*/
+.icon-limit:before {content: "%"}
+.icon-home:before {content: "h"}
+.icon-location:before {content: "L"}
+.icon-compass:before {content: "^"}
+.icon-back:before {content: "["}
+.icon-forward:before {content: "]"}
+.icon-user:before {content: "u"}
+.icon-settings:before {content: "/"}
+.icon-palette:before {content: "P"}
+.icon-plus:before {content: "+"}
+.icon-minus:before {content: "-"}
+.icon-delete:before {content: "x"}
+.icon-ok:before {content: "O"}
+.icon-sort:before {content: ">"}
+.icon-share:before {content: "<"}
+.icon-facebook:before {content: "F"}
+.icon-instagram:before {content: "I"}
+.icon-telegram:before {content: "T"}
+.icon-twitter:before {content: "X"}
 .icon-alert:before {content: "!"}
 .icon-bitcoin:before {content: "B" }
-.icon-mastercard:before {content: "m"}
-.icon-visa:before {content: "v"}
+.icon-card:before {content: "C"}
+.icon-save:before {content: "S"}
 .icon-question:before {content: "?"}
 .icon-basket:before {content: "b"}
 .icon-phone:before {content: "p"}
@@ -36,21 +55,9 @@
 .icon-trash:before {content: "t"}
 .icon-search:before {content: "s"}
 .icon-grid:before {content: "g"}
-.icon-list:before {content: "l"}
+.icon-list:before {content: "="}
 .icon-compare:before {content: "c"}
-.icon-dollars:before {content: "$"}
+.icon-cash:before {content: "$"}
 .icon-favorite:before {content: "f"}
+.icon-language:before {content: "l"}
 .icon-addfavor:before {content: "a"}
-.icon-home:before {content: "h"}
-.icon-location:before {content: "L"}
-.icon-user:before {content: "u"}
-.icon-eye:before {content: "e"}
-.icon-plus:before {content: "+"}
-.icon-minus:before {content: "-"}
-.icon-delete:before {content: "x"}
-.icon-ok:before {content: "O"}
-.icon-share:before {content: "S"}
-.icon-facebook:before {content: "F"}
-.icon-instagram:before {content: "I"}
-.icon-telegram:before {content: "T"}
-.icon-twitter:before {content: "W"}

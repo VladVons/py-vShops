@@ -9,7 +9,9 @@ import { Static } from './static.js'
 const 
   NAME    = 'jMagic',
   VERSION = '0.0.1',
-  LEGACY  = !CSS.supports("container: name")
+  LEGACY  = !(CSS.supports("display: grid") && CSS.supports("display: flex")),
+  DEVICE  = (navigator.maxTouchPoints > 0) ? 'mobile' : 'desktop',
+  ORIENTATION = screen.orientation.type.includes('portrait') ? 'portrait' : 'landscape'
 
 // FRAMEWORK CONSTANTS
 const 
@@ -61,7 +63,7 @@ class jMagic {
     window.wait = $$.wait = this.wait
     
     // global constants
-    $$.conf = {NAME,VERSION,LEGACY,...CONF}
+    $$.conf = {NAME,VERSION,LEGACY,DEVICE,...CONF}
     
     //static extensions
     $$.__proto__ = Static.prototype
@@ -70,13 +72,12 @@ class jMagic {
     //default error handler
     $$.error.handler = $$.tip
     
-    //init localisation
+    //init localization
     $$.error.init = (name, obj) => {
       for(let key in $$.error[name]) {
         $$.error[name][key].local = obj[key] || ''
       }
     }
-    console.log($$)
   }
   
   // async wait

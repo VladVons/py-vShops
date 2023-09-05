@@ -1,0 +1,246 @@
+@import url("root.css") screen;
+@import url("common.css") screen;
+@import url("settings.css") screen;
+@import url("panel.css") screen;
+@import url("top.css") screen;
+@import url("menu.css") screen;
+@import url("path.css") screen;
+@import url("page.css") screen;
+@import url("nav.css") screen;
+@import url("pages.css") screen;
+@import url("footer.css") screen;
+@import url("social.css") screen;
+@import url("popup.css") screen;
+
+
+/* ======================== */
+/* === category section === */
+/* ======================== */
+
+category {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+category item {
+  display: flex;
+  align-items: baseline;
+  width: 50%;
+}
+
+category item a {
+  font-size: var(--category-item);
+  margin: 0 20px 0 0;
+}
+
+category item::before{
+  margin-right: 5px;
+  font-size: var(--nav-tree-icon);
+}
+
+
+/* ======================= */
+/* === control section === */
+/* ======================= */
+
+control {
+  display: flex;
+  height: 32px;
+  margin-top: 40px;
+  border: 0px solid;
+}
+
+control mode {
+  display: flex;
+  justify-content: center;
+  align-items:center;
+  width: 42px;
+  height: 32px;
+  font-size: var(--control-mode);
+  cursor: pointer;
+  color: #000;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
+  background: #e7e7e7;
+  border: 1px solid #ccc;
+}
+
+control mode.active {
+  background: linear-gradient(to bottom, #eee, #fff);
+  color: #09f;
+}
+
+control mode:hover {
+  background: linear-gradient(to bottom, #ccc, #fff);
+  color: #09f;
+}
+
+control mode.list{
+  border-radius: 4px 0 0 4px;
+  border-right: 0;
+}
+
+control mode.grid{
+  border-right: 0;
+}
+
+control mode.compare{
+  border-radius: 0 4px 4px 0;
+}
+
+control mode:before {
+  font-size: 1.1em;
+}
+
+control mode.list:before {content: '='}
+control mode.grid:before {content: 'g'}
+control mode.compare:before {content: 'c'}
+
+control desktop, control select {
+  font-size: var(--control-label);
+}
+
+control label {
+  display: flex;
+  align-items: center;
+  background: #eee;
+  padding: 0 15px 0 15px;
+  border-radius: 4px 0 0 4px;
+  border: 1px solid #ccc;
+  border-right: 0;
+}
+
+control label:before {
+  font-size: var(--control-label);
+  margin-right: 10px;
+}
+
+control label.sort:before { content: '>' }
+control label.limit:before { content: '%' }
+
+control select {
+  min-width: 50px;
+  margin-right: 20px;
+  padding: 0 10px 0 10px;
+  border: 1px solid #ccc;
+  border-radius: 0 4px 4px 0;
+  background: #ffe;
+}
+
+control select:last-child {
+  margin: 0;
+}
+
+control select option {
+  padding: 15px 0 15px 0;
+}
+
+/* ============= */
+/* === goods === */
+/* ============= */
+
+goods {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, calc(100% / 3 - 20px));
+  justify-content: space-between;
+}
+
+goods item {
+  position: relative;
+  height: 500px;
+  text-align: center;
+  margin-top: 40px;
+  border: 1px solid #ccc;
+}
+
+goods item panel {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 48px;
+}
+
+goods item panel a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 48px;
+  width: 48px;
+  font-weight: bold;
+  color: #555;
+  border-left: 1px solid #ccc;
+  background: linear-gradient(to bottom, #eee, #ddd);
+  cursor: pointer;
+}
+
+goods item panel a:hover {
+  background: linear-gradient(to bottom, #ddd, #ccc);
+  color: #09f;
+}
+
+goods item panel a.buy, goods item panel a.buy:hover {
+  flex: 1;
+  border-left: 0;
+}
+
+goods item panel a:before {
+  font-size: 1.2em;
+}
+
+goods item panel a.buy:before {
+  margin-right: 10px;
+}
+
+goods item name, goods item info, goods item price {
+  text-align: center;
+  padding: 0 10px 0 10px;
+  font-size: 1em;
+  overflow: hidden;
+}
+
+goods item name {
+  color: #09f;
+  margin-top: 10px;
+  max-height: 60px;
+  font-weight: bold;
+  font-size: 0.9em;
+}
+
+goods item info {
+  max-height: 100px;
+  font-size: 0.85em;
+}
+
+goods item price {
+  position: absolute;
+  left: 0;
+  bottom: 60px;
+  width: 100%;
+  font-size: var(--item-price);
+  text-align: center;
+}
+
+goods.list item {
+  width: 100%;
+  margin: 40px 0 0 0;
+  min-height: 240px;
+  max-height: 240px;
+}
+
+goods.list item img {
+  position: absolute;
+  top: 5px;
+  left: 0;
+}
+
+goods.list item block {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: calc(100% - 250px);
+  height: 100%;
+}
+
+goods.list item panel a {
+  width: 80px;
+}

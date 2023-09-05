@@ -1,8 +1,9 @@
 "use strict"
 
-const 
-  SEARCH = '?route=product/search&search=',
-  NAV = '/api/?route=product/category&method=ApiNav'
+// User imports
+import {conf} from './conf.js'
+import('./search.js')
+
 
 class Common {
   constructor() {
@@ -10,6 +11,26 @@ class Common {
     this.sum = 0.0
     
     $$( () => {
+      //mobile menu
+      if($$.conf.DEVICE === 'mobile') this.mobile()
+      
+      //setting (language/currency/palette)
+      $$('panel links a.icon-settings, header panel lang, header panel currency, settings button')
+        .on('click', event => {
+          event.returnValue = false
+          $$('settings')[0].classList.toggle('active')
+        })
+
+      //get dpi (temparary function)
+      let dpi = (function () {
+        for (var i = 56; i < 2000; i++) {
+          if (matchMedia("(max-resolution: " + i + "dpi)").matches === true) {
+            return i;
+          }
+        }
+        return i;
+      })()
+      
       //cart data
       this.cart()
       
@@ -19,40 +40,57 @@ class Common {
       // set global data
       let history = this.history()
       $$('top info num').text(this.num)
-      $$('top info sum').text(`${this.sum.toFixed(2)} грн`)
+      $$('top info sum').text(`${this.sum.toFixed(2)} грн`)   //!!!!!!!!!!!!!!!!!! lang
       $$('panel links a.icon-basket num').text(this.num || '0')
       $$('panel links a.icon-ok num').text(history)
       $$('panel links a.icon-favorite num').text('0')
       $$('panel links a.icon-compare num').text('0')
-      
-      //search
-      $$('input.search').on('keypress', (event) => {
-        if(event.keyCode == 13 && event.target.value.length >= 3) {
-          document.location.href = SEARCH + encodeURI(event.target.value)
-        }
-      })
-      $$('button.search').on('click', (event) => { 
-        let input = $$('input.search')[0]
-        if(input.value.length >= 3) {
-          document.location.href = SEARCH + encodeURI(input.value)
-        }
-      })
+
       // social icons
       let icons = $$('social icons')[0]
-      $$('social share').on('click', (event) => {
-        icons.classList.toggle('active')
-      })
-      $$('social icons a').on('click', (event) => {
-        icons.classList.toggle('active')
-        return false
-      })
+      $$('social share')
+        .on('click', (event) => {
+          icons.classList.toggle('active')
+        })
+      $$('social icons a')
+        .on('click', (event) => {
+          icons.classList.toggle('active')
+          return false
+        })
+      $$('social callback')
+        .on('click', event => {
+          $$.mask()
+          $$('popup')
+            .css({opacity: 1})[0]
+            .classList.toggle('active')
+        })
+      // popup event
+      $$('popup')
+        .on('transitionend', event => {
+          if(event.propertyName === 'height' && event.target.clientHeight) {
+            for(let node of $$('popup close, popup content')) {
+              node.classList.toggle('active')
+            }
+          }
+        })
+      $$('popup close')
+        .on('click', event => {
+          for(let node of $$('popup close, popup content')) {
+            node.classList.remove('active')
+          }
+          event.target.parentNode.classList.toggle('active');
+          $$.unmask()
+        })
+        
+      
+      //scroll window event
       window.addEventListener('scroll', event => {
         if(icons.classList.contains('active')) {
           icons.classList.toggle('active')
         }
       })
       //copyright
-      $$('footer copyright')[0].textContent += ` (powered by jMagic/${$$.conf.VERSION})`
+      $$('footer copyright')[0].innerHTML += `<mobile><br/></mobile> (powered by jMagic/${$$.conf.VERSION})`
       
       //total data for cart
       $$('content total num').text(this.num)
@@ -62,12 +100,20 @@ class Common {
     })
   }
   
+  struc(data) {
+    return data.head.reduce((obj, key, idx) => {
+      obj[key] = idx
+      return obj
+    }, {})
+  }
+  
   cart() {
     let store = localStorage.getItem('Cart')
-    let data = (store) ? JSON.parse(store) : []
-    for(let elem of data) {
+    let data = (store) ? JSON.parse(store) : conf.cart
+    let struc = this.struc(data)
+    for(let elem of data.data) {
       this.num++
-      this.sum+=elem.count * parseFloat(elem.price)
+      this.sum+=elem[struc.qty] * elem[struc.price]
     }
     let pay = localStorage.getItem('Payment')
     this.pay = (pay) ? JSON.parse(pay) : {type: 'cash', text: 'cash'}
@@ -89,7 +135,7 @@ class Common {
       //get from server
       let data = {}
       for(let node of $$('nav catalog')) {
-        let json = await $$.post(NAV, {
+        let json = await $$.post(conf.url.menu, {
           headers: {
             'Content-type': 'application/json'
           },
@@ -128,7 +174,7 @@ class Common {
         if(event.target.classList.contains('cache')) {
           level = event.target.nextSibling
         }else{
-          level = await $$.post(NAV, {
+          level = await $$.post(conf.url.menu, {
             headers: {
               'Content-type': 'application/json'
             },
@@ -199,8 +245,36 @@ class Common {
     }
     return level
   }
+
+  async mobile() {
+    //left swipe main menu
+    let swipe = await import('./swipe.js')
+    new swipe.Swipe($$('menu')[0])
+    
+    $$('border.menu')
+      .on('click', event => {
+        $$('menu').css({left: 0})
+      })
+    
+    //fix path
+    $$('path').css({display: 'block'})
+    //swap path with nav
+    $$('page flex nav').append($$('page path')[0])
+    //nav expand catalog
+    $$('nav title')
+      .on('click', event => {
+        let catalog = event.target
+        while(catalog.nextSibling.nodeName !== 'CATALOG') {
+          catalog = catalog.nextSibling
+        }
+        catalog = catalog.nextSibling
+        catalog.style.height = (catalog.classList.contains('active')) ? 0 : catalog.scrollHeight + 'px'
+        catalog.classList.toggle('active')
+      })
+  }
   
 }
 
-new Common
+let common = new Common()
+export {common}
 

@@ -7,8 +7,12 @@
         "together": "разом",
         "products_ordered": "замовлено товарів",
         "product_view": "переглянути товар",
-        "refresh": "оновити",
+        "refresh": "оновити замовлення",
         "orders_all": "всі замовлення",
-        "sum": "сума"
+        "sum": "сума",
+        "foto": "фото"
+    },
+    "js": {
+        "currency_abbr": "грн"
     }
 }

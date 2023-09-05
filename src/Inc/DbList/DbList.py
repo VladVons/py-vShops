@@ -88,6 +88,16 @@ class TDbList(TDbBase):
 
         return self.Init(aFields, aDbl.ExportData(aFields, aCond, aRecNo))
 
+    def ImportDict(self, aData: list[dict], aFields: list[str] = None) -> 'TDbBase':
+        if (aFields is None):
+            aFields = aData[0].keys()
+
+        Data = []
+        for xData in aData:
+            Row = [xData[Field] for Field in aFields]
+            Data.append(Row)
+        return self.Init(aFields, Data)
+
     def Init(self, aFields: list[str], aData: list) -> 'TDbList':
         self.Rec.Init(aFields, aData)
 

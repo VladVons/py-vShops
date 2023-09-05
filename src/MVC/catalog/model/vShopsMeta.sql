@@ -189,6 +189,7 @@ create table if not exists ref_customer (
     lastname            varchar(32) not null,
     phone               varchar(15) unique,
     email               varchar(32) unique,
+    image               varchar(64)
     constraint ref_customer_chk_email_phone check ((email is not null) or (phone is not null)),
 
 );

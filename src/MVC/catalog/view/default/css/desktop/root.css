@@ -1,0 +1,59 @@
+/* ====================== */
+/* === root section === */
+/* ====================== */
+
+:root {
+  --bg-body:  #e9e9e9;
+  --bg-panel: #0a3e4b;
+  --bg-top:   #0e5d7b;
+  --bg-desktop:   url(/default/img/bg-top.png), 
+                  url(/default/img/bg-bottom.png);
+  --bg-page: #fff url(/default/img/bg-page.png) top left repeat-x;
+  --bg-header:    url(/default/img/bg-header.jpg) top center no-repeat; 
+  --bg-menu:      url(/default/img/bg-menu.png) 0 -10px repeat-x;
+  
+  --font-base: normal 20px / 1.4em Roboto Condensed;
+  --font-roboto: normal 20px / 1.4em Roboto Condensed;
+  --font-abel: normal 22px/1.3em Abel;
+  --font-icons: normal 1em Icons;
+  
+  --panel-border: 1px solid #1181ad;
+  --panel-font: 0.9em;
+  --panel-icon: 0.9em;
+  --top-font: 0.85em;
+  --menu-font: 1.1em;
+  --nav-font: 0.9em;
+  --nav-icon: 1.6em;
+  --nav-tree-icon: 0.6em;
+  --path-font: 0.75em;
+  --category-item: 0.9em;
+  --control-mode: 1.1em;
+  --control-label: 0.8em;
+  --item-price: 1.2em;
+  --item-buy: 1.2em;
+  --product-price: 1.4em;
+  
+  --cart-title: 1.6em;
+  --cart-title-icon: 1.1em;
+  --cart-thumb: 120px;
+  --cart-payment-icon: 2em;
+  
+  --map-marker: url(/default/js/leaflet/css/marker-icon.png);
+  --contact-title: 1.2em;
+}
+
+:before {
+  font-family: Icons;
+}
+
+/* Light palette */
+
+:root.light {
+  
+}
+
+/* Dark palette */
+
+:root.dark {
+  
+}

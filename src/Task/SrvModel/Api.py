@@ -34,14 +34,8 @@ class TApiModel(TApiBase):
 
         Method, Module = (Data['method'], Data['module'])
         Param = aData.get('param', {})
-        Data = await Method(Module, **Param)
-        if (Data):
-            Res = {'data': Data[0]}
-            if (aData.get('query')):
-                Res['query'] = Data[1]
-        else:
-            Res = {'data': None}
-        return Res
+        Res = await Method(Module, **Param)
+        return {'data': Res}
 
     async def DbConnect(self):
         await self.DbMeta.Db.Connect()

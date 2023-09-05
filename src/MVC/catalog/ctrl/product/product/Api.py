@@ -2,9 +2,10 @@
 # Author: Vladimir Vons <VladVons@gmail.com>
 # License: GNU, see LICENSE for more details
 
-
+import json
 from IncP.LibCtrl import TDbSql, GetDictDefs
 from .Features import TFeatures
+from .Schema import TSchemaProduct
 
 
 async def Main(self, aData: dict = None) -> dict:
@@ -93,6 +94,22 @@ async def Main(self, aData: dict = None) -> dict:
 
         CategoryIdt = list(map(int, aPath.split('_')))[-1]
         Product['breadcrumbs'] = await GetBreadcrumbs(aLang, CategoryIdt, aTenantId)
+
+        SchemaProduct = {
+            '@context': 'https://schema.org/',
+            '@type': 'Product',
+            'image': Product.get('images'),
+            'name': Product.get('title'),
+            'description': Product.get('descr'),
+            'offers': {
+                '@type': 'Offer',
+                'itemCondition': 'https://schema.org/NewCondition',
+                'availability': 'https://schema.org/InStock',
+                'price': 123.45,
+                'priceCurrency': 'uah'
+            }
+        }
+        Product['schema'] = json.dumps(SchemaProduct)
 
         Res['href'] = {
             'tenant': f'?tenant={aTenantId}'

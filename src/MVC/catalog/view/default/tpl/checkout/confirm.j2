@@ -1,20 +1,17 @@
 {% extends '_inc/layout1.j2' %}
 
 {% block head %}
-  <script type='module' src='/default/js/confirm.js' ></script>
+  <script type='module' src='/default/js/pages/checkout/confirm.js' ></script>
 {% endblock %}
 
 {% block content %}
      <title class='cart'>{{lang.confirm_order}}</title>
       <total>
-        <label>{{lang.product_count}}:</label>
-        <num></num>
+        <num label='{{lang.product_count}}'></num>
         <flex></flex>
-        <label>{{lang.payment_type}}:</label>
-        <pay></pay>
+        <pay label='{{lang.payment_type}}'></pay>
         <flex></flex>
-        <label>{{lang.to_pay}}:</label>
-        <sum></sum>
+        <sum label='{{lang.to_pay}}'></sum>
       </total>
 
       <confirm>

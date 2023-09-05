@@ -39,11 +39,17 @@ class TDbRec():
     def GetAsDict(self) -> dict:
         return dict(zip(self.Fields, self.Data))
 
+    def GetAsDictFields(self, aFields: list[str]) -> dict:
+        return {xField:self.GetField(xField) for xField in aFields}
+
     def GetAsDictVal(self) -> dict:
         return {Key:Val for Key, Val in zip(self.Fields, self.Data) if (Val is not None)}
 
     def GetAsList(self) -> list:
         return self.Data
+
+    def GetAsListFields(self, aFields: list[str]) -> list:
+        return [self.GetField(xField) for xField in aFields]
 
     def GetAsSql(self) -> str:
         Res = [f"'{x}'" if (isinstance(x, str)) else str(x) for x in self.Data]

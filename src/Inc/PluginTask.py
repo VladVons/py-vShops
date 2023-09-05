@@ -21,7 +21,7 @@ class TPluginTask(TPlugin):
         File = '%s/%s~%s' % (self.DirConf, self.Dir, aPath.replace('.', '~'))
         Conf = TConf(File + '.py')
         Conf.Load()
-        ConfClass = TConfClass(File + '.json', Conf)
+        ConfClass = TConfClass(File + '.class.json', Conf)
         ConfClass.Load()
         return (Conf, ConfClass)
 

@@ -37,18 +37,20 @@ class TConfJson(dict):
         for x in DirWalk(aDir, '.json$', 'f', 0):
             self.LoadFile(x[0], aJoin)
 
-    def LoadFile(self, aFile: str, aJoin: bool = True):
+    def LoadFile(self, aFile: str, aJoin: bool = True) -> dict:
         Data = self._ReadFile(aFile)
         if (aJoin):
             Data = self._Join([self, Data])
             self.Init(Data)
         else:
             self.update(Data)
+        return dict(self)
 
-    def LoadList(self, aPath: list[str], aJoin: bool = True):
+    def LoadList(self, aPath: list[str], aJoin: bool = True) -> dict:
         for File in aPath:
             if os.path.exists(File):
                 if (os.path.isdir(File)):
                     self.LoadDir(File)
                 else:
                     self.LoadFile(File, aJoin)
+        return dict(self)

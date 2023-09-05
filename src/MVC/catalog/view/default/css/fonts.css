@@ -1,0 +1,24 @@
+@font-face {
+    font-family: 'Abel';
+    src: url('/default/fonts/abel.eot');
+    src: url('/default/fonts/abel.eot?#iefix') format('embedded-opentype'),
+         url('/default/fonts/abel.woff') format('woff'),
+         url('/default/fonts/abel.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Roboto Condensed';
+    src: url('/default/fonts/roboto.eot');
+    src: url('/default/fonts/roboto.eot?#iefix') format('embedded-opentype'),
+         url('/default/fonts/roboto.woff2') format('woff2'),
+         url('/default/fonts/roboto.woff') format('woff'),
+         url('/default/fonts/roboto.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+ 
+ 

@@ -1,58 +1,62 @@
 {% extends '_inc/layout1.j2' %}
 
 {% block head %}
-  <script type='module' src='/default/js/cart.js' ></script>
+  <script type='module' src='/default/js/pages/checkout/cart.js' ></script>
 {% endblock %}
 
 {% block content %}
       <title class='cart'>{{lang.shopping_cart}}</title>
       <!-- template for cart -->
       <template class='hide'>
-        <item>
-          <a href='/product2.shtml' title='{{lang.product_view}}'><thumb style='background-image:url(/default/img/pixel.gif)'></thumb></a>
-          <a href='/product2.shtml' title='{{lang.product_view}}'><name></name></a>
+       <item code=0 pid=0>
+          <a href='/product.shtml' title='{{lang.product_view}}'><thumb></thumb></a>
+          <name><a href='/product.shtml' title='{{lang.product_view}}'></a></name>
+          <code></code>
+          <qty>
+            <minus>-</minus>
+            <input type='text' maxlength=3 value='' min=1 max=10 step=1 required>
+            <plus>+</plus>
+          </qty>
+          <price></price>
+          <sum></sum>
+          <cbox><input type='checkbox' title='виділити'/></cbox>
         </item>
-        <code></code>
-        <count>
-          <minus>-</minus>
-          <input type='text' maxlength='3' value='' required>
-          <plus>+</plus>
-        </count>
-        <price></price>
-        <sum></sum>
-        <trash><icon>t</icon></trash>
       </template>
       <!-- /template for cart -->
 
       <cart>
-        <title class='s'>{{lang.name}}</title>
-        <title class='s'>{{lang.code}}</title>
-        <title class='s'>{{lang.quantity}}</title>
-        <title class='s'>{{lang.price}}</title>
-        <title class='s'>{{lang.together}}</title>
-        <title class='s'></title>
+        <titles>
+          <title class='s thumb'>{{lang.foto}}</title>
+          <title class='s name'>{{lang.name}}</title>
+          <title class='s code'>{{lang.code}}</title>
+          <title class='s qty'>{{lang.quantity}}</title>
+          <title class='s price'>{{lang.price}}</title>
+          <title class='s sum'>{{lang.together}}</title>
+          <cbox><input type='checkbox' title='{{lang.select_all}}'/></cbox>
+        </titles>
       </cart>
+
       <empty class='hide'>{{lang.cart_empty}}</empty>
+
       <total>
-        <label>{{lang.product_count}}:</label>
-        <num></num>
+        <num label='{{lang.product_count}}:'></num>
         <flex></flex>
-        <label>{{lang.to_pay}}:</label>
-        <sum></sum>
+        <sum label='{{lang.to_pay}}:'></sum>
       </total>
+
+      <buttons>
+        <button class='category icon-back'>{{lang.continue_shopping}}</button>
+        <button class='remove icon-trash'>{{lang.delete_selected}}</button>
+      </buttons>
+
       <payment>
         <label>{{lang.payment_type}}:</label>
-        <input type='radio' name='payment' value='bitcoin'>
-        <icon class='bitcoin'></icon>
-        <input type='radio' name='payment' value='visa'>
-        <icon class='visa'></icon>
-        <input type='radio' name='payment' value='mastercard'>
-        <icon class='mastercard'></icon>
-        <input type='radio' name='payment' value='cash'>
-        <icon class='cash'></icon>
+        <type class='bitcoin'></type>
+        <type class='card'></type>
+        <type class='cash'></type>
       </payment>
-      <buttons>
-        <button href='{{href.catalog}}' class='continue' onclick='history.go(-1)'>{{lang.continue_shopping}}</button>
-        <button href='{{href.confirm}}' class='checkout'>{{lang.checkout}}</button>
+
+      <buttons class='checkout'>
+        <button class='checkout icon-ok'>{{lang.checkout}}</button>
       </buttons>
 {% endblock %}

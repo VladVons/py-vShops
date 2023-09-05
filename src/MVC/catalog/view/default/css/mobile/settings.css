@@ -1,0 +1,99 @@
+/* ======================== */
+/* === settings section === */
+/* ======================== */
+
+settings {
+  display: flex;
+  flex-wrap: wrap;
+  position: absolute;
+  top: -250px;
+  left: calc(50% - 570px);
+  width: 300px;
+  background: var(--bg-panel);
+  border-radius: 4px;
+  opacity: 0;
+  padding: 10px;
+  z-index: 101;
+  border: 1px solid #ccc;
+  box-shadow: 3px 3px 16px 8px #000;
+  transition: 1s ease;
+}
+
+settings.active {
+  top: 55px;
+  opacity: 1;
+}
+
+settings label, settings select, settings button {
+  height: 32px;
+  line-height: 32px;
+}
+
+settings title {
+  display: block;
+  width: 100%;
+  color: #fff;
+  margin-bottom: 5px;
+  text-align: center;
+}
+
+settings title:before {
+  margin-right: 10px;
+}
+
+settings label {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  width: 100px;
+  background: #eee;
+  font-size: 0.8em;
+  line-height: 32px;
+  padding: 0 10px 0 10px;
+  margin: 5px 0 5px 0;
+  border-radius: 4px 0 0 4px;
+  border: 1px solid #ccc;
+  border-right: 0;
+}
+
+settings label:before {
+  font-size: 1em;
+  margin-right: 5px;
+  margin-bottom: 2px;
+  color: var(--bg-panel);
+}
+
+settings select {
+  width: calc(100% - 100px);
+  padding: 0 5px 0 5px;
+  margin: 5px 0 5px 0;
+  border: 1px solid #ccc;
+  border-radius: 0 4px 4px 0;
+  background: #ffe;
+  cursor: pointer;
+  font-size: 0.8em;
+}
+
+settings button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: 1;
+  font-weight: bold;
+  font-size: 0.9em;
+  border: 0;
+  color: #000;
+  border-radius: 4px;
+  margin-top: 15px;
+  cursor: pointer;
+}
+
+settings button:hover {
+  background: #9f9;
+}
+
+settings button:before {
+  font-size: 1.2em;
+  margin-right: 10px;
+  color: var(--bg-panel);
+}

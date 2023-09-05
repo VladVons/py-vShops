@@ -30,7 +30,7 @@ export class Fetch {
     $$.error.FETCH = FETCH
     // IMPORT LOCALISATION
     if($$.conf.lang) {
-      $$.import(`plugins.local.fetch-${$$.conf.lang}`)
+      $$.import(`plugins.local.${$$.conf.lang}.fetch`)
     }
   }
   
@@ -60,7 +60,7 @@ export class Fetch {
             response.text()
               .then(text => {
                 let mime = response.headers.get('Content-Type') || 'text/plain'
-                resolve((MIME_TYPES[mime.split(';')[0]]  === 'json') ? JSON.parse(text) : text) //here was problem (charset not allowed in Content-type)
+                resolve((MIME_TYPES[mime.split(';')[0]] === 'json') ? JSON.parse(text) : text)
               })
               .catch(error => {
                 // JSON Parse Error

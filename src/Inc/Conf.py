@@ -4,6 +4,7 @@
 
 
 import sys
+import json
 #
 from .Util.FS import FileExists
 from .DictDef import TDictDef
@@ -25,11 +26,18 @@ class TConf(TDictDef):
         self.File = aFile
 
     def Load(self):
-        Name, Ext = self.File.split('.')
-        for Item in [Name, Name + '_' + sys.platform]:
-            File = Item + '.' + Ext
-            if (FileExists(File)):
-                self._Load(File)
+        Name = self.File.split('.', maxsplit=1)[0]
+        for xName in [Name, Name + '_' + sys.platform]:
+            for xExt in ['py', 'json']:
+                File = xName + '.' + xExt
+                if (FileExists(File)):
+                    if (xExt == 'py'):
+                        self._Load(File)
+                    else:
+                        #Data = TConfJson.LoadFile(File) # too big for embeded
+                        with open(File, 'r', encoding = 'utf-8') as F:
+                            Data = json.load(F)
+                            self.update(Data)
 
     def _Load(self, aFile: str):
         Name, *_ = aFile.split('.')

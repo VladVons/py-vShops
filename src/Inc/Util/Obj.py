@@ -9,7 +9,7 @@ import json
 #
 
 
-def GetTree(aObj, aMaxDepth: int = 99):
+def GetTree(aObj, aMaxDepth: int = 99) -> iter:
     '''
         Recursively walks through aObj and returns list of values:
         [Nested, Path, Obj, Depth]
@@ -56,7 +56,7 @@ def DictUpdate(aMaster: dict, aSlave: dict, aJoin = False, aDepth: int = 99) -> 
     '''
     def ParseEnv(aVal) -> object:
         if (isinstance(aVal, str)) and (aVal.startswith('{%')):
-            Macro = re.findall(r'''\{%\s*(\w+)\s*([\w/.:-]+)\s*%\}''', aVal)
+            Macro = re.findall(r'''\{%\s*(\w+)\s*([\w/.:-~]+)\s*%\}''', aVal)
             if (Macro):
                 Type, Val = Macro[0]
                 if (Type == 'env'):

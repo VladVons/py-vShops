@@ -2,7 +2,8 @@
 
 {% block head %}
   <meta property="og:image" content="{{product.image}}"/>
-  <script type='module' src='/default/js/product.js' ></script>
+  <script type='module' src='/default/js/pages/product/product.js' ></script>
+  <script type="application/ld+json">{{product.schema}}</script>
 {% endblock %}
 
 {% block page_top %}
@@ -38,7 +39,7 @@
       </template>
 
 
-  <item code='{{product.idt}}' pid='{{product.id}}'>
+  <item code='{{product.idt}}' pid='{{product.id}}' min=1>
     <images>
       <zoom title='{{lang.zoom_in}}'><img src='{{product.image}}'></img></zoom>
       <thumbs>
@@ -72,10 +73,10 @@
                 <promo>{{Rec.qty}}{{lang.qty}} {{Rec.price_new}}</promo>
                 <discount>{{ "%.1f"|format(100-(Rec.price_new/Rec.price*100)) }}%</discount>
             {%- else -%}
-                <price>{{Rec.qty}}{{lang.qty}} {{Rec.price}}</price>
+                <price count='{{Rec.qty}}'>{{Rec.price}} грн</price>
             {%- endif %}
           {% endfor %}
-        <a href='/123' class='buy'><icon class='buy'></icon>{{lang.buy}}</a>
+        <a href='/123' class='buy icon-basket'>{{lang.buy}}</a>
       </control>
     </info>
 

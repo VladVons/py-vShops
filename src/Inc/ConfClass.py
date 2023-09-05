@@ -35,7 +35,8 @@ class TConfClass(TConf):
 
     def _Load(self, aFile: str):
         with open(aFile, encoding='utf-8') as hF:
-            Data = self._Replace(hF.read())
+            Data = hF.read()
+            Data = self._Replace(Data)
             try:
                 Data = json.loads(Data)
                 for Item in Data.get('classes', []):

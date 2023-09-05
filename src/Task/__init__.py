@@ -9,6 +9,7 @@ import argparse
 import json
 #
 from Inc.Conf import TConf
+from Inc.ConfJson import TConfJson
 from Inc.PluginTask import TPluginTask
 from Inc.Misc.Log import TEchoConsoleEx, TEchoFileEx
 from Inc.Misc.Misc import GetEnvWithWarn
@@ -18,9 +19,8 @@ from IncP import GetInfo
 
 def LoadClassConf(aClass: object) -> dict:
     File = f'{DirConf}/{aClass.__module__}.json'
-    with open(File, 'r', encoding = 'utf8') as F:
-        Data = json.load(F)
-    return Data
+    Res = TConfJson().LoadFile(File)
+    return Res
 
 def _InitOptions():
     Usage = f'usage: {AppName} [options] arg'

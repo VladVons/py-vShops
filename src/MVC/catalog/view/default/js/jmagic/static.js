@@ -18,7 +18,7 @@ export class Static {
     // try for localisation
     this.error.CORE = CORE
     if($$.conf.lang) {
-      $$.import(`jmagic-${$$.conf.lang}`)
+      $$.import(`./local/${$$.conf.lang}/jmagic`)
     }
     
   }
@@ -99,9 +99,18 @@ export class Static {
       .to(document.documentElement)
     wait(100, 'active')
       .then(cls => {
-        node[0].classList.add(cls)
-        node.append(`<img src='${$$.conf.path.$$}/img/loading.svg'>`)
+        node[0].classList.toggle(cls)
+        if(logo) {
+          node.append(`<img src='${$$.conf.path.$$}/img/loading.svg'>`)
+        }
       })
+  }
+  
+  unmask() {
+    let node = $$('mask.global')
+    node[0].classList.toggle('active')
+    wait(1000, node[0])
+      .then(node => node.parentNode.removeChild(node))
   }
   
   // common error handler

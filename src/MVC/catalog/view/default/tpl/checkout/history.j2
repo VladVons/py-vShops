@@ -1,50 +1,50 @@
 {% extends '_inc/layout1.j2' %}
 
 {% block head %}
-  <script type='module' src='/default/js/history.js' ></script>
+  <script type='module' src='/default/js/pages/checkout/history.js' ></script>
 {% endblock %}
 
 {% block content %}
       <!-- template for order -->
       <template class='order hide'>
         <title class='eye'>{{lang.order}}: </title>
-        <cart>
-          <title class='s'>{{lang.name}}</title>
-          <title class='s'>{{lang.code}}</title>
-          <title class='s'>{{lang.quantity}}</title>
-          <title class='s'>{{lang.price}}</title>
-          <title class='s'>{{lang.together}}</title>
-          <title class='s'></title>
+        <cart class='history'>
+         <titles>
+            <title class='s'>{{lang.foto}}</title>
+            <title class='s'>{{lang.name}}</title>
+            <title class='s'>{{lang.code}}</title>
+            <title class='s'>{{lang.quantity}}</title>
+            <title class='s'>{{lang.price}}</title>
+            <title class='s'>{{lang.together}}</title>
+          </titles>
         </cart>
+
         <total>
-          <label>{{lang.products_ordered}}:</label>
-          <num></num>
+          <num label='{{lang.products_ordered}}'></num>
           <flex></flex>
-          <label>{{lang.sum}}:</label>
-          <sum></sum>
+          <sum label='{{lang.sum}}'></sum>
         </total>
       </template>
       <!-- /template for order -->
 
       <!-- template for cart -->
       <template class='cart hide'>
-        <item>
-          <a href='/product.shtml' title='{{lang.product_view}}'><thumb style='background-image:url(img/pixel.gif)'></thumb></a>
-          <a href='/product.shtml' title='{{lang.product_view}}'><name></name></a>
+       <item code=0 pid=0>
+          <a href='/product.shtml' title='{lang.product_view}}'><thumb></thumb></a>
+          <name><a href='/product.shtml' title='{lang.product_view}}'></a></name>
+          <code></code>
+          <qty></qty>
+          <price></price>
+          <sum></sum>
         </item>
-        <code></code>
-        <count></count>
-        <price></price>
-        <sum></sum>
-        <trash><icon>O</icon></trash>
       </template>
       <!-- /template for cart -->
 
       <!-- template for buttons -->
       <template class='buttons hide'>
-        <buttons>
-          <button href='#' class='checkout'>{{lang.refresh}}</button>
-          <button href='#' class='checkout'>{{lang.orders_all}}</button>
+       <buttons>
+          <button class='checkout reload'>{{lang.refresh}}</button>
+          <button class='checkout'>{{lang.orders_all}}</button>
         </buttons>
       </template>
       <!-- /template for buttons -->

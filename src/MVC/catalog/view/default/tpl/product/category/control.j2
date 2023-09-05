@@ -1,11 +1,5 @@
 <control>
-  <mode class='list' title='{{lang.list}}' onclick='catalog.setMode(this.className); return false;'>l</mode>
-  <mode class='grid' title='{{lang.grid}}' onclick='catalog.setMode(this.className, true); return false;'>g</mode>
-  <mode class='compare' title='{{lang.compare}}' onclick='catalog.setMode(this.className); return false;'>a</mode>
-
-  <flex></flex>
-
-  <label>{{lang.sort}}</label>
+  <label class='sort'><desktop>{{lang.sort}}</desktop></label>
   <select id='sort'>
     <option value='common' selected>{{lang.by_default}}</option>
     <option value='sort=title&order=asc'>{{lang.by_name_asc}}</option>
@@ -14,10 +8,16 @@
     <option value='sort=price&order=desc'>{{lang.by_price_desc}}</option>
   </select>
 
-  <label>{{lang.show}}</label>
+  <label class='limit'><desktop>{{lang.show}}</desktop></label>
   <select id='limit'>
     <option value='12' selected>12</option>
     <option value='36'>36</option>
     <option value='108'>108</option>
   </select>
+
+  <flex></flex>
+
+  <mode class='list' title='{{lang.list}}'></mode>
+  <mode class='grid' title='{{lang.grid}}'></mode>
+  <mode class='compare' title='{{lang.compare}}'></mode>
 </control>

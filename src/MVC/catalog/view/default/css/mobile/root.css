@@ -1,0 +1,24 @@
+/* ====================== */
+/* === root section === */
+/* ====================== */
+
+:root {
+  --bg-body: #e9e9e9;
+  --bg-mobile:           url(/default/img/bg-top-mob.png), 
+                         url(/default/img/bg-bottom.png);
+  --bg-page:  #fff       url(/default/img/bg-page.png) top left repeat-x;
+  --bg-panel: #0a3e4b;
+  --logo-mobile: #0e5d7b url(/default/img/logo-mobile.png) top 3px left 5px / 16px 16px no-repeat;
+}
+
+/* Light palette */
+
+:root.light {
+  
+}
+
+/* Dark palette */
+
+:root.dark {
+  
+}

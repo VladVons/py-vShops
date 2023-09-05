@@ -8,6 +8,6 @@ from Inc.Sql.DbModel import TDbModel
 from . import Api
 
 
-@DAddModules([Api])
+@DAddModules([Api], '*')
 class TMain(TDbModel):
     pass

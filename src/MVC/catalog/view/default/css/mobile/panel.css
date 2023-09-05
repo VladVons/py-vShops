@@ -1,0 +1,88 @@
+/* ====================== */
+/* === panel section === */
+/* ====================== */
+header, header panel {
+  height: 40px;
+}
+
+header {
+  background: var(--bg-panel);
+  border-bottom: var(--panel-border);
+}
+
+panel {
+  display: flex;
+}
+
+panel, panel desktop, panel num, panel num:before, panel num:after {
+  font: var(--font-base);
+  font-size: var(--panel-font);
+}
+
+panel lang:before, panel links a:before {
+  font-size: var(--panel-icon);
+}
+
+panel links, panel currency, panel lang {
+  display: flex;
+  height: 40px;
+  align-items: center;
+  font-size: inherit;
+}
+
+panel lang, panel currency {
+  justify-content: flex-start;
+  cursor: pointer;
+  color: #ccc;
+}
+
+panel lang:hover, panel currency:hover {
+  color: #fff;
+}
+
+panel lang:before {
+  content: '/';
+  margin-right: 5px;
+  margin-bottom: 2px;
+}
+
+panel lang:after {
+  content: '|';
+  margin-left: 10px;
+}
+
+panel currency {
+  margin-left: 10px;
+}
+
+panel links {
+  justify-content: flex-end;
+  margin-right: 20px;
+}
+
+panel links a {
+  display: flex;
+  align-items: center;  
+  color: #ccc;
+}
+
+panel links a:hover { 
+  color: #fff; 
+}
+
+panel links a:before {
+  margin: 0 3px 5px 20px;
+}
+
+panel links a.icon-favorite:before {
+  margin-bottom: 3px;
+}
+
+panel num:before {
+  content: '(';
+  margin-left: 3px;
+}
+
+panel num:after {
+  content: ')';
+}

@@ -151,13 +151,25 @@ class TDbBase():
             Data = [[Val[i] for i in FieldsNo] for Val in self.Data[Start:Finish]]
         return Data
 
+    def ExportDict(self, aFields: list[str] = None) -> list[dict]:
+        if (not aFields):
+            aFields = self.GetFields()
+
+        Fields = {xField: self.GetFieldNo(xField) for xField in aFields}
+
+        Res = [
+            {xField: xData[xNo] for xField, xNo in Fields.items()}
+            for xData in self.Data
+        ]
+        return Res
+
     def ExportList(self, aField: str, aUniq = False) -> list:
         '''
         Returns one field as list
         '''
 
         FieldNo = self.GetFieldNo(aField)
-        Res = [x[FieldNo] for x in self.Data]
+        Res = [xData[FieldNo] for xData in self.Data]
         if (aUniq):
             Res = list(set(Res))
         return Res
@@ -166,7 +178,7 @@ class TDbBase():
         '''
             ExportStr(['User', 'Price'], '{}/{}')
         '''
-        FieldsNo = [self.GetFieldNo(x) for x in aFields]
+        FieldsNo = [self.GetFieldNo(xField) for xField in aFields]
         Res = [
             aFormat.format(*[xData[i] for i in FieldsNo])
             for xData in self.Data
@@ -181,9 +193,9 @@ class TDbBase():
         KeyNo = self.GetFieldNo(aFieldKey)
         if (aFieldVal in self.GetFields()):
             ValNo = self.GetFieldNo(aFieldVal)
-            Res = {x[KeyNo]: x[ValNo] for x in self.Data}
+            Res = {xData[KeyNo]: xData[ValNo] for xData in self.Data}
         else:
-            Res = {x[KeyNo]: aFieldVal for x in self.Data}
+            Res = {xData[KeyNo]: aFieldVal for xData in self.Data}
         return Res
 
     def ExportPairs(self, aFieldKey: str, aFields: list[str]) -> dict:
@@ -191,8 +203,8 @@ class TDbBase():
         Returns two binded fields as key:[val1, val2, ...]
         '''
         KeyNo = self.GetFieldNo(aFieldKey)
-        FieldsNo = [self.GetFieldNo(x) for x in aFields]
-        return {x[KeyNo]: [x[i] for i in FieldsNo] for x in self.Data}
+        FieldsNo = [self.GetFieldNo(xField) for xField in aFields]
+        return {xData[KeyNo]: [xData[i] for i in FieldsNo] for xData in self.Data}
 
     def GetDiff(self, aField: str, aList: list) -> tuple:
         Set1 = set(self.ExportList(aField))

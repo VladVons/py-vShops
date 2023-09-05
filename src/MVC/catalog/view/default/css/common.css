@@ -1,26 +1,28 @@
 @import url(icons.css) screen;
+@import url(fonts.css) screen;
 
 * {
   display: block;
   box-sizing: border-box;
-  font-family: sans-serif;
   padding: 0;
   margin: 0;
+  line-height: 1.3em;
 }
 
-script, style, meta, link {
+html head *, script, style, meta, link {
   display: none;
 }
 
 html, body { width: 100% }
-html { font-size: 1px; }
-body { font-size: 16rem; }
 
 a,b,i,u { display: inline-block }
 li, list > item { display: list-item; margin-left: 40px; }
 
-a { text-decoration: none }
-p { margin-top: 20px; text-align: justify }
+p { margin-top: 20px; text-align: justify; line-height: 30px;}
+a { 
+  text-decoration: none;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
 
 .left, left { text-align: left }
 .right, right { text-align: right }
@@ -36,13 +38,6 @@ p { margin-top: 20px; text-align: justify }
 .fr { float: right }
 
 textarea:focus, input:focus, select:focus { outline: none }
-
-icon.icon16 {
-  display: inline-block;
-  width: 16px;
-  height: 16px;
-  margin: auto 10px auto 20px;
-}
 
 a.more {
   margin-top: 10px;

@@ -12,6 +12,21 @@
         "checkout": "оформити замовлення",
         "product_view": "переглянути товар",
         "product_count": "товарів в кошику",
-        "cart_empty": "кошик порожній"
+        "cart_empty": "кошик порожній",
+	"foto": "фото",
+	"select_all": "виділити все",
+	"delete_selected": "видалити відмічені"
+    },
+    "js": {
+        "payment_cash": "готівкою",
+        "payment_card": "банківською карткою",
+        "payment_bitcoin" : "криптовалютою",
+        "currency_abbr": "грн",
+        "title_remove": "видалити з кошика",
+        "title_minus": "зменьшити кількість",
+        "title_plus": "збільшити кількість",
+        "confirm_item_remove": "Видалити з Вашого кошика?",
+        "tip_item_removed": "товар видалено з кошика",
+        "alert_empty_cart": "Кошик порожній!"
     }
 }

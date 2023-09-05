@@ -1,0 +1,5 @@
+{
+    "srv_conf": {
+        "token": "{% env env_telegram_token %}"
+    }
+}
