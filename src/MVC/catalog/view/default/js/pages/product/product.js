@@ -1,24 +1,23 @@
 "use strict"
 
-// jMagic imports
-await $$.import('plugins.scss')
-
-// User imports
-import {conf} from '../../conf.js'
-import {common} from '../../common.js'
-
-const PATH = 'product/product'
+const 
+  IMPORTS = ['plugins.url', 'plugins.fetch', 'plugins.scss', 'common', 'conf'],
+  PATH    = 'product/product'
 
 class Product {
   constructor() {
     let self = this
     $$(async () => {
+      //load js modules
+      await $$.imports(IMPORTS)
+      this.conf = $$.imports.conf.conf
+      
       //load css rules
       let rules = await SCSS.load([`${$$.conf.path.css}/common.css`,`${$$.conf.path.css}/${$$.conf.DEVICE}/product.css`])
       $$.css(SCSS.dump(rules))
       
       //load localization
-      this.lang = await $$.post(conf.url.local, { 
+      this.lang = await $$.post(this.conf.url.local, { 
         headers : { 'Content-type': 'application/json' },
         body    : JSON.stringify({ path: PATH, lang: 'ua', key: 'js' }),
       })
@@ -61,7 +60,7 @@ class Product {
   
   toCart(event) {
     let store = localStorage.getItem('Cart')
-    let data = (store) ? JSON.parse(store) : conf.cart
+    let data = (store) ? JSON.parse(store) : this.conf.cart
     let struc = common.struc(data)
     let item = event.target
     while(item.nodeName.toUpperCase() != 'ITEM'){

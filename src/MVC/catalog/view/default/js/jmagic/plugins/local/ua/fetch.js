@@ -10,5 +10,5 @@ const
     HTTP_404: 'ресурс не знайдено на сервері',
   }
 
-// set localisation
+// set localization
 $$.error.init('FETCH', FETCH)

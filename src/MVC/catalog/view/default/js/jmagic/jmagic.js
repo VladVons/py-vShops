@@ -10,8 +10,8 @@ const
   NAME    = 'jMagic',
   VERSION = '0.0.1',
   LEGACY  = !(CSS.supports("display: grid") && CSS.supports("display: flex")),
-  DEVICE  = (navigator.maxTouchPoints > 0) ? 'mobile' : 'desktop',
-  ORIENTATION = screen.orientation.type.includes('portrait') ? 'portrait' : 'landscape'
+  DEVICE  = (window.hasOwnProperty('ontouchstart') && window.hasOwnProperty('orientation')) ? 'mobile' : 'desktop'
+  //ORIENTATION = screen.orientation.type.includes('portrait') ? 'portrait' : 'landscape'
 
 // FRAMEWORK CONSTANTS
 const 
@@ -22,12 +22,12 @@ const
 // =======================
 class jMagic {
   
-  #ready = false;
-  
   // framework constructor
   constructor() {
     let self = this
-    window.addEventListener('load', () => { self.#ready = true } )
+    this.ready.trigger = false
+    
+    window.addEventListener('load', () => { this.ready.trigger = true } )
     
     // apply prototypes
     new Proto
@@ -87,7 +87,7 @@ class jMagic {
   
   // async ready
   async ready(callback) {
-    while(!this.#ready) {
+    while(!this.ready.trigger) {
       await this.wait(50)
     }
     callback()
@@ -186,4 +186,3 @@ class Proto {
 
 // INITIALISATION OF FRAMEWORK
 new jMagic
-

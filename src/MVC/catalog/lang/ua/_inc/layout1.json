@@ -1,6 +1,7 @@
 {
     "tpl": {
         "currency": "Валюта",
+        "compare": "Порівняти",
         "profile": "Особистий кабінет",
         "basket": "Кошик",
         "favorites": "Закладки",

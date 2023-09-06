@@ -1,24 +1,23 @@
 "use strict"
 
-// jMagic imports
-await $$.import('plugins.scss')
-
-// User imports
-import {conf} from '../../conf.js'
-import {common} from '../../common.js'
-
-const PATH = 'checkout/cart'
+const 
+  IMPORTS = ['plugins.url', 'plugins.fetch', 'plugins.scss', 'common', 'conf'],
+  PATH    = 'checkout/cart'
 
 class Cart {
   constructor() {
     
     $$(async () => {
+      //load js modules
+      await $$.imports(IMPORTS)
+      this.conf = $$.imports.conf.conf
+      
       //load css rules
       let rules = await SCSS.load([`${$$.conf.path.css}/common.css`,`${$$.conf.path.css}/${$$.conf.DEVICE}/cart.css`])
       $$.css(SCSS.dump(rules))
       
-      //load localisation
-      this.lang = await $$.post(conf.url.local, { 
+      //load localization
+      this.lang = await $$.post(this.conf.url.local, { 
         headers : { 'Content-type': 'application/json' },
         body    : JSON.stringify({ path: PATH, lang: 'ua', key: 'js' }),
       })
@@ -61,12 +60,12 @@ class Cart {
       
       //set buttons events
       $$('buttons button.checkout')
-        .attr({href: conf.url.confirm})
+        .attr({href: this.conf.url.confirm})
         .on('click', this.confirm.bind(this))
       $$('buttons button.remove')
         .on('click', this.removeItems.bind(this))
       $$('buttons button.category')
-        .on('click', event => document.location.href = conf.url.category)
+        .on('click', event => document.location.href = this.conf.url.category)
       
       //joke from CX
       $$('body')
@@ -77,7 +76,7 @@ class Cart {
   
   init() {
     let store = localStorage.getItem('Cart')
-    let data = (store) ? JSON.parse(store) : conf.cart
+    let data = (store) ? JSON.parse(store) : this.conf.cart
     let struc = common.struc(data)
     let cart = $$('cart')[0]
     let fragment = $$('template')[0]
@@ -133,7 +132,7 @@ class Cart {
     }
     //try to remove
     let store = localStorage.getItem('Cart')
-    let data = (store) ? JSON.parse(store) : conf.struc
+    let data = (store) ? JSON.parse(store) : this.conf.struc
     let struc = common.struc(data)
 
     let items = []
@@ -202,7 +201,7 @@ class Cart {
     
     //update store
     let store = localStorage.getItem('Cart')
-    let data = (store) ? JSON.parse(store) : conf.cart
+    let data = (store) ? JSON.parse(store) : this.conf.cart
     let struc = common.struc(data)
     let code = event.target.parentNode.parentNode.getAttribute('code')
     for(let product of data.data){
@@ -220,15 +219,10 @@ class Cart {
   }
   
   checkSumm(target) {
-    let node = target.parentNode
-    let price = 0.0
-    while(node.nextSibling.nodeName.toUpperCase() != 'SUM'){
-      node = node.nextSibling
-      if(node.nodeName.toUpperCase() == 'PRICE'){
-        price = parseFloat(node.textContent)
-      }
-    }
-    node.nextSibling.textContent = `${(parseInt(target.value) * price).toFixed(2)} ${this.lang.currency_abbr}`
+    let node = target.parentNode //qty
+    let price = node.parentNode.querySelector('price')
+    node.parentNode.querySelector('sum')
+      .textContent = `${(parseInt(target.value) * parseFloat(price.textContent)).toFixed(2)} ${this.lang.currency_abbr}`
   }
   
   checkTotal() {
@@ -287,8 +281,10 @@ class Cart {
   }
   
   mobile() {
-    for(let node of $$('cart code, cart qty, cart price')) {
-      node.parentNode.getElementsByTagName('item')[0].appendChild(node)
+    let items = $$('cart item')
+    for(let item of items) {
+      item.insertBefore(item.querySelector('cbox'), item.querySelector('price'))
+      item.insertBefore(item.querySelector('code'), item.querySelector('price'))
     }
   }
   

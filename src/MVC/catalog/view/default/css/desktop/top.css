@@ -13,7 +13,7 @@ top logo {
   margin: 20px 0 0 30px;
   color: #fff;
   text-align: center;
-  font-size: 0.9em;
+  font-size: var(--top-font);
 }
 
 top logo > a img {
@@ -21,7 +21,7 @@ top logo > a img {
 }
 
 top logo address  {
-  font-size: 0.9em;
+  font-size: var(--top-font);
   color: #ccc;
 }
 

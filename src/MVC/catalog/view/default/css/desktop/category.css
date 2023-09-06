@@ -144,6 +144,10 @@ goods {
   justify-content: space-between;
 }
 
+goods.list {
+  grid-template-columns: 100%;
+}
+
 goods item {
   position: relative;
   height: 500px;
@@ -184,7 +188,7 @@ goods item panel a.buy, goods item panel a.buy:hover {
 }
 
 goods item panel a:before {
-  font-size: 1.2em;
+  font-size: var(--item-icon);
 }
 
 goods item panel a.buy:before {

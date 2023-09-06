@@ -1,24 +1,23 @@
 "use strict"
 
-// jMagic imports
-await $$.import(['plugins.scss','plugins.telegram'])
-
-// User imports
-import {conf} from '../../conf.js'
-import {common} from '../../common.js'
-
-const PATH = 'checkout/confirm'
+const 
+  IMPORTS = ['plugins.url', 'plugins.fetch', 'plugins.scss', 'plugins.telegram', 'common', 'conf'],
+  PATH    = 'checkout/confirm'
 
 
 class Confirm {
   constructor() {
     $$(async () => {
+      //load js modules
+      await $$.imports(IMPORTS)
+      this.conf = $$.imports.conf.conf
+      
       //load css rules
-      let rules = await SCSS.load([`${$$.conf.path.css}/common.css`,`${$$.conf.path.css}/desktop/cart.css`])
+      let rules = await SCSS.load([`${$$.conf.path.css}/common.css`,`${$$.conf.path.css}/${$$.conf.DEVICE}/cart.css`])
       $$.css(SCSS.dump(rules))
       
       //load localization
-      this.lang = await $$.post(conf.url.local, { 
+      this.lang = await $$.post(this.conf.url.local, { 
         headers : { 'Content-type': 'application/json' },
         body    : JSON.stringify({ path: PATH, lang: 'ua', key: 'js' }),
       })
@@ -27,7 +26,7 @@ class Confirm {
       $$('body').css({opacity: 1})
       
       //set submit
-      $$('buttons button.checkout').on('click', this.submit.bind(this))
+      $$('buttons button.confirm').on('click', this.submit.bind(this))
       
       //autofill form
       let client = localStorage.getItem('Client')
@@ -72,7 +71,7 @@ class Confirm {
     
     //get order_id (oid)
     $$.mask(true)
-    let json = await $$.post($$.url.format(conf.url.order_id), {
+    let json = await $$.post($$.url.format(this.conf.url.order_id), {
         headers: {
           'Content-type' : 'application/json'
         },
@@ -85,15 +84,14 @@ class Confirm {
       })
       .catch(error => {$$.tip(this.lang.tip_error_order)})
     
-    let url = $$.url.format(conf.url.history, {order_id: json.order_id})
+    let url = $$.url.format(this.conf.url.history, {order_id: json.order_id}).replace(/%2F/g, '/')
     let msg = 
       `Отримано нове замовлення - <a href='${url}'><b>${json.order_id}</b></a>\n`+
       `Замовник: <b>${client}</b>, телефон: <b>${phone}</b>`
-    alert(msg)
-    return false
     
     //send telegram message
-    $$.telegram.send(msg)
+    let telegram = new $$.imports.plugins.telegram.Telegram()
+    telegram.send(msg)
       .then(result => {
         console.log(result) //JSON from Telegram
         //set tip

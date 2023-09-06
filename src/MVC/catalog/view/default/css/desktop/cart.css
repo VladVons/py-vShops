@@ -41,18 +41,18 @@ title.cart::before, title.ok::before {
 title.cart::before { content: 'b' }
 title.ok::before { content: 'O' }
 
-cart titles, cart item {
-  display: grid;
-  grid-template-columns: calc(var(--cart-thumb) + 20px) auto 120px 150px 120px 120px 40px;
-  text-align: center;
-}
-
 cart {
   margin-top: 30px;
 }
 
+cart titles, cart item {
+  display: grid;
+  grid-template-columns: calc(var(--cart-thumb) + 20px) auto 120px 120px 150px 120px 40px;
+  text-align: center;
+}
+
 cart.history titles, cart.history item {
-  grid-template-columns: calc(var(--cart-thumb) + 20px) auto 120px 150px 120px 120px;
+  grid-template-columns: calc(var(--cart-thumb) + 20px) auto 120px 120px 150px 120px;
 }
 
 cart titles {
@@ -362,6 +362,19 @@ confirm {
   border-radius: 8px;
 }
 
+confirm client, confirm phone {
+  position: relative;
+  display: inline-block;
+  width: 50%;
+  padding-top: 10px;
+}
+
+confirm client[example]::after, confirm phone[example]::after {
+  content: attr(example);
+  font-size: 0.85em;
+  color: #ccc;
+}
+
 confirm label {
   margin-bottom: 10px;
   font-weight: bold;
@@ -377,12 +390,6 @@ confirm input {
   padding: 0 10px 0 10px;
 }
 
-confirm phone, confirm client {
-  position: relative;
-  display: inline-block;
-  width: 50%;
-  padding-top: 10px;
-}
 
 confirm placeholder {
   position: absolute;

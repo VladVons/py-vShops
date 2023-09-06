@@ -15,64 +15,57 @@ export class Static {
     $$('<link/>')
       .attr({rel: 'stylesheet', href: `${$$.conf.path.$$}/css/jmagic.css`})
       .to('head')
-    // try for localisation
     this.error.CORE = CORE
+    // Localization
     if($$.conf.lang) {
-      $$.import(`./local/${$$.conf.lang}/jmagic`)
+      (async () => {
+        await import(`${$$.conf.path.$$}/local/${$$.conf.lang}/jmagic.js`)
+          .catch(msg => {this.error({code: 1, message: msg}).as($$.error.handler)})
+      })()
     }
-    
+    $$.conf.tip.top = $$.conf.tip.top[$$.conf.DEVICE]
   }
   
-  static top = 30
-  
-  async import(module) {
-    // relative path from self
-    module = (typeof module === 'string') ? [module] : module
-    for(let mod of module) {
-      let imp = await import(`${$$.conf.path.$$}/${mod.replaceAll('.','/')}.js`)
-        .catch(msg => {this.error({code: 1, message: msg}).as($$.error.handler)})
-    }
-  }
-
-  static cache = {
-    init : () => {
-      let Cache = sessionStorage.getItem('Cache')
-      this.cache.data.CSS = (Cache) ? JSON.parse(Cache).CSS : []
-      return this.cache
-    },
-    data : {
-      CSS : []
-    },
-    get : url => {
-      for(let elem of this.cache.data.CSS) {
-        if(url === elem.url) {
-          return elem.data
-        }
+  async imports(modules) {
+    for(let module of modules) {
+      let object = module
+        .split('.')
+        .reduce((obj, prop) => obj && obj[prop], this.imports)
+      if(object) {
+        console.log(`${module}: already imported!`)
+      }else{
+        let object = null
+        let name = null
+        module
+          .split('.')
+          .reduce((obj, prop) => {
+            object = obj
+            name = prop
+            return obj[prop] = obj[prop] || {}
+          }, this.imports)
+        module = module.startsWith('plugins') 
+          ? `${$$.conf.path.$$}/${module.split('.').join('/')}.js` 
+          : `${$$.conf.path.js}/${module}.js`
+        object[name] = await import(module)
+          .catch(msg => {$$.error({code: 1, message: msg}).as($$.error.handler)})
       }
-      return null
-    },
-    set : elem => {
-      this.cache.data.CSS.push(elem)
-    },
-    save : () => {
-      sessionStorage.setItem('Cache', JSON.stringify(this.cache.data))
     }
   }
-
-  // show tip
+  
+  // show tip (this - setting object)
   tip(msg) {
-    let top = Static.top
+    let top = $$.conf.tip.top
     let opt = {cls: 'x', on: 3*1000, off: 1*1000 }
     opt = (this) ? {...opt, ...this} : opt
     opt['class'] = opt.cls
     let tip = $$(`<tip>${msg}</tip>`)
       .css({
-        top: `${Static.top}px`
+        top: `${top}px`
       })
-      .attr({...opt, top: `${Static.top - 40}px`})
+      .attr({...opt, top: `${top - 40}px`})
       .to(document.documentElement)[0]
     
-    Static.top += (tip.offsetHeight + 10)
+    $$.conf.tip.top += (tip.offsetHeight + 10)
     wait(100)
       .then(async () => {
         tip.classList.add('x-on')
@@ -80,7 +73,7 @@ export class Static {
         tip.classList.add('x-off')
         tip.style.top = tip.getAttribute('top')
         await wait(tip.getAttribute('off'))
-        Static.top -= (tip.offsetHeight + 10)
+        $$.conf.tip.top -= (tip.offsetHeight + 10)
         tip.parentNode.removeChild(tip)
       })
   }
@@ -126,9 +119,9 @@ export class Static {
       as : fn => {
         if(fn.name === 'tip') {
           fn = fn.bind({cls: 'x err', on: 5*1000})
-          message = message.replaceAll('%c(','<br/>(')
+          message = message.split('%c(').join('<br/>(')
         }
-        fn(message.replaceAll('%c',''))
+        fn(message.split('%c').join(''))
       }
     }
   }

@@ -23,6 +23,7 @@ with wt1 as (
     join ref_module_lang rml
         on rlm.module_id = rml.module_id and rml.lang_id = rlng.id
     where
+        (rl.enabled) and
         ((rl.tenant_id = 0) or (rl.tenant_id = {aTenantId})) and
         (rm.enabled) and
         (rlm.enabled) and

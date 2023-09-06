@@ -1,15 +1,10 @@
 // SASS plugin for jMagic
-// required fetch.js plugin
-"use strict"
+// !! [Require plugins.fetch] !!
+"use strict";
 
-// IMPORT DEPENDENCIES
-await $$.import('plugins.fetch')
-
+const IMPORTS = ['plugins.fetch']
 
 class SCSSParser {
-  
-  #imports = []
-  
   constructor() {
     this.re = {
       comments: /\/\*[^*]*\*\//,
@@ -17,9 +12,10 @@ class SCSSParser {
       rule: /\s*:\s*/,
       url: /(?:url\(|['"])['"]?([^'"\)]*)['"\)]+\s*(.*)/,
     }
+    this.imports = []
   }
   
-  #load(data) {
+  Load(data) {
     let [cache, parent] = [[], []]
     let pointer = cache
     data = data
@@ -36,7 +32,7 @@ class SCSSParser {
           return false
         }
         if(elem === '}') {
-          let obj = this.#inside(pointer) //convert block to object
+          let obj = this.inside(pointer) //convert block to object
           pointer = parent.pop()
           pointer.pop()
           pointer[pointer.length-1] = {selector: pointer[pointer.length-1], ...obj}
@@ -48,21 +44,21 @@ class SCSSParser {
           .map(val => pointer.push(val))
       })
     
-    return this.#outside(cache).flat(Infinity)
+    return this.outside(cache).flat(Infinity)
       
   }
   
-  #inside(data) {
+  inside(data) {
     let obj = {rules: {}, children: []}
     for(let elem of data) {
       if(elem instanceof Object) {
-        obj.children.push((elem instanceof Array) ? this.#inside(elem) : elem) //recursion for next level
+        obj.children.push((elem instanceof Array) ? this.inside(elem) : elem) //recursion for next level
       }else{
         let [name, value] = elem.split(this.re.rule)
         if(value) {
           obj.rules[name] = value
         }else{
-          obj.children.push((name[0] === '@') ? this.#media(name) : name)
+          obj.children.push((name[0] === '@') ? this.media(name) : name)
         }
       }
     }
@@ -71,7 +67,7 @@ class SCSSParser {
     return obj
   }
   
-  #outside(data) {
+  outside(data) {
     let cache = []
     let obj = []
     for(let elem of data) {
@@ -83,7 +79,7 @@ class SCSSParser {
         obj.push(elem)
       }else{
         if(elem[0] === '@') {
-          obj.push(this.#media(elem))
+          obj.push(this.media(elem))
         }else{
           cache.push(elem)
         }
@@ -92,48 +88,45 @@ class SCSSParser {
     return obj
   }
   
-  #media(command) {
+  media(command) {
     return ({
-      import: this.#import.bind(this),
+      import: this.Import.bind(this),
     }[command.split(' ')[0].slice(1)](command))
   }
   
-  #import(elem) {
+  Import(elem) {
     let data = elem
       .replace(/^@import\s+/,'')
       .match(this.re.url)
       .slice(1)
-    this.#imports.push(data[0])
+    this.imports.push(data[0])
     return {command: '@import', url: data[0], conditions: data[1]}
   }
   
   parse(data) {
-    this.#imports = []
-    let parsed = this.#load(data)
-    return [parsed, this.#imports]
+    this.imports = []
+    let parsed = this.Load(data)
+    return [parsed, this.imports]
   }
 }
 
 
-
-export class SCSS extends SCSSParser {
-  
-  #recursion = 0
-  #indent = ''
-  
+class SCSS extends SCSSParser {
   constructor() {
     super()
+    this.recursion = 0
+    this.indent = 0
     window.SCSS = this
   }
   
-  #import(data, imp, source) {
+  import(data, imp, source) {
     return data
       .map(elem => {
         if(elem.command && elem.command === '@import') {
           return source[imp.indexOf(elem.url)]
         }
         if(elem.children) {
-          elem.children = this.#import(elem.children, imp, source).flat(1)
+          elem.children = this.import(elem.children, imp, source).flat(1)
         }
         return elem
       }).flat(1)
@@ -153,14 +146,14 @@ export class SCSS extends SCSSParser {
       let urls = imp.map(name => `${base}/${name}`)
       
       if(imp.length) {
-        this.#recursion++
+        this.recursion++
         let source = await this.load(urls)
-        this.#recursion--
-        data[i] = this.#import(data[i], imp, source)
+        this.recursion--
+        data[i] = this.import(data[i], imp, source)
       }
       
     }
-    return (this.#recursion) ? data : data.flat(Infinity)
+    return (this.recursion) ? data : data.flat(Infinity)
   }
   
   dump(data, zip=true) {
@@ -172,21 +165,21 @@ export class SCSS extends SCSSParser {
             prop.push((zip) ? `${key}:${elem.rules[key]};` : `  ${key}: ${elem.rules[key]};`)
           }
           if(elem.children) {
-            this.#indent += '  '
+            this.indent += '  '
             prop.push(this.dump(elem.children, zip))
-            this.#indent = this.#indent.slice(2)
+            this.indent = this.indent.slice(2)
           }
           
           return (zip) 
             ? `${elem.selector}{${prop.join('')}}` 
-            : `${this.#indent}${elem.selector} {\n${this.#indent + prop.join('\n'+this.#indent)}\n${this.#indent}}`
+            : `${this.indent}${elem.selector} {\n${this.indent + prop.join('\n'+this.indent)}\n${this.indent}}`
         }else{
           return ''
         }
       })
       .join((zip) ? '' : '\n\n')
   }
-  
 }
+
 
 new SCSS

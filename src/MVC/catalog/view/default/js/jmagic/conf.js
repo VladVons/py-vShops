@@ -9,6 +9,12 @@ export const
     leaflet : '/default/js/leaflet',
     css     : '/default/css',
   },
+  tip = {
+    top : {
+      desktop : 25,
+      mobile  : 44,
+    },
+  },  
   icons = {
     hex     : emo => {
       return `\\u${emo.codePointAt(0).toString(16)}`

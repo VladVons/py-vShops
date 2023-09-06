@@ -25,3 +25,5 @@ where
     (rm.enabled) and
     (rlm.enabled) and
     (rmg.module_id = {aModuleId})
+order by
+    rm.sort_order

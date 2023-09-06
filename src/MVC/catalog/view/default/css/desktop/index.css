@@ -58,10 +58,6 @@ content banner.alert message text:last-child {
   color: #900;
 }
 
-content title {
-  font-size: 1.4em;
-}
-
 content services {
   display: flex;
   flex-wrap: wrap;
@@ -121,14 +117,13 @@ content blog article {
 }
 
 content blog article name {
-  font-size: 1em;
   height: 24px;
   overflow: hidden;
 }
 
 
 content blog article blogname {
-  font-size: 0.85em;
+  font-size: 0.9em;
   border-top: 1px solid #ccc;
   border-bottom: 1px solid #ccc;
   margin: 10px 0 10px 0;
@@ -138,7 +133,7 @@ content blog article blogname {
   overflow: hidden;
 }
 
-content blog article blogname a{
+content blog article blogname a {
   font-size: 0.9em;
 }
 

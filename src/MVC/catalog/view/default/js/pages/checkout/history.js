@@ -1,24 +1,23 @@
 "use strict"
 
-// jMagic imports
-await $$.import('plugins.scss')
+const 
+  IMPORTS = ['plugins.url', 'plugins.fetch', 'plugins.scss', 'common', 'conf'],
+  PATH    = 'checkout/history'
 
-// User imports
-import {conf} from '../../conf.js'
-import {common} from '../../common.js'
-
-const PATH = 'checkout/history'
 
 class History {
   constructor() {
-    
     $$(async () => {
+      //load js modules
+      await $$.imports(IMPORTS)
+      this.conf = $$.imports.conf.conf
+      
       //load css rules
       let rules = await SCSS.load([`${$$.conf.path.css}/common.css`,`${$$.conf.path.css}/${$$.conf.DEVICE}/cart.css`])
       $$.css(SCSS.dump(rules))
       
       //load localization
-      this.lang = await $$.post(conf.url.local, { 
+      this.lang = await $$.post(this.conf.url.local, { 
         headers : { 'Content-type': 'application/json' },
         body    : JSON.stringify({ path: PATH, lang: 'ua', key: 'js' }),
       })
@@ -28,6 +27,9 @@ class History {
       
       // cart from storage
       this.init()
+      
+      //mobile layout
+      if($$.conf.DEVICE === 'mobile') this.mobile()
       
       //show tip first time
       let tip = sessionStorage.getItem('Tip')
@@ -79,6 +81,13 @@ class History {
     let buttons = buts_tpl.content.cloneNode(true)
     while(buttons.childNodes.length) {
       content.appendChild(buttons.firstChild)
+    }
+  }
+
+  mobile() {
+    let items = $$('cart item')
+    for(let item of items) {
+      item.insertBefore(item.querySelector('code'), item.querySelector('price'))
     }
   }
 }

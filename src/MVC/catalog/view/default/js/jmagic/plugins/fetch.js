@@ -1,12 +1,10 @@
-// Fetch Extension for jMagic
-"use strict"
+// -= Fetch Plugin for jMagic =-
+// !! [Require plugins.url] !!
 
-// IMPORT DEPENDENCIES
-await $$.import('plugins.url')
+"use strict";
 
-  
 // CONSTANTS
-const
+const 
   CLIENT = {'User-Framework': `${$$.conf.NAME}/${$$.conf.VERSION}`},
   CORE  = $$.error.CORE,
   FETCH = {
@@ -20,18 +18,22 @@ const
     'application/json'          : 'json',
   }
 
-export class Fetch {
-  
+
+class Fetch {
   constructor() {
     // extend framework or alert
     $$.get  = (window.fetch) ? this.resolve.bind(this, 'GET') : this.reject.bind(this)
     $$.post = (window.fetch) ? this.resolve.bind(this, 'POST') : this.reject.bind(this)
     // save errors
     $$.error.FETCH = FETCH
-    // IMPORT LOCALISATION
+    // Localization
     if($$.conf.lang) {
-      $$.import(`plugins.local.${$$.conf.lang}.fetch`)
+      (async () => {
+        await import(`./local/${$$.conf.lang}/fetch.js`)
+          .catch(msg => {$$.error({code: 1, message: msg}).as($$.error.handler)})
+      })()
     }
+    
   }
   
   resolve(method, path, options={}) {
@@ -77,8 +79,6 @@ export class Fetch {
         })
     })
   }
-  
 }
 
-// register plugin
 new Fetch

@@ -18,7 +18,7 @@ html, body { width: 100% }
 a,b,i,u { display: inline-block }
 li, list > item { display: list-item; margin-left: 40px; }
 
-p { margin-top: 20px; text-align: justify; line-height: 30px;}
+p { margin-top: 20px; text-align: justify; line-height: 30px;} /*!!!!!!!!!!!!!!!*/
 a { 
   text-decoration: none;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);

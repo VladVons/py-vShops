@@ -108,7 +108,6 @@ COMMENT ON TABLE ref_query IS 'alternative file system queries storage';
 create table if not exists ref_manufacturer (
     id                  serial primary key,
     enabled             boolean default true,
-    deleted             boolean default false,
     title               varchar(16) not null,
     image               varchar(64)
 );
@@ -118,7 +117,6 @@ create table if not exists ref_manufacturer (
 create table if not exists ref_lang (
     id                  serial primary key,
     enabled             boolean default true,
-    deleted             boolean default false,
     title               varchar(16) not null,
     alias               varchar(3) unique
 );
@@ -302,6 +300,7 @@ create table if not exists ref_conf (
 create table if not exists ref_module (
     id                  serial primary key,
     enabled             boolean default true,
+    sort_order          smallint,
     caption             varchar(64) not null,
     code                varchar(32) not null,
     image               varchar(64),
@@ -334,6 +333,7 @@ create table if not exists ref_module_to_group (
 
 create table if not exists ref_layout (
     id                  serial primary key,
+    enabled             boolean default true,
     caption             varchar(32) not null,
     route               varchar(32) not null,
     tenant_id           integer not null references ref_tenant(id),

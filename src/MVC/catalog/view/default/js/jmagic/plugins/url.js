@@ -1,6 +1,6 @@
 // Fetch Extension for jMagic
 
-"use strict"
+"use strict";
 
 export class Url {
   

@@ -5,7 +5,7 @@ import {conf} from './conf.js'
 import('./search.js')
 
 
-class Common {
+export class Common {
   constructor() {
     this.num = 0
     this.sum = 0.0
@@ -275,6 +275,5 @@ class Common {
   
 }
 
-let common = new Common()
-export {common}
+window.common = new Common
 

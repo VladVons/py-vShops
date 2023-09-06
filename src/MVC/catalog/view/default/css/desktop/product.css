@@ -146,11 +146,9 @@ item control promo {
 }
 
 item control discount {
-  position: absolute;
-  top: var(--item-price);
+  font-size: var(--item-price);
   background: #c00;
   color: #fff;
-  font-size: var(--item-price);
   padding: 0 5px 0 5px;
   margin-left: 10px;
   border-radius: 4px;
@@ -200,8 +198,7 @@ tabs panel {
 
 tabs panel tab {
   display: inline-block;
-  height: 33px;
-  padding: 0 10px 0 10px;
+  height: 32px;
   color: #333;
   padding: 0 20px 0 20px;
   cursor: pointer;
@@ -220,7 +217,7 @@ tabs panel tab:hover {
 }
 
 tabs data {
-  margin-TOP: 20px;
+  margin-top: 20px;
   text-align: justify;
 }
 
