@@ -41,7 +41,7 @@
 
   <item code='{{product.idt}}' pid='{{product.id}}' min=1>
     <images>
-      <zoom title='{{lang.zoom_in}}'><img src='{{product.image}}'></img></zoom>
+      <zoom title='{{lang.zoom_in}}'><img style='background-image: url({{product.image}})' /></zoom>
       <thumbs>
         {% for xImage in product.images %}
           <thumb style='background-image: url({{xImage}})'></thumb>

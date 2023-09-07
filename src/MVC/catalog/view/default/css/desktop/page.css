@@ -10,7 +10,7 @@ page {
   border-bottom: 3px solid;
   border-color: #d4d4d4;
   border-radius: 0 0 8px 8px;
-  line-height: 22px;
+  padding-bottom: 50px;
 }
 
 page flex {

@@ -18,20 +18,23 @@
 .green {color: #090}
 
 item {
-  display: flex;
-  white-space: no-wrap;
+  margin: 0;
+  padding: 0;
 }
 
-item images, item info {
-  display: inline-block;
-  white-space: no-wrap;
-  width: 50%;
+item info title {
+  margin-top: 0;
+  font-size: var(--item-title) !important;
 }
 
-item images zoom {
-  display: flex;
-  aspect-ratio: 1 / 1;
-  width: calc(100% - 20px);
+item info images {
+  margin-top: 20px;
+}
+
+item info images zoom {
+  width: calc(100%);
+  padding-bottom: calc(100%);
+  height: 0;
   background: #fff;
   border-radius: 4px;
   cursor: zoom-in;
@@ -39,34 +42,47 @@ item images zoom {
   border: 1px solid #ccc;
 }
 
-item images zoom:hover {
+item info images zoom:hover {
   border: 1px solid #069;
 }
 
-item images img {
-  max-width: 360px;
-  max-height: 360px;
-  margin: auto;
-}
-
-item images thumbs {
-  display: grid;
+item images zoom img {
   width: calc(100% - 20px);
-  grid-template-columns: repeat(auto-fill, calc(100% / 3 - 20px ));
-  justify-content: space-between;
+  padding-bottom: calc(100% - 20px);
+  height: 0;
+  margin: 10px;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: contain;
 }
 
-item images thumbs thumb {
-  height: 80px;
-  margin-bottom: 10px;
-  background-size: 96px;
+item info images thumbs {
+  display: flex;
+  min-width: 100%;
+  min-height: 64px;
+  overflow-x: auto;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+item info images thumbs thumb {
+  display: inline-block;
+  min-width: 96px;
+  min-height: 64px;
+  border: 1px solid #ccc;
+  margin-right: 5px;
+  background-size: contain;
   background-repeat: no-repeat;
   background-position: center center;
   cursor: pointer;
-  border: 1px solid #ccc;
 }
 
-item images thumbs thumb:hover {
+item info images thumbs thumb:last-child {
+  margin-right: 0;
+}
+
+item info images thumbs thumb:hover {
   border: 1px solid #669;
 }
 
@@ -76,9 +92,13 @@ item info panel, item info panel buttons {
   line-height: 32px;
 }
 
+item info panel {
+  margin-top: 20px;
+}
+
 item info panel buttons button {
   font-family: icons;
-  font-size: var(--control-mode);
+  font-size: var(--control-mode);  
   width: 42px;
   height: 32px;
   cursor: pointer;
@@ -107,8 +127,9 @@ item info panel code {
 }
 
 item info props name {
-  margin: 5px 0 0 0;
+  font-size: var(--item-props);
   font-weight: bold;
+  padding: 5px 0 5px 0;
 }
 
 item info props value {
@@ -117,77 +138,75 @@ item info props value {
   font-style: italic;
 }
 
-item control {
+item info control {
   position: relative;
   text-align: center;
   margin-top: 40px;
 }
 
-item control maxprice, item control price {
+item info control maxprice, item control price {
   display: inline-block;
 }
 
-item control oldprice {
-  font-size: 18px;
+item info control oldprice {
+  font-size: 1em;
   color: #999;
   margin-bottom: 5px;
   text-decoration: line-through;
 }
 
-item control price, item control promo, item control discount {
+item info control price, item info control promo, item info control discount {
   display: inline-block;
   font-size: var(--product-price);
   height: 36px;
   line-height: 36px;
 }
 
-item control promo {
+item info control promo {
   color: #c00;
 }
 
-item control discount {
-  position: absolute;
-  top: var(--item-price);
+item info control discount {
+  font-size: var(--item-price);
   background: #c00;
   color: #fff;
-  font-size: var(--item-price);
   padding: 0 5px 0 5px;
   margin-left: 10px;
   border-radius: 4px;
 }
 
-item control a.buy {
+item info control a.buy {
   display: flex;
   align-items: center;
-  justify-content: center;  
+  justify-content: center;
   width: 100%;
   height: 40px;
   line-height: 40px;
   margin-top: 20px;
   font-size: var(--item-buy);
   color: #fff;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
   background: var(--bg-top) linear-gradient(to bottom, #2e7d9b, var(--bg-top));
-  box-shadow: 0 4px 8px rgba(14, 21, 47, 0.5);
   border: 1px solid #369;
   border-radius: 4px;
   cursor: pointer;
+  transition: transform .5s ease;
 }
 
-item control a:hover {
-  background: var(--bg-top) linear-gradient(to bottom, var(--bg-top), #2e7d9b);
-  box-shadow: 0 2px 4px rgba(14, 21, 47, 0.5);
-}
-
-item control a:before {
+item info control a:before {
   font-size: 1em;
-  margin: -2px 10px 0 0;
+  margin: -3px 10px 0 0;
 }
 
-item control icon {
+item info control icon {
   width: 48px;
   height: 48px;
   line-height: 48px;
   display: inline-block;
+}
+
+tabs {
+  margin-top: 40px;
 }
 
 tabs panel {
@@ -200,28 +219,25 @@ tabs panel {
 
 tabs panel tab {
   display: inline-block;
-  height: 33px;
-  padding: 0 10px 0 10px;
+  height: 32px;
+  padding: 5px 20px 0 20px;
+  font-size: var(--item-tabs);
   color: #333;
-  padding: 0 20px 0 20px;
   cursor: pointer;
 }
 
 tabs panel tab.active {
-  border: 1px solid #ccc;
-  border-bottom-color: transparent;
   background: #fff;
   color: var(--bg-top);
   font-weight: bold;
-}
-
-tabs panel tab:hover {
-  color: var(--bg-top);
+  border: 1px solid #ccc;
+  border-bottom-color: transparent;
 }
 
 tabs data {
-  margin-TOP: 20px;
+  margin-top: 20px;
   text-align: justify;
+  font-size: var(--item-tabs);
 }
 
 tabs label.tabprop name, tabs label.tabprop value {
@@ -234,12 +250,12 @@ tabs label.tabprop name:nth-of-type(odd), tabs label.tabprop value:nth-of-type(o
 }
 
 tabs label.tabprop name {
-  width: 200px;
+  width: 40%;
   font-weight: bold;
 }
 
 tabs label.tabprop value {
-  width: calc(100% - 200px);
+  width: calc(100% - 40%);
 }
 
 tabs plus, tabs minus {

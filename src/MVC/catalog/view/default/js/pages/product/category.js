@@ -102,7 +102,7 @@ class Category {
         parseInt(item.getAttribute('code')), //code
         parseInt(item.getAttribute('pid')), //pid
         item.querySelector('name').textContent, //name
-        item.querySelector('img').src, //img
+        item.querySelector('a').style.backgroundImage.slice(4,-1).replace(/['"]/g, ''), //img
         item.querySelector('name').parentNode.href, //url
         parseInt(item.getAttribute('min')), //quantity
         parseFloat(item.querySelector('price').textContent) //price

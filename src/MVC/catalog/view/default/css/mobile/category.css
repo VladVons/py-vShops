@@ -233,11 +233,10 @@ goods item panel a.buy:before {
 goods item > a {
   display: block;
   height: 228px;
-  aspect-ratio: 1/1;
   margin: auto;
   background-position: center center;
   background-repeat: no-repeat;
-  background-size: cover;
+  background-size: contain;
   border: 0px solid #f00;
 }
 

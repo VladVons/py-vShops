@@ -56,7 +56,7 @@ class History {
       //cart data
       for(let item of elem.cart.data) {
         let cart = cart_tpl.content.cloneNode(true)
-        cart.querySelector('thumb').style.backgroundImage = `url(${item[struc.img]})`
+        cart.querySelector('a').style.backgroundImage = `url(${item[struc.img]})`
         cart.querySelector('name a').appendChild(document.createTextNode(item[struc.name]))
         cart.querySelector('code').textContent = item[struc.code]
         cart.querySelector('qty').textContent = item[struc.qty]

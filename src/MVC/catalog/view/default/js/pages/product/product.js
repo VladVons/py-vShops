@@ -55,7 +55,7 @@ class Product {
   }
   
   setImage(event) {
-    $$('zoom img')[0].src = event.target.style.backgroundImage.match(/url\(['"]?([^'"]+)['"]?\)/)[1]
+    $$('zoom img')[0].style.backgroundImage = event.target.style.backgroundImage
   }
   
   toCart(event) {

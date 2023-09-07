@@ -14,132 +14,230 @@
 /* === cart section === */
 /* ==================== */
 
+/*portrait orientation*/
+@media (orientation: portrait) {
+  cart {
+    /*all available width*/
+    /*margin: 0 -20px 0 -20px;*/
+  }
+  
+  cart titles {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  
+  cart titles title, cart titles cbox {
+    margin: 0;
+    padding: 5px;
+    color: #fff;
+  }
+  
+  cart titles title.code, cart titles title.qty, cart titles title.price, cart titles title.sum {
+    display: none;
+  }
+  
+  cart titles title.thumb {
+    width: var(--cart-thumb);
+    text-align: center;
+  }
+  
+  cart.history titles title.name {
+    flex: 1;
+    text-align: center;
+  }
+  
+  cart item {
+    display: block;
+    float: left;
+    margin-top: 5px;
+    padding: 5px;
+    background: #eee;
+    border: 0px solid #f00;
+  }
+  
+  cart item:first-child {
+    margin-top: 0;
+  }
+  
+  cart item:last-child {
+    margin-bottom: 20px;
+  }
+  
+  cart item a {
+    float: left;
+    border: 0px solid #00f;
+  }
+
+  cart item > a {
+    display: block;
+    width: var(--cart-thumb);
+    height: var(--cart-thumb);
+    margin: auto;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    border: 1px solid #ccc;
+  }
+  
+  cart item name, cart item code, cart item cbox {
+    float: right;
+    border: 0px solid;
+  }
+  
+  cart item name {
+    width: calc(100% - var(--cart-thumb) - 10px);
+  }
+  
+  cart item code, cart item cbox {
+    display: flex;
+    width: calc((100% - var(--cart-thumb)) / 2 - 5px);
+    margin-top: 10px;
+    font-size: 0.75em;
+  }
+  
+  cart item code {
+    align-items: center;
+    justify-content: flex-start;
+  }
+  
+  cart.history item code {
+    width: calc(100% - var(--cart-thumb) - 10px);
+  }
+  
+  cart item price, cart item qty, cart item sum {
+    width: calc(33.33%);
+    height: 64px;
+    line-height: 32px;
+    margin-top: 10px;
+    text-align: center;
+    font-size: 0.9em;
+  }
+  
+  cart item price {
+    clear: both;
+    float: left;
+    margin-top: 10px;
+    border: 0px solid;
+  }
+  
+  cart item price[label]:before, 
+  cart item code[label]:before, 
+  cart item sum[label]:before,
+  cart item cbox[label]:before,
+  cart item qty[label]:before {
+    font-family: var(--base-font);
+    font-size: 1em;
+    content: attr(label);
+  }
+  
+  cart item price[label]:before, 
+  cart item sum[label]:before,
+  cart item qty[label]:before {
+    display: block;
+    font-weight: bold;
+  }
+  
+  cart item code[label]:before, cart item cbox[label]:before {
+    margin-right: 5px;
+  }
+  
+  cart item qty[label]:before {
+    width: 100%;
+  }
+  
+  cart item qty {
+    float: left;
+    border: 0px solid #900;
+  }
+  
+  cart item sum {
+    float: right;
+    border: 0px solid #900;
+  }
+  
+  cart item cbox {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+  }
+}
+
+/*landscape orientation*/
+@media (orientation: landscape) {
+  cart {
+    display: grid;
+    grid-template-columns: 45% 12.5% 12.5% 12.5% 12.5% 5%;
+    text-align: center;
+  }
+  
+  cart titles {
+  }
+
+  cart item {
+    height: var(--cart-thumb);
+  }
+}
+
+/* all styles */
+
 title.cart, title.ok {
   display: flex;
+  justify-content: flex-start;
   align-items: center;
-  margin: 0;
-  margin-top: 10px;
-  font-size: var(--cart-title);
+  font-size: var(--page-title);
+  margin: 0 0 20px 0;
+  border: 0px solid #f00;
 }
 
 title.cart::before, title.ok::before {
-  font-size: (--title-title-icon);
-  width: 36px;
-  height: 36px;
-  line-height: 36px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: icons;
+  font-size: 1em;
   margin-right: 20px;
-  padding: 15px;
-  padding-left: 18px;
-  text-align: center;
+  min-width: var(--page-icon);
+  min-height: var(--page-icon);
   color: #fff;
   background: #660 linear-gradient(to bottom, #09c, #033) repeat-x;
   text-shadow: 5px 5px 10px rgb(0, 0, 0);
   box-shadow: 3px 3px 6px rgb(0, 0, 0);
   border-radius: 50%;
+  padding-left: 3px;
 }
 
 title.cart::before { content: 'b' }
 title.ok::before { content: 'O' }
 
-cart titles, cart item {
-  display: grid;
-  grid-template-columns: calc(var(--cart-thumb) + 20px) auto 120px 150px 120px 120px 40px;
-  text-align: center;
-}
-
-cart {
-  margin-top: 30px;
-}
-
-cart.history titles, cart.history item {
-  grid-template-columns: calc(var(--cart-thumb) + 20px) auto 120px 150px 120px 120px;
-}
-
-cart titles {
-  height: 50px;
-  background: #09c linear-gradient(to bottom, #09c, #033) repeat-x;
-}
-
-cart titles title {
-  margin: 0;
-  padding: 0;
-  line-height: 50px;
-  color: #fff;
-  border: 0px solid #fff;
-}
-
-cart titles title.thumb, cart item thumb { min-width: var(--cart-thumb); }
-cart titles title.name, cart item name { 
-  justify-content: flex-start;
-  margin-left: 20px;
-}
-
-cart titles cbox {
-  background: #09c linear-gradient(to bottom, #09c, #033) repeat-x;
-}
-
-cart item a {
-  color: var(--bg-top);
-}
-
-cart item a:hover {
-  color: #900;
-}
-
-cart item cbox, cart thumb, cart name, cart code, cart qty, cart price, cart sum {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 0 5px 0 5px;
-  height: var(--cart-thumb);
-  border: 0px solid #f00;
-}
-
-cart item, cart item cbox {
-  height: var(--cart-thumb);
-  margin: 0;
-}
-
-cart item {
-  margin-top: 10px;
-}
-
-cart item:nth-child(odd) {
-  background: #f6f6f6;
-}
-
 cart item.selected {
   background: #ffc;
 }
 
-cart thumb {
-  margin: 0;
-  height: var(--cart-thumb);
-  background-repeat: no-repeat;
-  background-size: cover;
-  border: 1px solid #ccc;
-}
-
-cart thumb:hover {
-  border: 1px solid #000;
-}
-
-cart qty {
+cart titles {
   display: flex;
+  justify-content: space-between;
   align-items: center;
-  justify-content: center;
+  height: 48px;
+  background: #09c linear-gradient(to bottom, #09c, #033) repeat-x;
 }
 
-cart qty input {
-  width: 48px;
-  height: 48px;
+cart item qty {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+}
+
+cart item qty input {
+  width: 2.2em;
+  height: 1.5em;
   font-size: 1em;
   text-align: center;
   border-radius: 4px;
   border: 1px solid #ccc;
 }
 
-cart qty minus, cart qty plus {
+cart item qty minus, cart item qty plus {
   font-family: icons;
   font-size: 0.9em;
   cursor: pointer;
@@ -149,69 +247,148 @@ cart qty minus, cart qty plus {
   user-select: none;
 }
 
-cart qty minus:hover, cart qty plus:hover {
-  font-size: 1.1em;
-  line-height: 1.1em;
-}
-
-cart qty minus {
+cart item qty minus {
   color: #f00;
-  margin-right: 10px;
+  margin-right: 5px;
 }
 
-cart qty plus {
+cart item qty plus {
   color: #090;
-  margin-left: 10px;
+  margin-left: 5px;  
 }
 
-cart cbox {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 50px;
-}
-
-cart cbox input {
-  width: 18px;
-  height: 18px;
-  cursor: pointer;
-}
-
-/* total */
+/* TOTAL */
 total {
+  clear: both;
   display: flex;
-  justify-content: space-around;
   align-items: center;
-  height: 48px;
-  line-height: 48px;
   border-radius: 4px;
-  background: #eee;
-  margin-top: 20px;
-  color: #333;
   border: 1px solid #333;
+  color: #333;
+  margin-top: 20px;
+  font-size: 1em;  
 }
 
-total num, total sum, total pay {
-  font-weight: bold;
-  padding: 0 20px 0 20px;
+/*portrait orientation*/
+@media (orientation: portrait) {
+  total {
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+  
+  total flex {
+    display: none;
+  }
+  
+  total num, total sum, total pay {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    font-size: var(--cart-total);
+    font-weight: bold;
+    padding: 10px;
+  }
+  
+  total num, total pay {
+    border-bottom: 1px solid #999;
+  }
+}
+
+/*landscape orientation*/
+@media (orientation: landscape) {
+  total {
+    height: 48px;
+    line-height: 48px;
+    justify-content: space-around;
+  }
+
+  total num, total sum, total pay {
+    font-weight: bold;
+    padding: 0 20px 0 20px;
+  }
 }
 
 total num[label]:before, total sum[label]:before, total pay[label]:before {
-	font: var(--base-font);
   content: attr(label);
-  margin-right: 20px;
+  font-family: var(--base-font);
+  font-weight: normal;
 }
 
-/* payment */
+
+/* BUTTONS */
+buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+buttons button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: 0.49;
+  min-height: 36px;
+  font-size: 1em;
+  line-height: 1.1em;
+  padding: 5px 10px 5px 10px;
+  cursor: pointer;
+  border: 1px solid; /*flat style*/
+  border-radius: 4px;
+}
+
+buttons button.category {
+  color: #fff;
+  border-color: #333;
+  background: #ccc linear-gradient(to bottom, #363, #696) repeat-x;
+}
+
+buttons button.remove {
+  color: #fff;
+  border-color: #333;
+  background: #ccc linear-gradient(to bottom, #990, #660) repeat-x;
+}
+
+buttons button.checkout {
+  flex: 1;
+  color: #fff;
+  border-color: #333;
+  background: #09c linear-gradient(to bottom, #09c, #033) repeat-x;
+}
+
+buttons button.confirm {
+  color: #fff;
+  border-color: #333;
+  background: #09c linear-gradient(to bottom, #09c, #033) repeat-x;
+}
+
+buttons button.disabled {
+  color: #333;
+  background: #ccc linear-gradient(to bottom, #fff, #ccc) repeat-x;
+}
+
+buttons button:before {
+  font-size: var(--cart-button-icon);
+}
+
+buttons button.category:before, buttons button.remove:before  {
+  margin-left: 10px;
+}
+
+buttons button.checkout:before {
+  font-size: 1em;
+  margin-right: 10px;
+}
+
+/* PAYMENT */
+
 payment {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-around;
-  width: 540px;
-  margin: auto;
-  margin-top: -36px;
-  text-align: center;
+  margin-top: 20px;
   font-weight: bold;
+  border-radius: 4px;
   border: 1px solid #333;
 }
 
@@ -222,19 +399,21 @@ payment label {
   line-height: 2em;
   font-weight: bold;
   background: #eee;
+  text-align: center;
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
   border-bottom: 1px solid #333;
 }
 
 payment type {
+  font-size: 0.75em;
   font-weight: normal;
+  width: 30%;
+  text-align: center;
   margin: 20px 0 20px 0;
-  padding: 10px;
+  padding: 3px;
   border: 1px solid #ccc;
   cursor: pointer;
-}
-
-payment type:hover {
-  border: 1px solid #333;
 }
 
 payment type[checked] {
@@ -266,129 +445,77 @@ payment type.cash:before {
   color: #396;
 }
 
-/* buttons */
-buttons {
-  display: flex;
-  width: 100%;
-  justify-content: space-between;
-  margin-top: 40px;
-}
-
-buttons.checkout {
-  justify-content: center;
-}
-
-buttons button {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 0 20px 0 20px;
-  height: 36px;
-  line-height: 36px;
-  border-radius: 4px;
-  cursor: pointer;
-  border: 1px solid;
-  border-radius: 4px;
-}
-
-buttons button:before {
-  font-size: 1em;
-  margin-right: 5px;
-}
-
-buttons button.category {
-  color: #fff;
-  border-color: #333;
-  background: #ccc linear-gradient(to bottom, #363, #696) repeat-x;
-}
-
-buttons button.category:hover {
-  color: #cfc;
-  background: #ccc linear-gradient(to bottom, #696, #363) repeat-x;
-}
-
-buttons button.checkout {
-  color: #fff;
-  border-color: #333;
-  background: #09c linear-gradient(to bottom, #09c, #033) repeat-x;
-}
-
-buttons button.checkout:hover {
-  color: #cff;
-  background: #09c linear-gradient(to bottom, #033, #09c) repeat-x;
-}
-
-buttons button.remove {
-  color: #fff;
-  border-color: #333;
-  background: #ccc linear-gradient(to bottom, #990, #660) repeat-x;
-}
-
-buttons button.remove:hover {
-  color: #ffc;
-  background: #ccc linear-gradient(to bottom, #660, #990) repeat-x;
-}
-
-buttons button.disabled {
-  color: #333;
-  background: #ccc linear-gradient(to bottom, #fff, #ccc) repeat-x;
-}
-
-buttons button.disabled:hover {
-  color: #333;
-  background: #ccc linear-gradient(to bottom, #ccc, #fff) repeat-x;
-}
-
 empty {
   height: 64px;
   line-height: 64px;
-  font-size: 1.4em;
-  margin: 20px 0 20px 0;
+  font-size: 1em;
   text-align: center;
 }
 
 /*===== confirm =====*/
 
+/*portrait orientation*/
+@media (orientation: portrait) {
+  confirm {
+    width: 100%;
+  }
+}
+
+/*landscape orientation*/
+@media (orientation: landscape) {
+  confirm {
+    width: 660px;
+  }
+  
+  confirm phone, confirm client {
+    width: 50%;
+  }
+}
+
 confirm {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  width: 660px;
+  display: block;
   margin: 40px auto 40px auto;
-  padding: 20px;
+  padding: 10px;
   text-align: center;
   background: #eff;
-  border: 1px solid var(--bg-top);
+  border: 1px solid;
   border-radius: 8px;
+}
+
+confirm client, confirm phone  {
+  position: relative;
+  display: inline-block;
+  padding-top: 10px;
+}
+
+confirm client[example]::after, confirm phone[example]::after {
+  content: attr(example);
+  font-size: 0.75em;
+  color: #ccc;
 }
 
 confirm label {
   margin-bottom: 10px;
+  padding: 0 20px 0 20px;
+  font-size: 0.8em;
   font-weight: bold;
   color: var(--bg-top);
-  width: 100%;
 }
 
 confirm input {
-  width: calc(100% - 40px);
+  width: 100%;
   height: 40px;
-  margin: 30px;
-  margin-bottom: 0;
+  margin: auto;
+  margin-top: 10px;
   padding: 0 10px 0 10px;
-}
-
-confirm phone, confirm client {
-  position: relative;
-  display: inline-block;
-  width: 50%;
-  padding-top: 10px;
+  font-size: 1em;
 }
 
 confirm placeholder {
   position: absolute;
   pointer-events: none;
-  left: 40px;
-  top: 46px;
+  left: 10px;
+  top: 28px;
   opacity: 0.4;
   transition: 0.5s ease all;
 }
@@ -402,15 +529,10 @@ input:focus ~ placeholder,
 input:not(:focus):valid ~ placeholder,
 input:not(:focus):valid ~ placeholder
 {
-  top: 15px;
-  left: 30px;
-  font-size: 0.8em;
+  top: 0;
+  left: 0;
+  font-size: 0.75em;
+  font-weight: bold;
   color: #000;
   opacity: 1;
-}
-
-confirm example {
-  width: calc(50%);
-  font-size: 0.85em;
-  color: #ccc;
 }

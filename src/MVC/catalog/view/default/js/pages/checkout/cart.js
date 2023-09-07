@@ -85,7 +85,7 @@ class Cart {
       let model = fragment.content.cloneNode(true)
       model.querySelector('item').setAttribute('code', elem[struc.code])
       model.querySelector('item').setAttribute('pid', elem[struc.pid])
-      model.querySelector('thumb').style.backgroundImage = `url(${elem[struc.img]})`
+      model.querySelector('a').style.backgroundImage = `url(${elem[struc.img]})`
       model.querySelector('item name a').appendChild(document.createTextNode(elem[struc.name]))
       model.querySelector('item code').textContent = elem[struc.code]
       model.querySelector('item qty input').value = elem[struc.qty]
