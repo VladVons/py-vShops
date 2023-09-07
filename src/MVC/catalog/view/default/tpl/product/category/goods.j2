@@ -1,7 +1,7 @@
 <goods>
     {% for Rec in TDbList().Import(dbl_product) %}
     <item code='{{Rec.product_idt}}' pid='{{Rec.product_id}}' min=1>
-      <a href='{{Rec.href}}'><img src='{{Rec.thumb}}' title='{{Rec.product_title}}' /></a>
+      <a href='{{Rec.href}}' style='background-image: url({{Rec.thumb}})' title='{{Rec.product_title}}'</a>
       <block>
         <a href='{{Rec.href}}'><name>{{Rec.product_title}}</name></a>
         <info>{{lang.seller}}: {{Rec.tenant_title}}</info>

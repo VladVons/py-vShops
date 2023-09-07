@@ -195,6 +195,17 @@ goods item panel a.buy:before {
   margin-right: 10px;
 }
 
+goods item > a {
+  display: block;
+  height: 228px;
+  aspect-ratio: 1/1;
+  margin: auto;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  border: 0px solid #f00;
+}
+
 goods item name, goods item info, goods item price {
   text-align: center;
   padding: 0 10px 0 10px;
@@ -231,7 +242,7 @@ goods.list item {
   max-height: 240px;
 }
 
-goods.list item img {
+goods.list item > a {
   position: absolute;
   top: 5px;
   left: 0;

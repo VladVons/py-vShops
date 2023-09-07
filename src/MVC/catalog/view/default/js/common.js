@@ -127,37 +127,31 @@ export class Common {
   
   async catalog() {
     //active menu
-    let active = sessionStorage.getItem('Menu') || "{}"
-    active = JSON.parse(active)
+    let path = $$.url.params('path')
+    let active = path ? path.split('_').slice(0,2) : []
+    active = active.length == 2 ? active.join('_') : null
     //first level
     let menu = sessionStorage.getItem('Catalog')
     if(!menu) {
       //get from server
-      let data = {}
-      for(let node of $$('nav catalog')) {
-        let json = await $$.post(conf.url.menu, {
-          headers: {
-            'Content-type': 'application/json'
-          },
-          body : JSON.stringify(
-            {label: node.getAttribute('label')}
-          )
-        })
-        this.menu(json, node)
-        data[node.getAttribute('label')] = json
-      }
+      let json = await $$.post(conf.url.menu, {
+        headers: {
+          'Content-type': 'application/json'
+        },
+        body : JSON.stringify(
+          {label: $$('nav catalog')[0].getAttribute('label')}
+        )
+      })
+      this.menu(json.menu, $$('nav catalog')[0])
       // save to cache
-      if(Object.keys(data).length) {
-        sessionStorage.setItem('Catalog', JSON.stringify(data))
+      if(Object.keys(json).length) {
+        sessionStorage.setItem('Catalog', JSON.stringify(json.menu))
       }else{
         sessionStorage.removeItem('Catalog')
       }
     }else{
       // get from cache
-      menu = JSON.parse(menu)
-      for(let node of $$('nav catalog')) {
-        this.menu(menu[node.getAttribute('label')], node)
-      }
+      this.menu(JSON.parse(menu), $$('nav catalog')[0])
     }
     
     //next level
@@ -168,7 +162,7 @@ export class Common {
       //select menu
       if(event.target.classList.contains('active')) {
         event.target.nextSibling.style.height = '0px'
-        delete active[label]
+        active = null
       }else{
         let level = event.target
         if(event.target.classList.contains('cache')) {
@@ -183,7 +177,7 @@ export class Common {
             )
           })
           //make node from JSON
-          level = this.submenu(level)
+          level = this.submenu(level.menu)
           //append node to DOM
           if(event.target.nextSibling) {
             event.target.parentNode.insertBefore(level, event.target.nextSibling)
@@ -193,7 +187,6 @@ export class Common {
           event.target.classList.add('cache')
         }
         level.style.height = level.scrollHeight + 'px'
-        active[label] = true
         //select active submenu
         let nodes = level.getElementsByTagName('a')
         for(let i=0; i<nodes.length; i++) {
@@ -203,8 +196,6 @@ export class Common {
         }
         
       }
-      //save to cache
-      sessionStorage.setItem('Menu', JSON.stringify(active))
       //set class
       event.target.classList.toggle('active')
       
@@ -217,16 +208,15 @@ export class Common {
     }
     //set active
     for(let node of nodes) {
-      if(active[node.getAttribute('label')]) {
+      if(node.getAttribute('label') === active) {
         await wait(100).then(() => {node.click()})
       }
     }
-    
   }
   
   menu(json, node) {
-    for(let elem of json.menu.items.data) {
-      elem = Object.fromEntries(json.menu.items.head.map((key, index) => [key, elem[index]]))
+    for(let elem of json.items.data) {
+      elem = Object.fromEntries(json.items.head.map((key, index) => [key, elem[index]]))
       $$('<a>')
         .attr({href: elem.href, label: elem.label})
         .text(elem.name)
@@ -235,9 +225,9 @@ export class Common {
   }
   
   submenu(json) {
-    let level = $$(`<level${json.menu.level}>`)[0]
-    for(let elem of json.menu.items.data) {
-      elem = Object.fromEntries(json.menu.items.head.map((key, index) => [key, elem[index]]))
+    let level = $$(`<level${json.level}>`)[0]
+    for(let elem of json.items.data) {
+      elem = Object.fromEntries(json.items.head.map((key, index) => [key, elem[index]]))
       $$('<a>')
         .attr({href: elem.href})
         .text(elem.name)

@@ -17,9 +17,6 @@ async def ApiNav(self, aData: dict = None) -> dict:
 
     Label = aData.get('label', '')
     ArrLabel = Label.split('_')
-    if (ArrLabel[0] != 'catalog'):
-        return {}
-
     CategoryIdt = ArrLabel[-1]
     Res = await self.ExecModel(
         'ref_product/category',
@@ -33,14 +30,14 @@ async def ApiNav(self, aData: dict = None) -> dict:
     DblData = Res.get('data')
     Dbl = TDbSql().Import(DblData)
     for Rec in Dbl:
-        Path = '_'.join(ArrLabel[1:])
+        Path = '_'.join(ArrLabel)
         Href = f'?route=product/category&path={Path}_{Rec.idt}&tenant=1'
         Items.append([Rec.title, Href, f'{Label}_{Rec.idt}'])
 
     Res = {
         "menu": {
             'lang': 'ua',
-            'level': len(ArrLabel) - 1,
+            'level': len(ArrLabel),
             'label': Label,
             "items": TDbList(['name', 'href', 'label'], Items).Export()
         }

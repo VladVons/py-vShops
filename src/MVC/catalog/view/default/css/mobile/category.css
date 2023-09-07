@@ -22,10 +22,24 @@ category {
   flex-wrap: wrap;
 }
 
+/*portrait orientation*/
+@media (orientation: portrait) {
+  category item {
+    width: 100%;
+  }
+}
+
+/*landscape orientation*/
+@media (orientation: landscape) {
+  category item {
+    width: 50%;
+  }
+}
+
 category item {
   display: flex;
   align-items: baseline;
-  width: 50%;
+  font-size: 1em;
 }
 
 category item a {
@@ -45,18 +59,19 @@ category item::before{
 
 control {
   display: flex;
-  height: 32px;
+  flex-wrap: wrap;
+  height: 90px;
   margin-top: 40px;
-  border: 0px solid;
 }
 
 control mode {
-  display: flex;
-  justify-content: center;
-  align-items:center;
-  width: 42px;
-  height: 32px;
+  font-family: icons;
   font-size: var(--control-mode);
+  text-align: center;
+  width: 33.33%;
+  height: 32px;
+  margin-top: 20px;
+  line-height: 32px;
   cursor: pointer;
   color: #000;
   text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
@@ -69,10 +84,9 @@ control mode.active {
   color: #09f;
 }
 
-control mode:hover {
-  background: linear-gradient(to bottom, #ccc, #fff);
-  color: #09f;
-}
+control mode.list:before {content: '='}
+control mode.grid:before {content: 'g'}
+control mode.compare:before {content: 'c'}
 
 control mode.list{
   border-radius: 4px 0 0 4px;
@@ -87,47 +101,47 @@ control mode.compare{
   border-radius: 0 4px 4px 0;
 }
 
-control mode:before {
-  font-size: 1.1em;
-}
-
-control mode.list:before {content: '='}
-control mode.grid:before {content: 'g'}
-control mode.compare:before {content: 'c'}
-
-control desktop, control select {
-  font-size: var(--control-label);
+control flex {
+  display: none;
 }
 
 control label {
   display: flex;
   align-items: center;
+  justify-content: center;
+  height: 32px;
   background: #eee;
+  line-height: 32px;
   padding: 0 15px 0 15px;
   border-radius: 4px 0 0 4px;
   border: 1px solid #ccc;
   border-right: 0;
 }
 
+control label.limit {
+  margin-left: 10px;
+}
+
 control label:before {
   font-size: var(--control-label);
-  margin-right: 10px;
+  margin-top: 2px;
 }
 
 control label.sort:before { content: '>' }
 control label.limit:before { content: '%' }
 
 control select {
-  min-width: 50px;
-  margin-right: 20px;
-  padding: 0 10px 0 10px;
+  flex: 1;
+  height: 32px;
+  padding: 0 5px 0 5px;
   border: 1px solid #ccc;
   border-radius: 0 4px 4px 0;
   background: #ffe;
+  font-size: var(--control-label);
 }
 
-control select:last-child {
-  margin: 0;
+control select#limit {
+  width: calc(30% - 10px);
 }
 
 control select option {
@@ -139,56 +153,92 @@ control select option {
 /* ============= */
 
 goods {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, calc(100% / 3 - 20px));
+  display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
 }
 
 goods item {
-  position: relative;
-  height: 500px;
   text-align: center;
   margin-top: 40px;
   border: 1px solid #ccc;
 }
 
+/*portrait orientation*/
+@media (orientation: portrait) {
+  goods item {
+    width: 100%;
+  }
+}
+
+/*landscape orientation*/
+@media (orientation: landscape) {
+  goods item {
+    position: relative;
+    width: calc(100% / 2 - 10px );
+    height: 480px;
+  }
+  goods item panel {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+  }
+  goods item info {
+    max-height: 70px;
+  }
+  
+  goods item price {
+    position: absolute;
+    left: 0;
+    bottom: 60px;
+  }
+}
+
+
 goods item panel {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  display: flex;
+  align-items: center;  
+  width: 100%;
   height: 48px;
+  margin-top: 10px;
 }
 
 goods item panel a {
   display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 48px;
   width: 48px;
+  height: 48px;
+  font-size: 1em;
   font-weight: bold;
-  color: #555;
+  color: #666;
   border-left: 1px solid #ccc;
   background: linear-gradient(to bottom, #eee, #ddd);
+  align-items: center;
+  justify-content: center;
   cursor: pointer;
 }
 
-goods item panel a:hover {
-  background: linear-gradient(to bottom, #ddd, #ccc);
-  color: #09f;
-}
-
-goods item panel a.buy, goods item panel a.buy:hover {
+goods item panel a.buy {
   flex: 1;
   border-left: 0;
 }
 
 goods item panel a:before {
-  font-size: 1.2em;
+  font-size: var(--item-icon);
 }
 
 goods item panel a.buy:before {
   margin-right: 10px;
+}
+
+goods item > a {
+  display: block;
+  height: 228px;
+  aspect-ratio: 1/1;
+  margin: auto;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  border: 0px solid #f00;
 }
 
 goods item name, goods item info, goods item price {
@@ -200,47 +250,48 @@ goods item name, goods item info, goods item price {
 
 goods item name {
   color: #09f;
-  margin-top: 10px;
+  margin-top: 20px;
   max-height: 60px;
   font-weight: bold;
-  font-size: 0.9em;
+  border: 0px solid;
 }
 
 goods item info {
-  max-height: 100px;
-  font-size: 0.85em;
+  margin-top: 10px;
 }
 
 goods item price {
-  position: absolute;
-  left: 0;
-  bottom: 60px;
   width: 100%;
   font-size: var(--item-price);
   text-align: center;
+  margin-top: 20px;
+  border: 0px solid;
 }
 
-goods.list item {
-  width: 100%;
-  margin: 40px 0 0 0;
-  min-height: 240px;
-  max-height: 240px;
-}
+/*landscape orientation*/
+@media (orientation: landscape) {
+  goods.list item {
+    width: 100%;
+    min-height: 240px;
+    max-height: 240px;
+    margin-top: 40px;
+  }
 
-goods.list item img {
-  position: absolute;
-  top: 5px;
-  left: 0;
-}
+  goods.list item > a {
+    position: absolute;
+    top: 5px;
+    left: 0;
+  }
 
-goods.list item block {
-  position: absolute;
-  top: 0;
-  right: 0;
-  width: calc(100% - 250px);
-  height: 100%;
-}
+  goods.list item block {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: calc(100% - 250px);
+    height: 100%;
+  }
 
-goods.list item panel a {
-  width: 80px;
+  goods.list item panel a {
+    width: 80px;
+  }
 }
