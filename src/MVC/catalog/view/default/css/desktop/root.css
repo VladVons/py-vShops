@@ -20,7 +20,8 @@
   --panel-border: 1px solid #1181ad;
   --panel-font: 0.9em;
   --panel-icon: 0.9em;
-  --top-font: 0.85em;
+  
+  --top-font: 0.9em;
   --menu-font: 1.1em;
   --nav-font: 0.9em;
   --nav-icon: 1.6em;
@@ -30,6 +31,7 @@
   --control-mode: 1.1em;
   --control-label: 0.8em;
   --item-price: 1.2em;
+  --item-icon: 1.2em;
   --item-buy: 1.2em;
   --product-price: 1.4em;
   
