@@ -6,9 +6,9 @@ settings {
   display: flex;
   flex-wrap: wrap;
   position: absolute;
-  top: -250px;
-  left: calc(50% - 570px);
-  width: 300px;
+  top: -260px;
+  right: 20px;
+  width: 260px;
   background: var(--bg-panel);
   border-radius: 4px;
   opacity: 0;
@@ -16,11 +16,11 @@ settings {
   z-index: 101;
   border: 1px solid #ccc;
   box-shadow: 3px 3px 16px 8px #000;
-  transition: 1s ease;
+  transition: 0.5s ease;
 }
 
 settings.active {
-  top: 55px;
+  top: 60px;
   opacity: 1;
 }
 
@@ -46,11 +46,11 @@ settings label {
   justify-content: flex-end;
   align-items: center;
   width: 100px;
-  background: #eee;
-  font-size: 0.8em;
   line-height: 32px;
-  padding: 0 10px 0 10px;
+  font-size: var(--top-font);
+  background: #eee;
   margin: 5px 0 5px 0;
+  padding: 0 5px 0 5px;
   border-radius: 4px 0 0 4px;
   border: 1px solid #ccc;
   border-right: 0;
@@ -59,19 +59,18 @@ settings label {
 settings label:before {
   font-size: 1em;
   margin-right: 5px;
-  margin-bottom: 2px;
   color: var(--bg-panel);
 }
 
 settings select {
   width: calc(100% - 100px);
-  padding: 0 5px 0 5px;
   margin: 5px 0 5px 0;
+  padding: 0 5px 0 5px;
   border: 1px solid #ccc;
   border-radius: 0 4px 4px 0;
   background: #ffe;
+  font-size: 0.9em;
   cursor: pointer;
-  font-size: 0.8em;
 }
 
 settings button {
@@ -79,21 +78,18 @@ settings button {
   justify-content: center;
   align-items: center;
   flex: 1;
+  min-width: 36%;
+  font-size: var(--top-font);
   font-weight: bold;
-  font-size: 0.9em;
-  border: 0;
-  color: #000;
   border-radius: 4px;
   margin-top: 15px;
   cursor: pointer;
-}
-
-settings button:hover {
-  background: #9f9;
+  border: 0;
 }
 
 settings button:before {
-  font-size: 1.2em;
+  font-size: 1.4em;
   margin-right: 10px;
   color: var(--bg-panel);
 }
+

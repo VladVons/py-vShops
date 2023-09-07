@@ -2,41 +2,44 @@
 /* === nav section === */
 /* =================== */
 nav {
-  flex: 0 300px;
-  padding: 20px;
+  display: block;
+  width: 100%;
 }
 
-nav phones, nav times {
-  margin-top: 20px;
-}
-
-nav phones phone:first-child:before, nav times open:first-child:before {
-  font-size: var(--nav-icon);
-  display: inline-block;
-  float: left;
-  margin: 10px 20px 0 10px;
-}
-
-nav phones phone:first-child:before {
-  content: 'p';
-}
-
-nav times open:first-child:before {
-  content: 'o';
-  height: 150px;
-}
-
-nav phone {
-  font-weight: bold;
-}
-
-nav time {
-  font-weight: bold;
-  margin-bottom: 10px;
+nav phones, nav times, nav line {
+  display: none;
 }
 
 nav title {
-  font-size: 1.4em;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.9em;
+  font-weight: bold;
+  background: linear-gradient(to bottom, #f0f0f0, #ccc) repeat-x;
+  color: #333;
+  margin: 0;
+  text-transform: uppercase;
+  padding: 10px;
+}
+
+nav title:after {
+  font-family: icons;
+  content: '=';
+  display: inline-block;
+  width: 36px;
+  text-transform: none;
+  font-size: 1em;
+  font-weight: normal;
+  text-align: center;
+  border-radius: 4px;
+  border: 1px solid;
+}
+
+nav catalog {
+  height: 0;
+  overflow: hidden;
+  transition: 1s ease;
 }
 
 nav catalog a {
@@ -53,15 +56,11 @@ nav catalog a:before {
   font-size: var(--nav-tree-icon);
   content: '+';
   color: #09f;
-  margin-right: 10px;
+  margin-right: 5px;
 }
 
 nav catalog > a:first-child {
   border-top: 1px solid #ccc;
-}
-
-nav catalog a:hover {
-  background: #eee;
 }
 
 nav catalog a.active {
@@ -86,6 +85,7 @@ nav catalog level2 a {
 }
 
 nav catalog level2 a:before {
+  font-family: icons;
   font-size: var(--nav-tree-icon);
   content: 'g';
   margin-right: 5px;
@@ -97,15 +97,6 @@ nav catalog level2 a.view {
 
 nav catalog level2 a.view:before {
   content: 'O';
-  color: #900;
-}
-
-nav open *, nav close * {
-  display: inline;
-  font-weight: bold;
-}
-
-nav close {
   color: #900;
 }
 

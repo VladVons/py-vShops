@@ -18,48 +18,53 @@
 content banner.alert {
   position: relative;
   min-height: 128px;
-  line-height: 32px;
+  font-size: 1em;
   color: #000;
+  font-weight: bold;
   border: 2px solid #333;
   border-radius: 8px;
   cursor: pointer;
-  background: linear-gradient(to bottom, #fff, #eee) repeat-x;
-}
-
-content banner.alert:hover {
-  background: linear-gradient(to bottom, #fff, #ddd) repeat-x;
+  background: linear-gradient(to bottom, #ffe, #fff) repeat-x;
 }
 
 content banner.alert::before{
-  position: absolute;
-  top: 0;
-  left: 0;
-  font-family: icons;
-  font-size: 3em;
   content: '!';
-  margin: 50px 0 0 50px;
-  color: #fff;
+  position: absolute;
+  top: 20px;
+  left: 30px;
+  font-family: icons;
+  font-size: 2em;
+  color: #ffe;
   text-shadow: 5px 5px 10px rgb(0, 0, 0);
 }
 
 content banner.alert message {
-  margin: 20px;
+  margin: 10px;
   text-align: center;
 }
 
 content banner.alert message text {
-  margin-left: 120px;
+  font-size: 0.8em;
+  line-height: 1.5em;
+  font-weight: bold;
+  margin-top: 10px;
+  padding: 0 20px 0 20px;
+}
+
+content banner.alert message text:first-child {
+  line-height: 55px;
   font-size: 1.1em;
   font-weight: bold;
+  letter-spacing: 0.2em;
+  padding-left: 70px;
+  border-bottom: 1px solid;
 }
 
 content banner.alert message text:last-child {
+  font-size: 1.1em;
   font-weight: bold;
+  letter-spacing: 0.2em;
   color: #900;
-}
-
-content title {
-  font-size: 1.4em;
 }
 
 content services {
@@ -68,43 +73,71 @@ content services {
   justify-content: space-between;
 }
 
-content services a {
+/*portrait orientation*/
+@media (orientation: portrait) {
+  content services a {
+    width: 100%;
+    border: 0px solid;
+  }
+  
+  content a.category {
+    margin-top: 20px;
+    padding-left: 100px;
+  }
+  
+  content a.category logo {
+    width: 80px;
+    height: 80px;
+    top: 0;
+    left: 0;
+  }
+  
+}
+
+/*landscape orientation*/
+@media (orientation: landscape) {
+  content services a {
     width: calc(50% - 20px);
     vertical-align: top;
+    border: 0px solid;
+  }
+
+  content a.category {
+    margin: 5px;
+    padding-left: 140px;
+  }
+
+  content a.category logo {
+    width: 100px;
+    height: 100px;
+    top: 10px;
+    left: 10px;
+  }
 }
 
 content a.category {
   position: relative;
   min-height: 120px;
-  margin: 5px;
-  padding: 20px 10px 10px 140px;
   border-radius: 4px;
   transition: transform .5s ease;
-  font-size: 1em;
-  line-height: 30px;
-}
-
-content a.category:hover {
-  transform: translateY(-7px);
-  box-shadow: 0 22px 50px rgba(14, 21, 47, 0.2), 0 8px 20px rgba(14, 21, 47, 0.2);
 }
 
 content a.category logo {
   position: absolute;
-  top: 10px;
-  left: 10px;
-  float: left;
-  width: 100px;
-  height: 100px;
   border: 2px #cacaca solid;
   border-radius: 50%;
   box-shadow: #545454 4px 2px 2px;
   background-position: center center;
   background-repeat: no-repeat;
+  background-size: cover; 
 }
 
 content a.category name {
   font-weight: bold;
+}
+
+content a.category info {
+  font-size: 0.85em;
 }
 
 content blog {
@@ -113,32 +146,37 @@ content blog {
   justify-content: space-between;
 }
 
+/*portrait orientation*/
+@media (orientation: portrait) {
+  content blog article {
+    width: 100%;
+    border: 0px solid;
+  }
+}
+
+/*landscape orientation*/
+@media (orientation: landscape) {
+  content blog article {
+    width: calc(50% - 20px);
+    vertical-align: top;
+  }
+}
+
 content blog article {
   display: inline-block;
   margin: 0 0 40px 0;
-  width: calc(50% - 20px);
-  vertical-align: top;
 }
-
-content blog article name {
-  font-size: 1em;
-  height: 24px;
-  overflow: hidden;
-}
-
 
 content blog article blogname {
-  font-size: 0.85em;
+  font-size: 0.9em;
   border-top: 1px solid #ccc;
   border-bottom: 1px solid #ccc;
   margin: 10px 0 10px 0;
   padding: 5px;
   background: #ffe;
-  white-space: nowrap;
-  overflow: hidden;
 }
 
-content blog article blogname a{
+content blog article blogname a {
   font-size: 0.9em;
 }
 
@@ -149,8 +187,13 @@ content blog article img {
 }
 
 content blog article text {
-  max-height: 200px;
+  font-size: 0.9em;
+  max-height: 210px;
   text-align: justify;
   overflow: hidden;
+}
+
+content blog a.more {
+  font-size: 0.9em;
 }
 

@@ -4,8 +4,8 @@
 
 body {
   background-color: var(--bg-body);
-  background-image: var(--bg-desktop);
-  background-position: top left, left 0 bottom -370px;
+  background-image: var(--bg-mobile);
+  background-position: top left, left 0 bottom -270px;
   background-repeat: repeat-x, repeat-x;
 }
 
@@ -13,28 +13,27 @@ body * {
   font: var(--font-roboto);
 }
 
-mobile, .mobile {
+
+desktop, .desktop {
   display: none;
 }
 
-
 .page {
-  width: 1180px;
-  margin-left: auto;
-  margin-right: auto;
+  width: 100%;
+  margin: auto;
 }
 
 .end {
   margin-bottom: 50px;
 }
 
-title.xxl { font-size: 2.5em }
-title.xl { font-size: 1.8em }
-title.l  { font-size: 1.4em }
-title.m  { font-size: 1.2em }
-title.s  { font-size: 1.0em }
-title.xs { font-size: 0.9em }
-title.xxs { font-size: 0.75em }
+title.xxl { font-size: 2.0em }
+title.xl { font-size: 1.4em }
+title.l  { font-size: 1.2em }
+title.m  { font-size: 1.0em }
+title.s  { font-size: 0.9em }
+title.xs { font-size: 0.75em }
+title.xxs { font-size: 0.6em }
 
 line {
   width: 100%; 

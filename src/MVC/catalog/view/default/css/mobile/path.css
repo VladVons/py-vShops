@@ -3,48 +3,48 @@
 /* ==================== */
 
 path {
-  display: flex;
-  align-items: center;
-  position: relative;
-  margin: 20px;
-  margin-bottom: 0;
+  display: block;
+  width: 90%;
+  height: 28px;
+  white-space: nowrap;
+  margin: 20px auto 0 auto;
   border-radius: 4px;
-  font-size: var(--path-font);
-  height: 32px;
-  line-height: 32px;
   background: #eee;
   border: 1px solid #d4d4d4;
+  overflow-x: auto;
+  overflow-y: hidden;
+  &::-webkit-scrollbar {
+    display: none;
+  }
 }
 
 path a {
-  display: flex;
-  align-items: center;
-  font-size: 1em;
+  display: inline;
+  position: relative;
+  bottom: 2px;
+  font-size: var(--path-font);
   color: #09f;
 }
 
-path a:before {
+path a::after {
   content: "";
   display: inline-block;
-  width: 23px;
-  height: 23px;
-  margin-right: 16px;
-  border-top: 1px solid #ccc;
-  border-right: 1px solid #ccc;
+  position: relative;
+  top: 5px;
+  left: -8px;
+  width: 18px;
+  height: 18px;
+  border-top: 1px solid #999;
+  border-right: 1px solid #999;
   transform: rotate(45deg);
 }
 
 path a:first-child:before {
-  border: 0px solid;
-  background: transparent;
-  font-family: icons;
-  font-size: 20px;
-  width: 32px;
-  margin-left: 25px;
-  margin-right: 0;
-  transform: rotate(0);
+  margin: 0 10px 0 15px;
+  font-size: 1.25em;
+  position: relative;
+  top: 3px;
 }
-
-path a:hover {
-  color: #039;
+path a:last-child::after {
+  display: none;
 }

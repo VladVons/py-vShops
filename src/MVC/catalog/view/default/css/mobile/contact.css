@@ -15,23 +15,55 @@
 
 contact {
   display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+/*portrait orientation*/
+@media (orientation: portrait) {
+  contact addr, contact times, contact phones {
+    border: 1px solid #ccc;
+    padding: 5px;
+  }
+  
+  contact addr, contact times {
+    width: calc(50% - 5px);
+  }
+  
+  contact phones {
+    width: 100%;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    border-top: 1px solid #ccc;
+  }
+  
+}
+
+/*landscape orientation*/
+@media (orientation: landscape) {
+  contact addr, contact times, contact phones  {
+    width: 25%;
+    padding: 0 20px 0 70px;
+    border: 1px solid #d0d0d0;
+  }
+  contact times {
+    margin: 0 20px 0 20px;
+  }
+
+  contact phones {
+    width: 50%;
+  }
+}
+
+/* all styles */
+contact addr *, contact times *, contact phones * {
+  font-size: var(--contact-font);
 }
 
 contact addr, contact times, contact phones  {
   display: inline-block;
-  width: 25%;
   min-height: 200px;
-  padding: 0 20px 0 70px;
-  border: 1px solid #d0d0d0;
   border-radius: 8px;
-}
-
-contact times {
-  margin: 0 20px 0 20px;
-}
-
-contact phones {
-  width: 50%;
 }
 
 contact phones left, contact phones right {
@@ -49,26 +81,34 @@ contact phones right {
 }
 
 contact title {
-  margin-top: 0;
+  margin: 10px 0 20px 40px;
+  font-size: var(--contact-title);
+  font-weight: bold;
 }
 
-title.fl, title.fr {
-  font-size: 1.1em;
-  color: #069;
-  cursor: pointer;
+title.fr {
+  display: none;
 }
 
-title.fl:hover, title.fr:hover {
-  color: #09f;
+title.fl {
+  float: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  font-weight: bold;
+  margin: 0;
+  text-align: center;
 }
 
-title.fl:before, title.fr:before {
+title.fl:before {
+  font-size: 1.5em;
   margin-right: 5px;
 }
 
 contact subtitle {
   font-weight: normal;
-  color: var(--bg-panel);
+  color: #09f;
 }
 
 contact phone {
@@ -76,33 +116,31 @@ contact phone {
 }
 
 contact comment {
-  font-size: 0.85em;
+  font-size: var(--contact-comment);
   font-weight: normal;
-  margin-bottom: 10px;
-  color: #999;
+  margin-bottom: 20px;
+}
+
+contact addr comment {
+  margin-top: 20px;
+  margin-bottom: 0;
 }
 
 contact addr, contact times, contact phones {
   position: relative;
 }
 
-contact addr title, contact times title, contact phones title {
-  font-size: var(--contact-title);
-  color: var(--bg-panel);
-}
-
-
 contact addr::before, contact times::before, contact phones::before {
-  font-size: var(--nav-icon);
-  color: var(--bg-panel);
+  font-family: icons;
+  font-size: var(--contact-icon);
   position: absolute;
-  top: 0;
-  left: 20px;
+  top: 10px;
+  left: 10px;
 }
 
 contact addr::before{
   content: 'L';
-  top: 5px;
+  top: 15px;
 }
 
 contact times::before{
@@ -111,9 +149,8 @@ contact times::before{
 
 contact phones::before{
   content: 'p';
-  top: 5px;
+  top: 15px;
 }
-
 
 contact times time {
   font-weight: bold;
@@ -138,19 +175,25 @@ map, google {
   z-index: 1;
 }
 
+map marker name, map marker addr{
+  font-size: var(--map-popup);
+}
+
 map marker name {
   font-weight: bold;
 }
 
 gallery {
   display: flex;
+  justify-content: space-between;
 }
 
 gallery a {
   position: relative;
-  width: 33.333%;
-  height: 180px;
-  margin: 20px;
+  width: 33%;
+  aspect-ratio: 1/1;
+  font-size: 0.8em;
+  margin-top: 20px;
   background-color: #fff;
   background-repeat: no-repeat;
   background-size: cover;
@@ -182,35 +225,37 @@ message {
   min-height: 300px;
   border: 1px solid #ccc;
   border-radius: 8px;
+  padding: 20px;
   background: linear-gradient(to bottom, #ddd, #fff) repeat-x;
 }
 
+message form {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
 message input {
+  width: calc(50% - 10px);
   height: 48px;
   line-height: 48px;
-  font-size: 1em;
-}
-
-message input[type='text'] {
-  display: inline-block;
-  width: calc(50% - 44px);
+  font-size: 0.9em;
   padding-left: 10px;
-  margin: 20px 20px 0 20px;
-}
-
-message input[type='submit'] {
-  display: block;
-  width: 200px;
-  cursor: pointer;
-  margin: 20px auto 20px auto;
 }
 
 message textarea {
-  width: calc(100% - 44px);
+  width: 100%;
   height: 150px;
-  margin: 20px;
-  font-size: 1em;
+  font-size: 0.9em;
+  margin-top: 20px;
   padding: 10px;
   resize: none;
 }
 
+message input[type='submit'] {
+  width: 50%;
+  flex: 0.5;
+  margin: auto;
+  margin-top: 20px;
+  cursor: pointer;
+}

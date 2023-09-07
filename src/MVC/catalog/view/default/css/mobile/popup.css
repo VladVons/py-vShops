@@ -5,8 +5,8 @@
 popup {
   position: fixed;
   top: 50%;
-  left: calc(100% / 2 - 400px);
-  width: 800px;
+  left: 5%;
+  width: 90%;
   height: 0;
   background: #fff;
   border-radius: 8px;

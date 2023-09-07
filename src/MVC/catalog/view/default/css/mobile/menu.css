@@ -1,39 +1,51 @@
 /* ==================== */
 /* === menu section === */
 /* ==================== */
+
 border.menu {
-  height: 10px;
-  background: #000;
-  border-radius: 8px 8px 0 0;
+  position: fixed;
+  top: 7px;
+  left: 10px;
+  width: 48px;
+  height: 24px;
+  line-height: 24px;
+  border-radius: 4px;
+  background: var(--logo-mobile);
+  z-index: 101;
+  border: 1px solid #ccc;
+}
+
+border.menu:before {
+  content: '=';
+  font-size: 1em;
+  color: #ccc;
+  margin-left: 22px;
 }
 
 menu {
-  background: var(--bg-menu);
+  position: fixed;
   display: flex;
-  height: 53px;
-  line-height: 53px;
-  position: -webkit-sticky;
-  position: sticky;
+  flex-direction: column;
+  justify-content: space-around;
   top: 0;
-  z-index: 100;
+  left: -60%;
+  max-width: 60%;
+  height: 100%;
+  background: #000;
+  opacity: 0.9;
+  z-index: 102;  
+  transition: 0.5s ease;
 }
 
 menu a {
-  height: 40px;
-  line-height: 40px;
+  display: flex;
+  align-items: center;
+  height: calc(100% / 7);
   color: #ccc;
   font-size: var(--menu-font);
   padding: 0 15px 0 15px;
   text-decoration: none;
-  border: 0;
-  border-right: 1px dotted #555;
-}
-
-menu a:hover {
-  background: linear-gradient(to bottom, #444, #000) repeat-x;
-  color: #fff;
-}
-
-menu a:first-child {
-  margin-left: 20px;
+  background: #333;
+  vertical-align: middle;
+  border-bottom: 1px dotted #666;
 }

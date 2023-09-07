@@ -2,25 +2,20 @@
 /* === social === */
 /* ============== */
 
-@keyframes pong {
-  0% { padding-top: 0; }
-  50% { padding-top: 5px; }
-  100% { padding-top: 0; }
-}
-
 social {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
   position: fixed;
-  right: 20px;
-  bottom: 20px;
-  width: 72px;
-  height: 172px;
-  padding-top: 5px;
-  /*animation: pong 1s linear infinite;*/
+  right: 5px;
+  bottom: 15px;
+  width: 50px;
+  height: 90px;
+  z-index: 100;
+  border: 0px solid;
 }
 
-social:hover {
-  animation: none;
-}
 
 social callback, social share {
   display: flex;
@@ -28,24 +23,19 @@ social callback, social share {
   justify-content: center;
   font-family: icons;
   font-size: 1em;
-  width: 64px;
-  height: 64px;
-  margin-bottom: 20px;
+  width: 40px;
+  height: 40px;
   color: #fff;
   text-shadow: 5px 5px 10px rgb(0, 0, 0);
   box-shadow: 3px 3px 6px rgb(0, 0, 0);
   cursor: pointer;
   border-radius: 25%;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
 
 social callback {
-  font-size: 1.4em;
-  background: #660 linear-gradient(to bottom, #660, #993) repeat-x;
-}
-
-social callback:hover {
-  font-size: 1.8em;
-  background: #330 linear-gradient(to bottom, #330, #cc6) repeat-x;
+  font-size: 1em;
+  background: transparent linear-gradient(to bottom, #660, #993) repeat-x;
 }
 
 social callback::before {
@@ -53,13 +43,7 @@ social callback::before {
 }
 
 social share {
-  font-size: 1.2em;
-  background: #930 linear-gradient(to bottom, #c63, #930) repeat-x;
-}
-
-social share:hover {
-  font-size: 1.5em;
-  background: #c33 linear-gradient(to bottom, #630, #f63) repeat-x;
+  background: transparent linear-gradient(to bottom, #c63, #930) repeat-x;
 }
 
 social share::before {
@@ -68,12 +52,12 @@ social share::before {
 
 social icons {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
   position: fixed;
-  right: 110px;
-  bottom: 45px;
-  width: 0;
-  height: 48px;
+  right: calc(50% - 90px);
+  bottom: 0;
+  width: 180px;
+  height: 0px;
   white-space: nowrap;
   overflow: hidden;
   opacity: 0;
@@ -82,9 +66,8 @@ social icons {
 
 social icons.active {
   opacity: 1;
-  width: 180px;
+  height: 100px;
 }
-
 
 social icons a {
   display: flex;
@@ -94,22 +77,16 @@ social icons a {
   justify-content: center;
   border-radius: 25%;
   color: #fff;
-  width: 48px;
-  height: 48px;
+  width: 40px;
+  height: 40px;
   border-radius: 25%;
-}
-
-social icons a:hover {
-  font-size: 1em;
+  text-shadow: 5px 5px 10px rgb(0, 0, 0);
+  box-shadow: 3px 3px 6px rgb(0, 0, 0);
 }
 
 social .facebook { background: #036 linear-gradient(to bottom, #036, #06c) repeat-x }
 social .instagram { background: #930 linear-gradient(to bottom, #930, #f63) repeat-x }
 social .telegram { background: #06c linear-gradient(to bottom, #06c, #09f) repeat-x }
-
-social .facebook:hover { background: #06c linear-gradient(to bottom, #06c, #036) repeat-x }
-social .instagram:hover { background: #f63 linear-gradient(to bottom, #f63, #930) repeat-x }
-social .telegram:hover { background: #09f linear-gradient(to bottom, #09f, #06c) repeat-x }
 
 social .facebook::before { content: 'F'}
 social .instagram::before { content: 'I'}

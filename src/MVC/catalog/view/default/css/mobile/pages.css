@@ -4,9 +4,9 @@
 
 pages {
   display: flex;
-  height: 50px;
-  line-height: 50px;
-  margin: 50px 0 50px 0;
+  height: 30px;
+  line-height: 30px;
+  margin: 30px 0 30px 0;
   text-align: center;
   border: 0px solid #ccc;
 }
@@ -14,17 +14,17 @@ pages {
 pages left, pages right, pages start, pages end, pages data {
   display: inline-block;
   text-align: center;
-  line-height: 50px;
+  line-height: 30px;
   cursor: pointer;
-  font-size: 24px;
+  font-size: 16px;
   font-weight: bold;
   white-space: nowrap;
 }
 
 pages left, pages right, pages start, pages end {
   background: #999;
-  width: 50px;
-  height: 50px;
+  width: 30px;
+  height: 30px;
 }
 
 page start, page end {
@@ -43,7 +43,7 @@ pages left:hover, page right:hover, pages start:hover, pages end:hover {
 pages data {
   flex: 1;
   position: relative;
-  height: 50px;
+  height: 30px;
   overflow: hidden;
 }
 
@@ -52,19 +52,19 @@ pages data list {
   position: absolute;
   top: 0;
   left: 0;
-  max-height: 50px;
+  max-height: 30px;
   transition: 2s ease;
 }
 
 pages data list page {
   display: inline-block;
-  width: 50px;
-  min-height: 50px;
-  height: 50px;
-  line-height: 50px;
+  width: 30px;
+  min-height: 30px;
+  height: 30px;
+  line-height: 30px;
   background: #ccc;
-  font-size: 24px;
-  border-radius: 10px;
+  font-size: 16px;
+  border-radius: 4px;
   color: #333;
   font-weight: bold;
   cursor: pointer;
