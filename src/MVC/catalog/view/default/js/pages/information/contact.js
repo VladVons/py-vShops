@@ -21,7 +21,7 @@ class Contact {
       let rules = await SCSS.load([
         `${$$.conf.path.css}/common.css`,
         `${$$.conf.path.css}/${$$.conf.DEVICE}/contact.css`,
-        `${$$.conf.path.leaflet}/css/leaflet.css`])
+        `${$$.conf.path.leaflet}/leaflet.css`])
       $$.css(SCSS.dump(rules))
       
       //load localization

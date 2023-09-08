@@ -9,6 +9,7 @@ class SCSSParser {
     this.re = {
       comments: /\/\*[^*]*\*\//,
       extra: /\s*\n+\s*/g,
+      rules: /;(?![^(]*\))/, //; but outside of ()
       rule: /\s*:\s*/,
       url: /(?:url\(|['"])['"]?([^'"\)]*)['"\)]+\s*(.*)/,
     }
@@ -39,7 +40,7 @@ class SCSSParser {
           return false
         }
         elem
-          .split(';')
+          .split(this.re.rules) // this.re.rules
           .filter(Boolean)
           .map(val => pointer.push(val))
       })
@@ -54,7 +55,8 @@ class SCSSParser {
       if(elem instanceof Object) {
         obj.children.push((elem instanceof Array) ? this.inside(elem) : elem) //recursion for next level
       }else{
-        let [name, value] = elem.split(this.re.rule)
+        let rule = elem.split(this.re.rule)
+        let [name, value] = [rule[0], rule.slice(1).join(':')] // for base64 embeded images
         if(value) {
           obj.rules[name] = value
         }else{

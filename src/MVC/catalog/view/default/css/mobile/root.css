@@ -6,13 +6,16 @@
   --bg-body:  #e9e9e9;
   --bg-panel: #0a3e4b;
   --bg-top:   #0e5d7b;
-  --bg-mobile:    url(/default/img/bg-top-mob.png), 
-                  url(/default/img/bg-bottom.png);
-  --bg-page: #fff url(/default/img/bg-page.png) top left repeat-x;
-  --bg-header:    url(/default/img/bg-header.jpg) top center no-repeat; 
-  --bg-menu:      url(/default/img/bg-menu.png) 0 -10px repeat-x;
-  --logo-mobile: #0e5d7b url(img/logo-mobile.png) top 3px left 5px / 16px 16px no-repeat;
-  
+  --bg-mobile:
+    url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAImCAIAAAAdQXd5AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAIVJREFUeNpiYoitZWJgYBjFo3gUj2I0/A+ImQbM/j3x9kyXL19GEWNkZMSrB1keXS2Mj0scF5sYc7C5C586bGYSUgcC6Hagi8HMAeH///9jmEOIxudGfHYSYyahuCGkHp8b8dmNLo4vvkmxg5i0QWz4kppWiLGTnDxArDgx7iGWj0UMIMAA0GkOC36J0V4AAAAASUVORK5CYII='), 
+    url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAJYCAIAAAAsaRvIAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAFlJREFUeNrszSEOgDAUA9CuGwkIHBbLrVAchAOTIGFkIaN3mEFUvPxf0xLrHnE8RD2J2BPlIrqgPEghAgg0SJnIoy6V9VPd762Nidi0PS9t/WZmZmb/8gkwANbQFJla8yffAAAAAElFTkSuQmCC');
+  --bg-page: #fff url( 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAABqCAIAAADyRKxHAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAGhJREFUeNqsykkKgEAMRNGO9z9aX6XneUQsUHQhCrp4/CSEOOcLY2whInR33p/mu7752fr154cbCSFQKSWqlAKtNRljwFoLzjnw3kMIAWKMkFKCnDOUUg61VmitHXrvMMa4mHPuVgEGAGRpcWdxhll+AAAAAElFTkSuQmCC') 
+    top left repeat-x;
+  --bg-menu:
+    url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAA/CAIAAACuBzUDAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAERJREFUeNqUjMsJADAIQzUe3cH9t7R6SGl7ECo8zEc0EbEJVb0AwI3qUXrTnlnP2RHm755u+funpz/z1hGh7i6ZuQQYAKJEBJ92Cg5eAAAAAElFTkSuQmCC') 
+    0 -10px repeat-x;
+  --logo-mobile: #0e5d7b url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAABjxJREFUeNqkVwlsVFUUPe//P/t0pgsttIW2bGkoCISlRNEQ0ChIIBItRMHEhEAkEIK4sBmDAlGpSgCDCSqESFwIFQkgBJdowRBKiVSUrcCUIl1pp9Mywyx/8b7/p6XLzLSWl7z8P/+/9++595177h2maRrax/Pz56Pkq30IN91Fm8YQbmhEptuErXljPlhzR34OJhagZQ82JBoRzfGEW7hZ6hKK6Jc/3jIp1kNugYUjyMywYZvq2rWmXF2GpjBg5i+APgLAKYnlswnWMi1FeIye+GItE2I9FBUVqZYIvnDlfLa6IWsZWu4DLrJsoWnu43QKBtjy+wWsUSmnu4G9AlAY7VBVSDYFn1kHfbnkkvVVeCnqSdFlKsVGiV5VdJvt7zpFyUo3Es0/gyNYrcxB5CQ8ArfDCdgs2B7K2r/qsnkh/EHATh+Q6athuhbY6X2nc+o82o3W0awJGNHia/iV468ID2YKyrXB0iz6db5jW2cSzsnNQnrphU/3BjOW43bAMM5fBwhnnoiZpXvPnLhZ3QjJYoPWDQFjoXw56Lj66LRxGDk9FXVBw/t2cDKt99McbYGWI02hJ2U9IvBPde08z5X65cjJIONRL1vJ+wITqnLxzvpHlmxCKH4S3CCYI9YqZ69Pf9KIRGdWczAS3TTIiORI9EUDQBcOOBnGwk5UF6Nn2UobMk1oycXbuVA2nUjPTkh82mK7npxmRjhOagmcyAKnyr14WdDSsZgbzxJROd68zg1sURQNLklMCIB/Xt+dSCmYBqvhYlcSLlz4YhQp7W6la7aE6+Msbw33NhWHfD6YUtLg8VSNgrH575jpq2dRbwKh8yIYMwJEcBOkJDIOeMj40PqaYpm7pSkUNsXxUgglt2VtNh5ylClqW0wAl3jwmq6UX8jC2ozqqmKOVpIjQJrNYvZaS7+piIyyiCyMPjkZf/g6HVKXLCBmfK3NmfFx4NoVKFYrBFUmcbDY2L1BZ3BZHYcUmbTFFH4o90mwpkpCcswI/HzsaK2uiDSTuHEHczL/gHO4SMZBkbCKCPXFiBYnKhy6rGe4OUEtYGScjLmlFBYYWI6/lNH6Li6rRFBTf7zmVvyqTrKiYaYD9OtYDwCizQnRmWRATBIGsGD2OVxm+TpsS1/YHYcD/L5N1R1YW2jddyBZWIBYOuCtr0OwpprTIoMpw8pwVRgOFtKFw6jP0SqL/wmEG6fK+N0U64cbWeiVuMXo5NGjsNd6xFmzF/2CO7aheg9hFvrafsRoKKIynirit4nW5cM8lbuQPTh+Q5IOPF5JR4RmjOGn0G/jLLpJl3EJlRMsi53Vt/ZEEtCjPVr5DmCkDklE/4zzXeGwBt64DZJQP9Hyss1zY4+eWURgBo2TbB75NzZWFlAdYN6HFDkrBmSnIhW4O8nyQvDa1f0qybNCHVYelfYFfnaQ1eH7qog2ORYA1hcV66Uahla03Hlfs2NGc/m5Em5ckxVkU4d1PCmj5IcK4Wl4I815JtaasCl9iOHZuX7dev/dRoOH1EnlUJN10JZ5uOiaey78AZ4RqtjpgIUe6av13zp1V76OJFAU5FplfO4YeLyo0jUXXmps7Vp8EnJUsigYTxKAMBlKnXCIFPaRFhnbHJknl95ImQkfVV9H9LsalZhY/QB91WE2aU64osVA1LoSQtMLPgfQDtocx37YZtekd5OGnNx4K206Wu8b7R0fIV3JVHRyogPAvySGvj8uNuLUj8DMZ4Ff6ZWZspcJHSECZZizSXlvMcPrtapRFtpdOaUa7dQciUWORNLcaGBpCAQfdNFthij9PkTaSnsO9uiKGdO9tZH473YfObyo7Jm5wBkOgGqBEP2ToRggeiECrRf1szKiGDXuEnF2svXNQgkfddWtrgB0p7KAHaN3bF/604qVEk7LRuwEoWepZb2UXyEqx8kizk+yrpogYntP4ewJwPiTAhQ/9UnxypLX3jCjIlqFhARFpzswPusIeIqCisn2lWMF7Iyt3HEA8EFty+YxWzZvOL10A1BLbRxvUrqrFdd+Rl5qhE5lxitR1f+cwub0nR5uWT3VhD3xS0cCAFzR00UUTSsc75RFs6ZGZK17DofJeIiIbSc6iprxDb8SdgS8zfW7vz10qGBSYU0iyvwnwAAAEkubQKuRKQAAAABJRU5ErkJggg==')
+    top 3px left 5px / 16px 16px no-repeat;
   --font-base: normal 20px / 1.3em Roboto Condensed;
   --font-roboto: normal 20px / 1.3em Roboto Condensed;
   --font-abel: normal 22px/1.3em Abel;
@@ -48,7 +51,6 @@
   --cart-payment-icon: 2em;
   --cart-total: 0.9em;
   
-  --map-marker: url(/default/js/leaflet/css/marker-icon.png);
   --contact-title: 1.0em;
   --contact-icon: 1.5em;
   --contact-font: 0.9em;

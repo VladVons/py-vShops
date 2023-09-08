@@ -41,6 +41,13 @@ tip.x-off {
   opacity: 0;
 }
 
+/*portrait orientation*/
+@media (orientation: portrait) {
+  tip.x-on {
+    right: calc(50% - 150px);
+  }
+}
+
 /* =========================== */
 /* === jMagic mask section === */
 /* =========================== */
