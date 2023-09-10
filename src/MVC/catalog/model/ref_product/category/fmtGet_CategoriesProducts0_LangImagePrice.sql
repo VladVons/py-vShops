@@ -1,5 +1,5 @@
 -- in: aLang, aPriceId, CategoryIds, aOrder, aLimit, aOffset
-with 
+with
 wt1 as (
     select
         rptc.category_id,
@@ -84,4 +84,3 @@ from
     wt1
 left join wt2 on
     (wt1.product_id = wt2.product_id)
-    

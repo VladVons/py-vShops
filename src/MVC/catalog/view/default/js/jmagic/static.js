@@ -28,6 +28,7 @@ export class Static {
   
   async imports(modules) {
     for(let module of modules) {
+      if(module[0] === '-') continue
       let object = module
         .split('.')
         .reduce((obj, prop) => obj && obj[prop], this.imports)

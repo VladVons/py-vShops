@@ -1,7 +1,7 @@
 "use strict"
 
 const 
-  IMPORTS = ['plugins.url', 'plugins.fetch', 'plugins.scss', 'common', 'conf'],
+  IMPORTS = ['plugins.url', 'plugins.fetch', 'plugins.scss', '-common', 'conf'],
   PATH    = 'checkout/history'
 
 
@@ -10,23 +10,25 @@ class History {
     $$(async () => {
       //load js modules
       await $$.imports(IMPORTS)
-      this.conf = $$.imports.conf.conf
+      this.conf = $$.imports.conf.conf  //!!!!!!!!!
       
       //load css rules
       let rules = await SCSS.load([`${$$.conf.path.css}/common.css`,`${$$.conf.path.css}/${$$.conf.DEVICE}/cart.css`])
       $$.css(SCSS.dump(rules))
       
       //load localization
+      /*
       this.lang = await $$.post(this.conf.url.local, { 
         headers : { 'Content-type': 'application/json' },
         body    : JSON.stringify({ path: PATH, lang: 'ua', key: 'js' }),
       })
-      
+      */
+
       //unmask page
       $$('body').css({opacity: 1})      
       
       // cart from storage
-      this.init()
+      //this.init()
       
       //mobile layout
       if($$.conf.DEVICE === 'mobile') this.mobile()

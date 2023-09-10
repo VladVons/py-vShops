@@ -1,0 +1,29 @@
+{% extends '_inc/layout1.j2' %}
+
+{% block head %}
+  <script type='module' src='/default/js/pages/checkout/orders.js'></script>
+{% endblock %}
+
+{% block content %}
+    <title class='eye'>{{lang.orders_hist}}</title>
+    <cart class='orders'>
+     <titles>
+        <title class='s'>{{lang.number}}</title>
+        <title class='s'>{{lang.date}}</title>
+        <title class='s'>{{lang.order}}</title>
+        <title class='s'>{{lang.sum}}</title>
+        <title class='s'>{{lang.state}}</title>
+      </titles>
+
+      {% for Rec in TDbList().Import(orders) %}
+        <item order="{{Rec.order_id}}">
+          <code>{{loop.revindex}}</code>
+          <code>{{Rec.actual_date}}</code>
+          <code>{{Rec.order_id}}</code>
+          <sum>{{Rec.summ}}</sum>
+          <code>1</code>
+        </item>
+      {% endfor %}
+    </cart>
+  </template>
+{% endblock %}

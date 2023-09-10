@@ -39,7 +39,7 @@ with recursive wrpc as (
     left join
         ref_product_category_lang rpcl
         on (rpc.id = rpcl.category_id and rpcl.lang_id = rlng.id)
-    where 
+    where
         (rpc.tenant_id = {aTenantId})
 ),
 category_products as (
@@ -50,11 +50,11 @@ category_products as (
         ref_product_to_category rptc
     left join
         (
-            select 
+            select
                 id,
                 unnest(path_idt) as cat_idt
             from wrpc
-        ) rpc 
+        ) rpc
         on (rptc.category_id = rpc.id)
     group by
         rpc.cat_idt
@@ -70,11 +70,11 @@ select
     cp.products
 from
      wrpc
-left join 
-    category_products cp 
+left join
+    category_products cp
     on (wrpc.idt = cp.cat_idt)
-where 
+where
     (cp.products is not null)
     {CondParentIdts}
-order by 
+order by
     wrpc.sort

@@ -55,6 +55,10 @@ cart.history titles, cart.history item {
   grid-template-columns: calc(var(--cart-thumb) + 20px) auto 120px 120px 150px 120px;
 }
 
+cart.orders titles, cart.orders item {
+  grid-template-columns: 50px auto auto auto auto;
+}
+
 cart titles {
   height: 50px;
   background: #09c linear-gradient(to bottom, #09c, #033) repeat-x;

@@ -318,3 +318,8 @@ class TDbBase():
         random.shuffle(self.Data)
         self.RecNo = 0
         return self
+
+    def ToList(self) -> 'TDbBase':
+        for Idx, Row in enumerate(self.Data):
+            self.Data[Idx] = list(Row)
+        return self

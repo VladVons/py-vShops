@@ -16,18 +16,22 @@
 
       <confirm>
         <label>{{lang.for_confirm_need}}:</label>
+
         <client>
           <input type='text' maxlength=12 title="{{lang.chars_name_rule}}" required></input>
           <placeholder class='icon-user'>{{lang.name}}:</placeholder>
         </client>
+
         <phone>
           <input type='text' maxlength=10 title="{{lang.chars_phone_rule}}" required></input>
           <placeholder class='icon-phone'>{{lang.phone}}:</placeholder>
         </phone>
+
         <example>{{lang.phone_example}}</example>
       </confirm>
+
       <buttons>
         <button class='continue' onclick='history.go(-1)'>{{lang.back_to_cart}}</button>
-        <button class='checkout' href='{{href.confirm}}'>{{lang.confirm_order}}</button>
+        <button class='confirm' href='{{href.confirm}}'>{{lang.confirm_order}}</button>
       </buttons>
 {% endblock %}

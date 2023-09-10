@@ -62,3 +62,11 @@ async def Get_CategoryIdtsTenant_Sub(self, aCategoryIdts: list[int], aTenantId: 
         'fmtGet_CategoryIdtsTenant_Sub.sql',
         {'CategoryIdts': CategoryIdts, 'aTenantId': aTenantId}
     )
+
+async def Get_ProductIds_PathIdt(self, aProductIds: list[int]) -> dict:
+    ProductIds = ListIntToComma(aProductIds)
+    return await self.ExecQuery(
+        'fmtGet_ProductIds_PathIdt.sql',
+        {'ProductIds': ProductIds}
+    )
+
