@@ -21,52 +21,53 @@ async def Main(self, aData: dict = None) -> dict:
         }
     }
 
-    DblOrderMix = await self.ExecModelImport(
-        'doc_sale',
-        {
-            'method': 'Get_OrderMix',
-            'param': {'aOrderId': aOrderId}
-        }
-    )
-
-    if (DblOrderMix):
-        Res['doc_attr'] = DblOrderMix.Rec.GetAsDict()
-
-        DblOrderMixTable = await self.ExecModelImport(
+    if (aOrderId):
+        DblOrderMix = await self.ExecModelImport(
             'doc_sale',
             {
-                'method': 'Get_OrderMixTableProduct',
-                'param': {'aOrderId': aOrderId, 'aLang': aLang}
+                'method': 'Get_OrderMix',
+                'param': {'aOrderId': aOrderId}
             }
         )
 
-        if (DblOrderMixTable):
-            ProductIds = DblOrderMixTable.ExportList('id')
-            DblPathIdt = await self.ExecModelImport(
-                'ref_product/category',
+        if (DblOrderMix):
+            Res['doc_attr'] = DblOrderMix.Rec.GetAsDict()
+
+            DblOrderMixTable = await self.ExecModelImport(
+                'doc_sale',
                 {
-                    'method': 'Get_ProductIds_PathIdt',
-                    'param': {'aProductIds': ProductIds}
+                    'method': 'Get_OrderMixTableProduct',
+                    'param': {'aOrderId': aOrderId, 'aLang': aLang}
                 }
             )
-            IdToPath = DblPathIdt.ExportPairs('id', ['path_idt', 'tenant_id'])
 
-            Images = DblOrderMixTable.ExportStr(['image'], 'product/{}')
-            Thumbs = await self.ExecImg(
-                'system',
-                {
-                    'method': 'GetThumbs',
-                    'param': {'aFiles': Images}
-                }
-            )
-            DblOrderMixTable.ToList().AddFields(['href', 'thumb'])
-            for Rec, Thumb in zip(DblOrderMixTable, Thumbs['thumb']):
-                Rec.SetField('thumb', Thumb)
+            if (DblOrderMixTable):
+                ProductIds = DblOrderMixTable.ExportList('id')
+                DblPathIdt = await self.ExecModelImport(
+                    'ref_product/category',
+                    {
+                        'method': 'Get_ProductIds_PathIdt',
+                        'param': {'aProductIds': ProductIds}
+                    }
+                )
+                IdToPath = DblPathIdt.ExportPairs('id', ['path_idt', 'tenant_id'])
 
-                PathArr, TenantId = IdToPath[Rec.id]
-                Path = "_".join(map(str, PathArr))
-                Href = f'?route=product/product&path={Path}&product_id={Rec.id}&tenant={TenantId}'
-                Rec.SetField('href', Href)
+                Images = DblOrderMixTable.ExportStr(['image'], 'product/{}')
+                Thumbs = await self.ExecImg(
+                    'system',
+                    {
+                        'method': 'GetThumbs',
+                        'param': {'aFiles': Images}
+                    }
+                )
+                DblOrderMixTable.ToList().AddFields(['href', 'thumb'])
+                for Rec, Thumb in zip(DblOrderMixTable, Thumbs['thumb']):
+                    Rec.SetField('thumb', Thumb)
 
-            Res['doc_table'] = DblOrderMixTable.Export()
+                    PathArr, TenantId = IdToPath[Rec.id]
+                    Path = "_".join(map(str, PathArr))
+                    Href = f'?route=product/product&path={Path}&product_id={Rec.id}&tenant={TenantId}'
+                    Rec.SetField('href', Href)
+
+                Res['doc_table'] = DblOrderMixTable.Export()
     return Res

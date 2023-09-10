@@ -15,6 +15,6 @@ left join
     ref_customer rc on
     (dom.customer_id = rc.id)
 where
-    (dom.customer_id = 1)
+    (dom.customer_id = {aCustomerId})
 order by 
     dom.actual_date desc
