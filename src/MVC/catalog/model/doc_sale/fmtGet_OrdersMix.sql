@@ -16,5 +16,5 @@ left join
     (dom.customer_id = rc.id)
 where
     (dom.customer_id = {aCustomerId})
-order by 
+order by
     dom.actual_date desc

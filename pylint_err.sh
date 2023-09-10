@@ -36,7 +36,13 @@ consider-using-f-string\
     time pylint --recursive=y ./src | egrep -v $IgnoreErr > $File
 }
 
+TrailBlanks()
+{
+  find ./src -type f -name '*.py'  -exec egrep -l " +$" {} \;
+  find ./src -type f -name '*.sql' -exec egrep -l " +$" {} \;
+  find ./src -type f -name '*.json' -exec egrep -l " +$" {} \;
+}
 
 #Install
-Check
-
+#Check
+TrailBlanks

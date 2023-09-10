@@ -50,7 +50,7 @@ async def Main(self, aData: dict = None) -> dict:
                         'param': {'aProductIds': ProductIds}
                     }
                 )
-                IdToPath = DblPathIdt.ExportPairs('id', ['path_idt', 'tenant_id'])
+                IdPairs = DblPathIdt.ExportPairs('id', ['path_idt', 'tenant_id'])
 
                 Images = DblOrderMixTable.ExportStr(['image'], 'product/{}')
                 Thumbs = await self.ExecImg(
@@ -64,7 +64,7 @@ async def Main(self, aData: dict = None) -> dict:
                 for Rec, Thumb in zip(DblOrderMixTable, Thumbs['thumb']):
                     Rec.SetField('thumb', Thumb)
 
-                    PathArr, TenantId = IdToPath[Rec.id]
+                    PathArr, TenantId = IdPairs[Rec.id]
                     Path = "_".join(map(str, PathArr))
                     Href = f'?route=product/product&path={Path}&product_id={Rec.id}&tenant={TenantId}'
                     Rec.SetField('href', Href)

@@ -14,10 +14,10 @@ async def Test_01():
         Rozetka,  Watsons,  MAUDAU,  EVA,  Епіцентр,  Сільпо,  Метро,  АТБ,  MAKEUP,  PAMPIK,  EXIST.UA,  F.UA,  WINETIME,  AURA,  Masmart,
         e-Coffee.com.ua,  KidButik.ua,  Подорожник,  MIKSON,  АГУСИК,  iHerb,  Lantale,  Raptom,  Канцелярка,  Кофейня,  Престиж Плюс,
         Rumiana,  IpopoKids,  SOLO,  SportShop,  МОБИЛЛАК,  VINTAGE,  ISEI,  Аптека24,  ArtDrink,  PAPAY,  Кідіс,  Антошка,  BROCARD,
-        Полиця,  Ли́тали,  PROSTOR,  Наша Стройка,  Книгарня "Є",  Мегакнига,  Detmir,  Країна казок,  Фаунамаркет,  zootovary.net.ua, 
-        Tabletki.ua,  Рово,  Хім Опт,  eBay,  Inter Cars, Rozetka,  Watsons,  MAUDAU,  MAKEUP,  PAMPIK,  EXIST.UA,  F.UA,  WINETIME,  AURA,  
-        Masmart,  e-Coffee.com.ua,  KidButik.ua, Подорожник,  MIKSON,  АГУСИК,  iHerb,  Lantale,  Raptom,  Канцелярка,  Кофейня,  Престиж Плюс,  Rumiana,  IpopoKids,  SOLO,  
-        SportShop,  МОБИЛЛАК,  VINTAGE,  Аптека24,  ArtDrink,  PAPAY,  Кідіс,  Антошка,  BROCARD,  Полиця,  Ли́тали,  PROSTOR,  Наша Стройка,  
+        Полиця,  Ли́тали,  PROSTOR,  Наша Стройка,  Книгарня "Є",  Мегакнига,  Detmir,  Країна казок,  Фаунамаркет,  zootovary.net.ua,
+        Tabletki.ua,  Рово,  Хім Опт,  eBay,  Inter Cars, Rozetka,  Watsons,  MAUDAU,  MAKEUP,  PAMPIK,  EXIST.UA,  F.UA,  WINETIME,  AURA,
+        Masmart,  e-Coffee.com.ua,  KidButik.ua, Подорожник,  MIKSON,  АГУСИК,  iHerb,  Lantale,  Raptom,  Канцелярка,  Кофейня,  Престиж Плюс,  Rumiana,  IpopoKids,  SOLO,
+        SportShop,  МОБИЛЛАК,  VINTAGE,  Аптека24,  ArtDrink,  PAPAY,  Кідіс,  Антошка,  BROCARD,  Полиця,  Ли́тали,  PROSTOR,  Наша Стройка,
         Книгарня "Є",  Мегакнига,  Detmir,  Країна казок,  Фаунамаркет,  zootovary.net.ua,  Рово,  Хім Опт,  eBay,  Inter Cars
     '''
 
@@ -88,4 +88,3 @@ SpeedTest(100000000)
 print('done', time.time() - Time)
 
 #asyncio.run(Test_03())
-
