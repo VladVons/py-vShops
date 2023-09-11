@@ -8,6 +8,7 @@
 *.sqlite
 *.txt
 token.txt
+google*.html
 
 __pycache__
 cache
