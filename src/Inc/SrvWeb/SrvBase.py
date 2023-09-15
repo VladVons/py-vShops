@@ -7,6 +7,7 @@
 
 import base64
 import asyncio
+import ssl
 from mimetypes import types_map
 from aiohttp import web
 from aiohttp_session.cookie_storage import EncryptedCookieStorage
@@ -26,6 +27,7 @@ class TSrvConf():
     user: str = None
     password: str = None
     allow_ip: list[str] = []
+    ssl: dict = None
 
 
 class TSrvBase():
@@ -92,8 +94,14 @@ class TSrvBase():
 
         Runner = web.AppRunner(aApp)
         try:
+            ### https://stackoverflow.com/questions/51645324/how-to-setup-a-aiohttp-https-server-and-client
+            ssl_context = None
+            if (self._SrvConf.ssl):
+                ssl_context = ssl.create_default_context(ssl.Purpose.CLIENT_AUTH)
+                ssl_context.load_cert_chain(self._SrvConf.ssl['crt'], self._SrvConf.ssl['key'])
+
             await Runner.setup()
-            Site = web.TCPSite(Runner, host = self._SrvConf.host, port = self._SrvConf.port)
+            Site = web.TCPSite(Runner, host = self._SrvConf.host, port = self._SrvConf.port, ssl_context=ssl_context)
             await Site.start()
             while (True):
                 await asyncio.sleep(60)

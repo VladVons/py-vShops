@@ -56,13 +56,19 @@ class TFormBase(Form):
         UserAgent = self.Request.headers.get('User-Agent')
         Parsed = ParseUserAgent(UserAgent)
 
+        #print('-x1', '\n'.join([f'{Key}:{Val}' for Key, Val in self.Request.headers.items()]))
+        Remote = self.Request.remote
+        if (Remote == '127.0.0.1'):
+            # try to get remote ip from nginx proxy (proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;)
+            Remote = self.Request.headers.get('X-FORWARDED-FOR', '127.0.0.1')
+
         Data = await self.ExecCtrl(
             'system/session',
             {
                 'method': 'RegSession',
                 'param' : {
                     'aBrowser': Parsed['browser'],
-                    'aIp': self.Request.remote,
+                    'aIp': Remote,
                     'aOs': Parsed['os']
                 }
             }

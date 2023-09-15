@@ -1,0 +1,9 @@
+{
+    "srv_conf": {
+        "port": 8080,
+        "ssl": {
+            "crt": "/etc/ssl/used.1x1.com.ua/fullchain1.pem",
+            "key": "/etc/ssl/used.1x1.com.ua/privkey1.pem"
+        }
+    }
+}
