@@ -82,15 +82,16 @@ export class Common {
           $$.unmask()
         })
         
-      
+      //copyright
+      $$('footer copyright')
+        .attr({powered: ` (powered by jMagic/${$$.conf.VERSION})`})
+
       //scroll window event
       window.addEventListener('scroll', event => {
         if(icons.classList.contains('active')) {
           icons.classList.toggle('active')
         }
       })
-      //copyright
-      $$('footer copyright')[0].innerHTML += `<mobile><br/></mobile> (powered by jMagic/${$$.conf.VERSION})`
       
       //total data for cart
       $$('content total num').text(this.num)
@@ -261,6 +262,12 @@ export class Common {
         catalog.style.height = (catalog.classList.contains('active')) ? 0 : catalog.scrollHeight + 'px'
         catalog.classList.toggle('active')
       })
+    
+    //orientation change event
+    window.addEventListener('orientationchange', event => {
+      // orientationchange
+    })
+
   }
   
 }

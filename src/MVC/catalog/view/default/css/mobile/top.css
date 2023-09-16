@@ -1,13 +1,50 @@
 /* =================== */
 /* === top section === */
 /* =================== */
-top {
-  padding-top: 60px;
+
+/*portrait orientation*/
+@media (orientation: portrait) {
+  top {
+    display: block;
+    padding-top: 60px;
+  }
+  
+  top logo {
+    display: block;
+    width: 100%;
+  }
+  
+  top info {
+    display: block;
+    width: 90%;
+    margin: auto;
+  }
 }
 
+/*landscape orientation*/
+@media (orientation: landscape) {
+  top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 40px;
+    background: var(--bg-header);
+  }
+  
+  top logo {
+    margin-left: 40px;
+    border: 0px solid #fff;
+  }
+  
+  top info {
+    width: 275px;
+    margin-right: 20px;
+    border: 0px solid #fff;
+  }
+}
+
+/* all styles */
 top logo {
-  width: 100%;
-  display: block;
   color: #fff;
   text-align: center;
   font-size: 1.1em;
@@ -23,10 +60,7 @@ top logo address  {
 }
 
 top info {
-  display: block;
-  width: 90%;
   height: 130px;
-  margin: auto;
 }
 
 top info * {

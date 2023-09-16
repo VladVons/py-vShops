@@ -3,44 +3,58 @@
 /* ====================== */
 
 footer {
+  margin-top: 50px;
+  padding-top: 40px;
+  background: var(--bg-footer);
+}
+
+footer grid, footer line, footer about {
+  width: 100%;
+  margin: auto;
+}
+
+footer grid {
   display: flex;
   flex-wrap: wrap;
-  font-size: 1em;
   align-items: flex-start;
-  width: 100%;
-  height: 350px;
-  padding-top: 40px;
-  border: 0px solid #fff;
 }
 
 /*portrait orientation*/
 @media (orientation: portrait) {
-  footer {
+  footer grid {
     justify-content: space-around;
   }
-  footer cell {
-    min-width: 40%;
-    max-width: 40%;
-    margin-top: 20px;
+  
+  footer grid cell {
+    width: 40%;
+    margin-bottom: 20px;
     border: 0px solid #fff;
   }
+
+  footer copyright[powered]:after {
+    content: attr(powered);
+    display: block;
+  }
+  
 }
 
 /*landscape orientation*/
 @media (orientation: landscape) {
-  footer {
-    justify-content: center;
+  footer grid {
+    justify-content: space-around;
   }
-  footer cell {
-    min-width: 33%;
-    max-width: 33%;
-    margin-left: 30px;
+  
+  footer grid cell {
+    width: 22%;
     border: 0px solid #fff;
+  }
+  
+  footer copyright[powered]:after {
+    content: attr(powered);
   }
 }
 
-
-footer cell title {
+footer grid cell title {
   color: #ffc;
   margin-top: 5px;
   margin-bottom: 5px;
@@ -48,31 +62,28 @@ footer cell title {
   font-weight: bold;
 }
 
-footer cell a {
+footer grid cell a {
   display: block;
   color: #ccc;
   font-size: var(--footer-font);
 }
 
-footer cell a:hover {
+footer grid cell a:hover {
   color: #fff;
 }
 
 footer line {
   width: 100%;
-  margin-top: 20px !important;
+  margin-top: 10px;
   background: rgb(0,93,127);
   background: linear-gradient(90deg, rgba(0,93,127,1) 10%, rgba(166,238,251,1) 50%, rgba(0,93,127,1) 90%);
 }
 
 footer copyright {
   width: 100%;
-  font-size: 0.75em;
   color: #ccc;
-  padding: 10px;
+  margin: 10px auto 0 auto;
+  padding-bottom: 10px;
+  font-size: var(--about-font);
+  text-align: center;
 }
-
-footer copyright mobile {
-  height: 0;
-}
-

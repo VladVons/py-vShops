@@ -22,6 +22,37 @@ panel flex {
   flex: 1;
 }
 
+/*portrait orientation*/
+@media (orientation: portrait) {
+  panel links a num {
+    align-self: start;
+    font-size: var(--panel-count);
+    color: #fff;
+    margin: -3px 3px 0 0;
+  }  
+}
+
+/*landscape orientation*/
+@media (orientation: landscape) {
+  panel desktop {
+    display: inline-block;
+    font-size: 0.8em;
+  }
+  
+  panel num {
+    font-size: 0.8em;
+  }
+  
+  panel num:before {
+    content: '(';
+    margin-left: 0px;
+  }
+
+  panel num:after {
+    content: ')';
+  }
+}
+
 panel links {
   display: flex;
   align-items: center;
@@ -42,17 +73,10 @@ panel links a {
 }
 
 panel links a:before {
-  margin: 0 0 0 5px;
+  margin-left: 10px;
   font-size: 1em;
 }
 
 panel links a.icon-settings {
   margin: 0 5px 0 5px;
-}
-
-panel links a num {
-  align-self: start;
-  font-size: var(--panel-count);
-  color: #fff;
-  margin: -3px 3px 0 0;
 }

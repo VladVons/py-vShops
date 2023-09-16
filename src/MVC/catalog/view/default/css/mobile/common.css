@@ -3,10 +3,7 @@
 /* ====================== */
 
 body {
-  background-color: var(--bg-body);
-  background-image: var(--bg-mobile);
-  background-position: top left, left 0 bottom -270px;
-  background-repeat: repeat-x, repeat-x;
+  background: var(--bg-body) var(--bg-mobile);
 }
 
 body * {

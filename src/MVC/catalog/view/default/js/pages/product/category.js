@@ -36,8 +36,11 @@ class Category {
       //add to cart link
       $$('a.buy').on('click', self.toCart.bind(self))
       
-      // list view for old browsers
-      self.setMode('grid')
+      // read view mode from cache
+      let store = localStorage.getItem('Conf')
+      let conf = (store) ? JSON.parse(store) : {mode: 'grid'}
+      self.setMode(conf.mode)
+      
       // set events for modes
       $$('control mode')
         .on('click', event => {
@@ -58,6 +61,12 @@ class Category {
       alert(this.lang.alert_not_supported)
       return false
     }
+    //save to cache
+    let store = localStorage.getItem('Conf')
+    let conf = (store) ? JSON.parse(store) : {mode: mode}
+    conf.mode = mode
+    localStorage.setItem('Conf', JSON.stringify(conf))
+    
     let buts = $$('control mode')
     for(let i=0; i<buts.length; i++) {
       buts[i].classList[(mode === buts[i].className) ? 'add' : 'remove']('active')

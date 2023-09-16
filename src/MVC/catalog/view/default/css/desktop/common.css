@@ -3,10 +3,7 @@
 /* ====================== */
 
 body {
-  background-color: var(--bg-body);
-  background-image: var(--bg-desktop);
-  background-position: top left, left 0 bottom -370px;
-  background-repeat: repeat-x, repeat-x;
+  background: var(--bg-body) var(--bg-desktop);
 }
 
 body * {
@@ -19,7 +16,7 @@ mobile, .mobile {
 
 
 .page {
-  width: 1180px;
+  width: var(--page-width);
   margin-left: auto;
   margin-right: auto;
 }

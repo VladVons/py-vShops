@@ -59,18 +59,55 @@ category item::before{
 
 control {
   display: flex;
-  flex-wrap: wrap;
-  height: 90px;
+  justify-content: space-between;
   margin-top: 40px;
+}
+
+/*portrait orientation*/
+@media (orientation: portrait) {
+  control {
+    flex-wrap: wrap;
+  }
+
+  control mode {
+    width: 33.33%;
+    margin-top: 20px;
+  }
+
+  control flex {
+    display: none;
+  }
+
+  control sort {
+    width: 60%;
+  }
+
+  control limit {
+    width: calc(40% - 10px);
+    margin-left: 10px;
+  }
+}
+
+/*landscape orientation*/
+@media (orientation: landscape) {
+  control {
+    flex-wrap: nowrap;
+  }
+  
+  control mode {
+    width: 42px;
+  }
+  
+  control limit {
+    margin-left: 10px;
+  }
 }
 
 control mode {
   font-family: icons;
   font-size: var(--control-mode);
   text-align: center;
-  width: 33.33%;
   height: 32px;
-  margin-top: 20px;
   line-height: 32px;
   cursor: pointer;
   color: #000;
@@ -101,8 +138,12 @@ control mode.compare{
   border-radius: 0 4px 4px 0;
 }
 
-control flex {
-  display: none;
+/* all styles */
+
+control sort, control limit {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: space-between;
 }
 
 control label {
@@ -118,10 +159,6 @@ control label {
   border-right: 0;
 }
 
-control label.limit {
-  margin-left: 10px;
-}
-
 control label:before {
   font-size: var(--control-label);
   margin-top: 2px;
@@ -131,17 +168,13 @@ control label.sort:before { content: '>' }
 control label.limit:before { content: '%' }
 
 control select {
-  flex: 1;
+  width: calc(100% - 40px);
   height: 32px;
   padding: 0 5px 0 5px;
   border: 1px solid #ccc;
   border-radius: 0 4px 4px 0;
   background: #ffe;
   font-size: var(--control-label);
-}
-
-control select#limit {
-  width: calc(30% - 10px);
 }
 
 control select option {
@@ -237,7 +270,6 @@ goods item > a {
   background-position: center center;
   background-repeat: no-repeat;
   background-size: contain;
-  border: 0px solid #f00;
 }
 
 goods item name, goods item info, goods item price {
@@ -264,7 +296,6 @@ goods item price {
   font-size: var(--item-price);
   text-align: center;
   margin-top: 20px;
-  border: 0px solid;
 }
 
 /*landscape orientation*/
@@ -280,6 +311,9 @@ goods item price {
     position: absolute;
     top: 5px;
     left: 0;
+    display: block;
+    width: 240px;
+    margin-left: 5px;
   }
 
   goods.list item block {

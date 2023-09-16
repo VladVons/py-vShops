@@ -113,8 +113,13 @@ content services {
     top: 10px;
     left: 10px;
   }
+  
+  content banner.alert message text:first-child {
+    padding-left: 20px;
+  }
 }
 
+/* all styles */
 content a.category {
   position: relative;
   min-height: 120px;
