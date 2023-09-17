@@ -60,7 +60,8 @@ def ParseUserAgent(aValue: str) -> dict:
             OS = UArr[0][0].split(';')[1].strip()
             Browser = f'{UArr[0][1]}-{UArr[0][2]}'
         else:
-            Browser = aValue
+            Browser = aValue[:32]
     except Exception:
         Browser = ''
+        OS = ''
     return {'os': OS.lower(), 'browser': Browser.lower()}
