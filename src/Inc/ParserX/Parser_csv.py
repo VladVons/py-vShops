@@ -27,7 +27,7 @@ class TParser_csv(TEngine):
                 next(Data)
 
             for RowNo, Row in enumerate(Data, ConfSkip):
-                Data = {'No': RowNo}
+                Data = {'no': RowNo}
                 for Field, FieldIdx in ConfFields.items():
                     Val = Row[FieldIdx - 1]
                     Data[Field] = Val

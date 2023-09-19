@@ -26,7 +26,7 @@ class TParser_sqlite(TEngine):
         assert(self._Sheet), 'SetSheet() first'
 
         for RowNo, Rec in enumerate(self._Sheet):
-            Data = {'No': RowNo} | Rec.GetAsDict()
+            Data = {'no': RowNo} | Rec.GetAsDict()
             self._Fill(Data)
             await self.Sleep.Update()
 

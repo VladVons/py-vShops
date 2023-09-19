@@ -3,10 +3,11 @@ import time
 import json
 import asyncio
 import shutil
+import re
 #
-from IncP.PluginEan import TPluginEan
-from Inc.Misc.Crypt import CryptSimple
-from Inc.Misc.FS import DirWalk
+#from IncP.PluginEan import TPluginEan
+#from Inc.Misc.Crypt import CryptSimple
+#from Inc.Misc.FS import DirWalk
 
 
 async def Test_01():
@@ -83,8 +84,87 @@ def SpeedTest(aCnt: int) -> int:
         Res += i
     return Res
 
-Time = time.time()
-SpeedTest(100000000)
-print('done', time.time() - Time)
+def mdm1():
+    # data = '5x Monitor  LCD 22" ViewSonic VG2239SMH  150 zł netto/szt.'
+    # pattern = r'(\d+)\s*x\s*(.*?)\s*(\d+)\s*(zł|zl|z)\s*netto'
 
+    data = 'DELL 7390 i5-8350U 8GB 256SSD W10P COA FHD TOUCH -'
+    data = 'DELL 5070 SFF I5-9500 8GB 256SSD RW W10P COA BOX'
+    data = 'DELL PREC 5810 E5-1650v3 32GB 1TB RW K2200 COA'
+    #data = 'DELL T7910 2xE5-2630v4 64GB 2x1TB DVD COA M4000'
+    #pattern = r'(.*?)\s*((\d+x)*[ie]\d+-\w+)\s*(\d+[GT]B)\s*((\d+x)*\d+([GT]B))'
+    #pattern = r'(.*?)\s*(\d*x?[ie]\d+-\w+)\s*(\d+GB)\s*(\d*x?\d+[GT]B)'
+    pattern = r'(.*?)\s*(\d*x?[ie]\d+-\w+)\s*(\d+GB)\s*(\d+\w+)'
+    #pattern = r'\d*x?E5-2630v4'
+
+    matches = re.findall(pattern, data, re.IGNORECASE)
+    print(matches)
+    return
+
+    with open('mdm.txt', 'r', encoding='utf8') as F:
+        Lines = F.readlines()
+
+    PtrnMonit = r'(\d+)\s*x(.*?)(\d*)\"\s*(.*?)\s*(\d+)\s*(zł|zl|z)\s*netto'
+    PtrnBody = r'(\d+)\s*x\s*(.*?)\s*(\d+)\s*(zł|zl|z)\s*'
+    for Line in Lines:
+        # if ('Monitor' in Line):
+        #     Matches = re.findall(PtrnMonit, Line)
+        #     if (Matches):
+        #         pass
+        #         print(Matches)
+        #     else:
+        #         print(Line)
+
+        Matches = re.findall(PtrnBody, Line)
+        if (Matches):
+            pass
+            print(Matches)
+        else:
+            print(Line)
+
+def mdm():
+    with open('mdm.txt', 'r', encoding='utf8') as F:
+        Lines = F.readlines()
+
+    # data = '5x Monitor  LCD 22" ViewSonic VG2239SMH  150 zł netto/szt.'
+    # data = '5x DELL 7390 i5-8350U 8GB 256SSD W10P COA FHD TOUCH -  150 zł netto/szt.''
+    # data = '5x DELL 5070 SFF I5-9500 8GB 256SSD RW W10P COA BOX 150 zł netto/szt.''
+    # data = '5x DELL PREC 5810 E5-1650v3 32GB 1TB RW K2200 COA 150 zł netto/szt.''
+
+    ReBody = re.compile(r'(\d+)\s*x\s*(.*?)[\s-]*(\d+)\s*z', re.IGNORECASE)
+    ReMonit = re.compile(r'(\d*)\"\s*(.*?)$', re.IGNORECASE)
+    ReMonitDel = re.compile(r'Monitor LCD \d+"\s', re.IGNORECASE)
+    ReComputer = re.compile(r'(.*?)\s*(\d*x?[ie]\d+-\w+)\s*(\d+GB)\s*(\d+\w+)', re.IGNORECASE)
+    for Line in Lines:
+        MatchBody = ReBody.findall(Line)
+        if (MatchBody):
+            Qty, Body, Price = MatchBody[0]
+            if ('Monitor' in Line):
+                Category = 'Монітор'
+                Matches = ReMonit.findall(Body)
+                if (Matches):
+                    Model = Matches[0][1]
+                    Body = ReMonitDel.sub('', Body)
+            elif any(s in Body for s in [' HD', ' FHD', ' QHD']):
+                Category = 'Ноутбук'
+                Matches = ReComputer.findall(Body)
+                if (Matches):
+                    Model = f'{Matches[0][0]} {Matches[0][1]}'
+            else:
+                Category = 'Компютер'
+                Matches = ReComputer.findall(Body)
+                if (Matches):
+                    Model = f'{Matches[0][0]} {Matches[0][1]}'
+
+            if (Matches):
+                print(f'{Category}, {Model}, {Qty}, {Price}, {Body}')
+            else:
+                print('Err', Category, Body)
+
+
+#Time = time.time()
+#SpeedTest(100000000)
+#print('done', time.time() - Time)
+
+mdm()
 #asyncio.run(Test_03())

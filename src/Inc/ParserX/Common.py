@@ -120,7 +120,7 @@ class TFileDbl(TFileBase):
             self.Dbl.Load(File)
         else:
             ClassPath = GetClassPath(self)
-            if (any(x in ClassPath for x in ['_xls', '_xlsx', '_ods', '_csv',  '_xml'])):
+            if (any(x in ClassPath for x in ['_xls', '_xlsx', '_ods', '_xml', '_csv', '_txt'])):
                 SrcFile = self.Parent.GetFile()
                 if (not os.path.exists(SrcFile)):
                     Log.Print(1, 'e', f'File not found {SrcFile}. Skip')
