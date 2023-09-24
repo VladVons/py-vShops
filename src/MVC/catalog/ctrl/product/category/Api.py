@@ -10,7 +10,7 @@ from IncP.LibCtrl import TDbSql, TDbList, GetDictDefs
 
 async def ApiNav(self, aData: dict = None) -> dict:
     aPath, aTenantId, aLang = GetDictDefs(
-        aData.get('query'),
+        aData,
         ('path', 'tenant', 'lang'),
         ('0', 1, 'ua')
     )
@@ -31,7 +31,7 @@ async def ApiNav(self, aData: dict = None) -> dict:
     Dbl = TDbSql().Import(DblData)
     for Rec in Dbl:
         Path = '_'.join(ArrLabel)
-        Href = f'?route=product/category&path={Path}_{Rec.idt}&tenant=1'
+        Href = f'?route=product/category&path={Path}_{Rec.idt}&tenant={aTenantId}'
         Items.append([Rec.title, Href, f'{Label}_{Rec.idt}'])
 
     Res = {
@@ -39,7 +39,7 @@ async def ApiNav(self, aData: dict = None) -> dict:
             'lang': 'ua',
             'level': len(ArrLabel),
             'label': Label,
-            "items": TDbList(['name', 'href', 'label'], Items).Export()
+            'items': TDbList(['name', 'href', 'label'], Items).Export()
         }
     }
     return Res

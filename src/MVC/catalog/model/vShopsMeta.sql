@@ -84,7 +84,6 @@ create table if not exists ref_crawl_site(
 create table if not exists ref_proxy (
     id                  serial primary key,
     enabled             bool default false,
-    deleted             boolean default false,
     hostname            varchar(32) not null,
     port                smallint,
     login               varchar(16),
@@ -140,11 +139,10 @@ COMMENT ON TABLE public.ref_seo_url IS 'key+value urls into SEO';
 create table if not exists ref_currency (
     id                  serial primary key,
     enabled             boolean default true,
-    deleted             boolean default false,
     title               varchar(16) not null,
     alias               varchar(3) not null unique,
     code                smallint,
-    rate                float default 1
+    rate                numeric(10, 4) not null
 );
 
 -- address --
@@ -152,14 +150,12 @@ create table if not exists ref_currency (
 create table if not exists ref_country (
     id                  serial primary key,
     enabled             boolean default true,
-    deleted             boolean default false,
     title               varchar(32) not null
 );
 
 create table if not exists ref_city (
     id                  serial primary key,
     enabled             boolean default true,
-    deleted             boolean default false,
     title               varchar(32) not null,
     country_id          integer not null,
     foreign key (country_id) references ref_country(id)
@@ -168,7 +164,6 @@ create table if not exists ref_city (
 create table if not exists ref_address (
     id                  serial primary key,
     enabled             boolean default true,
-    deleted             boolean default false,
     city_id             integer not null references ref_city(id),
     post_code           varchar(8),
     street              varchar(32) not null,
@@ -182,7 +177,6 @@ create table if not exists ref_address (
 create table if not exists ref_customer (
     id                  serial primary key,
     enabled             boolean default true,
-    deleted             boolean default false,
     firstname           varchar(32) not null,
     lastname            varchar(32) not null,
     phone               varchar(15) unique,
@@ -203,7 +197,6 @@ create table if not exists ref_customer_to_address (
 create table if not exists ref_tenant (
     id                  serial primary key,
     enabled             boolean default true,
-    deleted             boolean default false,
     title               varchar(64) not null,
     alias               varchar(16) unique,
     address_id          integer not null references ref_address(id)
@@ -419,7 +412,6 @@ create table if not exists ref_stock (
 create table if not exists ref_product_category (
     id                  serial primary key,
     enabled             boolean default true,
-    deleted             boolean default false,
     idt                 integer not null,
     parent_idt          integer,
     image               varchar(64),
@@ -637,6 +629,13 @@ create table if not exists hist_product_stock (
     actual_date         timestamp not null
 );
 
+create table if not exists hist_currency (
+    id                  serial primary key,
+    create_date         timestamp default current_timestamp,
+    rate                numeric(10, 4) not null,
+    currency_id         integer not null references ref_currency(id) on delete cascade
+);
+
 -----------------------------------------------------------------------------
 -- register --
 -----------------------------------------------------------------------------
@@ -736,6 +735,23 @@ create or replace trigger ref_product_price_taiu
     after insert or update of price, qty on ref_product_price
     for each row
     execute function ref_product_price_faiu();
+
+--
+
+create or replace function ref_currency_faiu() returns trigger
+as $$
+begin
+    if (old.rate != new.rate) then
+        insert into hist_currency (currency_id, rate)
+        values (new.id, new.rate);
+    end if;
+    return new;
+end $$ language plpgsql;
+    
+create or replace trigger ref_currency_taiu
+    after insert or update of rate on ref_currency
+    for each row
+    execute function ref_currency_faiu();
 
 --
 

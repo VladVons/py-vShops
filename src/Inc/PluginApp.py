@@ -45,22 +45,27 @@ class TPluginApp():
                 if (not Depend.startswith('-')):
                     if (self.Data.get(Depend) is None):
                         Log.Print(1, 'i', f'{Tab}{aName} depends on {Depend}')
-                    await self.Load(Depend, aDepth + 1)
+
+                    Res = await self.Load(Depend, aDepth + 1)
+                    if (Res['cached']) and (DeepGetByList(self.Conf, ['common', 'save_cache'])):
+                        Log.Print(1, 'i', f'{Tab}{aName} cached. Skip')
+                        return Res
             Plugin = DeepGetByList(self.Conf, ['plugin', aName])
             assert(Plugin), f'plugin not found {aName}'
             ClassName = Plugin.get('class', aName)
             TClass, Err = DynImport(self.Path + '.' + ClassName, 'T' + ClassName)
-            if (TClass):
-                TimeStart = time.time()
-                Conf = TConfJson(self.Conf.JoinKeys(['common', 'plugin.' + aName]))
-                ConfEx = self.ConfEx.get(aName, {})
-                Conf.update(ConfEx)
-                Class = TClass(self, Depends, ClassName, aName, Conf, aDepth)
-                self.Data[aName] = await Class.Run()
-                Log.Print(1, 'i', '%sFinish %s. Time: %0.2f' % (Tab, aName, time.time() - TimeStart))
-            else:
-                Log.Print(1, 'e', '%sErr loading %s. %s' % (Tab, aName, Err))
-                sys.exit(1)
+            assert(TClass), f'Err loading {aName}. {Err}'
+
+            TimeStart = time.time()
+            Conf = TConfJson(self.Conf.JoinKeys(['common', 'plugin.' + aName]))
+            ConfEx = self.ConfEx.get(aName, {})
+            Conf.update(ConfEx)
+            Class = TClass(self, Depends, ClassName, aName, Conf, aDepth)
+            Res = await Class.Run()
+            Res['cached'] = Class.Cached
+            self.Data[aName] = Res
+            Log.Print(1, 'i', '%sFinish %s. Time: %0.2f' % (Tab, aName, time.time() - TimeStart))
+            return Res
 
     async def Run(self):
         TimeStart = time.time()

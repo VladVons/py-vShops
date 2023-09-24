@@ -135,13 +135,12 @@ export class Common {
     let menu = sessionStorage.getItem('Catalog')
     if(!menu) {
       //get from server
+      $$.url.params({label: $$('nav catalog')[0].getAttribute('label')})
       let json = await $$.post(conf.url.menu, {
         headers: {
           'Content-type': 'application/json'
         },
-        body : JSON.stringify(
-          {label: $$('nav catalog')[0].getAttribute('label')}
-        )
+        body : JSON.stringify($$.url.params())
       })
       this.menu(json.menu, $$('nav catalog')[0])
       // save to cache

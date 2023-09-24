@@ -38,6 +38,7 @@ class TPluginBase():
         self.Plugin = aPlugin
         self.Conf = aConf
         self.Depth = aDepth
+        self.Cached: bool
 
     def GetDepends(self) -> list[str]:
         return [x for x in self.Depends if (not x.startswith('-'))]
@@ -113,15 +114,18 @@ class TFileDbl(TFileBase):
             Val = Field[1](Val)
         aRec.SetField(aName, Val)
 
-    async def Load(self, aSave: bool = True):
-        File = self.GetFile()
-        Log.Print(1, 'i', f'Load {File}')
-        if (os.path.exists(File)):
-            self.Dbl.Load(File)
+    async def Load(self, aSave: bool = True) -> bool:
+        DstFile = self.GetFile()
+        Log.Print(1, 'i', f'Load {DstFile}')
+        SrcFile = self.Parent.GetFile()
+        SrcFileTime = os.path.getmtime(SrcFile)
+        Cached = (os.path.exists(DstFile)) and (SrcFileTime == os.path.getmtime(DstFile))
+        self.Parent.Cached = Cached
+        if (Cached):
+            self.Dbl.Load(DstFile)
         else:
             ClassPath = GetClassPath(self)
             if (any(x in ClassPath for x in ['_xls', '_xlsx', '_ods', '_xml', '_csv', '_txt'])):
-                SrcFile = self.Parent.GetFile()
                 if (not os.path.exists(SrcFile)):
                     Log.Print(1, 'e', f'File not found {SrcFile}. Skip')
                     return
@@ -129,9 +133,11 @@ class TFileDbl(TFileBase):
             self._OnLoad()
             await self._Load()
             if (aSave and self.Parent.Conf.get('save_cache')):
-                os.makedirs(os.path.dirname(File), exist_ok=True)
-                self.Dbl.Save(File, True)
-        Log.Print(1, 'i', f'Done {File}. Records {self.Dbl.GetSize()}')
+                os.makedirs(os.path.dirname(DstFile), exist_ok=True)
+                self.Dbl.Save(DstFile, True)
+                os.utime(DstFile, (SrcFileTime, SrcFileTime))
+        Log.Print(1, 'i', f'Done {DstFile}. Records {self.Dbl.GetSize()}')
+        return Cached
 
 
 class TEngine(TFileDbl):

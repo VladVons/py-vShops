@@ -42,7 +42,8 @@ class TCtrlBase():
 
     async def ExecModelExport(self, aMethod: str, aData: dict) -> dict:
         Dbl = await self.ExecModelImport(aMethod, aData)
-        return Dbl.Export()
+        if (Dbl):
+            return Dbl.Export()
 
     async def ExecSelf(self, aRoute: str, aData: dict) -> dict:
         return await self.ApiCtrl.GetMethodData(aRoute, aData)

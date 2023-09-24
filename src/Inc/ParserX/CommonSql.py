@@ -117,3 +117,12 @@ class TSqlBase():
         self.lang_id = Dbl.Rec.lang_id
         self.price_id = Dbl.Rec.price_id
         self.stock_id = Dbl.Rec.stock_id
+
+    async def LoadLang(self, aLang: str):
+        Query = f'''
+            select id
+            from ref_lang
+            where (alias = '{aLang}')
+        '''
+        Dbl = await TDbExecPool(self.Db.Pool).Exec(Query)
+        self.lang_id = Dbl.Rec.id
