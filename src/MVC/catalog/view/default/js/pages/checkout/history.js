@@ -34,7 +34,7 @@ class History {
       //show tip first time
       let tip = sessionStorage.getItem('Tip')
       if(tip) {
-        $$.tip(tip)
+        alert(tip)
         sessionStorage.removeItem('Tip')
       }
     
@@ -85,6 +85,10 @@ class History {
   }
 
   mobile() {
+    // make title as abbr
+    let qty = $$('titles title.qty')[0]
+    qty.textContent = qty.dataset.abbr
+    
     let items = $$('cart item')
     for(let item of items) {
       item.insertBefore(item.querySelector('code'), item.querySelector('price'))

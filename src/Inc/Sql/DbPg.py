@@ -123,8 +123,9 @@ class TDbPg(TADb):
         '''
         return await TDbExecPool(self.Pool).Exec(Query)
 
-    async def GetPrimaryKeys(self, aTable: str = '', aSchema: str = 'public') -> TDbSql:
+    async def GetPrimaryKeys(self, aTable: str = '', aSchema: str = 'public', aType: str = '') -> TDbSql:
         CondTable = f"and tc.table_name = '{aTable}'" if (aTable) else ''
+        CondType =  f"and tc.constraint_type = '{aType}'" if (aType) else ''
 
         Query = f'''
             select
@@ -141,6 +142,7 @@ class TDbPg(TADb):
             where
                 tc.table_schema = '{aSchema}'
                 {CondTable}
+                {CondType}
         '''
         return await TDbExecPool(self.Pool).Exec(Query)
 

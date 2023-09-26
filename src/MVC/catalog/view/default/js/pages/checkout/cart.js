@@ -29,7 +29,14 @@ class Cart {
       this.init()
       
       //mobile layout
-      if($$.conf.DEVICE === 'mobile') this.mobile()
+      if($$.conf.DEVICE === 'mobile') {
+        this.mobile.rotate = 0
+        this.mobile()
+
+        //orientation change event
+        window.addEventListener('orientationchange', this.mobile.bind(this))
+        
+      }
       
       // select events
       $$('item cbox')
@@ -78,7 +85,7 @@ class Cart {
     let store = localStorage.getItem('Cart')
     let data = (store) ? JSON.parse(store) : this.conf.cart
     let struc = common.struc(data)
-    let cart = $$('cart')[0]
+    let buttons = $$('cart buttons')[0]
     let fragment = $$('template')[0]
     
     for(let elem of data.data) {
@@ -99,7 +106,7 @@ class Cart {
       
       //insert model to cart
       while(model.childNodes.length){
-        cart.appendChild(model.firstChild)
+        buttons.parentNode.insertBefore(model.firstChild, buttons)
       }
     }
     
@@ -281,10 +288,28 @@ class Cart {
   }
   
   mobile() {
-    let items = $$('cart item')
-    for(let item of items) {
-      item.insertBefore(item.querySelector('cbox'), item.querySelector('price'))
-      item.insertBefore(item.querySelector('code'), item.querySelector('price'))
+    // make title as abbr
+    let qty = $$('titles title.qty')[0]
+    qty.textContent = qty.dataset.abbr
+    
+    //mobile layout (title-images-panel)
+    let orientation = !window.orientation ? 'portrait' : 'landscape'
+    console.log(orientation)
+    if(this.mobile.rotate || (!this.mobile.rotate && orientation == 'portrait')) {
+      let items = $$('cart item')
+      for(let item of items) {
+        //get last node
+        let last = item.lastChild
+        while(last.nodeName === '#text') {
+          last = last.previousSibling
+        }
+        if(last.nodeName === 'CBOX') {
+          item.insertBefore(item.querySelector('cbox'), item.querySelector('price'))
+        }else{
+          item.appendChild(item.querySelector('cbox'))
+        }
+      }
+      this.mobile.rotate++
     }
   }
   

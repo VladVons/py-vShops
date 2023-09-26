@@ -22,18 +22,42 @@ item {
   padding: 0;
 }
 
+/*portrait orientation*/
+@media (orientation: portrait) {
+  item info control a.buy {
+    margin-bottom: 20px;
+  }
+}
+
+/*landscape orientation*/
+@media (orientation: landscape) {
+  item {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+  }
+  
+  item images, item info {
+    width: calc(50% - 10px);
+  }
+  
+  tabs {
+    margin-bottom: 40px;
+  }
+}
+
 item info title {
   margin-top: 0;
   font-size: var(--item-title) !important;
 }
 
-item info images {
+item images {
   margin-top: 20px;
 }
 
-item info images zoom {
-  width: calc(100%);
-  padding-bottom: calc(100%);
+item images zoom {
+  width: 100%;
+  padding-bottom: 100%;
   height: 0;
   background: #fff;
   border-radius: 4px;
@@ -42,7 +66,7 @@ item info images zoom {
   border: 1px solid #ccc;
 }
 
-item info images zoom:hover {
+item images zoom:hover {
   border: 1px solid #069;
 }
 
@@ -56,7 +80,7 @@ item images zoom img {
   background-size: contain;
 }
 
-item info images thumbs {
+item images thumbs {
   display: flex;
   min-width: 100%;
   min-height: 64px;
@@ -66,7 +90,7 @@ item info images thumbs {
   }
 }
 
-item info images thumbs thumb {
+item images thumbs thumb {
   display: inline-block;
   min-width: 96px;
   min-height: 64px;
@@ -78,11 +102,11 @@ item info images thumbs thumb {
   cursor: pointer;
 }
 
-item info images thumbs thumb:last-child {
+item images thumbs thumb:last-child {
   margin-right: 0;
 }
 
-item info images thumbs thumb:hover {
+item images thumbs thumb:hover {
   border: 1px solid #669;
 }
 

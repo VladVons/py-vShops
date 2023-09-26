@@ -127,6 +127,10 @@ export class Common {
   }
   
   async catalog() {
+    //check if exists
+    let catalog = $$('nav catalog')
+    if(!catalog.length) return
+    
     //active menu
     let path = $$.url.params('path')
     let active = path ? path.split('_').slice(0,2) : []
@@ -135,23 +139,23 @@ export class Common {
     let menu = sessionStorage.getItem('Catalog')
     if(!menu) {
       //get from server
-      $$.url.params({label: $$('nav catalog')[0].getAttribute('label')})
+      $$.url.params({label: catalog[0].getAttribute('label')})
       let json = await $$.post(conf.url.menu, {
         headers: {
           'Content-type': 'application/json'
         },
         body : JSON.stringify($$.url.params())
       })
-      this.menu(json.menu, $$('nav catalog')[0])
+      this.menu(json.menu, catalog[0])
       // save to cache
       if(Object.keys(json).length) {
-        sessionStorage.setItem('Catalog', JSON.stringify(json.menu))
+        // sessionStorage.setItem('Catalog', JSON.stringify(json.menu))
       }else{
         sessionStorage.removeItem('Catalog')
       }
     }else{
       // get from cache
-      this.menu(JSON.parse(menu), $$('nav catalog')[0])
+      this.menu(JSON.parse(menu), catalog[0])
     }
     
     //next level
@@ -261,12 +265,6 @@ export class Common {
         catalog.style.height = (catalog.classList.contains('active')) ? 0 : catalog.scrollHeight + 'px'
         catalog.classList.toggle('active')
       })
-    
-    //orientation change event
-    window.addEventListener('orientationchange', event => {
-      // orientationchange
-    })
-
   }
   
 }

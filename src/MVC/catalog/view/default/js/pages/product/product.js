@@ -23,7 +23,15 @@ class Product {
       })
       
       //mobile layout
-      if($$.conf.DEVICE === 'mobile') this.mobile()
+      if($$.conf.DEVICE === 'mobile') {
+        this.mobile.rotate = 0
+        this.mobile()
+
+        //orientation change event
+        window.addEventListener('orientationchange', this.mobile.bind(this))
+      }
+      
+      
       
       //unmask page
       $$('body').css({opacity: 1})
@@ -107,13 +115,26 @@ class Product {
   
   mobile() {
     //mobile layout (title-images-panel)
-    let root = $$('item info')[0]
-    let images = $$('item images')[0]
-    images.classList.remove('desktop')
-    root.insertBefore(images, $$('item info control')[0])
-    root.insertBefore($$('content tabs')[0], $$('item info control')[0])
-    root.insertBefore($$('item info title')[0], $$('item info panel')[0])
-    root.insertBefore($$('item info panel')[0], images)
+    let orientation = (document.documentElement.clientHeight > document.documentElement.clientWidth) ? 'portrait' : 'landscape'
+    if(this.mobile.rotate || (!this.mobile.rotate && orientation == 'portrait')) {
+      let images = $$('item > images')
+      let info = $$('item info')[0]
+      let panel = $$('item info panel')[0]
+      let title = $$('item info title')[0]
+      let control = $$('item info control')[0]
+      if(images.length) {
+        info.insertBefore(title, panel)
+        info.insertBefore(panel, control)
+        info.insertBefore(images[0], control)
+        info.insertBefore($$('content tabs')[0], control)
+      }else{
+        images = $$('item info images')
+        info.parentNode.insertBefore(images[0], info)
+        info.parentNode.parentNode.appendChild($$('item info tabs')[0])
+        info.insertBefore(panel, title)
+      }
+      this.mobile.rotate++
+    }
   }
   
 }

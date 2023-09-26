@@ -31,11 +31,13 @@ footer grid {
     border: 0px solid #fff;
   }
 
+  footer copyright {
+    height: 50px;
+  }
+
   footer copyright[powered]:after {
-    content: attr(powered);
     display: block;
   }
-  
 }
 
 /*landscape orientation*/
@@ -49,8 +51,8 @@ footer grid {
     border: 0px solid #fff;
   }
   
-  footer copyright[powered]:after {
-    content: attr(powered);
+  footer copyright {
+    height: 30px;
   }
 }
 
@@ -79,11 +81,15 @@ footer line {
   background: linear-gradient(90deg, rgba(0,93,127,1) 10%, rgba(166,238,251,1) 50%, rgba(0,93,127,1) 90%);
 }
 
-footer copyright {
+copyright {
   width: 100%;
   color: #ccc;
   margin: 10px auto 0 auto;
   padding-bottom: 10px;
-  font-size: var(--about-font);
   text-align: center;
+  font-size: var(--about-font);
+}
+
+copyright[powered]:after {
+  content: attr(powered);
 }

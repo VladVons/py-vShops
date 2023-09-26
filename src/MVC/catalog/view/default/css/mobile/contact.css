@@ -15,12 +15,15 @@
 
 contact {
   display: flex;
-  flex-wrap: wrap;
   justify-content: space-between;
 }
 
 /*portrait orientation*/
 @media (orientation: portrait) {
+  contact {
+    flex-wrap: wrap;
+  }
+  
   contact addr, contact times, contact phones {
     border: 1px solid #ccc;
     padding: 5px;
@@ -37,13 +40,30 @@ contact {
     border-top: 1px solid #ccc;
   }
   
+  title.fl {
+    margin: 0;
+  }
+  
+  gallery {
+    justify-content: space-between;
+  }
+  
+  gallery a {
+    width: 32%;
+    height: 32%;
+    padding-bottom: 32%;
+  }
 }
 
 /*landscape orientation*/
 @media (orientation: landscape) {
+  contact {
+    flex-wrap: nowrap;
+  }
+
   contact addr, contact times, contact phones  {
     width: 25%;
-    padding: 0 20px 0 70px;
+    padding: 0 10px 0 10px;
     border: 1px solid #d0d0d0;
   }
   contact times {
@@ -53,6 +73,21 @@ contact {
   contact phones {
     width: 50%;
   }
+  
+  title.fl {
+    margin-top: 20px;
+  }
+  
+  gallery {
+    justify-content: space-around;
+  }
+
+  gallery a {
+    width: 25%;
+    height: 20%;
+    padding-bottom: 20%;
+  }
+  
 }
 
 /* all styles */
@@ -97,13 +132,16 @@ title.fl {
   justify-content: center;
   width: 100%;
   font-weight: bold;
-  margin: 0;
   text-align: center;
 }
 
 title.fl:before {
   font-size: 1.5em;
   margin-right: 5px;
+}
+
+title.mess {
+  font-weight: bold;
 }
 
 contact subtitle {
@@ -185,13 +223,10 @@ map marker name {
 
 gallery {
   display: flex;
-  justify-content: space-between;
 }
 
 gallery a {
   position: relative;
-  width: 33%;
-  aspect-ratio: 1/1;
   font-size: 0.8em;
   margin-top: 20px;
   background-color: #fff;
@@ -257,5 +292,7 @@ message input[type='submit'] {
   flex: 0.5;
   margin: auto;
   margin-top: 20px;
-  cursor: pointer;
+  border: 1px solid #777;
+  -webkit-appearance: none;
+  -webkit-border-radius: 4px;
 }

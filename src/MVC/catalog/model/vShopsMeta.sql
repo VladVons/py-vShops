@@ -182,8 +182,7 @@ create table if not exists ref_customer (
     phone               varchar(15) unique,
     email               varchar(32) unique,
     image               varchar(64)
-    constraint ref_customer_chk_email_phone check ((email is not null) or (phone is not null)),
-
+    constraint ref_customer_chk_email_phone check ((email is not null) or (phone is not null))
 );
 
 create table if not exists ref_customer_to_address (
@@ -198,10 +197,15 @@ create table if not exists ref_tenant (
     id                  serial primary key,
     enabled             boolean default true,
     title               varchar(64) not null,
-    alias               varchar(16) unique,
-    address_id          integer not null references ref_address(id)
+    alias               varchar(16) not null unique
 );
 COMMENT ON TABLE ref_tenant IS 'company separator';
+
+create table if not exists ref_tenant_to_address (
+    tenant_id           integer not null references ref_tenant(id),
+    address_id          integer not null references ref_address(id),
+    primary key (tenant_id, address_id)
+);
 
 -- product0_category --
 
@@ -294,8 +298,9 @@ create table if not exists ref_module (
     id                  serial primary key,
     enabled             boolean default true,
     sort_order          smallint,
-    caption             varchar(64) not null,
     code                varchar(32) not null,
+    caption             varchar(64) not null,
+    route               varchar(64),
     image               varchar(64),
     conf                json,
     tenant_id           integer not null references ref_tenant(id)
@@ -715,6 +720,30 @@ create table if not exists doc_sale_table_product (
     doc_id              integer not null references doc_sale(id) on delete cascade,
     primary key (product_id, doc_id)
 );
+
+--
+
+create or replace function ref_tenant_fai() returns trigger
+as $$
+begin
+    if (new.id != 0) then
+        insert into ref_product_category (tenant_id, idt)
+        values (new.id, 0);
+
+        insert into ref_stock (tenant_id, title)
+        values (new.id, 'default');
+
+        insert into ref_price (tenant_id, title, currency_id)
+        values (new.id, 'default', (select id from ref_currency where rate = 1));
+    end if;
+   
+    return null;
+end $$ language plpgsql;
+
+create or replace trigger ref_tenant_tai
+    after insert on ref_tenant
+    for each row
+    execute function ref_tenant_fai();
 
 --
 

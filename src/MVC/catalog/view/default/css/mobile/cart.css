@@ -24,12 +24,17 @@
   cart titles {
     display: flex;
     flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
   }
   
   cart titles title, cart titles cbox {
     margin: 0;
-    padding: 5px;
     color: #fff;
+  }
+  
+  cart titles cbox {
+    margin-right: 5px !important;
   }
   
   cart titles title.code, cart titles title.qty, cart titles title.price, cart titles title.sum {
@@ -73,15 +78,15 @@
     width: var(--cart-thumb);
     height: var(--cart-thumb);
     margin: auto;
-    background-position: center center;
-    background-repeat: no-repeat;
-    background-size: cover;
-    border: 1px solid #ccc;
   }
   
-  cart item name, cart item code, cart item cbox {
+  cart item name, cart item code {
+    float: left;
+    margin-left: 10px;
+  }
+  
+  cart item cbox {
     float: right;
-    border: 0px solid;
   }
   
   cart item name {
@@ -160,22 +165,71 @@
     align-items: center;
     justify-content: flex-end;
   }
+
+  cart item qty minus {
+    margin-right: 5px;
+  }
+
+  cart item qty plus {
+    margin-left: 5px;
+  }
+  
 }
 
 /*landscape orientation*/
 @media (orientation: landscape) {
-  cart {
+  cart titles, cart item {
     display: grid;
-    grid-template-columns: 45% 12.5% 12.5% 12.5% 12.5% 5%;
+    grid-template-columns: calc(var(--cart-thumb) - 20px) auto 80px 110px 50px 110px 30px;
+  }
+  cart.history titles, cart.history item {
+    display: grid;
+    grid-template-columns: calc(var(--cart-thumb) - 20px) auto 80px 110px 50px 110px;
+  }
+
+  
+  cart titles, cart item qty {
     text-align: center;
   }
   
-  cart titles {
+  cart item {
+    height: calc(var(--cart-thumb) - 20px);
+  }
+  
+  cart item > a {
+    width:  calc(var(--cart-thumb) - 20px);
+    height: calc(var(--cart-thumb) - 20px);
+  }
+  
+  cart item name, cart item code, cart item price, cart item qty, cart item sum {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8em;
+    border: 0px solid;
+  }
+  
+  cart item name { 
+    justify-content: flex-start;
+    margin-left: 5px;
+  }
+  
+  cart item name a {
+    font-size: inherit;
+  }
+  
+  cart item qty {
+    flex-direction: column-reverse;
+  }
+  
+  cart item qty minus {
+    margin-top: 10px;
   }
 
-  cart item {
-    height: var(--cart-thumb);
+  cart item qty plus {
+    margin-bottom: 5px;
   }
+
 }
 
 /* all styles */
@@ -209,16 +263,37 @@ title.cart::before, title.ok::before {
 title.cart::before { content: 'b' }
 title.ok::before { content: 'O' }
 
+cart item {
+  margin-top: 10px;
+}
+
+cart item:nth-child(odd) {
+  background: #f6f6f6;
+}
+
 cart item.selected {
   background: #ffc;
 }
 
 cart titles {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
   height: 48px;
   background: #09c linear-gradient(to bottom, #09c, #033) repeat-x;
+}
+
+cart titles title, cart titles cbox {
+  color: #fff;
+  margin: 0;
+  height: 48px;
+  line-height: 48px;
+  border: 0px solid #fff;
+}
+
+cart item > a {
+  margin: auto;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  border: 1px solid #ccc;
 }
 
 cart item qty {
@@ -249,13 +324,23 @@ cart item qty minus, cart item qty plus {
 
 cart item qty minus {
   color: #f00;
-  margin-right: 5px;
 }
 
 cart item qty plus {
   color: #090;
-  margin-left: 5px;  
 }
+
+cart cbox {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+cart cbox input {
+  width: 18px;
+  height: 18px;
+}
+
 
 /* TOTAL */
 total {
@@ -265,6 +350,7 @@ total {
   border-radius: 4px;
   border: 1px solid #333;
   color: #333;
+  background: #efe;
   margin-top: 20px;
   font-size: 1em;  
 }
@@ -305,7 +391,9 @@ total {
 
   total num, total sum, total pay {
     font-weight: bold;
-    padding: 0 20px 0 20px;
+    padding-left: 5px;
+    padding-right: 5px;
+    font-size: 0.8em;
   }
 }
 
@@ -313,6 +401,7 @@ total num[label]:before, total sum[label]:before, total pay[label]:before {
   content: attr(label);
   font-family: var(--base-font);
   font-weight: normal;
+  margin-right: 5px;
 }
 
 
@@ -320,7 +409,8 @@ total num[label]:before, total sum[label]:before, total pay[label]:before {
 buttons {
   display: flex;
   justify-content: space-between;
-  margin-top: 20px;
+  width: 100%;
+  padding-top: 20px;
 }
 
 buttons button {
@@ -337,6 +427,29 @@ buttons button {
   border-radius: 4px;
 }
 
+/*portrait orientation*/
+@media (orientation: portrait) {
+  buttons button.checkout {
+    flex: 1;
+  }
+
+  buttons button.category:before, buttons button.remove:before  {
+    margin-left: 10px;
+  }
+}
+
+/*landscape orientation*/
+@media (orientation: landscape) {
+  buttons button.checkout {
+    flex: 0.49;
+    margin: auto;
+  }
+
+  buttons button.category:before, buttons button.remove:before  {
+    margin-right: 10px;
+  }
+}
+
 buttons button.category {
   color: #fff;
   border-color: #333;
@@ -350,7 +463,6 @@ buttons button.remove {
 }
 
 buttons button.checkout {
-  flex: 1;
   color: #fff;
   border-color: #333;
   background: #09c linear-gradient(to bottom, #09c, #033) repeat-x;
@@ -369,10 +481,6 @@ buttons button.disabled {
 
 buttons button:before {
   font-size: var(--cart-button-icon);
-}
-
-buttons button.category:before, buttons button.remove:before  {
-  margin-left: 10px;
 }
 
 buttons button.checkout:before {
@@ -457,6 +565,7 @@ empty {
 /*portrait orientation*/
 @media (orientation: portrait) {
   confirm {
+    display: block;
     width: 100%;
   }
 }
@@ -464,16 +573,27 @@ empty {
 /*landscape orientation*/
 @media (orientation: landscape) {
   confirm {
-    width: 660px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 90%;
   }
   
-  confirm phone, confirm client {
-    width: 50%;
+  confirm client, confirm phone {
+    width: calc(50% - 40px);
+  }
+  
+  confirm phone {
+    margin-left: 20px;
+  }
+  
+  button.confirm:before, button.category:before, button.remove:before {
+    font-size: 1.1em;
+    margin-right: 5px;
   }
 }
 
 confirm {
-  display: block;
   margin: 40px auto 40px auto;
   padding: 10px;
   text-align: center;
@@ -486,6 +606,7 @@ confirm client, confirm phone  {
   position: relative;
   display: inline-block;
   padding-top: 10px;
+  border: 0px solid;
 }
 
 confirm client[example]::after, confirm phone[example]::after {

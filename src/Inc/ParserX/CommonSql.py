@@ -108,7 +108,7 @@ class TSqlBase():
         '''
 
         Dbl = await TDbExecPool(self.Db.Pool).Exec(Query)
-        assert(not Dbl.IsEmpty()), f'No alias found {aTenant}'
+        assert(not Dbl.IsEmpty()), f'No tenant alias found {aTenant}'
 
         for Field in Dbl.Rec:
             assert(Dbl.Rec.GetField(Field)), f'Empty field {Field}'

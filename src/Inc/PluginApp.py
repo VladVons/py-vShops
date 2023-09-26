@@ -35,7 +35,7 @@ class TPluginApp():
         self.Conf.LoadList(Conf)
         self.Path = f'{aPlugin}.Plugin'
 
-    async def Load(self, aName: str, aDepth: int) -> dict:
+    async def Load(self, aName: str, aDepth: int):
         if (self.Data.get(aName) is None):
             Tab = '-' * (aDepth + 1)
             Log.Print(1, 'i', '%sLoad app %s' % (Tab, aName))
@@ -45,11 +45,7 @@ class TPluginApp():
                 if (not Depend.startswith('-')):
                     if (self.Data.get(Depend) is None):
                         Log.Print(1, 'i', f'{Tab}{aName} depends on {Depend}')
-
-                    Res = await self.Load(Depend, aDepth + 1)
-                    if (Res['cached']) and (DeepGetByList(self.Conf, ['common', 'save_cache'])):
-                        Log.Print(1, 'i', f'{Tab}{aName} cached. Skip')
-                        return Res
+                    await self.Load(Depend, aDepth + 1)
             Plugin = DeepGetByList(self.Conf, ['plugin', aName])
             assert(Plugin), f'plugin not found {aName}'
             ClassName = Plugin.get('class', aName)
@@ -62,10 +58,11 @@ class TPluginApp():
             Conf.update(ConfEx)
             Class = TClass(self, Depends, ClassName, aName, Conf, aDepth)
             Res = await Class.Run()
-            Res['cached'] = Class.Cached
-            self.Data[aName] = Res
+            if (isinstance(Res), dict) and (Res.get('cached')) and (DeepGetByList(self.Conf, ['common', 'save_cache'])):
+                Log.Print(1, 'i', f'{Tab}{aName} cached. Skip')
+            else:
+                self.Data[aName] = Res
             Log.Print(1, 'i', '%sFinish %s. Time: %0.2f' % (Tab, aName, time.time() - TimeStart))
-            return Res
 
     async def Run(self):
         TimeStart = time.time()

@@ -38,7 +38,6 @@ class TPluginBase():
         self.Plugin = aPlugin
         self.Conf = aConf
         self.Depth = aDepth
-        self.Cached: bool
 
     def GetDepends(self) -> list[str]:
         return [x for x in self.Depends if (not x.startswith('-'))]
@@ -92,6 +91,7 @@ class TFileDbl(TFileBase):
     def __init__(self, aParent, aDbl: TDbList):
         super().__init__(aParent)
         self.Dbl = aDbl
+        self.Cached = False
 
     async def _Load(self):
         raise NotImplementedError()
@@ -114,14 +114,13 @@ class TFileDbl(TFileBase):
             Val = Field[1](Val)
         aRec.SetField(aName, Val)
 
-    async def Load(self, aSave: bool = True) -> bool:
+    async def Load(self, aSave: bool = True):
         DstFile = self.GetFile()
         Log.Print(1, 'i', f'Load {DstFile}')
         SrcFile = self.Parent.GetFile()
         SrcFileTime = os.path.getmtime(SrcFile)
-        Cached = (os.path.exists(DstFile)) and (SrcFileTime == os.path.getmtime(DstFile))
-        self.Parent.Cached = Cached
-        if (Cached):
+        self.Cached = (os.path.exists(DstFile)) and (SrcFileTime == os.path.getmtime(DstFile))
+        if (self.Cached):
             self.Dbl.Load(DstFile)
         else:
             ClassPath = GetClassPath(self)
@@ -137,7 +136,6 @@ class TFileDbl(TFileBase):
                 self.Dbl.Save(DstFile, True)
                 os.utime(DstFile, (SrcFileTime, SrcFileTime))
         Log.Print(1, 'i', f'Done {DstFile}. Records {self.Dbl.GetSize()}')
-        return Cached
 
 
 class TEngine(TFileDbl):
