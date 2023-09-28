@@ -3,12 +3,11 @@
 # License: GNU, see LICENSE for more details
 
 
-import sys
 import time
 #
 from Inc.ConfJson import TConfJson
 from Inc.Util.Mod import DynImport
-from Inc.Util.Obj import DeepGetByList
+from Inc.Util.Obj import DeepGetByList, DictUpdate
 from IncP.Log import Log
 
 
@@ -38,27 +37,34 @@ class TPluginApp():
     async def Load(self, aName: str, aDepth: int):
         if (self.Data.get(aName) is None):
             Tab = '-' * (aDepth + 1)
-            Log.Print(1, 'i', '%sLoad app %s' % (Tab, aName))
+            Log.Print(1, 'i', f'{Tab}Load app {aName}')
 
-            Depends = self.Conf.GetKey('plugin.' + aName + '.depends', [])
+            Joins = self.Conf.GetKey(f'plugin.{aName}.joins')
+            if (Joins):
+                self.ConfEx = DictUpdate(self.ConfEx, Joins)
+
+            Depends = self.Conf.GetKey(f'plugin.{aName}.depends', [])
             for Depend in Depends:
                 if (not Depend.startswith('-')):
                     if (self.Data.get(Depend) is None):
                         Log.Print(1, 'i', f'{Tab}{aName} depends on {Depend}')
                     await self.Load(Depend, aDepth + 1)
+
+            TimeStart = time.time()
             Plugin = DeepGetByList(self.Conf, ['plugin', aName])
             assert(Plugin), f'plugin not found {aName}'
             ClassName = Plugin.get('class', aName)
             TClass, Err = DynImport(self.Path + '.' + ClassName, 'T' + ClassName)
             assert(TClass), f'Err loading {aName}. {Err}'
 
-            TimeStart = time.time()
             Conf = TConfJson(self.Conf.JoinKeys(['common', 'plugin.' + aName]))
-            ConfEx = self.ConfEx.get(aName, {})
-            Conf.update(ConfEx)
+            ConfEx = self.ConfEx.get(aName)
+            if (ConfEx):
+                #Conf.update(ConfEx)
+                Conf.Init(DictUpdate(Conf, ConfEx))
             Class = TClass(self, Depends, ClassName, aName, Conf, aDepth)
             Res = await Class.Run()
-            if (isinstance(Res), dict) and (Res.get('cached')) and (DeepGetByList(self.Conf, ['common', 'save_cache'])):
+            if (isinstance(Res, dict)) and (Res.get('cached')) and (DeepGetByList(self.Conf, ['common', 'save_cache'])):
                 Log.Print(1, 'i', f'{Tab}{aName} cached. Skip')
             else:
                 self.Data[aName] = Res

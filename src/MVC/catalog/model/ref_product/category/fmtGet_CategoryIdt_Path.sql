@@ -15,6 +15,7 @@ with recursive wrpc as (
         ref_product_category_lang rpcl on
         (rpc.id = rpcl.category_id) and (rpcl.lang_id = rlng.id)
     where
+        (rpc.enabled) and
         (rpc.tenant_id = {aTenantId}) and
         (rpc.idt in ({CategoryIdts}))
 
@@ -38,6 +39,7 @@ with recursive wrpc as (
         ref_product_category_lang rpcl on
         (rpc.id = rpcl.category_id) and (rpcl.lang_id = rlng.id)
     where
+        (rpc.enabled) and
         (rpc.tenant_id = {aTenantId})
 )
 select

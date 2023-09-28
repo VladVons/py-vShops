@@ -18,11 +18,11 @@ class TConfJson(dict):
             return json.load(F)
 
     @staticmethod
-    def _Join(aDict: list) -> dict:
+    def _Join(aData: list) -> dict:
         Res = {}
-        for x in aDict:
-            if (x):
-                Data = DictUpdate(Res, x, True)
+        for xData in aData:
+            if (xData):
+                Data = DictUpdate(Res, xData, True)
                 Res.update(Data)
         return Res
 
@@ -30,12 +30,12 @@ class TConfJson(dict):
         return DeepGet(self, aPath, aDef)
 
     def JoinKeys(self, aKey: list) -> dict:
-        Data = [DeepGet(self, x, {}) for x in aKey]
+        Data = [DeepGet(self, xKey, {}) for xKey in aKey]
         return self._Join(Data)
 
     def LoadDir(self, aDir: str, aJoin: bool = True):
-        for x in DirWalk(aDir, '.json$', 'f', 0):
-            self.LoadFile(x[0], aJoin)
+        for xDir in DirWalk(aDir, '.json$', 'f', 0):
+            self.LoadFile(xDir[0], aJoin)
 
     def LoadFile(self, aFile: str, aJoin: bool = True) -> dict:
         Data = self._ReadFile(aFile)

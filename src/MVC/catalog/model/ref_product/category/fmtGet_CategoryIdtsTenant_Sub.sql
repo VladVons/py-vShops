@@ -8,6 +8,7 @@ with recursive wrpc as (
     from
         ref_product_category rpc
     where
+        (rpc.enabled) and
         (rpc.tenant_id = {aTenantId}) and
         (rpc.idt in ({CategoryIdts}))
 
@@ -24,6 +25,7 @@ with recursive wrpc as (
         wrpc on
         (rpc.parent_idt = wrpc.idt)
     where
+        (rpc.enabled) and
         (rpc.tenant_id = {aTenantId})
 )
 select

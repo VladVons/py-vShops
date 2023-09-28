@@ -8,9 +8,10 @@
 -----------------------------------------------------------------------------
 
 create type product_enum as enum (
-   'ean',
-   'mpn',
-   'model'
+    'ean',
+    'mpn',
+    'model',
+    'icecat'
 );
 
 create type doc_enum as enum (
@@ -249,6 +250,7 @@ create table if not exists ref_product0_lang (
     id                  serial primary key,
     title               varchar(128) not null,
     descr               text,
+    features            json,
     meta_key            varchar(128),
     product_id          integer not null references ref_product0(id) on delete cascade,
     lang_id             integer not null references ref_lang(id),
