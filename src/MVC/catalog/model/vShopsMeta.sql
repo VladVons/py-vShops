@@ -158,8 +158,7 @@ create table if not exists ref_city (
     id                  serial primary key,
     enabled             boolean default true,
     title               varchar(32) not null,
-    country_id          integer not null,
-    foreign key (country_id) references ref_country(id)
+    country_id          integer not null references ref_country(id)
 );
 
 create table if not exists ref_address (
@@ -515,7 +514,10 @@ create table if not exists ref_product_idt (
     idt                 integer not null,
     hash                varchar(128) not null,
     tenant_id           integer not null references ref_tenant(id),
-    primary key (tenant_id, hash)
+    category_idt        integer,
+    primary key (tenant_id, hash),
+    foreign key (idt, tenant_id) references ref_product(idt, tenant_id) on delete cascade,
+    foreign key (category_idt, tenant_id) references ref_product_category(idt, tenant_id)
 );
 
 create table if not exists ref_product_product0 (
