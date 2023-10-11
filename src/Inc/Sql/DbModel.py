@@ -145,6 +145,7 @@ class TDbModel():
             return Dbl.Export()
 
     async def ExecQuery(self, aPath: str, aValues: dict) -> tuple:
+        Log.Print(1, 'i', f'ExecQuery({self.Query.Path}/{aPath}, {aValues})')
         Query = await self.Query.Get(aPath, aValues)
         #print('debug--\n', Query)
         Res = await self.ExecQueryText(Query)

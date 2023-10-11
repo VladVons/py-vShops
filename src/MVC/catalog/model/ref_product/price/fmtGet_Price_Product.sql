@@ -1,4 +1,4 @@
--- in: aProductId
+-- in: aProductId, aPriceType
 with
 wt1 as (
     select
@@ -55,5 +55,7 @@ left join
 left join
     ref_currency rc on
     (rp.currency_id = rc.id)
+where 
+	rp.price_en in ({aPriceType})
 order by
      wt1.qty

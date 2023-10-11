@@ -5,7 +5,6 @@
 import json
 from IncP.LibCtrl import TDbSql, GetDictDefs
 from .Features import TFeatures
-from .Schema import TSchemaProduct
 
 
 async def Main(self, aData: dict = None) -> dict:
@@ -80,7 +79,7 @@ async def Main(self, aData: dict = None) -> dict:
             'ref_product/price',
             {
                 'method': 'Get_Price_Product',
-                'param': {'aProductId': aProductId}
+                'param': {'aProductId': aProductId, 'aPriceType': ['sale']}
             }
         )
 
