@@ -21,6 +21,12 @@ create type doc_enum as enum (
     'doc_rest'
 );
 
+create type price_enum as enum (
+    'purchase',
+    'sale',
+    'action'
+);
+
 create type val_enum as enum (
     'int',
     'text',
@@ -118,7 +124,7 @@ create table if not exists ref_lang (
     id                  serial primary key,
     enabled             boolean default true,
     title               varchar(16) not null,
-    alias               varchar(3) unique
+    alias               varchar(16) unique
 );
 
 -- SEO --
@@ -234,7 +240,6 @@ create table if not exists ref_product0 (
 );
 
 create table if not exists ref_product0_image (
-    id                  serial primary key,
     enabled             boolean default true,
     image               varchar(64) not null,
     sort_order          smallint default 0,
@@ -246,7 +251,6 @@ create table if not exists ref_product0_image (
 );
 
 create table if not exists ref_product0_lang (
-    id                  serial primary key,
     title               varchar(128) not null,
     descr               text,
     features            json,
@@ -257,7 +261,6 @@ create table if not exists ref_product0_lang (
 );
 
 create table if not exists ref_product0_barcode (
-    id                  serial primary key,
     code                varchar(32) not null,
     product_en          product_enum not null,
     product_id          integer not null references ref_product0(id) on delete cascade,
@@ -398,6 +401,8 @@ create table if not exists ref_price (
     id                  serial primary key,
     idt                 integer not null,
     title               varchar(16) not null,
+    price_en            price_enum not null,
+    manual              boolean,
     currency_id         integer not null references ref_currency(id),
     tenant_id           integer not null references ref_tenant(id),
     unique (idt, tenant_id)
@@ -422,6 +427,7 @@ create table if not exists ref_product_category (
     parent_idt          integer,
     image               varchar(64),
     sort_order          smallint default 0,
+    margin              json,
     tenant_id           integer not null references ref_tenant(id),
     foreign key (parent_idt, tenant_id) references ref_product_category(idt, tenant_id) on delete cascade,
     unique (idt, tenant_id)
@@ -472,7 +478,6 @@ create table if not exists ref_product_price_date (
 );
 
 create table if not exists ref_product_barcode (
-    id                  serial primary key,
     code                varchar(32),
     product_en          product_enum not null,
     product_id          integer not null references ref_product(id) on delete cascade,
@@ -481,9 +486,8 @@ create table if not exists ref_product_barcode (
 );
 
 create table if not exists ref_product_image (
-    id                  serial primary key,
     enabled             boolean default true,
-    image               varchar(64),
+    image               varchar(64) not null,
     sort_order          smallint default 0,
     src_url             varchar(128),
     src_size            integer,
@@ -521,7 +525,6 @@ create table if not exists ref_product_idt (
 );
 
 create table if not exists ref_product_product0 (
-    id                  serial primary key,
     enabled             boolean default true,
     code                varchar(64),
     product_en          product_enum not null,
@@ -798,22 +801,37 @@ begin
                 select coalesce(max(idt), 0) + 1 into new.idt
                 from ref_product
                 where (tenant_id = new.tenant_id);
+
             when (TG_TABLE_NAME = 'ref_product_idt')  then
                 select coalesce(max(idt), 0) + 1 into new.idt
                 from ref_product_idt
                 where (tenant_id = new.tenant_id);
+
+                with src (idt, tenant_id) as (
+                    values (new.idt, new.tenant_id)
+                )
+                merge into ref_product as dst
+                using src
+                on (dst.idt = src.idt) and (dst.tenant_id = src.tenant_id)
+                when not matched then
+                    insert (idt, tenant_id)
+                    values (src.idt, src.tenant_id);
+
             when (TG_TABLE_NAME = 'ref_product_category')  then
                 select coalesce(max(idt), 0) + 1 into new.idt
                 from ref_product_category
                 where (tenant_id = new.tenant_id);
+
             when (TG_TABLE_NAME = 'ref_price')  then
                 select coalesce(max(idt), 0) + 1 into new.idt
                 from ref_price
                 where (tenant_id = new.tenant_id);
+
             when (TG_TABLE_NAME = 'ref_stock')  then
                 select coalesce(max(idt), 0) + 1 into new.idt
                 from ref_stock
                 where (tenant_id = new.tenant_id);
+
             else
                 raise exception 'unknown table  %', TG_TABLE_NAME;
         end case;

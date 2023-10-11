@@ -77,7 +77,8 @@ class TSqlBase():
 
         self.lang_id: int
         self.tenant_id: int
-        self.price_id: int
+        self.price_sale_id: int
+        self.price_purchase_id: int
         self.stock_id: int
 
     async def ExecQuery(self, aPackage: str, aFile: str, aFormat: dict) -> TDbList:
@@ -89,24 +90,15 @@ class TSqlBase():
         Query = f'''
             select
                 rt.id as tenant_id,
-                rs.id as stock_id,
-                rp.id as price_id,
-                (select id from ref_lang where alias = '{aLang}') as lang_id
+                (select id from ref_lang where alias = '{aLang}') as lang_id,
+                (select id from ref_stock where tenant_id = rt.id and idt = 1) as stock_id,
+                (select id from ref_price where tenant_id = rt.id and price_en = 'sale') as price_sale_id,
+                (select id from ref_price where tenant_id = rt.id and price_en = 'purchase') as price_purchase_id
             from
                 ref_tenant rt
-            left join
-                ref_price rp on
-                (rt.id = rp.tenant_id) and (rp.idt = 1)
-            left join
-                ref_stock rs on
-                (rt.id = rs.tenant_id) and (rs.idt = 1)
             where
-                (rt.enabled) and
-                (rt.alias = '{aTenant}')
-
-
+                (rt.enabled) and (rt.alias = '{aTenant}')
         '''
-
         Dbl = await TDbExecPool(self.Db.Pool).Exec(Query)
         assert(not Dbl.IsEmpty()), f'No tenant alias found {aTenant}'
 
@@ -115,7 +107,8 @@ class TSqlBase():
 
         self.tenant_id = Dbl.Rec.tenant_id
         self.lang_id = Dbl.Rec.lang_id
-        self.price_id = Dbl.Rec.price_id
+        self.price_sale_id = Dbl.Rec.price_sale_id
+        self.price_purchase_id = Dbl.Rec.price_purchase_id
         self.stock_id = Dbl.Rec.stock_id
 
     async def LoadLang(self, aLang: str):
