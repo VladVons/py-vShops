@@ -425,6 +425,7 @@ create table if not exists ref_product_category (
     enabled             boolean default true,
     idt                 integer not null,
     parent_idt          integer,
+    category0_id        integer references ref_product0_category(id),
     image               varchar(64),
     sort_order          smallint default 0,
     margin              json,

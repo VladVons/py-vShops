@@ -1,87 +1,81 @@
--- in: aLang, aTenantId, aParentIdtRoot, CondParentIdts
+-- in: aLang, aParentIdRoot, CondParentIds
 with recursive wrpc as (
     select
         rpc.id,
-        rpc.idt,
-        rpc.parent_idt,
+        rpc.parent_id,
         1 as deep,
-        ARRAY[rpc.idt] as path_idt,
+        ARRAY[rpc.id] as path_id,
         rpc.sort_order || '-' || rpcl.title as sort,
         rpcl.title
     from
-        ref_product_category rpc
+        ref_product0_category rpc
     left join ref_lang rlng
         on rlng.alias = '{aLang}'
     left join
-        ref_product_category_lang rpcl
+        ref_product0_category_lang rpcl
         on (rpc.id = rpcl.category_id and rpcl.lang_id = rlng.id)
     where
         (rpc.enabled) and
-        (rpc.tenant_id = {aTenantId}) and
-        (rpc.parent_idt = {aParentIdtRoot})
+        (rpc.parent_id = {aParentIdRoot})
 
     union all
 
     select
         rpc.id,
-        rpc.idt,
-        rpc.parent_idt,
+        rpc.parent_id,
         wrpc.deep + 1,
-        wrpc.path_idt  || array[rpc.idt],
+        wrpc.path_id  || array[rpc.id],
         wrpc.sort  || '/' || rpc.sort_order || '-' || rpcl.title,
         rpcl.title
     from
-        ref_product_category rpc
+        ref_product0_category rpc
     join
         wrpc on
-        (rpc.parent_idt = wrpc.idt)
+        (rpc.parent_id = wrpc.id)
     left join ref_lang rlng
         on rlng.alias = '{aLang}'
     left join
-        ref_product_category_lang rpcl
+        ref_product0_category_lang rpcl
         on (rpc.id = rpcl.category_id and rpcl.lang_id = rlng.id)
     where
-        (rpc.enabled) and
-        (rpc.tenant_id = {aTenantId})
+        (rpc.enabled)
 ),
 category_products as (
     select
-        rpc.cat_idt,
+        rpc.cat_id,
         count(*) as products
     from
-        ref_product_to_category rptc
+        ref_product0_to_category rptc
     left join
         ref_product rp on
-        (rptc.product_id = rp.id)
+        (rptc.product_id = rp.product0_id) 
     left join
         (
             select
                 id,
-                unnest(path_idt) as cat_idt
+                unnest(path_id) as cat_id
             from wrpc
         ) rpc
         on (rptc.category_id = rpc.id)
     where 
-        rp.enabled
+        (rp.enabled) 
     group by
-        rpc.cat_idt
+        rpc.cat_id
 )
-
 select
     wrpc.id,
-    wrpc.idt,
-    wrpc.parent_idt,
+    wrpc.parent_id,
     wrpc.deep,
-    wrpc.path_idt,
+    wrpc.path_id,
     wrpc.title,
     cp.products
 from
      wrpc
 left join
-    category_products cp
-    on (wrpc.idt = cp.cat_idt)
+    category_products cp on 
+    (wrpc.id = cp.cat_id)
 where
     (cp.products is not null)
-    {CondParentIdts}
+    {CondParentIds}
 order by
     wrpc.sort
