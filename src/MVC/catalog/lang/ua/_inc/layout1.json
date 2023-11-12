@@ -1,24 +1,21 @@
 {
     "tpl": {
-        "currency": "Валюта",
-        "compare": "Порівняти",
-        "profile": "Особистий кабінет",
-        "basket": "Кошик",
-        "favorites": "Закладки",
-        "products": "Товари",
-        "sum": "Сума",
-        "search": "Пошук",
-        "shop_title": "комп'ютерний магазин",
-        "shop_address": "м. Тернопіль, вул. Руська, 41",
-        "call_order": "Замовити дзвінок",
-
-        "share": "Поділитись",
-        "share_facebook": "Ми в Meta/Facebook",
-        "share_instagram": "Ми в Imstagram",
-        "share_telegram": "Ми в Telegram",
-
-        "help": "Допомога",
-        "contact": "Контакти",
-        "order": "Замовлення"
+        "about_us": "про нас",
+        "about_descr": "вживані компютери світових брендів",
+        "address": "адреса",
+        "address_": "Тернопіль, Руська 41, 46025",
+        "categories": "категорії",
+        "contacts": " контакти",
+        "copyright": "всі права захищені 1x1",
+        "enter_your_email": "введіть вашу пошту",
+        "email": "пошта",
+        "email_": "info@used.1x1.com.ua",
+        "follow_us": "слідкуйте за нами",
+        "links": "посилання",
+        "phone": "телефон",
+        "phone_": "096-7007444",
+        "search_products": "пошук товарів",
+        "subscribe": "підписатись",
+        "subscribe_to_know_news": "підпишись на розсилку, щоб знати про акції та знижки"
     }
 }

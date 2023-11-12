@@ -24,10 +24,11 @@ with wt1 as (
         on rlm.module_id = rml.module_id and rml.lang_id = rlng.id
     where
         (rl.enabled) and
+        (rl.theme = 't2') and
         ((rl.tenant_id = 0) or (rl.tenant_id = {aTenantId})) and
         (rm.enabled) and
         (rlm.enabled) and
-        ((rl.route = '{aRoute}') or (rl.id = 0))
+        ((rl.route = '{aRoute}') or (rl.common))
 )
 select
     id,

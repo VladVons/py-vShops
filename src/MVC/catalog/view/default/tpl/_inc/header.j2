@@ -1,0 +1,200 @@
+    <header class="header-style-5 color-style" id="sticky-header">
+        <div class="mobile-fix-option"></div>
+        <div class="top-header top-header-theme">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="header-contact">
+                            <ul>
+                                <li>Welcome to Our store Multikart</li>
+                                <li><i class="fa fa-phone" aria-hidden="true"></i>{{lang.phone_}}</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="header-contact text-end">
+                            <ul>
+                                <li><i class="fa fa-truck" aria-hidden="true"></i>Track Order</li>
+                                <li class="pe-0"><i class="fa fa-gift" aria-hidden="true"></i>Gift Cards</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="main-menu">
+                        <div class="col-xl-2 bottom-part">
+                            <div class="category-menu d-none d-xl-block h-100">
+                                <div id="toggle-sidebar" class="toggle-sidebar">
+                                    <i class="fa fa-bars sidebar-bar"></i>
+                                    <h5 class="mb-0">{{lang.category}}</h5>
+                                </div>
+                            </div>
+                            <div class="sidenav fixed-sidebar marketplace-sidebar">
+                                <nav>
+                                    <div>
+                                        <div class="sidebar-back text-start d-xl-none d-block"><i
+                                                class="fa fa-angle-left pe-2" aria-hidden="true"></i> Back</div>
+                                    </div>
+                                    <ul id="sub-menu" class="sm pixelstrap sm-vertical">
+                                        <li> <a href="#">air conditioners</a>
+                                            <ul>
+                                                <li><a href="#">makeup</a></li>
+                                                <li><a href="#">skincare</a></li>
+                                                <li><a href="#">premium beaty</a></li>
+                                                <li> <a href="#">more</a>
+                                                    <ul>
+                                                        <li><a href="#">fragrances</a></li>
+                                                        <li><a href="#">luxury beauty</a></li>
+                                                        <li><a href="#">hair care</a></li>
+                                                        <li><a href="#">tools & brushes</a></li>
+                                                    </ul>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                </nav>
+                            </div>
+                        </div>
+                        <div class="menu-left">
+                            <div class="navbar d-block d-xl-none">
+                                <a href="javascript:void(0)">
+                                    <div class="bar-style" id="toggle-sidebar-res"><i class="fa fa-bars sidebar-bar"
+                                            aria-hidden="true"></i>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="brand-logo">
+                                <a href="index.html"><img src="/default/assets/images/icon/logo/f11.png"
+                                        class="img-fluid blur-up lazyload" alt=""></a>
+                            </div>
+                        </div>
+                        <div>
+                            <form class="form_search ajax-search the-basics" role="form">
+                                <input type="search" placeholder="{{lang.search_products}}"
+                                    class="nav-search nav-search-field typeahead" aria-expanded="true">
+                                <button type="submit" name="nav-submit-button" class="btn-search">
+                                    <i class="ti-search"></i>
+                                </button>
+                            </form>
+                        </div>
+                        <div class="menu-right pull-right">
+                            <nav class="text-start">
+                                <div class="toggle-nav"><i class="fa fa-bars sidebar-bar"></i></div>
+                            </nav>
+                            <div class="top-header d-block">
+                                <ul class="header-dropdown">
+                                    <li class="mobile-wishlist"><a href="#"><img
+                                                src="/default/assets/images/icon/white-icon/heart.png" alt=""> </a></li>
+                                    <li class="onhover-dropdown mobile-account">
+                                        <a href="login.html">
+                                            <img src="/default/assets/images/icon/white-icon/user.png" alt="">
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div>
+                                <div class="icon-nav">
+                                    <ul>
+                                        <li class="onhover-div d-xl-none d-inline-block mobile-search">
+                                            <div><img src="/default/assets/images/icon/search.png" onclick="openSearch()"
+                                                    class="img-fluid blur-up lazyload" alt=""> <i class="ti-search"
+                                                    onclick="openSearch()"></i></div>
+                                            <div id="search-overlay" class="search-overlay">
+                                                <div> <span class="closebtn" onclick="closeSearch()"
+                                                        title="Close Overlay">×</span>
+                                                    <div class="overlay-content">
+                                                        <div class="container">
+                                                            <div class="row">
+                                                                <div class="col-xl-12">
+                                                                    <form class="ajax-search">
+                                                                        <div class="form-group the-basics">
+                                                                            <input type="text"
+                                                                                class="form-control typeahead"
+                                                                                id="exampleInputPassword1"
+                                                                                placeholder="Search a Product">
+                                                                        </div>
+                                                                        <button type="submit" class="btn btn-primary"><i
+                                                                                class="fa fa-search"></i></button>
+                                                                    </form>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li class="onhover-div mobile-setting">
+                                            <div><img src="/default/assets/images/icon/setting.png"
+                                                    class="img-fluid blur-up lazyload" alt=""> <i
+                                                    class="ti-settings"></i>
+                                            </div>
+                                            <div class="show-div setting">
+                                                <h6>language</h6>
+                                                <ul>
+                                                    <li><a href="#">укр</a></li>
+                                                </ul>
+                                                <h6>currency</h6>
+                                                <ul class="list-inline">
+                                                    <li><a href="#">грн</a></li>
+                                                    <li><a href="#">дол</a></li>
+                                                    <li><a href="#">євр</a></li>
+                                                </ul>
+                                            </div>
+                                        </li>
+                                        <li class="onhover-div mobile-cart">
+                                            <div><img src="/default/assets/images/icon/cart.png"
+                                                    class="img-fluid blur-up lazyload" alt=""> <i
+                                                    class="ti-shopping-cart"></i></div>
+                                            <span class="cart_qty_cls">2</span>
+                                            <ul class="show-div shopping-cart">
+                                                <li>
+                                                    <div class="media">
+                                                        <a href="#"><img alt="" class="me-3"
+                                                                src="/default/assets/images/fashion/product/1.jpg"></a>
+                                                        <div class="media-body">
+                                                            <a href="#">
+                                                                <h4>item name</h4>
+                                                            </a>
+                                                            <h4><span>1 x $ 299.00</span></h4>
+                                                        </div>
+                                                    </div>
+                                                    <div class="close-circle"><a href="#"><i class="fa fa-times"
+                                                                aria-hidden="true"></i></a></div>
+                                                </li>
+                                                <li>
+                                                    <div class="media">
+                                                        <a href="#"><img alt="" class="me-3"
+                                                                src="/default/assets/images/fashion/product/2.jpg"></a>
+                                                        <div class="media-body">
+                                                            <a href="#">
+                                                                <h4>item name</h4>
+                                                            </a>
+                                                            <h4><span>1 x $ 299.00</span></h4>
+                                                        </div>
+                                                    </div>
+                                                    <div class="close-circle"><a href="#"><i class="fa fa-times"
+                                                                aria-hidden="true"></i></a></div>
+                                                </li>
+                                                <li>
+                                                    <div class="total">
+                                                        <h5>subtotal : <span>$299.00</span></h5>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="buttons"><a href="cart.html" class="view-cart">view
+                                                            cart</a> <a href="#" class="checkout">checkout</a></div>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>

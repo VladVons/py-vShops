@@ -40,6 +40,7 @@ class TApiCtrl(TApiBase):
         self.ExecCnt += 1
         Data = self.GetMethod(self.Ctrls, aRoute, aData)
         if ('err' in Data):
+            #Log.Print(1, 'e', f'No route {aRoute}')
             return Data
 
         Method, Module = (Data['method'], Data['module'])

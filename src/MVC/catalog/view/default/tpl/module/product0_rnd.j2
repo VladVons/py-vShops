@@ -1,0 +1,20 @@
+<div class="title6 section-t-space">
+    <h2 class="font-fraunces">{{title}}</h2>
+</div>
+<section class="bag-product pt-0 section-b-space ratio_square">
+    <div class="container">
+        <div class="row row-cols-xxl-6 row-cols-xl-5 row-cols-lg-4 row-cols-md-3 row-cols-2 gy-sm-4 gy-3">
+            {% for Rec in TDbList().Import(data) %}
+            <div class="product-box product-wrap product-style-3">
+                <a href="{{Rec.href}}"><img alt="" src="{{Rec.thumb}}" class="img-fluid blur-up lazyload bg-img"></a>
+                <div class="product-info">
+                    <h4>{{Rec.price}}</h4>
+                    <a href="{{Rec.href}}">
+                        <h6>{{Rec.product_title}}</h6>
+                    </a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>

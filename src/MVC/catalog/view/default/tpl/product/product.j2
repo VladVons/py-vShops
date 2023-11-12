@@ -1,111 +1,103 @@
 {% extends '_inc/layout1.j2' %}
 
-{% block head %}
-  <meta property="og:image" content="{{product.image}}"/>
-  <script type='module' src='/default/js/pages/product/product.js' ></script>
-  <script type="application/ld+json">{{product.schema}}</script>
-{% endblock %}
-
-{% block page_top %}
-{% include './category/breadcrumbs.j2' %}
-{% endblock %}
-
 {% block content %}
-     <template class='lang hide'>
-        <tip>
-            <confirmOrder>Замовлення прийняте. Очікуйте дзвінок для підтвердження</confirmOrder>
-        "errorOrder"    : "Помилка оформлення замовлення",
-        "errorTelegram" : "Замовлення не надіслане в Телеграм",
-        "errorName"     : "Відсутнє, або некоректне ім'я клієнта",
-        "errorPhone"    : "Відсутній, або некоректний номер телефону",
-        "emptyBacket"   : "Кошик порожній, очікується наповнення",
-        </tip>
-        <title class='eye'>Замовлення: </title>
-        <cart>
-          <title class='s'>назва</title>
-          <title class='s'>код</title>
-          <title class='s'>кількість</title>
-          <title class='s'>ціна</title>
-          <title class='s'>разом</title>
-          <title class='s'></title>
-        </cart>
-        <total>
-          <label>замовлено товарів:</label>
-          <num></num>
-          <flex></flex>
-          <label>на сумму:</label>
-          <sum></sum>
-        </total>
-      </template>
+    <section>
+        <div class="collection-wrapper">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="product-slick">
+                        {% for xImage in product.images %}
+                            <div><img src="{{xImage}}" alt="" class="img-fluid blur-up lazyload image_zoom_cls-0"></div>
+                        {% endfor %}
+                        </div>
+                        <div class="row">
+                            <div class="col-12 p-0">
+                                <div class="slider-nav">
+                                {% for xImage in product.images %}
+                                    <div><img src="{{xImage}}" alt="" class="img-fluid blur-up lazyload"></div>
+                                {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 rtl-text">
+                        <div class="product-right">
+                            <h2>{{product.title}}</h2>
+                            <h4>{{lang.product_code}}: {{product.idt}}/{{product.id}}</h4>
+                            <h4>{{lang.category}}: {{product.category}}</h4>
+                            <h4>{{lang.available}}: {{product.rest}}</h4>
+                            <h4>{{lang.seller}}: <a href='{{href.tenant}}'>{{product.tenant_title}}</a></h4>
+                            {% for Rec in TDbList().Import(product.price) %}
+                            {%- if Rec.price_new -%}
+                                <h3 class="price-detail">{{Rec.qty}} шт. {{Rec.price_new}} <del>{{Rec.price}}</del><span>{{ "%.1f"|format(100-(Rec.price_new/Rec.price*100)) }}%</span></h3>
+                            {%- else -%}
+                                <h3 class="price-detail">{{Rec.qty}} шт. {{Rec.price}}</h3>
+                            {%- endif %}
+                            {% endfor %}
+                            <div id="selectSize" class="addeffect-section product-description border-product">
+                            <div class="product-buttons"><a href="javascript:void(0)" id="cartEffect"
+                                class="btn btn-solid hover-solid btn-animation"><i class="fa fa-shopping-cart me-1" aria-hidden="true"></i> add to cart</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-
-  <item code='{{product.idt}}' pid='{{product.id}}' min=1>
-    <images>
-      <zoom title='{{lang.zoom_in}}'><img style='background-image: url({{product.image}})' /></zoom>
-      <thumbs>
-        {% for xImage in product.images %}
-          <thumb style='background-image: url({{xImage}})'></thumb>
-        {% endfor %}
-      </thumbs>
-    </images>
-
-    <info>
-      <panel>
-        <buttons>
-          <button class='favorite' title='{{lang.to_favorite}}'>a</button>
-          <button class='compare' title='{{lang.compare}}'>c</button>
-        </buttons>
-        <code class='flex'>{{lang.product_code}}: {{product.idt}}/<b>?cx?</b></code>
-      </panel>
-
-      <title>{{product.title}}</title>
-
-      <props>
-        <name>{{lang.category}}: <value>{{product.category}}</value></name>
-        <name>{{lang.available}}: <value class='green'>{{product.rest}}</value></name>
-        <name>{{lang.seller}}: <a href='{{href.tenant}}'>{{product.tenant_title}}</a></name>
-      </props>
-
-      <control>
-        {% for Rec in TDbList().Import(product.price) %}
-            {%- if Rec.price_new -%}
-                <oldprice>{{Rec.qty}}{{lang.qty}} {{Rec.price}}</oldprice>
-                <promo>{{Rec.qty}}{{lang.qty}} {{Rec.price_new}}</promo>
-                <discount>{{ "%.1f"|format(100-(Rec.price_new/Rec.price*100)) }}%</discount>
-            {%- else -%}
-                <price count='{{Rec.qty}}'>{{Rec.price}} грн</price>
-            {%- endif %}
-          {% endfor %}
-        <a href='/123' class='buy icon-basket'>{{lang.buy}}</a>
-      </control>
-    </info>
-
-  </item>
-
-  <tabs>
-    <panel>
-        <tab id='tabprop' class='active'>{{lang.features}}</tab>
-        <tab id='tabdesc'>{{lang.description}}</tab>
-        <tab id='tabcomm'>{{lang.reviews}}</tab>
-    </panel>
-    <data>
-      <label class='tabprop'>
-        <!-- <name>Модель:</name><value>Acer</value> -->
-        {%- for xType, xVal in product.features %}
-            {%- if xType == 'g' -%}
-                <plus>{{xVal}}</plus>
-            {%- else -%}
-                <value>{{xVal}}</value>
-            {%- endif %}
-        {%- endfor %}
-      </label>
-
-      <label class='tabdesc' hide>
-        {{product.descr}}
-      </label>
-
-      <label class='tabcomm hide'>
-      </label>
-    </data>
-  </tabs>
+    <section class="tab-product m-0">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12 col-lg-12">
+                    <ul class="nav nav-tabs nav-material" id="top-tab" role="tablist">
+                        <li class="nav-item"><a class="nav-link active" id="top-home-tab" data-bs-toggle="tab"
+                                href="#top-home" role="tab" aria-selected="true"><i
+                                    class="icofont icofont-ui-home"></i>Details</a>
+                            <div class="material-border"></div>
+                        </li>
+                        <li class="nav-item"><a class="nav-link" id="profile-top-tab" data-bs-toggle="tab"
+                                href="#top-profile" role="tab" aria-selected="false"><i
+                                    class="icofont icofont-man-in-glasses"></i>Specification</a>
+                            <div class="material-border"></div>
+                        </li>
+                    </ul>
+                    <div class="tab-content nav-material" id="top-tabContent">
+                        <div class="tab-pane fade show active" id="top-home" role="tabpanel"
+                            aria-labelledby="top-home-tab">
+                            <div class="product-tab-discription">
+                                <div class="part">
+                                    <h5 class="inner-title">fabric:</h5>
+                                    <p>Art silk is manufactured by synthetic fibres like rayon. It's light in weight and
+                                        is soft on the skin for comfort in summers.Art silk is manufactured by synthetic
+                                        fibres like rayon. It's light in weight and is soft on the skin for comfort in
+                                        summers.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="top-profile" role="tabpanel" aria-labelledby="profile-top-tab">
+                            <div class="single-product-tables">
+                                <table>
+                                    <tbody>
+                                        <tr>
+                                            <td>Sleeve Length</td>
+                                            <td>Sleevless</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Neck</td>
+                                            <td>Round Neck</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Occasion</td>
+                                            <td>Sports</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 {% endblock %}

@@ -1,0 +1,111 @@
+{% extends '_inc/layout1.j2' %}
+
+{% block head %}
+  <meta property="og:image" content="{{product.image}}"/>
+  <script type='module' src='/default/js/pages/product/product.js' ></script>
+  <script type="application/ld+json">{{product.schema}}</script>
+{% endblock %}
+
+{% block page_top %}
+{% include './category/breadcrumbs.j2' %}
+{% endblock %}
+
+{% block content %}
+     <template class='lang hide'>
+        <tip>
+            <confirmOrder>Замовлення прийняте. Очікуйте дзвінок для підтвердження</confirmOrder>
+        "errorOrder"    : "Помилка оформлення замовлення",
+        "errorTelegram" : "Замовлення не надіслане в Телеграм",
+        "errorName"     : "Відсутнє, або некоректне ім'я клієнта",
+        "errorPhone"    : "Відсутній, або некоректний номер телефону",
+        "emptyBacket"   : "Кошик порожній, очікується наповнення",
+        </tip>
+        <title class='eye'>Замовлення: </title>
+        <cart>
+          <title class='s'>назва</title>
+          <title class='s'>код</title>
+          <title class='s'>кількість</title>
+          <title class='s'>ціна</title>
+          <title class='s'>разом</title>
+          <title class='s'></title>
+        </cart>
+        <total>
+          <label>замовлено товарів:</label>
+          <num></num>
+          <flex></flex>
+          <label>на сумму:</label>
+          <sum></sum>
+        </total>
+      </template>
+
+
+  <item code='{{product.idt}}' pid='{{product.id}}' min=1>
+    <images>
+      <zoom title='{{lang.zoom_in}}'><img style='background-image: url({{product.image}})' /></zoom>
+      <thumbs>
+        {% for xImage in product.images %}
+          <thumb style='background-image: url({{xImage}})'></thumb>
+        {% endfor %}
+      </thumbs>
+    </images>
+
+    <info>
+      <panel>
+        <buttons>
+          <button class='favorite' title='{{lang.to_favorite}}'>a</button>
+          <button class='compare' title='{{lang.compare}}'>c</button>
+        </buttons>
+        <code class='flex'>{{lang.product_code}}: {{product.idt}}/<b>?cx?</b></code>
+      </panel>
+
+      <title>{{product.title}}</title>
+
+      <props>
+        <name>{{lang.category}}: <value>{{product.category}}</value></name>
+        <name>{{lang.available}}: <value class='green'>{{product.rest}}</value></name>
+        <name>{{lang.seller}}: <a href='{{href.tenant}}'>{{product.tenant_title}}</a></name>
+      </props>
+
+      <control>
+        {% for Rec in TDbList().Import(product.price) %}
+            {%- if Rec.price_new -%}
+                <oldprice>{{Rec.qty}}{{lang.qty}} {{Rec.price}}</oldprice>
+                <promo>{{Rec.qty}}{{lang.qty}} {{Rec.price_new}}</promo>
+                <discount>{{ "%.1f"|format(100-(Rec.price_new/Rec.price*100)) }}%</discount>
+            {%- else -%}
+                <price count='{{Rec.qty}}'>{{Rec.price}} грн</price>
+            {%- endif %}
+          {% endfor %}
+        <a href='/123' class='buy icon-basket'>{{lang.buy}}</a>
+      </control>
+    </info>
+
+  </item>
+
+  <tabs>
+    <panel>
+        <tab id='tabprop' class='active'>{{lang.features}}</tab>
+        <tab id='tabdesc'>{{lang.description}}</tab>
+        <tab id='tabcomm'>{{lang.reviews}}</tab>
+    </panel>
+    <data>
+      <label class='tabprop'>
+        <!-- <name>Модель:</name><value>Acer</value> -->
+        {%- for xType, xVal in product.features %}
+            {%- if xType == 'g' -%}
+                <plus>{{xVal}}</plus>
+            {%- else -%}
+                <value>{{xVal}}</value>
+            {%- endif %}
+        {%- endfor %}
+      </label>
+
+      <label class='tabdesc' hide>
+        {{product.descr}}
+      </label>
+
+      <label class='tabcomm hide'>
+      </label>
+    </data>
+  </tabs>
+{% endblock %}

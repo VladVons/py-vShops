@@ -338,18 +338,19 @@ create table if not exists ref_layout (
     enabled             boolean default true,
     caption             varchar(32) not null,
     route               varchar(32) not null,
+    theme               varchar(16),
+    common              boolean,
     tenant_id           integer not null references ref_tenant(id),
-    unique (tenant_id, route)
+    unique (theme, tenant_id, route)
 );
 
 create table if not exists ref_layout_module (
-    id                  serial primary key,
     enabled             boolean default true,
     sort_order          smallint default 0,
     place               varchar(16),
     layout_id           integer not null references ref_layout(id) on delete cascade,
     module_id           integer not null references ref_module(id) on delete cascade,
-    unique (layout_id, module_id)
+    primary key (layout_id, module_id)
 );
 
 --- news ---
