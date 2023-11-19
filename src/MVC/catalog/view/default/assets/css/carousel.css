@@ -1,0 +1,11 @@
+.carousel-caption {
+    top: 60%;
+    -transform: translateY(-20%);
+    text-align: center;
+    color: black;
+    background-color: rgba(0, 0, 0, 0.2);
+    -background: linear-gradient(to right, var(--colorBgSlave), var(--colorBgFooter));
+    padding: 20px;
+    width: 50%;
+    border-radius: 15px;
+}

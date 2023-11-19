@@ -1,72 +1,35 @@
-    <footer class="dark-footer footer-style-1 footer-theme-color">
-        <section class="section-b-space darken-layout">
-            <div class="container">
-                <div class="row footer-theme partition-f">
-                    <div class="col-lg-4 col-md-6 sub-title">
-                        <div class="footer-title footer-mobile-title">
-                            <h4>about</h4>
-                        </div>
-                        <div class="footer-contant">
-                            <div class="footer-logo"><img src="/default/assets/images/icon/logo/f11.png" alt=""></div>
-                            <p>{{lang.about_descr}}</p>
-                            <ul class="contact-list">
-                                <li><i class="fa fa-map-marker"></i>{{lang.address}}: {{lang.address_}}
-                                </li>
-                                <li><i class="fa fa-phone"></i>{{lang.phone}}: {{lang.phone_}}</li>
-                                <li><i class="fa fa-envelope"></i>{{lang.email}}: <a href="#">{{lang.email_}}</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="col-lg-2 col-md-6">
-                        <div class="sub-title">
-                            <div class="footer-title">
-                                <h4>{{lang.links}}</h4>
-                            </div>
-                            <div class="footer-contant">
-                                <ul>
-                                    <li><a href="#">{{lang.about_us}}</a></li>
-                                    <li><a href="#">{{lang.contacts}}</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-md-6">
-                        <div class="sub-title">
-                            <div class="footer-title">
-                                <h4>{{lang.follow_us}}</h4>
-                            </div>
-                            <div class="footer-contant">
-                                <p class="mb-cls-content">{{lang.subscribe_to_know_news}}</p>
-                                <form class="form-inline">
-                                    <div class="form-group me-sm-3 mb-2">
-                                        <label for="inputPassword2" class="sr-only">Password</label>
-                                        <input type="password" class="form-control" id="inputPassword2"
-                                            placeholder="{{lang.enter_your_email}}">
-                                    </div>
-                                    <button type="submit" class="btn btn-solid mb-2">{{lang.subscribe}}</button>
-                                </form>
-                                <div class="footer-social">
-                                    <ul>
-                                        <li><a href="#"><i class="fa fa-facebook-f"></i></a></li>
-                                        <li><a href="#"><i class="fa fa-telegram"></i></a></li>
-                                        <li><a href="#"><i class="fa fa-youtube"></i></a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <div class="sub-footer dark-subfooter">
-            <div class="container">
-                <div class="row">
-                    <div class="col-xl-6 col-md-6 col-sm-12">
-                        <div class="footer-end">
-                            <p><i class="fa fa-copyright" aria-hidden="true"></i> 2023, {{lang.copyright}}</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </footer>
+<!-- footer + -->
+<div class="mt-5 pt-3 pb-3 vFooter">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-5 col-xs-12">
+    <a class="navbar-brand mr-5" href="/">
+      <img src="/default/assets/img/logo-1x1.png" alt="company logo" height="50" class="d-inline-block">
+    </a>
+        <h4>{{lang.about_descr}}</h4>
+        <p>
+          <a href="#" role="button"><i class="fa fa-facebook m-1" style="font-size: 2.0rem;"></i></a>
+          <a href="#" role="button"><i class="fa fa-telegram m-1" style="font-size: 2.0rem;"></i></a>
+        </p>
+      </div>
+      <div class="col-lg-3 col-xs-12">
+        <h4 class="mt-lg-0 mt-sm-3">{{lang.links}}</h4>
+          <ul class="m-0 p-0">
+            <li><a href="#">{{lang.about_us}}</a></li>
+            <li><a href="#">{{lang.contacts}}</a></li>
+          </ul>
+      </div>
+      <div class="col-lg-4 col-xs-12">
+        <h4 class="mt-lg-0 mt-sm-4">{{lang.location}}</h4>
+        <p><i class="fa fa-location-arrow m-1"></i>{{lang.address_}}</p>
+        <p><i class="fa fa-phone m-1"></i>{{lang.phone_}}</p>
+        <p><i class="fa fa-envelope-o m-1"></i>{{lang.email_}}</p>
+      </div>
+    </div>
+
+    <div class="border-top mt-2">
+      <p>{{lang.copyright}}</p>
+    </div>
+  </div>
+</div>
+<!--  footer - -->

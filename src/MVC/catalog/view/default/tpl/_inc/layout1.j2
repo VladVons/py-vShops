@@ -1,98 +1,28 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ua">
+  <head>
+    <title>1x1 snippets</title>
 
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width,initial-scale=1">
-    <meta name="description" content="multikart">
-    <meta name="keywords" content="multikart">
-    <meta name="author" content="multikart">
-    <link rel="icon" href="/default/assets/images/favicon/22.png" type="image/x-icon">
-    <link rel="shortscut icon" href="/default/assets/images/favicon/22.png" type="image/x-icon">
-    <title>Multikart - Multi-purpose E-commerce Html Template</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <!-- Icons -->
-    <link rel="stylesheet" type="text/css" href="/default/assets/css/vendors/font-awesome.css">
+    <link rel="stylesheet" href="/default/assets/vendor/css/bootstrap.css">
+    <link rel="stylesheet" href="/default/assets/vendor/css/fontawesome.css">
+    <link rel="stylesheet" href="/default/assets/css/styles.css">
+  </head>
 
-    <!--Slick slider css-->
-    <link rel="stylesheet" type="text/css" href="/default/assets/css/vendors/slick.css">
-    <link rel="stylesheet" type="text/css" href="/default/assets/css/vendors/slick-theme.css">
+  <body>
+    {% include './header.j2' %}
+    {% include './content_top.j2' %}
+    {% block content %}{% endblock %}
+    {% include './footer.j2' %}
 
-    <!-- Animate icon -->
-    <link1 rel="stylesheet" type="text/css" href="/default/assets/css/vendors/animate.css">
-
-    <!-- Themify icon -->
-    <link rel="stylesheet" type="text/css" href="/default/assets/css/vendors/themify-icons.css">
-
-    <!-- Bootstrap css -->
-    <link rel="stylesheet" type="text/css" href="/default/assets/css/vendors/bootstrap.css">
-
-    <!-- Theme css -->
-    <link rel="stylesheet" type="text/css" href="/default/assets/css/style.css">
-</head>
-
-<body class="theme-color-27">
-    <!-- header+ -->{% include './header.j2' %}<!-- header- -->
-    <!-- content_top+ -->{% include './content_top.j2' %}<!-- content_top- -->
-    <!-- content_block+ -->{% block content %}{% endblock %}<!-- content_block- -->
-    <!-- footer -->{% include './footer.j2' %}<!-- /footer -->
-
-    <!-- tap to top -->
-    <div class="tap-top top-cls">
-        <div>
-            <i class="fa fa-angle-double-up"></i>
-        </div>
-    </div>
-    <!-- tap to top end -->
-
-    <!-- latest jquery-->
-    <script src="/default/assets//js/jquery-3.3.1.min.js"></script>
-
-    <!-- slick js-->
-    <script src="/default/assets/js/slick.js"></script>
-    <script src="/default/assets/js/slick-animation.min.js"></script>
-
-    <!-- menu js-->
-    <script src="/default/assets/js/menu.js"></script>
-    <script src="/default/assets/js/sticky-menu.js"></script>
-
-    <!-- ajax search js -->
-    <script1 src="/default/assets/js/typeahead.bundle.min.js"></script1>
-    <script1 src="/default/assets/js/typeahead.jquery.min.js"></script1>
-    <script1 src="/default/assets/js/ajax-custom.js"></script1>
-
-    <!-- lazyload js-->
-    <script src="/default/assets/js/lazysizes.min.js"></script>
-
-    <!-- Bootstrap js-->
-    <script src="/default/assets/js/bootstrap.bundle.min.js"></script>
-
-    <!-- Bootstrap Notification js-->
-    <script src="/default/assets/js/bootstrap-notify.min.js"></script>
-
-    <!-- Theme js-->
-    <script1 src="/default/assets/js/theme-setting.js"></script1>
-    <script src="/default/assets/js/script.js"></script>
-    <script1 src="/default/assets/js/color-setting.js"></script1>
-    <script src="/default/assets/js/custom-slick-animated.js"></script>
-
-    <script>
-        $(window).on('load', function () {
-            setTimeout(function () {
-                $('#exampleModal').modal('show');
-            }, 2500);
-        });
-
-        function openSearch() {
-            document.getElementById("search-overlay").style.display = "block";
-        }
-
-        function closeSearch() {
-            document.getElementById("search-overlay").style.display = "none";
-        }
-    </script>
-
-</body>
-
+    <script src="/default/assets/vendor/js/bootstrap.bundle.min.js"></script>
+    <script src="/default/assets/js/app.js"></script>
+    <script src="/default/assets/js/navbar.js"></script>
+    <script src="/default/assets/js/cart.js"></script>
+    <script src="/default/assets/js/product.js"></script>
+    <script src="/default/assets/js/gotop.js"></script>
+    <script src="/default/assets/js/timer_modal.js"></script>
+  </body>
 </html>

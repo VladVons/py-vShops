@@ -1,0 +1,21 @@
+.tooltip {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 15px;
+
+    background-color: var(--colorBgSlave);
+    color: black;
+    font-weight: 700;
+    border-radius: 10px;
+    border: 2px solid var(--colorBgBtn);
+
+    transition: visibility 1s, opacity 1s ease;
+    visibility: hidden;
+    opacity: 0;
+}
+
+.tooltip.active {
+    visibility: visible;
+    opacity: 1;
+}

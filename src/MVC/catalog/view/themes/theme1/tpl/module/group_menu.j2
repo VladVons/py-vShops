@@ -1,7 +1,0 @@
-<border class='page menu'></border>
-
-<menu class='page'>
-{% for Rec in TDbList().Import(data) %}
-    <a href='{{Rec.href}}'>{{Rec.title}}</a>
-{% endfor %}
-</menu>
