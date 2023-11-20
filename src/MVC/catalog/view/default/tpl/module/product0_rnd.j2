@@ -2,18 +2,24 @@
 <div class="container pb-3">
     <div class="vTitle">{{title}}</div>
     <div class="row">
-    {% for Rec in TDbList().Import(data) %}
-        <div class="col-lg-2 mb-3 d-flex align-items-stretch">
-            <div class="card">
-                <img src="{{Rec.thumb}}" class="card-img-top" alt="{{Rec.product_title}}">
-                <div class="card-body d-flex flex-column vBgSlave">
-                    <h4  class="fw-bold">{{Rec.price}} грн</h4>
-                    <h5 class="card-title">{{Rec.product_title}}</h5>
-                    <a href="{{Rec.href}}" class="btn btn-primary mt-auto stretched-link">{{lang.view}}</a>
+        {% for Rec in TDbList().Import(data) %}
+        <div class="col-lg-2 mb-2">
+            <div class="card vCard">
+                <div class="card-header">
+                    <img src="{{Rec.thumb}}" alt="{{Rec.product_title}}">
+                </div>
+                <div class="card-body">
+                    <div class="card-title">{{Rec.category_title}}</div>
+                    <div class="card-title">{{Rec.product_title}}</div>
+                </div>
+                <div class="card-footer">
+                    <h4 class="fw-bold">{{Rec.price}} грн</h4>
+                    <a href="{{Rec.href}}" class="btn btn-primary stretched-link">{{lang.view}}</a>
+                    <p>{{Rec.tenant_title}}</p>
                 </div>
             </div>
         </div>
-    {% endfor %}
+        {% endfor %}
     </div>
 </div>
 <!--  product0_rnd - -->

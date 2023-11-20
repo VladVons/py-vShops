@@ -15,7 +15,7 @@ body {
 }
 
 body * {
-  font: var(--font-roboto);
+  /* font: var(--font-roboto); */
 }
 
 .btn {
@@ -102,4 +102,26 @@ body * {
 
 .vFeatures p:nth-child(odd) {
     background-color: var(--colorBgBody);
+}
+
+/*-- card --*/
+.vCard img {
+    max-height: 210px;
+    max-width: 100%;
+}
+
+.vCard .card-header{
+    height: 220px; 
+    background-color: var(--colorBgMaster);
+}
+
+.vCard .card-body {
+    height: 150px;
+    background-color: var(--colorBgSlave);
+}
+
+.vCard .card-footer {
+    background-color: var(--colorBgMaster);
+    display: flex;
+    flex-direction: column;
 }
