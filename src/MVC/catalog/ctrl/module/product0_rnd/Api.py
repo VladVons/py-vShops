@@ -50,6 +50,7 @@ async def Main(self, aData: dict = None) -> dict:
             Href = f'?tenant={Rec.tenant_id}'
             TenantHref.append(Href)
 
-        Dbl.AddFields(['thumb', 'product_href', 'category_href', 'tenant_href'], [ResThumbs['thumb'], ProductHref, CategoryHref, TenantHref])
+        Dbl.AddFields(['thumb', 'product_href', 'category_href', 'tenant_href'],
+                      [ResThumbs['thumb'], ProductHref, CategoryHref, TenantHref])
         Res['data'] = Dbl.Export()
     return Res

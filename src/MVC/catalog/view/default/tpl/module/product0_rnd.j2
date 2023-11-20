@@ -3,7 +3,7 @@
     <div class="vTitle">{{title}}</div>
     <div class="row">
         {% for Rec in TDbList().Import(data) %}
-        <div class="col-lg-2 mb-2">
+        <div class="col-sm-6 col-md-4 col-lg-2 mb-2">
             <div class="card vCard">
                 <div class="card-header">
                     <a href="{{Rec.product_href}}"><img src="{{Rec.thumb}}" alt="{{Rec.product_title}}"></a>
