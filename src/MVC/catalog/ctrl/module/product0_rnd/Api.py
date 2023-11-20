@@ -34,11 +34,22 @@ async def Main(self, aData: dict = None) -> dict:
             }
         )
 
-        Hrefs = []
+        ProductHref = []
+        CategoryHref = []
+        TenantHref = []
+
+
         for Rec in Dbl:
             Path = '0_' + '_'.join(map(str, Rec.path_id))
             Href = f'?route=product/product&product_id={Rec.product_id}&path={Path}'
-            Hrefs.append(Href)
-        Dbl.AddFields(['thumb', 'href'], [ResThumbs['thumb'], Hrefs])
+            ProductHref.append(Href)
+
+            Href = f'?route=product/category&path={Path}'
+            CategoryHref.append(Href)
+
+            Href = f'?tenant={Rec.tenant_id}'
+            TenantHref.append(Href)
+
+        Dbl.AddFields(['thumb', 'product_href', 'category_href', 'tenant_href'], [ResThumbs['thumb'], ProductHref, CategoryHref, TenantHref])
         Res['data'] = Dbl.Export()
     return Res
