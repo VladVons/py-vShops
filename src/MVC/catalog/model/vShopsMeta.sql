@@ -734,18 +734,22 @@ create table if not exists doc_sale_table_product (
 
 create or replace function ref_tenant_fai() returns trigger
 as $$
+declare
+    currencyId int;
 begin
     if (new.id != 0) then
         insert into ref_product_category (tenant_id, idt)
-        values (new.id, 0);
+            values (new.id, 0);
 
         insert into ref_stock (tenant_id, title)
-        values (new.id, 'default');
+            values (new.id, 'default');
 
-        insert into ref_price (tenant_id, title, currency_id)
-        values (new.id, 'default', (select id from ref_currency where rate = 1));
+        select id from ref_currency where (rate = 1) into currencyId;
+        insert into ref_price (tenant_id, title, price_en, currency_id)
+            values (new.id, 'sale', 'sale', currencyId), 
+                   (new.id, 'purchase', 'purchase', currencyId);
     end if;
-   
+
     return null;
 end $$ language plpgsql;
 
@@ -785,7 +789,7 @@ begin
     end if;
     return new;
 end $$ language plpgsql;
-    
+
 create or replace trigger ref_currency_taiu
     after insert or update of rate on ref_currency
     for each row

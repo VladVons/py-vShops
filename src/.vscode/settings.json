@@ -4,7 +4,7 @@
     },
     "tabnine.experimentalAutoImports": true,
     "python.defaultInterpreterPath": "/home/vladvons/VirtEnv/python3.10/bin/python3.10",
-    "python.linting.pylintArgs": [
+    "pylint.args": [
         "--disable=invalid-name",
         "--disable=missing-function-docstring",
         "--disable=missing-module-docstring",
