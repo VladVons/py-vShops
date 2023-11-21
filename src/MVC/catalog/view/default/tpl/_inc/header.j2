@@ -2,14 +2,14 @@
 <nav class="navbar navbar-expand-lg fixed-top navbar-dark vFooter">
     <div class="container">
         <div class="d-flex">
-           <a href="#">
+           <a href="/">
                 <picture>
                     <source media="(min-width: 465px)" srcset="/default/assets/img/logo-1x1.png">
                     <img src="/default/assets/img/logo-x.png" alt="Your Logo" height="45" id="viLogo">
                 </picture>
             </a>
 
-            <ul class="navbar-nav">
+            <ul class="navbar-nav" title="{{lang.categories}}">
                 <li class="nav-item dropdown" id="viMainNavbar">
                     <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown"  href="#"><i class="fa fa-bars" style="font-size: 2.0em;"></i></a>
                     <ul class="dropdown-menu">
@@ -33,20 +33,20 @@
             <form role="search" action="/submit" method="post">
                 <div class="input-group vSearch">
                     <input type="text" class="form-control" placeholder="search">
-                    <button class="btn btn-block" type="submit"><i class="fa fa-search"></i></button>
+                    <button class="btn btn-block" type="submit"><i class="fa fa-search" title="{{lang.search}}"></i></button>
                 </div>
             </form>
         </div>
 
         <div class="d-flex">
             <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#cartModal" id="viCartModal">
-                <i class="fa fa-shopping-cart"></i>
+                <i class="fa fa-shopping-cart" title="{{lang.shopping_cart}}"></i>
                 <span class="badge vBgBtn viTotalCount">3</span>
             </button>
 
             <ul class="navbar-nav">
                 <li class="nav-item dropdown ms-2">
-                    <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#"><i class="fa fa-dollar-sign"></i></a>
+                    <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#"><i class="fa fa-dollar-sign" title="{{lang.currency}}"></i></a>
                     <ul class="dropdown-menu">
                         <li><a class="dropdown-item" href="#">uah</a></li>
                         <li><a class="dropdown-item" href="#">usd</a></li>

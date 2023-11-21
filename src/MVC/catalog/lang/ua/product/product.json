@@ -1,11 +1,14 @@
 {
    "tpl": {
-        "product_code": "код товару",
+        "add_to_card": "додати до кошика",
+        "added_to_card": "додано до кошика",
+        "already_in_cart": "вже в кошику",
         "available": "в наявності",
+        "category": "категорія",
         "description": "опис",
         "features": "характеристики",
-        "category": "категорія",
         "qty": "шт",
+        "code": "код",
         "seller": "продавець"
     }
 }

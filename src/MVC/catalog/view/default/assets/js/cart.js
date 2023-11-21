@@ -38,11 +38,11 @@ class TShoppingCart {
         }
     }
 
-    itemAdd(aKey, aName, aPrice, aQty) {
+    itemAdd(aKey, aName, aPrice, aImg, aQty) {
         if (this.itemExists(aKey)) {
             aQty += this.Items[aKey].Qty
         }
-        this.itemSet(aKey, aName, aPrice, aQty)
+        this.itemSet(aKey, aName, aPrice, aImg, aQty)
     }
 
     itemDel(aKey) {
@@ -54,8 +54,8 @@ class TShoppingCart {
         return aKey in this.Items
     }
 
-    itemSet(aKey, aName, aPrice, aQty) {
-        this.Items[aKey] = {'Name': aName, 'Price': aPrice, 'Qty': aQty}
+    itemSet(aKey, aName, aPrice, aImg, aQty) {
+        this.Items[aKey] = {'Name': aName, 'Price': aPrice, 'Img': aImg, 'Qty': aQty}
         this.saveToStorage()
     }
 
@@ -79,10 +79,10 @@ function buildCart() {
         const Data = `
         <div class="row align-items-center mb-2">
             <div class="col-md-3">
-                <a href="#"><img class="img-fluid rounded-3" style="width: 80px" src="assets/img/product1.jpg" alt="image xyz"></a>
+                <a href="#"><img class="img-fluid rounded-3" style="width: 80px" src="${val.Img}" alt="image xyz"></a>
             </div>
             <div class="col-md-3">
-                <h4>${val.Name}</h4>
+                <p>${val.Name}</p>
             </div>
             <div class="col-md-1">
                 <input type='number' class='form-control vInputQty viItemQty' data-name='${val.Name}' value='${val.Qty}'>
@@ -94,7 +94,7 @@ function buildCart() {
                 ${val.Qty * val.Price} грн
             </div>
             <div class="col-md-1">
-            <button class="btn btn-danger viItemDel" data-name="${val.Name}">X</button>
+            <button class="btn btn-danger viItemDel" data-name="${val.Name}" title="delete">X</button>
         </div>
         </div>
         `
@@ -114,11 +114,12 @@ defaultBtns.forEach(function (btn) {
         event.preventDefault()
         const name = btn.getAttribute('data-name')
         const price = parseFloat(btn.getAttribute('data-price'))
+        const img = btn.getAttribute('data-img')
         if (ShoppingCart.itemExists(name)) {
             showTooltip(gData.lang.already_in_cart)
         }else{
             showTooltip(gData.lang.added_to_cart)
-            ShoppingCart.itemAdd(name, name, price, 1)
+            ShoppingCart.itemAdd(name, name, price, img, 1)
             buildCart()
         }
     })
