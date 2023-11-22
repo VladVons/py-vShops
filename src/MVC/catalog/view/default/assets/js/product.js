@@ -1,4 +1,4 @@
-function change_image(aImage){
+function changeImage(aImage){
     const element = document.getElementById("viMainImg");
     element.src = aImage.src;
 }
