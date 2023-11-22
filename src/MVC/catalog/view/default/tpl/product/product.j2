@@ -1,7 +1,9 @@
 {% extends '_inc/layout1.j2' %}
 
-{% block content %}
-<!-- product + -->
+{% block head %}
+<title>{{product.title}}</title>
+<meta property="og:image" content="{{product.image}}"/>
+<meta property="og:description" content="{{product.title}}"/>
 <script>
     const gData = {
         "lang": {
@@ -10,7 +12,10 @@
         }
     }
 </script>
+{% endblock %}
 
+{% block content %}
+<!-- product + -->
 <div class="container pb-2">
     <div class="row vProduct">
         <div class="col-md-6 text-center vBgMaster">
@@ -32,7 +37,7 @@
 
             <h3>{{product.title}}</h3>
             <p>{{lang.category}}: <a href="#">{{product.category}}</a></p>
-            <p>{{lang.available}}: 2</p>
+            <p>{{lang.available}}: {{product.rest}}</p>
             <p>{{lang.seller}}: <a href="{{href.tenant}}">{{product.tenant_title}}</a></p>
 
             {% set ns = namespace(Price=0) %}
