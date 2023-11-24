@@ -10,6 +10,7 @@ source ./common.sh
 cUser="VladVons"
 cMail="vladvons@gmail.com"
 cUrl="https://github.com/$cUser/py-vShops.git"
+cBranch="master2"
 
 
 Clean()
@@ -75,7 +76,7 @@ GitClone()
   Log "$0->$FUNCNAME($*)"
 
   # restore clone copy fromserver to disk 
-  git clone $cUrl
+  git clone --single-branch -b $Branch $Url
   GitAuth
 
   #web admin access here
@@ -90,9 +91,9 @@ GitReset()
   git checkout --orphan TEMP_BRANCH
   git add -A
   git commit -am "Initial commit"
-  git branch -D master
-  git branch -m master
-  git push -f origin master
+  git branch -D $cBranch
+  git branch -m $cBranch
+  git push -f origin $cBranch
 }
 
 
@@ -112,8 +113,8 @@ GitSyncToServ()
   git add -u -v
   git commit -a -m "$aComment"
 
-  git push -u origin master 
-  #ExecM "git push $cUrl -u origin master"
+  git push -u origin $cBranch 
+  #ExecM "git push $cUrl -u origin $cBranch"
 }
 
 
@@ -131,7 +132,7 @@ GitFromServF()
 {
   Log "$0->$FUNCNAME($*)"
 
-  git reset --hard origin/master
+  git reset --hard origin/$cBranch
   git fetch --all
 }
 
@@ -155,7 +156,15 @@ GitToServ()
 
 GitNewBranch()
 {
-  git checkout -b master2
+  NewBranch="master2"
+
+  git checkout -b $NewBranch
+  git add .
+  git commit -m "from scratch"
+  git push origin $NewBranch
+ 
+  git symbolic-ref refs/remotes/origin/HEAD refs/remotes/origin/$NewBranch
+  cat .git/refs/remotes/origin/HEAD
 }
 
 
