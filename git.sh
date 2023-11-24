@@ -162,7 +162,8 @@ GitNewBranch()
   git add .
   git commit -m "from scratch"
   git push origin $NewBranch
- 
+
+  git remote set-head origin $NewBranch
   git symbolic-ref refs/remotes/origin/HEAD refs/remotes/origin/$NewBranch
   cat .git/refs/remotes/origin/HEAD
 }
