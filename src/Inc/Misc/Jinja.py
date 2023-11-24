@@ -4,17 +4,26 @@ from jinja2 import Environment, BaseLoader, Template
 from jinja2.exceptions import TemplateNotFound
 #
 from Inc.DbList import TDbList
+from Inc.Util.Obj import GetTree
 
 
-def Dump(self, aName: str = '') -> str:
+def Dump(self, aDepth = 0, aName: str = '') -> str:
+    '''
+    in template use {{Dump(self, 2, 'lang/')}}
+    '''
     Res = []
     #pylint: disable-next=protected-access
     Vars = self._TemplateReference__context.parent
     for Key, Val in Vars.items():
         if (isinstance(Val, (str, int, float, dict, list))):
-            Data = f'{Key} = {Val}' if (Key in aName) else f'{Key} = {type(Val).__name__}'
-            print(Data)
-            Res.append(Data)
+            for (Nested, Path, Obj, _Depth) in GetTree(Val, aDepth + 1):
+                Name = f'{Key}{Path}'
+                if (aName == '' or Name.startswith(aName)) and (not 'method' in Key) and (not 'method' in Name):
+                    Data = f'{Name} ({type(Obj).__name__})'
+                    if (not Nested):
+                        Data += f' = {Obj}'
+                    print(Data)
+                    Res.append(Data)
     return '<br>\n'.join(Res)
 
 class TFileSystemLoader(BaseLoader):
@@ -57,9 +66,11 @@ class TEnvironment(Environment):
         return Res
 
     def join_path(self, template: str, parent: str) -> str:
+        Dir = parent.rsplit('/', maxsplit = 1)[0]
         if (template.startswith('./')):
-            Dir = parent.rsplit('/', maxsplit = 1)[0]
             template = f'{Dir}{template[1:]}'
+        elif (template.startswith('../')):
+            template = f'{Dir}/{template}'
         return template
 
     # def getitem(self, obj, argument: str):

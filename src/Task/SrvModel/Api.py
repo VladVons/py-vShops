@@ -28,6 +28,7 @@ class TApiModel(TApiBase):
         self.ExecCnt += 1
 
         Data = self.GetMethod(self.Models, aRoute, aData)
+        assert('err' not in Data), Data['err']
         if ('err' in Data):
             Log.Print(1, 'e', f"TApiModel.Exec() {Data['err']}")
             return Data

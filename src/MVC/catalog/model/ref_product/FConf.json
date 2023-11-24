@@ -1,7 +1,0 @@
-{
-    "master": "ref_product",
-    "require": [
-        "ref_product_image",
-        "ref_product_lang"
-    ]
-}

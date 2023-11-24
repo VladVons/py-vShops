@@ -1,4 +1,4 @@
-<!-- header + -->
+<!-- _inc/header + -->
 <nav class="navbar navbar-expand-lg fixed-top navbar-dark vFooter">
     <div class="container">
         <div class="d-flex">
@@ -8,28 +8,7 @@
                     <img src="/default/assets/img/logo-x.png" alt="Your Logo" height="45" id="viLogo">
                 </picture>
             </a>
-
-            <ul class="navbar-nav" title="{{lang.categories}}">
-                <li class="nav-item dropdown" id="viMainNavbar">
-                    <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown"  href="#"><i class="fa fa-bars" style="font-size: 2.0em;"></i></a>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="/">Action</a></li>
-                        <li><a class="dropdown-item" href="#">Another action</a> </li>
-                        <li> <hr class="dropdown-divider"> </li>
-                        <li> <a class="dropdown-item" href="#">Something else here</a></li>
-                        <li class="nav-item dropdown">
-                            <a class="dropdown-item dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">Dropdown </a>
-                            <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="/">Action</a></li>
-                                <li><a class="dropdown-item" href="#">Another action</a> </li>
-                                <li><hr class="dropdown-divider"></li>
-                                <li><a class="dropdown-item" href="#">Something else here</a></li>
-                            </ul>
-                        </li>
-                    </ul>
-                </li>
-            </ul>
-
+            {% include './header_categories.j2' %}
             <form role="search" action="/submit" method="post">
                 <div class="input-group vSearch">
                     <input type="text" class="form-control" placeholder="search">
@@ -58,4 +37,4 @@
 
   </div>
 </nav>
-<!-- header - -->
+<!-- _inc/header - -->

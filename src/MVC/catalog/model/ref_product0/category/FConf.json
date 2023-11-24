@@ -1,6 +1,0 @@
-{
-    "master": "ref_product0_category",
-    "require": [
-        "ref_product0_category_lang"
-    ]
-}

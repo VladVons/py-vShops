@@ -35,7 +35,6 @@ class TFormBase(Form):
             {
                 'data': None,
                 'info': GetAppVer(),
-                'ctrl': {},
                 'title': '',
                 'route': ''
             }
@@ -130,18 +129,18 @@ class TFormBase(Form):
         return Res
 
     def RenderTemplate(self) -> str:
-        Modules = self.RenderModules(self.out.ctrl)
-        self.out.ctrl['modules'] = Modules
-        self.out.ctrl['places'] = {x['place']: True for x in Modules}
+        Modules = self.RenderModules(self.out.get('modules', []))
+        self.out['modules'] = Modules
+        self.out['places'] = {x['place']: True for x in Modules}
 
-        Data = self.out.ctrl | self.out
         File = f'{self.out.route}.{self.Tpl.Ext}'
         #return self.Tpl.RenderInc(File, Data)
-        return self.Tpl.Render(File, Data)
+        return self.Tpl.Render(File, self.out)
 
-    def RenderModules(self, aData: dict) -> list:
+
+    def RenderModules(self, aModules: list) -> list:
         Res = []
-        for xModule in aData.get('modules', []):
+        for xModule in aModules:
             if ('err' not in xModule):
                 Layout = xModule['layout']
                 Module = Layout['code']

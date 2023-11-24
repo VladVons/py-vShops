@@ -1,22 +1,15 @@
--- in: aLang, aParentIdRoot, CondParentIds
+-- in: aLang, aTenantId, aParentIdtRoot, CondParentIdts
 with recursive wrpc as (
     select
         rpc.id,
         rpc.parent_id,
         1 as deep,
-        ARRAY[rpc.id] as path_id,
-        rpc.sort_order || '-' || rpcl.title as sort,
-        rpcl.title
+        ARRAY[rpc.id] as path_id
     from
         ref_product0_category rpc
-    left join ref_lang rlng
-        on rlng.alias = '{aLang}'
-    left join
-        ref_product0_category_lang rpcl
-        on (rpc.id = rpcl.category_id and rpcl.lang_id = rlng.id)
     where
         (rpc.enabled) and
-        (rpc.parent_id = {aParentIdRoot})
+        (rpc.parent_id = 0)
 
     union all
 
@@ -24,19 +17,12 @@ with recursive wrpc as (
         rpc.id,
         rpc.parent_id,
         wrpc.deep + 1,
-        wrpc.path_id  || array[rpc.id],
-        wrpc.sort  || '/' || rpc.sort_order || '-' || rpcl.title,
-        rpcl.title
+        wrpc.path_id  || array[rpc.id]
     from
         ref_product0_category rpc
     join
         wrpc on
         (rpc.parent_id = wrpc.id)
-    left join ref_lang rlng
-        on rlng.alias = '{aLang}'
-    left join
-        ref_product0_category_lang rpcl
-        on (rpc.id = rpcl.category_id and rpcl.lang_id = rlng.id)
     where
         (rpc.enabled)
 ),
@@ -48,7 +34,7 @@ category_products as (
         ref_product0_to_category rptc
     left join
         ref_product rp on
-        (rptc.product_id = rp.product0_id) 
+        (rptc.product_id = rp.id)
     left join
         (
             select
@@ -58,24 +44,25 @@ category_products as (
         ) rpc
         on (rptc.category_id = rpc.id)
     where 
-        (rp.enabled) 
+        rp.enabled
     group by
         rpc.cat_id
 )
+
 select
     wrpc.id,
     wrpc.parent_id,
     wrpc.deep,
     wrpc.path_id,
-    wrpc.title,
-    cp.products
+    cp.products,
+    rpcl.title
 from
      wrpc
 left join
-    category_products cp on 
-    (wrpc.id = cp.cat_id)
+    category_products cp
+    on (wrpc.id = cp.cat_id)
+left join
+    ref_product0_category_lang rpcl
+    on (wrpc.id = rpcl.category_id and rpcl.lang_id = 1)
 where
     (cp.products is not null)
-    {CondParentIds}
-order by
-    wrpc.sort

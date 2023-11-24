@@ -3,13 +3,14 @@ with
 wt1 as (
     select
         rptc.category_id as category0_id,
-        rptc.product_id as product_id0,
+        rptc.product_id as product0_id,
         rp.id,
         rp.idt as product_idt,
         rp.tenant_id,
         rt.title as tenant_title,
         rpl.title,
         rpl.title as title0,
+        rpcl.title as category0_title,
         (
             select rpi.image
             from ref_product0_image rpi
@@ -46,6 +47,9 @@ wt1 as (
         ref_product0_lang rpl
         on (rptc.product_id = rpl.product_id and rpl.lang_id = rlng.id)
     left join
+        ref_product0_category_lang rpcl
+        on (rptc.category_id = rpcl.category_id and rpcl.lang_id = rlng.id)
+    left join
         ref_tenant rt
         on (rp.tenant_id = rt.id)
     where
@@ -60,6 +64,7 @@ wt1 as (
 )
 select
     wt1.category0_id as category_id,
+    wt1.category0_title as category_title,
     wt1.id as product_id,
     wt1.product_idt,
     wt1.tenant_id,

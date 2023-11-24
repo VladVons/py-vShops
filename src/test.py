@@ -8,6 +8,26 @@ import re
 #from IncP.PluginEan import TPluginEan
 #from Inc.Misc.Crypt import CryptSimple
 #from Inc.Misc.FS import DirWalk
+#from Inc.DbList import TDbList
+
+async def Test_00():
+    Data = [
+        ['User5', 55, True, 5.67],
+        ['User2', 22, True, 2.34],
+        ['User6', 66, True, 6.78],
+        ['User1', 11, False, 1.23],
+        ['User3', 33, True, 3.45],
+        ['User4', 44, True, 4.56],
+        ['User5', 55, True, 5.55]
+    ]
+
+    Dbl1 = TDbList(
+        ['User', 'Age', 'Male', 'Price'],
+        Data
+    )
+
+    q1 = Dbl1.Rec.GetFieldsMissed(['Male1', 'Price', 'Age1'])
+    print(q1)
 
 
 async def Test_01():
@@ -166,5 +186,5 @@ def mdm():
 #SpeedTest(100000000)
 #print('done', time.time() - Time)
 
-mdm()
+#mdm()
 #asyncio.run(Test_03())

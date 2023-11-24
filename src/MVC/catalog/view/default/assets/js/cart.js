@@ -5,6 +5,14 @@ License: GNU, see LICENSE for more details
 */
 
 
+function hasAllKeys(aObj, aRequiredKeys) {
+    const objKeys = new Set(Object.keys(aObj));
+    const requiredKeys = new Set(aRequiredKeys);
+    //return [...requiredKeys].every(key => objKeys.has(key));
+    return [...requiredKeys].filter(key => !objKeys.has(key));
+}
+
+
 class TShoppingCart {
     constructor() {
         this.Items = {}
@@ -21,10 +29,10 @@ class TShoppingCart {
         var Qty = 0
         var Sum = 0
         for (var [key, val] of Object.entries(this.Items)) {
-            Qty += val.Qty
-            Sum += val.Qty * val.Price
+            Qty += val.qty
+            Sum += val.qty * val.price
         }
-        return {'Qty': Qty, 'Sum': Sum}
+        return {'qty': Qty, 'sum': Sum}
     }
 
     saveToStorage() {
@@ -38,30 +46,30 @@ class TShoppingCart {
         }
     }
 
-    itemAdd(aKey, aName, aPrice, aImg, aQty) {
-        if (this.itemExists(aKey)) {
-            aQty += this.Items[aKey].Qty
+    itemAdd(aData) {
+        if (this.itemExists(aData.id)) {
+            aData.qty += this.Items[aData.id].qty
         }
-        this.itemSet(aKey, aName, aPrice, aImg, aQty)
+        this.itemSet(aData)
     }
 
-    itemDel(aKey) {
-      delete this.Items[aKey]
-      this.saveToStorage()
-    }
-
-    itemExists(aKey) {
-        return aKey in this.Items
-    }
-
-    itemSet(aKey, aName, aPrice, aImg, aQty) {
-        this.Items[aKey] = {'Name': aName, 'Price': aPrice, 'Img': aImg, 'Qty': aQty}
+    itemDel(aId) {
+        delete this.Items[aId]
         this.saveToStorage()
     }
 
-    itemSetQty(aKey, aQty) {
+    itemExists(aId) {
+        return aId in this.Items
+    }
+
+    itemSet(aData) {
+        this.Items[aData.id] = aData
+        this.saveToStorage()
+    }
+
+    itemSetQty(aId, aQty) {
         if (aQty >= 0) {
-            this.Items[aKey].Qty = aQty
+            this.Items[aId].qty = aQty
             this.saveToStorage()
         } else {
             //this.itemDel(aKey)
@@ -79,23 +87,23 @@ function buildCart() {
         const Data = `
         <div class="row align-items-center mb-2">
             <div class="col-md-3">
-                <a href="#"><img class="img-fluid rounded-3" style="width: 80px" src="${val.Img}" alt="image xyz"></a>
+                <a href="${val.href}"><img class="img-fluid rounded-3" style="width: 80px" src="${val.img}"></a>
             </div>
             <div class="col-md-3">
-                <p>${val.Name}</p>
+                <p>${val.name}</p>
             </div>
             <div class="col-md-1">
-                <input type='number' class='form-control vInputQty viItemQty' data-name='${val.Name}' value='${val.Qty}'>
+                <input type='number' class='form-control vInputQty viItemQty' data-id='${val.id}' value='${val.qty}' min='0'>
             </div>
             <div class="col-md-2">
-                ${val.Price} грн
+                ${val.price} грн
             </div>
             <div class="col-md-2 fw-bold">
-                ${val.Qty * val.Price} грн
+                ${val.qty * val.price} грн
             </div>
             <div class="col-md-1">
-            <button class="btn btn-danger viItemDel" data-name="${val.Name}" title="delete">X</button>
-        </div>
+                <button class="btn btn-danger viItemDel" data-id="${val.id}" title="delete">X</button>
+            </div>
         </div>
         `
         Arr.push(Data)
@@ -104,22 +112,26 @@ function buildCart() {
     var Total = ShoppingCart.getTotal()
 
     document.querySelector('.viCartItems').innerHTML = Arr.join('')
-    document.querySelector('.viTotalSum').innerHTML = Total.Sum
-    document.querySelector('.viTotalCount').innerHTML = Total.Qty
+    document.querySelector('.viTotalSum').innerHTML = Total.sum
+    document.querySelector('.viTotalCount').innerHTML = Total.qty
 }
 
 const defaultBtns = document.querySelectorAll(".viAddToCart");
 defaultBtns.forEach(function (btn) {
     btn.addEventListener('click', function (event) {
         event.preventDefault()
-        const name = btn.getAttribute('data-name')
-        const price = parseFloat(btn.getAttribute('data-price'))
-        const img = btn.getAttribute('data-img')
-        if (ShoppingCart.itemExists(name)) {
+        var data = btn.getAttribute('data')
+        data = JSON.parse(data);
+
+        const Missed = hasAllKeys(data, ['id', 'name', 'img', 'price', 'href'])
+        const Msg = `missed required keys ${Missed}`;
+        console.assert(Missed.length == 0, Msg)
+
+        if (ShoppingCart.itemExists(data.id)) {
             showTooltip(gData.lang.already_in_cart)
         }else{
             showTooltip(gData.lang.added_to_cart)
-            ShoppingCart.itemAdd(name, name, price, img, 1)
+            ShoppingCart.itemAdd(data)
             buildCart()
         }
     })
@@ -130,17 +142,17 @@ CartItems.addEventListener('click', function (event) {
     if (event.target.classList.contains('viItemDel')) {
     //if (event.target.id == 'viDelItem') {
     //if (event.target.getAttribute('data-type') == 'viDelItem') {
-        const name = event.target.getAttribute('data-name');
-        ShoppingCart.itemDel(name)
+        const id = event.target.getAttribute('data-id');
+        ShoppingCart.itemDel(id)
         buildCart()
     }
 })
 
 CartItems.addEventListener('change', function (event) {
     if (event.target.classList.contains('viItemQty')) {
-        const name = event.target.getAttribute('data-name');
+        const id = event.target.getAttribute('data-id');
         const qty = parseInt(event.target.value)
-        ShoppingCart.itemSetQty(name, qty)
+        ShoppingCart.itemSetQty(id, qty)
         buildCart()
     }
 })

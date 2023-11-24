@@ -153,6 +153,11 @@ GitToServ()
   { find ./src -type f -name "*.py" -printf "%s+"; echo 0; } | bc
 }
 
+GitNewBranch()
+{
+  git checkout -b master2
+}
+
 
 clear
 case $1 in
