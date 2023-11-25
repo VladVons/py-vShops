@@ -103,8 +103,8 @@ select
 from
     wt1
 left join 
-	wt2 on 
-	wt1.category0_id = wt2.id
+    wt2 on 
+    wt1.category0_id = wt2.id
 left join 
-	ref_product0_category_lang rpcl on 
-   	wt1.category0_id = rpcl.category_id 
+    ref_product0_category_lang rpcl on 
+    wt1.category0_id = rpcl.category_id 
