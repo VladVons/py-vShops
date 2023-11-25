@@ -30,7 +30,8 @@ class TDbList(TDbBase):
         return Res
 
     def _RecInit(self) -> TDbRec:
-        self.Rec.Data = self.Data[self._RecNo]
+        if (0 <= self._RecNo < self.GetSize()):
+            self.Rec.Data = self.Data[self._RecNo]
         return self.Rec
 
     def AddFields(self, aFields: list[str], aValues: list = None):

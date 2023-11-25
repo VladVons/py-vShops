@@ -125,6 +125,9 @@ class TDbBase():
         self.Data = []
         self._RecNo = 0
 
+    def EOF(self):
+        return (self._RecNo >= self.GetSize())
+
     def Export(self) -> dict:
         raise NotImplementedError()
 
@@ -274,7 +277,7 @@ class TDbBase():
         else:
             if (aNo < 0):
                 aNo = Size + aNo
-            self._RecNo = min(aNo, Size - 1)
+            self._RecNo = aNo
         self._RecInit()
 
     def Save(self, aFile: str, aFormat: bool = False):
@@ -299,6 +302,9 @@ class TDbBase():
                 BeeTree.Add((Data, RowNo))
         self.BeeTree[aField] = BeeTree
         return BeeTree
+
+    def Skip(self):
+        self.RecNo += 1
 
     def Sort(self, aFields: list[str], aReverse: bool = False) -> 'TDbBase':
         if (len(aFields) == 1):

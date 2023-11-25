@@ -164,6 +164,7 @@ GitNewBranch()
   git push origin $NewBranch
 
   git remote set-head origin $NewBranch
+  git config --global init.defaultBranch $NewBranch
   git symbolic-ref refs/remotes/origin/HEAD refs/remotes/origin/$NewBranch
   cat .git/refs/remotes/origin/HEAD
 }

@@ -6,7 +6,7 @@
 from Inc.Sql.ADb import ListIntToComma
 
 
-async def Get_CategoriesSubCount_ParentLang(self, aLang: int, aParentIdRoot: int, aParentIds: list[int]) -> dict:
+async def Get_CategoriesSubCount_ParentLang(self, aLang: int, aParentIdRoot: int, aParentIds: list[int] = None) -> dict:
     CondParentIds = ''
     if (aParentIds):
         CondParentIds = 'and (wrpc.parent_id in (%s))' % ListIntToComma(aParentIds)
