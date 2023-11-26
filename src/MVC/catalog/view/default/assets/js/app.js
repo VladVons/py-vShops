@@ -29,3 +29,43 @@ function showTooltip(aMsg, aId = null) {
         }, 300);
     }, 2000);
 }
+
+class TDict {
+    constructor() {
+        this.data = {}
+    }
+
+    getValue(aPath) {
+        const keys = aPath.split('/').filter(key => key !== '')
+        let obj = this.data
+        for (let key of keys) {
+            obj = obj[key]
+            if (obj === undefined) {
+                return obj
+            }
+        }
+        return obj
+    }
+
+    setValue(aPath, aVal) {
+        const keys = aPath.split('/').filter(key => key !== '')
+        let obj = this.data
+        for (var key of keys.slice(0, -1)) {
+            if (!obj.hasOwnProperty(key)) {
+                obj[key] = {};
+            }
+            obj = obj[key]
+        }
+
+        let keyLast = keys[keys.length - 1]
+        obj[keyLast] = aVal;
+    }
+
+    updValue(aPath, aVal) {
+        let obj = this.getValue(aPath)
+        if (obj != undefined && obj.constructor == Object && aVal.constructor == Object){
+            aVal = { ...obj, ...aVal}
+        }
+        this.setValue(aPath, aVal)
+    }
+}

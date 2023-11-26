@@ -1,4 +1,11 @@
 <!-- _inc/header + -->
+<script>
+    gData.updValue('href', {
+        "added_to_cart": "{{lang.added_to_card}}",
+        "already_in_cart": "{{lang.already_in_cart}}"
+    })
+</script>
+
 <nav class="navbar navbar-expand-lg fixed-top navbar-dark vFooter">
     <div class="container">
         <div class="d-flex">
@@ -9,10 +16,15 @@
                 </picture>
             </a>
             {% include './header_categories.j2' %}
-            <form role="search" action="/submit" method="post">
+
+            <form role="search" action="/submit.html" method="get">
                 <div class="input-group vSearch">
-                    <input type="text" class="form-control" placeholder="search">
-                    <button class="btn btn-block" type="submit"><i class="fa fa-search" title="{{lang.search}}"></i></button>
+                    <input type="text" class="form-control" placeholder="{{lang.search}}"  list="viSearchSuggest" id="viSearchInput">
+                            <datalist id="viSearchSuggest">
+                            <option value="ukraine">
+                            <option value="poland">
+                        </datalist>
+                    <button class="btn btn-block" type="submit"><i class="fa fa-search" title="search"></i></button>
                 </div>
             </form>
         </div>

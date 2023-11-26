@@ -25,4 +25,15 @@ async def Main(self, _aData: dict = None) -> dict:
         Data = Rec.GetAsDict() | {'href': f'?route=product0/category&category_id={Rec.id}'}
         Categories[ParentId].append(Data)
 
-    return {'categories_a': Categories, 'id_a': 0}
+    Href = {
+        'about_us': '?route=information/about_us',
+        'contacts': '?route=information/contacts',
+        'history': '?route=checkout/history',
+        'order': '?route=checkout/order',
+        'search': '?route=product0/search'
+    }
+
+    return {
+        'categories_a': Categories, 'id_a': 0,
+        'href_layout': Href
+    }

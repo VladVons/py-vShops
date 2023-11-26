@@ -128,9 +128,9 @@ defaultBtns.forEach(function (btn) {
         console.assert(Missed.length == 0, Msg)
 
         if (ShoppingCart.itemExists(data.id)) {
-            showTooltip(gData.lang.already_in_cart)
+            showTooltip(gData.getValue('/lang/already_in_cart'))
         }else{
-            showTooltip(gData.lang.added_to_cart)
+            showTooltip(gData.getValue('/lang/added_to_cart'))
             ShoppingCart.itemAdd(data)
             buildCart()
         }
