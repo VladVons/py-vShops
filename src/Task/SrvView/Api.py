@@ -154,7 +154,8 @@ class TApiView(TApiBase):
 
         Ctrl = self.Loader['ctrl']
         Data = await Ctrl.Get(Query.get('route'), Data)
-        return web.json_response(data = Data)
+        Res = web.json_response(data = Data)
+        return Res
 
 
 ApiView = TApiView()

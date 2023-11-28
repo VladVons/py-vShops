@@ -26,11 +26,12 @@ async def Main(self, _aData: dict = None) -> dict:
         Categories[ParentId].append(Data)
 
     Href = {
-        'about_us': '?route=information/about_us',
-        'contacts': '?route=information/contacts',
-        'history': '?route=checkout/history',
-        'order': '?route=checkout/order',
-        'search': '?route=product0/search'
+        'about_us': '/?route=information/about_us',
+        'contacts': '/?route=information/contacts',
+        'history': '/?route=checkout/history',
+        'order': '/?route=checkout/order',
+        'search': '/?route=product0/search&q=',
+        'search_ajax': '/api/?route=product0/search'
     }
 
     return {

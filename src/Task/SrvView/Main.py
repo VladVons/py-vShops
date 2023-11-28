@@ -28,8 +28,8 @@ class TSrvView(TSrvBase):
 
     def _GetDefRoutes(self) -> list:
         return [
-            web.get('/{name:.*}', self._rIndex),
-            web.post('/api/{name:.*}', self._rApi)
+            web.post('/api/{name:.*}', self._rApi),
+            web.get('/{name:.*}', self._rIndex)
         ]
 
     @staticmethod

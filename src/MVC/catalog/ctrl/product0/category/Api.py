@@ -24,7 +24,7 @@ async def Main(self, aData: dict = None) -> dict:
         }
     )
     if (not Dbl):
-        return
+        return {'total': 0}
 
     CategoryIds = Dbl.ExportList('id')
 

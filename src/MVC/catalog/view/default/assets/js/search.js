@@ -5,40 +5,60 @@ License: GNU, see LICENSE for more details
 */
 
 
-var searchInput = document.getElementById('viSearchInput');
-var searchSuggest = document.getElementById('viSearchSuggest');
+var searchInput = document.getElementById('viSearchInput')
+var searchSuggest = document.getElementById('viSearchSuggest')
+
+function postJson(aUrl, aData = {}) {
+    const requestOptions = {
+        method: 'post',
+        headers: {
+            'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(aData)
+    }
+
+    let Res = fetch(aUrl, requestOptions)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`)
+            }
+            return response.json()
+        })
+        .catch(error => {
+            console.error('Error:', error)
+        })
+    return Res
+}
 
 searchInput.addEventListener('input', function(aEvent) {
-    var searchTerm = this.value.trim();
-
-    if (searchTerm.length > 1) {
-        var url = 'assets/cgi/search.py?q=' + encodeURIComponent(searchTerm);
-
-    // fetch API
-    fetch(url)
-        .then(response => response.json())
-        .then(data => displayResults(aEvent, data))
-        .catch(error => console.error('Error fetching data:', error));
-    } else {
-        searchSuggest.innerHTML = '';
+    var searchTerm = this.value.trim()
+    if (searchTerm.length > 0) {
+        // encodeURIComponent(searchTerm)
+        var url = gData.getValue('/href/search_ajax')
+        postJson(url, {'method': 'ajax', 'q': searchTerm})
+            .then(data => {
+                displayResults(aEvent, data)
+            })
+    }else{
+        searchSuggest.innerHTML = ''
     }
-    });
+})
 
 function displayResults(aEvent, aResults) {
-    searchSuggest.innerHTML = '';
+    searchSuggest.innerHTML = ''
 
-    if (aResults.length > 0) {
+    if (aResults && aResults.length > 0) {
         aResults.forEach(function(aResult) {
-            var option = document.createElement('option');
-            option.value = aResult;
-            searchSuggest.appendChild(option);
-        });
+            var option = document.createElement('option')
+            option.value = aResult
+            searchSuggest.appendChild(option)
+        })
 
-        var selectedValue = aEvent.target.value;
+        var selectedValue = aEvent.target.value
         if (aResults.includes(selectedValue)) {
-            window.location.href = '?route=product0/search&q=' + encodeURIComponent(selectedValue);
+            window.location.href = gData.getValue('href/search') + encodeURIComponent(selectedValue)
         }
     } else {
-        searchSuggest.innerHTML = '';
+        searchSuggest.innerHTML = ''
     }
 }

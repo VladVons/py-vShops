@@ -1,3 +1,10 @@
+/*
+Created: 2023.11.20
+Author: Vladimir Vons <VladVons@gmail.com>
+License: GNU, see LICENSE for more details
+*/
+
+
 function showTooltip(aMsg, aId = null) {
     const tooltip = document.createElement("div");
     tooltip.classList.add("tooltip");

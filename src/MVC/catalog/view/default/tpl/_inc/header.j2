@@ -1,6 +1,6 @@
 <!-- _inc/header + -->
 <script>
-    gData.updValue('href', {
+    gData.updValue('lang', {
         "added_to_cart": "{{lang.added_to_card}}",
         "already_in_cart": "{{lang.already_in_cart}}"
     })
@@ -19,10 +19,11 @@
 
             <form role="search" action="/submit.html" method="get">
                 <div class="input-group vSearch">
-                    <input type="text" class="form-control" placeholder="{{lang.search}}"  list="viSearchSuggest" id="viSearchInput">
+                    <input type="hidden" name="route" value="product0/search"/>
+                    <input type="text" class="form-control" name="q" placeholder="{{lang.search}}" list="viSearchSuggest" id="viSearchInput">
                             <datalist id="viSearchSuggest">
                             <option value="ukraine">
-                            <option value="poland">
+                            <option value="JS doesnt work properly">
                         </datalist>
                     <button class="btn btn-block" type="submit"><i class="fa fa-search" title="search"></i></button>
                 </div>

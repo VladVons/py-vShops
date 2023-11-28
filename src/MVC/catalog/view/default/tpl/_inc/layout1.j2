@@ -5,7 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <script src="/default/assets/js/app.js"></script>
-    <script>let gData = new TDict()</script>
+    <script>
+      let gData = new TDict()
+      gData.updValue('href', {
+        "search_ajax": "{{href_layout.search_ajax}}",
+        "search": "{{href_layout.search}}"
+    })
+    </script>
 
     <!-- head + -->{% block head %}{% endblock %}<!-- head - -->
 
@@ -18,7 +24,7 @@
     {% include './header.j2' %}
     {% include './content_top.j2' %}
     {% block content %}{% endblock %}
-    {% include './footer.j2' %}https://www.olx.ua/d/obyavlenie/knigi-dlya-lyubitelv-matematiki-fziki-logchnih-zadach-golovolomok-IDRV0AA.html?isPreviewActive=0&sliderIndex=3
+    {% include './footer.j2' %}
     {% include './cart_modal.j2' %}
     {% include './gotop.j2' %}
 

@@ -85,7 +85,8 @@ select
     wt1.tenant_title,
     wt1.title as product_title,
     wt1.price::float,
-    coalesce(wt1.image, wt2.image) as image
+    coalesce(wt1.image, wt2.image) as image,
+    rpcl.title as category_title
 from
     wt1
 left join wt2 on
