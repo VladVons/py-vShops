@@ -10,8 +10,8 @@ with wrsu as (
     from
         ref_seo_url
     where
-        (lang_id = {aLangId}) and
-        {CondKeyword}
+        (lang_id = {{aLangId}}) and
+        {{CondKeyword}}
 )
 
 select

@@ -25,6 +25,9 @@ class TCtrlBase():
     def Lang(self) -> TLoaderLang:
         return self.ApiCtrl.Lang
 
+    def GetLangId(self, aAlias: str) -> int:
+        return self.ApiCtrl.Langs.get(aAlias, 1)
+
     async def ExecImg(self, aMethod: str, aData: dict) -> dict:
         return await self.ApiImg(aMethod, aData)
 
@@ -63,11 +66,12 @@ class TCtrlBase():
             aData.get('query'),
             ('tenant', 'lang'),
             (1, 'ua'))
+
         Data = await self.ExecModel(
             'system',
             {
                 'method': 'Get_Module_RouteLang',
-                'param': {'aTenantId': aTenantId, 'aLang': aLang, 'aRoute': aData['route']}
+                'param': {'aTenantId': aTenantId, 'aLangId': self.GetLangId(aLang), 'aRoute': aData['route']}
             }
         )
 

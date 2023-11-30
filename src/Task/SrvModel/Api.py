@@ -3,8 +3,6 @@
 # License: GNU, see LICENSE for more details
 
 
-import os
-#
 from Inc.Misc.Time import SecondsToDHMS_Str
 from Inc.Misc.Jinja import TFileSystemLoader, TEnvironment
 from Inc.Sql import TDbExecPool, TDbMeta, TDbPg
@@ -23,16 +21,16 @@ class TApiModel(TApiBase):
         self.DbAuth = TDbAuth(**DbAuth)
         Db = TDbPg(self.DbAuth)
         self.DbMeta = TDbMeta(Db)
-        self.Models = TModels(Conf['dir_route'], self.DbMeta)
 
-        self.Helper = {'route': 'system', 'method': 'Api'}
-
-        Dir = Conf['dir_route']
-        assert(os.path.isdir(Dir)), f'Directory not found {Dir}'
-        Loader = TFileSystemLoader(Dir)
+        Loader = TFileSystemLoader()
         self.Env = TEnvironment(loader = Loader)
 
+        self.Models = TModels(Conf['dir_route'], self)
+        self.Helper = {'route': 'system', 'method': 'Api'}
+
     async def Exec(self, aRoute: str, aData: dict) -> dict:
+        if (self.ExecCnt == 0):
+            await self.ExecOnce()
         self.ExecCnt += 1
 
         Data = self.GetMethod(self.Models, aRoute, aData)

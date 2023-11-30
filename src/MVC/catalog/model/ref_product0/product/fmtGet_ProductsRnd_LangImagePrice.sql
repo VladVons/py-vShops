@@ -1,4 +1,4 @@
- -- in: aLang, aLimit
+ -- in: aLangId, aLimit
 with
 wt1 as (
     select
@@ -40,11 +40,9 @@ wt1 as (
     left join
         ref_product rp on
         (rptc.product_id = rp.product0_id)
-    left join ref_lang rlng
-        on rlng.alias = '{aLang}'
     left join
         ref_product0_lang rpl
-        on (rptc.product_id = rpl.product_id and rpl.lang_id = rlng.id)
+        on (rptc.product_id = rpl.product_id and rpl.lang_id = {{aLangId}})
     left join
         ref_tenant rt
         on (rp.tenant_id = rt.id)
@@ -53,7 +51,7 @@ wt1 as (
     order by
         random()
     limit
-        {aLimit}
+        {{aLimit}}
 ),
 wt2 as (
     with recursive wrpc as (

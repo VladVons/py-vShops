@@ -16,10 +16,10 @@ class TCache():
                  aInclModule: list[str] = None,
                  aExclModule: list[str] = None
         ):
+        self.Root = aRoot
         self.MaxAge = aMaxAge
         self.InclModule = aInclModule or []
         self.ExclModule = aExclModule or []
-        self.Root = aRoot
 
     def _Get(self, aPath: str) -> str:
         raise NotImplementedError()

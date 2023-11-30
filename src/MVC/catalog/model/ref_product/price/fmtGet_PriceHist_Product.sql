@@ -18,7 +18,7 @@ left join
     ref_currency rc on
     (rp.currency_id = rc.id)
 where
-    (rpp.product_id = {aProductId}) and
+    (rpp.product_id = {{aProductId}}) and
     (rpp.qty = 1)
 order by
     hrpp.create_date

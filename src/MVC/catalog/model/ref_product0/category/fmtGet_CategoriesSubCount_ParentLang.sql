@@ -1,4 +1,4 @@
--- in: aLang, aParentIdRoot, CondParentIds
+-- in: aLangId, aParentIdRoot, CondParentIds
 with recursive wrpc as (
     select
         rpc.id,
@@ -9,7 +9,7 @@ with recursive wrpc as (
         ref_product0_category rpc
     where
         (rpc.enabled) and
-        (rpc.parent_id = {aParentIdRoot})
+        (rpc.parent_id = {{aParentIdRoot}})
 
     union all
 
@@ -61,13 +61,11 @@ from
 left join
     category_products cp
     on (wrpc.id = cp.cat_id)
-left join ref_lang rlng
-    on rlng.alias = '{aLang}'
 left join
     ref_product0_category_lang rpcl
-    on (wrpc.id = rpcl.category_id and rpcl.lang_id = rlng.id)
+    on (wrpc.id = rpcl.category_id and rpcl.lang_id = {{aLangId}})
 where
     (cp.products is not null)
-    {CondParentIds}
+    {{CondParentIds}}
 order by 
     deep, title

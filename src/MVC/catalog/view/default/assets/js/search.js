@@ -8,28 +8,6 @@ License: GNU, see LICENSE for more details
 var searchInput = document.getElementById('viSearchInput')
 var searchSuggest = document.getElementById('viSearchSuggest')
 
-function postJson(aUrl, aData = {}) {
-    const requestOptions = {
-        method: 'post',
-        headers: {
-            'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(aData)
-    }
-
-    let Res = fetch(aUrl, requestOptions)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error(`HTTP error! Status: ${response.status}`)
-            }
-            return response.json()
-        })
-        .catch(error => {
-            console.error('Error:', error)
-        })
-    return Res
-}
-
 searchInput.addEventListener('input', function(aEvent) {
     var searchTerm = this.value.trim()
     if (searchTerm.length > 0) {
@@ -48,9 +26,13 @@ function displayResults(aEvent, aResults) {
     searchSuggest.innerHTML = ''
 
     if (aResults && aResults.length > 0) {
+        const keys = aEvent.target.value.split(' ').filter(key => key !== '')
+        const pattern = new RegExp(`\\b(${keys.join('|')})\\b`, 'gi')
+
         aResults.forEach(function(aResult) {
             var option = document.createElement('option')
             option.value = aResult
+            //option.value = aResult.replace(pattern, '<b>$1</b>')
             searchSuggest.appendChild(option)
         })
 

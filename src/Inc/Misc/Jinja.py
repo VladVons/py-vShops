@@ -27,14 +27,19 @@ def Dump(self, aDepth = 0, aName: str = '') -> str:
     return '<br>\n'.join(Res)
 
 class TFileSystemLoader(BaseLoader):
-    def __init__(self, aSearchPath: list[str]):
-        self.SearchPath = aSearchPath
+    def __init__(self, aSearchPath: list[str] = None):
+        self.SearchPath = aSearchPath or []
+        for x in self.SearchPath:
+            assert(os.path.isdir(x)), f'Directory not exists {x}'
 
     def SearchFile(self, aFile: str) -> str:
-        for Path in self.SearchPath:
-            File = f'{Path}/{aFile}'
-            if (os.path.isfile(File)):
-                return File
+        if (self.SearchPath):
+            for Path in self.SearchPath:
+                File = f'{Path}/{aFile}'
+                if (os.path.isfile(File)):
+                    return File
+        elif (os.path.isfile(aFile)):
+            return aFile
 
     def LoadFile(self, aFile: str) -> str:
         with open(aFile, 'r', encoding = 'utf-8') as F:

@@ -54,16 +54,16 @@ async def AddHistPageView(self, aSessionId: int, aUrl: str) -> dict:
     '''
     return await self.ExecQueryText(Query)
 
-async def Get_Module_RouteLang(self, aTenantId: int, aLang: str, aRoute: str) -> dict:
+async def Get_Module_RouteLang(self, aTenantId: int, aLangId: int, aRoute: str) -> dict:
     return await self.ExecQuery(
         'fmtGet_Module_RouteLang.sql',
-        {'aTenantId': aTenantId, 'aLang': aLang, 'aRoute': aRoute}
+        {'aTenantId': aTenantId, 'aLangId': aLangId, 'aRoute': aRoute}
     )
 
-async def Get_ModuleGroup(self, aLang: str, aModuleId: int) -> dict:
+async def Get_ModuleGroup(self, aLangId: int, aModuleId: int) -> dict:
     return await self.ExecQuery(
         'fmtGet_ModuleGroup.sql',
-        {'aLang': aLang, 'aModuleId': aModuleId}
+        {'aLangId': aLangId, 'aModuleId': aModuleId}
     )
 
 async def Get_ConfTenant(self, aTenantId: int, aAttr: str = None) -> dict:
@@ -82,4 +82,9 @@ async def Get_SeoToDict_LangPath(self, aLangId: int, aPath: list[str]) -> dict:
     return await self.ExecQuery(
         'fmtGet_SeoToDict_LangPath.sql',
         {'aLangId': aLangId, 'CondKeyword': CondKeyword}
+    )
+
+async def Get_Langs(self) -> dict:
+    return await self.ExecQuery(
+        'fmtGet_Langs.sql'
     )

@@ -4,7 +4,7 @@
 
 
 from Inc.Loader.Lang import TLoaderLangFs
-from Inc.Util.Obj import DeepGetByList
+#from Inc.Misc.Cache import TCacheMem
 from IncP.ApiBase import TApiBase
 from IncP.Plugins import TCtrls
 from IncP.LibCtrl import GetDictDef
@@ -20,7 +20,9 @@ class TApiCtrl(TApiBase):
         self.InitLoader(Conf['loader'])
 
         #Def = GetDictDef(Conf['cache_route'], ['max_age', 'incl_route', 'excl_route'], [5, None, None])
-        #self.CacheModel = TCacheMem('/', *Def)
+        #self.Cache = TCacheMem('/', *Def)
+
+        self.Langs = {}
 
         Section = Conf['lang']
         if (Section['type'] == 'fs'):
@@ -33,7 +35,6 @@ class TApiCtrl(TApiBase):
         self.BaseCtrl = Mod['system']
 
     async def _GetConf(self):
-
         return True
 
     async def GetMethodData(self, aRoute: str, aData: dict) -> dict:
@@ -82,8 +83,15 @@ class TApiCtrl(TApiBase):
             Res = await Res['method'](Res['module'], aData)
         return Res
 
+    async def ExecOnce(self):
+        Caller = self.GetMethod(self.Ctrls, 'system/lang', {'method': 'GetLangs'})
+        self.Langs = await Caller['method'](Caller['module'], {})
+
     async def Exec(self, aRoute: str, aData: dict) -> dict:
+        if (self.ExecCnt == 0):
+            await self.ExecOnce()
         self.ExecCnt += 1
+
         Type = aData.get('type')
         if (Type == 'api'):
             Res = await self.ExecApi(aRoute, aData)

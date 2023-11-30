@@ -8,7 +8,7 @@ with recursive wrpc as (
         ref_product0_category rpc
     where
         (rpc.enabled) and
-        (rpc.id in ({CategoryIds}))
+        (rpc.id in ({{CategoryIds}}))
 
     union all
 

@@ -6,5 +6,5 @@ select
 from
     ref_conf rc
 where
-    (tenant_id = {aTenantId})
-    {CondAttr}
+    (tenant_id = {{aTenantId}})
+    {{CondAttr}}

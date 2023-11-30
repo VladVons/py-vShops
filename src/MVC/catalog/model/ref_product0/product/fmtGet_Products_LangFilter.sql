@@ -1,4 +1,4 @@
--- in: aLang, FilterRe, aOrder, aLimit, aOffset
+-- in: aLangId, FilterRe, aOrder, aLimit, aOffset
 with wt1 as (
     select
         count(*) over() as total,
@@ -29,11 +29,9 @@ with wt1 as (
          ) as image
     from
         ref_product rp
-    join ref_lang rlng
-        on rlng.alias = '{aLang}'
     left join
         ref_product_lang rpl on
-        (rp.id = rpl.product_id) and (rpl.lang_id = rlng.id)
+        (rp.id = rpl.product_id) and (rpl.lang_id = {{aLangId}})
     left join
         ref_product_barcode rpb on
         (rp.id = rpb.product_id)
@@ -42,24 +40,24 @@ with wt1 as (
         (rp.id = rptc.product_id)
     left join
         ref_product_category_lang rpcl on
-        (rptc.category_id = rpcl.category_id) and (rpl.lang_id = rlng.id)
+        (rptc.category_id = rpcl.category_id) and (rpl.lang_id = {{aLangId}})
     left join
         ref_tenant rt on
         (rp.tenant_id = rt.id)
     where
         (rp.enabled) and
         (
-            (rpl.title ilike all (values {FilterRe})) or
-            (rpcl.title ilike all (values {FilterRe})) or
-            (rp.idt::varchar = '{aFilter}' ) or
-            (rpb.code = '{aFilter}')
+            (rpl.title ilike all (values {{FilterRe}})) or
+            (rpcl.title ilike all (values {{FilterRe}})) or
+            (rp.idt::varchar = '{{aFilter}}' ) or
+            (rpb.code = '{{aFilter}}')
         )
     order by
-        {aOrder}
+        {{aOrder}}
     limit
-        {aLimit}
+        {{aLimit}}
     offset
-        {aOffset}
+        {{aOffset}}
 ),
 wt2 as (
     select

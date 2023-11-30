@@ -59,3 +59,7 @@ class TSrvCtrl(TSrvBase):
 
     async def RunApi(self):
         Log.Print(1, 'i', 'SrvCtrl.RunApi() only')
+
+        #from Task.SrvModel.Api import ApiModel
+        #await ApiModel.AEvent.wait()
+        #await ApiCtrl.ExecOnce()

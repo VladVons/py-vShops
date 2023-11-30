@@ -1,4 +1,4 @@
--- in: aLang, CategoryIds
+-- in: aLangId, CategoryIds
 with recursive wrpc as (
     select
         rpc.id,
@@ -7,14 +7,12 @@ with recursive wrpc as (
         array[rpcl.title::varchar] as path_title
     from
         ref_product0_category rpc
-    join ref_lang rlng
-        on rlng.alias = '{aLang}'
     left join
         ref_product0_category_lang rpcl on
-        (rpc.id = rpcl.category_id) and (rpcl.lang_id = rlng.id)
+        (rpc.id = rpcl.category_id) and (rpcl.lang_id = {{aLangId}})
     where
         (rpc.enabled) and
-        (rpc.id in ({CategoryIds}))
+        (rpc.id in ({{CategoryIds}}))
 
     union all
 
@@ -28,11 +26,9 @@ with recursive wrpc as (
     join
         wrpc on
         (wrpc.parent_id = rpc.id)
-    join ref_lang rlng
-        on rlng.alias = '{aLang}'
     left join
         ref_product0_category_lang rpcl on
-        (rpc.id = rpcl.category_id) and (rpcl.lang_id = rlng.id)
+        (rpc.id = rpcl.category_id) and (rpcl.lang_id = {{aLangId}})
 )
 select
     path_title,

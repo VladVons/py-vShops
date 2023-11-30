@@ -1,4 +1,4 @@
- -- in: aLang, CategoryIds, aOrder, aLimit, aOffset
+ -- in: aLangId, CategoryIds, aOrder, aLimit, aOffset
 with
 wt1 as (
     select
@@ -41,26 +41,24 @@ wt1 as (
     left join
         ref_product rp on
         (rptc.product_id = rp.product0_id)
-    left join ref_lang rlng
-        on rlng.alias = '{aLang}'
     left join
         ref_product0_lang rpl
-        on (rptc.product_id = rpl.product_id and rpl.lang_id = rlng.id)
+        on (rptc.product_id = rpl.product_id and rpl.lang_id = {{aLangId}})
     left join
         ref_product0_category_lang rpcl
-        on (rptc.category_id = rpcl.category_id and rpcl.lang_id = rlng.id)
+        on (rptc.category_id = rpcl.category_id and rpcl.lang_id = {{aLangId}})
     left join
         ref_tenant rt
         on (rp.tenant_id = rt.id)
     where
-         (rptc.category_id in ({CategoryIds})) and
+         (rptc.category_id in ({{CategoryIds}})) and
          (rp.enabled) and (rp.product0_id is not null) and (rp.product0_skip is null)
     order by
-        {aOrder}
+        {{aOrder}}
     limit
-        {aLimit}
+        {{aLimit}}
     offset
-        {aOffset}
+        {{aOffset}}
 )
 select
     wt1.category0_id as category_id,

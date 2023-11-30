@@ -11,14 +11,14 @@ from . import Api
 
 @DAddModules([Api], '*')
 class TMain(TCtrlBase):
-    async def GetBreadcrumbs(self, aLang: str, aCategoryId: int) -> list:
+    async def GetBreadcrumbs(self, aLangId: str, aCategoryId: int) -> list:
         Res = []
         if (aCategoryId):
             Dbl = await self.ExecModelImport(
                 'ref_product0/category',
                 {
                     'method': 'Get_CategoryId_Path',
-                    'param': {'aLang': aLang, 'aCategoryIds': [aCategoryId]}
+                    'param': {'aLangId': aLangId, 'aCategoryIds': [aCategoryId]}
                 }
             )
 

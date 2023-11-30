@@ -14,12 +14,13 @@ async def Main(self, aData: dict = None) -> dict:
         ('lang', 'product_id'),
         ('ua', 0)
     )
+    aLangId = self.GetLangId(aLang)
 
     DblProduct = await self.ExecModelImport(
         'ref_product0/product',
         {
             'method': 'Get_Product_LangId',
-            'param': {'aLang': aLang, 'aProductId': aProductId}
+            'param': {'aLangId': aLangId, 'aProductId': aProductId}
         }
     )
     if (not DblProduct):
@@ -51,7 +52,7 @@ async def Main(self, aData: dict = None) -> dict:
     )
     Product['price_hist'] = DblPrice.Export()
 
-    Res['breadcrumbs'] = await self.GetBreadcrumbs(aLang, Product['category_id'])
+    Res['breadcrumbs'] = await self.GetBreadcrumbs(aLangId, Product['category_id'])
 
     Schema = {
         '@context': 'https://schema.org/',

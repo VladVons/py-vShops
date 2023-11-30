@@ -18,7 +18,7 @@ async def Main(self, aData: dict = None) -> dict:
         'ref_product0/product',
         {
             'method': 'Get_ProductsRnd_LangImagePrice',
-            'param': {'aLang': aLang, 'aLimit': 12}
+            'param': {'aLangId': self.GetLangId(aLang), 'aLimit': 12}
         }
     )
     if (not Dbl):

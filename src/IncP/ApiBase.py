@@ -14,6 +14,10 @@ class TApiBase():
         self.Loader: dict = {}
         self.ExecCnt = 0
         self.Cache = {}
+        self.AEvent = None
+
+    async def ExecOnce(self):
+        pass
 
     @staticmethod
     def _GetMethodHelp(aMod: object, aMethod: str) -> dict:

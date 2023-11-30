@@ -28,7 +28,7 @@ as $$
 
         LenText = len(aText)
         if (LenText == 0):
-        	return aText
+            return aText
 
         LenNum = ord('9') - ord('0') + 1
         LenLat = ord('z') - ord('a') + 1

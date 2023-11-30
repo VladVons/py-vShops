@@ -5,17 +5,17 @@
 
 import os
 #
-from Inc.Misc.Template import FormatFile
 from Inc.Sql import TDbPg, TDbExecPool
 
 
 class TLoaderQuery():
-    def __init__(self, aClass: object):
-        Path = aClass.__module__.replace('.', '/')
+    def __init__(self, aParent):
+        self.Parent = aParent
+        Path = aParent.__module__.replace('.', '/')
         if (not os.path.isdir(Path)):
             Path = Path.rsplit('/', maxsplit = 1)[0]
-        self.Path = Path
         assert(os.path.isdir(Path)), f'Directory not exists {Path}'
+        self.Path = Path
 
     async def Get(self, aName: str, aValues: dict) -> str:
         raise NotImplementedError()
@@ -23,7 +23,8 @@ class TLoaderQuery():
 
 class TLoaderQueryFs(TLoaderQuery):
     async def Get(self, aName: str, aValues: dict) -> str:
-        return FormatFile(f'{self.Path}/{aName}', aValues)
+        File = f'{self.Path}/{aName}'
+        return self.Parent.ApiModel.Env.get_template(File).render(aValues)
 
 
 class TLoaderQueryDb(TLoaderQuery):

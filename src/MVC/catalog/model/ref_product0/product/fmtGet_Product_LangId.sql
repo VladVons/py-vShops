@@ -1,4 +1,4 @@
--- in: aLang, aProductId
+-- in: aLangId, aProductId
 with wt1 as (
     select
         rp.id,
@@ -23,22 +23,20 @@ with wt1 as (
     left join
         reg_product_stock rps on
         (rp.id = rps.product_id)
-    join ref_lang rlng
-        on rlng.alias = '{aLang}'
     left join
         ref_product_lang rpl on
-        (rp.id = rpl.product_id) and (rpl.lang_id = rlng.id)
+        (rp.id = rpl.product_id) and (rpl.lang_id = {{aLangId}})
     left join
         ref_product_to_category rptc on
         (rp.id = rptc.product_id)
     left join
         ref_product_category_lang rpcl on
-        (rptc.category_id = rpcl.category_id) and (rpl.lang_id = rlng.id)
+        (rptc.category_id = rpcl.category_id) and (rpl.lang_id = {{aLangId}})
     left join
         ref_tenant rt on
         (rp.tenant_id = rt.id)
     where
-        (rp.id = {aProductId})
+        (rp.id = {{aProductId}})
 ),
 wt2 as (
     select
@@ -67,7 +65,7 @@ wt2 as (
         ref_product0_category_lang rpcl on
         (rptc.category_id = rpcl.category_id)
     where
-        (rp.id = {aProductId}) and
+        (rp.id = {{aProductId}}) and
         (rp.product0_id is not null) and (rp.product0_skip is null)
 )
 select

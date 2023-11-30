@@ -75,4 +75,8 @@ class TSrvModel(TSrvBase):
 
     async def RunApi(self):
         Log.Print(1, 'i', 'SrvModel.RunApi() only')
+
+        #import asyncio
+        #ApiModel.AEvent = asyncio.Event()
         await ApiModel.DbConnect()
+        #ApiModel.AEvent.set()

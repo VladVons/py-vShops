@@ -9,17 +9,19 @@ import json
 from IncP.Log import Log
 from Inc.DbList import TDbSql
 from Inc.Loader.Query import TLoaderQueryFs
-from . import TDbMeta, TDbExecCursor, TDbExecPool, DTransaction
+from Task.SrvModel.Api import TApiModel
+from . import TDbExecCursor, TDbExecPool, DTransaction
 
 
 class TDbModel():
-    def __init__(self, aDbMeta: TDbMeta, aPath: str):
-        self.DbMeta = aDbMeta
-        self.Db = aDbMeta.Db # for DTransaction decorator
+    def __init__(self, aApi: TApiModel, aPath: str):
+        self.ApiModel = aApi
+        self.DbMeta = aApi.DbMeta
+        self.Db = aApi.DbMeta.Db # for DTransaction decorator
         self.Conf = self._LoadJson(aPath + '/FConf.json')
         self.Master = self.Conf.get('master', '')
 
-        #self.Query = TQueryDb(self, aDbMeta.Db)
+        #self.Query = TQueryDb(self, aApi.DbMeta.Db)
         self.Query = TLoaderQueryFs(self)
 
     def _LoadJson(self, aPath: str) -> dict:
@@ -144,7 +146,8 @@ class TDbModel():
         if (Dbl):
             return Dbl.Export()
 
-    async def ExecQuery(self, aPath: str, aValues: dict) -> tuple:
+    async def ExecQuery(self, aPath: str, aValues: dict = None) -> tuple:
+        aValues = aValues or {}
         Log.Print(1, 'i', f'ExecQuery({self.Query.Path}/{aPath}, {aValues})')
         Query = await self.Query.Get(aPath, aValues)
         #print('debug--\n', Query)

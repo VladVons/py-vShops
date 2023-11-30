@@ -4,16 +4,15 @@
 
 
 from Inc.Plugin import TPlugin
-from Inc.Sql.DbMeta import TDbMeta
 
 
 class TModels(TPlugin):
-    def __init__(self, aDir: str, aDbMeta: TDbMeta):
+    def __init__(self, aDir: str, aApi):
         super().__init__(aDir)
-        self.DbMeta = aDbMeta
+        self.ApiModel = aApi
 
     def _Create(self, aModule: object, aPath: str) -> object:
-        return aModule.TMain(self.DbMeta, self.Dir + '/' + aPath)
+        return aModule.TMain(self.ApiModel, self.Dir + '/' + aPath)
 
 class TImgs(TPlugin):
     def __init__(self, aDir: str, aApi):

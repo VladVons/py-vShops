@@ -14,7 +14,7 @@ wt1 as (
         (rpp.id  = rppd.product_price_id) and (rppd.enabled)
     where
         (rpp.enabled) and
-        (rpp.product_id = {aProductId}) and
+        (rpp.product_id = {{aProductId}}) and
         (rppd.id is null)
     ),
 wt2 as (
@@ -33,7 +33,7 @@ wt2 as (
         (rpp.id = rppd.product_price_id) and (rppd.enabled)
     where
         (rpp.enabled) and
-        (rpp.product_id = {aProductId}) and
+        (rpp.product_id = {{aProductId}}) and
         (rppd.id is not null) and
         (now() between rppd.begin_date and rppd.end_date)
     )
@@ -56,6 +56,6 @@ left join
     ref_currency rc on
     (rp.currency_id = rc.id)
 where 
-	rp.price_en in ({aPriceType})
+    rp.price_en in ({{aPriceType}})
 order by
      wt1.qty

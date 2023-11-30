@@ -22,3 +22,13 @@ async def Main(self, aData: dict) -> dict:
     Res = await self.Lang.Add(aLang, aPath, aKey)
     #Res = self.Lang.Join()
     return Res
+
+
+async def GetLangs(self, _aData: dict) -> dict:
+    Dbl = await self.ExecModelImport(
+        'system',
+        {
+            'method': 'Get_Langs'
+        }
+    )
+    return Dbl.ExportPair('alias', 'id')
