@@ -7,7 +7,7 @@
             </div>
             <div class="border-top mt-3 vProductThumbs_X">
                 {% for xImage in product.images %}
-                <img src="{{xImage}}" class="img-thumbnail" onclick="changeImage(this)" alt="{{product.title}}">
+                <img src="{{xImage}}" class="img-thumbnail" onclick="changeImage(this, 'viMainImg')" alt="{{product.title}}">
                 {% endfor %}
             </div>
         </div>

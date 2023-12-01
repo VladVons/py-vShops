@@ -6,17 +6,17 @@ License: GNU, see LICENSE for more details
 
 
 function hasAllKeys(aObj, aRequiredKeys) {
-    const objKeys = new Set(Object.keys(aObj));
-    const requiredKeys = new Set(aRequiredKeys);
-    //return [...requiredKeys].every(key => objKeys.has(key));
-    return [...requiredKeys].filter(key => !objKeys.has(key));
+    const objKeys = new Set(Object.keys(aObj))
+    const requiredKeys = new Set(aRequiredKeys)
+    //return [...requiredKeys].every(key => objKeys.has(key))
+    return [...requiredKeys].filter(key => !objKeys.has(key))
 }
 
 
 class TShoppingCart {
     constructor() {
         this.Items = {}
-        this.storageId = this.constructor.name;
+        this.storageId = this.constructor.name
         this.loadFromStorage()
     }
 
@@ -26,9 +26,9 @@ class TShoppingCart {
     }
 
     getTotal() {
-        var Qty = 0
-        var Sum = 0
-        for (var [key, val] of Object.entries(this.Items)) {
+        let Qty = 0
+        let Sum = 0
+        for (const [key, val] of Object.entries(this.Items)) {
             Qty += val.qty
             Sum += val.qty * val.price
         }
@@ -40,9 +40,9 @@ class TShoppingCart {
     }
 
     loadFromStorage() {
-        let Data = localStorage.getItem(this.storageId)
+        const Data = localStorage.getItem(this.storageId)
         if (Data) {
-            this.Items = JSON.parse(Data);
+            this.Items = JSON.parse(Data)
         }
     }
 
@@ -82,8 +82,8 @@ ShoppingCart = new TShoppingCart()
 
 
 function buildCart() {
-    var Arr = [];
-    for (var [key, val] of Object.entries(ShoppingCart.Items)) {
+    let Arr = []
+    for (const [key, val] of Object.entries(ShoppingCart.Items)) {
         const Data = `
         <div class="row align-items-center mb-2">
             <div class="col-md-3">
@@ -109,22 +109,22 @@ function buildCart() {
         Arr.push(Data)
     }
 
-    var Total = ShoppingCart.getTotal()
+    const Total = ShoppingCart.getTotal()
 
     document.querySelector('.viCartItems').innerHTML = Arr.join('')
     document.querySelector('.viTotalSum').innerHTML = Total.sum
     document.querySelector('.viTotalCount').innerHTML = Total.qty
 }
 
-const defaultBtns = document.querySelectorAll(".viAddToCart");
+const defaultBtns = document.querySelectorAll(".viAddToCart")
 defaultBtns.forEach(function (btn) {
     btn.addEventListener('click', function (event) {
         event.preventDefault()
-        var data = btn.getAttribute('data')
-        data = JSON.parse(data);
+        let data = btn.getAttribute('data')
+        data = JSON.parse(data)
 
         const Missed = hasAllKeys(data, ['id', 'name', 'img', 'price', 'href'])
-        const Msg = `missed required keys ${Missed}`;
+        const Msg = `missed required keys ${Missed}`
         console.assert(Missed.length == 0, Msg)
 
         if (ShoppingCart.itemExists(data.id)) {
@@ -137,12 +137,12 @@ defaultBtns.forEach(function (btn) {
     })
 })
 
-const CartItems = document.querySelector('.viCartItems');
+const CartItems = document.querySelector('.viCartItems')
 CartItems.addEventListener('click', function (event) {
     if (event.target.classList.contains('viItemDel')) {
     //if (event.target.id == 'viDelItem') {
     //if (event.target.getAttribute('data-type') == 'viDelItem') {
-        const id = event.target.getAttribute('data-id');
+        const id = event.target.getAttribute('data-id')
         ShoppingCart.itemDel(id)
         buildCart()
     }
@@ -150,17 +150,17 @@ CartItems.addEventListener('click', function (event) {
 
 CartItems.addEventListener('change', function (event) {
     if (event.target.classList.contains('viItemQty')) {
-        const id = event.target.getAttribute('data-id');
+        const id = event.target.getAttribute('data-id')
         const qty = parseInt(event.target.value)
         ShoppingCart.itemSetQty(id, qty)
         buildCart()
     }
 })
 
-const clearAll = document.querySelector('.viClearAll');
+const clearAll = document.querySelector('.viClearAll')
 clearAll.addEventListener('click', function (event) {
-    ShoppingCart.clear();
-    buildCart();
+    ShoppingCart.clear()
+    buildCart()
 })
 
 

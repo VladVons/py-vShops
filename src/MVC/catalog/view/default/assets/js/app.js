@@ -13,9 +13,9 @@ class TDict {
     getValue(aPath) {
         const keys = aPath.split('/').filter(key => key !== '')
         let obj = this.data
-        for (let key of keys) {
+        for (const key of keys) {
             obj = obj[key]
-            if (obj === undefined) {
+            if (obj == undefined) {
                 return obj
             }
         }
@@ -25,19 +25,19 @@ class TDict {
     setValue(aPath, aVal) {
         const keys = aPath.split('/').filter(key => key !== '')
         let obj = this.data
-        for (var key of keys.slice(0, -1)) {
+        for (const key of keys.slice(0, -1)) {
             if (!obj.hasOwnProperty(key)) {
-                obj[key] = {};
+                obj[key] = {}
             }
             obj = obj[key]
         }
 
-        let keyLast = keys[keys.length - 1]
-        obj[keyLast] = aVal;
+        const keyLast = keys[keys.length - 1]
+        obj[keyLast] = aVal
     }
 
     updValue(aPath, aVal) {
-        let obj = this.getValue(aPath)
+        const obj = this.getValue(aPath)
         if (obj != undefined && obj.constructor == Object && aVal.constructor == Object){
             aVal = { ...obj, ...aVal}
         }
@@ -54,7 +54,7 @@ function postJson(aUrl, aData = {}) {
       body: JSON.stringify(aData)
     }
 
-    let Res = fetch(aUrl, requestOptions)
+    const Res = fetch(aUrl, requestOptions)
         .then(response => {
             if (!response.ok) {
                 throw new Error(`HTTP error! Status: ${response.status}`)
@@ -66,6 +66,12 @@ function postJson(aUrl, aData = {}) {
         })
     return Res
 }
+
+function changeImage(aImg, aId) {
+    const element = document.getElementById(aId)
+    element.src = aImg.src
+}
+
 
 function showTooltip(aMsg, aId = null) {
     const tooltip = document.createElement("div")
