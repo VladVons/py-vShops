@@ -38,12 +38,13 @@ async def Main(self, aData: dict = None) -> dict:
     if (not Dbl):
         return
 
-    Dbl = await products_a(self, Dbl)
-    Pagination = TPagination(aLimit, f'?route=product0/category&category_id={aCategoryId}&page={{page}}').Get(Dbl.Rec.total, aPage)
+    DblProducts = await products_a(self, Dbl)
+
+    Data = TPagination(aLimit, f'?route=product0/category&category_id={aCategoryId}&page={{page}}').Get(Dbl.Rec.total, aPage)
+    DblPagination = TDbList(['page', 'title', 'href', 'current'], Data)
 
     Res = {
-        'dbl_products_a': Dbl.Export(),
-        'dbl_pagenation': TDbList(['page', 'title', 'href', 'current'], Pagination).Export(),
-        'page': aPage
+        'dbl_products_a': DblProducts.Export(),
+        'dbl_pagenation': DblPagination.Export()
     }
     return Res

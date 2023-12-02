@@ -2,7 +2,9 @@
 # Author: Vladimir Vons <VladVons@gmail.com>
 # License: GNU, see LICENSE for more details
 #
-# TPagination(15, 'url&page={page}').Get(250,  7)
+# Data = TPagination(15, 'url&page={page}').Get(250,  7)
+# for (PageNo, Title, Href, IsActive) in Data:
+#     print(f'{IsActive = :1}, {PageNo = :3}, {Href = :11}, {Title = }')
 
 
 import math
@@ -16,7 +18,7 @@ class TPagination():
         self.Forward = '&gt;'
         self.Visible = 3
 
-    def ToDict(self, aPage: int, aTitle: str, aCurPage: bool = False) -> tuple:
+    def ToTuple(self, aPage: int, aTitle: str, aCurPage: bool = False) -> tuple:
         return (aPage, aTitle, self.Href.format(page=aPage), aCurPage)
 
     def Get(self, aRecords: int, aCurPage: int) -> list:
@@ -24,9 +26,9 @@ class TPagination():
             nonlocal Res
             for xPage in range(aBegin, aEnd + 1):
                 if (xPage == aCurPage):
-                    Res.append(self.ToDict(xPage, xPage, True))
+                    Res.append(self.ToTuple(xPage, xPage, True))
                 else:
-                    Res.append(self.ToDict(xPage, xPage))
+                    Res.append(self.ToTuple(xPage, xPage))
 
         Pages = math.ceil(aRecords / self.PerPage)
         aCurPage = max(1, min(Pages, aCurPage))
@@ -39,14 +41,14 @@ class TPagination():
         Res = []
         if (Pages > self.Visible + 2):
             if (Begin > 1):
-                Res.append(self.ToDict(1, 1))
+                Res.append(self.ToTuple(1, 1))
                 if (Begin > 2):
-                    Res.append(self.ToDict(Begin - 1, self.Back))
+                    Res.append(self.ToTuple(Begin - 1, self.Back))
             Loop(Begin, End)
             if (End < Pages):
                 if (End < Pages - 1):
-                    Res.append(self.ToDict(End + 1, self.Forward))
-                Res.append(self.ToDict(Pages, Pages))
+                    Res.append(self.ToTuple(End + 1, self.Forward))
+                Res.append(self.ToTuple(Pages, Pages))
         else:
             Loop(1, Pages)
         return Res
