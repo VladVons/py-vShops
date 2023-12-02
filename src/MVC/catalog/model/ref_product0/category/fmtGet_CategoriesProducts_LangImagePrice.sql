@@ -2,6 +2,7 @@
 with
 wt1 as (
     select
+        count(*) over() as total,
         rptc.category_id as category0_id,
         rptc.product_id as product0_id,
         rp.id,
@@ -61,6 +62,7 @@ wt1 as (
         {{aOffset}}
 )
 select
+    wt1.total,
     wt1.category0_id as category_id,
     wt1.category0_title as category_title,
     wt1.id as product_id,

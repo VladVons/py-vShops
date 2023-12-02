@@ -3,8 +3,8 @@
 # License: GNU, see LICENSE for more details
 
 
-import math
-#
+from Inc.DbList import TDbList
+from Inc.Misc.Pagination import TPagination
 from IncP.LibCtrl import GetDictDefs
 from ..._inc.products_a import Main as products_a
 
@@ -39,4 +39,11 @@ async def Main(self, aData: dict = None) -> dict:
         return
 
     Dbl = await products_a(self, Dbl)
-    return {'dbl_products_a': Dbl.Export()}
+    Pagination = TPagination(aLimit, f'?route=product0/category&category_id={aCategoryId}&page={{page}}').Get(Dbl.Rec.total, aPage)
+
+    Res = {
+        'dbl_products_a': Dbl.Export(),
+        'dbl_pagenation': TDbList(['page', 'title', 'href', 'current'], Pagination).Export(),
+        'page': aPage
+    }
+    return Res
