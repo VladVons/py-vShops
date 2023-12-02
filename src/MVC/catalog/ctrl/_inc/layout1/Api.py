@@ -3,6 +3,9 @@
 # License: GNU, see LICENSE for more details
 
 
+from IncP.LibCtrl import GetDictDefs
+
+
 async def GetCategories(self, aLangId: int) -> dict:
     Dbl = await self.ExecModelImport (
         'ref_product0/category',
@@ -30,22 +33,29 @@ async def ajax(self, aData: dict = None) -> dict:
     LangId = self.GetLangId(aLang)
     return await GetCategories(self, LangId)
 
-async def Main(self, _aData: dict = None) -> dict:
+async def Main(self, aData: dict = None) -> dict:
+    aSearch, _aLang = GetDictDefs(
+        aData.get('query'),
+        ('q', 'lang'),
+        ('', 'ua')
+    )
+
     LangId = self.GetLangId('ua')
     Categories = await GetCategories(self, LangId)
 
     Href = {
-        'about_us': '/?route=information/about_us',
-        'contacts': '/?route=information/contacts',
+        'about_us': '/?route=info/about_us',
+        'contacts': '/?route=info/contacts',
+        'faq': '/?route=info/faq',
         'history': '/?route=checkout/history',
         'order': '/?route=checkout/order',
         'search': '/?route=product0/search&q=',
-
         'search_ajax': '/api/?route=product0/search',
         'category_ajax': '/api/?route=_inc/layout1'
     }
 
     return {
         'categories_a': Categories, 'id_a': 0,
-        'href_layout': Href
+        'href_layout': Href,
+        'search': aSearch
     }

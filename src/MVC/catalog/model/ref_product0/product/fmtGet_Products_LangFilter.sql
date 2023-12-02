@@ -10,6 +10,7 @@ with wt1 as (
         rp.tenant_id,
         rt.title as tenant_title,
         rpl.title,
+        rpcl.title as category_title,
         (
             select rpp.price
             from ref_product_price rpp
@@ -26,7 +27,14 @@ with wt1 as (
             where (rpi.product_id = rp.id and rpi.enabled)
             order by rpi.sort_order
             limit 1
-         ) as image
+        ) as image,
+        (
+            select rpi.image
+            from ref_product0_image rpi
+            where (rpi.product_id = rp.product0_id and rpi.enabled)
+            order by rpi.sort_order
+            limit 1
+         ) as image0
     from
         ref_product rp
     left join
@@ -46,6 +54,7 @@ with wt1 as (
         (rp.tenant_id = rt.id)
     where
         (rp.enabled) and
+        (rp.product0_id is not null) and (rp.product0_skip is null) and
         (
             (rpl.title ilike all (values {{FilterRe}})) or
             (rpcl.title ilike all (values {{FilterRe}})) or
@@ -58,21 +67,6 @@ with wt1 as (
         {{aLimit}}
     offset
         {{aOffset}}
-),
-wt2 as (
-    select
-        wt1.product_id,
-        (
-            select rpi.image
-            from ref_product0_image rpi
-            where (rpi.product_id = wt1.product0_id) and (rpi.enabled)
-            order by rpi.sort_order
-            limit 1
-         ) as image
-    from
-        wt1
-    where
-        (wt1.product0_id is not null) and (wt1.product0_skip is null)
 )
 select
     wt1.total,
@@ -83,9 +77,7 @@ select
     wt1.tenant_title,
     wt1.title as product_title,
     wt1.price::float,
-    coalesce(wt1.image, wt2.image) as image,
-    rpcl.title as category_title
+    coalesce(wt1.image, wt1.image0) as image,
+    wt1.category_title
 from
     wt1
-left join wt2 on
-    (wt1.product_id = wt2.product_id)

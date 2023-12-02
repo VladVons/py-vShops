@@ -3,8 +3,8 @@
 # License: GNU, see LICENSE for more details
 
 
-import math
-#
+from Inc.DbList import TDbList
+from Inc.Misc.Pagination import TPagination
 from IncP.LibCtrl import GetDictDefs
 from ..._inc.products_a import Main as products_a
 
@@ -45,8 +45,15 @@ async def Main(self, aData: dict = None) -> dict:
             'param': {'aLangId': self.GetLangId(aLang), 'aFilter': aSearch, 'aOrder': f'{aSort} {aOrder}', 'aLimit': aLimit, 'aOffset': (aPage - 1) * aLimit}
         }
     )
-    if (not Dbl):
-        return {'total': 0}
 
-    Dbl = await products_a(self, Dbl)
-    return {'dbl_products_a': Dbl.Export()}
+    if (Dbl):
+        Data = TPagination(aLimit, f'?route=product0/search&q={aSearch}&page={{page}}').Get(Dbl.Rec.total, aPage)
+        DblPagination = TDbList(['page', 'title', 'href', 'current'], Data)
+
+        DblProducts = await products_a(self, Dbl)
+
+        Res = {
+            'dbl_products_a': DblProducts.Export(),
+            'dbl_pagenation': DblPagination.Export()
+        }
+        return Res

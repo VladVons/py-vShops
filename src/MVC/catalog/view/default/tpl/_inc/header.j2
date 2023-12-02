@@ -20,10 +20,8 @@
             <form role="search" action="/submit.html" method="get">
                 <div class="input-group vSearch">
                     <input type="hidden" name="route" value="product0/search"/>
-                    <input type="text" class="form-control" name="q" placeholder="{{lang.search}}" list="viSearchSuggest" id="viSearchInput">
-                            <datalist id="viSearchSuggest">
-                            <option value="ukraine">
-                            <option value="JS doesnt work properly">
+                    <input type="text" class="form-control" name="q" value="{{search}}" placeholder="{{lang.search}}" list="viSearchSuggest" id="viSearchInput">
+                        <datalist id="viSearchSuggest">
                         </datalist>
                     <button class="btn btn-block" type="submit"><i class="fa fa-search" title="search"></i></button>
                 </div>

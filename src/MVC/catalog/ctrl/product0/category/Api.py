@@ -24,7 +24,7 @@ async def Main(self, aData: dict = None) -> dict:
         }
     )
     if (not Dbl):
-        return {'total': 0}
+        return
 
     CategoryIds = Dbl.ExportList('id')
 
@@ -35,16 +35,14 @@ async def Main(self, aData: dict = None) -> dict:
             'param': {'aCategoryIds': CategoryIds, 'aLangId': self.GetLangId(aLang), 'aPriceId': 1, 'aOrder': f'{aSort} {aOrder}', 'aLimit': aLimit, 'aOffset': (aPage - 1) * aLimit}
         }
     )
-    if (not Dbl):
-        return
+    if (Dbl):
+        Data = TPagination(aLimit, f'?route=product0/category&category_id={aCategoryId}&page={{page}}').Get(Dbl.Rec.total, aPage)
+        DblPagination = TDbList(['page', 'title', 'href', 'current'], Data)
 
-    DblProducts = await products_a(self, Dbl)
+        DblProducts = await products_a(self, Dbl)
 
-    Data = TPagination(aLimit, f'?route=product0/category&category_id={aCategoryId}&page={{page}}').Get(Dbl.Rec.total, aPage)
-    DblPagination = TDbList(['page', 'title', 'href', 'current'], Data)
-
-    Res = {
-        'dbl_products_a': DblProducts.Export(),
-        'dbl_pagenation': DblPagination.Export()
-    }
-    return Res
+        Res = {
+            'dbl_products_a': DblProducts.Export(),
+            'dbl_pagenation': DblPagination.Export()
+        }
+        return Res
