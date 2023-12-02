@@ -21,11 +21,14 @@
         "--disable=consider-using-f-string",
         "--disable=broad-except"
     ],
-    "window.zoomLevel": 1,
+    "window.zoomLevel": 2,
     "workbench.tree.indent": 16,
     "workbench.editor.titleScrollbarSizing": "large",
     "workbench.colorCustomizations": {
         "editor.lineHighlightBackground": "#E0FFE020",
         "tab.activeBorder": "#33FF33"
+    },
+    "files.associations": {
+        "*.j2": "html"
     }
 }

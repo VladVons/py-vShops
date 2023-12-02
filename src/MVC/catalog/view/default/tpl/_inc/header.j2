@@ -8,7 +8,7 @@
 
 <nav class="navbar navbar-expand-lg fixed-top navbar-dark vFooter">
     <div class="container">
-        <div class="d-flex">
+        <div class="d-flex col-lg-2 order-1">
            <a href="/">
                 <picture>
                     <source media="(min-width: 465px)" srcset="/default/assets/img/logo-1x1.png">
@@ -16,19 +16,22 @@
                 </picture>
             </a>
             {% include './header_categories_ajax.j2' %}
-
-            <form role="search" action="/submit.html" method="get">
-                <div class="input-group vSearch">
-                    <input type="hidden" name="route" value="product0/search"/>
-                    <input type="text" class="form-control" name="q" value="{{search}}" placeholder="{{lang.search}}" list="viSearchSuggest" id="viSearchInput">
-                        <datalist id="viSearchSuggest">
-                        </datalist>
-                    <button class="btn btn-block" type="submit"><i class="fa fa-search" title="search"></i></button>
-                </div>
-            </form>
+            <div class="d-flex col-12 col-md-7 order-3 order-md-2">
+                <form role="search" method="get">
+                    <div class="input-group vSearch">
+                        <input type="hidden" name="route" value="product0/search"/>
+                        <input type="text" class="form-control" name="q" value="{{search}}" placeholder="{{lang.search}}" list="viSearchSuggest" id="viSearchInput"/>
+                            <datalist id="viSearchSuggest">
+                            </datalist>
+                        <button class="btn btn-block" type="submit">
+                            <i class="fa fa-search" title="search"></i>
+                        </button>
+                    </div>
+                </form>
+            </div>
         </div>
 
-        <div class="d-flex">
+        <div class="d-flex col-lg-2 order-2 order-md-3">
             <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#cartModal" id="viCartModal">
                 <i class="fa fa-shopping-cart" title="{{lang.shopping_cart}}"></i>
                 <span class="badge vBgBtn viTotalCount">3</span>
