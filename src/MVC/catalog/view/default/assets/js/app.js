@@ -67,9 +67,12 @@ function postJson(aUrl, aData = {}) {
     return Res
 }
 
-function changeImage(aImg, aId) {
+function changeImage(aImg, aId, aHref = false) {
     const element = document.getElementById(aId)
     element.src = aImg.src
+    if (aHref) {
+        element.parentNode.href = aImg.src;
+    }
 }
 
 

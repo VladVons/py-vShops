@@ -49,6 +49,7 @@ async def Main(self, aData: dict = None) -> dict:
         'faq': '/?route=info/faq',
         'history': '/?route=checkout/history',
         'order': '/?route=checkout/order',
+        'payment': '/?route=checkout/payment',
         'search': '/?route=product0/search&q=',
         'search_ajax': '/api/?route=product0/search',
         'category_ajax': '/api/?route=_inc/layout1'
