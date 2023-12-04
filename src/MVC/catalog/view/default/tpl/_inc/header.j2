@@ -15,20 +15,23 @@
                     <img src="/default/assets/img/logo-x.png" alt="Your Logo" height="45" id="viLogo">
                 </picture>
             </a>
+
             {% include './header_categories_ajax.j2' %}
+
             <div class="d-flex col-12 col-md-7 order-3 order-md-2">
-                <form role="search" method="get">
-                    <div class="input-group vSearch">
-                        <input type="hidden" name="route" value="product0/search"/>
-                        <input type="text" class="form-control" name="q" value="{{search}}" placeholder="{{lang.search}}" list="viSearchSuggest" id="viSearchInput"/>
-                            <datalist id="viSearchSuggest">
-                            </datalist>
-                        <button class="btn btn-block" type="submit">
-                            <i class="fa fa-search" title="search"></i>
-                        </button>
+                <form autocomplete="off" method="get" class="d-flex">
+                    <div class="input-group autocomplete-block">
+                        <div class="autocomplete vSearch">
+                            <input type="hidden" name="route" value="product0/search"/>
+                            <input type="text" class="form-control" value="{{search}}" name="q" placeholder="{{lang.search}}" id="viSearchInput"/>
+                            <div class="autocomplete-items" id="viSearchSuggest">
+                                <!-- JS -->
+                            </div>
+                        </div>
                     </div>
+                    <button class="btn btn-block" type="submit"><i class="fa fa-search" title="{{lang.search}}"></i></button>
                 </form>
-            </div>
+             </div>
         </div>
 
         <div class="d-flex col-lg-2 order-2 order-md-3">
