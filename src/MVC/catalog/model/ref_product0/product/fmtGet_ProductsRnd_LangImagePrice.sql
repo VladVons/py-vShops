@@ -43,7 +43,7 @@ wt1 as (
         (rptc0.product_id = rp.product0_id)
     left join
         ref_product_lang rpl
-        on (rptc0.product_id = rpl.product_id and rpl.lang_id = {{aLangId}})
+        on (rp.id = rpl.product_id and rpl.lang_id = {{aLangId}})
     left join
         ref_tenant rt
         on (rp.tenant_id = rt.id)

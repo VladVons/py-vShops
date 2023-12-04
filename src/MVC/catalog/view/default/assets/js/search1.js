@@ -8,10 +8,14 @@ as function namespace
 
 
 function searchNavbar() {
-    let currentFocus = 0
+    const autocompleteActive = 'autocomplete-active'
+    let curFocus = 0
     let timeout = null
+
     const elSearchInput = document.getElementById('viSearchInput')
+    assert(elSearchInput, 'viSearchInput')
     const elSearchSuggest = document.getElementById('viSearchSuggest')
+    assert(elSearchSuggest)
 
     elSearchInput.addEventListener('keydown', function(aEvent) {
         let x = elSearchSuggest.getElementsByTagName('div')
@@ -75,18 +79,18 @@ function searchNavbar() {
     function setActive(x) {
         delActive(x)
 
-        if (currentFocus >= x.length) 
+        if (currentFocus >= x.length)
             currentFocus = 0
-            
-        if (currentFocus < 0) 
+
+        if (currentFocus < 0)
             currentFocus = (x.length - 1)
 
-        x[currentFocus].classList.add('autocomplete-active')
+        x[currentFocus].classList.add(autocompleteActive)
     }
 
     function delActive(x) {
         for (let i = 0; i < x.length; i++) {
-            x[i].classList.remove('autocomplete-active');
+            x[i].classList.remove(autocompleteActive);
         }
     }
 }

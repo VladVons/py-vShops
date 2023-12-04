@@ -45,6 +45,13 @@ class TDict {
     }
 }
 
+
+function assert(aCond, aMsg = 'Error') {
+    if (!aCond) {
+      throw new Error(aMsg || ' assertion failed')
+    }
+}
+
 function postJson(aUrl, aData = {}) {
     const requestOptions = {
         method: 'post',
