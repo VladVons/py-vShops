@@ -7,4 +7,5 @@ from IncP.LibCtrl import GetDictDef, TDbSql
 
 
 async def Main(self, aData: dict = None) -> dict:
-    return
+    return {}
+
