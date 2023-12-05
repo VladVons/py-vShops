@@ -71,7 +71,7 @@ class TCtrlBase():
             'system',
             {
                 'method': 'Get_Module_RouteLang',
-                'param': {'aTenantId': aTenantId, 'aLangId': self.GetLangId(aLang), 'aRoute': aData['route']}
+                'param': {'aTenantId': aTenantId, 'aLangId': self.GetLangId(aLang), 'aRoute': aData['route'], 'aTheme': 't2'}
             }
         )
 
@@ -84,6 +84,8 @@ class TCtrlBase():
                 Path = f'module/{Module}'
                 aData['rec'] = Rec.GetAsDict()
                 Data = await self.ExecSelf(Path, aData)
+                if (Data is None):
+                    Data = {}
                 Data['lang'] = await self.Lang.Add('ua', Path)
                 Data['layout'] = Rec.GetAsDict()
                 Res.append(Data)

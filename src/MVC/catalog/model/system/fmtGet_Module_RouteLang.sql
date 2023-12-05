@@ -12,18 +12,18 @@ with wt1 as (
         rml.descr
     from
         ref_layout rl
-    join ref_tenant rt
-        on (rl.tenant_id = rt.id)
-    join ref_layout_module rlm
-        on (rl.id = rlm.layout_id)
-    join ref_module rm
-        on (rlm.module_id = rm.id)
+    left join ref_layout_module rlm
+        on (rlm.layout_id = rl.id)
+    left join ref_module rm
+        on (rm.id = rlm.module_id)
+    left join ref_module_to_lang rmtl
+        on (rmtl.module_id = rm.id)
     join ref_module_lang rml
-        on (rlm.module_id = rml.module_id) and (rml.lang_id = {{aLangId}})
+        on (rml.id = rmtl.module_lang_id) and (rml.lang_id = {{aLangId}})
     where
         (rl.enabled) and
-        (rl.theme = 't2') and
-        ((rl.tenant_id = 0) or (rl.tenant_id = {{aTenantId}})) and
+        (rl.theme = '{{aTheme}}') and
+        ((rl.tenant_id = 0) or (rl.tenant_id = {{aLangId}})) and
         (rm.enabled) and
         (rlm.enabled) and
         ((rl.route = '{{aRoute}}') or (rl.common))

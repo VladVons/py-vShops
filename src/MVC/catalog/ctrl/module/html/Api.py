@@ -4,6 +4,5 @@
 
 
 
-async def Main(self, aData: dict = None) -> dict:
-    return {}
-
+async def Main(_self, _aData: dict = None) -> dict:
+    pass

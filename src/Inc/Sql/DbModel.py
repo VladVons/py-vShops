@@ -151,5 +151,9 @@ class TDbModel():
         Log.Print(1, 'i', f'ExecQuery({self.Query.Path}/{aPath}, {aValues})')
         Query = await self.Query.Get(aPath, aValues)
         #print('debug--\n', Query)
-        Res = await self.ExecQueryText(Query)
+        try:
+            Res = await self.ExecQueryText(Query)
+        except Exception as E:
+            Log.Print(1, 'e', Query, aE = E)
+            raise
         return Res

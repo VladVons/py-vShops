@@ -304,7 +304,6 @@ create table if not exists ref_module (
     sort_order          smallint,
     code                varchar(32) not null,
     caption             varchar(64) not null,
-    route               varchar(64),
     image               varchar(64),
     conf                json,
     tenant_id           integer not null references ref_tenant(id)
@@ -312,25 +311,20 @@ create table if not exists ref_module (
 
 create table if not exists ref_module_lang (
     id                  serial primary key,
+    enabled             boolean default true,
     sort_order          smallint,
     title               varchar(256),
     intro               varchar(256),
     descr               text,
     image               varchar(64),
-    module_id           integer not null references ref_module(id) on delete cascade,
+    route               varchar(64),
     lang_id             integer not null references ref_lang(id)
 );
 
-create table if not exists ref_module_group (
-    id                  serial primary key,
-    caption             varchar(64) not null,
-    module_id           integer not null references ref_module(id) on delete cascade
-);
-
-create table if not exists ref_module_to_group (
+create table if not exists ref_module_to_lang (
     module_id           integer not null references ref_module(id) on delete cascade,
-    group_id            integer not null references ref_module_group(id) on delete cascade,
-    primary key (module_id, group_id)
+    module_lang_id      integer not null references ref_module_lang(id) on delete cascade,
+    primary key (module_id, module_lang_id)
 );
 
 --- layout ---
