@@ -13,7 +13,7 @@
                     <div class="card-title">{{Rec.product_title}}</div>
                 </div>
                 <div class="card-footer">
-                    <h4 class="fw-bold">{{Rec.price}} грн</h4>
+                    <h4 class="fw-bold">{{Rec.price|round|int}} грн</h4>
                     <hr class="mt-1"/>
                     <a href="{{Rec.tenant_href}}">{{Rec.tenant_title}}</a>
                     <p></p>
