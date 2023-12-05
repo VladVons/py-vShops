@@ -1,0 +1,35 @@
+<!-- _inc/carousel + -->
+<div class="container pb-3">
+    <div id="carouselCaptions" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-indicators">
+        {% set Dbl = TDbList().Import(dbl_carousel) %}
+        {% for Rec in Dbl %}
+            {% if Dbl.RecNo == 0 %}
+            <button type="button" data-bs-target="#carouselCaptions" data-bs-slide-to="{{Dbl.RecNo}}" class="active" aria-current="true" aria-label="Slide {{Dbl.RecNo}}"></button>
+            {% else %}
+            <button type="button" data-bs-target="#carouselCaptions" data-bs-slide-to="{{Dbl.RecNo}}" aria-label="Slide {{Dbl.RecNo}}"></button>
+            {% endif %}
+        {% endfor %}
+        </div>
+        <div class="carousel-inner">
+        {% for Rec in Dbl %}
+            <div class="carousel-item active">
+                <img src="{{Rec.image}}" class="d-block w-100">
+                <div class="carousel-caption">
+                    <h3>{{Rec.title}}</h3>
+                    <h4>{{Rec.descr}}</h4>
+                </div>
+            </div>
+        {% endfor %}
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselCaptions" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">{{lang.previous}}</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselCaptions" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">{{lang.next}}</span>
+        </button>
+    </div>
+</div>
+<!--  _inc/carousel- -->

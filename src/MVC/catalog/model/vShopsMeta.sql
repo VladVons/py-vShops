@@ -312,9 +312,11 @@ create table if not exists ref_module (
 
 create table if not exists ref_module_lang (
     id                  serial primary key,
+    sort_order          smallint,
     title               varchar(256),
     intro               varchar(256),
     descr               text,
+    image               varchar(64),
     module_id           integer not null references ref_module(id) on delete cascade,
     lang_id             integer not null references ref_lang(id)
 );

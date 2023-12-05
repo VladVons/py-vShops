@@ -13,11 +13,11 @@ with wt1 as (
     from
         ref_layout rl
     join ref_tenant rt
-        on rl.tenant_id = rt.id
+        on (rl.tenant_id = rt.id)
     join ref_layout_module rlm
-        on rl.id = rlm.layout_id
+        on (rl.id = rlm.layout_id)
     join ref_module rm
-        on rlm.module_id = rm.id
+        on (rlm.module_id = rm.id)
     join ref_module_lang rml
         on (rlm.module_id = rml.module_id) and (rml.lang_id = {{aLangId}})
     where

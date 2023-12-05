@@ -88,3 +88,9 @@ async def Get_Langs(self) -> dict:
     return await self.ExecQuery(
         'fmtGet_Langs.sql'
     )
+
+async def Get_ModuleLang(self, aLangId: int, aModuleId: int) -> dict:
+    return await self.ExecQuery(
+        'fmtGet_ModuleLang.sql',
+        {'aLangId': aLangId, 'aModuleId': aModuleId}
+    )
