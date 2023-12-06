@@ -14,9 +14,10 @@ body {
   background-color: var(--colorBgBody);
 }
 
-body * {
-  /* font: var(--font-roboto); */
+/*body * {
+  font: var(--font-roboto);
 }
+*/
 
 .btn {
     font-weight: 600;
