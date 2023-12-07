@@ -149,9 +149,9 @@ GitToServ()
   git add -A -v
   GitSyncToServ "$aComment"
 
-  echo
-  echo "Size"
-  { find ./src -type f -name "*.py" -printf "%s+"; echo 0; } | bc
+  #echo
+  #echo "Size"
+  #{ find ./src -type f -name "*.py" -printf "%s+"; echo 0; } | bc
 }
 
 GitNewBranch()
