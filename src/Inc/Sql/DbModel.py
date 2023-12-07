@@ -9,12 +9,11 @@ import json
 from IncP.Log import Log
 from Inc.DbList import TDbSql
 from Inc.Loader.Query import TLoaderQueryFs
-from Task.SrvModel.Api import TApiModel
 from . import TDbExecCursor, TDbExecPool, DTransaction
 
 
 class TDbModel():
-    def __init__(self, aApi: TApiModel, aPath: str):
+    def __init__(self, aApi: 'TApiModel', aPath: str):
         self.ApiModel = aApi
         self.DbMeta = aApi.DbMeta
         self.Db = aApi.DbMeta.Db # for DTransaction decorator

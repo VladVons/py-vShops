@@ -60,7 +60,7 @@ select
     wt1.id as product_id,
     wt1.tenant_id,
     wt1.tenant_title,
-    wt1.price::float,
+    coalesce(wt1.price, 0)::float as price,
     wt1.title as product_title,
     coalesce(wt1.image, wt1.image0) as image
 from
