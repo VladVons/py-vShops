@@ -144,7 +144,7 @@ GitToServ()
   local aComment=${1:-"MyCommit"};
   Log "$0->$FUNCNAME($*)"
 
-  Clean
+  #Clean
   # add all new files
   git add -A -v
   GitSyncToServ "$aComment"
