@@ -24,6 +24,7 @@ class TApiViewConf():
     loader: dict
     dir_route: str = 'MVC/catalog/view'
     dir_root: str = 'MVC/catalog/view'
+    dir_root_admin: str = 'MVC/admin/view'
     theme: str = 'theme1'
     theme_def: str = 'default'
     form_info: str = 'misc/info'
