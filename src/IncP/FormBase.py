@@ -36,7 +36,8 @@ class TFormBase(Form):
                 'data': None,
                 'info': GetAppVer(),
                 'title': '',
-                'route': ''
+                'route': '',
+                'path': ''
             }
         )
 

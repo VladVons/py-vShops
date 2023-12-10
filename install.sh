@@ -1,3 +1,10 @@
+#!/bin/bash
+# Created: 2023.12.08
+# Vladimir Vons, VladVons@gmail.com
+
+py=python3.12
+
+
 VSCode()
 {
     code --list-extensions
@@ -11,5 +18,27 @@ VSCode()
     code --force --install-extension naumovs.color-highlight
 }
 
+Python()
+{
+    sudo apt update
+    sudo apt dist-upgrade
+    sudo apt install --no-install-recommends software-properties-common
+    sudo add-apt-repository ppa:deadsnakes/ppa
+    sudo apt install --no-install-recommends $py $py-dev $py-distutils $py-venv virtualenv
+}
+
+PythonPkg()
+{
+    Dir=~/VirtEnv/$py
+
+    $py -m venv $Dir
+    source $Dir/bin/activate
+
+    pip3 install --upgrade pip
+    pip3 install --requirement requires.lst
+}
+
 #VSCode
 
+Python
+PythonPkg

@@ -6,12 +6,14 @@
 import asyncio
 #
 from IncP import GetSysInfo
+from IncP.Log import Log
 from Task.Main import TTask
 
 
 def Run():
     Info = GetSysInfo()
-    PyNeed = (3, 9, 0)
+    Log.Print(1, 'i', f'os: {Info["os"]}, python: {Info["python"]}, uptime: {Info["uptime"]}')
+    PyNeed = (3, 10, 0)
     if (Info['python'] >= PyNeed):
         Task = TTask().Run()
         asyncio.run(Task)

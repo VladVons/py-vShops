@@ -24,7 +24,6 @@ class TApiViewConf():
     loader: dict
     dir_route: str = 'MVC/catalog/view'
     dir_root: str = 'MVC/catalog/view'
-    dir_root_admin: str = 'MVC/admin/view'
     theme: str = 'theme1'
     theme_def: str = 'default'
     form_info: str = 'misc/info'
@@ -91,6 +90,7 @@ class TApiView(TApiBase):
 
     async def _GetFormData(self, aRequest: web.Request, aQuery: dict, aUserData: dict = None) -> dict:
         Route = aQuery['route']
+        #Path = aQuery['path']
         Form = self.GetForm(aRequest, Route)
         if (Form):
             if (Route == self.Conf.form_info):
@@ -101,6 +101,7 @@ class TApiView(TApiBase):
                     aUserData = {}
                 Form.out.data = TDictDef('', aUserData)
                 Form.out.route = Route
+                Form.out.path = Route
                 Data = await Form.Render()
             Res = {'data': Data}
         else:

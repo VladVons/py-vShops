@@ -1,16 +1,17 @@
+# pip3 install -r requires.lst
+#
 # sudo apt install python3-pip python3-dev gcc libpq-dev libffi-dev --no-install-recommends
 # curl -sS https://bootstrap.pypa.io/get-pip.py | python3
 
-# pip3 install aiohttp aiohttp_session aiopg empty data') jinja2 multidict psutil psycopg2 uasyncio wtforms
-# pip3 install -r requires.lst
-
-aiohttp
-aiohttp_session
-aiopg
-jinja2
-multidict
-psutil
-psycopg2
-uasyncio
+wheel 
+psutil 
+#psycopg2
+aiopg 
+aiohttp 
+aiohttp_session 
+cryptography 
+jinja2 
+pillow 
 wtforms
+multidict
 

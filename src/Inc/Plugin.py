@@ -11,7 +11,7 @@ from IncP.Log import Log
 
 class TPlugin(dict):
     def __init__(self, aDirMod: str = '', aDirConf: str = ''):
-        assert (os.path.isdir(aDirMod)), f'Directory not exists {aDirMod}'
+        #assert (os.path.isdir(aDirMod)), f'Directory not exists {aDirMod}'
         super().__init__()
 
         self.Dir = aDirMod
@@ -21,11 +21,8 @@ class TPlugin(dict):
     def _Create(self, aModule: object, aPath: str) -> object:
         raise NotImplementedError()
 
-    def IsModule(self, aPath: str) -> bool:
-        for x in ['.py', '/__init__.py']:
-            Path = f'{self.Dir}/{aPath}{x}'
-            if (os.path.exists(Path)):
-                return True
+    def _GetPath(self, aPath: str) -> str:
+        return f'{self.Dir}/{aPath}'
 
     def Find(self, aKey: str) -> list:
         return [Val[0] for Key, Val in self.items() if aKey in Key]
@@ -35,7 +32,7 @@ class TPlugin(dict):
         if (not aPath) or (aPath.startswith('-')) or (self.get(aPath)):
             return Res
 
-        Path = f'{self.Dir}/{aPath}'.replace('/', '.')
+        Path = self._GetPath(aPath).replace('/', '.')
         __import__(Path)
         Mod = sys.modules[Path]
         Enable = getattr(Mod, 'enable', True)
