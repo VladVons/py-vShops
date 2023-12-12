@@ -23,7 +23,7 @@ class TSrvModel(TSrvBase):
         else:
             Status = 200
             Data = await aRequest.json()
-            #Path = Data['_path'] #ToDo
+            #Path = Data['_path'] #ToDo ?
             Path = 'catalog'
             Method = Data.get('method')
             Res = await ApiModels[Path].Exec(Name, Data)
