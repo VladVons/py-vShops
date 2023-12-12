@@ -93,6 +93,7 @@ class TFormBase(Form):
         Data = {
             'type': 'form',
             'route': self.out.route,
+            '_path': self.out.path,
             'path_qs': self.Request.path_qs,
             'path': self.Request.path,
             'post': self.out.data,
@@ -105,7 +106,6 @@ class TFormBase(Form):
         return await self.Ctrl.Get(aRoute, Data)
 
     async def PostToData(self) -> bool:
-        self.out.data.clear()
         if (self.Request.method == 'POST'):
             Post = await self.Request.post()
             self.process(Post)

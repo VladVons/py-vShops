@@ -6,7 +6,6 @@
 import os
 import sys
 import argparse
-import json
 #
 from Inc.Conf import TConf
 from Inc.ConfJson import TConfJson

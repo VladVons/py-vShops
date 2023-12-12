@@ -6,9 +6,10 @@
 import time
 from aiohttp import web
 #
+from Inc.Misc.Misc import TJsonEncoder
 from Inc.SrvWeb.SrvBase import TSrvBase
 from IncP.Log import Log
-from .Api import ApiModel
+from .Api import ApiModels
 
 
 class TSrvModel(TSrvBase):
@@ -22,28 +23,34 @@ class TSrvModel(TSrvBase):
         else:
             Status = 200
             Data = await aRequest.json()
+            #Path = Data['_path'] #ToDo
+            Path = 'catalog'
             Method = Data.get('method')
-            Res = await ApiModel.Exec(Name, Data)
+            Res = await ApiModels[Path].Exec(Name, Data)
 
         Res['info'] = {
             'module': Name,
             'method': Method,
-            'count': ApiModel.ExecCnt,
             'time': round(time.time() - TimeStart, 4),
             'status': Status
         }
-        return web.json_response(Res, status=Status)
+        return web.json_response(Res, status=Status, dumps=TJsonEncoder.Dumps)
+
+    @staticmethod
+    async def _DbConnect():
+        for Key in ApiModels:
+            await ApiModels[Key].DbConnect()
 
     async def _cbOnStartup(self, aApp: web.Application):
         try:
-            await ApiModel.DbConnect()
+            await self._DbConnect()
             yield
             # wait till working...
         except Exception as E:
             Log.Print(1, 'x', '_cbOnStartup()', aE = E)
         finally:
             Log.Print(1, 'i', '_cbOnStartup(). Close connection')
-            await ApiModel.DbClose()
+            await ApiModels.DbClose()
 
     def _GetDefRoutes(self) -> list:
         return [
@@ -78,5 +85,5 @@ class TSrvModel(TSrvBase):
 
         #import asyncio
         #ApiModel.AEvent = asyncio.Event()
-        await ApiModel.DbConnect()
+        await self._DbConnect()
         #ApiModel.AEvent.set()

@@ -1,0 +1,70 @@
+{
+    "catalog": {
+        "dir_route": "MVC/catalog/ctrl",
+        "cache_route": {
+            "max_age": 5,
+            "excl_route": ["RegSession"]
+        },
+        "lang": {
+            "type": "fs",
+            "dir": "MVC/catalog/lang"
+        },
+        "loader": {
+            "model": {
+                "type": "fs",
+                "module": "Task.SrvModel.Api",
+                "class": "ApiModels"
+            },
+            "img": {
+               "type": "url",
+                "url": "http://localhost:8083/api",
+                "user": "user01",
+                "password": "passw01"
+            }
+        }
+    },
+    "admin": {
+        "dir_route": "MVC/admin/ctrl",
+        "cache_route": {
+            "max_age": 5,
+            "excl_route": ["RegSession"]
+        },
+        "lang": {
+            "type": "fs",
+            "dir": "MVC/admin/lang"
+        },
+        "loader": {
+            "model": {
+                "type": "fs",
+                "module": "Task.SrvModel.Api",
+                "class": "ApiModels"
+            },
+            "img": {
+               "type": "url",
+                "url": "http://localhost:8083/api",
+                "user": "user01",
+                "password": "passw01"
+            }
+        }
+    },
+    "_common": {
+        "dir_route": "MVC/_common/ctrl",
+        "lang": {
+            "type": "fs",
+            "dir": "MVC/_common/lang"
+        },
+        "loader": {
+            "model": {
+                "type": "fs",
+                "module": "Task.SrvModel.Api",
+                "class": "ApiModels"
+            },
+            "img": {
+               "type": "url",
+                "url": "http://localhost:8083/api",
+                "user": "user01",
+                "password": "passw01"
+            }
+        }
+    }
+}

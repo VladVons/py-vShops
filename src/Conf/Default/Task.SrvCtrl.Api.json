@@ -1,24 +1,73 @@
 {
-    "dir_route": "MVC/catalog/ctrl",
-    "cache_route": {
-        "max_age": 5,
-        "excl_route": ["RegSession"]
-    },
-    "lang": {
-        "type": "fs",
-        "dir": "MVC/catalog/lang"
-    },
-    "loader": {
-        "model": {
-            "type": "fs",
-            "module": "Task.SrvModel.Api",
-            "class": "ApiModel"
+    "catalog": {
+        "dir_route": "MVC/catalog/ctrl",
+        "cache_route": {
+            "max_age": 5,
+            "excl_route": ["RegSession"]
         },
-        "img": {
-           "type": "url",
-            "url": "http://localhost:8083/api",
-            "user": "user01",
-            "password": "passw01"
+        "lang": {
+            "type": "fs",
+            "dir": "MVC/catalog/lang"
+        },
+        "loader": {
+            "model": {
+                "type": "url",
+                "url": "http://localhost:8081/api",
+                "user": "user01",
+                "password": "passw01"
+            },
+            "img": {
+               "type": "url",
+                "url": "http://localhost:8083/api",
+                "user": "user01",
+                "password": "passw01"
+            }
+        }
+    },
+    "admin": {
+        "dir_route": "MVC/admin/ctrl",
+        "cache_route": {
+            "max_age": 5,
+            "excl_route": ["RegSession"]
+        },
+        "lang": {
+            "type": "fs",
+            "dir": "MVC/admin/lang"
+        },
+        "loader": {
+            "model": {
+                "type": "url",
+                "url": "http://localhost:8081/api",
+                "user": "user01",
+                "password": "passw01"
+            },
+            "img": {
+               "type": "url",
+                "url": "http://localhost:8083/api",
+                "user": "user01",
+                "password": "passw01"
+            }
+        }
+    },
+    "_common": {
+        "dir_route": "MVC/_common/ctrl",
+        "lang": {
+            "type": "fs",
+            "dir": "MVC/_common/lang"
+        },
+        "loader": {
+            "model": {
+                "type": "url",
+                "url": "http://localhost:8081/api",
+                "user": "user01",
+                "password": "passw01"
+            },
+            "img": {
+               "type": "url",
+                "url": "http://localhost:8083/api",
+                "user": "user01",
+                "password": "passw01"
+            }
         }
     }
 }

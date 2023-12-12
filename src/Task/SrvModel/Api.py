@@ -13,10 +13,11 @@ from IncP.Log import Log, TEchoDb
 
 
 class TApiModel(TApiBase):
-    def __init__(self):
+    def __init__(self, aName: str):
         super().__init__()
 
-        Conf = self.GetConf()
+        self.Name = aName
+        Conf = self.GetConf()[aName]
         DbAuth = Conf['db_auth']
         self.DbAuth = TDbAuth(**DbAuth)
         Db = TDbPg(self.DbAuth)
@@ -76,4 +77,5 @@ class TApiModel(TApiBase):
             await self.DbMeta.Db.Close()
 
 
-ApiModel = TApiModel()
+ApiModels = {Key: TApiModel(Key) for Key in ['catalog', 'admin']}
+

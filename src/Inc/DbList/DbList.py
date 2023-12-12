@@ -50,7 +50,7 @@ class TDbList(TDbBase):
                 for i in range(Dif):
                     Values.append(Pad)
             for i, x in enumerate(self.Data):
-                self.Data[i] = x + Values[i]
+                self.Data[i] = list(x) + list(Values[i])
         if (self.Data):
             self._RecInit()
 

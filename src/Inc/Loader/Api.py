@@ -15,7 +15,8 @@ class TLoaderApi():
 
 
 class TLoaderApiFs(TLoaderApi):
-    def __init__(self, aModule: str, aClass: str):
+    def __init__(self, aModule: str, aClass: str, aName: str):
+        self.Name = aName
         Mod = sys.modules.get(aModule)
         if (Mod is None):
             __import__(aModule)
@@ -23,7 +24,7 @@ class TLoaderApiFs(TLoaderApi):
         self.Api = getattr(Mod, aClass)
 
     async def Get(self, aPath: str, aData: dict = None):
-        return await self.Api.Exec(aPath, aData)
+        return await self.Api[self.Name].Exec(aPath, aData)
 
 
 class TLoaderApiHttp(TLoaderApi):

@@ -1,0 +1,57 @@
+<!-- _inc/header + -->
+<script>
+    gData.updValue('lang', {
+        "added_to_cart": "{{lang.added_to_card}}",
+        "already_in_cart": "{{lang.already_in_cart}}"
+    })
+</script>
+
+<nav class="navbar navbar-expand-lg fixed-top navbar-dark vFooter">
+    <div class="container">
+        <div class="d-flex col-lg-2 order-1">
+           <a href="/">
+                <picture>
+                    <source media="(min-width: 465px)" srcset="/default/assets/img/logo-1x1.png">
+                    <img src="/default/assets/img/logo-x.png" alt="Your Logo" height="45" id="viLogo">
+                </picture>
+            </a>
+
+            {% include './header_categories_ajax.j2' %}
+
+            <div class="d-flex col-12 col-md-7 order-3 order-md-2">
+                <form autocomplete="off" method="get" class="d-flex">
+                    <div class="input-group autocomplete-block">
+                        <div class="autocomplete vSearch">
+                            <input type="hidden" name="route" value="product0/search"/>
+                            <input type="text" class="form-control" value="{{search}}" name="q" placeholder="{{lang.search}}" id="viSearchInput"/>
+                            <div class="autocomplete-items" id="viSearchSuggest">
+                                <!-- JS -->
+                            </div>
+                        </div>
+                    </div>
+                    <button class="btn btn-block" type="submit"><i class="fa fa-search" title="{{lang.search}}"></i></button>
+                </form>
+             </div>
+        </div>
+
+        <div class="d-flex col-lg-2 order-2 order-md-3">
+            <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#cartModal" id="viCartModal">
+                <i class="fa fa-shopping-cart" title="{{lang.shopping_cart}}"></i>
+                <span class="badge vBgBtn viTotalCount">3</span>
+            </button>
+
+            <ul class="navbar-nav">
+                <li class="nav-item dropdown ms-2">
+                    <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#"><i class="fa fa-dollar-sign" title="{{lang.currency}}"></i></a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="#">uah</a></li>
+                        <li><a class="dropdown-item" href="#">usd</a></li>
+                        <li><a class="dropdown-item" href="#">eur</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+  </div>
+</nav>
+<!-- _inc/header - -->

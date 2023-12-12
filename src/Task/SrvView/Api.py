@@ -43,10 +43,11 @@ class TCacheFileView(TCacheFile):
 
 
 class TApiView(TApiBase):
-    def __init__(self):
+    def __init__(self, aName: str):
         super().__init__()
 
-        Conf = self.GetConf()
+        self.Name = aName
+        Conf = self.GetConf()[aName]
         self.Conf = TApiViewConf(**Conf)
         self.Viewes = TViewes(self.Conf.dir_route)
         self.InitLoader(self.Conf.loader)
@@ -88,30 +89,27 @@ class TApiView(TApiBase):
         return TFormRender(self, aRequest)
         #raise ModuleNotFoundError(Locate[-1])
 
-    async def _GetFormData(self, aRequest: web.Request, aQuery: dict, aUserData: dict = None) -> dict:
+    async def _GetFormData(self, aRequest: web.Request, aQuery: dict) -> dict:
         Route = aQuery['route']
-        #Path = aQuery['path']
         Form = self.GetForm(aRequest, Route)
         if (Form):
             if (Route == self.Conf.form_info):
                 File = f'{Route}.{Form.Tpl.Ext}'
-                Data = Form.Tpl.Render(File, aUserData)
+                Data = Form.Tpl.Render(File, aQuery)
             else:
-                if (aUserData is None):
-                    aUserData = {}
-                Form.out.data = TDictDef('', aUserData)
                 Form.out.route = Route
-                Form.out.path = Route
+                Form.out.path = aQuery['_path']
+                #Form.out.path = self.Name
                 Data = await Form.Render()
             Res = {'data': Data}
         else:
             Res = {'err': f'Route not found {Route}', 'code': 404}
         return Res
 
-    async def GetFormData(self, aRequest: web.Request, aQuery: dict, aUserData: dict = None) -> dict:
+    async def GetFormData(self, aRequest: web.Request, aQuery: dict) -> dict:
         Route = aQuery['route']
         #return await self._GetFormData(aRequest, Route, aQuery, aUserData)
-        return await self.Cache.ProxyA(Route, aQuery, self._GetFormData, [aRequest, aQuery, aUserData])
+        return await self.Cache.ProxyA(Route, aQuery, self._GetFormData, [aRequest, aQuery])
 
     async def ResponseFormInfo(self, aRequest: web.Request, aText: str, aStatus: int = 200) -> web.Response:
         if (self.Tpl.SearchModule(self.Conf.form_info)):
@@ -125,8 +123,8 @@ class TApiView(TApiBase):
     async def ResponseFormHome(self, aRequest: web.Request) -> web.Response:
         return await self.ResponseForm(aRequest, self.Conf.form_home, aRequest.query)
 
-    async def ResponseForm(self, aRequest: web.Request, aQuery: dict, aUserData: dict = None) -> web.Response:
-        Data = await self.GetFormData(aRequest, aQuery, aUserData)
+    async def ResponseForm(self, aRequest: web.Request, aQuery: dict) -> web.Response:
+        Data = await self.GetFormData(aRequest, aQuery)
         if ('err' in Data):
             Route = aQuery['route']
             if (Route == self.Conf.form_info):
@@ -142,6 +140,7 @@ class TApiView(TApiBase):
         Data = {
             'type': 'api',
             'path': aRequest.path,
+            '_path': self.Name,
             'query': Query,
             'method': Query.get('method', 'Main')
         }
@@ -160,4 +159,4 @@ class TApiView(TApiBase):
         return Res
 
 
-ApiView = TApiView()
+ApiViews = {Key: TApiView(Key) for Key in ['catalog', 'admin']}

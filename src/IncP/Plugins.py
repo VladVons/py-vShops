@@ -36,7 +36,7 @@ class TCtrls(TPluginMVC):
         self.Name = 'ctrl'
         self.ApiCtrl = aApi
 
-    def _Create(self, aModule: object, aPath: str) -> object:
+    def _Create(self, aModule: object, _aPath: str) -> object:
         return aModule.TMain(self.ApiCtrl)
 
 class TViewes(TPluginMVC):
@@ -44,7 +44,7 @@ class TViewes(TPluginMVC):
         super().__init__(aDir)
         self.Name = 'view'
 
-    def _Create(self, aModule: object, aPath: str) -> object:
+    def _Create(self, aModule: object, _aPath: str) -> object:
         return aModule
 
 class TImgs(TPluginMVC):
@@ -53,5 +53,5 @@ class TImgs(TPluginMVC):
         self.Name = 'img'
         self.ApiImg = aApi
 
-    def _Create(self, aModule: object, aPath: str) -> object:
+    def _Create(self, aModule: object, _aPath: str) -> object:
         return aModule.TMain(self.ApiImg)

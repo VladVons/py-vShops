@@ -22,8 +22,16 @@ class TCtrlBase():
         self.ApiImg = self.ApiCtrl.Loader['img'].Get
 
     @property
+    def Common(self) -> TApiCtrl:
+        return self.ApiCtrl.ApiCommon.Ctrls.ApiCtrl
+
+    @property
     def Lang(self) -> TLoaderLang:
         return self.ApiCtrl.Lang
+
+    @property
+    def Name(self) -> str:
+        return self.ApiCtrl.Name
 
     def GetLangId(self, aAlias: str) -> int:
         return self.ApiCtrl.Langs.get(aAlias, 1)
@@ -67,6 +75,7 @@ class TCtrlBase():
             ('tenant', 'lang'),
             (1, 'ua'))
 
+        # ToDo
         Data = await self.ExecModel(
             'system',
             {

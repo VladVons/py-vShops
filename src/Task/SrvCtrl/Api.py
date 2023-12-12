@@ -12,10 +12,12 @@ from IncP.Log import Log
 
 
 class TApiCtrl(TApiBase):
-    def __init__(self):
+    def __init__(self, aName: str, aApiCommon: 'TApiCtrl' = None):
         super().__init__()
 
-        Conf = self.GetConf()
+        self.Name = aName
+        self.ApiCommon = aApiCommon
+        Conf = self.GetConf()[aName]
         self.Ctrls = TCtrls(Conf['dir_route'], self)
         self.InitLoader(Conf['loader'])
 
@@ -83,20 +85,21 @@ class TApiCtrl(TApiBase):
             Res = await Res['method'](Res['module'], aData)
         return Res
 
-    async def ExecOnce(self):
+    async def ExecOnce(self, aData: dict):
         Caller = self.GetMethod(self.Ctrls, 'system/lang', {'method': 'GetLangs'})
-        self.Langs = await Caller['method'](Caller['module'], {})
+        self.Langs = await Caller['method'](Caller['module'], aData)
 
     async def Exec(self, aRoute: str, aData: dict) -> dict:
         if (self.ExecCnt == 0):
-            await self.ExecOnce()
+            await self.ExecOnce(aData)
         self.ExecCnt += 1
 
-        Type = aData.get('type')
-        if (Type == 'api'):
+        if (aData.get('type') == 'api'):
             Res = await self.ExecApi(aRoute, aData)
         else:
             Res = await self.ExecForm(aRoute, aData)
         return Res
 
-ApiCtrl = TApiCtrl()
+
+ApiCommon = TApiCtrl('_common')
+ApiCtrls = {Key: TApiCtrl(Key, ApiCommon) for Key in ['catalog', 'admin']}

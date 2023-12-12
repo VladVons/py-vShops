@@ -6,9 +6,10 @@
 import time
 from aiohttp import web
 #
+from Inc.Misc.Misc import TJsonEncoder
 from Inc.SrvWeb.SrvBase import TSrvBase
 from IncP.Log import Log
-from .Api import ApiCtrl
+from .Api import ApiCtrls
 
 
 class TSrvCtrl(TSrvBase):
@@ -27,16 +28,17 @@ class TSrvCtrl(TSrvBase):
         else:
             Status = 200
             Data = await aRequest.json()
-            Res = await ApiCtrl.Exec(Name, Data)
+            Path = Data['_path']
+            Res = await ApiCtrls[Path].Exec(Name, Data)
 
-        Res['info'] = {
-            'module': Name,
-            'method': aRequest.query.get('method', 'Main'),
-            'count': ApiCtrl.ExecCnt,
-            'time': round(time.time() - TimeStart, 4),
-            'status': Status
-        }
-        return web.json_response(Res, status = Status)
+        if (Data.get('type') != 'api'):
+            Res['info'] = {
+                'module': Name,
+                'method': aRequest.query.get('method', 'Main'),
+                'time': round(time.time() - TimeStart, 4),
+                'status': Status
+            }
+        return web.json_response(Res, status = Status, dumps=TJsonEncoder.Dumps)
 
     @staticmethod
     async def _Err_404(aRequest: web.Request) -> web.Response:
