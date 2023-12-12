@@ -3,16 +3,15 @@
         "dir_route": "MVC/catalog/view",
         "dir_root": "MVC/catalog/view",
         "cache_route": {
-            "path": "Data/cache/catalog/view",
+            "path": "Data/admin/cache/view",
             "max_age": 10,
             "excl_route": []
         },
         "loader": {
             "ctrl": {
-                "type": "url",
-                "url": "http://localhost:8082/route",
-                "user": "user01",
-                "password": "passw01"
+                "type": "fs",
+                "module": "Task.SrvCtrl.Api",
+                "class": "ApiCtrls"
             }
         }
     },
@@ -20,16 +19,15 @@
         "dir_route": "MVC/admin/view",
         "dir_root": "MVC/admin/view",
         "cache_route": {
-            "path": "Data/cache/admin/view",
+            "path": "Data/admin/cache/view",
             "max_age": 10,
             "excl_route": []
         },
         "loader": {
             "ctrl": {
-                "type": "url",
-                "url": "http://localhost:8082/route",
-                "user": "user01",
-                "password": "passw01"
+                "type": "fs",
+                "module": "Task.SrvCtrl.Api",
+                "class": "ApiCtrls"
             }
         }
     }

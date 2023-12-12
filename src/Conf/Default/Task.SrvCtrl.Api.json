@@ -11,10 +11,9 @@
         },
         "loader": {
             "model": {
-                "type": "url",
-                "url": "http://localhost:8081/api",
-                "user": "user01",
-                "password": "passw01"
+                "type": "fs",
+                "module": "Task.SrvModel.Api",
+                "class": "ApiModels"
             },
             "img": {
                "type": "url",
@@ -36,10 +35,9 @@
         },
         "loader": {
             "model": {
-                "type": "url",
-                "url": "http://localhost:8081/api",
-                "user": "user01",
-                "password": "passw01"
+                "type": "fs",
+                "module": "Task.SrvModel.Api",
+                "class": "ApiModels"
             },
             "img": {
                "type": "url",
@@ -57,10 +55,9 @@
         },
         "loader": {
             "model": {
-                "type": "url",
-                "url": "http://localhost:8081/api",
-                "user": "user01",
-                "password": "passw01"
+                "type": "fs",
+                "module": "Task.SrvModel.Api",
+                "class": "ApiModels"
             },
             "img": {
                "type": "url",

@@ -5,5 +5,5 @@
         "password": "passw01",
         "allow_ip": []
     },
-    "fs_api": false
+    "fs_api": true
 }
