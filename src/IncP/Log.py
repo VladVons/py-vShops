@@ -6,7 +6,6 @@
 import asyncio
 #
 from Inc.Log import TLog, TEcho
-from Inc.Misc.Log import GetStackChain
 
 
 class TEchoDb(TEcho):

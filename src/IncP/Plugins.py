@@ -9,6 +9,9 @@ from Inc.Plugin import TPlugin
 
 
 class TPluginMVC(TPlugin):
+    def _Create(self, _aModule: object, _aPath: str) -> object:
+        raise NotImplementedError()
+
     def _GetPath(self, aPath: str) -> str:
         return f'{self.Dir}/{aPath}'
 
@@ -17,9 +20,6 @@ class TPluginMVC(TPlugin):
         for x in ['.py', '/__init__.py']:
             if (os.path.exists(f'{Path}{x}')):
                 return True
-
-    def LoadMod(self, aPath: str, aRegister: bool = True) -> dict:
-        return super().LoadMod(aPath, aRegister)
 
 class TModels(TPluginMVC):
     def __init__(self, aDir: str, aApi):

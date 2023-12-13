@@ -3,7 +3,7 @@
         "editor.formatOnType": true
     },
     "tabnine.experimentalAutoImports": true,
-    "python.defaultInterpreterPath": "/home/vladvons/VirtEnv/python3.10/bin/python3.10",
+    "python.defaultInterpreterPath": "/home/vladvons/VirtEnv/python3.12/bin/python3.12",
     "pylint.args": [
         "--disable=invalid-name",
         "--disable=missing-function-docstring",

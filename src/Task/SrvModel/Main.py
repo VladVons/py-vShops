@@ -45,7 +45,7 @@ class TSrvModel(TSrvBase):
         try:
             await self._DbConnect()
             yield
-            # wait till working...
+            # wait here till working...
         except Exception as E:
             Log.Print(1, 'x', '_cbOnStartup()', aE = E)
         finally:

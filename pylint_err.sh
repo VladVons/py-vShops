@@ -44,5 +44,5 @@ TrailBlanks()
 }
 
 #Install
-#Check
-TrailBlanks
+Check
+#TrailBlanks

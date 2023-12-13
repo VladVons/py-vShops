@@ -8,7 +8,6 @@ import json
 from aiohttp import web
 #
 from Inc.DataClass import DDataClass
-from Inc.DictDef import TDictDef
 from Inc.Misc.Cache import TCacheFile
 from Inc.Misc.Jinja import TTemplate
 from Inc.Util.Obj import GetDictDef
@@ -113,7 +112,7 @@ class TApiView(TApiBase):
 
     async def ResponseFormInfo(self, aRequest: web.Request, aText: str, aStatus: int = 200) -> web.Response:
         if (self.Tpl.SearchModule(self.Conf.form_info)):
-            Res = await self.ResponseForm(aRequest, {'route': self.Conf.form_info}, aUserData = {'info': aText})
+            Res = await self.ResponseForm(aRequest, {'route': self.Conf.form_info, 'info': aText})
         else:
             Text = f'1) {aText}. 2) Info template {self.Conf.form_info} not found'
             Res = web.Response(text = Text, content_type = 'text/html', status = aStatus)
@@ -121,7 +120,9 @@ class TApiView(TApiBase):
         return Res
 
     async def ResponseFormHome(self, aRequest: web.Request) -> web.Response:
-        return await self.ResponseForm(aRequest, self.Conf.form_home, aRequest.query)
+        Query = dict(aRequest.query)
+        Query.update({'route': self.Conf.form_home})
+        return await self.ResponseForm(aRequest, Query)
 
     async def ResponseForm(self, aRequest: web.Request, aQuery: dict) -> web.Response:
         Data = await self.GetFormData(aRequest, aQuery)

@@ -11,14 +11,14 @@ from IncP.Log import Log
 
 class TPlugin(dict):
     def __init__(self, aDirMod: str = '', aDirConf: str = ''):
-        #assert (os.path.isdir(aDirMod)), f'Directory not exists {aDirMod}'
+        #assert (aDirMod and os.path.isdir(aDirMod)), f'Directory not exists {aDirMod}'
         super().__init__()
 
         self.Dir = aDirMod
         self.DirConf = aDirConf
         self.Cache = {}
 
-    def _Create(self, aModule: object, aPath: str) -> object:
+    def _Create(self, _aModule: object, _aPath: str) -> object:
         raise NotImplementedError()
 
     def _GetPath(self, aPath: str) -> str:

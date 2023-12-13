@@ -31,7 +31,7 @@ class TApiModel(TApiBase):
 
     async def Exec(self, aRoute: str, aData: dict) -> dict:
         if (self.ExecCnt == 0):
-            await self.ExecOnce()
+            await self.ExecOnce(aData)
         self.ExecCnt += 1
 
         Data = self.GetMethod(self.Models, aRoute, aData)
@@ -78,4 +78,3 @@ class TApiModel(TApiBase):
 
 
 ApiModels = {Key: TApiModel(Key) for Key in ['catalog', 'admin']}
-

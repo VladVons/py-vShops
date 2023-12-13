@@ -11,12 +11,13 @@ from Task import LoadClassConf
 
 class TApiBase():
     def __init__(self):
-        self.Loader: dict = {}
         self.ExecCnt = 0
+        self.Loader = {}
         self.Cache = {}
         self.AEvent = None
+        self.Name = None
 
-    async def ExecOnce(self):
+    async def ExecOnce(self, aData: dict):
         pass
 
     @staticmethod
