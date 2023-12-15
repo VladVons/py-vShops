@@ -10,7 +10,7 @@
                 </div>
                 <div class="card-body">
                     <a href="{{Rec.category_href}}">{{Rec.category_title}}</a>
-                    <div class="card-title">{{Rec.product_title}}</div>
+                    <div class="card-title">{{Rec.product_title|truncate(50, True, '...')}}</div>
                 </div>
                 <div class="card-footer">
                     <h4 class="fw-bold">{{Rec.price|round|int}} грн</h4>
