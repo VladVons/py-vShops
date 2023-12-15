@@ -6,6 +6,7 @@
 import os
 import re
 from aiohttp import web
+from aiohttp_session import get_session
 #
 from Inc.DataClass import DDataClass
 from Inc.SrvWeb import TSrvBase, TSrvConf
@@ -31,21 +32,31 @@ class TSrvView(TSrvBase):
             web.post('/api/admin{name:.*}', self._rApiAdmin),
             web.post('/api/{name:.*}', self._rApiCatalog),
             web.get('/admin{name:.*}', self._rAdmin),
+            web.post('/admin{name:.*}', self._rAdmin),
             web.get('/{name:.*}', self._rCatalog)
         ]
 
     async def _Route(self, aRequest: web.Request, aPath: str) -> web.Response:
+        ApiView = ApiViews.get(aPath)
+        assert(ApiView), f'unknown path `{aPath}` in {ApiViews.keys()}'
+
         Name = aRequest.match_info.get('name')
         if (Name in ['/', '']):
-            Query = dict(aRequest.query) | {'_path': aPath}
-            if (not aRequest.query.get('route')):
-                Query.update({'route': ApiViews[aPath].Conf.form_home})
-            Res = await ApiViews[aPath].ResponseForm(aRequest, Query)
+            Query = dict(aRequest.query)
+            if (aPath == 'admin'):
+                Session = await get_session(aRequest)
+                UserId = Session.get('user_id')
+                if (not UserId):
+                    Query = {'route': 'common/login'}
+
+            if (not Query.get('route')):
+                Query.update({'route': ApiView.Conf.form_home})
+            Res = await ApiView.ResponseForm(aRequest, Query)
         else:
-            File = f'{ApiViews[aPath].Conf.dir_root}/{Name}'
+            File = f'{ApiView.Conf.dir_root}/{Name}'
             if (os.path.isfile(File)):
                 if (re.search(self._SrvConf.deny, Name)):
-                    Res = await ApiViews[aPath].ResponseFormInfo(aRequest, f'Access denied {aRequest.path}', 403)
+                    Res = await ApiView.ResponseFormInfo(aRequest, f'Access denied {aRequest.path}', 403)
                 else:
                     Res = self._GetMimeFile(File)
             else:

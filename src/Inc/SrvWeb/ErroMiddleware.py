@@ -28,7 +28,7 @@ def CreateErroMiddleware(aOverrides: dict):
             if (Override):
                 cwd = os.getcwd() + '/'
                 Data = traceback.format_exception(*sys.exc_info())
-                Data = [x.replace(cwd, '') for x in Data]
+                Data = [x.replace(cwd, '').rstrip('^\n ') for x in Data]
                 return await Override(request, Data)
             raise E
     return ErroMiddleware

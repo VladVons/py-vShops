@@ -1,4 +1,4 @@
-# Created: 2023.12.11
+# Created: 2023.12.14
 # Author: Vladimir Vons <VladVons@gmail.com>
 # License: GNU, see LICENSE for more details
 
@@ -41,7 +41,6 @@ async def Main(self, aData: dict = None) -> dict:
     )
 
     LangId = self.GetLangId('ua')
-    Categories = await GetCategories(self, LangId)
 
     Href = {
         'about_us': '/?route=info/about_us',
@@ -57,7 +56,6 @@ async def Main(self, aData: dict = None) -> dict:
     }
 
     return {
-        'categories_a': Categories, 'id_a': 0,
         'href_layout': Href,
         'search': aSearch
     }

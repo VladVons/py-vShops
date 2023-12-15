@@ -54,19 +54,19 @@ async def AddHistPageView(self, aSessionId: int, aUrl: str) -> dict:
     '''
     return await self.ExecQueryText(Query)
 
-async def Get_Module_RouteLang(self, aTenantId: int, aLangId: int, aRoute: str, aTheme: str) -> dict:
+async def Get_Module_RouteLang(self, aTenantId: int, aLangId: int, aRoute: str, aTheme: str, aPath: str) -> dict:
     return await self.ExecQuery(
         'fmtGet_Module_RouteLang.sql',
-        {'aTenantId': aTenantId, 'aLangId': aLangId, 'aRoute': aRoute, 'aTheme': aTheme}
+        {'aTenantId': aTenantId, 'aLangId': aLangId, 'aRoute': aRoute, 'aTheme': aTheme, 'aPath': aPath}
     )
 
-async def Get_ConfTenant(self, aTenantId: int, aAttr: str = None) -> dict:
+async def Get_TenantConf(self, aTenantId: int, aAttr: str = None) -> dict:
     CondAttr = ''
     if (aAttr):
         CondAttr = f"and attr like '{aAttr}%'"
 
     return await self.ExecQuery(
-        'fmtGet_ConfTenant.sql',
+        'fmtGet_TenantConf.sql',
         {'aTenantId': aTenantId, 'CondAttr': CondAttr}
     )
 

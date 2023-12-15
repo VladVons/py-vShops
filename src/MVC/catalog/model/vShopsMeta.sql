@@ -202,8 +202,10 @@ create table if not exists ref_customer_to_address (
 create table if not exists ref_tenant (
     id                  serial primary key,
     enabled             boolean default true,
+    create_date         timestamp default current_timestamp,
     title               varchar(64) not null,
-    alias               varchar(16) not null unique
+    alias               varchar(16) not null unique,
+    passw               varchar(64)
 );
 COMMENT ON TABLE ref_tenant IS 'company separator';
 

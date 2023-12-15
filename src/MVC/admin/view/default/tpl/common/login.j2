@@ -1,0 +1,26 @@
+{% extends '_inc/layout1.j2' %}
+
+{% block content %}
+<!-- login + -->
+<div class="container d-flex justify-content-center align-items-center min-vh-100">
+  <div class="card" style="width: 20em;">
+    <div class="card-header vBgSlave">
+        <h3>{{lang.login}}</h3>
+    </div>
+    <div class="card-body">
+      <form method="post">
+        <div class="mb-3">
+          <label>{{lang.user}}</label>
+          <input type="text" class="form-control" name="user" placeholder="{{lang.user}}" required>
+        </div>
+        <div class="mb-3">
+          <label>{{lang.password}}</label>
+          <input type="password" class="form-control" name="password" placeholder="{{lang.password}}" required>
+        </div>
+        <button type="submit" class="btn btn-primary w-100" name="ok"><i class="fa fa-user m-1"></i>Login</button>
+      </form>
+    </div>
+  </div>
+</div>
+<!--  login - -->
+{% endblock %}

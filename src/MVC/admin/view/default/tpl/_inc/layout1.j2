@@ -8,9 +8,7 @@
     <script>
       let gData = new TDict()
       gData.updValue('href', {
-        "category_ajax": "{{href_layout.category_ajax}}",
-        "search_ajax": "{{href_layout.search_ajax}}",
-        "search": "{{href_layout.search}}"
+        "category_ajax": "{{href_layout.category_ajax}}"
     })
     </script>
 
@@ -22,7 +20,6 @@
   </head>
 
   <body>
-    <h2>hello</h2>
     {% include './header.j2' %}
     {% include './content_top.j2' %}
     {% block content %}{% endblock %}

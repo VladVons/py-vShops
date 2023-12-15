@@ -33,7 +33,7 @@ class TFormBase(Form):
         self.out = TDictDef(
             '',
             {
-                'data': None,
+                'data': {},
                 'info': GetAppVer(),
                 'title': '',
                 'route': '',
@@ -106,7 +106,7 @@ class TFormBase(Form):
         return await self.Ctrl.Get(aRoute, Data)
 
     async def PostToData(self) -> bool:
-        if (self.Request.method == 'POST'):
+        if (self.Request.method.upper() == 'POST'):
             Post = await self.Request.post()
             self.process(Post)
             if (Post):

@@ -1,0 +1,158 @@
+:root {
+    --textSizeTitle: 1.5em;
+    --font-roboto: normal 20px / 1.4em Roboto Condensed;
+
+    --colorBgBody: rgb(240, 236, 236);
+    --colorBgBtn: red;
+    --colorBgFooter: rgb(20, 20, 77);
+    --colorBgMaster: White;
+    --colorBgSlave: LightGray;
+}
+
+/*-- overwrites --*/
+body {
+  background-color: var(--colorBgBody);
+}
+
+/*body * {
+  font: var(--font-roboto);
+}
+*/
+
+.btn {
+    font-weight: 600;
+    -padding: 12px 30px;
+    border-radius: 10px;
+    color: white;
+    background: var(--colorBgFooter);
+    -border-color: var(--colorBgBtn);
+    box-shadow: 0 2px 5px var(--colorBgBtn);
+
+}
+
+.card {
+    border-color: #2f2f2f;
+    text-align: center;
+}
+
+/*-- backgrounds --*/
+.vBgMaster {
+    background-color: var(--colorBgMaster)
+}
+
+.vBgSlave {
+    background-color: var(--colorBgSlave)
+}
+
+.vBgBtn {
+    background-color: var(--colorBgBtn)
+}
+
+/*-- misc --*/
+.vFooter {
+  background: var(--colorBgFooter);
+  color:white;
+}
+
+.vFooter a {
+    color:gray;
+}
+
+.vTitle {
+    text-align: center;
+    font-size: var(--textSizeTitle);
+    font-weight: bolder;
+}
+
+.vInputQty {
+    margin: auto;
+    width: 70px;
+}
+
+.vPrice {
+    font-size: 1em;
+    float: right;
+    color:red;
+}
+
+.vPriceBig {
+    font-size: 2em;
+    font-weight: bolder;
+}
+
+.vPriceDis {
+    text-decoration: line-through
+}
+
+.vKeyValue {
+    display: grid;
+    grid-template-columns: 30% auto;
+    gap: 3px;
+}
+
+.vFeatures p {
+    width: 100%;
+    padding: 5px;
+    margin: 0;
+    /*
+    display: inline-block;
+    -margin-bottom: 2em;
+    -line-height: 0.8;
+    */
+}
+
+.vFeatures p:nth-child(odd) {
+    background-color: var(--colorBgBody);
+}
+
+.vImgCenter {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /*overflow: hidden;*/
+}
+
+/*-- card --*/
+.vCard img {
+    max-height: 210px;
+    max-width: 100%;
+}
+
+.vCard .card-header{
+    height: 220px;
+    background-color: var(--colorBgMaster);
+}
+
+.vCard .card-body {
+    height: 150px;
+    background-color: var(--colorBgSlave);
+}
+
+.vCard .card-footer {
+    background-color: var(--colorBgMaster);
+    display: flex;
+    flex-direction: column;
+}
+
+/*-- product --*/
+.vProduct .vProductThumbs {
+    height: 100px;
+    display: flex;
+    justify-content: center;
+ }
+
+ .vProduct .img-thumbnail {
+    height: 120px;
+    max-width: 50%;
+}
+
+.vProduct .vProductImg a {
+    height: 310px;
+    display: flex;
+    justify-content: center;
+ }
+
+.vProduct #vMainImg {
+    max-height: 300x;
+    max-width: 100%;
+}

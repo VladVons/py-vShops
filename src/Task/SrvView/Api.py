@@ -19,8 +19,8 @@ from IncP.FormRender import TFormRender
 
 @DDataClass
 class TApiViewConf():
-    cache_route: dict
     loader: dict
+    cache_route: dict = {}
     dir_route: str = 'MVC/catalog/view'
     dir_root: str = 'MVC/catalog/view'
     theme: str = 'theme1'
@@ -62,11 +62,14 @@ class TApiView(TApiBase):
         FormInfo = f'{self.Conf.dir_route}/{self.Conf.theme_def}/tpl/{self.Conf.form_info}.{self.Tpl.Ext}'
         assert(os.path.isfile(FormInfo)), f'Default template not found {FormInfo}'
 
-        Dir = self.Conf.cache_route.get('path', 'Data/cache/view')
-        os.makedirs(Dir, exist_ok = True)
-        Def = GetDictDef(self.Conf.cache_route, ['max_age', 'incl_route', 'excl_route'], [5, None, None])
-        self.Cache = TCacheFileView(Dir, *Def)
-        self.Cache.Clear()
+        if (self.Conf.cache_route):
+            Dir = self.Conf.cache_route.get('path', 'Data/cache/view')
+            os.makedirs(Dir, exist_ok = True)
+            Def = GetDictDef(self.Conf.cache_route, ['max_age', 'incl_route', 'excl_route'], [5, None, None])
+            self.Cache = TCacheFileView(Dir, *Def)
+            self.Cache.Clear()
+        else:
+            self.Cache = TCacheFileView('', aMaxAge = 0)
 
     def GetForm(self, aRequest: web.Request, aRoute: str) -> TFormBase:
         TplFile = self.Tpl.SearchModule(aRoute)
@@ -97,8 +100,8 @@ class TApiView(TApiBase):
                 Data = Form.Tpl.Render(File, aQuery)
             else:
                 Form.out.route = Route
-                Form.out.path = aQuery['_path']
-                #Form.out.path = self.Name
+                #Form.out.path = aQuery['_path']
+                Form.out.path = self.Name
                 Data = await Form.Render()
             Res = {'data': Data}
         else:

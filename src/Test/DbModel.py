@@ -8,7 +8,7 @@ from Task.SrvModel.Api import ApiModel
 Data1 = [
     'system',
     {
-        'method': 'Get_ConfTenant',
+        'method': 'Get_TenantConf',
         'param': {'aTenantId': 0}
     }
 ]

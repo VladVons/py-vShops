@@ -63,7 +63,7 @@ class TCtrlBase():
         Res = await self.ExecModel(
             'system',
             {
-                'method': 'Get_ConfTenant',
+                'method': 'Get_TenantConf',
                 'param': {'aTenantId': 0}
             }
         )
@@ -75,12 +75,12 @@ class TCtrlBase():
             ('tenant', 'lang'),
             (1, 'ua'))
 
-        # ToDo
+        Path = aData['_path']
         Data = await self.ExecModel(
             'system',
             {
                 'method': 'Get_Module_RouteLang',
-                'param': {'aTenantId': aTenantId, 'aLangId': self.GetLangId(aLang), 'aRoute': aData['route'], 'aTheme': 't2'}
+                'param': {'aTenantId': aTenantId, 'aLangId': self.GetLangId(aLang), 'aRoute': aData['route'], 'aTheme': 't2', 'aPath': Path}
             }
         )
 

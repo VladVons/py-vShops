@@ -1,4 +1,4 @@
--- in: aLangId, aTenantId, aRoute
+-- in: aLangId, aTenantId, aRoute, aPath
 with wt1 as (
     select
         distinct on (rlm.module_id, rlm.place) rlm.module_id as id,
@@ -23,6 +23,7 @@ with wt1 as (
     where
         (rl.enabled) and
         (rl.theme = '{{aTheme}}') and
+        (rl.path = '{{aPath}}') and
         ((rl.tenant_id = 0) or (rl.tenant_id = {{aLangId}})) and
         (rm.enabled) and
         (rlm.enabled) and
