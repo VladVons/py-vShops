@@ -1,0 +1,13 @@
+.pagination .page-link,
+.pagination .page-link.active
+{
+    margin-right: 10px;
+    box-shadow: 0 2px 3px var(--colorBgBtn);
+    color: white;
+    background: var(--colorBgFooter);
+}
+
+.pagination .page-link.active
+{
+    background: var(--colorBgBtn);
+}
