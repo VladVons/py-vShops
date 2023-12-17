@@ -45,10 +45,12 @@ left join
     (rptc.category_id = rpcl.category_id) and (rpl.lang_id = {{aLangId}})
 where
     (rp.tenant_id = {{aTenantId}}) and
-    (rpl.title ilike all (values {{FilterRe}})) or
-    (rpcl.title ilike all (values {{FilterRe}})) or
-    (rp.idt::varchar = '{{aFilter}}' ) or
-    (rpb.code = '{{aFilter}}')
+    (
+        (rpl.title ilike all (values {{FilterRe}})) or
+        (rpcl.title ilike all (values {{FilterRe}})) or
+        (rp.idt::varchar = '{{aFilter}}' ) or
+        (rpb.code = '{{aFilter}}')
+    )
 order by
     {{aOrder}}
 limit

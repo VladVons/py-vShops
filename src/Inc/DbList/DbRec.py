@@ -29,6 +29,9 @@ class TDbRec():
         Fields = sorted(self.Fields.items(), key=lambda x: x[1])
         return [x[0] for x in Fields]
 
+    def GetFieldsExtra(self, aFields: list[str]) -> list[str]:
+        return set(list(self.Fields)) - set(aFields)
+
     def GetFieldsMissed(self, aFields: list[str]) -> list[str]:
         return set(aFields) - set(list(self.Fields))
 

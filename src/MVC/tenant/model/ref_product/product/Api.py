@@ -3,6 +3,9 @@
 # License: GNU, see LICENSE for more details
 
 
+import re
+
+
 async def Get_Product_LangId(self, aLangId: int, aTenantId: int, aProductId: int) -> dict:
     return await self.ExecQuery(
         'fmtGet_Product_LangId.sql',
