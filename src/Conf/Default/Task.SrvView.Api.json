@@ -3,7 +3,7 @@
         "dir_route": "MVC/catalog/view",
         "dir_root": "MVC/catalog/view",
         "cache_route": {
-            "path": "Data/admin/cache/view",
+            "path": "Data/catalog/cache/view",
             "max_age": 10,
             "excl_route": []
         },
@@ -15,9 +15,9 @@
             }
         }
     },
-    "admin": {
-        "dir_route": "MVC/admin/view",
-        "dir_root": "MVC/admin/view",
+    "tenant": {
+        "dir_route": "MVC/tenant/view",
+        "dir_root": "MVC/tenant/view",
         "loader": {
             "ctrl": {
                 "type": "fs",

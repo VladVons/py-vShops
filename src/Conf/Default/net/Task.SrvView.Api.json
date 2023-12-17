@@ -16,11 +16,11 @@
             }
         }
     },
-    "admin": {
-        "dir_route": "MVC/admin/view",
-        "dir_root": "MVC/admin/view",
+    "tenant": {
+        "dir_route": "MVC/tenant/view",
+        "dir_root": "MVC/tenant/view",
         "cache_route": {
-            "path": "Data/cache/admin/view",
+            "path": "Data/cache/tenant/view",
             "max_age": 10,
             "excl_route": []
         },

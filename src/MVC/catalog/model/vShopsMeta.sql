@@ -27,6 +27,11 @@ create type price_enum as enum (
     'action'
 );
 
+create type gender_enum as enum (
+    'male',
+    'female'
+);
+
 create type val_enum as enum (
     'int',
     'text',
@@ -40,8 +45,7 @@ create type val_enum as enum (
 create table if not exists ref_auth_group (
     id                  serial primary key,
     create_date         timestamp default current_timestamp,
-    title               varchar(16) not null,
-    unique (title)
+    title               varchar(16) not null unique
 );
 
 create table if not exists ref_auth_group_ext (
@@ -55,13 +59,12 @@ create table if not exists ref_auth_group_ext (
 
 create table if not exists ref_auth (
     id                  serial primary key,
-    auth_group_id       integer references ref_auth_group(id),
+    enabled             boolean default true,
     create_date         timestamp default current_timestamp,
     valid_date          date,
-    login               varchar(16) not null,
-    passw               varchar(32) not null,
-    enabled             boolean default true,
-    unique (login)
+    login               varchar(16) not null unique,
+    pwd                 varchar(64) not null,
+    auth_group_id       integer references ref_auth_group(id)
 );
 
 create table if not exists ref_auth_ext(
@@ -94,7 +97,7 @@ create table if not exists ref_proxy (
     hostname            varchar(32) not null,
     port                smallint,
     login               varchar(16),
-    passw               varchar(16)
+    pwd                 varchar(16)
 );
 
 create table if not exists ref_query (
@@ -156,20 +159,18 @@ create table if not exists ref_currency (
 
 create table if not exists ref_country (
     id                  serial primary key,
-    enabled             boolean default true,
-    title               varchar(32) not null
+    title               varchar(32) not null,
+    alias               varchar(3) unique
 );
 
 create table if not exists ref_city (
     id                  serial primary key,
-    enabled             boolean default true,
     title               varchar(32) not null,
     country_id          integer not null references ref_country(id)
 );
 
 create table if not exists ref_address (
     id                  serial primary key,
-    enabled             boolean default true,
     city_id             integer not null references ref_city(id),
     post_code           varchar(8),
     street              varchar(32) not null,
@@ -180,14 +181,17 @@ create table if not exists ref_address (
 
 -- customer --
 
-create table if not exists ref_customer (
+create table if not exists ref_person (
     id                  serial primary key,
     enabled             boolean default true,
     firstname           varchar(32) not null,
     lastname            varchar(32) not null,
+    birthday            date,
+    gender_en           gender_enum,
     phone               varchar(15) unique,
     email               varchar(32) unique,
-    image               varchar(64)
+    image               varchar(64),
+    pwd                 varchar(64),
     constraint ref_customer_chk_email_phone check ((email is not null) or (phone is not null))
 );
 
@@ -204,8 +208,7 @@ create table if not exists ref_tenant (
     enabled             boolean default true,
     create_date         timestamp default current_timestamp,
     title               varchar(64) not null,
-    alias               varchar(16) not null unique,
-    passw               varchar(64)
+    alias               varchar(16) not null unique
 );
 COMMENT ON TABLE ref_tenant IS 'company separator';
 
@@ -214,6 +217,13 @@ create table if not exists ref_tenant_to_address (
     address_id          integer not null references ref_address(id),
     primary key (tenant_id, address_id)
 );
+
+create table if not exists ref_tenant_to_person (
+    tenant_id           integer not null references ref_tenant(id),
+    person_id           integer not null references ref_person(id),
+    primary key (tenant_id, person_id)
+);
+
 
 -- product0_category --
 

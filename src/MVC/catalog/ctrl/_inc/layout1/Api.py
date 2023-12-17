@@ -52,7 +52,7 @@ async def Main(self, aData: dict = None) -> dict:
         'payment': '/?route=checkout/payment',
         'privacy_policy': '/?route=info/privacy_policy',
         'search': '/?route=product0/search&q=',
-        'login': '/admin/?route=common/login',
+        'login_tenant': '/tenant/?route=common/login',
         'search_ajax': '/api/?route=product0/search',
         'category_ajax': '/api/?route=_inc/layout1'
     }

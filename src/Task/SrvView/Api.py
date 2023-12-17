@@ -163,4 +163,4 @@ class TApiView(TApiBase):
         return Res
 
 
-ApiViews = {Key: TApiView(Key) for Key in ['catalog', 'admin']}
+ApiViews = {Key: TApiView(Key) for Key in ['catalog', 'tenant']}

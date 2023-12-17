@@ -24,15 +24,15 @@
             }
         }
     },
-    "admin": {
-        "dir_route": "MVC/admin/ctrl",
+    "tenant": {
+        "dir_route": "MVC/tenant/ctrl",
         "cache_route": {
             "max_age": 5,
             "excl_route": ["RegSession"]
         },
         "lang": {
             "type": "fs",
-            "dir": "MVC/admin/lang"
+            "dir": "MVC/tenant/lang"
         },
         "loader": {
             "model": {

@@ -5,6 +5,7 @@
 
 from Inc.Loader.Lang import TLoaderLangFs
 #from Inc.Misc.Cache import TCacheMem
+from Inc.Util.Obj import DeepGetByList
 from IncP.ApiBase import TApiBase
 from IncP.Plugins import TCtrls
 from IncP.LibCtrl import GetDictDef
@@ -101,5 +102,19 @@ class TApiCtrl(TApiBase):
         return Res
 
 
+class TApiCtrlAuth(TApiCtrl):
+    async def Exec(self, aRoute: str, aData: dict) -> dict:
+        if (DeepGetByList(aData, ['session', 'auth_path']) == self.Name) or \
+            (aRoute in ['common/login', 'system/session']):
+            Res = await super().Exec(aRoute, aData)
+        else:
+            Msg = f'no session auth in {type(self).__name__}'
+            Log.Print(1, 'i', Msg)
+            Res = {'err': Msg}
+        return Res
+
 ApiCommon = TApiCtrl('_common')
-ApiCtrls = {Key: TApiCtrl(Key, ApiCommon) for Key in ['catalog', 'admin']}
+ApiCtrls = {
+    'catalog': TApiCtrl('catalog', ApiCommon),
+    'tenant': TApiCtrlAuth('tenant', ApiCommon)
+}

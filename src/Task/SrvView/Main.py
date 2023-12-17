@@ -28,10 +28,10 @@ class TSrvView(TSrvBase):
 
     def _GetDefRoutes(self) -> list:
         return [
-            web.post('/api/admin{name:.*}', self._rApiAdmin),
+            web.post('/api/tenant{name:.*}', self._rApiTenant),
             web.post('/api/{name:.*}', self._rApiCatalog),
-            web.get('/admin{name:.*}', self._rAdmin),
-            web.post('/admin{name:.*}', self._rAdmin),
+            web.get('/tenant{name:.*}', self._rTenant),
+            web.post('/tenant{name:.*}', self._rTenant),
             web.get('/{name:.*}', self._rCatalog)
         ]
 
@@ -42,10 +42,10 @@ class TSrvView(TSrvBase):
         Name = aRequest.match_info.get('name')
         if (Name in ['/', '']):
             Query = dict(aRequest.query)
-            if (aPath == 'admin'):
+            if (aPath == 'tenant'):
                 Session = await get_session(aRequest)
-                UserId = Session.get('user_id')
-                if (not UserId):
+                AuthId = Session.get('auth_id')
+                if (not AuthId):
                     Query = {'route': 'common/login'}
 
             if (not Query.get('route')):
@@ -72,14 +72,14 @@ class TSrvView(TSrvBase):
         Data = '\n<br>'.join(aStack)
         return web.Response(text = Data, content_type = 'text/html', status = 500)
 
-    async def _rApiAdmin(self, aRequest: web.Request) -> web.Response:
-        return await ApiViews['admin'].ResponseApi(aRequest)
+    async def _rApiTenant(self, aRequest: web.Request) -> web.Response:
+        return await ApiViews['tenant'].ResponseApi(aRequest)
 
     async def _rApiCatalog(self, aRequest: web.Request) -> web.Response:
         return await ApiViews['catalog'].ResponseApi(aRequest)
 
-    async def _rAdmin(self, aRequest: web.Request) -> web.Response:
-        return await self._Route(aRequest, 'admin')
+    async def _rTenant(self, aRequest: web.Request) -> web.Response:
+        return await self._Route(aRequest, 'tenant')
 
     async def _rCatalog(self, aRequest: web.Request) -> web.Response:
         return await self._Route(aRequest, 'catalog')

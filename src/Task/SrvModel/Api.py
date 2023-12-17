@@ -77,4 +77,4 @@ class TApiModel(TApiBase):
             await self.DbMeta.Db.Close()
 
 
-ApiModels = {Key: TApiModel(Key) for Key in ['catalog', 'admin']}
+ApiModels = {Key: TApiModel(Key) for Key in ['catalog', 'tenant']}
