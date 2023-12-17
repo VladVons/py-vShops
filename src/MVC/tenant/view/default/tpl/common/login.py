@@ -19,7 +19,8 @@ class TForm(TFormBase):
                 self.Session['auth_id'] = AuthId
                 self.Session['auth_path'] = AuthPath
 
+                Route = self.Request.query.get('route')
                 Redirect = self.Request.raw_path
-                if (not Redirect):
+                if (not Redirect) or (Route == 'common/login'):
                     Redirect = f'/{AuthPath}'
                 raise web.HTTPFound(location = Redirect)
