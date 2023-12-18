@@ -3,6 +3,7 @@ select
     rp.enabled,
     rp.id,
     rp.idt,
+    rps.rest::int,
     rpl.title,
     rpl.descr,
     rpl.features,
@@ -33,6 +34,9 @@ select
     ) as image
 from
     ref_product rp
+left join
+    reg_product_stock rps on
+    (rp.id = rps.product_id)
 left join
     ref_product_lang rpl on
     (rp.id = rpl.product_id) and (rpl.lang_id = {{aLangId}})
