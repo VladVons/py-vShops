@@ -1,0 +1,31 @@
+.product-grid-item {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 10px;
+  margin-bottom: 1px;
+  cursor: pointer;
+}
+
+.product-grid-item img {
+  height: 60px;
+  max-width: 50%;
+}
+
+.product-grid-item:nth-child(odd) {
+    background-color: var(--colorBgSlave);
+}
+
+.product-grid-item:hover {
+  font-weight: bold;
+}
+
+.product-grid-header {
+  position: sticky;
+  top: 0;
+  background-color: var(--colorBgFooter);
+  color: var(--colorBgMaster);
+  z-index: 1000;
+  border: 1px solid #ddd;
+  font-weight: bold; 
+}
+

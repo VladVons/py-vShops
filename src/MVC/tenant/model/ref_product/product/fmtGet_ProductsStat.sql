@@ -3,17 +3,17 @@ select
     (
         select count(*)
         from ref_product 
-        where (tenant_id = {{aTenantId}})
+        where (enabled) and (tenant_id = {{aTenantId}})
     ) as products,
     (
         select count(*)
         from ref_product 
-        where (tenant_id = {{aTenantId}}) and (enabled != true)
+        where (not enabled) and (tenant_id = {{aTenantId}})
     ) as disabled,
     (
         select count(*)
         from ref_product
-        where (tenant_id = {{aTenantId}}) and (product0_id is null) 
+        where (enabled) and (tenant_id = {{aTenantId}}) and (product0_id is null) 
     ) as no_product0,
     (
         select count(*)
@@ -22,5 +22,5 @@ select
             on (rpp.product_id = rp.id) 
         left join ref_price  
             on (ref_price.id = rpp.price_id) and (ref_price.price_en = 'sale') 
-        where (rp.tenant_id = {{aTenantId}}) and (rpp.id is null)
+        where (rp.enabled) and (rp.tenant_id = {{aTenantId}}) and (rpp.id is null)
     ) as no_price

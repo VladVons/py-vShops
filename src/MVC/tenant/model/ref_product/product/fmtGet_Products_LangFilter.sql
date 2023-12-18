@@ -1,6 +1,7 @@
 -- in: aLangId, FilterRe, aOrder, aLimit, aOffset
 select
     count(*) over() as total,
+    rp.enabled,
     rp.id,
     rp.idt,
     rp.product0_id,
