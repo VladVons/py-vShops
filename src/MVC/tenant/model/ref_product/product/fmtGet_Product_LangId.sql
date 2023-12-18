@@ -1,12 +1,29 @@
 -- in: aLangId, aTenantId, aProductId
 select
+    rp.enabled,
     rp.id,
     rp.idt,
     rpl.title,
     rpl.descr,
     rpl.features,
     rpl.meta_key,
-    rpcl.title as category,
+    rptc.category_id,
+    rpcl.title as category_title,
+    (
+        select rpp.price
+        from ref_product_price rpp
+        left join ref_product_price_date rppd on
+            (rpp.id  = rppd.product_price_id)
+        left join ref_price on
+            (rpp.price_id = ref_price.id)
+        where
+            (rpp.enabled) and
+            (ref_price.price_en = 'sale') and
+            ((rpp.product_id = rp.id) and (rppd.id is null)) or
+            ((rpp.product_id = rp.id) and rppd.enabled and (now() between rppd.begin_date and rppd.end_date))
+        order by rpp.price
+        limit 1
+    ) as price,
     (
         select rpi.image
         from ref_product_image rpi

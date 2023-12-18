@@ -3,6 +3,7 @@
 # License: GNU, see LICENSE for more details
 
 
+from Inc.Util.Obj import DeepGetByList
 from IncP.LibCtrl import GetDictDefs
 
 
@@ -13,17 +14,16 @@ async def Main(self, aData: dict = None) -> dict:
         ('ua', 0)
     )
     aLangId = self.GetLangId(aLang)
-    aTenantId = 1
+    AuthId = DeepGetByList(aData, ['session', 'auth_id'])
 
     DblProduct = await self.ExecModelImport(
         'ref_product/product',
         {
             'method': 'Get_Product_LangId',
-            'param': {'aLangId': aLangId, 'aTenantId': aTenantId, 'aProductId': aProductId}
+            'param': {'aLangId': aLangId, 'aTenantId': AuthId, 'aProductId': aProductId}
         }
     )
-    if (not DblProduct):
-        return
-
-    Res = {}
-    return Res
+    if (DblProduct):
+        return {
+            'product': DblProduct.Rec.GetAsDict()
+        }

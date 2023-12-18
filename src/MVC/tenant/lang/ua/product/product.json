@@ -2,9 +2,12 @@
    "tpl": {
         "available": "в наявності",
         "category": "категорія",
+        "code": "код",
         "description": "опис",
+        "enabled": "дозволено",
         "features": "характеристики",
-        "qty": "шт",
-        "code": "код"
+        "images": "зоображення",
+        "quantity": "кількість",
+        "save": "зберегти"
     }
 }
