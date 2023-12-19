@@ -55,12 +55,12 @@ class TFormChangeTracker {
     }
 
     getAttr(aElement, aName = 'name') {
-        // more simple access is just aElement.name but here is more flexable by str
-        return aElement[aName]
+        //return aElement[aName]
+        return aElement.name || aElement.id
     }
-        
+
     filter(aElement) {
-        return (['text', 'number', 'checkbox'].includes(aElement.type) || aElement.tagName === 'SELECT') && this.getAttr(aElement)
+        return (['text', 'number', 'checkbox'].includes(aElement.type) || ['SELECT', 'TEXTAREA'].includes(aElement.tagName)) && this.getAttr(aElement)
     }
 
     getInputs() {
@@ -80,15 +80,16 @@ class TFormChangeTracker {
 
         this.form.addEventListener('input', (event) => {
             const element = event.target
-
             if (this.filter(element)) {
                 const initialValue = this.initialValues[this.getAttr(element)]
                 const currentValue = this.getValue(element)
 
                 if (currentValue !== initialValue) {
                     element.classList.add(this.checkedName)
+                    element.title = initialValue
                 } else {
                     element.classList.remove(this.checkedName)
+                    element.title = ''
                 }
             }
         })
@@ -103,7 +104,7 @@ class TFormChangeTracker {
             }
         }
         return Res
-    }   
+    }
 
     undoChanges() {
         for (const x of this.getInputs()) {
@@ -111,10 +112,10 @@ class TFormChangeTracker {
             x.classList.remove(this.checkedName)
         }
     }
-    
+
     getValue(aElement) {
         if (aElement.type == 'checkbox') {
-            return aElement.checked.toString()
+            return aElement.checked
         } else if (aElement.tagName == 'SELECT') {
             return aElement.options[aElement.selectedIndex].value
         } else {
@@ -180,9 +181,9 @@ function postJson(aUrl, aData = {}) {
 }
 
 function assert(aCond, aMsg = 'Error') {
-  if (!aCond) {
-    throw new Error(aMsg || " assertion failed")
-  }
+    if (!aCond) {
+        throw new Error(aMsg || ' assertion failed')
+    }
 }
 
 function changeImage(aImg, aId, aHref = false) {

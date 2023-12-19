@@ -8,6 +8,7 @@
     --colorBgMaster: White;
     --colorBgSlave: LightGray;
     --colorChanged: hsl(180, 100%, 90%);
+    --colorDisabled: Gray;
 }
 
 /*-- overwrites --*/
@@ -119,6 +120,10 @@ input:read-only {
 
 .vChanged {
     background-color: var(--colorChanged);
+}
+
+.vDisabled {
+    color: var(--colorDisabled);
 }
 
 /*-- card --*/
