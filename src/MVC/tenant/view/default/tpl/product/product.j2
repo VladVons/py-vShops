@@ -3,18 +3,18 @@
 {% block content %}
 <!-- product + -->
 <div class="container mt-3 vBgMaster">
-  <h2>Edit Product</h2>
-  
-    <form>
+  <h2>{{lang.edit_product}}</h2>
+
+    <form id="viFormUndo" method="post">
         <div class="mb-3">
-            <input  type="checkbox" name="enabled" checked>
+            <input  type="checkbox" name="enabled" {% if product.enabled %}checked{% endif %}/>
             <label class="form-check-label">{{lang.enabled}}</label>
         </div>
 
         <div class="mb-3">
             <label>{{lang.category}}</label>
             <div class="d-flex">
-                <input type="text" class="form-control m-1" name="category_title" value="{{product.category_title}}" readonly>
+                <input type="text" class="form-control m-1" name="category_title" value="{{product.category_title}}" readonly/>
                 <ul class="navbar-nav" title="categories">
                     <li class="nav-item dropdown" id="viMainNavbar2">
                         <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" onclick="navbarCategoryClick()" href="#"><i class="fa fa-bars" style="font-size: 1.3em;"></i></a>
@@ -29,47 +29,56 @@
 
         <div class="row mb-3">
             <div class="col-11">
-              <label class="form-label">{{lang.name}}</label>
-              <input type="text" class="form-control" name="name" placeholder="{{lang.name}}" value="{{product.title}}">
+              <label>{{lang.name}}</label>
+              <input type="text" class="form-control" name="name" placeholder="{{lang.name}}" value="{{product.title}}"/>
             </div>
               <div class="col-1">
-                <label class="form-label">{{lang.code}}</label>
+                <label>{{lang.code}}</label>
                 <input type="text" class="form-control"  value="{{product.id}} / {{product.idt}}" readonly/>
               </div>
         </div>
 
         <div class="mb-3">
-          <label class="form-label">{{lang.descr}}</label>
+          <label>{{lang.descr}}</label>
           <textarea class="form-control" name="description" rows="3" placeholder="{{lang.description}}"></textarea>
         </div>
 
         <div class="row mb-3">
           <div class="col">
-            <label class="form-label">{{lang.price_sale}}</label>
-            <input type="text" class="form-control" name="price_sale" placeholder="{{lang.price_sale}}" value="{{product.price}}"/>
+            <label>{{lang.price_sale}}</label>
+            <input type="number" class="form-control" name="price_sale" placeholder="{{lang.price_sale}}" value="{{product.price.sale}}" min="0"/>
           </div>
           <div class="col">
-            <label>{{lang.price_income}}</label>
-            <input type="text" class="form-control" value="1234.5" readonly/>
+            <label>{{lang.price_purchase}}</label>
+            <input type="number" class="form-control" name="price_purchase" value="{{product.price.purchase}}" min="0"/>
           </div>
           <div class="col">
-            <label>{{lang.margin}}</label>
-            <input type="text" class="form-control" value="12%" readonly/>
+            <label>{{lang.margin}} %</label>
+            <input type="number" class="form-control" value="12" readonly/>
           </div>
         </div>
 
         <div class="mb-3">
-          <label class="form-label">{{lang.quantity}}</label>
-          <input type="text" class="form-control" name="quantity" placeholder="{{lang.quantity}}" value={{product.rest}}>
+          <label>{{lang.quantity}}</label>
+          <input type="number" class="form-control" name="quantity" placeholder="{{lang.quantity}}" value="{{product.rest}}" min="0"/>
         </div>
 
         <div class="mb-3">
-          <label for="Images" class="form-label">{{lang.images}}</label>
-          <input type="file" class="form-control" id="Images" multiple>
+          <label>{{lang.images}}</label>
+          <input type="file" class="form-control" id="Images" multiple/>
         </div>
 
         <button type="submit" class="btn btn-primary">{{lang.save}}</button>
+        <button type="button" class="btn btn-primary" id="viBtnUndo">{{lang.undo}}</button>
   </form>
 </div>
+
+<script>
+    const formChangeTracker = new TFormChangeTracker('viFormUndo', 'vChanged')
+
+    const Btn = document.getElementById("viBtnUndo")
+    Btn.onclick = () => formChangeTracker.undoChanges() 
+
+</script>
 <!-- product + -->
 {% endblock %}

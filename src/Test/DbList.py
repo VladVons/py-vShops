@@ -33,15 +33,25 @@ def Test_01():
         #print(Idx, Rec.GetAsListFields(['User', 'Age']))
 
 def Test_02():
-    with open('export_uttc_231213.json', 'r', encoding='utf-8') as F:
+    # json prettifier
+    # iconv -f WINDOWS-1251 -t UTF-8 exp_oster.json | jq > exp_oster_1.json
+
+    CP = 'cp1251'
+    with open('exp_oster.json', 'r', encoding=CP) as F:
         Data = json.load(F)
+        #Data = F.read()
+        #Data = Data.replace(';', '|')
+        #Data = json.loads(Data)
+
     DblC = TDbList().Import(Data.get('category'))
     print(len(DblC))
     DblP = TDbList().Import(Data.get('product'))
     print(len(DblP))
+    #for Rec in DblP:
+    #    print(Rec.GetAsDict())
 
-    with open('uttc.csv', mode='w', newline='') as F:
-        csv_writer = csv.writer(F)
+    with open('uttc.csv', mode='w') as F:
+        csv_writer = csv.writer(F, quoting=csv.QUOTE_ALL)
         csv_writer.writerow(DblP.GetFields())
         csv_writer.writerows(DblP.Data)
 

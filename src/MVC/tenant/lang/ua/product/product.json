@@ -4,13 +4,16 @@
         "category": "категорія",
         "code": "код",
         "description": "опис",
+        "edit_product": "редагувати продукт",
         "enabled": "дозволено",
         "features": "характеристики",
         "images": "зоображення",
         "margin": "націнка",
-        "price_income": "вхідна ціна",
+        "name": "назва",
+        "price_purchase": "закупівельна ціна",
         "price_sale": "продажна ціна",
         "quantity": "кількість",
-        "save": "зберегти"
+        "save": "зберегти",
+        "undo": "відновити"
     }
 }

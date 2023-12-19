@@ -11,7 +11,7 @@ select
     rptc.category_id,
     rpcl.title as category_title,
     (
-        select rpp.price
+        select jsonb_object_agg(ref_price.price_en, rpp.price)
         from ref_product_price rpp
         left join ref_product_price_date rppd on
             (rpp.id  = rppd.product_price_id)
@@ -19,11 +19,9 @@ select
             (rpp.price_id = ref_price.id)
         where
             (rpp.enabled) and
-            (ref_price.price_en = 'sale') and
             ((rpp.product_id = rp.id) and (rppd.id is null)) or
             ((rpp.product_id = rp.id) and rppd.enabled and (now() between rppd.begin_date and rppd.end_date))
-        order by rpp.price
-        limit 1
+        group by rp.id
     ) as price,
     (
         select rpi.image
