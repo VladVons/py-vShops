@@ -9,7 +9,7 @@ select
 from
     ref_product_price rpp
 left join
-    hist_ref_product_price hrpp on
+    hist_product_price hrpp on
     (rpp.id = hrpp.price_id)
 left join
     ref_price rp on
