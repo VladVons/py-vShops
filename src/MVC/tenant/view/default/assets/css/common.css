@@ -9,6 +9,7 @@
     --colorBgSlave: LightGray;
     --colorChanged: hsl(180, 100%, 90%);
     --colorDisabled: Gray;
+    --colorReadonly: #f0f0f0;
 }
 
 /*-- overwrites --*/
@@ -22,7 +23,7 @@ body {
 */
 
 input:read-only {
-    background-color: #f0f0f0;
+    background-color: var(--colorReadonly);
 }
 
 .btn {
@@ -124,6 +125,12 @@ input:read-only {
 
 .vDisabled {
     color: var(--colorDisabled);
+}
+
+.vReadonly input,
+.vReadonly textarea {
+    pointer-events: none;
+    background-color: var(--colorReadonly);
 }
 
 /*-- card --*/

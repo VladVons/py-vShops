@@ -249,7 +249,8 @@ create table if not exists ref_product0_category_lang (
 
 create table if not exists ref_product0 (
     id                  serial primary key,
-    enabled             boolean default false
+    enabled             boolean default false,
+    create_date         timestamp default current_timestamp
 );
 
 create table if not exists ref_product0_image (
@@ -461,6 +462,7 @@ create table if not exists ref_product_category_lang (
 create table if not exists ref_product (
     id                  serial primary key,
     enabled             boolean default true,
+    create_date         timestamp default current_timestamp,
     model               varchar(64),
     is_service          boolean default false,
     sort_order          smallint default 0,

@@ -1,4 +1,4 @@
--- in: aLangId, FilterRe, aOrder, aLimit, aOffset
+-- in: aLangId, Filter, aSearch, SearchRe, aOrder, aLimit, aOffset
 select
     count(*) over() as total,
     rp.enabled,
@@ -28,7 +28,14 @@ select
         where (rpi.product_id = rp.id and rpi.enabled)
         order by rpi.sort_order
         limit 1
-    ) as image
+    ) as image,
+    (
+        select rpi.image
+        from ref_product0_image rpi
+        where (rpi.product_id = rp.product0_id and rpi.enabled)
+        order by rpi.sort_order
+        limit 1
+    ) as image0
 from
     ref_product rp
 left join
@@ -49,11 +56,12 @@ left join
 where
     (rp.tenant_id = {{aTenantId}}) and
     (
-        (rpl.title ilike all (values {{FilterRe}})) or
-        (rpcl.title ilike all (values {{FilterRe}})) or
-        (rp.idt::varchar = '{{aFilter}}' ) or
-        (rpb.code = '{{aFilter}}')
+        (rpl.title ilike all (values {{SearchRe}})) or
+        (rpcl.title ilike all (values {{SearchRe}})) or
+        (rp.idt::varchar = '{{aSearch}}' ) or
+        (rpb.code = '{{aSearch}}')
     )
+    {{Filter}}
 order by
     {{aOrder}}
 limit

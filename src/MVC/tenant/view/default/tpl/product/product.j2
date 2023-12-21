@@ -13,8 +13,8 @@
 
     <form id="viFormUndo" method="post">
         <div class="mb-3">
-            <input  type="checkbox" name="enabled" {% if product.enabled %}checked{% endif %}/>
-            <label class="form-check-label">{{lang.enabled}}</label>
+            <input  type="checkbox" name="enabled" id="chkInput" {% if product.enabled %}checked{% endif %}/>
+            <label class="form-check-label1">{{lang.enabled}}</label>
         </div>
 
         <div class="mb-3">
@@ -83,6 +83,18 @@
     const formTracker = new TFormChangeTracker('viFormUndo', 'vChanged')
     document.getElementById('viBtnUndo').onclick = () => formTracker.undoChanges()
     document.getElementById('viBtnSave').onclick = () => formTracker.submit()
+
+    const chkInput = document.getElementById("chkInput")
+    chkInput.onclick = function(event) {
+        formTracker.setReadonly(!event.target.checked)
+        event.target.style.pointerEvents = 'auto'
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        formTracker.setReadonly(!chkInput.checked)
+        chkInput.style.pointerEvents = 'auto'
+    })
+
 </script>
 <!-- product + -->
 {% endblock %}
