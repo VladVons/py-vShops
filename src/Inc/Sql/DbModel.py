@@ -145,6 +145,11 @@ class TDbModel():
         if (Dbl):
             return Dbl.Export()
 
+    async def ExecQueryTextCursor(self, aQuery: str, aCursor) -> TDbSql:
+        Dbl = await TDbExecCursor(aCursor).Exec(aQuery)
+        if (Dbl):
+            return Dbl.Export()
+
     async def ExecQuery(self, aPath: str, aValues: dict = None) -> tuple:
         aValues = aValues or {}
         Log.Print(1, 'i', f'ExecQuery({self.Query.Path}/{aPath}, {aValues})')
@@ -152,6 +157,15 @@ class TDbModel():
         #print('debug--\n', Query)
         try:
             Res = await self.ExecQueryText(Query)
+        except Exception as E:
+            Log.Print(1, 'e', Query, aE = E)
+            raise
+        return Res
+
+    async def ExecQueryCursor(self, aPath: str, aValues: dict, aCursor) -> tuple:
+        Query = await self.Query.Get(aPath, aValues)
+        try:
+            Res = await self.ExecQueryTextCursor(Query, aCursor)
         except Exception as E:
             Log.Print(1, 'e', Query, aE = E)
             raise

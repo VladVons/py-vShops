@@ -127,7 +127,7 @@ create table if not exists ref_lang (
     id                  serial primary key,
     enabled             boolean default true,
     title               varchar(16) not null,
-    alias               varchar(16) unique
+    alias               varchar(3) not null unique
 );
 
 -- SEO --
@@ -160,7 +160,8 @@ create table if not exists ref_currency (
 create table if not exists ref_country (
     id                  serial primary key,
     title               varchar(32) not null,
-    alias               varchar(3) unique
+    alias               varchar(3) not null unique,
+    code                varchar(5) unique
 );
 
 create table if not exists ref_city (
@@ -422,9 +423,11 @@ create table if not exists ref_price (
 create table if not exists ref_stock (
     id                  serial primary key,
     idt                 integer,
-    title               varchar(16) not null,
+    title               varchar(32) not null,
+    alias               varchar(16) not null default 'default',
     tenant_id           integer not null references ref_tenant(id),
-    unique (idt, tenant_id)
+    unique (idt, tenant_id),
+    unique (alias, tenant_id)
 );
 
 -- category --
@@ -605,7 +608,7 @@ create table if not exists ref_kind_attr_product (
 -----------------------------------------------------------------------------
 -- history --
 -----------------------------------------------------------------------------
-create table if not exists hist_ref_product_price (
+create table if not exists hist_product_price (
     id                  serial primary key,
     create_date         timestamp default current_timestamp,
     price               numeric(10, 2),
@@ -772,7 +775,7 @@ create or replace function ref_product_price_faiu() returns trigger
 as $$
 begin
     if (old.price is null) or (old.price != new.price) or (old.qty != new.qty) then
-        insert into hist_ref_product_price (price_id, price, qty)
+        insert into hist_product_price (price_id, price, qty)
         values (new.id, new.price, new.qty);
     end if;
     --raise notice '% and %', old.price, new.price;
@@ -882,7 +885,8 @@ create or replace trigger ref_stock_idt_inc_tbi
 
 ---
 
-create or replace function ref_product0_category_create(aLang int, aPath text) returns integer
+create or replace function ref_product0_category_create(aLang int, aPath text) 
+returns integer
 as $$
 declare
     ParentId int := 0;
@@ -986,7 +990,7 @@ end;
 $$language plpgsql;
 
 --
-
+-- select stock_set(array[421, 422], array[12, 15.12], 1, 'doc_rest')
 create or replace function stock_set(a_product_ids int[], a_qtys numeric[], a_stock_id int, a_doc_en doc_enum, a_actual_date timestamp default now())
 returns table (_product_id int, _rest numeric)
 as $$
@@ -1026,6 +1030,24 @@ begin
         on conflict (product_id, stock_id) do update
         set rest = excluded.rest
         returning product_id, rest;
+end;
+$$language plpgsql;
+
+create or replace function stock_set_tenant(a_product_id int, a_qty numeric, a_tenant_id int, a_stock_alias text default 'default')
+returns void
+as $$
+declare 
+	StockId int;
+begin
+	select rs.id into StockId
+    from ref_stock rs
+    where (rs.tenant_id = a_tenant_id) and (rs.alias = a_stock_alias);
+
+	if (StockId is null) then
+   		raise exception 'tenant_id `%` & alias `%` not exists in ref_stock', a_tenant_id, a_stock_alias;
+   	end if;
+
+   	perform stock_set(array[a_product_id], array[a_qty], StockId, 'doc_rest');
 end;
 $$language plpgsql;
 
