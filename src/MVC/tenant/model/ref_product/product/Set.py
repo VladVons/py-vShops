@@ -3,7 +3,6 @@
 # License: GNU, see LICENSE for more details
 
 
-#from Inc.DictDef import TDictDef
 from IncP.LibModel import DTransaction, TDbExecCursor, TDbSql, DictToComma
 
 
@@ -24,6 +23,21 @@ def Get_Upd_ProductLang(aData: dict, aProductId: int, aLangId: int) -> str:
             set {Values}
             where (product_id = {aProductId}) and (lang_id = {aLangId})
         '''
+
+def Get_Upd_ProducPrice(aData: list) -> str:
+    return f'''
+        with src (product_id, price_id, price) as (
+            values {', '.join(aData)}
+        )
+        merge into ref_product_price as dst
+        using src
+        on (dst.product_id = src.product_id) and (dst.price_id = src.price_id) and (dst.qty = 1)
+        when matched and (manual is null or manual = false) then
+            update set price = src.price
+        when not matched then
+            insert (product_id, price_id, price)
+            values (src.product_id, src.price_id, src.price)
+    '''
 
 @DTransaction
 async def _Set_Product(self, aData: dict, aCursor = None) -> dict:
@@ -60,19 +74,7 @@ async def _Set_Product(self, aData: dict, aCursor = None) -> dict:
         Values.append(Value)
 
     if (Values):
-        Query = f'''
-            with src (product_id, price_id, price) as (
-                values {', '.join(Values)}
-            )
-            merge into ref_product_price as dst
-            using src
-            on (dst.product_id = src.product_id) and (dst.price_id = src.price_id) and (dst.qty = 1)
-            when matched and (manual is null or manual = false) then
-                update set price = src.price
-            when not matched then
-                insert (product_id, price_id, price)
-                values (src.product_id, src.price_id, src.price)
-        '''
+        Query = Get_Upd_ProducPrice(Values)
         await TDbExecCursor(aCursor).Exec(Query)
 
     # ref_product
@@ -95,8 +97,6 @@ async def _Set_Product(self, aData: dict, aCursor = None) -> dict:
     Query = Get_Upd_ProductLang(Values, aProductId, 1)
     if (Query):
         await TDbExecCursor(aCursor).Exec(Query)
-
-    pass
 
 
 async def Set_Product(self, aLangId: int, aTenantId: int, aProductId: int, aChanges: dict) -> dict:

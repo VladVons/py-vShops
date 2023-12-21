@@ -29,6 +29,14 @@ def ListsToComma(aData: list) -> str:
 def ListIntToComma(aData: list[int]) -> str:
     return ', '.join(map(str, aData))
 
+def DictToComma(aData: dict) -> str:
+    Res = []
+    for Key, Val in aData.items():
+        if (isinstance(Val, str)):
+            Val = f"'{Val}'"
+        Res.append(f'{Key} = {Val}')
+    return ', '.join(Res)
+
 
 @DDataClass
 class TDbAuth():
