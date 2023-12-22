@@ -48,6 +48,8 @@ async def Main(self, aData: dict = None) -> dict:
             }
         )
 
+        DblCategory.Rec.RenameFields(['id', 'path_title'], ['category_id', 'category_path'])
+        DblProduct.MergeDbl(DblCategory, 'category_id', ['category_path'])
         return {
             'product': DblProduct.Rec.GetAsDict()
         }

@@ -23,10 +23,11 @@ License:     GNU, see LICENSE for more details
         ['User2', 'ruska', 'fiat', 122],
         ['User7', 'franka', 'iveko', 166]
     ]
-    Dbl2 = TDbList(['User', 'Street', 'Car', 'Age'], Data2)
+    Dbl2 = TDbList(['Login', 'Street', 'Car', 'Age'], Data2)
+    Dbl2.Rec.RenameFields(['Login'], ['User'])
 
     Dbl1.Rec.Def = {'Street': '', 'Age': 0}
-    Dbl1.Merge(Dbl2, 'User', ['Street', 'Age'])
+    Dbl1.MergeDbl(Dbl2, 'User', ['Street', 'Age'])
     print(Dbl1)
 
     Dbl1 = TDbListSafe(

@@ -91,9 +91,10 @@ class TDbRec():
         self.Data = aData
         return self
 
-    def RenameField(self, aOld: str, aNew: str):
-        assert (aOld in self.Fields), f'Field not found {aOld}'
-        self.Fields[aNew] = self.Fields.pop(aOld)
+    def RenameFields(self, aOld: list[str], aNew: list[str]):
+        for Old, New in zip(aOld, aNew):
+            assert (Old in self.Fields), f'Field not found {Old}'
+            self.Fields[New] = self.Fields.pop(Old)
         self.Fields = {Val:Idx for Idx, Val in enumerate(self._GetFieldsOrder())}
 
     def SetAsDict(self, aData: dict) -> 'TDbRec':
