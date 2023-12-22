@@ -91,7 +91,7 @@ class TDbRec():
         self.Data = aData
         return self
 
-    def RenField(self, aOld: str, aNew: str):
+    def RenameField(self, aOld: str, aNew: str):
         assert (aOld in self.Fields), f'Field not found {aOld}'
         self.Fields[aNew] = self.Fields.pop(aOld)
         self.Fields = {Val:Idx for Idx, Val in enumerate(self._GetFieldsOrder())}

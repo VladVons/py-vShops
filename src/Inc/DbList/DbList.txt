@@ -18,6 +18,17 @@ License:     GNU, see LICENSE for more details
         Data
     )
 
+    Data2 = [
+        ['User5', 'karpenko', 'tavria', 155],
+        ['User2', 'ruska', 'fiat', 122],
+        ['User7', 'franka', 'iveko', 166]
+    ]
+    Dbl2 = TDbList(['User', 'Street', 'Car', 'Age'], Data2)
+
+    Dbl1.Rec.Def = {'Street': '', 'Age': 0}
+    Dbl1.Merge(Dbl2, 'User', ['Street', 'Age'])
+    print(Dbl1)
+
     Dbl1 = TDbListSafe(
         [
             ('User', str),

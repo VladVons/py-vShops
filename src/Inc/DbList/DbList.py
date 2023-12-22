@@ -114,6 +114,23 @@ class TDbList(TDbBase):
         Data = [[x] for x in aData]
         return self.Init([aField], Data)
 
+    def Merge(self, aDbl: 'TDbList', aField: str, aFields: list[str]):
+        for i, x in enumerate(aFields, len(self.Rec.Fields)):
+            #assert(x not in self.Rec.Fields), f'Field {x} already exists'
+            if (x in self.Rec.Fields):
+                x += '_'
+            self.Rec.Fields[x] = i
+
+        Pairs = aDbl.ExportPairs(aField, aFields)
+        FieldNo = self.Rec.GetFieldNo(aField)
+        DefData = [self.Rec.Def.get(x) for x in aFields]
+        for i, x in enumerate(self.Data):
+            Data = Pairs.get(x[FieldNo])
+            if (not Data):
+                Data = DefData
+            self.Data[i] = list(x) + list(Data)
+        self._RecInit()
+
     def RecAdd(self, aData: list = None) -> TDbRec:
         if (not aData):
             if (self.Rec.Def):

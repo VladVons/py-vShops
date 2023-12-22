@@ -40,6 +40,14 @@ async def Main(self, aData: dict = None) -> dict:
         }
     )
     if (DblProduct):
+        DblCategory = await self.ExecModelImport(
+            'ref_product/category',
+            {
+                'method': 'Get_CategoryId_Path',
+                'param': {'aLangId': aLangId, 'aTenantId': AuthId, 'aCategoryIds': [DblProduct.Rec.category_id]}
+            }
+        )
+
         return {
             'product': DblProduct.Rec.GetAsDict()
         }

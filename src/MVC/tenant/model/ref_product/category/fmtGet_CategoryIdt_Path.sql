@@ -1,4 +1,4 @@
--- in: aLangId, aTenantId, CategoryIds
+-- in: aLangId, aTenantId, CategoryIdts
 with recursive wrpc as (
     select
         rpc.id,
@@ -15,7 +15,7 @@ with recursive wrpc as (
     where
         (rpc.enabled) and
         (rpc.tenant_id = {{aTenantId}}) and
-        (rpc.id in ({{CategoryIds}}))
+        (rpc.idt in ({{CategoryIdts}}))
 
     union all
 
