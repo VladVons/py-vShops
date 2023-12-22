@@ -5,8 +5,7 @@
 
 import json
 #
-from Inc.Util.Obj import DeepGetByList
-from IncP.LibCtrl import GetDictDefs
+from IncP.LibCtrl import DeepGetByList, GetDictDefs
 
 
 async def Save(self, aPost: dict, aLangId: int, aTenantId: int, aProductId: int) -> dict:

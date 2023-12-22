@@ -3,7 +3,7 @@
 # License: GNU, see LICENSE for more details
 
 
-from Inc.Util.Obj import DeepGetByList, Filter
+from IncP.LibCtrl import DeepGetByList, Filter
 
 
 async def RegSession(self, aData: dict) -> dict:

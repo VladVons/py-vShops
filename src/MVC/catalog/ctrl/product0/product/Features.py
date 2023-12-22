@@ -1,4 +1,9 @@
-from Inc.Util.Obj import DeepGetByList
+# Created: 2023.08.12
+# Author:  Vladimir Vons <VladVons@gmail.com>
+# License: GNU, see LICENSE for more details
+
+
+from IncP.LibCtrl import DeepGetByList
 
 
 class TFeatures():

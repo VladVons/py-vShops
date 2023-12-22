@@ -144,6 +144,15 @@ class TFormChangeTracker {
             this.form.classList.remove(this.options.readonly)
         }
     }
+
+    submit() {
+        const newData = document.createElement('input')
+        newData.type = 'hidden'
+        newData.name = 'changes'
+        newData.value = JSON.stringify(this.getChanges())
+        this.form.appendChild(newData);
+        this.form.submit()
+    }
 }
 
 function format(aPattern, aValues) {

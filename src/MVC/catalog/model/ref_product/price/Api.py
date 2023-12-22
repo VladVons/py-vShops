@@ -3,7 +3,7 @@
 # License: GNU, see LICENSE for more details
 
 
-from Inc.Sql.ADb import ListToComma
+from IncP.LibModel import ListToComma
 
 
 async def Get_Price_Product(self, aProductId: int, aPriceType: list[str] = None) -> dict:

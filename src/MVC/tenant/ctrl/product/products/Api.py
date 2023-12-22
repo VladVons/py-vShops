@@ -3,10 +3,7 @@
 # License: GNU, see LICENSE for more details
 
 
-from Inc.DbList import TDbList
-from Inc.Misc.Pagination import TPagination
-from Inc.Util.Obj import DeepGetByList
-from IncP.LibCtrl import GetDictDefs
+from IncP.LibCtrl import TDbList, TPagination, DeepGetByList, GetDictDefs
 from ..._inc.products_b import Main as products_b
 
 

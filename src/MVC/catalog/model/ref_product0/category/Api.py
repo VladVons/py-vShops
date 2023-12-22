@@ -3,7 +3,7 @@
 # License: GNU, see LICENSE for more details
 
 
-from Inc.Sql.ADb import ListIntToComma
+from IncP.LibModel import ListIntToComma
 
 
 async def Get_CategoriesSubCount_ParentLang(self, aLangId: int, aParentIdRoot: int, aParentIds: list[int] = None) -> dict:

@@ -2,8 +2,8 @@
 # Author: Vladimir Vons <VladVons@gmail.com>
 # License: GNU, see LICENSE for more details
 
-from Inc.Util.Obj import DeepGetByList
 
+from IncP.LibCtrl import  DeepGetByList
 
 
 async def Main(self, aData: dict = None) -> dict:

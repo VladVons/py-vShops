@@ -3,9 +3,7 @@
 # License: GNU, see LICENSE for more details
 
 
-from Inc.DbList import TDbList
-from Inc.Misc.Pagination import TPagination
-from IncP.LibCtrl import GetDictDefs
+from IncP.LibCtrl import GetDictDefs, TDbList, TPagination
 from ..._inc.products_a import Main as products_a
 
 

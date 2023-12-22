@@ -3,7 +3,7 @@
 # License: GNU, see LICENSE for more details
 
 
-from Inc.Sql.ADb import ListIntToComma
+from IncP.LibModel import ListIntToComma
 
 
 async def ProductsInf_Ids(self, aLangId: int, aIds: list[int]) -> dict:
