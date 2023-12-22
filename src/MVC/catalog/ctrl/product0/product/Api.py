@@ -36,13 +36,14 @@ async def Main(self, aData: dict = None) -> dict:
     Images = await self.GetImages(Product['images'])
     Product.update(Images)
 
-    Product['price'] = await self.ExecModelExport(
+    Price = await self.ExecModelExport(
         'ref_product/price',
         {
             'method': 'Get_Price_Product',
             'param': {'aProductId': aProductId, 'aPriceType': ['sale']}
         }
     )
+    Product['price'] = Price
 
     DblPrice = await self.ExecModelImport(
         'ref_product/price',

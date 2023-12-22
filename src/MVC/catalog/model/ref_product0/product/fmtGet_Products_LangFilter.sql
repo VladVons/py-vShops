@@ -14,8 +14,12 @@ with wt1 as (
         (
             select rpp.price
             from ref_product_price rpp
-            left join ref_product_price_date rppd on (rpp.id  = rppd.product_price_id)
+            left join ref_price on
+                (rpp.price_id = ref_price.id)
+            left join ref_product_price_date rppd on 
+                (rpp.id  = rppd.product_price_id)
             where (rpp.enabled) and
+                (ref_price.price_en != 'purchase') and
                 ((rpp.product_id = rp.id) and (rppd.id is null)) or
                 ((rpp.product_id = rp.id) and rppd.enabled and (now() between rppd.begin_date and rppd.end_date))
             order by rpp.price

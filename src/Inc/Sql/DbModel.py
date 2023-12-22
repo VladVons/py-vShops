@@ -152,9 +152,9 @@ class TDbModel():
 
     async def ExecQuery(self, aPath: str, aValues: dict = None) -> tuple:
         aValues = aValues or {}
-        Log.Print(1, 'i', f'ExecQuery({self.Query.Path}/{aPath}, {aValues})')
         Query = await self.Query.Get(aPath, aValues)
         #print('debug--\n', Query)
+        #Log.Print(1, 'i', f'ExecQuery({self.Query.Path}/{aPath}, {aValues})')
         try:
             Res = await self.ExecQueryText(Query)
         except Exception as E:

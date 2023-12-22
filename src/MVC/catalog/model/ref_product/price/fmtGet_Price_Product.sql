@@ -42,7 +42,7 @@ select
     --wt1.product_id,
     coalesce(wt1.price, 0)::float as price,
     wt1.qty,
-    wt2.price as price_new,
+    wt2.price::float as price_new,
     wt2.begin_date,
     wt2.end_date
 from
