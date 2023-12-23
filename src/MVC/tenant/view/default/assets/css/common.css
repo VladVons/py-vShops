@@ -8,6 +8,7 @@
     --colorBgMaster: White;
     --colorBgSlave: LightGray;
     --colorChanged: hsl(180, 100%, 90%);
+    --colorChanged: LightGreen;
     --colorDisabled: Gray;
     --colorReadonly: #f0f0f0;
 }
@@ -120,7 +121,8 @@ input:read-only {
 }
 
 .vChanged {
-    background-color: var(--colorChanged);
+    -background-color: var(--colorChanged);
+    border: 5px solid var(--colorChanged);
 }
 
 .vDisabled {
@@ -160,9 +162,9 @@ input:read-only {
     height: 100px;
     display: flex;
     justify-content: center;
- }
+}
 
- .vProduct .img-thumbnail {
+.vProduct .img-thumbnail {
     height: 120px;
     max-width: 50%;
 }
@@ -171,7 +173,7 @@ input:read-only {
     height: 310px;
     display: flex;
     justify-content: center;
- }
+}
 
 .vProduct #vMainImg {
     max-height: 300x;

@@ -19,7 +19,7 @@ async def Main(self, aData: dict = None) -> dict:
         'faq': f'/{self.Name}/?route=info/faq',
         'products': f'/{self.Name}/?route=product/products',
         'search_ajax': '/api/?route=product0/search',
-        'category_ajax': '/api/?route=_inc/layout1'
+        'category_ajax': '/tenant/api/?route=_inc/layout1'
     }
 
     return {

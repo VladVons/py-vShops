@@ -9,6 +9,7 @@ select
     rpl.features,
     rpl.meta_key,
     rptc.category_id,
+    rpc.idt as category_idt,
     rpcl.title as category_title,
     (
         select jsonb_object_agg(ref_price.price_en, rpp.price)
@@ -44,6 +45,9 @@ left join
 left join
     ref_product_category_lang rpcl on
     (rptc.category_id = rpcl.category_id) and (rpl.lang_id = {{aLangId}})
+left join
+    ref_product_category rpc on
+    (rpc.id = rptc.category_id)
 where
     (rp.id = {{aProductId}}) and
     (rp.tenant_id = {{aTenantId}})

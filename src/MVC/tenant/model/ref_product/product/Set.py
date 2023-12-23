@@ -14,6 +14,12 @@ def Get_Upd_Product(aData: dict, aProductId: int) -> str:
             set {Values}
             where (id = {aProductId})
         '''
+def Get_Upd_ProductToCategory(aCategoryId: list, aProductId):
+    return f'''
+        update ref_product_to_category
+        set category_id = {aCategoryId}
+        where (product_id = {aProductId})
+    '''
 
 def Get_Upd_ProductLang(aData: dict, aProductId: int, aLangId: int) -> str:
     Values = DictToComma(aData)
@@ -84,6 +90,11 @@ async def _Set_Product(self, aData: dict, aCursor = None) -> dict:
 
     Query = Get_Upd_Product(Values, aProductId)
     if (Query):
+        await TDbExecCursor(aCursor).Exec(Query)
+
+    # ref_product_to_category
+    if ('category_id' in Changes):
+        Query = Get_Upd_ProductToCategory(Changes['category_id'], aProductId)
         await TDbExecCursor(aCursor).Exec(Query)
 
     # ref_product_lang

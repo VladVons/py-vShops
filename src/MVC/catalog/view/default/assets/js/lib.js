@@ -46,21 +46,25 @@ class TDict {
 }
 
 class TFormChangeTracker {
-    constructor(aFormId, aCheckedName) {
-        this.checkedName = aCheckedName
-        this.initialValues = {}
+    constructor(aFormId, aOptions = {}) {
+        const defOption = {
+            changed: 'vChanged',
+            readonly: 'vReadonly'
+        }
+        this.options = { ...defOption, ...aOptions }
 
+        this.initialValues = {}
         this.form = document.getElementById(aFormId)
         this.init()
     }
 
     getAttr(aElement, aName = 'name') {
-        // more simple access is just aElement.name but here is more flexable by str
-        return aElement[aName]
+        //return aElement[aName]
+        return aElement.name || aElement.id
     }
-        
+
     filter(aElement) {
-        return (['text', 'number', 'checkbox'].includes(aElement.type) || aElement.tagName === 'SELECT') && this.getAttr(aElement)
+        return (['text', 'number', 'hidden', 'checkbox'].includes(aElement.type) || ['SELECT', 'TEXTAREA'].includes(aElement.tagName)) && this.getAttr(aElement)
     }
 
     getInputs() {
@@ -80,15 +84,16 @@ class TFormChangeTracker {
 
         this.form.addEventListener('input', (event) => {
             const element = event.target
-
             if (this.filter(element)) {
                 const initialValue = this.initialValues[this.getAttr(element)]
                 const currentValue = this.getValue(element)
 
                 if (currentValue !== initialValue) {
-                    element.classList.add(this.checkedName)
+                    element.classList.add(this.options.changed)
+                    element.title = initialValue
                 } else {
-                    element.classList.remove(this.checkedName)
+                    element.classList.remove(this.options.changed)
+                    element.title = ''
                 }
             }
         })
@@ -103,17 +108,18 @@ class TFormChangeTracker {
             }
         }
         return Res
-    }   
+    }
 
     undoChanges() {
         for (const x of this.getInputs()) {
             this.setValue(x, this.initialValues[this.getAttr(x)])
+            x.classList.remove(this.options.changed)
         }
     }
-    
+
     getValue(aElement) {
         if (aElement.type == 'checkbox') {
-            return aElement.checked.toString()
+            return aElement.checked
         } else if (aElement.tagName == 'SELECT') {
             return aElement.options[aElement.selectedIndex].value
         } else {
@@ -128,6 +134,14 @@ class TFormChangeTracker {
             aElement.options[aElement.selectedIndex].value = aValue
         } else {
             aElement.value = aValue
+        }
+    }
+
+    setReadonly(aVal) {
+        if (aVal) {
+            this.form.classList.add(this.options.readonly)
+        }else{
+            this.form.classList.remove(this.options.readonly)
         }
     }
 
@@ -155,7 +169,7 @@ class TRedirect {
     }
 
     To(aValues) {
-        const url = Format(this.pattern, aValues)
+        const url = format(this.pattern, aValues)
         window.location.href = url
     }
 }
@@ -187,9 +201,9 @@ function postJson(aUrl, aData = {}) {
 }
 
 function assert(aCond, aMsg = 'Error') {
-  if (!aCond) {
-    throw new Error(aMsg || " assertion failed")
-  }
+    if (!aCond) {
+        throw new Error(aMsg || ' assertion failed')
+    }
 }
 
 function changeImage(aImg, aId, aHref = false) {

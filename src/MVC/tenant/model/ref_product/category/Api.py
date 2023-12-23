@@ -19,3 +19,9 @@ async def Get_CategoryIdt_Path(self, aLangId: int, aTenantId: int, aCategoryIdts
         'fmtGet_CategoryIdt_Path.sql',
         {'aLangId': aLangId, 'aTenantId': aTenantId, 'CategoryIdts': CategoryIdts}
     )
+
+async def Get_CategoriesSubCount_ParentLang(self, aLangId: int, aTenantId: int, aParentIdtRoot: int) -> dict:
+    return await self.ExecQuery(
+        'fmtGet_CategoriesSubCount_ParentLang.sql',
+        {'aTenantId': aTenantId, 'aParentIdtRoot': aParentIdtRoot, 'aLangId': aLangId}
+    )

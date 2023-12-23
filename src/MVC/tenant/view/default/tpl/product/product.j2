@@ -7,26 +7,25 @@
 {% endif %}
 
 {% block content %}
-<!-- product + -->
+<!-- content product + -->
 <div class="container mt-3 vBgMaster">
   <h2>{{lang.edit_product}}</h2>
 
     <form id="viFormUndo" method="post">
         <div class="mb-3">
             <input  type="checkbox" name="enabled" id="chkInput" {% if product.enabled %}checked{% endif %}/>
-            <label class="form-check-label1">{{lang.enabled}}</label>
+            <label class="form-check-label">{{lang.enabled}}</label>
         </div>
 
         <div class="mb-3">
             <label>{{lang.category}}</label>
             <div class="d-flex">
-                <input type="text" class="form-control m-1" name="category_title" value="{{product.category_title}}" readonly/>
-                <ul class="navbar-nav" title="categories">
-                    <li class="nav-item dropdown" id="viMainNavbar2">
-                        <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" onclick="navbarCategoryClick()" href="#"><i class="fa fa-bars" style="font-size: 1.3em;"></i></a>
-                        <ul class="dropdown-menu" id="viMainNavbarItems">
-                            <li><a class="dropdown-item" href="#">item1 </a></li>
-                            <li><a class="dropdown-item" href="#">item2 </a></li>
+                <input type="hidden" id="viCategoryId" name="category_id" value="{{product.category_id}}">
+                <input type="text" class="form-control m-1" name="category_title" id="viCategoryTitle" value="{{product.category_title}}" readonly/>
+                <ul class="navbar-nav" title="{{lang.categories}}">
+                    <li class="nav-item dropdown" id="viCategory">
+                        <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" id="viCategoryMenu"><i class="fa fa-bars" style="font-size: 1.5em;"></i></a>
+                        <ul class="dropdown-menu" id="viCategoryItems">
                         </ul>
                     </li>
                 </ul>
@@ -78,6 +77,13 @@
         <button type="button" class="btn btn-primary" id="viBtnUndo">{{lang.undo}}</button>
   </form>
 </div>
+<!-- content product + -->
+{% endblock %}
+
+
+{% block foot %}
+<!-- foot product + -->
+<script src="/default/assets/js/submenu_ajax.js"></script>
 
 <script>
     const formTracker = new TFormChangeTracker('viFormUndo', 'vChanged')
@@ -95,6 +101,14 @@
         chkInput.style.pointerEvents = 'auto'
     })
 
+    function OnClickCategory(aId, aTitle) {
+        document.getElementById('viCategoryId').value = aId
+        document.getElementById('viCategoryTitle').value = aTitle
+    }
+
+    const param = {selector: 'viCategory', items: 'viCategoryItems', url: '{{href.category_ajax}}'}
+    document.getElementById('viCategoryMenu').onclick = () => OnClickDropdownMenu(param)
+    initDropdownMenu({selector: 'viCategory'})
 </script>
-<!-- product + -->
+<!-- foot product - -->
 {% endblock %}

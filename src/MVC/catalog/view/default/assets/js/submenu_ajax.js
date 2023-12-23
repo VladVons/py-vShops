@@ -5,7 +5,15 @@ License: GNU, see LICENSE for more details
 */
 
 
-function navbarCategoryClick() {
+function  OnClickDropdownMenu(aOptions) {
+    const defOption = {
+        selector: 'viMainNavbar',
+        items: 'viMainNavbarItems',
+        url: '/api/?route=product0/search'
+    }
+    const Options = { ...defOption, ...aOptions }
+
+
     function Recurs(aData, aId) {
         let Res = []
         for (const x of aData[aId]) {
@@ -18,7 +26,7 @@ function navbarCategoryClick() {
                 Res.push('</ul>')
                 Res.push('</li>')
             }else{
-                Res.push(`<li><a class="dropdown-item" href="${x.href}">${x.title} (${x.products})</a></li>`)
+                Res.push(`<li><a class="dropdown-item" href="${x.href}" ${x.data}>${x.title} (${x.products})</a></li>`)
             }
         }
         return Res
@@ -26,23 +34,22 @@ function navbarCategoryClick() {
 
     function displayResults(aData) {
         const Data = Recurs(aData, 0)
-        const navbarItems = document.getElementById('viMainNavbarItems')
+        const navbarItems = document.getElementById(Options.items)
         navbarItems.innerHTML = Data.join('\n')
-        navbarSubmenu({"selector": "viMainNavbar"})
+        initDropdownMenu({"selector": Options.selector})
     }
 
-    const url = gData.getValue('/href/category_ajax')
-    postJson(url, {'method': 'ajax'})
+    postJson(Options.url, {'method': 'ajax'})
         .then(data => {
             displayResults(data)
         })
 }
 
-function navbarSubmenu(aOptions) {
-    const defaultOption = {
+function initDropdownMenu(aOptions) {
+    const defOption = {
         selector: "viMainNavbar"
     }
-    const Options = { ...defaultOption, ...aOptions }
+    const Options = { ...defOption, ...aOptions }
     const dropdowns = document.getElementById(Options.selector).getElementsByClassName("dropdown")
 
     Array.prototype.forEach.call(dropdowns, (item) => {
@@ -59,5 +66,3 @@ function navbarSubmenu(aOptions) {
         })
     })
 }
-
-navbarSubmenu({"selector": "viMainNavbar"})

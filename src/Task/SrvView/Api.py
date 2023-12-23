@@ -6,6 +6,7 @@
 import os
 import json
 from aiohttp import web
+from aiohttp_session import get_session
 #
 from Inc.DataClass import DDataClass
 from Inc.Misc.Cache import TCacheFile
@@ -146,7 +147,8 @@ class TApiView(TApiBase):
             'path': aRequest.path,
             '_path': self.Name,
             'query': Query,
-            'method': Query.get('method', 'Main')
+            'method': Query.get('method', 'Main'),
+            'session': await get_session(aRequest)
         }
 
         Post = await aRequest.text()

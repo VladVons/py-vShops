@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
 
-    <script src="/tenant/default/assets/js/lib.js"></script>
-    <script src="/tenant/default/assets/js/app.js"></script>
+    <script src="/default/assets/js/lib.js"></script>
+    <script src="/default/assets/js/app.js"></script>
     <script>
       let gData = new TDict()
       gData.updValue('href', {
@@ -14,7 +14,7 @@
     })
     </script>
 
-    <!-- head + -->{% block head %}{% endblock %}<!-- head - -->
+    {% block head %}{% endblock %}
 
     <link rel="stylesheet" href="/default/assets/vendor/css/bootstrap.css">
     <link rel="stylesheet" href="/default/assets/vendor/css/fontawesome.css">
@@ -29,6 +29,7 @@
     {% include './gotop.j2' %}
 
     <script src="/default/assets/vendor/js/bootstrap.bundle.min.js"></script>
-    <script src="/tenant/default/assets/js/gotop.js"></script>
+    <script src="/default/assets/js/gotop.js"></script>
+    {% block foot %}{% endblock %}
   </body>
 </html>
