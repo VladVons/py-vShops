@@ -28,13 +28,21 @@ def DirWalk(aPath: str, aMask: str = '.*', aType: str = 'f', aDepthMax: int = 99
     yield from Recurs(aPath, 0)
 
 
-def DirRemove(aPath: str):
-    for File in os.scandir(aPath):
-        if (os.path.isdir(File)):
-            DirRemove(File)
-            os.rmdir(File)
-        else:
-            os.remove(File.path)
+def DirRemove(aPath: str) -> list[str]:
+    def Recurs(aPath):
+        ResFiles = []
+        for xFile in os.scandir(aPath):
+            if (os.path.isdir(xFile)):
+                ResFiles += Recurs(xFile)
+                os.rmdir(xFile)
+            else:
+                os.remove(xFile.path)
+                ResFiles.append(xFile.path)
+        return ResFiles
+    Res = Recurs(aPath)
+    os.rmdir(aPath)
+    return Res
+
 
 def FilesExist(aFiles: list[str]) -> list[int]:
     return [int(os.path.exists(File)) for File in aFiles]

@@ -6,6 +6,7 @@
 import time
 from wtforms import Form
 from aiohttp import web
+from aiohttp.web_request import FileField
 from aiohttp_session import Session, get_session
 #
 from Inc.DbList import TDbList
@@ -34,6 +35,7 @@ class TFormBase(Form):
             '',
             {
                 'data': {},
+                'files': [],
                 'info': GetAppVer(),
                 'title': '',
                 'route': '',
@@ -113,6 +115,9 @@ class TFormBase(Form):
                 for Key, Val in Post.items():
                     if (isinstance(Val, str)):
                         self.out.data[Key] = Val.strip()
+                    elif (isinstance(Val, FileField)):
+                        self.out.files.append((Val, Key))
+
                 return bool(Post)
 
     async def Render(self) -> str:

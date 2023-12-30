@@ -5,8 +5,9 @@
 
 import os
 import time
+import base64
 #
-from Inc.Misc.FS import DirWalk
+from Inc.Misc.FS import DirRemove
 from IncP.LibCtrl import TDownload, TDownloadImage, TImage, TDbList
 
 
@@ -57,7 +58,7 @@ async def Remove(self, aFiles: list[str]) -> dict:
                 os.remove(File)
 
 async def GetDirList(self, aPath: str) -> dict:
-    Dbl = TDbList(['name', 'type', 'size', 'date', 'href'])
+    Dbl = TDbList(['name', 'type', 'size', 'date', 'href', 'path'])
     Dir = f'{self.Conf.dir_root}/{aPath}'
     for File in os.listdir(Dir):
         Path = f'{Dir}/{File}'
@@ -65,11 +66,32 @@ async def GetDirList(self, aPath: str) -> dict:
         Stat = os.stat(Path)
         Time = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(Stat.st_mtime))
         Path = f'{aPath}/{File}'
-        Url = f'{self.Conf.url}/{Path}'
-        Dbl.RecAdd([File, Type, Stat.st_size, Time, Url])
+        Href = f'{self.Conf.url}/{Path}'
+        Dbl.RecAdd([File, Type, Stat.st_size, Time, Href, Path])
     return Dbl.Sort(['type', 'name']).Export()
 
-async def CreateDir(self, aPath: str) -> str:
-    Dir = f'{self.Conf.dir_root}/{aPath}'
-    os.makedirs(Dir, exist_ok=True)
-    return Dir
+async def CreateDirs(self, aPaths: list[str]):
+    for xPath in aPaths:
+        Path = f'{self.Conf.dir_root}/{xPath}'
+        os.makedirs(Path, exist_ok=True)
+
+async def Remove(self, aPaths: list[str]) -> list[str]:
+    Res = []
+    for xPath in aPaths:
+        Path = f'{self.Conf.dir_root}/{xPath}'
+        if (os.path.isdir(Path)):
+            Res += DirRemove(Path)
+        else:
+            os.remove(Path)
+            Res.append(Path)
+    return {'files': Res}
+
+async def Upload(self, aPath: str, aFiles: dict) -> list[str]:
+    Res = []
+    for Key, Val in aFiles.items():
+        Path = f'{self.Conf.dir_root}/{aPath}/{Key}'
+        Data = base64.b64decode(Val)
+        with open(Path, 'wb') as F:
+            F.write(Data)
+        Res.append(Path)
+    return {'files': Res}

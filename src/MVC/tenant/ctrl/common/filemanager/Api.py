@@ -3,23 +3,71 @@
 # License: GNU, see LICENSE for more details
 
 
-from IncP.LibCtrl import  DeepGetByList, GetDictDefs, TDbList
+import base64
+import json
+#
+from IncP.LibCtrl import  DeepGetByList, GetDictDefs, TDbList, DeepGetsRe
 
 
 async def Main(self, aData: dict = None) -> dict:
+    async def DoPost() -> dict:
+        nonlocal Path
+
+        Post = aData.get('post')
+        if (Post.get('new_folder')):
+            Dir = (Path + '/' + Post.get('new_folder')).lstrip('/')
+            await self.ExecImg(
+                'system',
+                {
+                    'method': 'CreateDirs',
+                    'param': {'aPaths': [Dir]}
+                }
+            )
+
+        if (Post.get('btn_delete')):
+            Items = DeepGetsRe(Post, ['chk_.*'])
+            Items = [x[0] for x in Items]
+            if (Items):
+                await self.ExecImg(
+                    'system',
+                    {
+                        'method': 'Remove',
+                        'param': {'aPaths': Items}
+                    }
+                )
+
+        if (Post.get('btn_upload')):
+            Data = {}
+            for Key, Val in Post['files'].items():
+                Base64 = base64.b64encode(Val).decode('utf-8')
+                Data[Key] = json.dumps(Base64)
+
+            await self.ExecImg(
+                'system',
+                {
+                    'method': 'Upload',
+                    'param': {'aPath': Path, 'aFiles': Data}
+                }
+            )
+
+
     aPath, Mode = GetDictDefs(
         aData.get('query'),
         ('path', 'mode'),
         ('', 'list')
     )
     AuthId = DeepGetByList(aData, ['session', 'auth_id'])
-
     Path = f'product/{AuthId}'
+
+    if (aData['post']):
+        await DoPost()
+
+    Dir = f'{Path}/{aPath}'
     DblData = await self.ExecImg(
         'system',
         {
             'method': 'GetDirList',
-            'param': {'aPath': f'{Path}/{aPath}'}
+            'param': {'aPath': Dir.rstrip('/')}
         }
     )
 

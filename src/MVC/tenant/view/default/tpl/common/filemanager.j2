@@ -3,24 +3,29 @@
 {% block content %}
 <!-- filemanager + -->
 <div class="container mt-3">
-  <form id="viFormImage" method="post">
+  <form id="viFormImage" method="post" enctype="multipart/form-data">
     <div class="row mb-3">
       <div class="col-sm-2">
         <a href="{{href.parent}}" class="btn btn-primary"><i class="fa fa-level-up-alt m-1" title="parent"></i></a>
         <a href="{{href.refresh}}" class="btn btn-primary"><i class="fa fa-sync m-1" title="refresh"></i></a>
-        <button type="button" title="upload" class="btn btn-primary"><i class="fa fa-upload"></i></button>
-        <button type="button" title="delete" class="btn btn-danger" id="viBtnImageDel" name="BtnImageDel"><i class="fa fa-trash"></i></button>
+        <button type="submit" title="delete" class="btn btn-danger" name="btn_delete" value="ok"><i class="fa fa-trash"></i></button>
       </div>
       <div class="col-sm-3">
         <div class="input-group">
-          <input type="text" name="new_folder" placeholder="new folder" class="form-control">
-          <button type="submit" title="new folder" class="btn btn-primary"><i class="fa fa-folder"></i></button>
+          <input type="file" name="files" class="form-control custom-file-input" multiple>
+          <button type="submit" name="btn_upload" value="ok" title="upload" class="btn btn-primary"><i class="fa fa-upload"></i></button>
         </div>
       </div>
       <div class="col-sm-3">
         <div class="input-group">
-          <input type="text" name="search" value="" placeholder="Search.." class="form-control">
-          <button type="button" title="Search" class="btn btn-primary"><i class="fa fa-search"></i></button>
+          <input type="text" name="new_folder" placeholder="new folder" class="form-control">
+          <button type="submit" name="btn_folder" value="ok" class="btn btn-primary"><i class="fa fa-folder"></i></button>
+        </div>
+      </div>
+      <div class="col-sm-3">
+        <div class="input-group">
+          <input type="text" name="btn_search" value="" placeholder="search..." class="form-control">
+          <button type="button" title="search" class="btn btn-primary"><i class="fa fa-search"></i></button>
         </div>
       </div>
     </div>
@@ -36,7 +41,7 @@
         <div class="card-footer">
           <p>{{Rec.name}}</p>
           <p>{{Rec.date}}</p>
-          <input type="checkbox" name="folder1" value="folder1_name">
+          <input type="checkbox" name="chk_folder_{{loop.index}}" value="{{Rec.path}}">
         </div>
       </div>
         {% endif %}
@@ -51,8 +56,8 @@
         <div class="card-footer">
           <p>{{Rec.name}}</p>
           <p>{{Rec.date}}</p>
-          <p>{{Rec.size}}</p>
-          <input type="checkbox" name="image1" value="image1.jpg">
+          <p>{{(Rec.size / 1000) | int}}Kb</p>
+          <input type="checkbox" name="chk_file_{{loop.index}}" value="{{Rec.path}}">
         </div>
       </div>
         {% endif %}
