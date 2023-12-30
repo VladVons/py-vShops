@@ -12,12 +12,13 @@ def DirWalk(aPath: str, aMask: str = '.*', aType: str = 'f', aDepthMax: int = 99
     aMask - regExp mask
     aType: f - file, d - directory
     aDepthMax: max recursion depth
-    for (Path, Type, aDepth) in DirWalk('/etc', '.bin$', 'fd', 5)
+    for (Path, Type, aDepth) in DirWalk('/etc', '.jpg$|.png$', 'fd', 5)
     '''
 
     def Recurs(aPath: str, aDepth: int) -> iter:
         for File in sorted(os.listdir(aPath)):
             Path = aPath + '/' + File
+
             Type = 'd' if (os.path.isdir(Path)) else 'f'
             if (Type == 'd') and (aDepth < aDepthMax) and (not os.path.islink(Path)):
                 yield from Recurs(Path, aDepth + 1)

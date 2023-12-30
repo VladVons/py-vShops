@@ -3,8 +3,6 @@
 # License: GNU, see LICENSE for more details
 
 
-import json
-#
 from IncP.LibCtrl import DeepGetByList, GetDictDefs
 
 
@@ -39,12 +37,11 @@ async def ajax(self, aData: dict = None) -> dict:
 
 
 async def Save(self, aPost: dict, aLangId: int, aTenantId: int, aProductId: int) -> dict:
-    Changes = json.loads(aPost['changes'])
     await self.ExecModelImport(
         'ref_product/product',
         {
             'method': 'Set_Product',
-            'param': {'aLangId': aLangId, 'aTenantId': aTenantId, 'aProductId': aProductId, 'aChanges': Changes}
+            'param': {'aLangId': aLangId, 'aTenantId': aTenantId, 'aProductId': aProductId, 'aPost': aPost}
         }
     )
 
@@ -58,8 +55,9 @@ async def Main(self, aData: dict = None) -> dict:
     aLangId = self.GetLangId(aLang)
     AuthId = DeepGetByList(aData, ['session', 'auth_id'])
 
-    if (aData['post']):
-        await Save(self, aData['post'], aLangId, AuthId, aProductId)
+    Post = aData.get('post')
+    if (Post):
+        await Save(self, Post, aLangId, AuthId, aProductId)
 
     DblProduct = await self.ExecModelImport(
         'ref_product/product',

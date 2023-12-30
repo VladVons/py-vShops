@@ -1,0 +1,70 @@
+{% extends '_inc/layout1.j2' %}
+
+{% block content %}
+<!-- filemanager + -->
+<div class="container mt-3">
+  <form id="viFormImage" method="post">
+    <div class="row mb-3">
+      <div class="col-sm-2">
+        <a href="{{href.parent}}" class="btn btn-primary"><i class="fa fa-level-up-alt m-1" title="parent"></i></a>
+        <a href="{{href.refresh}}" class="btn btn-primary"><i class="fa fa-sync m-1" title="refresh"></i></a>
+        <button type="button" title="upload" class="btn btn-primary"><i class="fa fa-upload"></i></button>
+        <button type="button" title="delete" class="btn btn-danger" id="viBtnImageDel" name="BtnImageDel"><i class="fa fa-trash"></i></button>
+      </div>
+      <div class="col-sm-3">
+        <div class="input-group">
+          <input type="text" name="new_folder" placeholder="new folder" class="form-control">
+          <button type="submit" title="new folder" class="btn btn-primary"><i class="fa fa-folder"></i></button>
+        </div>
+      </div>
+      <div class="col-sm-3">
+        <div class="input-group">
+          <input type="text" name="search" value="" placeholder="Search.." class="form-control">
+          <button type="button" title="Search" class="btn btn-primary"><i class="fa fa-search"></i></button>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      {% set Dbl = TDbList().Import(dbl_dirlist) %}
+      {% for Rec in Dbl %}
+        {% if (Rec.type == 'd') %}
+      <div class="card col-md-4 vCard">
+        <div class="card-header">
+          <a href="{{Rec.href}}"><i class="fa fa-folder fa-8x"></i></a>
+        </div>
+        <div class="card-footer">
+          <p>{{Rec.name}}</p>
+          <p>{{Rec.date}}</p>
+          <input type="checkbox" name="folder1" value="folder1_name">
+        </div>
+      </div>
+        {% endif %}
+      {% endfor %}
+
+      {% for Rec in Dbl %}
+        {% if (Rec.type == 'f') %}
+      <div class="card col-md-4 vCard">
+        <div class="card-header">
+          <a href="{{Rec.href}}"><img class="img-thumb" src="{{Rec.href}}"></a>
+        </div>
+        <div class="card-footer">
+          <p>{{Rec.name}}</p>
+          <p>{{Rec.date}}</p>
+          <p>{{Rec.size}}</p>
+          <input type="checkbox" name="image1" value="image1.jpg">
+        </div>
+      </div>
+        {% endif %}
+      {% endfor %}
+    </div>
+  </form>
+<div>
+<!-- filemanager - -->
+{% endblock %}
+
+{% block foot %}
+<!-- foot product + -->
+<script src="/tenant/default/assets/js/product.js"></script>
+<!-- foot product - -->
+{% endblock %}

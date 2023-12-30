@@ -3,6 +3,8 @@
 # License: GNU, see LICENSE for more details
 
 
+import json
+#
 from IncP.LibModel import DTransaction, TDbExecCursor, TDbSql, DictToComma
 
 
@@ -49,7 +51,8 @@ def Get_Upd_ProducPrice(aData: list) -> str:
 async def _Set_Product(self, aData: dict, aCursor = None) -> dict:
     aTenantId = aData['aTenantId']
     aProductId = aData['aProductId']
-    Changes = aData['aChanges']
+    aPost = aData['aPost']
+    Changes = json.loads(aPost['changes'])
 
     DblData = await self.ApiModel.Exec(
         'system',
@@ -110,5 +113,5 @@ async def _Set_Product(self, aData: dict, aCursor = None) -> dict:
         await TDbExecCursor(aCursor).Exec(Query)
 
 
-async def Set_Product(self, aLangId: int, aTenantId: int, aProductId: int, aChanges: dict) -> dict:
+async def Set_Product(self, aLangId: int, aTenantId: int, aProductId: int, aPost: dict) -> dict:
     await _Set_Product(self, locals())

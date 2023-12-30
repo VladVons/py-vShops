@@ -4,10 +4,10 @@
 
 
 import os
+import time
 #
-
-from Inc.Misc.Request import TDownload, TDownloadImage
-from Inc.Misc.Image import TImage
+from Inc.Misc.FS import DirWalk
+from IncP.LibCtrl import TDownload, TDownloadImage, TImage, TDbList
 
 
 async def UploadUrl(self, aUrl: str, aFile: str) -> dict:
@@ -55,4 +55,21 @@ async def Remove(self, aFiles: list[str]) -> dict:
             File = f'{Dir}/{File}'
             if (os.path.exists(File)):
                 os.remove(File)
-    return {}
+
+async def GetDirList(self, aPath: str) -> dict:
+    Dbl = TDbList(['name', 'type', 'size', 'date', 'href'])
+    Dir = f'{self.Conf.dir_root}/{aPath}'
+    for File in os.listdir(Dir):
+        Path = f'{Dir}/{File}'
+        Type = 'd' if (os.path.isdir(Path)) else 'f'
+        Stat = os.stat(Path)
+        Time = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(Stat.st_mtime))
+        Path = f'{aPath}/{File}'
+        Url = f'{self.Conf.url}/{Path}'
+        Dbl.RecAdd([File, Type, Stat.st_size, Time, Url])
+    return Dbl.Sort(['type', 'name']).Export()
+
+async def CreateDir(self, aPath: str) -> str:
+    Dir = f'{self.Conf.dir_root}/{aPath}'
+    os.makedirs(Dir, exist_ok=True)
+    return Dir
