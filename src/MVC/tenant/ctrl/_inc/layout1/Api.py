@@ -18,6 +18,7 @@ async def Main(self, aData: dict = None) -> dict:
     Href = {
         'faq': f'/{self.Name}/?route=info/faq',
         'products': f'/{self.Name}/?route=product/products',
+        'filemanager': f'/{self.Name}/?route=common/filemanager',
         'search_ajax': '/api/?route=product0/search',
         'category_ajax': '/tenant/api/?route=_inc/layout1'
     }

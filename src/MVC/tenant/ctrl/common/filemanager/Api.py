@@ -11,9 +11,9 @@ from IncP.LibCtrl import  DeepGetByList, GetDictDefs, TDbList, DeepGetsRe
 
 async def Main(self, aData: dict = None) -> dict:
     async def DoPost() -> dict:
-        nonlocal Path
-
+        nonlocal Path, AuthId
         Post = aData.get('post')
+
         if (Post.get('new_folder')):
             Dir = (Path + '/' + Post.get('new_folder')).lstrip('/')
             await self.ExecImg(
@@ -33,6 +33,15 @@ async def Main(self, aData: dict = None) -> dict:
                     {
                         'method': 'Remove',
                         'param': {'aPaths': Items}
+                    }
+                )
+
+                ItemsBase = [x.replace('product/', '') for x in Items]
+                await self.ExecModel(
+                    'ref_product/product',
+                    {
+                        'method': 'Del_TenantImages',
+                        'param': {'aTenantId': AuthId, 'aImages': ItemsBase}
                     }
                 )
 
@@ -62,12 +71,12 @@ async def Main(self, aData: dict = None) -> dict:
     if (aData['post']):
         await DoPost()
 
-    Dir = f'{Path}/{aPath}'
+    Dir = f'{Path}/{aPath}'.rstrip('/')
     DblData = await self.ExecImg(
         'system',
         {
             'method': 'GetDirList',
-            'param': {'aPath': Dir.rstrip('/')}
+            'param': {'aPath': Dir}
         }
     )
 

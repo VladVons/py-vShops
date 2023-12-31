@@ -54,9 +54,9 @@
           <a href="{{Rec.href}}"><img class="img-thumb" src="{{Rec.href}}"></a>
         </div>
         <div class="card-footer">
-          <p>{{Rec.name}}</p>
-          <p>{{Rec.date}}</p>
-          <p>{{(Rec.size / 1000) | int}}Kb</p>
+          <span>{{Rec.name}}</span>
+          <span>{{Rec.date}}</span>
+          <span>{{(Rec.size / 1000) | int}}Kb</span>
           <input type="checkbox" name="chk_file_{{loop.index}}" value="{{Rec.path}}">
         </div>
       </div>

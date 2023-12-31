@@ -5,8 +5,15 @@
 
 import json
 #
-from IncP.LibModel import DTransaction, TDbExecCursor, TDbSql, DictToComma
+from IncP.LibModel import DTransaction, TDbExecCursor, TDbSql, DictToComma, ListToComma
 
+
+async def Del_TenantImages(self, aTenantId: int, aImages: list[str]):
+    Images = ListToComma(aImages)
+    return await self.ExecQuery(
+        'fmtDel_TenantImages.sql',
+        {'aTenantId': aTenantId, 'Images': Images}
+    )
 
 def Get_Upd_Product(aData: dict, aProductId: int) -> str:
     Values = DictToComma(aData)
@@ -16,6 +23,7 @@ def Get_Upd_Product(aData: dict, aProductId: int) -> str:
             set {Values}
             where (id = {aProductId})
         '''
+
 def Get_Upd_ProductToCategory(aCategoryId: list, aProductId):
     return f'''
         update ref_product_to_category
@@ -115,3 +123,5 @@ async def _Set_Product(self, aData: dict, aCursor = None) -> dict:
 
 async def Set_Product(self, aLangId: int, aTenantId: int, aProductId: int, aPost: dict) -> dict:
     await _Set_Product(self, locals())
+
+
