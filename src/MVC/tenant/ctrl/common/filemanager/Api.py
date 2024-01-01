@@ -25,8 +25,8 @@ async def Main(self, aData: dict = None) -> dict:
             )
 
         if (Post.get('btn_delete')):
-            Items = DeepGetsRe(Post, ['chk_.*'])
-            Items = [x[0] for x in Items]
+            ChkItems = DeepGetsRe(Post, ['chk_(file|folder)_.*'])
+            Items = [x[0] for x in ChkItems]
             if (Items):
                 await self.ExecImg(
                     'system',
@@ -36,12 +36,17 @@ async def Main(self, aData: dict = None) -> dict:
                     }
                 )
 
-                ItemsBase = [x.replace('product/', '') for x in Items]
+                Items = []
+                for File, Type in ChkItems:
+                    if ('folder' in Type):
+                        File += '/%'
+                    Items.append(File.replace('product/', ''))
+
                 await self.ExecModel(
                     'ref_product/product',
                     {
                         'method': 'Del_TenantImages',
-                        'param': {'aTenantId': AuthId, 'aImages': ItemsBase}
+                        'param': {'aTenantId': AuthId, 'aImages': Items}
                     }
                 )
 

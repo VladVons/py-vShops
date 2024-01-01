@@ -1,10 +1,10 @@
--- in: aTenantId, Images
+-- in: aTenantId, CondLike
 
-delete from 
+delete from
     ref_product_image rpi
-using 
+using
     ref_product rp
-where 
+where
     (rpi.product_id = rp.id) and
-    (rpi.image in ({{Images}})) and
-    (rp.tenant_id = {{aTenantId}})
+    (rp.tenant_id = {{aTenantId}}) and
+    ({{CondLike}})

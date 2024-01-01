@@ -9,10 +9,11 @@ from IncP.LibModel import DTransaction, TDbExecCursor, TDbSql, DictToComma, List
 
 
 async def Del_TenantImages(self, aTenantId: int, aImages: list[str]):
-    Images = ListToComma(aImages)
+    Arr = [f"image like '{x}'" for x in aImages]
+    CondLike = ' or '.join(Arr)
     return await self.ExecQuery(
         'fmtDel_TenantImages.sql',
-        {'aTenantId': aTenantId, 'Images': Images}
+        {'aTenantId': aTenantId, 'CondLike': CondLike}
     )
 
 def Get_Upd_Product(aData: dict, aProductId: int) -> str:
