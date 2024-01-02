@@ -3,8 +3,6 @@
 # License: GNU, see LICENSE for more details
 
 
-from aiohttp import web, MultipartReader
-#
 from Inc.Util.Obj import DeepGetByList
 from IncP.FormBase import TFormBase
 

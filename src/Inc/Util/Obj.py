@@ -194,8 +194,7 @@ def GetDict(aData: dict, aKeys: list, aStrict: bool = False) -> list:
 
 def GetDictDef(aData: dict, aKeys: list, aDef: list) -> list:
     if (aData):
-        assert(len(aKeys) == len(aDef)), 'Length mismatch'
-        Res = [aData.get(Key, Def) for Key, Def in zip(aKeys, aDef)]
+        Res = [aData.get(Key, Def) for Key, Def in zip(aKeys, aDef, strict=True)]
     else:
         Res = aDef
     return Res
@@ -211,8 +210,7 @@ def GetDictDefs(aData: dict, aKeys: list, aDef: list) -> list:
         return Res
 
     if (aData):
-        assert(len(aKeys) == len(aDef)), 'Length mismatch'
-        Res = [_Get(Key, Def) for Key, Def in zip(aKeys, aDef)]
+        Res = [_Get(Key, Def) for Key, Def in zip(aKeys, aDef, strict=True)]
     else:
         Res = aDef
     return Res
