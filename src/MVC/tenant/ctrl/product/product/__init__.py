@@ -11,4 +11,42 @@ from . import Api
 
 @DAddModules([Api], '*')
 class TMain(TCtrlBase):
-    pass
+    async def GetCategories(self, aLangId: int, aTenantId: int) -> dict:
+        Dbl = await self.ExecModelImport (
+            'ref_product/category',
+            {
+                'method': 'Get_CategoriesSubCount_ParentLang',
+                'param': {
+                    'aLangId': aLangId,
+                    'aTenantId': aTenantId,
+                    'aParentIdtRoot': 0
+                }
+            }
+        )
+
+        Res = {}
+        if (Dbl):
+            for Rec in Dbl:
+                ParentIdt = Dbl.Rec.parent_idt
+                if (ParentIdt not in Res):
+                    Res[ParentIdt] = []
+                Data = Rec.GetAsDict() | {'href': '#', 'data': f'''onclick="OnClickCategory({Rec.id}, '{Rec.title}')"'''}
+                Res[ParentIdt].append(Data)
+        return Res
+
+    async def GetImages(self, aImages: list[str]) -> dict:
+        Res = {'image': '/default/assets/img/no-image.png', 'images': []}
+        if (aImages):
+            Images = [f'product/{x}' for x in aImages]
+            ResEI = await self.ExecImg(
+                'system',
+                {
+                    'method': 'GetImages',
+                    'param': {'aFiles': Images}
+                }
+            )
+
+            Images = ResEI['image']
+            if (Images):
+                Res = {'image': Images[0], 'images': Images}
+        return Res

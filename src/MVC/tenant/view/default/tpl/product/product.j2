@@ -81,11 +81,6 @@
                 <input type="number" class="form-control" name="quantity" placeholder="{{lang.quantity}}" value="{{product.rest}}" min="0"/>
               </div>
 
-              <div class="mb-3">
-                <label>{{lang.images}}</label>
-                <input1 type="file" class="form-control" id="Images" multiple/>
-              </div>
-
               <button type="button" class="btn btn-primary" id="viBtnMainSave">{{lang.save}}</button>
               <button type="button" class="btn btn-primary" id="viBtnMainUndo">{{lang.undo}}</button>
         </form>
@@ -93,6 +88,20 @@
 
       <div class="tab-pane fade" id="images" role="tabpanel" aria-labelledby="images-tab">
         <h2 class="fw-bold mb-4">images</h2>
+        {% for xImage in product.images %}
+          <div class="card col-md-4 vCard">
+            <div class="card-header">
+              <a href="{{xImage}}"><img class="img-thumb" src="{{xImage}}"></a>
+            </div>
+            <div class="card-footer">
+              <span>{{1}}</span>
+              <span>{{2}}</span>
+              <span>{{(3 / 1000) | int}}Kb</span>
+              <input type="checkbox" name="chk_file_{{loop.index}}" value="{{4}}">
+            </div>
+          </div>
+        {% endfor %}
+
       </div>
   </div>
 </div>

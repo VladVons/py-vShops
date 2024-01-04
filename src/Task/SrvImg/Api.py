@@ -21,9 +21,9 @@ class TApiImgConf():
     dir_route: str = 'MVC/                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      /img'
     dir_root: str = 'Data/img'
     dir_thumb: str = 'thumb'
+    no_image: str= 'product/no_image.png'
     size_thumb: int = 200
     size_product: int = 1024
-
 
 class TApiImg(TApiBase):
     def __init__(self):

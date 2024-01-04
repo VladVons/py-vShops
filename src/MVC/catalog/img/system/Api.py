@@ -11,6 +11,25 @@ from Inc.Misc.FS import DirRemove
 from IncP.LibCtrl import TDownload, TDownloadImage, TImage, TDbList
 
 
+def _GetImagesInfo(self, aFiles: list[str]) -> TDbList:
+    Dbl = TDbList(['name', 'type', 'size', 'date', 'href', 'path'])
+    for xFile in aFiles:
+        Path = f'{self.Conf.dir_root}/{xFile}'
+        if (os.path.exists(Path)):
+            Type = 'd' if (os.path.isdir(Path)) else 'f'
+            Stat = os.stat(Path)
+            Size = Stat.st_size
+            Time = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(Stat.st_mtime))
+            Href = f'{self.Conf.url}/{xFile}'
+        else:
+            Type = None
+            Size = -1
+            Time = 0
+            Href = f'{self.Conf.url}/{self.Conf.no_image}'
+        File = xFile.rsplit('/', maxsplit=1)[-1]
+        Dbl.RecAdd([File, Type, Size, Time, Href, xFile])
+    return Dbl
+
 async def UploadUrl(self, aUrl: str, aFile: str) -> dict:
     Path, File = aFile.rsplit('/', maxsplit = 1)
     Download = TDownload(f'{self.Conf.dir_root}/{Path}')
@@ -57,17 +76,13 @@ async def Remove(self, aFiles: list[str]) -> dict:
             if (os.path.exists(File)):
                 os.remove(File)
 
+async def GetImagesInfo(self, aFiles: list[str]) -> TDbList:
+    return _GetImagesInfo(self, aFiles)
+
 async def GetDirList(self, aPath: str) -> dict:
-    Dbl = TDbList(['name', 'type', 'size', 'date', 'href', 'path'])
     Dir = f'{self.Conf.dir_root}/{aPath}'
-    for File in os.listdir(Dir):
-        Path = f'{Dir}/{File}'
-        Type = 'd' if (os.path.isdir(Path)) else 'f'
-        Stat = os.stat(Path)
-        Time = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(Stat.st_mtime))
-        Path = f'{aPath}/{File}'
-        Href = f'{self.Conf.url}/{Path}'
-        Dbl.RecAdd([File, Type, Stat.st_size, Time, Href, Path])
+    Files = [f'{aPath}/{File}' for File in os.listdir(Dir)]
+    Dbl = _GetImagesInfo(self, Files)
     return Dbl.Sort(['type', 'name']).Export()
 
 async def CreateDirs(self, aPaths: list[str]):

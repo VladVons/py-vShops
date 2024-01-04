@@ -36,3 +36,9 @@ async def Get_ProductsStat(self, aTenantId: int) -> dict:
         'fmtGet_ProductsStat.sql',
         {'aTenantId': aTenantId}
     )
+
+async def Get_Product_Images(self, aProductId: int) -> dict:
+    return await self.ExecQuery(
+        'fmtGet_Product_Images.sql',
+        {'aProductId': aProductId}
+    )

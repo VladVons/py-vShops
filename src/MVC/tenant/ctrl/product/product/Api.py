@@ -6,35 +6,11 @@
 from IncP.LibCtrl import DeepGetByList, GetDictDefs
 
 
-async def GetCategories(self, aLangId: int, aTenantId: int) -> dict:
-    Dbl = await self.ExecModelImport (
-        'ref_product/category',
-        {
-            'method': 'Get_CategoriesSubCount_ParentLang',
-            'param': {
-                'aLangId': aLangId,
-                'aTenantId': aTenantId,
-                'aParentIdtRoot': 0
-            }
-        }
-    )
-
-    Res = {}
-    if (Dbl):
-        for Rec in Dbl:
-            ParentIdt = Dbl.Rec.parent_idt
-            if (ParentIdt not in Res):
-                Res[ParentIdt] = []
-            Data = Rec.GetAsDict() | {'href': '#', 'data': f'''onclick="OnClickCategory({Rec.id}, '{Rec.title}')"'''}
-            Res[ParentIdt].append(Data)
-    return Res
-
 async def ajax(self, aData: dict = None) -> dict:
     aLang = aData.get('lang', 'ua')
     LangId = self.GetLangId(aLang)
     AuthId = DeepGetByList(aData, ['session', 'auth_id'])
-    return await GetCategories(self, LangId, AuthId)
-
+    return await self.GetCategories(LangId, AuthId)
 
 async def Save(self, aPost: dict, aLangId: int, aTenantId: int, aProductId: int) -> dict:
     await self.ExecModelImport(
@@ -77,6 +53,19 @@ async def Main(self, aData: dict = None) -> dict:
 
         DblCategory.Rec.RenameFields(['id', 'path_title'], ['category_id', 'category_path'])
         DblProduct.MergeDbl(DblCategory, 'category_id', ['category_path'])
+
+        DblImages = await self.ExecModelImport(
+            'ref_product/product',
+            {
+                'method': 'Get_Product_Images',
+                'param': {'aProductId': aProductId}
+            }
+        )
+
+        Product = DblProduct.Rec.GetAsDict()
+        Images = await self.GetImages(Product['images'])
+        Product.update(Images)
+
         return {
             'product': DblProduct.Rec.GetAsDict(),
             'href': {

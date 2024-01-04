@@ -30,5 +30,9 @@
     },
     "files.associations": {
         "*.j2": "html"
+    },
+    "[j2]": {
+        "editor.tabSize": 2,
+        "editor.insertSpaces": true
     }
 }

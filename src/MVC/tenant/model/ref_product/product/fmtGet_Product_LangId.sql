@@ -24,13 +24,12 @@ select
             ((rpp.product_id = rp.id) and rppd.enabled and (now() between rppd.begin_date and rppd.end_date))
         group by rp.id
     ) as price,
-    (
+    array (
         select rpi.image
         from ref_product_image rpi
         where (rpi.product_id = rp.id and rpi.enabled)
         order by rpi.sort_order, rpi.image
-        limit 1
-    ) as image
+    ) as images
 from
     ref_product rp
 left join
