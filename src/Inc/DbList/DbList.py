@@ -121,7 +121,7 @@ class TDbList(TDbBase):
         return self.Init([aField], Data)
 
     def MergeDblKey(self, aDbl: 'TDbList', aFieldKey: str, aFields: list[str]):
-        self._AddFields(aFields)
+        self.AddFieldsFill(aFields, False)
         Pairs = aDbl.ExportPairs(aFieldKey, aFields)
         FieldNo = self.Rec.GetFieldNo(aFieldKey)
         DefData = [self.Rec.Def.get(x) for x in aFields]
@@ -135,7 +135,7 @@ class TDbList(TDbBase):
 
     def MergeDbl(self, aDbl: 'TDbList', aFields: list[str]):
         assert(len(self) == len(aDbl)), 'Tables size mismatch'
-        self._AddFields(aFields)
+        self.AddFieldsFill(aFields, False)
 
         FieldsNo = [aDbl.GetFieldNo(x) for x in aFields]
         for i, x in enumerate(aDbl.Data):
