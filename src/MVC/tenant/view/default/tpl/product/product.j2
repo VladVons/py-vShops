@@ -6,6 +6,7 @@
     {% set percentage = 0 %}
 {% endif %}
 
+
 {% block content %}
 <!-- content product + -->
 <div class="container mt-3 vBgMaster">
@@ -14,16 +15,16 @@
   <div class="row vBgMaster mt-1">
     <ul class="nav nav-tabs pt-3" id="productTabs" role="tablist">
         <li class="nav-item">
-            <a class="nav-link active" id="main-tab" data-bs-toggle="tab" href="#main" role="tab" aria-controls="main" aria-selected="true">main</a>
+            <a class="nav-link active" id="main-tab" data-bs-toggle="tab" href="#main" role="tab" aria-controls="main" aria-selected="true">{{lang.main}}</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" id="images-tab" data-bs-toggle="tab" href="#images" role="tab" aria-controls="images" aria-selected="false">images</a>
+            <a class="nav-link" id="images-tab" data-bs-toggle="tab" href="#images" role="tab" aria-controls="images" aria-selected="false">{{lang.images}}</a>
         </li>
     </ul>
 
     <div class="tab-content mt-1">
       <div class="tab-pane fade show active m-3" id="main" role="tabpanel" aria-labelledby="main-tab">
-          <h2 class="fw-bold mt-2 ">main</h2>
+          <h2 class="fw-bold mt-2 ">{{lang.main}}</h2>
           <form id="viFormMain" method="post">
               <div class="mb-3">
                   <input  type="checkbox" name="enabled" id="chkInput" {% if product.enabled %}checked{% endif %}/>
@@ -86,22 +87,25 @@
         </form>
       </div>
 
-      <div class="tab-pane fade" id="images" role="tabpanel" aria-labelledby="images-tab">
-        <h2 class="fw-bold mb-4">images</h2>
-        {% for xImage in product.images %}
+      <div class="tab-pane fade m-3" id="images" role="tabpanel" aria-labelledby="images-tab">
+        <h2 class="fw-bold mb-4">{{lang.images}}</h2>
+        <div class="row">
+        {% for Rec in TDbList().Import(dbl_images) %}
           <div class="card col-md-4 vCard">
             <div class="card-header">
-              <a href="{{xImage}}"><img class="img-thumb" src="{{xImage}}"></a>
+              <a href="{{Rec.href}}"><img class="img-thumb" src="{{Rec.href}}"></a>
             </div>
             <div class="card-footer">
-              <span>{{1}}</span>
-              <span>{{2}}</span>
-              <span>{{(3 / 1000) | int}}Kb</span>
-              <input type="checkbox" name="chk_file_{{loop.index}}" value="{{4}}">
+              <span>{{lang.file}}:<input type="text" name="file" value="{{Rec.name}}" readonly></span>
+              <span>{{lang.sort_order}}:<input type="number" class="vInputQty" name="sort_order" value="{{Rec.sort_order}}"></span>
+              <span>{{lang.delete}}:<input type="checkbox" name="chk_file_{{loop.index}}" value="{{4}}"></span>
+              <p></p>
+              <span>{{lang.date}}:{{Rec.date}}</span>
+              <span>{{lang.size}}:{{(Rec.size / 1000) | int}}Kb</span>
             </div>
           </div>
         {% endfor %}
-
+        </div>
       </div>
   </div>
 </div>
@@ -111,6 +115,12 @@
 
 {% block foot %}
 <!-- foot product + -->
+<script>
+    gData.updValue('href', {
+        "category_ajax": "{{href_layout.category_ajax}}"
+    })
+</script>
+
 <script src="/default/assets/js/submenu_ajax.js"></script>
 <script src="/tenant/default/assets/js/product.js"></script>
 <!-- foot product - -->

@@ -91,6 +91,11 @@ class TDbRec():
         self.Data = aData
         return self
 
+    def Merge(self, aData: list) -> 'TDbRec':
+        assert(len(self) == len(self.Data) + len(aData)), 'Size mismatch'
+        self.Data.extend(aData)
+        return self
+
     def RenameFields(self, aOld: list[str], aNew: list[str]):
         for Old, New in zip(aOld, aNew):
             assert (Old in self.Fields), f'Field not found {Old}'

@@ -27,7 +27,7 @@ License:     GNU, see LICENSE for more details
     Dbl2.Rec.RenameFields(['Login'], ['User'])
 
     Dbl1.Rec.Def = {'Street': '', 'Age': 0}
-    Dbl1.MergeDbl(Dbl2, 'User', ['Street', 'Age'])
+    Dbl1.MergeDblKey(Dbl2, 'User', ['Street', 'Age'])
     print(Dbl1)
 
     Dbl1 = TDbListSafe(

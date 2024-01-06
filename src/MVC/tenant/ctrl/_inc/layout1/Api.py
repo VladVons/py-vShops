@@ -13,17 +13,13 @@ async def Main(self, aData: dict = None) -> dict:
         ('', 'ua')
     )
 
-    LangId = self.GetLangId('ua')
-
-    Href = {
-        'faq': f'/{self.Name}/?route=info/faq',
-        'products': f'/{self.Name}/?route=product/products',
-        'filemanager': f'/{self.Name}/?route=common/filemanager',
-        'search_ajax': '/api/?route=product0/search',
-        'category_ajax': '/tenant/api/?route=_inc/layout1'
-    }
-
     return {
-        'href_layout': Href,
+        'href_layout': {
+            'faq': f'/{self.Name}/?route=info/faq',
+            'products': f'/{self.Name}/?route=product/products',
+            'filemanager': f'/{self.Name}/?route=common/filemanager',
+            'search_ajax': '/api/?route=product0/search',
+            'category_ajax': f'/{self.Name}/api/?route=product/product'
+        },
         'search': aSearch
     }

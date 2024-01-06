@@ -10,7 +10,7 @@ async def Main(self, aDbl: TDbList) -> TDbList:
     Missed = aDbl.Rec.GetFieldsMissed(['id', 'category_id', 'category_title', 'image'])
     assert not Missed, f'Missed fields {Missed}'
 
-    Images = aDbl.ExportStr(['image'], 'product/{}')
+    Images = aDbl.ExportStr(['image_'], 'product/{}')
     ResThumbs = await self.ExecImg(
         'system',
         {
@@ -19,16 +19,12 @@ async def Main(self, aDbl: TDbList) -> TDbList:
         }
     )
 
-    ProductHref = []
-    CategoryHref = []
-
-    for Rec in aDbl:
-        Href = f'/{self.Name}/?route=product/product&product_id={Rec.id}'
-        ProductHref.append(Href)
-
-        Href = f'/{self.Name}/?route=product/category&category_id={Rec.category_id}'
-        CategoryHref.append(Href)
-
-    aDbl.AddFields(['thumb', 'product_href', 'category_href'],
-                    [ResThumbs['thumb'], ProductHref, CategoryHref])
+    aDbl.AddFieldsFill(['thumb', 'product_href', 'category_href'], False)
+    for Thumb, Rec in zip(ResThumbs['thumb'], aDbl, strict=True):
+        New = [
+            Thumb,
+            f'/{self.Name}/?route=product/product&product_id={Rec.id}',
+            f'/{self.Name}/?route=product/category&category_id={Rec.category_id}'
+        ]
+        aDbl.RecMerge(New)
     return aDbl

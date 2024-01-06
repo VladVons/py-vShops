@@ -8,10 +8,10 @@ const formMain = new TFormChangeTracker('viFormMain', 'vChanged')
 document.getElementById('viBtnMainUndo').onclick = () => formMain.undoChanges()
 document.getElementById('viBtnMainSave').onclick = () => formMain.submit()
 
-const formImage = new TFormChangeTracker('viFormImage', 'vChanged')
-document.getElementById('viBtnImageDel').onclick = function() {
-    formImage.submit(this)
-}
+// const formImage = new TFormChangeTracker('viFormImage', 'vChanged')
+// document.getElementById('viBtnImageDel').onclick = function() {
+//     formImage.submit(this)
+// }
 
 const chkInput = document.getElementById("chkInput")
 chkInput.onclick = function(event) {
@@ -29,6 +29,10 @@ function OnClickCategory(aId, aTitle) {
     document.getElementById('viCategoryTitle').value = aTitle
 }
 
-const param = {selector: 'viCategory', items: 'viCategoryItems', url: '{{href.category_ajax}}'}
+const param = {
+    selector: 'viCategory',
+    items: 'viCategoryItems',
+    url: gData.getValue('href/category_ajax')
+}
 document.getElementById('viCategoryMenu').onclick = () => OnClickDropdownMenu(param)
 initDropdownMenu({selector: 'viCategory'})

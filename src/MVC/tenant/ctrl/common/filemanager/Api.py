@@ -31,7 +31,7 @@ async def Main(self, aData: dict = None) -> dict:
                 await self.ExecImg(
                     'system',
                     {
-                        'method': 'Remove',
+                        'method': 'RemoveFiles',
                         'param': {'aPaths': Items}
                     }
                 )
@@ -59,7 +59,7 @@ async def Main(self, aData: dict = None) -> dict:
             await self.ExecImg(
                 'system',
                 {
-                    'method': 'Upload',
+                    'method': 'UploadFiles',
                     'param': {'aPath': Path, 'aFiles': Data}
                 }
             )

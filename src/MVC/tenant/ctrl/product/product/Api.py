@@ -52,22 +52,13 @@ async def Main(self, aData: dict = None) -> dict:
         )
 
         DblCategory.Rec.RenameFields(['id', 'path_title'], ['category_id', 'category_path'])
-        DblProduct.MergeDbl(DblCategory, 'category_id', ['category_path'])
+        DblProduct.MergeDblKey(DblCategory, 'category_id', ['category_path'])
 
-        DblImages = await self.ExecModelImport(
-            'ref_product/product',
-            {
-                'method': 'Get_Product_Images',
-                'param': {'aProductId': aProductId}
-            }
-        )
-
-        Product = DblProduct.Rec.GetAsDict()
-        Images = await self.GetImages(Product['images'])
-        Product.update(Images)
+        DblImages = await self.GetImages(aProductId)
 
         return {
             'product': DblProduct.Rec.GetAsDict(),
+            'dbl_images': DblImages and DblImages.Export(),
             'href': {
                 'category_ajax': '/tenant/api/?route=product/product'
             }

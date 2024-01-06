@@ -30,18 +30,6 @@ def _GetImagesInfo(self, aFiles: list[str]) -> TDbList:
         Dbl.RecAdd([File, Type, Size, Time, Href, xFile])
     return Dbl
 
-async def UploadUrl(self, aUrl: str, aFile: str) -> dict:
-    Path, File = aFile.rsplit('/', maxsplit = 1)
-    Download = TDownload(f'{self.Conf.dir_root}/{Path}')
-    Res = await Download.Get([aUrl], [File])
-    return {'status': Res}
-
-async def UploadUrls(self, aUrlD: list, aDir: str, aDownload: bool = True) -> dict:
-    Download = TDownloadImage(f'{self.Conf.dir_root}/{aDir}', self.Conf.size_product)
-    Download.Download = aDownload
-    Res = await Download.Fetch(aUrlD)
-    return {'status': Res}
-
 async def GetThumbs(self, aFiles: list[str]) -> dict:
     Res = []
     for x in aFiles:
@@ -68,16 +56,17 @@ async def GetImages(self, aFiles: list[str]) -> dict:
             Res.append(Image)
     return {'image': Res}
 
-async def Remove(self, aFiles: list[str]) -> dict:
-    Dirs = [self.Conf.dir_root, f'{self.Conf.dir_root}/{self.Conf.dir_thumb}']
-    for Dir in Dirs:
-        for File in aFiles:
-            File = f'{Dir}/{File}'
-            if (os.path.exists(File)):
-                os.remove(File)
+# async def Remove(self, aFiles: list[str]) -> dict:
+#     Dirs = [self.Conf.dir_root, f'{self.Conf.dir_root}/{self.Conf.dir_thumb}']
+#     for Dir in Dirs:
+#         for File in aFiles:
+#             File = f'{Dir}/{File}'
+#             if (os.path.exists(File)):
+#                 os.remove(File)
 
-async def GetImagesInfo(self, aFiles: list[str]) -> TDbList:
-    return _GetImagesInfo(self, aFiles)
+async def GetImagesInfo(self, aFiles: list[str]) -> dict:
+    Dbl = _GetImagesInfo(self, aFiles)
+    return Dbl.Export()
 
 async def GetDirList(self, aPath: str) -> dict:
     Dir = f'{self.Conf.dir_root}/{aPath}'
@@ -90,7 +79,7 @@ async def CreateDirs(self, aPaths: list[str]):
         Path = f'{self.Conf.dir_root}/{xPath}'
         os.makedirs(Path, exist_ok=True)
 
-async def Remove(self, aPaths: list[str]) -> list[str]:
+async def RemoveFiles(self, aPaths: list[str]) -> list[str]:
     Res = []
     for xPath in aPaths:
         Path = f'{self.Conf.dir_root}/{xPath}'
@@ -101,7 +90,7 @@ async def Remove(self, aPaths: list[str]) -> list[str]:
             Res.append(Path)
     return {'files': Res}
 
-async def Upload(self, aPath: str, aFiles: dict) -> list[str]:
+async def UploadFiles(self, aPath: str, aFiles: dict) -> list[str]:
     Res = []
     for Key, Val in aFiles.items():
         Path = f'{self.Conf.dir_root}/{aPath}/{Key}'
@@ -110,3 +99,15 @@ async def Upload(self, aPath: str, aFiles: dict) -> list[str]:
             F.write(Data)
         Res.append(Path)
     return {'files': Res}
+
+async def UploadUrl(self, aUrl: str, aFile: str) -> dict:
+    Path, File = aFile.rsplit('/', maxsplit = 1)
+    Download = TDownload(f'{self.Conf.dir_root}/{Path}')
+    Res = await Download.Get([aUrl], [File])
+    return {'status': Res}
+
+async def UploadUrls(self, aUrlD: list, aDir: str, aDownload: bool = True) -> dict:
+    Download = TDownloadImage(f'{self.Conf.dir_root}/{aDir}', self.Conf.size_product)
+    Download.Download = aDownload
+    Res = await Download.Fetch(aUrlD)
+    return {'status': Res}

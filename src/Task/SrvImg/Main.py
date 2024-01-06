@@ -7,6 +7,7 @@ import os
 import time
 from aiohttp import web
 #
+from Inc.Misc.Misc import TJsonEncoder
 from Inc.SrvWeb.SrvBase import TSrvBase, TSrvConf
 from IncP.Log import Log
 from .Api import ApiImg
@@ -37,11 +38,10 @@ class TSrvImg(TSrvBase):
         Res['info'] = {
             'module': Name,
             'method': aRequest.query.get('method', 'Main'),
-            'count': ApiImg.ExecCnt,
             'time': round(time.time() - TimeStart, 4),
             'status': Status
         }
-        return web.json_response(Res, status = Status)
+        return web.json_response(Res, status = Status, dumps=TJsonEncoder.Dumps)
 
     async def _rImg(self, aRequest: web.Request) -> web.Response:
         Name = aRequest.match_info.get('name')

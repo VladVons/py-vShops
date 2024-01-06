@@ -5,7 +5,7 @@
 
 from Inc.Util.Mod import DAddModules
 from IncP.CtrlBase import TCtrlBase
-from IncP.LibCtrl import TDbSql
+from IncP.LibCtrl import TDbList
 from . import Api
 
 
@@ -34,19 +34,24 @@ class TMain(TCtrlBase):
                 Res[ParentIdt].append(Data)
         return Res
 
-    async def GetImages(self, aImages: list[str]) -> dict:
-        Res = {'image': '/default/assets/img/no-image.png', 'images': []}
-        if (aImages):
-            Images = [f'product/{x}' for x in aImages]
-            ResEI = await self.ExecImg(
+    async def GetImages(self, aProductId: int) -> TDbList:
+        DblDb = await self.ExecModelImport(
+            'ref_product/product',
+            {
+                'method': 'Get_Product_Images',
+                'param': {'aProductId': aProductId}
+            }
+        )
+
+        if (DblDb and len(DblDb) > 0):
+            Images = [f'product/{Rec.image}' for Rec in DblDb]
+            DblData = await self.ExecImg(
                 'system',
                 {
-                    'method': 'GetImages',
+                    'method': 'GetImagesInfo',
                     'param': {'aFiles': Images}
                 }
             )
-
-            Images = ResEI['image']
-            if (Images):
-                Res = {'image': Images[0], 'images': Images}
-        return Res
+            DblImg = TDbList().Import(DblData)
+            DblImg.MergeDbl(DblDb, ['sort_order', 'enabled'])
+            return DblImg

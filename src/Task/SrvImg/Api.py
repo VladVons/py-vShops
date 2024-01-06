@@ -44,7 +44,7 @@ class TApiImg(TApiBase):
         Param = aData.get('param', {})
         Method, Module = (Data['method'], Data['module'])
         Res = await Method(Module, **Param)
-        if (not Res):
+        if (Res is None):
             Res = {}
         return Res
 

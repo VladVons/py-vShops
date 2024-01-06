@@ -3,17 +3,23 @@
         "available": "в наявності",
         "category": "категорія",
         "code": "код",
+        "date": "дата",
+        "delete": "видалити",
         "description": "опис",
         "edit_product": "редагувати продукт",
         "enabled": "дозволено",
+        "file": "файл",
         "features": "характеристики",
         "images": "зоображення",
+        "main": "головне",
         "margin": "націнка",
         "name": "назва",
         "price_purchase": "закупівельна ціна",
         "price_sale": "продажна ціна",
         "quantity": "кількість",
+        "size": "рзмір",
         "save": "зберегти",
+        "sort_order": "сортування",
         "undo": "відновити"
     }
 }

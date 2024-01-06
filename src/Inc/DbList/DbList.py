@@ -34,25 +34,31 @@ class TDbList(TDbBase):
             self.Rec.Data = self.Data[self._RecNo]
         return self.Rec
 
-    def AddFields(self, aFields: list[str], aValues: list = None):
-        for i, x in enumerate(aFields, len(self.Rec.Fields)):
-            self.Rec.Fields[x] = i
+    def AddFields(self, aFields: list[str], aValues: list):
+        self.AddFieldsFill(aFields, False)
 
-        if (not aValues):
+        Values = list(zip(*aValues))
+        Dif = len(self.Data) - len(Values)
+        if (Dif):
             Pad = [None] * len(aFields)
-            for x in self.Data:
-                x += Pad
-        else:
-            Values = list(zip(*aValues))
-            Dif = len(self.Data) - len(Values)
-            if (Dif):
-                Pad = [None] * len(aFields)
-                for i in range(Dif):
-                    Values.append(Pad)
-            for i, x in enumerate(self.Data):
-                self.Data[i] = list(x) + list(Values[i])
+            for i in range(Dif):
+                Values.append(Pad)
+
+        for i, x in enumerate(self.Data):
+            self.Data[i] = list(x) + list(Values[i])
+
         if (self.Data):
             self._RecInit()
+
+    def AddFieldsFill(self, aFields: list[str], aFill: bool):
+        for i, x in enumerate(aFields, len(self.Rec.Fields)):
+            assert(x not in self.Rec.Fields), f'Field {x} already exists'
+            self.Rec.Fields[x] = i
+
+        if (aFill):
+            DefData = [self.Rec.Def.get(x) for x in aFields]
+            for i, x in enumerate(self.Data):
+                self.Data[i] = list(x) + DefData
 
     def Export(self) -> dict:
         '''
@@ -114,19 +120,27 @@ class TDbList(TDbBase):
         Data = [[x] for x in aData]
         return self.Init([aField], Data)
 
-    def MergeDbl(self, aDbl: 'TDbList', aField: str, aFields: list[str]):
-        for i, x in enumerate(aFields, len(self.Rec.Fields)):
-            assert(x not in self.Rec.Fields), f'Field {x} already exists'
-            self.Rec.Fields[x] = i
-
-        Pairs = aDbl.ExportPairs(aField, aFields)
-        FieldNo = self.Rec.GetFieldNo(aField)
+    def MergeDblKey(self, aDbl: 'TDbList', aFieldKey: str, aFields: list[str]):
+        self._AddFields(aFields)
+        Pairs = aDbl.ExportPairs(aFieldKey, aFields)
+        FieldNo = self.Rec.GetFieldNo(aFieldKey)
         DefData = [self.Rec.Def.get(x) for x in aFields]
         for i, x in enumerate(self.Data):
             Data = Pairs.get(x[FieldNo])
             if (not Data):
                 Data = DefData
             self.Data[i] = list(x) + list(Data)
+        if (self.Data):
+            self._RecInit()
+
+    def MergeDbl(self, aDbl: 'TDbList', aFields: list[str]):
+        assert(len(self) == len(aDbl)), 'Tables size mismatch'
+        self._AddFields(aFields)
+
+        FieldsNo = [aDbl.GetFieldNo(x) for x in aFields]
+        for i, x in enumerate(aDbl.Data):
+            self.Data[i].extend([x[No] for No in FieldsNo])
+
         if (self.Data):
             self._RecInit()
 
@@ -145,6 +159,12 @@ class TDbList(TDbBase):
     def RecGo(self, aNo: int) -> TDbRec:
         self.RecNo = aNo
         return self.Rec
+
+    def RecMerge(self, aData: list) -> 'TDbRec':
+        RecNo = self._RecNo
+        self.Data[RecNo] = list(self.Data[RecNo]) + aData
+        assert(len(self.Rec) == len(self.Data[RecNo])), 'Size mismatch'
+        return self._RecInit()
 
     def RecPop(self, aRecNo: int = -1) -> TDbRec:
         Res = TDbRec()
