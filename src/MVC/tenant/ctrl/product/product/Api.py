@@ -71,6 +71,7 @@ async def Main(self, aData: dict = None) -> dict:
 
         DblImages = await self.GetImages(aProductId)
 
+        DblImages0 = None
         DblProduct0 = None
         if (DblProduct.Rec.product0_id):
             DblProduct0 = await self.ExecModelImport(
@@ -89,10 +90,13 @@ async def Main(self, aData: dict = None) -> dict:
                 AsStr = json.dumps(DblProduct0.Rec.features, indent=2, ensure_ascii=False)
                 DblProduct0.Rec.features = AsStr
 
+            DblImages0 = await self.GetImages0(DblProduct.Rec.product0_id)
+
         Res = {
             'product': DblProduct.Rec.GetAsDict(),
             'product0': DblProduct0 and DblProduct0.Rec.GetAsDict(),
             'dbl_images': DblImages and DblImages.Export(),
+            'dbl_images0': DblImages0 and DblImages0.Export(),
             'href': {
                 'category_ajax': '/tenant/api/?route=product/product'
             }

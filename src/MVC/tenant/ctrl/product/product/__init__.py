@@ -34,17 +34,9 @@ class TMain(TCtrlBase):
                 Res[ParentIdt].append(Data)
         return Res
 
-    async def GetImages(self, aProductId: int) -> TDbList:
-        DblDb = await self.ExecModelImport(
-            'ref_product/product',
-            {
-                'method': 'Get_Product_Images',
-                'param': {'aProductId': aProductId}
-            }
-        )
-
-        if (DblDb and len(DblDb) > 0):
-            Images = [f'product/{Rec.image}' for Rec in DblDb]
+    async def _MergeImages(self, aDbl: TDbList) -> TDbList:
+        if (aDbl and len(aDbl) > 0):
+            Images = [f'product/{Rec.image}' for Rec in aDbl]
             DblData = await self.ExecImg(
                 'system',
                 {
@@ -53,5 +45,25 @@ class TMain(TCtrlBase):
                 }
             )
             DblImg = TDbList().Import(DblData)
-            DblImg.MergeDbl(DblDb, ['sort_order', 'enabled'])
+            DblImg.MergeDbl(aDbl, ['sort_order', 'enabled'])
             return DblImg
+
+    async def GetImages(self, aProductId: int) -> TDbList:
+        DblDb = await self.ExecModelImport(
+            'ref_product/product',
+            {
+                'method': 'Get_Product_Images',
+                'param': {'aProductId': aProductId}
+            }
+        )
+        return await self._MergeImages(DblDb)
+
+    async def GetImages0(self, aProductId: int) -> TDbList:
+        DblDb = await self.ExecModelImport(
+            'ref_product0/product',
+            {
+                'method': 'Get_Product_Images',
+                'param': {'aProductId': aProductId}
+            }
+        )
+        return await self._MergeImages(DblDb)

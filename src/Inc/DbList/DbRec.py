@@ -5,6 +5,7 @@
 
 from .DbCond import TDbCond
 
+
 class TDbRec():
     def __init__(self):
         self.Fields = {}
