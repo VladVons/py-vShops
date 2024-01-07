@@ -12,7 +12,10 @@ async def Main(self, _aData: dict = None) -> dict:
         'ref_product0/product',
         {
             'method': 'Get_ProductsRnd_LangImagePrice',
-            'param': {'aLangId': LangId, 'aLimit': 12}
+            'param': {
+                'aLangId': LangId,
+                'aLimit': 12
+            }
         }
     )
     if (Dbl):

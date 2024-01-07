@@ -14,7 +14,10 @@ async def Main(self, aData: dict = None) -> dict:
         'system',
         {
             'method': 'Get_ModuleLang',
-            'param': {'aLangId': LangId, 'aModuleId': aModuleId}
+            'param': {
+                'aLangId': LangId,
+                'aModuleId': aModuleId
+            }
         }
     )
     if (Dbl):

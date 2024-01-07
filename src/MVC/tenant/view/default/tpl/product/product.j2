@@ -20,6 +20,9 @@
         <li class="nav-item">
             <a class="nav-link" id="images-tab" data-bs-toggle="tab" href="#images" role="tab" aria-controls="images" aria-selected="false">{{lang.images}}</a>
         </li>
+        <li class="nav-item">
+          <a class="nav-link" id="images-tab" data-bs-toggle="tab" href="#product0" role="tab" aria-controls="product0" aria-selected="false">{{lang.product0}}</a>
+      </li>
     </ul>
 
     <div class="tab-content mt-1">
@@ -47,14 +50,18 @@
               </div>
 
               <div class="row mb-3">
-                  <div class="col-10">
-                    <label>{{lang.name}}</label>
-                    <input type="text" class="form-control" name="title" placeholder="{{lang.name}}" value="{{product.title}}"/>
-                  </div>
-                    <div class="col-2">
-                      <label>{{lang.code}}</label>
-                      <input type="text" class="form-control"  value="{{product.id}} / {{product.idt}}" readonly/>
-                    </div>
+                <div class="col-8">
+                  <label>{{lang.name}}</label>
+                  <input type="text" class="form-control" name="title" placeholder="{{lang.name}}" value="{{product.title}}"/>
+                </div>
+                <div class="col-2">
+                  <label>{{lang.code}}</label>
+                  <input type="text" class="form-control"  value="{{product.idt}}" readonly/>
+                </div>
+                <div class="col-2">
+                  <label>{{lang.create_date}}</label>
+                  <input type="text" class="form-control"  value="{{product.create_date}}" readonly/>
+                </div>
               </div>
 
               <div class="mb-3">
@@ -106,6 +113,45 @@
           </div>
         {% endfor %}
         </div>
+      </div>
+
+      <div class="tab-pane fade m-3" id="product0" role="tabpanel" aria-labelledby="images-tab">
+        <h2 class="fw-bold mb-4">{{lang.product0}}</h2>
+
+        <div>
+          <div class="mb-3">
+            <label>{{lang.category}}</label>
+            <div class="d-flex">
+                <input type="text" class="form-control m-1" value="{{product0.category_title}}" readonly/>
+            </div>
+          </div>
+
+          <div class="row mb-3">
+            <div class="col-8">
+              <label>{{lang.name}}</label>
+              <input type="text" class="form-control" value="{{product0.title}}" readonly/>
+            </div>
+            <div class="col-2">
+              <label>{{lang.code}}</label>
+              <input type="text" class="form-control"  value="{{product0.id}}" readonly/>
+            </div>
+            <div class="col-2">
+              <label>{{lang.create_date}}</label>
+              <input type="text" class="form-control" value="{{product0.create_date}}" readonly/>
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label>{{lang.description}}</label>
+            <textarea class="form-control" rows="8" readonly>{{product0.descr}}</textarea>
+          </div>
+
+          <div class="mb-3">
+            <label>{{lang.features}}</label>
+            <textarea class="form-control" rows="8" readonly>{{product0.features}}</textarea>
+          </div>
+        </div>
+
       </div>
   </div>
 </div>

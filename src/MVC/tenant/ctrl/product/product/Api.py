@@ -3,6 +3,7 @@
 # License: GNU, see LICENSE for more details
 
 
+import json
 from IncP.LibCtrl import DeepGetByList, GetDictDefs
 
 
@@ -17,7 +18,12 @@ async def Save(self, aPost: dict, aLangId: int, aTenantId: int, aProductId: int)
         'ref_product/product',
         {
             'method': 'Set_Product',
-            'param': {'aLangId': aLangId, 'aTenantId': aTenantId, 'aProductId': aProductId, 'aPost': aPost}
+            'param': {
+                'aLangId': aLangId,
+                'aTenantId': aTenantId,
+                'aProductId': aProductId,
+                'aPost': aPost
+            }
         }
     )
 
@@ -39,15 +45,24 @@ async def Main(self, aData: dict = None) -> dict:
         'ref_product/product',
         {
             'method': 'Get_Product_LangId',
-            'param': {'aLangId': aLangId, 'aTenantId': AuthId, 'aProductId': aProductId}
+            'param': {
+                'aLangId': aLangId,
+                'aTenantId': AuthId,
+                'aProductId': aProductId
+            }
         }
     )
+
     if (DblProduct):
         DblCategory = await self.ExecModelImport(
             'ref_product/category',
             {
                 'method': 'Get_CategoryId_Path',
-                'param': {'aLangId': aLangId, 'aTenantId': AuthId, 'aCategoryIds': [DblProduct.Rec.category_id]}
+                'param': {
+                    'aLangId': aLangId,
+                    'aTenantId': AuthId,
+                    'aCategoryIds': [DblProduct.Rec.category_id]
+                }
             }
         )
 
@@ -56,10 +71,30 @@ async def Main(self, aData: dict = None) -> dict:
 
         DblImages = await self.GetImages(aProductId)
 
-        return {
+        DblProduct0 = None
+        if (DblProduct.Rec.product0_id):
+            DblProduct0 = await self.ExecModelImport(
+                'ref_product0/product',
+                {
+                    'method': 'Get_ProductInf_Id',
+                    'param': {
+                        'aLangId': aLangId,
+                        'aId': DblProduct.Rec.product0_id
+                    }
+                }
+            )
+
+            DblProduct0.ToList()
+            if (DblProduct0.Rec.features):
+                AsStr = json.dumps(DblProduct0.Rec.features, indent=2, ensure_ascii=False)
+                DblProduct0.Rec.features = AsStr
+
+        Res = {
             'product': DblProduct.Rec.GetAsDict(),
+            'product0': DblProduct0 and DblProduct0.Rec.GetAsDict(),
             'dbl_images': DblImages and DblImages.Export(),
             'href': {
                 'category_ajax': '/tenant/api/?route=product/product'
             }
         }
+        return Res

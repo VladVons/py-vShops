@@ -46,7 +46,10 @@ async def Main(self, aData: dict = None) -> dict:
                     'ref_product/product',
                     {
                         'method': 'Del_TenantImages',
-                        'param': {'aTenantId': AuthId, 'aImages': Items}
+                        'param': {
+                            'aTenantId': AuthId,
+                            'aImages': Items
+                        }
                     }
                 )
 
@@ -60,7 +63,10 @@ async def Main(self, aData: dict = None) -> dict:
                 'system',
                 {
                     'method': 'UploadFiles',
-                    'param': {'aPath': Path, 'aFiles': Data}
+                    'param': {
+                        'aPath': Path,
+                        'aFiles': Data
+                    }
                 }
             )
 
@@ -96,11 +102,10 @@ async def Main(self, aData: dict = None) -> dict:
         Arr = aPath.rsplit('/', maxsplit=1)
         Parent = '' if len(Arr) == 1 else Arr[0]
 
-        Res = {
+        return {
             'dbl_dirlist': Dbl.Export(),
             'href': {
                 'parent': f'/tenant/?route=common/filemanager&path={Parent}',
                 'refresh': aData['path_qs']
             }
         }
-        return Res

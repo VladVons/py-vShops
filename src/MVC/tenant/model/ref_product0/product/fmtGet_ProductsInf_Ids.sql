@@ -7,7 +7,7 @@ select
     array (
         select image
         from ref_product0_image
-        where (product_id = rp.id and enabled)
+        where (product_id = rp.id) and enabled
         order by sort_order
     ) as images
 from

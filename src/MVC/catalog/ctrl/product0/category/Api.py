@@ -6,6 +6,7 @@
 from IncP.LibCtrl import GetDictDefs, TPagination, TDbList
 from ..._inc.products_a import Main as products_a
 
+
 async def Main(self, aData: dict = None) -> dict:
     aCategoryId, aLang, aSort, aOrder, aPage, aLimit = GetDictDefs(
         aData.get('query'),
@@ -30,9 +31,16 @@ async def Main(self, aData: dict = None) -> dict:
         'ref_product0/category',
         {
             'method': 'Get_CategoriesProducts_LangImagePrice',
-            'param': {'aCategoryIds': CategoryIds, 'aLangId': self.GetLangId(aLang), 'aPriceId': 1, 'aOrder': f'{aSort} {aOrder}', 'aLimit': aLimit, 'aOffset': (aPage - 1) * aLimit}
+            'param': {
+                'aCategoryIds': CategoryIds,
+                'aLangId': self.GetLangId(aLang),
+                'aPriceId': 1, 'aOrder': f'{aSort} {aOrder}',
+                'aLimit': aLimit,
+                'aOffset': (aPage - 1) * aLimit
+            }
         }
     )
+
     if (Dbl):
         Data = TPagination(aLimit, f'?route=product0/category&category_id={aCategoryId}&page={{page}}').Get(Dbl.Rec.total, aPage)
         DblPagination = TDbList(['page', 'title', 'href', 'current'], Data)

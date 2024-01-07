@@ -39,9 +39,11 @@
           <a href="{{Rec.href}}"><i class="fa fa-folder fa-8x"></i></a>
         </div>
         <div class="card-footer">
-          <p>{{Rec.name}}</p>
-          <p>{{Rec.date}}</p>
-          <input type="checkbox" name="chk_folder_{{loop.index}}" value="{{Rec.path}}">
+          <div class="vKeyValue">
+            <span>{{lang.name}}</span><span>{{Rec.name}}</span>
+            <span>{{lang.date}}</span><span>{{Rec.date}}</span>
+            <span>{{lang.delete}}</span><span><input type="checkbox" name="chk_folder_{{loop.index}}" value="{{Rec.path}}"></span>
+          </div>
         </div>
       </div>
         {% endif %}
@@ -54,10 +56,12 @@
           <a href="{{Rec.href}}"><img class="img-thumb" src="{{Rec.href}}"></a>
         </div>
         <div class="card-footer">
-          <span>{{Rec.name}}</span>
-          <span>{{Rec.date}}</span>
-          <span>{{(Rec.size / 1000) | int}}Kb</span>
-          <input type="checkbox" name="chk_file_{{loop.index}}" value="{{Rec.path}}">
+          <div class="vKeyValue">
+            <span>{{lang.name}}</span><span>{{Rec.name}}</span>
+            <span>{{lang.date}}</span><span>{{Rec.date}}</span>
+            <span>{{lang.size}}</span><span>{{(Rec.size / 1000) | int}}Kb</span>
+            <span>{{lang.delete}}</span><span><input type="checkbox" name="chk_file_{{loop.index}}" value="{{Rec.path}}"></span>
+          </div>
         </div>
       </div>
         {% endif %}

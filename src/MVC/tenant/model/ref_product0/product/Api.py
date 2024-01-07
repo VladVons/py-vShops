@@ -6,10 +6,16 @@
 from IncP.LibModel import ListIntToComma
 
 
-async def ProductsInf_Ids(self, aLangId: int, aIds: list[int]) -> dict:
+async def Get_ProductsInf_Ids(self, aLangId: int, aIds: list[int]) -> dict:
     Ids = ListIntToComma(aIds)
 
     return await self.ExecQuery(
         'fmtGet_ProductsInf_Ids.sql',
         {'aLangId': aLangId, 'Ids': Ids}
+    )
+
+async def Get_ProductInf_Id(self, aLangId: int, aId: int) -> dict:
+    return await self.ExecQuery(
+        'fmtGet_ProductInf_Id.sql',
+        {'aLangId': aLangId, 'aId': aId}
     )

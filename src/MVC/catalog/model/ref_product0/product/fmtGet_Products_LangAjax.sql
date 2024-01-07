@@ -14,7 +14,7 @@ left join
     (rptc.category_id = rpcl.category_id) and (rpl.lang_id = {{aLangId}})
 where
     (rp.enabled) and
-    (rp.product0_id is not null) and (rp.product0_skip is null) and
+    (rp.product0_id is not null) and
     (
         (rpl.title ilike all (values {{FilterRe}})) or
         (rpcl.title ilike all (values {{FilterRe}}))

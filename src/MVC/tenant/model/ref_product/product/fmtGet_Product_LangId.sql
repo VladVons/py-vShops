@@ -3,6 +3,8 @@ select
     rp.enabled,
     rp.id,
     rp.idt,
+    rp.product0_id,
+    rp.create_date::date,
     rps.rest::int,
     rpl.title,
     rpl.descr,

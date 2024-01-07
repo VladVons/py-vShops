@@ -18,7 +18,10 @@ async def Main(self, aData: dict = None) -> dict:
             'system',
             {
                 'method': 'Get_Auth',
-                'param': {'aMailPhone': aUser, 'aPassword': aPassword}
+                'param': {
+                    'aMailPhone': aUser,
+                    'aPassword': aPassword
+                }
             }
         )
         if (Dbl):
@@ -28,4 +31,8 @@ async def Main(self, aData: dict = None) -> dict:
             else:
                 Id = Dbl.Rec.id
                 Type = 'customer'
-            return {'auth_path': Type, 'auth_id': Id}
+
+            return {
+                'auth_path': Type,
+                'auth_id': Id
+            }

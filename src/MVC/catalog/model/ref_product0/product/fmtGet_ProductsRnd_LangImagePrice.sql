@@ -48,7 +48,7 @@ wt1 as (
         ref_tenant rt
         on (rp.tenant_id = rt.id)
     where
-         (rp.enabled) and (rp.product0_id is not null) and (rp.product0_skip is null)
+         (rp.enabled) and (rp.product0_id is not null)
     order by
         random()
     limit

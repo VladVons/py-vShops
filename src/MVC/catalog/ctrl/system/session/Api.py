@@ -18,6 +18,9 @@ async def OnExec(self, aData: dict) -> dict:
             'system',
             {
                 'method': 'AddHistPageView',
-                'param': {'aSessionId': SessionId, 'aUrl': aData['path_qs']}
+                'param': {
+                    'aSessionId': SessionId,
+                    'aUrl': aData['path_qs']
+                }
             }
         )

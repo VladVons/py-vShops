@@ -17,6 +17,11 @@ def Test_01():
         Data1
     )
 
+    Dbl1.Rec.User = 'new user'
+    Dbl1.Rec.User1 = 'new user'
+    Dbl1.Rec.Data[0] = '000'
+    q2 = Dbl1.Rec.User2
+
     Data2 = [
         [1, False, 5.67],
         [2, True, 2.34],

@@ -43,22 +43,20 @@ async def Main(self, aData: dict = None) -> dict:
     LangId = self.GetLangId('ua')
     Categories = await GetCategories(self, LangId)
 
-    Href = {
-        'about_us': '/?route=info/about_us',
-        'contacts': '/?route=info/contacts',
-        'faq': '/?route=info/faq',
-        'history': '/?route=checkout/history',
-        'order': '/?route=checkout/order',
-        'payment': '/?route=checkout/payment',
-        'privacy_policy': '/?route=info/privacy_policy',
-        'search': '/?route=product0/search&q=',
-        'login_tenant': '/tenant/?route=common/login',
-        'search_ajax': '/api/?route=product0/search',
-        'category_ajax': '/api/?route=_inc/layout1'
-    }
-
     return {
         'categories_a': Categories, 'id_a': 0,
-        'href_layout': Href,
+        'href_layout': {
+            'about_us': '/?route=info/about_us',
+            'contacts': '/?route=info/contacts',
+            'faq': '/?route=info/faq',
+            'history': '/?route=checkout/history',
+            'order': '/?route=checkout/order',
+            'payment': '/?route=checkout/payment',
+            'privacy_policy': '/?route=info/privacy_policy',
+            'search': '/?route=product0/search&q=',
+            'login_tenant': '/tenant/?route=common/login',
+            'search_ajax': '/api/?route=product0/search',
+            'category_ajax': '/api/?route=_inc/layout1'
+        },
         'search': aSearch
     }

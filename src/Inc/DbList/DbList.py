@@ -127,7 +127,7 @@ class TDbList(TDbBase):
         DefData = [self.Rec.Def.get(x) for x in aFields]
         for i, x in enumerate(self.Data):
             Data = Pairs.get(x[FieldNo])
-            if (not Data):
+            if (Data is None):
                 Data = DefData
             self.Data[i] = list(x) + list(Data)
         if (self.Data):
@@ -171,3 +171,9 @@ class TDbList(TDbBase):
         Res.Fields = self.Rec.Fields
         Res.Data = self.Data.pop(aRecNo)
         return Res
+
+    def ToList(self):
+        for i, x in enumerate(self.Data):
+            self.Data[i] = list(x)
+        self._RecInit()
+        return self

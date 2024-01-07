@@ -18,7 +18,10 @@ async def ajax(self, aData: dict = None) -> dict:
         'ref_product0/product',
         {
             'method': 'Get_Products_LangAjax',
-            'param': {'aLangId': self.GetLangId(aLang), 'aFilter': aSearch}
+            'param': {
+                'aLangId': self.GetLangId(aLang),
+                'aFilter': aSearch
+            }
         }
     )
     if (Dbl):
@@ -40,7 +43,13 @@ async def Main(self, aData: dict = None) -> dict:
         'ref_product0/product',
         {
             'method': 'Get_Products_LangFilter',
-            'param': {'aLangId': self.GetLangId(aLang), 'aFilter': aSearch, 'aOrder': f'{aSort} {aOrder}', 'aLimit': aLimit, 'aOffset': (aPage - 1) * aLimit}
+            'param': {
+                'aLangId': self.GetLangId(aLang),
+                'aFilter': aSearch,
+                'aOrder': f'{aSort} {aOrder}',
+                'aLimit': aLimit,
+                'aOffset': (aPage - 1) * aLimit
+            }
         }
     )
 

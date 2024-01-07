@@ -131,6 +131,7 @@ input:read-only {
 
 .vReadonly input,
 .vReadonly textarea {
+    resize: none;
     pointer-events: none;
     background-color: var(--colorReadonly);
 }

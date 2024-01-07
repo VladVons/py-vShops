@@ -66,7 +66,7 @@ wt2 as (
         (rptc.category_id = rpcl.category_id)
     where
         (rp.id = {{aProductId}}) and
-        (rp.product0_id is not null) and (rp.product0_skip is null)
+        (rp.product0_id is not null)
 )
 select
     wt1.id,

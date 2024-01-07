@@ -5,7 +5,6 @@ with wt1 as (
         rp.id as product_id,
         rp.idt as product_idt,
         rp.product0_id,
-        rp.product0_skip,
         rptc.category_id,
         rp.tenant_id,
         rt.title as tenant_title,
@@ -58,7 +57,7 @@ with wt1 as (
         (rp.tenant_id = rt.id)
     where
         (rp.enabled) and
-        (rp.product0_id is not null) and (rp.product0_skip is null) and
+        (rp.product0_id is not null) and
         (
             (rpl.title ilike all (values {{FilterRe}})) or
             (rpcl.title ilike all (values {{FilterRe}})) or

@@ -7,12 +7,6 @@ from IncP.LibCtrl import GetDictDefs
 
 
 async def Main(self, aData: dict) -> dict:
-    # aLang, aPath, aKey = GetDictDefs(
-    #     aData.get('query'),
-    #     ('lang', 'path', 'key'),
-    #     ('ua', '', 'tpl')
-    # )
-
     aLang, aPath, aKey = GetDictDefs(
         aData,
         ('lang', 'path', 'key'),

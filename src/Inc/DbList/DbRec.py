@@ -5,11 +5,10 @@
 
 from .DbCond import TDbCond
 
-
 class TDbRec():
     def __init__(self):
-        self.Data = []
         self.Fields = {}
+        self.Data = []
         self.Def = {}
 
     def __getattr__(self, aName: str) -> object:
@@ -24,6 +23,12 @@ class TDbRec():
     def __repr__(self) -> str:
         Res = [f'{Key}={Val}' for Key, Val in zip(self.Fields, self.Data)]
         return ', '.join(Res)
+
+    def __setattr__(self, aKey, aVal):
+        if (aKey in ['Fields', 'Data', 'Def']):
+            super().__setattr__(aKey, aVal)
+        else:
+            self.SetField(aKey, aVal)
 
     def _GetFieldsOrder(self) -> list:
         Fields = sorted(self.Fields.items(), key=lambda x: x[1])

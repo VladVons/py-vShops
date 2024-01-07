@@ -22,7 +22,10 @@ async def Main(self, aData: dict = None) -> dict:
         'ref_product0/product',
         {
             'method': 'Get_Product_LangId',
-            'param': {'aLangId': aLangId, 'aProductId': aProductId}
+            'param': {
+                'aLangId': aLangId,
+                'aProductId': aProductId
+            }
         }
     )
     if (not DblProduct):
@@ -41,7 +44,10 @@ async def Main(self, aData: dict = None) -> dict:
         'ref_product/price',
         {
             'method': 'Get_Price_Product',
-            'param': {'aProductId': aProductId, 'aPriceType': ['sale']}
+            'param': {
+                'aProductId': aProductId,
+                'aPriceType': ['sale']
+            }
         }
     )
     Product['price'] = Price
