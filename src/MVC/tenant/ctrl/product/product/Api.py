@@ -98,7 +98,7 @@ async def Main(self, aData: dict = None) -> dict:
             'dbl_images': DblImages and DblImages.Export(),
             'dbl_images0': DblImages0 and DblImages0.Export(),
             'href': {
-                'category_ajax': '/tenant/api/?route=product/product'
+                'category_ajax': f'/{self.Name}/api/?route=product/product'
             }
         }
         return Res

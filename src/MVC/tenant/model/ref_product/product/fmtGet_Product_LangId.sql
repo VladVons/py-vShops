@@ -31,7 +31,12 @@ select
         from ref_product_image rpi
         where (rpi.product_id = rp.id and rpi.enabled)
         order by rpi.sort_order, rpi.image
-    ) as images
+    ) as images,
+    (
+        select jsonb_object_agg(product_en, code)
+        from ref_product_barcode
+        where product_id = rp.id
+    ) as barcodes
 from
     ref_product rp
 left join

@@ -71,8 +71,15 @@
               </div>
 
               <div class="mb-3">
-                <label>{{lang.descr}}</label>
-                <textarea class="form-control" name="descr" rows="3" placeholder="{{lang.description}}" readonly></textarea>
+                <label>{{lang.code}}</label>
+                <div class="d-flex">
+                    <input type="text" class="form-control m-1" value="{{product.barcodes}}" readonly/>
+                </div>
+              </div>
+
+              <div class="mb-3">
+                <label>{{lang.description}}</label>
+                <textarea class="form-control" name="descr" rows="6" placeholder="{{lang.description}}" readonly></textarea>
               </div>
 
               <div class="row mb-3">
