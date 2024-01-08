@@ -8,8 +8,8 @@ from .DbCond import TDbCond
 
 class TDbRec():
     def __init__(self):
-        self.Fields = {}
         self.Data = []
+        self.Fields = {}
         self.Def = {}
 
     def __getattr__(self, aName: str) -> object:
@@ -26,7 +26,7 @@ class TDbRec():
         return ', '.join(Res)
 
     def __setattr__(self, aKey, aVal):
-        if (aKey in ['Fields', 'Data', 'Def']):
+        if (aKey in ('Data', 'Fields', 'Def')):
             super().__setattr__(aKey, aVal)
         else:
             self.SetField(aKey, aVal)

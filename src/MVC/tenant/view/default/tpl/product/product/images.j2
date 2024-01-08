@@ -1,0 +1,22 @@
+<div class="tab-pane fade m-3" id="images" role="tabpanel" aria-labelledby="images-tab">
+  <h2 class="fw-bold mb-4">{{lang.images}}</h2>
+  <div class="row">
+  {% for Rec in TDbList().Import(dbl_images) %}
+    <div class="card col-md-4 vCard">
+      <div class="card-header">
+        <a href="{{Rec.href}}"><img class="img-thumb" src="{{Rec.href}}"></a>
+      </div>
+      <div class="card-footer">
+        <span>{{lang.file}}:<input type="text" name="file" value="{{Rec.name}}" readonly></span>
+        <span>
+          {{lang.sort_order}}:<input type="number" class="vInputQty" name="sort_order" value="{{Rec.sort_order}}">
+          {{lang.delete}}:<input type="checkbox" name="chk_file_{{loop.index}}" value="{{4}}">
+        </span>
+        <p></p>
+        <span>{{lang.date}}:{{Rec.date}}</span>
+        <span>{{lang.size}}:{{(Rec.size / 1000) | int}}Kb</span>
+      </div>
+    </div>
+  {% endfor %}
+  </div>
+</div>
