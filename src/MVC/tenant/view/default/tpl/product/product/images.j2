@@ -1,5 +1,6 @@
 <div class="tab-pane fade m-3" id="images" role="tabpanel" aria-labelledby="images-tab">
   <h2 class="fw-bold mb-4">{{lang.images}}</h2>
+
   <div class="row">
   {% for Rec in TDbList().Import(dbl_images) %}
     <div class="card col-md-4 vCard">
@@ -18,5 +19,9 @@
       </div>
     </div>
   {% endfor %}
+  </div>
+
+  <div class="mt-3">
+    <button type="button" class="btn btn-primary" id="viBtnImgAdd">{{lang.add}}</button>
   </div>
 </div>
