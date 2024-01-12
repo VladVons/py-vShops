@@ -1,26 +1,26 @@
 <!-- _inc/products_a + -->
 <div class="container pb-3">
-    <div class="vTitle">{{title}}</div>
-    <div class="row">
-        {% for Rec in TDbList().Import(dbl_products_a) %}
-        <div class="col-sm-6 col-md-4 col-lg-2 mb-2">
-            <div class="card vCard">
-                <div class="card-header vImgCenter">
-                    <a href="{{Rec.product_href}}"><img src="{{Rec.thumb}}" alt="{{Rec.product_title}}"></a>
-                </div>
-                <div class="card-body">
-                    <a href="{{Rec.category_href}}">{{Rec.category_title}}</a>
-                    <div class="card-title">{{Rec.product_title|truncate(50, True, '...')}}</div>
-                </div>
-                <div class="card-footer">
-                    <h4 class="fw-bold">{{Rec.price|round|int}} грн</h4>
-                    <hr class="mt-1"/>
-                    <a href="{{Rec.tenant_href}}">{{Rec.tenant_title}}</a>
-                    <p></p>
-                </div>
-            </div>
+  <div class="vTitle">{{title}}</div>
+  <div class="row">
+  {% for Rec in TDbList().Import(dbl_products_a) %}
+    <div class="col-sm-6 col-md-4 col-lg-2 mb-2">
+      <div class="card vCard">
+        <div class="card-header vImgCenter">
+          <a href="{{Rec.product_href}}"><img src="{{Rec.thumb}}" alt="{{Rec.product_title}}"></a>
         </div>
-        {% endfor %}
+        <div class="card-body">
+          <a href="{{Rec.category_href}}">{{Rec.category_title}}</a>
+          <div class="card-title">{{Rec.product_title|truncate(50, True, '...')}}</div>
+        </div>
+        <div class="card-footer">
+          <h4 class="fw-bold">{{Rec.price|round|int}} грн</h4>
+          <hr class="mt-1"/>
+          <a href="{{Rec.tenant_href}}">{{Rec.tenant_title}}</a>
+          <p></p>
+        </div>
+      </div>
     </div>
+  {% endfor %}
+  </div>
 </div>
 <!-- _inc/products_a - -->

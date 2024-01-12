@@ -1,15 +1,15 @@
 <!-- _inc/pagination + -->
 <div class="container mt-1">
-    <nav>
-        <ul class="pagination justify-content-center">
-        {% for Rec in TDbList().Import(dbl_pagenation) %}
-            {% if Rec.current %}
-            <li class="page-item"><a class="page-link active">{{Rec.title}}</a></li>
-            {% else %}
-            <li class="page-item"><a class="page-link" href="{{Rec.href}}">{{Rec.title}}</a></li>
-            {% endif %}
-        {% endfor %}
-        </ul>
-    </nav>
+  <nav>
+    <ul class="pagination justify-content-center">
+    {% for Rec in TDbList().Import(dbl_pagenation) %}
+      {% if Rec.current %}
+        <li class="page-item"><a class="page-link active">{{Rec.title}}</a></li>
+      {% else %}
+        <li class="page-item"><a class="page-link" href="{{Rec.href}}">{{Rec.title}}</a></li>
+      {% endif %}
+    {% endfor %}
+    </ul>
+  </nav>
 </div>
 <!-- _inc/pagination - -->
