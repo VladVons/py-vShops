@@ -9,13 +9,17 @@ import json
 from IncP.LibCtrl import  DeepGetByList, GetDictDefs, TDbList, DeepGetsRe
 
 
+# async def ajax(self, aData: dict = None) -> dict:
+#     Res = await Main(self, aData)
+#     return Res
+
 async def Main(self, aData: dict = None) -> dict:
     async def DoPost() -> dict:
-        nonlocal Path, AuthId
+        nonlocal Dir, AuthId
         Post = aData.get('post')
 
         if (Post.get('new_folder')):
-            Dir = (Path + '/' + Post.get('new_folder')).lstrip('/')
+            Dir = (Dir + '/' + Post.get('new_folder')).lstrip('/')
             await self.ExecImg(
                 'system',
                 {
@@ -64,25 +68,25 @@ async def Main(self, aData: dict = None) -> dict:
                 {
                     'method': 'UploadFiles',
                     'param': {
-                        'aPath': Path,
+                        'aPath': Dir,
                         'aFiles': Data
                     }
                 }
             )
 
-
-    aPath, Mode = GetDictDefs(
+    # entry
+    aLang, aPath, Mode = GetDictDefs(
         aData.get('query'),
-        ('path', 'mode'),
-        ('', 'list')
+        ('lang', 'path', 'mode'),
+        ('ua', '', 'list')
     )
     AuthId = DeepGetByList(aData, ['session', 'auth_id'])
     Path = f'product/{AuthId}'
+    Dir = f'{Path}/{aPath}'.rstrip('/')
 
-    if (aData['post']):
+    if (aData.get('post')):
         await DoPost()
 
-    Dir = f'{Path}/{aPath}'.rstrip('/')
     DblData = await self.ExecImg(
         'system',
         {

@@ -39,7 +39,7 @@ function  OnClickDropdownMenu(aOptions) {
         initDropdownMenu({"selector": Options.selector})
     }
 
-    postJson(Options.url, {'method': 'ajax'})
+    fetchPostJson(Options.url, {'method': 'ajax'})
         .then(data => {
             displayResults(data)
         })

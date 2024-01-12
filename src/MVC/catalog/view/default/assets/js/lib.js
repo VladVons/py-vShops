@@ -5,6 +5,10 @@ License: GNU, see LICENSE for more details
 */
 
 
+function isDict(aData) {
+    return (aData !== null) && (typeof aData === 'object')
+}
+
 class TDict {
     constructor() {
         this.data = {}
@@ -181,7 +185,32 @@ class TRedirect {
     }
 }
 
-function postJson(aUrl, aData = {}) {
+function fetchGet(aUrl) {
+    const requestOptions = {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'text/html'
+      }
+    }
+
+    const Res = fetch(aUrl, requestOptions)
+        .then(aResponse => {
+            if (!aResponse.ok) {
+                throw new Error(`HTTP error. Status: ${aResponse.status}`)
+            }
+            return aResponse
+        })
+        .then(aResponseData => {
+            return aResponseData
+        })
+        .catch(aErr => {
+            console.error('Err:', aErr)
+        })
+    return Res
+}
+
+
+function fetchPostJson(aUrl, aData = {}) {
     const requestOptions = {
         method: 'POST',
         headers: {
@@ -205,6 +234,26 @@ function postJson(aUrl, aData = {}) {
             //throw error
         })
     return Res
+}
+
+function loadInto(aIdName, aUrl, aData = null) {
+    function setElement(data) {
+            console.log('x1', aIdName, aUrl, aData, data)
+            //const element = document.getElementById(aIdName)
+            //element.innerHTML = data
+    }
+
+    if (isDict(aData)) {
+        fetchPostJson(aUrl, aData)
+            .then(data => {
+                setElement(data)
+            })
+    } else {
+        fetchGet(aUrl)
+            .then(data => {
+                setElement(data)
+            })
+    }
 }
 
 function assert(aCond, aMsg = 'Error') {

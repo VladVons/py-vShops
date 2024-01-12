@@ -92,6 +92,8 @@ async def Main(self, aData: dict = None) -> dict:
 
             DblImages0 = await self.GetImages0(DblProduct.Rec.product0_id)
 
+        await self.Lang.Add(aLang, 'common/filemanager')
+
         Res = {
             'product': DblProduct.Rec.GetAsDict(),
             'product0': DblProduct0 and DblProduct0.Rec.GetAsDict(),

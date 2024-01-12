@@ -1,22 +1,21 @@
 <!-- filemanager + -->
 <div class="container mt-3">
-  <form id="viFormImage" method="post" enctype="multipart/form-data">
     <div class="row mb-3">
       <div class="col-sm-2">
         <a href="{{href.parent}}" class="btn btn-primary"><i class="fa fa-level-up-alt m-1" title="{{lang.parent}}"></i></a>
         <a href="{{href.refresh}}" class="btn btn-primary"><i class="fa fa-sync m-1" title="{{lang.refresh}}"></i></a>
-        <button type="submit" title="{{lang.delete}}" class="btn btn-danger" name="btn_delete" value="ok"><i class="fa fa-trash"></i></button>
+        <button type="button" title="{{lang.delete}}" class="btn btn-danger" name="btn_delete" value="ok"><i class="fa fa-trash"></i></button>
       </div>
       <div class="col-sm-3">
         <div class="input-group">
           <input type="file" name="files" class="form-control custom-file-input" multiple>
-          <button type="submit" name="btn_upload" value="ok" title="{{lang.upload}}" class="btn btn-primary"><i class="fa fa-upload"></i></button>
+          <button type="button" name="btn_upload" value="ok" title="{{lang.upload}}" class="btn btn-primary"><i class="fa fa-upload"></i></button>
         </div>
       </div>
       <div class="col-sm-3">
         <div class="input-group">
           <input type="text" name="new_folder" placeholder="{{lang.new_folder}}" class="form-control">
-          <button type="submit" name="btn_folder" value="ok" title="{{lang.new_folder}}" class="btn btn-primary"><i class="fa fa-folder"></i></button>
+          <button type="button" name="btn_folder" value="ok" title="{{lang.new_folder}}" class="btn btn-primary"><i class="fa fa-folder"></i></button>
         </div>
       </div>
       <div class="col-sm-3">
@@ -64,6 +63,5 @@
         {% endif %}
       {% endfor %}
     </div>
-  </form>
 </div>
 <!-- filemanager - -->

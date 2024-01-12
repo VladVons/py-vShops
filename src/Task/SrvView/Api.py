@@ -142,13 +142,15 @@ class TApiView(TApiBase):
 
     async def ResponseApi(self, aRequest: web.Request) -> web.Response:
         Query = dict(aRequest.query)
+        Session = await get_session(aRequest)
         Data = {
             'type': 'api',
             'path': aRequest.path,
             '_path': self.Name,
+            'path_qs': aRequest.path_qs,
             'query': Query,
             'method': Query.get('method', 'Main'),
-            'session': await get_session(aRequest)
+            'session': dict(Session)
         }
 
         Post = await aRequest.text()
@@ -161,7 +163,12 @@ class TApiView(TApiBase):
 
         Ctrl = self.Loader['ctrl']
         Data = await Ctrl.Get(Query.get('route'), Data)
-        Res = web.json_response(data = Data)
+
+        Context = Query.get('context', 'json')
+        if (Context == 'json'):
+            Res = web.json_response(data = Data)
+        else:
+            Res = web.Response(text = Data)
         return Res
 
 
