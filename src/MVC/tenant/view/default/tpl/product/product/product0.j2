@@ -24,22 +24,28 @@
       </div>
     </div>
 
+    {% if product0.barcodes %}
     <div class="mb-3">
       <label>{{lang.code}}</label>
       <div class="d-flex">
         <input type="text" class="form-control m-1" value="{{product0.barcodes}}" readonly/>
       </div>
     </div>
+    {% endif %}
 
+    {% if product0.descr %}
     <div class="mb-3">
       <label>{{lang.description}}</label>
       <textarea class="form-control" rows="8" readonly>{{product0.descr}}</textarea>
     </div>
+    {% endif %}
 
+    {% if product0.features %}
     <div class="mb-3">
       <label>{{lang.features}}</label>
       <textarea class="form-control" rows="8" readonly>{{product0.features}}</textarea>
     </div>
+    {% endif %}
   </div>
 
   <div class="row">

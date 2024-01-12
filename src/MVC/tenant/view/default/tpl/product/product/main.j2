@@ -43,17 +43,28 @@
       </div>
     </div>
 
+    {% if product.barcodes %}
     <div class="mb-3">
       <label>{{lang.code}}</label>
       <div class="d-flex">
         <input type="text" class="form-control m-1" value="{{product.barcodes}}" readonly/>
       </div>
     </div>
+    {% endif %}
 
+    {% if product.descr %}
     <div class="mb-3">
       <label>{{lang.description}}</label>
-      <textarea class="form-control" name="descr" rows="6" placeholder="{{lang.description}}" readonly></textarea>
+      <textarea class="form-control" name="descr" rows="8" placeholder="{{lang.description}}" readonly>{{product.descr}}</textarea>
     </div>
+    {% endif %}
+
+    {% if product.features %}
+    <div class="mb-3">
+      <label>{{lang.features}}</label>
+      <textarea class="form-control" rows="8" readonly>{{product.features}}</textarea>
+    </div>
+    {% endif %}
 
     <div class="row mb-3">
       <div class="col">
