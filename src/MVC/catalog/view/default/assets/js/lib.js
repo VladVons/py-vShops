@@ -10,8 +10,8 @@ function isDict(aData) {
 }
 
 class TDict {
-    constructor() {
-        this.data = {}
+    constructor(aData = {}) {
+        this.data = aData
     }
 
     getValue(aPath) {
@@ -46,6 +46,10 @@ class TDict {
             aVal = { ...obj, ...aVal}
         }
         this.setValue(aPath, aVal)
+    }
+
+    merge(aDict) {
+        this.data = { ...this.data, ...aDict }
     }
 }
 
@@ -166,6 +170,78 @@ class TFormChangeTracker {
     }
 }
 
+class TSend {
+    param(aUrl, aData) {
+        let method = 'GET'
+        let contentType = 'text/html'
+        let asJson = false
+
+        if (aData != null) {
+            method = 'POST'
+            asJson = isDict(aData)
+            if (asJson) {
+                aData = JSON.stringify(aData)
+                contentType = 'application/json'
+            }
+        }
+        return {'url': aUrl, 'data': aData, 'method':  method, 'contentType': contentType, 'asJson': asJson}
+    }
+
+    exec(aUrl, aData = null) {
+        const param = this.param(aUrl, aData)
+        const request = new XMLHttpRequest()
+        request.open(param.method, param.url, false)
+        request.setRequestHeader('Content-type', param.contentType)
+        request.send(param.data)
+        if (request.status == 200) {
+            if (param.asJson) {
+                return JSON.parse(request.responseText)
+            } else {
+                return request.responseText
+            }
+        } else {
+            console.error('Err', request.status)
+        }
+    }
+
+    execA(aUrl, aData = null) {
+        const param = this.param(aUrl, aData)
+        const requestOptions = {
+            method: param.method,
+            headers: {
+                'Content-Type': param.contentType,
+          },
+          body: param.data
+        }
+
+        const Res = fetch(aUrl, requestOptions)
+            .then(aResponse => {
+                if (!aResponse.ok) {
+                    throw new Error(`HTTP error. Status: ${aResponse.status}`)
+                }
+
+                if (param.asJson) {
+                    return aResponse.json()
+                } else {
+                    return aResponse.text()
+                }
+            })
+            .then(aResponseData => {
+                return aResponseData
+            })
+            .catch(aErr => {
+                console.error('Err:', aErr)
+                //throw error
+            })
+        return Res
+    }
+}
+
+function sendInto(aIdName, aUrl, aData = null) {
+    const element = document.getElementById(aIdName)
+    element.innerHTML = new TSend().exec(aUrl, aData)
+}
+
 function format(aPattern, aValues) {
     return aPattern.replace(/\{(\w+)\}/g, (match, key) => aValues[key] || match)
 }
@@ -185,77 +261,6 @@ class TRedirect {
     }
 }
 
-function fetchGet(aUrl) {
-    const requestOptions = {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'text/html'
-      }
-    }
-
-    const Res = fetch(aUrl, requestOptions)
-        .then(aResponse => {
-            if (!aResponse.ok) {
-                throw new Error(`HTTP error. Status: ${aResponse.status}`)
-            }
-            return aResponse
-        })
-        .then(aResponseData => {
-            return aResponseData
-        })
-        .catch(aErr => {
-            console.error('Err:', aErr)
-        })
-    return Res
-}
-
-
-function fetchPostJson(aUrl, aData = {}) {
-    const requestOptions = {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(aData)
-    }
-
-    const Res = fetch(aUrl, requestOptions)
-        .then(aResponse => {
-            if (!aResponse.ok) {
-                throw new Error(`HTTP error. Status: ${aResponse.status}`)
-            }
-            return aResponse.json()
-        })
-        .then(aResponseData => {
-            return aResponseData
-        })
-        .catch(aErr => {
-            console.error('Err:', aErr)
-            //throw error
-        })
-    return Res
-}
-
-function loadInto(aIdName, aUrl, aData = null) {
-    function setElement(data) {
-            console.log('x1', aIdName, aUrl, aData, data)
-            //const element = document.getElementById(aIdName)
-            //element.innerHTML = data
-    }
-
-    if (isDict(aData)) {
-        fetchPostJson(aUrl, aData)
-            .then(data => {
-                setElement(data)
-            })
-    } else {
-        fetchGet(aUrl)
-            .then(data => {
-                setElement(data)
-            })
-    }
-}
-
 function assert(aCond, aMsg = 'Error') {
     if (!aCond) {
         throw new Error(aMsg || ' assertion failed')
@@ -268,4 +273,14 @@ function changeImage(aImg, aId, aHref = false) {
     if (aHref) {
         element.parentNode.href = aImg.src
     }
+}
+
+function IterNameValue(aElements) {
+    let res = {}
+    aElements.forEach(element => res[element.name] = element.value)
+    return res
+}
+
+function dictMerge(aDict1, aDict2) {
+    return { ...aDict1, ...aDict2 }
 }

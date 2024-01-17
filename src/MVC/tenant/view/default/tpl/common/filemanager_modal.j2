@@ -1,0 +1,70 @@
+<!-- filemanager_modal + -->
+<div class="modal fade" id="viFileManagerModal" tabindex="-1" aria-labelledby="cartModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="cartModalLabel">{{lang.shopping_cart}}</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body" id="viModalBody">
+        <!-- js here -->
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  function Update() {
+    function emulHref(aEvent, aThis) {
+      aEvent.preventDefault()
+      sendInto('viModalBody', aThis.getAttribute('href'))
+      Update()
+    }
+
+    document.getElementById("btn_delete").onclick = function(event) {
+      if (confirm('{{ lang.delete }} ?')) {
+        const elements = document.querySelectorAll('input[type="checkbox"][name^="chk_"]:checked')
+        const post = dictMerge(IterNameValue(elements), {'btn_delete': 'ok'})
+        new TSend().exec('/tenant/api/?route=common/filemanager', {'method': 'ajax', 'post': post})
+        const path = document.getElementById("input_path").value
+        sendInto('viModalBody', path)
+        Update()
+      }
+    }
+
+    document.getElementById("btn_new_folder").onclick = function(event) {
+      const element = document.querySelector('input[name="new_folder"]')
+      const post = {'btn_new_folder': 'ok', [element.name]: element.value}
+      new TSend().exec('/tenant/api/?route=common/filemanager', {'method': 'ajax', 'post': post})
+      const path = document.getElementById("input_path").value
+      sendInto('viModalBody', path)
+      Update()
+    }
+
+    document.getElementById('vFS').querySelectorAll('.vJsFolder').forEach(function (element) {
+      element.addEventListener('click', function (event) {
+        emulHref(event, this)
+      })
+    })
+
+    document.getElementById('vFS').querySelectorAll('.vJsThumb').forEach(function (element) {
+      element.addEventListener('click', function (event) {
+        event.preventDefault()
+        const post = {'new_file': this.getAttribute('data-path')}
+        new TSend().exec('/tenant/api/?route=common/filemanager', {'method': 'ajax', 'post': post})
+      })
+    })
+
+    document.getElementById("href_refresh").onclick = function(event) {
+      emulHref(event, this)
+    }
+
+    document.getElementById("href_parent").onclick = function(event) {
+      emulHref(event, this)
+    }
+  }
+
+  sendInto('viModalBody', '/tenant/?route=common/filemanager')
+  Update()
+</script>
+<!-- filemanager_modal - -->

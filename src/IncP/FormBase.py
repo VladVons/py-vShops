@@ -111,9 +111,6 @@ class TFormBase(Form):
         if (self.Request.method.upper() == 'POST'):
             Post = await self.Request.post()
             self.process(Post)
-            for Key, Val in Post.items():
-                print(Key, Val)
-
             if (Post):
                 for Key, Val in Post.items():
                     if (isinstance(Val, str)):

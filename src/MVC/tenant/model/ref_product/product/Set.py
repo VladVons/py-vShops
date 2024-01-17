@@ -16,7 +16,7 @@ async def Del_TenantImages(self, aTenantId: int, aImages: list[str]):
         {'aTenantId': aTenantId, 'CondLike': CondLike}
     )
 
-def Get_Upd_Product(aData: dict, aProductId: int) -> str:
+def Upd_Product(aData: dict, aProductId: int) -> str:
     Values = DictToComma(aData)
     if (Values):
         return f'''
@@ -25,14 +25,14 @@ def Get_Upd_Product(aData: dict, aProductId: int) -> str:
             where (id = {aProductId})
         '''
 
-def Get_Upd_ProductToCategory(aCategoryId: list, aProductId):
+def Upd_ProductToCategory(aCategoryId: list, aProductId):
     return f'''
         update ref_product_to_category
         set category_id = {aCategoryId}
         where (product_id = {aProductId})
     '''
 
-def Get_Upd_ProductLang(aData: dict, aProductId: int, aLangId: int) -> str:
+def Upd_ProductLang(aData: dict, aProductId: int, aLangId: int) -> str:
     Values = DictToComma(aData)
     if (Values):
         return f'''
@@ -41,7 +41,7 @@ def Get_Upd_ProductLang(aData: dict, aProductId: int, aLangId: int) -> str:
             where (product_id = {aProductId}) and (lang_id = {aLangId})
         '''
 
-def Get_Upd_ProducPrice(aData: list) -> str:
+def Upd_ProducPrice(aData: list) -> str:
     return f'''
         with src (product_id, price_id, price) as (
             values {', '.join(aData)}
@@ -92,7 +92,7 @@ async def _Set_Product(self, aData: dict, aCursor = None) -> dict:
         Values.append(Value)
 
     if (Values):
-        Query = Get_Upd_ProducPrice(Values)
+        Query = Upd_ProducPrice(Values)
         await TDbExecCursor(aCursor).Exec(Query)
 
     # ref_product
@@ -100,13 +100,13 @@ async def _Set_Product(self, aData: dict, aCursor = None) -> dict:
     if ('enabled' in Changes):
         Values['enabled'] = Changes['enabled']
 
-    Query = Get_Upd_Product(Values, aProductId)
+    Query = Upd_Product(Values, aProductId)
     if (Query):
         await TDbExecCursor(aCursor).Exec(Query)
 
     # ref_product_to_category
     if ('category_id' in Changes):
-        Query = Get_Upd_ProductToCategory(Changes['category_id'], aProductId)
+        Query = Upd_ProductToCategory(Changes['category_id'], aProductId)
         await TDbExecCursor(aCursor).Exec(Query)
 
     # ref_product_lang
@@ -117,7 +117,7 @@ async def _Set_Product(self, aData: dict, aCursor = None) -> dict:
     if ('descr' in Changes):
         Values['descr'] = Changes['descr']
 
-    Query = Get_Upd_ProductLang(Values, aProductId, 1)
+    Query = Upd_ProductLang(Values, aProductId, 1)
     if (Query):
         await TDbExecCursor(aCursor).Exec(Query)
 

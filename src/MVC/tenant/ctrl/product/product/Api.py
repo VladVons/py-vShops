@@ -4,6 +4,8 @@
 
 
 import json
+#
+from Inc.Util.Obj import DictUpdate
 from IncP.LibCtrl import DeepGetByList, GetDictDefs
 
 
@@ -92,8 +94,6 @@ async def Main(self, aData: dict = None) -> dict:
 
             DblImages0 = await self.GetImages0(DblProduct.Rec.product0_id)
 
-        await self.Lang.Add(aLang, 'common/filemanager')
-
         Res = {
             'product': DblProduct.Rec.GetAsDict(),
             'product0': DblProduct0 and DblProduct0.Rec.GetAsDict(),
@@ -103,4 +103,8 @@ async def Main(self, aData: dict = None) -> dict:
                 'category_ajax': f'/{self.Name}/api/?route=product/product'
             }
         }
+
+        #await self.Lang.Add(aLang, 'common/filemanager')
+        #ResCF = await self.ExecSelf('common/filemanager', aData)
+        #ResAll = DictUpdate(Res, ResCF, True)
         return Res
