@@ -16,14 +16,13 @@ async def Del_TenantImages(self, aTenantId: int, aImages: list[str]):
         {'aTenantId': aTenantId, 'CondLike': CondLike}
     )
 
-def Upd_Product(aData: dict, aProductId: int) -> str:
-    Values = DictToComma(aData)
-    if (Values):
-        return f'''
-            update ref_product
-            set {Values}
-            where (id = {aProductId})
-        '''
+async def Upd_TenantImages(self, aProductId: int, aTenantId: int, aImages: list[str]) -> str:
+    Arr = [f"({aProductId}, '{xImage}'" for xImage in aImages]
+    Data = ', '.join(Arr)
+    return await self.ExecQuery(
+        'fmtUpd_TenantImages.sql',
+        {'aTenantId': aTenantId, 'Data': Data}
+    )
 
 def Upd_ProductToCategory(aCategoryId: list, aProductId):
     return f'''

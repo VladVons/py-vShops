@@ -56,14 +56,6 @@ async def GetImages(self, aFiles: list[str]) -> dict:
             Res.append(Image)
     return {'image': Res}
 
-# async def Remove(self, aFiles: list[str]) -> dict:
-#     Dirs = [self.Conf.dir_root, f'{self.Conf.dir_root}/{self.Conf.dir_thumb}']
-#     for Dir in Dirs:
-#         for File in aFiles:
-#             File = f'{Dir}/{File}'
-#             if (os.path.exists(File)):
-#                 os.remove(File)
-
 async def GetImagesInfo(self, aFiles: list[str]) -> dict:
     Dbl = _GetImagesInfo(self, aFiles)
     return Dbl.Export()

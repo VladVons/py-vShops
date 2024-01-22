@@ -174,27 +174,33 @@ class TSend {
     param(aUrl, aData) {
         let method = 'GET'
         let contentType = 'text/html'
-        let asJson = false
+        let type = 'text'
 
         if (aData != null) {
             method = 'POST'
-            asJson = isDict(aData)
-            if (asJson) {
-                aData = JSON.stringify(aData)
+            if (aData instanceof FormData) {
+                //contentType = 'multipart/form-data'
+                contentType = null // new FormData() handles itself
+                type = 'form-data'
+            } else if (isDict(aData)) {
                 contentType = 'application/json'
+                type = 'json'
+                aData = JSON.stringify(aData)
             }
         }
-        return {'url': aUrl, 'data': aData, 'method':  method, 'contentType': contentType, 'asJson': asJson}
+        return {'url': aUrl, 'data': aData, 'method':  method, 'contentType': contentType, 'type': type}
     }
 
     exec(aUrl, aData = null) {
         const param = this.param(aUrl, aData)
         const request = new XMLHttpRequest()
         request.open(param.method, param.url, false)
-        request.setRequestHeader('Content-type', param.contentType)
+        if (param.contentType) {
+            request.setRequestHeader('Content-type', param.contentType)
+        }
         request.send(param.data)
         if (request.status == 200) {
-            if (param.asJson) {
+            if (param.type == 'json') {
                 return JSON.parse(request.responseText)
             } else {
                 return request.responseText
@@ -220,7 +226,7 @@ class TSend {
                     throw new Error(`HTTP error. Status: ${aResponse.status}`)
                 }
 
-                if (param.asJson) {
+                if (param.contentType == 'application/json') {
                     return aResponse.json()
                 } else {
                     return aResponse.text()
@@ -240,6 +246,22 @@ class TSend {
 function sendInto(aIdName, aUrl, aData = null) {
     const element = document.getElementById(aIdName)
     element.innerHTML = new TSend().exec(aUrl, aData)
+}
+
+function sendMultiFile(aIdName, aUrl)
+{
+    const fileInput = document.getElementById(aIdName)
+    if (fileInput.files.length > 0) {
+        const formData = new FormData()
+        for (let i = 0; i < fileInput.files.length; i++) {
+            formData.append('files', fileInput.files[i])
+        }
+        new TSend().exec(aUrl, formData)
+
+        //var xhr = new XMLHttpRequest();
+        //xhr.open('POST', aUrl, true);
+        //xhr.send(formData)
+    }
 }
 
 function format(aPattern, aValues) {

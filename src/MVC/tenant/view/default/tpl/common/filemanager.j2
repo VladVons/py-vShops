@@ -8,10 +8,12 @@
       <input type="hidden" value="{{href.refresh}}" id="input_path"/>
     </div>
     <div class="col-sm-3">
-      <div class="input-group">
-        <input type="file" name="files" class="form-control custom-file-input" multiple/>
-        <button type="button" class="btn btn-primary" name="btn_upload" value="ok" title="{{lang.upload}}"><i class="fa fa-upload"></i></button>
-      </div>
+      <form id="FormUpload" enctype="multipart/form-data">
+        <div class="input-group">
+          <input type="file" class="form-control custom-file-input" id="files" name="files" multiple/>
+          <button type="button" class="btn btn-primary" id="btn_upload" name="btn_upload" value="ok" title="{{lang.upload}}"><i class="fa fa-upload"></i></button>
+        </div>
+      </form>
     </div>
     <div class="col-sm-3">
       <div class="input-group">

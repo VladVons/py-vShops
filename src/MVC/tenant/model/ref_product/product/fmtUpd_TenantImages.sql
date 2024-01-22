@@ -1,10 +1,18 @@
--- in: aTenantId, CondLike
+-- in: aTenantId, Data as (product_id, image), (...)
 
-delete from
-    ref_product_image rpi
-using
-    ref_product rp
-where
-    (rpi.product_id = rp.id) and
-    (rp.tenant_id = {{aTenantId}}) and
-    ({{CondLike}})
+insert into 
+    ref_product_image (product_id, image)
+select 
+    val.product_id, val.image
+from 
+    (values {{Data}}) as val (product_id, image)
+join ref_product rp 
+    on (val.product_id = rp.id)
+where 
+    (rp.tenant_id = {{aTenantId}})
+on conflict (product_id, image) 
+    do update
+set 
+    enabled = true
+returning 
+    product_id, image

@@ -21,12 +21,13 @@
       Update()
     }
 
+    const path = document.getElementById("input_path").value
+
     document.getElementById("btn_delete").onclick = function(event) {
       if (confirm('{{ lang.delete }} ?')) {
         const elements = document.querySelectorAll('input[type="checkbox"][name^="chk_"]:checked')
         const post = dictMerge(IterNameValue(elements), {'btn_delete': 'ok'})
         new TSend().exec('/tenant/api/?route=common/filemanager', {'method': 'ajax', 'post': post})
-        const path = document.getElementById("input_path").value
         sendInto('viModalBody', path)
         Update()
       }
@@ -36,7 +37,17 @@
       const element = document.querySelector('input[name="new_folder"]')
       const post = {'btn_new_folder': 'ok', [element.name]: element.value}
       new TSend().exec('/tenant/api/?route=common/filemanager', {'method': 'ajax', 'post': post})
-      const path = document.getElementById("input_path").value
+      sendInto('viModalBody', path)
+      Update()
+    }
+
+    document.getElementById("btn_upload").onclick = function(event) {
+      const form = document.getElementById('FormUpload')
+      const formData = new FormData(form)
+      formData.append(this.name, this.value)
+      const xhr = new XMLHttpRequest()
+      xhr.open('POST', '/tenant/?route=common/filemanager', true)
+      xhr.send(formData)
       sendInto('viModalBody', path)
       Update()
     }
