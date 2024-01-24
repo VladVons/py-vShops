@@ -37,7 +37,7 @@
           <p class="h3">{{Rec.price}} грн</p>
         {%- endif %}
       {% endfor %}
-      <button type="button" class="btn btn-primary mt-3 viAddToCart" data='{"id":"{{product.id}}", "name":"{{product.title}}", "price":{{ns.Price}}, "img":"{{product.image}}", "qty":1, "href":"{{href.self}}"}'
+      <button type="button" class="btn btn-primary mt-3 viAddToCart" data='{"id":"{{product.id}}", "name":"{{product.title}}", "price":{{ns.Price}}, "img":"{{product.image}}", "qty":1, "href":"{{href.self}}"}'>
         <i class="fa fa-shopping-cart m-1"></i>{{lang.add_to_card}}
       </button>
     </div>

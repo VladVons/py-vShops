@@ -12,7 +12,7 @@
 }
 
 .product-grid-item:nth-child(odd) {
-    background-color: var(--colorBgSlave);
+  background-color: var(--colorBgSlave);
 }
 
 .product-grid-item:hover {
@@ -29,3 +29,9 @@
   font-weight: bold; 
 }
 
+.overlay-button {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}

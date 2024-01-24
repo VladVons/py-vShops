@@ -45,7 +45,7 @@ class TMain(TCtrlBase):
                 }
             )
             DblImg = TDbList().Import(DblData)
-            DblImg.MergeDbl(aDbl, ['sort_order', 'enabled'])
+            DblImg.MergeDbl(aDbl, ['sort_order', 'enabled', 'image'])
             return DblImg
 
     async def GetImages(self, aProductId: int) -> TDbList:

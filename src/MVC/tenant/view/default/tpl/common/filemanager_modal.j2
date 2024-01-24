@@ -4,7 +4,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="cartModalLabel">{{lang.shopping_cart}}</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="btn-close-modal"></button>
       </div>
       <div class="modal-body" id="viModalBody">
         <!-- js here -->
@@ -14,6 +14,8 @@
 </div>
 
 <script type="text/javascript">
+  let cardId = null
+
   function Update() {
     function emulHref(aEvent, aThis) {
       aEvent.preventDefault()
@@ -21,14 +23,17 @@
       Update()
     }
 
-    const path = document.getElementById("input_path").value
+    const pathRefresh = document.getElementById("input_refresh").value
+    const query = pathRefresh.split('?').pop()
 
     document.getElementById("btn_delete").onclick = function(event) {
-      if (confirm('{{ lang.delete }} ?')) {
-        const elements = document.querySelectorAll('input[type="checkbox"][name^="chk_"]:checked')
+      const elements = document.querySelectorAll('input[type="checkbox"][name^="chk_"]:checked')
+      if (elements.length == 0) {
+        alert('{{ lang.not_selected }}')
+      } else if (confirm('{{ lang.delete }} ?')) {
         const post = dictMerge(IterNameValue(elements), {'btn_delete': 'ok'})
-        new TSend().exec('/tenant/api/?route=common/filemanager', {'method': 'ajax', 'post': post})
-        sendInto('viModalBody', path)
+        new TSend().exec('/tenant/api/?' + query, {'method': 'ajax', 'post': post})
+        sendInto('viModalBody', pathRefresh)
         Update()
       }
     }
@@ -36,8 +41,8 @@
     document.getElementById("btn_new_folder").onclick = function(event) {
       const element = document.querySelector('input[name="new_folder"]')
       const post = {'btn_new_folder': 'ok', [element.name]: element.value}
-      new TSend().exec('/tenant/api/?route=common/filemanager', {'method': 'ajax', 'post': post})
-      sendInto('viModalBody', path)
+      new TSend().exec('/tenant/api/?' + query, {'method': 'ajax', 'post': post})
+      sendInto('viModalBody', pathRefresh)
       Update()
     }
 
@@ -46,9 +51,9 @@
       const formData = new FormData(form)
       formData.append(this.name, this.value)
       const xhr = new XMLHttpRequest()
-      xhr.open('POST', '/tenant/?route=common/filemanager', true)
+      xhr.open('POST', pathRefresh, true)
       xhr.send(formData)
-      sendInto('viModalBody', path)
+      sendInto('viModalBody', pathRefresh)
       Update()
     }
 
@@ -61,8 +66,13 @@
     document.getElementById('vFS').querySelectorAll('.vJsThumb').forEach(function (element) {
       element.addEventListener('click', function (event) {
         event.preventDefault()
-        const post = {'new_file': this.getAttribute('data-path')}
-        new TSend().exec('/tenant/api/?route=common/filemanager', {'method': 'ajax', 'post': post})
+
+        const data = JSON.parse(this.getAttribute('data'))
+        const card = document.getElementById(cardId)
+        card.getElementsByClassName("imgThumb")[0].src = data.src
+        card.getElementsByClassName("imgFile")[0].value = data.path
+
+        document.getElementById('btn-close-modal').click()
       })
     })
 
@@ -77,5 +87,11 @@
 
   sendInto('viModalBody', '/tenant/?route=common/filemanager')
   Update()
+
+  document.getElementById('images').querySelectorAll('.btn_ImgEdit').forEach(function (element) {
+    element.addEventListener('click', function (event) {
+      cardId = this.getAttribute("cardId")
+    })
+  })
 </script>
 <!-- filemanager_modal - -->

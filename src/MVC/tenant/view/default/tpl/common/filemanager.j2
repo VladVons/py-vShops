@@ -5,7 +5,7 @@
       <a href="{{href.parent}}" class="btn btn-primary" id="href_parent"><i class="fa fa-level-up-alt m-1" title="{{lang.parent}}"></i></a>
       <a href="{{href.refresh}}" class="btn btn-primary" id="href_refresh"><i class="fa fa-sync m-1" title="{{lang.refresh}}"></i></a>
       <button type="button" class="btn btn-danger" id="btn_delete" name="btn_delete" value="ok" title="{{lang.delete}}"><i class="fa fa-trash"></i></button>
-      <input type="hidden" value="{{href.refresh}}" id="input_path"/>
+      <input type="hidden" value="{{href.refresh}}" id="input_refresh"/>
     </div>
     <div class="col-sm-3">
       <form id="FormUpload" enctype="multipart/form-data">
@@ -52,7 +52,9 @@
       {% if (Rec.type == 'f') %}
     <div class="card col-md-4 vCard">
       <div class="card-header">
-        <a href="{{Rec.href}}" class="vJsThumb" data-path="{{Rec.path}}"><img class="img-thumb" src="{{Rec.href}}"></a>
+        <a href="{{Rec.href}}" class="vJsThumb" data='{"src":"{{Rec.href}}", "path":"{{Rec.path}}", "date":"{{Rec.date}}", "size":{{Rec.size}}}'>
+          <img class="img-thumb" src="{{Rec.href}}">
+        </a>
       </div>
       <div class="card-footer">
         <div class="vKeyValue">
