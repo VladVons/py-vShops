@@ -71,6 +71,8 @@
         const card = document.getElementById(cardId)
         card.getElementsByClassName("imgThumb")[0].src = data.src
         card.getElementsByClassName("imgFile")[0].value = data.path
+        card.getElementsByClassName("imgDate")[0].textContent = data.date
+        card.getElementsByClassName("imgSize")[0].textContent = Math.round(data.size / 1000).toString() + 'Kb'
 
         document.getElementById('btn-close-modal').click()
       })
@@ -90,6 +92,7 @@
 
   document.getElementById('images').querySelectorAll('.btn_ImgEdit').forEach(function (element) {
     element.addEventListener('click', function (event) {
+      event.preventDefault()
       cardId = this.getAttribute("cardId")
     })
   })

@@ -5,8 +5,10 @@ License: GNU, see LICENSE for more details
 */
 
 const formMain = new TFormChangeTracker('viFormMain', 'vChanged')
-document.getElementById('viBtnMainUndo').onclick = () => formMain.undoChanges()
 document.getElementById('viBtnMainSave').onclick = () => formMain.submit()
+
+const formImage = new TFormChangeTracker('viFormImage', 'vChanged')
+document.getElementById('viBtnImageSave').onclick = () => formImage.submit()
 
 // const formImage = new TFormChangeTracker('viFormImage', 'vChanged')
 // document.getElementById('viBtnImageDel').onclick = function() {
@@ -35,4 +37,5 @@ const param = {
     url: gData.getValue('href/category_ajax')
 }
 document.getElementById('viCategoryMenu').onclick = () => OnClickDropdownMenu(param)
+
 initDropdownMenu({selector: 'viCategory'})

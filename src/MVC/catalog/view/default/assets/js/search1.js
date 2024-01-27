@@ -44,7 +44,7 @@ function searchNavbar() {
             const value = this.value.trim()
             if (value.length > 0) {
                 const url = gData.getValue('/href/search_ajax')
-                fetchPostJson(url, {'method': 'ajax', 'q': value})
+                new TSend().execA(url, {'method': 'ajax', 'q': value})
                     .then(data => {
                         displayResult(aEvent, data)
                     })

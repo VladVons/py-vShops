@@ -39,7 +39,7 @@ function  OnClickDropdownMenu(aOptions) {
         initDropdownMenu({"selector": Options.selector})
     }
 
-    fetchPostJson(Options.url, {'method': 'ajax'})
+    new TSend().execA(Options.url, {'method': 'ajax'})
         .then(data => {
             displayResults(data)
         })

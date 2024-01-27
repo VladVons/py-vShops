@@ -24,14 +24,14 @@ async def Upd_TenantImages(self, aProductId: int, aTenantId: int, aImages: list[
         {'aTenantId': aTenantId, 'Data': Data}
     )
 
-def Upd_ProductToCategory(aCategoryId: list, aProductId):
+def GetUpd_ProductToCategory(aCategoryId: list, aProductId):
     return f'''
         update ref_product_to_category
         set category_id = {aCategoryId}
         where (product_id = {aProductId})
     '''
 
-def Upd_ProductLang(aData: dict, aProductId: int, aLangId: int) -> str:
+def GetUpd_ProductLang(aData: dict, aProductId: int, aLangId: int) -> str:
     Values = DictToComma(aData)
     if (Values):
         return f'''
@@ -40,7 +40,7 @@ def Upd_ProductLang(aData: dict, aProductId: int, aLangId: int) -> str:
             where (product_id = {aProductId}) and (lang_id = {aLangId})
         '''
 
-def Upd_ProducPrice(aData: list) -> str:
+def GetUpd_ProducPrice(aData: list) -> str:
     return f'''
         with src (product_id, price_id, price) as (
             values {', '.join(aData)}
@@ -53,6 +53,15 @@ def Upd_ProducPrice(aData: list) -> str:
         when not matched then
             insert (product_id, price_id, price)
             values (src.product_id, src.price_id, src.price)
+    '''
+
+def GetUpd_Product(aData: dict, aProductId: int) -> str:
+    Values = DictToComma(aData)
+
+    return f'''
+        update ref_product
+        set {Values}
+        where (id = {aProductId})
     '''
 
 @DTransaction
@@ -74,7 +83,7 @@ async def _Set_Product(self, aData: dict, aCursor = None) -> dict:
         Query = f'''
             select stock_set_tenant(
                 {aProductId},
-                {Changes['quantity']},
+                {Changes['quantity'][1]},
                 {aTenantId}
             )
         '''
@@ -83,45 +92,43 @@ async def _Set_Product(self, aData: dict, aCursor = None) -> dict:
     # ref_product_price
     Values = []
     if ('price_sale' in Changes):
-        Value = f'({aProductId}, {DblTenant.Rec.price.get("sale")}, {Changes["price_sale"]})'
+        Value = f'({aProductId}, {DblTenant.Rec.price.get("sale")}, {Changes["price_sale"][1]})'
         Values.append(Value)
 
     if ('price_purchase' in Changes):
-        Value = f'({aProductId}, {DblTenant.Rec.price.get("purchase")}, {Changes["price_purchase"]})'
+        Value = f'({aProductId}, {DblTenant.Rec.price.get("purchase")}, {Changes["price_purchase"][1]})'
         Values.append(Value)
 
     if (Values):
-        Query = Upd_ProducPrice(Values)
+        Query = GetUpd_ProducPrice(Values)
         await TDbExecCursor(aCursor).Exec(Query)
 
     # ref_product
     Values = {}
     if ('enabled' in Changes):
-        Values['enabled'] = Changes['enabled']
+        Values['enabled'] = Changes['enabled'][1]
 
-    Query = Upd_Product(Values, aProductId)
-    if (Query):
-        await TDbExecCursor(aCursor).Exec(Query)
+        Query = GetUpd_Product(Values, aProductId)
+        if (Query):
+            await TDbExecCursor(aCursor).Exec(Query)
 
     # ref_product_to_category
     if ('category_id' in Changes):
-        Query = Upd_ProductToCategory(Changes['category_id'], aProductId)
+        Query = GetUpd_ProductToCategory(Changes['category_id'][1], aProductId)
         await TDbExecCursor(aCursor).Exec(Query)
 
     # ref_product_lang
     Values = {}
     if ('title' in Changes):
-        Values['title'] = Changes['title']
+        Values['title'] = Changes['title'][1]
 
     if ('descr' in Changes):
-        Values['descr'] = Changes['descr']
+        Values['descr'] = Changes['descr'][1]
 
-    Query = Upd_ProductLang(Values, aProductId, 1)
+    Query = GetUpd_ProductLang(Values, aProductId, 1)
     if (Query):
         await TDbExecCursor(aCursor).Exec(Query)
 
 
 async def Set_Product(self, aLangId: int, aTenantId: int, aProductId: int, aPost: dict) -> dict:
     await _Set_Product(self, locals())
-
-

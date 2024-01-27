@@ -86,7 +86,9 @@ class TFormChangeTracker {
     }
 
     init() {
-        for (const x of this.getInputs()) {
+        const inputs = this.getInputs()
+        //console.log('-x2', this.form, inputs)
+        for (const x of inputs) {
             this.initialValues[this.getAttr(x)] = this.getValue(x)
         }
 
@@ -109,10 +111,13 @@ class TFormChangeTracker {
 
     getChanges() {
         let Res = {}
-        for (const x of this.getInputs()) {
+        const inputs = this.getInputs()
+        //console.log('-x2', inputs)
+        for (const x of inputs) {
             const value = this.getValue(x)
-            if (this.initialValues[this.getAttr(x)] != value) {
-                Res[this.getAttr(x)] = value
+            const prev = this.initialValues[this.getAttr(x)]
+            if (prev != value) {
+                Res[this.getAttr(x)] = [prev, value]
             }
         }
         return Res
@@ -154,6 +159,7 @@ class TFormChangeTracker {
     }
 
     submit(aTarget = null) {
+        //console.log('-x1', this.getChanges())
         let newData = document.createElement('input')
         newData.type = 'hidden'
         newData.name = 'changes'
