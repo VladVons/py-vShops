@@ -90,7 +90,7 @@ function searchNavbar() {
 
     function delActive(x) {
         for (let i = 0; i < x.length; i++) {
-            x[i].classList.remove(autocompleteActive);
+            x[i].classList.remove(autocompleteActive)
         }
     }
 }

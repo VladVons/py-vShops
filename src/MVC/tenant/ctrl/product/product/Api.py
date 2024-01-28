@@ -40,7 +40,7 @@ async def Main(self, aData: dict = None) -> dict:
     AuthId = DeepGetByList(aData, ['session', 'auth_id'])
 
     Post = aData.get('post')
-    if (Post):
+    if (Post and len(Post.get('changes', '')) > 2):
         await Save(self, Post, aLangId, AuthId, aProductId)
 
     DblProduct = await self.ExecModelImport(

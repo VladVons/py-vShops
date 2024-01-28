@@ -159,18 +159,24 @@ class TFormChangeTracker {
     }
 
     submit(aTarget = null) {
-        //console.log('-x1', this.getChanges())
         let newData = document.createElement('input')
         newData.type = 'hidden'
         newData.name = 'changes'
         newData.value = JSON.stringify(this.getChanges())
-        this.form.appendChild(newData);
+        this.form.appendChild(newData)
+
+        newData = document.createElement('input')
+        newData.type = 'hidden'
+        newData.name = 'formId'
+        newData.value = this.form.id
+        this.form.appendChild(newData)
+
         if (aTarget) {
             newData = document.createElement('input')
             newData.type = 'hidden'
             newData.name = aTarget.name
             newData.value = aTarget.value
-            this.form.appendChild(newData);
+            this.form.appendChild(newData)
         }
         this.form.submit()
     }
@@ -264,8 +270,8 @@ function sendMultiFile(aIdName, aUrl)
         }
         new TSend().exec(aUrl, formData)
 
-        //var xhr = new XMLHttpRequest();
-        //xhr.open('POST', aUrl, true);
+        //var xhr = new XMLHttpRequest()
+        //xhr.open('POST', aUrl, true)
         //xhr.send(formData)
     }
 }

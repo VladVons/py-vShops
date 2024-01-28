@@ -10,14 +10,16 @@
         </div>
         <div class="card-footer">
           <span>
-            {{lang.file}}:<input type="text" class="imgFile" name="input_file_{{loop.index}}" value="{{Rec.image}}" readonly>
+            <input type="hidden" name="card_{{loop.index}}_file_" value="{{Rec.image}}"/>
+            {{lang.file}}:<input type="text" class="imgFile" name="card_{{loop.index}}_file" value="{{Rec.image}}" readonly>
             <button class="btn btn-primary btn_ImgEdit" cardId="card_{{loop.index}}" data-bs-toggle="modal" data-bs-target="#viFileManagerModal">
               <i class="fa fa-edit" title="{{lang.edit}}"></i>
             </button>
           </span>
           <span>
-            {{lang.sort_order}}:<input type="number" class="vInputQty" name="sort_order_{{loop.index}}" value="{{Rec.sort_order}}" min="0">
-            {{lang.delete}}:<input type="checkbox" name="chk_file_{{loop.index}}" value="{{4}}">
+            {{lang.sort_order}}:<input type="number" class="vInputQty" name="card_{{loop.index}}_sort" value="{{Rec.sort_order}}" min="0">
+            {{lang.enabled}}:<input type="checkbox" name="card_{{loop.index}}_enabled" {% if Rec.enabled %}checked{% endif %}>
+            {{lang.delete}}:<input type="checkbox" name="card_{{loop.index}}_del">
           </span>
           <p></p>
           <span class="imgDate">{{Rec.date}}</span>

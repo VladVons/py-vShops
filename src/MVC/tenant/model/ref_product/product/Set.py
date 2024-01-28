@@ -4,8 +4,9 @@
 
 
 import json
+import re
 #
-from IncP.LibModel import DTransaction, TDbExecCursor, TDbSql, DictToComma, ListToComma
+from IncP.LibModel import DTransaction, TDbExecCursor, TDbSql, DictToComma, DeepGetsRe
 
 
 async def Del_TenantImages(self, aTenantId: int, aImages: list[str]):
@@ -79,55 +80,65 @@ async def _Set_Product(self, aData: dict, aCursor = None) -> dict:
         })
     DblTenant = TDbSql().Import(DblData['data'])
 
-    if ('quantity' in Changes):
-        Query = f'''
-            select stock_set_tenant(
-                {aProductId},
-                {Changes['quantity'][1]},
-                {aTenantId}
-            )
-        '''
-        await TDbExecCursor(aCursor).Exec(Query)
+    if (aPost.get('formId') == 'viFormMain'):
+        if ('quantity' in Changes):
+            Query = f'''
+                select stock_set_tenant(
+                    {aProductId},
+                    {Changes['quantity'][1]},
+                    {aTenantId}
+                )
+            '''
+            await TDbExecCursor(aCursor).Exec(Query)
 
-    # ref_product_price
-    Values = []
-    if ('price_sale' in Changes):
-        Value = f'({aProductId}, {DblTenant.Rec.price.get("sale")}, {Changes["price_sale"][1]})'
-        Values.append(Value)
+        # ref_product_price
+        Values = []
+        if ('price_sale' in Changes):
+            Value = f'({aProductId}, {DblTenant.Rec.price.get("sale")}, {Changes["price_sale"][1]})'
+            Values.append(Value)
 
-    if ('price_purchase' in Changes):
-        Value = f'({aProductId}, {DblTenant.Rec.price.get("purchase")}, {Changes["price_purchase"][1]})'
-        Values.append(Value)
+        if ('price_purchase' in Changes):
+            Value = f'({aProductId}, {DblTenant.Rec.price.get("purchase")}, {Changes["price_purchase"][1]})'
+            Values.append(Value)
 
-    if (Values):
-        Query = GetUpd_ProducPrice(Values)
-        await TDbExecCursor(aCursor).Exec(Query)
+        if (Values):
+            Query = GetUpd_ProducPrice(Values)
+            await TDbExecCursor(aCursor).Exec(Query)
 
-    # ref_product
-    Values = {}
-    if ('enabled' in Changes):
-        Values['enabled'] = Changes['enabled'][1]
+        # ref_product
+        Values = {}
+        if ('enabled' in Changes):
+            Values['enabled'] = Changes['enabled'][1]
 
-        Query = GetUpd_Product(Values, aProductId)
+            Query = GetUpd_Product(Values, aProductId)
+            if (Query):
+                await TDbExecCursor(aCursor).Exec(Query)
+
+        # ref_product_to_category
+        if ('category_id' in Changes):
+            Query = GetUpd_ProductToCategory(Changes['category_id'][1], aProductId)
+            await TDbExecCursor(aCursor).Exec(Query)
+
+        # ref_product_lang
+        Values = {}
+        if ('title' in Changes):
+            Values['title'] = Changes['title'][1]
+
+        if ('descr' in Changes):
+            Values['descr'] = Changes['descr'][1]
+
+        Query = GetUpd_ProductLang(Values, aProductId, 1)
         if (Query):
             await TDbExecCursor(aCursor).Exec(Query)
 
-    # ref_product_to_category
-    if ('category_id' in Changes):
-        Query = GetUpd_ProductToCategory(Changes['category_id'][1], aProductId)
-        await TDbExecCursor(aCursor).Exec(Query)
+    # ref_product_image
+    elif (aPost.get('formId') == 'viFormImage'):
+        Pattern = re.compile(r'(card_\d+_)')
+        Cards = set([x[0] for x in map(Pattern.findall, Changes.keys()) if x])
+        for xCard in sorted(Cards):
+            File = aPost[f'{xCard}file_']
+            print(xCard)
 
-    # ref_product_lang
-    Values = {}
-    if ('title' in Changes):
-        Values['title'] = Changes['title'][1]
-
-    if ('descr' in Changes):
-        Values['descr'] = Changes['descr'][1]
-
-    Query = GetUpd_ProductLang(Values, aProductId, 1)
-    if (Query):
-        await TDbExecCursor(aCursor).Exec(Query)
 
 
 async def Set_Product(self, aLangId: int, aTenantId: int, aProductId: int, aPost: dict) -> dict:
