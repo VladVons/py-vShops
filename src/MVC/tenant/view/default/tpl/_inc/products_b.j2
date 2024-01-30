@@ -3,8 +3,9 @@
   <div class="row product-grid-header">
     <div class="col-1">{{lang.enabled}}</div>
     <div class="col-1">{{lang.id}}</div>
+    <div class="col-1">{{lang.product0}}</div>
     <div class="col-1">{{lang.category}}</div>
-    <div class="col-4">{{lang.name}}</div>
+    <div class="col-3">{{lang.name}}</div>
     <div class="col-2">{{lang.image}}</div>
     <div class="col-1">{{lang.rest}}</div>
     <div class="col-1">{{lang.price}}</div>
@@ -15,8 +16,9 @@
   <div class="row product-grid-item {%if not Rec.enabled %}vDisabled{% endif %}" onclick="Redirect.To({'id': {{Rec.id}}})">
     <div class="col-1">{% if Rec.enabled %}+{% endif %}</div>
     <div class="col-1">{{Rec.id}}/{{Rec.idt}}</div>
+    <div class="col-1">{{Rec.product0_id}}</div>
     <div class="col-1">{{Rec.category_title}}</div>
-    <div class="col-4">{{Rec.title}}</div>
+    <div class="col-3">{{Rec.title}}</div>
     <div class="col-2"><img src="{{Rec.thumb}}"></div>
     <div class="col-1">{{Rec.rest}}</div>
     <div class="col-1">{{Rec.price.sale}}</div>

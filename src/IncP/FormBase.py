@@ -105,6 +105,8 @@ class TFormBase(Form):
         }
         if (aData):
             Data.update(aData)
+
+        aRoute = Data.get('route_ctrl', aRoute)
         return await self.Ctrl.Get(aRoute, Data)
 
     async def PostToData(self) -> bool:

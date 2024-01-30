@@ -33,20 +33,6 @@ async def DoPost(self, aPost, aAuthId, aDir) -> dict:
             }
         )
 
-    if (aPost.get('new_file')):
-        Items = [aPost.get('new_file')]
-        # await self.ExecModel(
-        #     'ref_product/product',
-        #     {
-        #         'method': 'Upd_TenantImages',
-        #         'param': {
-        #             'aTenantId': aAuthId,
-        #             'aProductId': -111,
-        #             'aImages': Items
-        #         }
-        #     }
-        # )
-
     if (aPost.get('btn_delete')):
         ChkItems = DeepGetsRe(aPost, ['chk_(file|folder)_.*'])
         Items = [x[0] for x in ChkItems]
@@ -123,7 +109,7 @@ async def Main(self, aData: dict = None) -> dict:
             if (Rec.type == 'd'):
                 Arr = Rec.href.rsplit(Path, maxsplit=1)
                 Dir = Arr[1].lstrip('/')
-                Rec.SetField('href', f'/tenant/?route=common/filemanager&path={Dir}')
+                Rec.SetField('href', f"/tenant/?route={aData['route']}&path={Dir}")
 
         Arr = aPath.rsplit('/', maxsplit=1)
         Parent = '' if len(Arr) == 1 else Arr[0]
@@ -131,7 +117,7 @@ async def Main(self, aData: dict = None) -> dict:
         Res = {
             'dbl_dirlist': Dbl.Export(),
             'href': {
-                'parent': f'/tenant/?route=common/filemanager&path={Parent}',
+                'parent': f"/tenant/?route={aData['route']}&path={Parent}",
                 'refresh': aData['path_qs']
             }
         }

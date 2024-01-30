@@ -1,0 +1,79 @@
+{% extends '_inc/layout1.j2' %}
+
+{% block content %}
+<!-- filemanager2 + -->
+<div class="container mt-3">
+  <form id="viFormImage" method="post" enctype="multipart/form-data">
+    <div class="row mb-3">
+      <div class="col-sm-2">
+        <a href="{{href.parent}}" class="btn btn-primary"><i class="fa fa-level-up-alt m-1" title="{{lang.parent}}"></i></a>
+        <a href="{{href.refresh}}" class="btn btn-primary"><i class="fa fa-sync m-1" title="{{lang.refresh}}"></i></a>
+        <button type="submit" title="{{lang.delete}}" class="btn btn-danger" name="btn_delete" value="ok"><i class="fa fa-trash"></i></button>
+      </div>
+      <div class="col-sm-3">
+        <div class="input-group">
+          <input type="file" name="files" class="form-control custom-file-input" multiple>
+          <button type="submit" name="btn_upload" value="ok" title="{{lang.upload}}" class="btn btn-primary"><i class="fa fa-upload"></i></button>
+        </div>
+      </div>
+      <div class="col-sm-3">
+        <div class="input-group">
+          <input type="text" name="new_folder" placeholder="{{lang.new_folder}}" class="form-control">
+          <button type="submit" name="btn_folder" value="ok" title="{{lang.new_folder}}" class="btn btn-primary"><i class="fa fa-folder"></i></button>
+        </div>
+      </div>
+      <div class="col-sm-3">
+        <div class="input-group">
+          <input type="text" name="btn_search" value="" placeholder="{{lang.search}}..." class="form-control">
+          <button type="button" title="{{lang.search}}" class="btn btn-primary"><i class="fa fa-search"></i></button>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      {% set Dbl = TDbList().Import(dbl_dirlist) %}
+      {% for Rec in Dbl %}
+        {% if (Rec.type == 'd') %}
+        <div class="card col-md-4 vCard">
+          <div class="card-header">
+            <a href="{{Rec.href}}"><i class="fa fa-folder fa-8x"></i></a>
+          </div>
+          <div class="card-footer">
+            <div class="vKeyValue">
+              <span>{{lang.name}}</span><span>{{Rec.name}}</span>
+              <span>{{lang.date}}</span><span>{{Rec.date}}</span>
+              <span>{{lang.delete}}</span><span><input type="checkbox" name="chk_folder_{{loop.index}}" value="{{Rec.path}}"></span>
+            </div>
+          </div>
+        </div>
+        {% endif %}
+      {% endfor %}
+
+      {% for Rec in Dbl %}
+        {% if (Rec.type == 'f') %}
+        <div class="card col-md-4 vCard">
+          <div class="card-header">
+            <a href="{{Rec.href}}"><img class="img-thumb" src="{{Rec.href}}"></a>
+          </div>
+          <div class="card-footer">
+            <div class="vKeyValue">
+              <span>{{lang.name}}</span><span>{{Rec.name}}</span>
+              <span>{{lang.date}}</span><span>{{Rec.date}}</span>
+              <span>{{lang.size}}</span><span>{{(Rec.size / 1000) | int}}Kb</span>
+              <span>{{lang.delete}}</span><span><input type="checkbox" name="chk_file_{{loop.index}}" value="{{Rec.path}}"></span>
+            </div>
+          </div>
+        </div>
+          {% endif %}
+        {% endfor %}
+      </div>
+    </form>
+  </div>
+  <!-- filemanager2 - -->
+{% endblock %}
+
+{% block foot %}
+<!-- foot product + -->
+<script src="/tenant/default/assets/js/product.js"></script>
+<!-- foot product - -->
+{% endblock %}

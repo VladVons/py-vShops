@@ -17,11 +17,15 @@ async def Del_TenantImages(self, aTenantId: int, aImages: list[str]):
         {'aTenantId': aTenantId, 'CondLike': CondLike}
     )
 
-async def Upd_TenantImages(self, aProductId: int, aTenantId: int, aImages: list[str]) -> str:
-    Arr = [f"({aProductId}, '{xImage}'" for xImage in aImages]
+async def Upd_TenantImages(self, aTenantId: int, aData: list[list]) -> str:
+    Arr = [
+        f"({ProductId}, '{File}', {Sort}, {Enabled}, '{FileNew}')"
+        for (ProductId, File, Sort, Enabled, FileNew) in aData
+    ]
     Data = ', '.join(Arr)
+
     return await self.ExecQuery(
-        'fmtUpd_TenantImages.sql',
+        'fmtUpd_TenantImagesB.sql',
         {'aTenantId': aTenantId, 'Data': Data}
     )
 
@@ -133,13 +137,26 @@ async def _Set_Product(self, aData: dict, aCursor = None) -> dict:
 
     # ref_product_image
     elif (aPost.get('formId') == 'viFormImage'):
+        ArrDel = []
+        ArrUpd = []
         Pattern = re.compile(r'(card_\d+_)')
         Cards = set([x[0] for x in map(Pattern.findall, Changes.keys()) if x])
         for xCard in sorted(Cards):
-            File = aPost[f'{xCard}file_']
-            print(xCard)
+            File_ = aPost.get(f'{xCard}file_')
+            Del = aPost.get(f'{xCard}del', 'off')
+            if (Del == 'on'):
+                ArrDel.append(File_)
+            else:
+                Sort = aPost.get(f'{xCard}sort')
+                Enabled = (aPost.get(f'{xCard}enabled', 'off') == 'on')
+                File = aPost.get(f'{xCard}file')
+                ArrUpd.append((aProductId, File_, Sort, Enabled, File))
 
+        if (ArrDel):
+            await Del_TenantImages(self, aTenantId, ArrDel)
 
+        if (ArrUpd):
+            await Upd_TenantImages(self, aTenantId, ArrUpd)
 
 async def Set_Product(self, aLangId: int, aTenantId: int, aProductId: int, aPost: dict) -> dict:
     await _Set_Product(self, locals())
