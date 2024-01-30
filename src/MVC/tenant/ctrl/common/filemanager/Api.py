@@ -8,6 +8,7 @@ import json
 #
 from IncP.LibCtrl import  DeepGetByList, GetDictDefs, TDbList, DeepGetsRe
 
+ImgPrefix = 'product'
 
 async def ajax(self, aData: dict = None) -> dict:
     aLang, aPath, Mode = GetDictDefs(
@@ -16,7 +17,7 @@ async def ajax(self, aData: dict = None) -> dict:
         ('ua', '', 'list')
     )
     AuthId = DeepGetByList(aData, ['session', 'auth_id'])
-    Path = f'product/{AuthId}'
+    Path = f'{ImgPrefix}/{AuthId}'
     Dir = f'{Path}/{aPath}'.rstrip('/')
     Post = aData.get('post', {})
     await DoPost(self, Post, AuthId, Dir)
@@ -49,7 +50,7 @@ async def DoPost(self, aPost, aAuthId, aDir) -> dict:
             for File, Type in ChkItems:
                 if ('folder' in Type):
                     File += '/%'
-                Items.append(File.replace('product/', ''))
+                Items.append(File.replace(ImgPrefix + '/', ''))
 
             await self.ExecModel(
                 'ref_product/product',
@@ -110,6 +111,8 @@ async def Main(self, aData: dict = None) -> dict:
                 Arr = Rec.href.rsplit(Path, maxsplit=1)
                 Dir = Arr[1].lstrip('/')
                 Rec.SetField('href', f"/tenant/?route={aData['route']}&path={Dir}")
+            else:
+                Rec.SetField('path', Rec.path.replace(ImgPrefix + '/' ,''))
 
         Arr = aPath.rsplit('/', maxsplit=1)
         Parent = '' if len(Arr) == 1 else Arr[0]

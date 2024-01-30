@@ -32,7 +32,7 @@ def ListIntToComma(aData: list[int]) -> str:
 def DictToComma(aData: dict) -> str:
     Res = []
     for Key, Val in aData.items():
-        if (isinstance(Val, str)):
+        if (isinstance(Val, str)) and (Val != 'null'):
             Val = f"'{Val}'"
         Res.append(f'{Key} = {Val}')
     return ', '.join(Res)

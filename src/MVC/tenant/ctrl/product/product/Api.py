@@ -72,6 +72,10 @@ async def Main(self, aData: dict = None) -> dict:
         DblProduct.MergeDblKey(DblCategory, 'category_id', ['category_path'])
 
         DblImages = await self.GetImages(aProductId)
+        # add extra new blank record
+        DblImages.RecAdd().SetAsDict({
+            'name': '', 'size': -1, 'date': 0, 'href': '', 'path': '', 'sort_order': 0, 'image': ''
+        })
 
         DblImages0 = None
         DblProduct0 = None

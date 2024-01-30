@@ -88,7 +88,12 @@ class TFormBase(Form):
         if (File):
             Source = self.Tpl.Env.loader.LoadFile(File)
             Macro = self.Tpl.ReMacro.findall(Source)
-            Extends = [Val.replace('.j2', '') for Key, Val in Macro if Key == 'extends']
+
+            Extends = [
+                Val.replace('.j2', '')
+                for Key, Val in Macro
+                if Key == 'extends'
+            ]
         else:
             Extends = []
 
@@ -105,8 +110,8 @@ class TFormBase(Form):
         }
         if (aData):
             Data.update(aData)
+            aRoute = Data.get('route_ctrl', aRoute)
 
-        aRoute = Data.get('route_ctrl', aRoute)
         return await self.Ctrl.Get(aRoute, Data)
 
     async def PostToData(self) -> bool:

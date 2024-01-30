@@ -114,9 +114,12 @@ async def _Set_Product(self, aData: dict, aCursor = None) -> dict:
         if ('enabled' in Changes):
             Values['enabled'] = Changes['enabled'][1]
 
+        if ('chk_product0' in Changes) and (Changes['chk_product0'][1] == False):
+            Values['product0_id'] = 'null'
+
+        if (Values):
             Query = GetUpd_Product(Values, aProductId)
-            if (Query):
-                await TDbExecCursor(aCursor).Exec(Query)
+            await TDbExecCursor(aCursor).Exec(Query)
 
         # ref_product_to_category
         if ('category_id' in Changes):
@@ -150,6 +153,9 @@ async def _Set_Product(self, aData: dict, aCursor = None) -> dict:
                 Sort = aPost.get(f'{xCard}sort')
                 Enabled = (aPost.get(f'{xCard}enabled', 'off') == 'on')
                 File = aPost.get(f'{xCard}file')
+                if (not File_): # new added
+                    File_ = File
+                    Enabled = True
                 ArrUpd.append((aProductId, File_, Sort, Enabled, File))
 
         if (ArrDel):
