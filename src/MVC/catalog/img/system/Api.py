@@ -62,7 +62,10 @@ async def GetImagesInfo(self, aFiles: list[str]) -> dict:
 
 async def GetDirList(self, aPath: str) -> dict:
     Dir = f'{self.Conf.dir_root}/{aPath}'
-    Files = [f'{aPath}/{File}' for File in os.listdir(Dir)]
+    if (os.path.isdir(Dir)):
+        Files = [f'{aPath}/{File}' for File in os.listdir(Dir)]
+    else:
+        Files = []
     Dbl = _GetImagesInfo(self, Files)
     return Dbl.Sort(['type', 'name']).Export()
 
@@ -77,19 +80,23 @@ async def RemoveFiles(self, aPaths: list[str]) -> list[str]:
         Path = f'{self.Conf.dir_root}/{xPath}'
         if (os.path.isdir(Path)):
             Res += DirRemove(Path)
-        else:
+        elif (os.path.exists(Path)):
             os.remove(Path)
             Res.append(Path)
     return {'files': Res}
 
 async def UploadFiles(self, aPath: str, aFiles: dict) -> list[str]:
+    Path = f'{self.Conf.dir_root}/{aPath}'
+    if (not os.path.isdir(Path)):
+        os.makedirs(Path, exist_ok=True)
+
     Res = []
     for Key, Val in aFiles.items():
-        Path = f'{self.Conf.dir_root}/{aPath}/{Key}'
+        File = f'{Path}/{Key}'
         Data = base64.b64decode(Val)
-        with open(Path, 'wb') as F:
+        with open(File, 'wb') as F:
             F.write(Data)
-        Res.append(Path)
+        Res.append(File)
     return {'files': Res}
 
 async def UploadUrl(self, aUrl: str, aFile: str) -> dict:

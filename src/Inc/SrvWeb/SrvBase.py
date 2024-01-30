@@ -21,7 +21,7 @@ from .Common import FileReader
 
 @DDataClass
 class TSrvConf():
-    client_max_file_size: int = 1024**2
+    client_max_file_size: int =  10_000_000
     host: str = '0.0.0.0'
     port: int = 8080
     user: str = None

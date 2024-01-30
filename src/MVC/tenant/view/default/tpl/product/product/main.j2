@@ -52,19 +52,15 @@
     </div>
     {% endif %}
 
-    {% if product.descr %}
     <div class="mb-3">
       <label>{{lang.description}}</label>
-      <textarea class="form-control" name="descr" rows="8" placeholder="{{lang.description}}" readonly>{{product.descr}}</textarea>
+      <textarea class="form-control" name="descr" rows="8" placeholder="{{lang.description}}">{{product.descr}}</textarea>
     </div>
-    {% endif %}
 
-    {% if product.features %}
     <div class="mb-3">
       <label>{{lang.features}}</label>
-      <textarea class="form-control" rows="8" readonly>{{product.features}}</textarea>
+      <textarea class="form-control" rows="8">{{product.features}}</textarea>
     </div>
-    {% endif %}
 
     <div class="row mb-3">
       <div class="col">

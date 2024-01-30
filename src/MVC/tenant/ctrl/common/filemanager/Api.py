@@ -36,7 +36,7 @@ async def DoPost(self, aPost, aAuthId, aDir) -> dict:
 
     if (aPost.get('btn_delete')):
         ChkItems = DeepGetsRe(aPost, ['chk_(file|folder)_.*'])
-        Items = [x[0] for x in ChkItems]
+        Items = [f'{ImgPrefix}/{x[0]}' for x in ChkItems]
         if (Items):
             await self.ExecImg(
                 'system',
@@ -63,7 +63,7 @@ async def DoPost(self, aPost, aAuthId, aDir) -> dict:
                 }
             )
 
-    if (aPost.get('btn_upload')):
+    if (aPost.get('btn_upload')) and ('files' in aPost):
         Data = {}
         for Key, Val in aPost['files'].items():
             Base64 = base64.b64encode(Val).decode('utf-8')
