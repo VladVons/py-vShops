@@ -5,8 +5,7 @@
 
 import json
 #
-from Inc.Util.Obj import DictUpdate
-from IncP.LibCtrl import DeepGetByList, GetDictDefs
+from IncP.LibCtrl import DeepGetByList, GetDictDefs, TDbList
 
 
 async def ajax(self, aData: dict = None) -> dict:
@@ -72,9 +71,11 @@ async def Main(self, aData: dict = None) -> dict:
         DblProduct.MergeDblKey(DblCategory, 'category_id', ['category_path'])
 
         DblImages = await self.GetImages(aProductId)
+        if (not DblImages):
+            DblImages = TDbList(['name', 'type', 'size', 'date', 'href', 'path', 'sort_order', 'enabled', 'image'])
         # add extra new blank record
         DblImages.RecAdd().SetAsDict({
-            'name': '', 'size': -1, 'date': 0, 'href': '', 'path': '', 'sort_order': 0, 'image': ''
+            'name': '', 'size': -1, 'date': 0, 'href': '', 'path': '', 'sort_order': 0, 'enabled': False, 'image': ''
         })
 
         DblImages0 = None
