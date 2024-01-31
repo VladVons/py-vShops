@@ -111,8 +111,7 @@ async def Main(self, aData: dict = None) -> dict:
                 Arr = Rec.href.rsplit(Path, maxsplit=1)
                 Dir = Arr[1].lstrip('/')
                 Rec.SetField('href', f"/tenant/?route={aData['route']}&path={Dir}")
-            else:
-                Rec.SetField('path', Rec.path.replace(ImgPrefix + '/' ,''))
+            Rec.SetField('path', Rec.path.replace(ImgPrefix + '/' ,''))
 
         Arr = aPath.rsplit('/', maxsplit=1)
         Parent = '' if len(Arr) == 1 else Arr[0]
