@@ -7,6 +7,9 @@
       <div class="card col-md-4 vCard" id="card_{{loop.index}}">
         <div class="card-header">
           <a href="{{Rec.href}}"><img class="imgThumb" src="{{Rec.href}}"></a>
+          {% if not Rec.name %}
+          <h3>{{ lang.new }}</h3>
+          {% endif %}
         </div>
         <div class="card-footer">
           <span>

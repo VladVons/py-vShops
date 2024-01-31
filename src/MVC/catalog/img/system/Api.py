@@ -94,8 +94,7 @@ async def UploadFiles(self, aPath: str, aFiles: dict) -> list[str]:
     for Key, Val in aFiles.items():
         File = f'{Path}/{Key}'
         Data = base64.b64decode(Val)
-        with open(File, 'wb') as F:
-            F.write(Data)
+        TImage.ResizeImg(Data, File, self.Conf.size_product)
         Res.append(File)
     return {'files': Res}
 
