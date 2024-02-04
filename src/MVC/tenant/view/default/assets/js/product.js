@@ -15,15 +15,15 @@ document.getElementById('viBtnImageSave').onclick = () => formImage.submit()
 //     formImage.submit(this)
 // }
 
-const chkInput = document.getElementById("chkInput")
-chkInput.onclick = function(event) {
+const chkEnabled = document.getElementById("chk_enabled")
+chkEnabled.onclick = function(event) {
     formMain.setReadonly(!event.target.checked)
     event.target.style.pointerEvents = 'auto'
 }
 
 document.addEventListener('DOMContentLoaded', function() {
-    formMain.setReadonly(!chkInput.checked)
-    chkInput.style.pointerEvents = 'auto'
+    formMain.setReadonly(!chkEnabled.checked)
+    chkEnabled.style.pointerEvents = 'auto'
 })
 
 function OnClickCategory(aId, aTitle) {

@@ -2,6 +2,16 @@
   <h2 class="fw-bold mb-4">{{lang.product0}}</h2>
 
   <div>
+    <form1 id="viFormProduct0" method="post">
+      <div class="row mb-3">
+        <div class="col-2">
+          <input class="form-check-input" type="checkbox" name="chk_product0" {% if product0 %}checked{% endif %}/>
+          <label class="form-check-label">{{lang.product0}}</label>
+          <button type="button" class="btn btn-primary" name="btn_search" value="ok" title="{{lang.search}}"><i class="fa fa-search"></i></button>
+        </div>
+      </div>
+    </form1>
+
     <div class="mb-3">
       <label>{{lang.category}}</label>
       <div class="d-flex">
