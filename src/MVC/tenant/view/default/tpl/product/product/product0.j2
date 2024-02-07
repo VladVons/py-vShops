@@ -7,7 +7,9 @@
         <div class="col-2">
           <input class="form-check-input" type="checkbox" name="chk_product0" {% if product0 %}checked{% endif %}/>
           <label class="form-check-label">{{lang.product0}}</label>
-          <button type="button" class="btn btn-primary" name="btn_search" value="ok" title="{{lang.search}}"><i class="fa fa-search"></i></button>
+          <button type="button" class="btn btn-primary" name="btn_search" value="ok" title="{{lang.edit}}" data-bs-toggle="modal" data-bs-target="#viSearch0Modal">
+            <i class="fa fa-edit"></i>
+          </button>
         </div>
       </div>
     </form1>
@@ -26,7 +28,7 @@
       </div>
       <div class="col-2">
         <label>{{lang.code}}</label>
-        <input type="text" class="form-control"  value="{{product0.id}}" readonly/>
+        <input type="text" class="form-control" id="product0-id" value="{{product0.id}}" readonly/>
       </div>
       <div class="col-2">
         <label>{{lang.create_date}}</label>
@@ -75,3 +77,5 @@
     {% endfor %}
   </div>
 </div>
+
+{% include './search0_modal.j2' %}

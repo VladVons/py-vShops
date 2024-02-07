@@ -4,9 +4,9 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="cartModalLabel">{{lang.shopping_cart}}</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="btn-close-modal"></button>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="btn-filemanager-close-modal"></button>
       </div>
-      <div class="modal-body" id="viModalBody">
+      <div class="modal-body" id="viFileManagerModalBody">
         <!-- js here -->
       </div>
     </div>
@@ -19,7 +19,7 @@
   function Update() {
     function emulHref(aEvent, aThis) {
       aEvent.preventDefault()
-      sendInto('viModalBody', aThis.getAttribute('href'))
+      sendInto('viFileManagerModalBody', aThis.getAttribute('href'))
       Update()
     }
 
@@ -33,7 +33,7 @@
       } else if (confirm('{{ lang.delete }} ?')) {
         const post = dictMerge(IterNameValue(elements), {'btn_delete': 'ok'})
         new TSend().exec('/tenant/api/?' + query, {'method': 'ajax', 'post': post})
-        sendInto('viModalBody', pathRefresh)
+        sendInto('viFileManagerModalBody', pathRefresh)
         Update()
       }
     }
@@ -42,7 +42,7 @@
       const element = document.querySelector('input[name="new_folder"]')
       const post = {'btn_new_folder': 'ok', [element.name]: element.value}
       new TSend().exec('/tenant/api/?' + query, {'method': 'ajax', 'post': post})
-      sendInto('viModalBody', pathRefresh)
+      sendInto('viFileManagerModalBody', pathRefresh)
       Update()
     }
 
@@ -53,7 +53,7 @@
       const xhr = new XMLHttpRequest()
       xhr.open('POST', pathRefresh, true)
       xhr.send(formData)
-      sendInto('viModalBody', pathRefresh)
+      sendInto('viFileManagerModalBody', pathRefresh)
       Update()
     }
 
@@ -74,7 +74,7 @@
         card.getElementsByClassName("imgDate")[0].textContent = data.date
         card.getElementsByClassName("imgSize")[0].textContent = Math.round(data.size / 1000).toString() + 'Kb'
 
-        document.getElementById('btn-close-modal').click()
+        document.getElementById('btn-filemanager-close-modal').click()
       })
     })
 
@@ -87,7 +87,7 @@
     }
   }
 
-  sendInto('viModalBody', '/tenant/?route=common/filemanager')
+  sendInto('viFileManagerModalBody', '/tenant/?route=product/filemanager')
   Update()
 
   document.getElementById('images').querySelectorAll('.btn_ImgEdit').forEach(function (element) {

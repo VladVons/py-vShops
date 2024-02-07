@@ -18,5 +18,5 @@ class TForm(TFormBase):
                     self.out.data[Key] = {}
                 self.out.data[Key][FileField.filename] = Data
 
-        Data = await self.ExecCtrl(self.out.route, {'method': 'Main', 'route_ctrl': 'common/filemanager'})
+        Data = await self.ExecCtrl(self.out.route, {'method': 'Main', 'route_ctrl': 'product/filemanager'})
         self.out.update(Data)

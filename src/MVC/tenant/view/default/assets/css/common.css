@@ -158,6 +158,23 @@ input:read-only {
     flex-direction: column;
 }
 
+/*-- card-s --*/
+.vCard-s img {
+    max-height: 160px;
+    max-width: 100%;
+}
+
+.vCard-s .card-header{
+    height: 170px;
+    background-color: var(--colorBgMaster);
+}
+
+.vCard-s .card-body {
+    height: 100px;
+    background-color: var(--colorBgSlave);
+}
+
+
 /*-- product --*/
 .vProduct .vProductThumbs {
     height: 100px;

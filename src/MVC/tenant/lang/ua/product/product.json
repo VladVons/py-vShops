@@ -21,6 +21,7 @@
         "price_purchase": "закупівельна ціна",
         "price_sale": "продажна ціна",
         "product0": "донор",
+        "product0_id_changed": "код донора змінено",
         "quantity": "кількість",
         "size": "рзмір",
         "save": "зберегти",

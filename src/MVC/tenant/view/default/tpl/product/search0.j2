@@ -1,0 +1,32 @@
+<!-- search0 + -->
+<div>
+    <div class="row mb-3">
+      <div class="col-sm-3">
+        <div class="input-group">
+          <input type="text" name="input_search0" id="input_search0" placeholder="{{lang.search}}..." class="form-control"/>
+          <button type="button" class="btn btn-primary" name="btn_search0" id="btn_search0" value="ok" title="{{lang.search}}">
+            <i class="fa fa-search"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+
+  <div class="row">
+    {% for Rec in TDbList().Import(dbl_products_b) %}
+    <div class="col-sm-6 col-md-4 col-lg-2 mb-2">
+      <div class="card vCard-s">
+        <div class="card-header vImgCenter">
+          <a href="{{Rec.product_href}}" class="href_product_img" data='{"id":"{{Rec.id}}"}'><img src="{{Rec.thumb}}" alt="{{Rec.product_title}}"></a>
+        </div>
+        <div class="card-body">
+          {{Rec.category_title}}
+          <div class="card-title">{{Rec.product_title|truncate(50, True, '...')}}</div>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+
+  {% include '../_inc/pagination.j2' %}
+</div>
+<!-- search0 - -->

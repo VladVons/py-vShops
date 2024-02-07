@@ -1,0 +1,52 @@
+<!-- search_modal + -->
+<div class="modal fade" id="viSearch0Modal" tabindex="-1" aria-labelledby="cartModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="cartModalLabel">{{lang.shopping_cart}}</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="btn-search0-close-modal"></button>
+      </div>
+      <div class="modal-body" id="viSearch0ModalBody">
+        <!-- js here -->
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  const href = '/tenant/?route=product/search0'
+
+  function Update() {
+    document.querySelectorAll('.href_product_img').forEach(function (element) {
+      element.addEventListener('click', function (event) {
+        event.preventDefault()
+
+        const data = JSON.parse(this.getAttribute('data'))
+        document.getElementById("product0-id").value = data.id
+
+        document.getElementById('btn-search0-close-modal').click()
+        alert("{{lang.product0_id_changed}} ->" + data.id)
+      })
+    })
+
+    document.querySelectorAll('.page-link').forEach(function (element) {
+      element.addEventListener('click', function (event) {
+        event.preventDefault()
+        sendInto('viSearch0ModalBody', this.getAttribute('href'))
+        Update()
+      })
+    })
+
+    document.getElementById("btn_search0").onclick = function(event) {
+      const element = document.getElementById("input_search0")
+      const url = `${href}&search=${element.value}`
+      sendInto('viSearch0ModalBody', url)
+      Update()
+    }
+  }
+
+  sendInto('viSearch0ModalBody', href)
+  Update()
+
+</script>
+<!-- search_modal - -->
