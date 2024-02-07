@@ -50,7 +50,8 @@ wt1 as (
         on (rp.tenant_id = rt.id)
     where
          (rptc0.category_id in ({{CategoryIds}})) and
-         (rp.enabled) and (rp.product0_id is not null)
+         (rp.enabled) and (rp.product0_id is not null) and
+         (rt.enabled)
     order by
         {{aOrder}}
     limit

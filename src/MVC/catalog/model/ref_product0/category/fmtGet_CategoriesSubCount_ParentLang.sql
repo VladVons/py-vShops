@@ -34,7 +34,10 @@ category_products as (
         ref_product0_to_category rptc
     left join
         ref_product rp on
-        (rptc.product_id = rp.id)
+        (rptc.product_id = rp.product0_id)
+    left join
+        ref_tenant rt
+        on (rp.tenant_id = rt.id)
     left join
         (
             select
@@ -44,7 +47,8 @@ category_products as (
         ) rpc
         on (rptc.category_id = rpc.id)
     where 
-        rp.enabled
+        (rp.enabled) and
+        (rt.enabled)
     group by
         rpc.cat_id
 )
@@ -68,4 +72,5 @@ where
     (cp.products is not null)
     {{CondParentIds}}
 order by 
-    deep, title
+    deep, 
+    title
