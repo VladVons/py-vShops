@@ -12,9 +12,13 @@ left join
 left join
     ref_product_category_lang rpcl on
     (rptc.category_id = rpcl.category_id) and (rpl.lang_id = {{aLangId}})
+left join
+    ref_tenant rt
+    on (rp.tenant_id = rt.id)
 where
     (rp.enabled) and
     (rp.product0_id is not null) and
+    (rt.enabled) and
     (
         (rpl.title ilike all (values {{FilterRe}})) or
         (rpcl.title ilike all (values {{FilterRe}}))

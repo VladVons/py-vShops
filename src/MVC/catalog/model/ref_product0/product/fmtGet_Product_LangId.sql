@@ -36,7 +36,8 @@ with wt1 as (
         ref_tenant rt on
         (rp.tenant_id = rt.id)
     where
-        (rp.id = {{aProductId}})
+        (rp.id = {{aProductId}}) and
+        (rt.enabled)
 ),
 wt2 as (
     select

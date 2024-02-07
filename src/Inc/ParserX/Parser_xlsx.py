@@ -12,6 +12,14 @@ class TParser_xlsx(TEngine):
     def _InitEngine(self, aFile: str):
         return load_workbook(aFile, read_only = True, data_only = True)
 
+    def _GetHeader(self, aRow) -> dict:
+        Res = {}
+        for x in aRow:
+            if (x.value):
+                assert (x.value not in Res), f'Field {x.value} not uniq'
+                Res[x.value] = x.column
+        return Res
+
     async def _Load(self):
         assert(self._Engine), f'InitEngine() not invoked {self.GetFile()}'
 
@@ -24,6 +32,12 @@ class TParser_xlsx(TEngine):
         Conf = self.GetConfSheet()
         ConfFields = Conf.get('fields')
         ConfSkip = Conf.get('skip', 0)
+        ConfHeaders = Conf.get('headers', 0)
+        if (ConfHeaders > 0):
+            Header = self._GetHeader(WSheet[ConfHeaders])
+            for Field, Title in ConfFields.items():
+                ConfFields[Field] = Header[Title]
+
         for RowNo, Row in enumerate(WSheet.rows):
             if (RowNo >= ConfSkip):
                 Data = {'no': RowNo}

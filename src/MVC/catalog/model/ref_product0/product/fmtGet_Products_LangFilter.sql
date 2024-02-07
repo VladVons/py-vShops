@@ -58,6 +58,7 @@ with wt1 as (
     where
         (rp.enabled) and
         (rp.product0_id is not null) and
+        (rt.enabled) and
         (
             (rpl.title ilike all (values {{FilterRe}})) or
             (rpcl.title ilike all (values {{FilterRe}})) or
