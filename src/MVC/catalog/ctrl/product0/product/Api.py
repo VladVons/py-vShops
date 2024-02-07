@@ -29,7 +29,10 @@ async def Main(self, aData: dict = None) -> dict:
         }
     )
     if (not DblProduct):
-        return
+        return {
+            'product': {},
+            'href': {}
+        }
 
     Res = {}
     Product = DblProduct.Rec.GetAsDict()

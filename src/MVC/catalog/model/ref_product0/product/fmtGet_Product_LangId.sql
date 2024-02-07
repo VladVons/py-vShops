@@ -36,6 +36,7 @@ with wt1 as (
         ref_tenant rt on
         (rp.tenant_id = rt.id)
     where
+        (rp.enabled) and
         (rp.id = {{aProductId}}) and
         (rt.enabled)
 ),

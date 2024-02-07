@@ -32,9 +32,10 @@ class TParser_xlsx(TEngine):
         Conf = self.GetConfSheet()
         ConfFields = Conf.get('fields')
         ConfSkip = Conf.get('skip', 0)
-        ConfHeaders = Conf.get('headers', 0)
-        if (ConfHeaders > 0):
-            Header = self._GetHeader(WSheet[ConfHeaders])
+        ConfHeader = Conf.get('header', -1)
+
+        if (ConfHeader > 0):
+            Header = self._GetHeader(WSheet[ConfHeader])
             for Field, Title in ConfFields.items():
                 ConfFields[Field] = Header[Title]
 
