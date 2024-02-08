@@ -10,7 +10,7 @@ from .Common import TEngine
 
 class TParser_xlsx(TEngine):
     def _InitEngine(self, aFile: str):
-        return load_workbook(aFile, read_only = True, data_only = True)
+        return load_workbook(aFile, read_only = not True, data_only = True) # read_only is False for row_dimensions
 
     def _GetHeader(self, aRow) -> dict:
         Res = {}
@@ -40,7 +40,7 @@ class TParser_xlsx(TEngine):
                 ConfFields[Field] = Header[Title]
 
         for RowNo, Row in enumerate(WSheet.rows):
-            if (RowNo >= ConfSkip):
+            if (RowNo >= ConfSkip) and (not WSheet.row_dimensions[RowNo+1].hidden):
                 Data = {'no': RowNo}
                 for Field, FieldIdx in ConfFields.items():
                     if (FieldIdx <= len(Row)):
