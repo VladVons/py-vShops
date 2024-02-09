@@ -46,11 +46,13 @@ class TConfJson(dict):
             self.update(Data)
         return dict(self)
 
-    def LoadList(self, aPath: list[str], aJoin: bool = True) -> dict:
+    def LoadList(self, aPath: list[str], aJoin: bool = True, aCheck: bool = False) -> dict:
         for File in aPath:
             if os.path.exists(File):
                 if (os.path.isdir(File)):
                     self.LoadDir(File)
                 else:
                     self.LoadFile(File, aJoin)
+            elif (aCheck):
+                assert(False), f'File not exists {File}'
         return dict(self)

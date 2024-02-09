@@ -13,6 +13,7 @@ class TForm(TFormBase):
     async def _DoRender(self):
         Data = await self.ExecCtrlDef()
         self.out.update(Data)
+
         if (DeepGetByList(self.out, ['data', 'user'])):
             AuthId = Data.get('auth_id')
             if (AuthId):

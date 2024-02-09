@@ -142,7 +142,7 @@ class TDbModel():
 
     async def ExecQueryText(self, aQuery: str) -> TDbSql:
         Dbl = await TDbExecPool(self.DbMeta.Db.Pool).Exec(aQuery)
-        if (Dbl):
+        if (Dbl is not None):
             return Dbl.Export()
 
     async def ExecQueryTextCursor(self, aQuery: str, aCursor) -> TDbSql:

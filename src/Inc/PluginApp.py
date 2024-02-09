@@ -28,7 +28,7 @@ class TPluginApp():
 
         ConfInclude = self.Conf.get('include', [])
         Files = [f'{self.Dir}/{x}' for x in ConfInclude if (not x.startswith('-'))]
-        self.Conf.LoadList(Files, True)
+        self.Conf.LoadList(Files, True, True)
 
         Conf = self.Conf.get('conf', [])
         self.Conf.LoadList(Conf)
@@ -52,7 +52,7 @@ class TPluginApp():
 
             TimeStart = time.time()
             Plugin = DeepGetByList(self.Conf, ['plugin', aName])
-            assert(Plugin), f'plugin not found {aName}'
+            assert(Plugin), f'plugin key not found {aName}'
             ClassName = Plugin.get('class', aName)
             TClass, Err = DynImport(self.Path + '.' + ClassName, 'T' + ClassName)
             assert(TClass), f'Err loading {aName}. {Err}'

@@ -90,6 +90,17 @@ async def Get_SeoToDict_LangPath(self, aLangId: int, aPath: list[str]) -> dict:
         {'aLangId': aLangId, 'CondKeyword': CondKeyword}
     )
 
+async def Get_Seo_Products(self, aLimit: int, aOffset: int) -> dict:
+    return await self.ExecQuery(
+        'fmtGet_Seo_Products.sql',
+        {'aLimit': aLimit, 'aOffset': aOffset}
+    )
+
+async def Get_Seo_ProductsCount(self) -> dict:
+    return await self.ExecQuery(
+        'fmtGet_Seo_ProductsCount.sql'
+    )
+
 async def Get_Langs(self) -> dict:
     return await self.ExecQuery(
         'fmtGet_Langs.sql'

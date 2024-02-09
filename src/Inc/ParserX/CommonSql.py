@@ -100,7 +100,7 @@ class TSqlBase():
                 (rt.enabled) and (rt.alias = '{aTenant}')
         '''
         Dbl = await TDbExecPool(self.Db.Pool).Exec(Query)
-        assert(not Dbl.IsEmpty()), f'No tenant alias found {aTenant}'
+        assert(not Dbl.IsEmpty()), f'No tenant alias found or disabled {aTenant}'
 
         for Field in Dbl.Rec:
             assert(Dbl.Rec.GetField(Field)), f'Empty field {Field}'

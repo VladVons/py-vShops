@@ -10,10 +10,8 @@ document.getElementById('viBtnMainSave').onclick = () => formMain.submit()
 const formImage = new TFormChangeTracker('viFormImage', 'vChanged')
 document.getElementById('viBtnImageSave').onclick = () => formImage.submit()
 
-// const formImage = new TFormChangeTracker('viFormImage', 'vChanged')
-// document.getElementById('viBtnImageDel').onclick = function() {
-//     formImage.submit(this)
-// }
+//const formProduct0 = new TFormChangeTracker('viFormProduct0', 'vChanged')
+//document.getElementById('viBtnProduct0Save').onclick = () => formProduct0.submit()
 
 const chkEnabled = document.getElementById("chk_enabled")
 chkEnabled.onclick = function(event) {

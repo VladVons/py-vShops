@@ -7,11 +7,12 @@ from Inc.DbList import TDbList, TDbRec
 
 
 class TSitemap():
-    def __init__(self, aDir: str, aUrlRoot: str, aMaxRows: int):
+    def __init__(self, aDir: str, aUrlRoot: str):
         self.Dir = aDir
         self.UrlRoot = aUrlRoot
-        self.MaxRowsRead = aMaxRows
-        self.MaxRowsWrite = 50000
+        self.MaxRowsRead = 1000
+        self.MaxRowsWrite = 49999 # max records in file
+        self.Size = 0
 
     async def GetSize(self) -> int:
         raise NotImplementedError()
@@ -40,10 +41,10 @@ class TSitemap():
                 break
 
             for Rec in Dbl:
-                Loc = await self.GetRow(Rec)
+                RowData = await self.GetRow(Rec)
 
                 Arr.append('  <url>')
-                Arr.append(f'  <loc>{self.UrlRoot}/{Loc}</loc>')
+                Arr.append(RowData)
                 Arr.append('  </url>')
 
             Offset += Dbl.GetSize()
@@ -75,8 +76,8 @@ class TSitemap():
         self.FileWrite('sitemap.xml', '\n'.join(Arr))
 
     async def Create(self):
-        Size = await self.GetSize()
-        if (Size > self.MaxRowsWrite):
+        self.Size = await self.GetSize()
+        if (self.Size > self.MaxRowsWrite):
             await self.CreateIndex()
         else:
             await self.CreateFile('sitemap.xml')

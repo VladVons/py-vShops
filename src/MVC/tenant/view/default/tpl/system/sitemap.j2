@@ -1,0 +1,18 @@
+{% extends '_inc/layout1.j2' %}
+
+{% block content %}
+<!-- sitemap + -->
+<div class="container d-flex justify-content-center align-items-center min-vh-100">
+  <div class="card" style="width: 20em;">
+    <div class="card-header vBgSlave">
+      <h3>{{lang.login}}</h3>
+    </div>
+    <div class="card-body">
+      <form method="post">
+        <button type="submit" class="btn btn-primary w-100" name="btn_sitemap">Sitemap</button>
+      </form>
+    </div>
+  </div>
+</div>
+<!--  sitemap - -->
+{% endblock %}

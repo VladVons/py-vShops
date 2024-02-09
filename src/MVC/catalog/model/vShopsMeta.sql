@@ -463,6 +463,7 @@ create table if not exists ref_product (
     id                  serial primary key,
     enabled             boolean default true,
     create_date         timestamp default current_timestamp,
+    update_date         timestamp default current_timestamp,
     model               varchar(64),
     is_service          boolean default false,
     sort_order          smallint default 0,
@@ -649,7 +650,7 @@ create table if not exists hist_page_view (
 
 create table if not exists hist_product_stock (
     id                  serial primary key,
-    product_id          integer not null references ref_product(id),
+    product_id          integer not null references ref_product(id) on delete cascade,
     doc_en              doc_enum not null,
     qty                 numeric(10, 3) not null,
     actual_date         timestamp not null
@@ -667,7 +668,7 @@ create table if not exists hist_currency (
 -----------------------------------------------------------------------------
 
 create table if not exists reg_product_stock (
-    product_id            integer not null references ref_product(id),
+    product_id            integer not null references ref_product(id) on delete cascade,
     stock_id              integer not null references ref_stock(id),
     rest                  numeric(10, 3) not null,
     primary key (product_id, stock_id)
