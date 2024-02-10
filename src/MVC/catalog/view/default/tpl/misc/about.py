@@ -1,7 +1,7 @@
 # Created: 2024.02.09
 # Author:  Vladimir Vons <VladVons@gmail.com>
 # License: GNU, see LICENSE for more details
-
+#
 
 from IncP.FormBase import TFormBase
 from Inc.Util.Obj import GetTree
