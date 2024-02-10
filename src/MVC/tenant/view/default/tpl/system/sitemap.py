@@ -46,7 +46,7 @@ class TSitemapEx(TSitemap):
 
 class TForm(TFormBase):
     async def _DoRender(self):
-        if (DeepGetByList(self.out, ['data', 'btn_sitemap']) == ''):
+        if (DeepGetByList(self.out, ['data', 'btn_sitemap']) is not None):
             Host = f'{self.Request.scheme}://{self.Request.host}'
             Sitemap = TSitemapEx('MVC/catalog/view/sitemap', Host, self)
             await Sitemap.Create()
