@@ -12,7 +12,8 @@ class TForm(TFormBase):
         Data = await self.ExecCtrlDef()
         Arr = [
             f"{Path.lstrip('/')}: {Obj}"
-            for _Nested, Path, Obj, _Depth in GetTree(Data['data'])
+            for Nested, Path, Obj, _Depth in GetTree(Data['data'])
+            if (not Nested)
         ]
         Info = {'info': '<br>\n'.join(Arr)}
         self.out.update(Data | Info)
