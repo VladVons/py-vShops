@@ -20,6 +20,7 @@
 
       <h3>{{product.title}}</h3>
       <p>{{lang.category}}: <a href="{{href.category}}" class="h3">{{product.category_title}}</a></p>
+      <p>{{lang.condition}}: {% if product.used %} {{lang.used}} {% else %} {{lang.new}} {% endif %}</p>
       <p>{{lang.available}}: {{product.rest}}</p>
       <p>{{lang.seller}}: <a href="{{href.tenant}}">{{product.tenant_title}}</a></p>
 

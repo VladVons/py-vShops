@@ -5,10 +5,13 @@
         "already_in_cart": "вже в кошику",
         "available": "в наявності",
         "category": "категорія",
+        "condition": "стан",
         "description": "опис",
         "features": "характеристики",
         "qty": "шт",
         "code": "код",
-        "seller": "продавець"
+        "seller": "продавець",
+        "used": "вживане",
+        "new": "нове"
     }
 }

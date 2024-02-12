@@ -466,6 +466,7 @@ create table if not exists ref_product (
     update_date         timestamp default current_timestamp,
     model               varchar(64),
     is_service          boolean default false,
+    used                boolean,
     sort_order          smallint default 0,
     idt                 integer,
     product0_id         integer references ref_product0(id),
