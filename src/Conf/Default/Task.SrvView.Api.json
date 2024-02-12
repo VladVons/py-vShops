@@ -18,6 +18,7 @@
     "tenant": {
         "dir_route": "MVC/tenant/view",
         "dir_root": "MVC/tenant/view",
+        "request_scheme": "http",
         "loader": {
             "ctrl": {
                 "type": "fs",

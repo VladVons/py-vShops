@@ -42,6 +42,8 @@ async def Main(self, aData: dict = None) -> dict:
     )
 
     if (Dbl):
+        Title = f'{Dbl.Rec.category_title} ({Dbl.Rec.total})'
+
         Data = TPagination(aLimit, f'?route=product0/category&category_id={aCategoryId}&page={{page}}').Get(Dbl.Rec.total, aPage)
         DblPagination = TDbList(['page', 'title', 'href', 'current'], Data)
 
@@ -49,6 +51,7 @@ async def Main(self, aData: dict = None) -> dict:
 
         Res = {
             'dbl_products_a': DblProducts.Export(),
-            'dbl_pagenation': DblPagination.Export()
+            'dbl_pagenation': DblPagination.Export(),
+            'title': Title
         }
         return Res

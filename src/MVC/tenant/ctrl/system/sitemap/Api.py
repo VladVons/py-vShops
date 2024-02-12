@@ -6,7 +6,7 @@
 async def ajax(self, aData: dict) -> dict:
     Param = aData.get('param', {})
     match Param['method']:
-        case 'get_count':
+        case 'get_product_count':
             Dbl = await self.ExecModelImport(
                 'system',
                 {
@@ -15,7 +15,7 @@ async def ajax(self, aData: dict) -> dict:
             )
             return Dbl.Rec.GetAsDict()
 
-        case 'get_data':
+        case 'get_product_data':
             Dbl = await self.ExecModelImport(
                 'system',
                 {
@@ -23,6 +23,20 @@ async def ajax(self, aData: dict) -> dict:
                     'param': {
                         'aLimit': Param['limit'],
                         'aOffset': Param['offset']
+                    }
+                }
+            )
+            return Dbl.Export()
+
+        case 'get_categories_data':
+            Dbl = await self.ExecModelImport(
+                'system',
+                {
+                    'method': 'Get_Seo_Categories',
+                    'param': {
+                        'aLimit': Param['limit'],
+                        'aOffset': Param['offset'],
+                        'aLang': self.GetLangId('ua') # ToDo
                     }
                 }
             )

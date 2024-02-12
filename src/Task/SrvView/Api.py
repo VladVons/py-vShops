@@ -29,7 +29,7 @@ class TApiViewConf():
     form_info: str = 'misc/info'
     form_home: str = 'common/home'
     form_module: str = 'module'
-
+    request_scheme: str = 'http'
 
 class TCacheFileView(TCacheFile):
     def _GetAfter(self, _aPath: str, aData: object):

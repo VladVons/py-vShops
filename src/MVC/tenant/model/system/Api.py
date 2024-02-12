@@ -96,6 +96,12 @@ async def Get_Seo_Products(self, aLimit: int, aOffset: int) -> dict:
         {'aLimit': aLimit, 'aOffset': aOffset}
     )
 
+async def Get_Seo_Categories(self, aLang: int, aLimit: int, aOffset: int) -> dict:
+    return await self.ExecQuery(
+        'fmtGet_Seo_Categories.sql',
+        {'aLang': aLang, 'aLimit': aLimit, 'aOffset': aOffset}
+    )
+
 async def Get_Seo_ProductsCount(self) -> dict:
     return await self.ExecQuery(
         'fmtGet_Seo_ProductsCount.sql'
