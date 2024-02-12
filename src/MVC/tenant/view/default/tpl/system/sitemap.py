@@ -81,7 +81,7 @@ class TForm(TFormBase):
     async def _DoRender(self):
         if (DeepGetByList(self.out, ['data', 'btn_sitemap']) is not None):
             Dir = 'MVC/catalog/view/sitemap'
-            Host = f'{self.Parent.Conf.request_scheme}://{self.Request.host}'
+            Host = f'{self.Parent.Conf.request_scheme}://{self.Request.host}/sitemap'
 
             SitemapCategory = TSitemapCategory(Dir, Host, self)
             ArrCategory = await SitemapCategory.CreateIndexes()
