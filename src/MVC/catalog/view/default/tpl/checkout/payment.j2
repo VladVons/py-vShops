@@ -1,5 +1,45 @@
 {% extends '_inc/layout1.j2' %}
 
 {% block content %}
-{% include '../_inc/payment.j2' %}
-{% endblock %}
+<!-- payment + -->
+<div class="container mt-3">
+    <div class="vTitle">{{lang.payment}}</div>
+      <div class="row justify-content-center">
+        <div class="col-md-6">
+          <div class="card">
+            <div class="card-header vBgSlave">
+              <h3>{{lang.card_payment}}</h3>
+              <div class="mb-3">
+                <i class="fa fa-cc-visa fa-3x mx-2 text-primary"></i>
+                <i class="fa fa-cc-mastercard fa-3x mx-2 text-danger"></i>
+              </div>
+            </div>
+            <div class="card-body">
+              <form>
+                <div class="mb-3">
+                  <label for="cardholderName" class="form-label">{{lang.card_holder_name}}</label>
+                  <input type="text" class="form-control" id="cardholderName" placeholder="John Doe" required>
+                </div>
+                <div class="mb-3">
+                  <label for="cardNumber" class="form-label">{{lang.card_number}}</label>
+                  <input type="text" class="form-control" id="cardNumber" placeholder="1234 5678 9012 3456" required>
+                </div>
+                <div class="row">
+                  <div class="col-md-6 mb-3">
+                    <label for="expiryDate" class="form-label">{{lang.valid_till}}</label>
+                    <input type="text" class="form-control" id="expiryDate" placeholder="26/12" required>
+                  </div>
+                  <div class="col-md-6 mb-3">
+                    <label for="cvv" class="form-label">CVV</label>
+                    <input type="text" class="form-control" id="cvv" placeholder="123" required>
+                  </div>
+                </div>
+                <button type="submit" class="btn btn-primary"><i class="fa fa-money-bill-wave m-1"></i>{{lang.pay}}</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+  </div>
+  <!-- payment - -->
+  {% endblock %}
