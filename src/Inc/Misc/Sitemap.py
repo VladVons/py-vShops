@@ -24,6 +24,10 @@ class TSitemap():
     async def _GetRow(self, aRec: TDbRec) -> str:
         raise NotImplementedError()
 
+    @staticmethod
+    def _Escape(aVal: str) -> str:
+        return aVal.replace('&', '&amp;')
+
     def _WriteFile(self, aFile: str, aData: str):
         with open(f'{self.Dir}/{aFile}', 'w', encoding='utf8') as F:
             F.write(aData)
@@ -43,9 +47,8 @@ class TSitemap():
 
             for Rec in Dbl:
                 RowData = await self._GetRow(Rec)
-
                 Arr.append('  <url>')
-                Arr.append(RowData)
+                Arr.append(self._Escape(RowData))
                 Arr.append('  </url>')
 
             Offset += Dbl.GetSize()
@@ -82,9 +85,9 @@ class TSitemap():
         self._WriteFile(f'{self.BaseName}.xml', '\n'.join(Arr))
 
     async def Create(self):
-        self.Size = await self.GetSize()
+        self.Size = await self._GetSize()
         if (self.Size > self.MaxRowsWrite):
-            Arr = await self.CreateIndex()
+            Arr = await self.CreateIndexes()
             self.WriteIndexes(Arr)
         else:
             await self.WriteIndex(f'{self.BaseName}.xml')
