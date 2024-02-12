@@ -5,7 +5,6 @@
 
 from IncP.LibCtrl import GetDictDefs
 
-
 async def GetCategories(self, aLangId: int) -> dict:
     Dbl = await self.ExecModelImport (
         'ref_product0/category',
@@ -41,10 +40,8 @@ async def Main(self, aData: dict = None) -> dict:
     )
 
     LangId = self.GetLangId('ua')
-    Categories = await GetCategories(self, LangId)
 
     return {
-        'categories_a': Categories, 'id_a': 0,
         'href_layout': {
             'about_us': '/?route=info/about_us',
             'contacts': '/?route=info/contacts',
@@ -53,6 +50,7 @@ async def Main(self, aData: dict = None) -> dict:
             'order': '/?route=checkout/order',
             'payment': '/?route=checkout/payment',
             'privacy_policy': '/?route=info/privacy_policy',
+            'sitemap': '/?route=info/sitemap',
             'search': '/?route=product0/search&q=',
             'login_tenant': '/tenant/?route=common/login',
             'search_ajax': '/api/?route=product0/search',
