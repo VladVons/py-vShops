@@ -1,11 +1,17 @@
 {% extends '_inc/layout1.j2' %}
 
 {% block head %}
+<title>{{title}}</title>
+<meta name="robots" content="index,follow">
+<meta property="og:title" content="{{info.title}}"/>
+<meta property="og:site_name" content="{{info.site_name}}"/>
 {% endblock %}
 
 {% block content %}
 <!-- category + -->
+{% set title = info.title %}
 {% include '../_inc/products_a.j2' %}
+
 {% include '../_inc/pagination.j2' %}
 <!-- category - -->
 {% endblock %}
