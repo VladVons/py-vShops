@@ -3,6 +3,8 @@
 # License: GNU, see LICENSE for more details
 
 
+import os
+#
 from Inc.DbList import TDbList, TDbRec
 
 
@@ -29,7 +31,13 @@ class TSitemap():
         return aVal.replace('&', '&amp;')
 
     def _WriteFile(self, aFile: str, aData: str):
-        with open(f'{self.Dir}/{aFile}', 'w', encoding='utf8') as F:
+        Dir = self.Dir
+        if (aFile != 'sitemap.xml'):
+            Dir += '/sitemap'
+        if (not os.path.isdir(Dir)):
+            os.makedirs(Dir, exist_ok=True)
+
+        with open(f'{Dir}/{aFile}', 'w', encoding='utf8') as F:
             F.write(aData)
 
     async def WriteIndex(self, aFile: str, aOffset: int = 0) -> int:
@@ -68,7 +76,7 @@ class TSitemap():
             File = f'{self.BaseName}_{Idx}.xml'
 
             Res.append('  <sitemap>')
-            Res.append(f'    <loc>{self.UrlRoot}/{File}</loc>')
+            Res.append(f'    <loc>{self.UrlRoot}/sitemap/{File}</loc>')
             Res.append('  </sitemap>')
 
             Offset = await self.WriteIndex(File, Offset)
