@@ -7,7 +7,7 @@ import time
 #
 from Inc.ConfJson import TConfJson
 from Inc.Util.Mod import DynImport
-from Inc.Util.Obj import DeepGetByList, DictUpdate
+from Inc.Util.Obj import DeepGetByList, DictUpdateDeep
 from IncP.Log import Log
 
 
@@ -41,7 +41,7 @@ class TPluginApp():
 
             Joins = self.Conf.GetKey(f'plugin.{aName}.joins')
             if (Joins):
-                self.ConfEx = DictUpdate(self.ConfEx, Joins)
+                self.ConfEx = DictUpdateDeep(self.ConfEx, Joins)
 
             Depends = self.Conf.GetKey(f'plugin.{aName}.depends', [])
             for Depend in Depends:
@@ -61,7 +61,7 @@ class TPluginApp():
             ConfEx = self.ConfEx.get(aName)
             if (ConfEx):
                 #Conf.update(ConfEx)
-                Conf.Init(DictUpdate(Conf, ConfEx))
+                Conf.Init(DictUpdateDeep(Conf, ConfEx))
             Class = TClass(self, Depends, ClassName, aName, Conf, aDepth)
             Res = await Class.Run()
             if (isinstance(Res, dict)) and (Res.get('cached')) and (DeepGetByList(self.Conf, ['common', 'save_cache'])):

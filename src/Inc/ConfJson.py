@@ -5,7 +5,7 @@
 
 import os
 import json
-from Inc.Util.Obj import DeepGet, DictUpdate
+from Inc.Util.Obj import DeepGet, DictUpdateDeep
 from Inc.Misc.FS import DirWalk
 
 
@@ -22,7 +22,7 @@ class TConfJson(dict):
         Res = {}
         for xData in aData:
             if (xData):
-                Data = DictUpdate(Res, xData, True)
+                Data = DictUpdateDeep(Res, xData, True)
                 Res.update(Data)
         return Res
 

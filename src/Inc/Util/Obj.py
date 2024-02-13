@@ -50,7 +50,22 @@ def GetClassPath(aClass):
 
     return GetClassPathRecurs(aClass.__class__)
 
-def DictUpdate(aMaster: dict, aSlave: dict, aJoin = False, aDepth: int = 99) -> object:
+def DictUpdate(aMaster: dict, aSlave: dict):
+    if (not aMaster):
+        aMaster.update(aSlave)
+    elif (aSlave):
+        for Key, Val in aSlave.items():
+            if (Key in aMaster):
+                if (isinstance(Val, dict)):
+                    aMaster[Key].update(Val)
+                elif (isinstance(Val, list)):
+                    aMaster[Key].extend(Val)
+                else:
+                    aMaster[Key] = Val
+            else:
+                aMaster[Key] = Val
+
+def DictUpdateDeep(aMaster: dict, aSlave: dict, aJoin = False, aDepth: int = 99) -> object:
     '''
     DictJoin({3: [1, 2, 3]}, {3: [4]}) -> {3: [1, 2, 3, 4]}
     '''
@@ -90,13 +105,13 @@ def DictUpdate(aMaster: dict, aSlave: dict, aJoin = False, aDepth: int = 99) -> 
             Tmp = aMaster.get(Key)
             if (Tmp is None):
                 Tmp = {} if isinstance(Val, dict) else []
-            Data = DictUpdate(Tmp, Val, aJoin, aDepth - 1)
+            Data = DictUpdateDeep(Tmp, Val, aJoin, aDepth - 1)
             Res[Key] = Data
     elif (Type == list):
         Res = [] if (aMaster is None ) else aMaster
         for Val in aSlave:
             Val = ParseEnv(Val)
-            Data = DictUpdate(None, Val, aJoin, aDepth - 1)
+            Data = DictUpdateDeep(None, Val, aJoin, aDepth - 1)
             if (aJoin):
                 Res.append(Data)
             else:

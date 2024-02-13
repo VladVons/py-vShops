@@ -14,7 +14,7 @@ async def Main(self, aData: dict = None) -> dict:
     )
 
     return {
-        'href_layout': {
+        'href': {
             'faq': f'/{self.Name}/?route=info/faq',
             'products': f'/{self.Name}/?route=product/products',
             'filemanager2': f'/{self.Name}/?route=common/filemanager2',

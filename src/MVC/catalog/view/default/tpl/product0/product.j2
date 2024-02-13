@@ -1,11 +1,13 @@
 {% extends '_inc/layout1.j2' %}
 
 {% block head %}
-<title>{{product.title}}</title>
+<title>{{product.category_title}} {{product.title}}</title>
+<meta name="robots" content="index,follow">
 <meta property="og:title" content="{{product.title}}"/>
 <meta property="og:image" content="{{product.image}}"/>
 <meta property="og:description" content="{{product.title}}"/>
 <meta property="og:type" content="product"/>
+<meta property="og:site_name" content="{{info.site_name}}"/>
 <script>
     gData.updValue('lang', {
         "added_to_cart": "{{lang.added_to_card}}",

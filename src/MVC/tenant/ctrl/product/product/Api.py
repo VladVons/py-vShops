@@ -120,6 +120,6 @@ async def Main(self, aData: dict = None) -> dict:
 
         #await self.Lang.Add(aLang, 'common/filemanager')
         #ResCF = await self.ExecSelf('common/filemanager', aData)
-        #ResAll = DictUpdate(Res, ResCF, True)
+        #ResAll = DictUpdateDeep(Res, ResCF, True)
         return Res
     pass

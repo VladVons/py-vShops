@@ -5,7 +5,7 @@
 
 from Inc.Loader.Lang import TLoaderLangFs
 #from Inc.Misc.Cache import TCacheMem
-from Inc.Util.Obj import DeepGetByList
+from Inc.Util.Obj import DeepGetByList, DictUpdate
 from IncP.ApiBase import TApiBase
 from IncP.Plugins import TCtrls
 from IncP.LibCtrl import GetDictDef
@@ -69,8 +69,8 @@ class TApiCtrl(TApiBase):
         else:
             Module = Caller['module']
             Data = await Caller['method'](Module, aData)
-            if (Data):
-                Res.update(Data)
+            DictUpdate(Res, Data)
+
             Res['modules'] = await Module.LoadModules(aData)
 
         Routes = aData.get('extends', [])

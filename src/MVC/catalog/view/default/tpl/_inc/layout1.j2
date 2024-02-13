@@ -9,8 +9,8 @@
     <script>
       let gData = new TDict()
       gData.updValue('href', {
-        "search_ajax": "{{href_layout.search_ajax}}",
-        "search": "{{href_layout.search}}"
+        "search_ajax": "{{href.search_ajax}}",
+        "search": "{{href.search}}"
     })
     </script>
 
@@ -37,7 +37,7 @@
     <script src="/default/assets/js/timer_modal.js"></script>
 
     <script>
-      const param = {selector: 'viMainNavbar', items: 'viMainNavbarItems', url: '{{href_layout.category_ajax}}'}
+      const param = {selector: 'viMainNavbar', items: 'viMainNavbarItems', url: '{{href.category_ajax}}'}
       document.getElementById('viMainNavbarMenu').onclick = () => OnClickDropdownMenu(param)
       initDropdownMenu({selector: 'viMainNavbar'})
     </script>

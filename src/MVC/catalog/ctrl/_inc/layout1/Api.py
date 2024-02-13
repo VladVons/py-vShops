@@ -39,10 +39,8 @@ async def Main(self, aData: dict = None) -> dict:
         ('', 'ua')
     )
 
-    LangId = self.GetLangId('ua')
-
-    return {
-        'href_layout': {
+    Res = {
+        'href': {
             'about_us': '/?route=info/about_us',
             'contacts': '/?route=info/contacts',
             'faq': '/?route=info/faq',
@@ -56,5 +54,10 @@ async def Main(self, aData: dict = None) -> dict:
             'search_ajax': '/api/?route=product0/search',
             'category_ajax': '/api/?route=_inc/layout1'
         },
-        'search': aSearch
+        'search': aSearch,
+        'info': {
+            'site_name': '1x1.com.ua'
+        }
     }
+
+    return Res
