@@ -76,6 +76,14 @@
         <label>{{lang.margin}} %</label>
         <input type="number" class="form-control" value="{{percentage}}" readonly/>
       </div>
+      <div class="col">
+          <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" id="navbarDropdown"> {{lang.history}}</a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown1">
+          {% for Rec in TDbList().Import(product.price_hist) %}
+            <a class="dropdown-item" style="pointer-events: none;">{{Rec.create_date}}, {{Rec.price}}, {{Rec.price_en}}</a>
+          {% endfor %}
+          </div>
+      </div>
     </div>
 
     <div class="mb-3">

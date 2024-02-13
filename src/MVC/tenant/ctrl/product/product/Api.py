@@ -55,6 +55,15 @@ async def Main(self, aData: dict = None) -> dict:
     )
 
     if (DblProduct):
+        DblPrice = await self.ExecModelImport(
+            'ref_product/price',
+            {
+                'method': 'Get_PriceHist_Product',
+                'param': {'aProductId': aProductId}
+            }
+        )
+        ProductPriceHist = DblPrice.Export()
+
         DblCategory = await self.ExecModelImport(
             'ref_product/category',
             {
@@ -100,7 +109,7 @@ async def Main(self, aData: dict = None) -> dict:
             DblImages0 = await self.GetImages0(DblProduct.Rec.product0_id)
 
         Res = {
-            'product': DblProduct.Rec.GetAsDict(),
+            'product': DblProduct.Rec.GetAsDict() | {'price_hist': ProductPriceHist},
             'product0': DblProduct0 and DblProduct0.Rec.GetAsDict(),
             'dbl_images': DblImages and DblImages.Export(),
             'dbl_images0': DblImages0 and DblImages0.Export(),
@@ -113,3 +122,4 @@ async def Main(self, aData: dict = None) -> dict:
         #ResCF = await self.ExecSelf('common/filemanager', aData)
         #ResAll = DictUpdate(Res, ResCF, True)
         return Res
+    pass

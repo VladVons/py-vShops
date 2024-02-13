@@ -17,7 +17,6 @@ async def Main(self, aData: dict = None) -> dict:
     )
     aLangId = self.GetLangId(aLang)
 
-    self.ApiCtrl.ApiCommon
     DblProduct = await self.ExecModelImport(
         'ref_product0/product',
         {

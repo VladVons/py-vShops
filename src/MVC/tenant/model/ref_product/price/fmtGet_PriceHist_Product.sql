@@ -22,4 +22,5 @@ where
     (rpp.product_id = {{aProductId}}) and
     (rpp.qty = 1)
 order by
-    hrpp.create_date
+    hrpp.create_date, 
+    rp.price_en
