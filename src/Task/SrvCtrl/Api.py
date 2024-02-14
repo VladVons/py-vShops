@@ -69,10 +69,7 @@ class TApiCtrl(TApiBase):
         else:
             Module = Caller['module']
             Data = await Caller['method'](Module, aData)
-            if (Data and 'err_code' in Data):
-                return Data
             DictUpdate(Res, Data)
-
             Res['modules'] = await Module.LoadModules(aData)
 
         Routes = aData.get('extends', [])
