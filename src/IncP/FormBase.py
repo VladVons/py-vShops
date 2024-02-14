@@ -142,15 +142,14 @@ class TFormBase(Form):
         return Res
 
     def RenderTemplate(self) -> str:
+        Modules = self.RenderModules(self.out.get('modules', []))
+        self.out['modules'] = Modules
+        self.out['places'] = {x['place']: True for x in Modules}
+
+        File = f'{self.out.route}.{self.Tpl.Ext}'
         if ('err_code' in self.out):
             File = f'{self.Parent.Conf.form_info}.{self.Tpl.Ext}'
-        else:
-            Modules = self.RenderModules(self.out.get('modules', []))
-            self.out['modules'] = Modules
-            self.out['places'] = {x['place']: True for x in Modules}
-
-            File = f'{self.out.route}.{self.Tpl.Ext}'
-            #return self.Tpl.RenderInc(File, Data)
+        #return self.Tpl.RenderInc(File, Data)
         return self.Tpl.Render(File, self.out)
 
 

@@ -106,7 +106,7 @@ class TApiView(TApiBase):
                 Form.out.path = self.Name
                 Data = await Form.Render()
                 if ('err_code' in Form.out):
-                    Res = {'err': f'Route not found {Route}', 'code': Form.out.err_code}
+                    Res = {'data': Data, 'err': f'Route not found {Route}', 'code': Form.out.err_code}
                 else:
                     Res = {'data': Data}
         else:
@@ -139,7 +139,8 @@ class TApiView(TApiBase):
             if (Route == self.Conf.form_info):
                 Res = web.Response(text = f'No default form {Route}', content_type = 'text/html')
             else:
-                Res = await self.ResponseFormInfo(aRequest, Data['err'], Data['code'])
+                #Res = await self.ResponseFormInfo(aRequest, Data['err'], Data['code'])
+                Res = web.Response(text = Data['data'], content_type = 'text/html', status = Data.get('code', 200))
         else:
             Res = web.Response(text = Data['data'], content_type = 'text/html')
         return Res
