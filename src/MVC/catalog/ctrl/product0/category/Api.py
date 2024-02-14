@@ -23,7 +23,7 @@ async def Main(self, aData: dict = None) -> dict:
         }
     )
     if (not Dbl):
-        return
+        return {'code': 404}
 
     CategoryIds = Dbl.ExportList('id')
 

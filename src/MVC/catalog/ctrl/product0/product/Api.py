@@ -28,10 +28,7 @@ async def Main(self, aData: dict = None) -> dict:
         }
     )
     if (not DblProduct):
-        return {
-            'product': {},
-            'href': {}
-        }
+        return {'err_code': 404}
 
     Res = {}
     Product = DblProduct.Rec.GetAsDict()

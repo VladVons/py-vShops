@@ -99,12 +99,16 @@ class TApiView(TApiBase):
             if (Route == self.Conf.form_info):
                 File = f'{Route}.{Form.Tpl.Ext}'
                 Data = Form.Tpl.Render(File, aQuery)
+                Res = {'data': Data}
             else:
                 Form.out.route = Route
                 #Form.out.path = aQuery['_path']
                 Form.out.path = self.Name
                 Data = await Form.Render()
-            Res = {'data': Data}
+                if ('err_code' in Form.out):
+                    Res = {'err': f'Route not found {Route}', 'code': Form.out.err_code}
+                else:
+                    Res = {'data': Data}
         else:
             Res = {'err': f'Route not found {Route}', 'code': 404}
         return Res
