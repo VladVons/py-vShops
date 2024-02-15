@@ -34,12 +34,12 @@ class TApiViewConf():
 class TCacheFileView(TCacheFile):
     def _GetAfter(self, _aPath: str, aData: object):
         if (aData):
-            aData = {'data': aData}
+            aData = json.loads(aData)
         return aData
 
     def _SetBefore(self, _aPath: str, aData: object):
         if ('err' not in aData):
-            return aData.get('data')
+            return json.dumps(aData)
 
 
 class TApiView(TApiBase):
@@ -96,19 +96,11 @@ class TApiView(TApiBase):
         Route = aQuery['route']
         Form = self.GetForm(aRequest, Route)
         if (Form):
-            if (Route == self.Conf.form_info):
-                File = f'{Route}.{Form.Tpl.Ext}'
-                Data = Form.Tpl.Render(File, aQuery)
-                Res = {'data': Data}
-            else:
-                Form.out.route = Route
-                #Form.out.path = aQuery['_path']
-                Form.out.path = self.Name
-                Data = await Form.Render()
-                if ('err_code' in Form.out):
-                    Res = {'data': Data, 'err': f'Route not found {Route}', 'code': Form.out.err_code}
-                else:
-                    Res = {'data': Data}
+            Form.out.route = Route
+            Form.out.path = self.Name
+            Form.out.query = aQuery
+            Data = await Form.Render()
+            Res = {'data': Data, 'code': Form.out.get('err_code', 200)}
         else:
             Res = {'err': f'Route not found {Route}', 'code': 404}
         return Res
@@ -135,14 +127,10 @@ class TApiView(TApiBase):
     async def ResponseForm(self, aRequest: web.Request, aQuery: dict) -> web.Response:
         Data = await self.GetFormData(aRequest, aQuery)
         if ('err' in Data):
-            Route = aQuery['route']
-            if (Route == self.Conf.form_info):
-                Res = web.Response(text = f'No default form {Route}', content_type = 'text/html')
-            else:
-                #Res = await self.ResponseFormInfo(aRequest, Data['err'], Data['code'])
-                Res = web.Response(text = Data['data'], content_type = 'text/html', status = Data.get('code', 200))
-        else:
-            Res = web.Response(text = Data['data'], content_type = 'text/html')
+            aQuery['route'] = self.Conf.form_info
+            aQuery['raise_err_code'] = 404
+            Data = await self.GetFormData(aRequest, aQuery)
+        Res = web.Response(text = Data['data'], content_type = 'text/html', status = Data['code'])
         return Res
 
     async def ResponseApi(self, aRequest: web.Request) -> web.Response:

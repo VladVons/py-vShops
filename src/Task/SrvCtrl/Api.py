@@ -68,15 +68,21 @@ class TApiCtrl(TApiBase):
             Res['modules'] = await self.BaseCtrl.LoadModules(aData)
         else:
             Module = Caller['module']
+            Res['modules'] = await Module.LoadModules(aData)
             Data = await Caller['method'](Module, aData)
             DictUpdate(Res, Data)
-            Res['modules'] = await Module.LoadModules(aData)
+            if ('raise_err_code' in aData['query']):
+                Res['err_code'] = aData['query']['raise_err_code']
 
+        # Language collector
         Routes = aData.get('extends', [])
         Routes.append(aData.get('route'))
+        if ('err_code' in Res) or ('err' in Caller):
+            Routes.append('_inc/errors')
         for xRoute in Routes:
             await self.Lang.Add('ua', xRoute, 'tpl')
         Res['lang'] = self.Lang.Join()
+
         return Res
 
     async def ExecApi(self, aRoute: str, aData: dict) -> dict:

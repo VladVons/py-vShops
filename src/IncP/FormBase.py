@@ -13,6 +13,7 @@ from Inc.DbList import TDbList
 from Inc.DictDef import TDictDef
 from Inc.Loader.Api import TLoaderApi
 from Inc.Misc.Jinja import TTemplate
+from Inc.Util.Obj import DeepGetByList
 from Inc.SrvWeb.Common import ParseUserAgent
 from IncP import GetAppVer
 
@@ -39,7 +40,8 @@ class TFormBase(Form):
                 'info': GetAppVer(),
                 'title': '',
                 'route': '',
-                'path': ''
+                'path': '',
+                'query': {}
             }
         )
 
@@ -104,7 +106,7 @@ class TFormBase(Form):
             'path_qs': self.Request.path_qs,
             'path': self.Request.path,
             'post': self.out.data,
-            'query': dict(self.Request.query),
+            'query': dict(self.Request.query) | self.out.query,
             'session': dict(self.Session),
             'extends': Extends
         }
@@ -149,6 +151,7 @@ class TFormBase(Form):
         File = f'{self.out.route}.{self.Tpl.Ext}'
         if ('err_code' in self.out):
             File = f'{self.Parent.Conf.form_info}.{self.Tpl.Ext}'
+            self.out.info_data = DeepGetByList(self.out, ['lang',  f'err_code_{self.out.err_code}'], 'Unknown error')
         #return self.Tpl.RenderInc(File, Data)
         return self.Tpl.Render(File, self.out)
 
