@@ -24,7 +24,7 @@ class TMailSmtp():
 
 @DDataClass
 class TMailSend():
-    mail_to: str
+    mail_to: list[str]
     mail_subject: str
     mail_from: str
     mail_body: str = ''
@@ -37,7 +37,7 @@ class TMail():
     def __init__(self, aMailSmtp: TMailSmtp):
         self._MailSmtp = aMailSmtp
 
-    async def Send(self, aData: TMailSend):
+    async def Send(self, aData: TMailSend) :
         EMsg = MIMEMultipart()
         EMsg['From'] = aData.mail_from
         EMsg['To'] = ', '.join(aData.mail_to)
@@ -59,4 +59,4 @@ class TMail():
             Stream.close()
 
         Smtp = self._MailSmtp.__dict__
-        await aiosmtplib.send(EMsg, **Smtp)
+        return await aiosmtplib.send(EMsg, **Smtp)

@@ -1,10 +1,10 @@
 -- aTenantId, CondAttr
 select
     attr,
-    val,
-    serialized
+    val_text,
+    val_json
 from
-    ref_conf rc
+    ref_conf
 where
     (tenant_id = {{aTenantId}})
     {{CondAttr}}

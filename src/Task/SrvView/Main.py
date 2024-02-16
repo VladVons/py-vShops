@@ -33,7 +33,8 @@ class TSrvView(TSrvBase):
             web.get('/tenant{name:.*}', self._rTenant),
 
             web.post('/api/{name:.*}', self._rApiCatalog),
-            web.get('/{name:.*}', self._rCatalog)
+            web.get('/{name:.*}', self._rCatalog),
+            web.post('/{name:.*}', self._rCatalog)
         ]
 
     async def _Route(self, aRequest: web.Request, aPath: str) -> web.Response:

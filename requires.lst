@@ -9,11 +9,12 @@ psutil
 aiopg 
 aiohttp 
 aiohttp_session 
+aiosmtplib
+aiogram
 cryptography 
 jinja2 
 pillow 
 wtforms
 multidict
-aiogram
 #
 pylint

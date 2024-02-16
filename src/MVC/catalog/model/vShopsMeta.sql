@@ -303,11 +303,11 @@ create table if not exists ref_product0_crawl (
 -----------------------------------------------------------------------------
 
 create table if not exists ref_conf (
-    id                  serial primary key,
     attr                varchar(32) not null,
-    val                 text not null,
-    serialized          boolean,
-    tenant_id           integer not null references ref_tenant(id)
+    val                 text,
+    val_json            json,
+    tenant_id           integer not null references ref_tenant(id),
+    unique (tenant_id, attr)
 );
 
 --- module---
