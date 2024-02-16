@@ -72,8 +72,6 @@ class TCache():
                 else:
                     Res = await aFunc()
                 self.Set(aRoute, aQuery, Res)
-            else:
-                pass
         else:
             Res = await aFunc(*aFuncArgs)
         return Res
