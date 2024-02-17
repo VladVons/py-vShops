@@ -35,7 +35,8 @@ create type gender_enum as enum (
 create type val_enum as enum (
     'int',
     'text',
-    'float'
+    'float',
+    'json'
 );
 
 -----------------------------------------------------------------------------
@@ -305,7 +306,7 @@ create table if not exists ref_product0_crawl (
 create table if not exists ref_conf (
     attr                varchar(32) not null,
     val                 text,
-    val_json            json,
+    val_en              val_enum not null,
     tenant_id           integer not null references ref_tenant(id),
     unique (tenant_id, attr)
 );

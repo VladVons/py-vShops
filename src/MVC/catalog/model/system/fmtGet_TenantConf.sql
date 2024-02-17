@@ -1,8 +1,8 @@
 -- aTenantId, CondAttr
 select
     attr,
-    val_text,
-    val_json
+    val,
+    val_en
 from
     ref_conf
 where

@@ -59,16 +59,6 @@ class TCtrlBase():
     async def ExecSelf(self, aRoute: str, aData: dict) -> dict:
         return await self.ApiCtrl.GetMethodData(aRoute, aData)
 
-    async def GetConf(self, _aData: dict) -> dict:
-        Res = await self.ExecModel(
-            'system',
-            {
-                'method': 'Get_TenantConf',
-                'param': {'aTenantId': 0}
-            }
-        )
-        return Res.get('data')
-
     async def LoadModules(self, aData: dict) -> list:
         aTenantId, aLang = GetDictDef(
             aData.get('query'),

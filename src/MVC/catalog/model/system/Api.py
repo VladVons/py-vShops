@@ -1,10 +1,12 @@
 import os
 import sys
+import json
 #
 from Inc.Misc.FS import DirWalk
 from Inc.Misc.Time import SecondsToDHMS
 from Inc.Util.ModHelp import GetHelp
 from IncP import GetInfo
+from IncP.LibModel import TDbList
 
 
 async def Api(_self, aPath: str) -> dict:
@@ -65,10 +67,21 @@ async def Get_TenantConf(self, aTenantId: int, aAttr: str = None) -> dict:
     if (aAttr):
         CondAttr = f"and attr like '{aAttr}%'"
 
-    return await self.ExecQuery(
+    DblData = await self.ExecQuery(
         'fmtGet_TenantConf.sql',
         {'aTenantId': aTenantId, 'CondAttr': CondAttr}
     )
+
+    Dbl = TDbList().Import(DblData).ToList()
+    for Rec in Dbl:
+        match Rec.val_en:
+            case 'int':
+                Rec.SetField('val', int(Rec.val))
+            case 'float':
+                Rec.SetField('val', float(Rec.val))
+            case 'json':
+                Rec.SetField('val', json.loads(Rec.val))
+    return Dbl.Export()
 
 async def Get_SeoToDict_LangPath(self, aLangId: int, aPath: list[str]) -> dict:
     Arr = [f"(keyword = '{x}' or keyword like '%/{x}')" for x in aPath]

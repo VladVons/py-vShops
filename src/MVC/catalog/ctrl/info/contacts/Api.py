@@ -20,11 +20,11 @@ async def Main(self, aData: dict = None) -> dict:
             }
         }
     )
-    Conf = DblConf.ExportPairs('attr', ['val_text', 'val_json'])
+    Conf = DblConf.ExportPair('attr', 'val')
 
-    ConfSmtp = Conf['email_smtp'][1]
+    ConfSmtp = Conf['email_smtp']
     MailSmtp = TMailSmtp(**ConfSmtp)
-    MailAdmin = Conf['email_admin'][0].split(',')
+    MailAdmin = Conf['email_admin'].split(',')
 
     Body = [Post['comment'], '---', Post['name'], Post['email']]
     Data = TMailSend(
@@ -36,8 +36,8 @@ async def Main(self, aData: dict = None) -> dict:
 
     try:
         await TMail(MailSmtp).Send(Data)
-        Status = 'send_ok'
+        LangKey = 'send_ok'
     except Exception as E:
-        Status = 'send_err'
+        LangKey = 'send_err'
         Log.Print(1, 'x', 'TMail error', aE=E)
-    return {'mail_status': Status}
+    return {'mail_status': LangKey}
