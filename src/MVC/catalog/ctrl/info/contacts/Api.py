@@ -4,23 +4,15 @@
 
 
 from Inc.Misc.Mail import TMail, TMailSend, TMailSmtp
-from IncP.Log import Log
+from IncP.LibCtrl import Log
+
 
 async def Main(self, aData: dict = None) -> dict:
     Post = aData.get('post')
     if (not Post):
         return
 
-    DblConf = await self.ExecModelImport(
-        'system',
-        {
-            'method': 'Get_TenantConf',
-            'param': {
-                'aTenantId': 0
-            }
-        }
-    )
-    Conf = DblConf.ExportPair('attr', 'val')
+    Conf = self.Cache.Get('conf_tenant_0', {})
 
     ConfSmtp = Conf['email_smtp']
     MailSmtp = TMailSmtp(**ConfSmtp)

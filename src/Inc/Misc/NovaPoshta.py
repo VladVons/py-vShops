@@ -10,7 +10,6 @@
 # Res = await NovaPoshta.SearchtStreet('Живова', Ref)
 
 
-import asyncio
 import aiohttp
 
 

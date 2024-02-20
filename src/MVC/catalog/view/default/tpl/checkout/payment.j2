@@ -2,44 +2,117 @@
 
 {% block content %}
 <!-- payment + -->
-<div class="container mt-3">
-    <div class="vTitle">{{lang.payment}}</div>
-      <div class="row justify-content-center">
-        <div class="col-md-6">
-          <div class="card">
-            <div class="card-header vBgSlave">
-              <h3>{{lang.card_payment}}</h3>
-              <div class="mb-3">
-                <i class="fa fa-cc-visa fa-3x mx-2 text-primary"></i>
-                <i class="fa fa-cc-mastercard fa-3x mx-2 text-danger"></i>
-              </div>
-            </div>
-            <div class="card-body">
-              <form>
-                <div class="mb-3">
-                  <label for="cardholderName" class="form-label">{{lang.card_holder_name}}</label>
-                  <input type="text" class="form-control" id="cardholderName" placeholder="John Doe" required>
-                </div>
-                <div class="mb-3">
-                  <label for="cardNumber" class="form-label">{{lang.card_number}}</label>
-                  <input type="text" class="form-control" id="cardNumber" placeholder="1234 5678 9012 3456" required>
-                </div>
-                <div class="row">
-                  <div class="col-md-6 mb-3">
-                    <label for="expiryDate" class="form-label">{{lang.valid_till}}</label>
-                    <input type="text" class="form-control" id="expiryDate" placeholder="26/12" required>
-                  </div>
-                  <div class="col-md-6 mb-3">
-                    <label for="cvv" class="form-label">CVV</label>
-                    <input type="text" class="form-control" id="cvv" placeholder="123" required>
-                  </div>
-                </div>
-                <button type="submit" class="btn btn-primary"><i class="fa fa-money-bill-wave m-1"></i>{{lang.pay}}</button>
-              </form>
-            </div>
-          </div>
+<div class="container pb-2">
+  <form id="formPayment" method="post">
+    <div class="row">
+      <div class="col">
+        <h3>{{lang.contact_info}}</h3>
+        <div class="mb-3">
+          <label for="first_name" class="form-label">{{lang.first_name}}*</label>
+          <input type="text" class="form-control" name="first_name" required/>
+        </div>
+        <div class="mb-3">
+          <label for="last_name" class="form-label">{{lang.last_name}}*</label>
+          <input type="text" class="form-control" name="last_name" required/>
+        </div>
+        <div class="mb-3">
+          <label for="middle_name" class="form-label">{{lang.middle_name}}*</label>
+          <input type="text" class="form-control" name="middle_name" required/>
+        </div>
+        <div class="mb-3">
+          <label for="phone" class="form-label">{{lang.phone}}*</label>
+          <input type="text" class="form-control" name="phone" required/>
         </div>
       </div>
-  </div>
-  <!-- payment - -->
-  {% endblock %}
+      <div class="col">
+        <h3>{{lang.delivery}}</h3>
+        <div class="mb-3">
+          <label for="town" class="form-label">{{lang.transport}}*</label>
+          <input type="text" class="form-control" id="transport" name="transport" value="{{lang.nova_poshta}}" required readonly>
+        </div>
+        <div class="mb-3">
+          <label for="town" class="form-label">{{lang.town}}*</label>
+          <input type="text" class="form-control" id="town" name="town" list="town_options" required/>
+          <datalist id="town_options">
+            <!-- JS -->
+          </datalist>
+          <input type="hidden" id="town_ref"/>
+        </div>
+        <div class="mb-3">
+          <label for="department" class="form-label">{{lang.department}}*</label>
+          <input type="text" class="form-control" id="department" name="department" list="department_options" required/>
+          <datalist id="department_options">
+            <!-- JS -->
+          </datalist>
+        </div>
+      </div>
+    </div>
+    <div class="mb-3">
+      <button type="button" class="btn btn-primary" id="viBtnSave">{{lang.submit}}</button>
+    </div>
+  </form>
+</div>
+
+<script>
+  function inputDataList(aInputId, aUrl, aSendData = {}, aOnSelect = null, aOnKey = null) {
+    let timeout = 0
+    const input = document.getElementById(aInputId)
+    const dataList = document.getElementById(input.getAttribute('list'))
+
+    input.addEventListener('input', function(aEvent) {
+      clearTimeout(timeout)
+      timeout = setTimeout(() => {
+        if (aOnKey)
+          aOnKey(input)
+
+        const value = this.value.trim()
+        if (value.length >= 0) {
+          let curOption = Array.from(dataList.options).find(e => e.value == value)
+          if (curOption && aOnSelect)
+            aOnSelect(curOption)
+
+          let sendData = {'method': 'ajax', 'input_name': aEvent.target.name, 'input_value': value}
+          sendData = {...sendData, ...aSendData}
+          new TSend().execA(aUrl, sendData).then(data => {
+            dataList.innerHTML = ''
+            for (var x of data['items']) {
+              let option = document.createElement('option')
+              option.value = x.present
+              option.setAttribute('data-ref', x.ref)
+              dataList.appendChild(option)
+            }
+          })
+        }
+      }, 500)
+    })
+  }
+
+  const url = "{{href.novaposhta_ajax}}"
+  inputDataList('town', url, {},
+    (element) => {
+      const townRef = element.getAttribute('data-ref')
+      document.getElementById('town_ref').value = townRef
+      inputDataList('department', url, {'town_ref': townRef}, null)
+    },
+    (element) => {
+      document.getElementById('department').value = ''
+    }
+  )
+
+  const formPayment = new TFormChangeTracker('formPayment', 'vChanged')
+  formPayment.loadFromStorage()
+
+  document.getElementById('viBtnSave').onclick = function(event) {
+    const CheckFields = ['first_name', 'last_name', 'middle_name', 'phone', 'town', 'department']
+    const emptyElements = formPayment.checkEmpty(CheckFields)
+    if (emptyElements.length == 0) {
+      formPayment.saveToStorage()
+      //formPayment.submit()
+    }else{
+      emptyElements[0].focus()
+      alert("{{lang.empty_field}}")
+    }
+  }
+</script>
+<!-- payment - -->
+{% endblock %}

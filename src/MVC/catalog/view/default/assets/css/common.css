@@ -7,6 +7,10 @@
     --colorBgFooter: rgb(20, 20, 77);
     --colorBgMaster: White;
     --colorBgSlave: LightGray;
+
+    --colorChanged: LightGreen;
+    --colorDisabled: Gray;
+    --colorReadonly: #f0f0f0;
 }
 
 /*-- overwrites --*/
@@ -155,4 +159,21 @@ body {
 .vProduct #vMainImg {
     max-height: 300x;
     max-width: 100%;
+}
+
+/*-- inputs --*/
+.vChanged {
+    -background-color: var(--colorChanged);
+    border: 5px solid var(--colorChanged);
+}
+    
+.vDisabled {
+    color: var(--colorDisabled);
+}
+
+.vReadonly input,
+.vReadonly textarea {
+    resize: none;
+    pointer-events: none;
+    background-color: var(--colorReadonly);
 }

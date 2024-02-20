@@ -26,6 +26,7 @@ class TApiCtrl(TApiBase):
         #self.Cache = TCacheMem('/', *Def)
 
         self.Langs = {}
+        self.Cached = {}
 
         Section = Conf['lang']
         if (Section['type'] == 'fs'):

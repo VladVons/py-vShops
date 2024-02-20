@@ -158,6 +158,36 @@ class TFormChangeTracker {
         }
     }
 
+    saveToStorage() {
+        let Data = {}
+        for (const x of this.getInputs()) {
+            Data[this.getAttr(x)] = this.getValue(x)
+        }
+        localStorage.setItem(this.form.id, JSON.stringify(Data))
+    }
+
+    loadFromStorage() {
+        let Data = localStorage.getItem(this.form.id)
+        if (Data) {
+            Data = JSON.parse(Data)
+            for (const x of this.getInputs()) {
+                let Key = this.getAttr(x)
+                this.setValue(x, Data[Key])
+            }
+        }
+    }
+
+    checkEmpty(aElements) {
+        let Res = []
+        for (const x of this.getInputs()) {
+            const Key = this.getAttr(x)
+            if ((aElements.indexOf(Key) !== -1) && (! this.getValue(x))) {
+                Res.push(x)
+            }
+        }
+        return Res
+    }
+
     submit(aTarget = null) {
         let newData = document.createElement('input')
         newData.type = 'hidden'

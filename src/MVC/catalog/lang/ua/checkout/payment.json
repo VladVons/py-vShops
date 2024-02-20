@@ -1,10 +1,25 @@
 {
    "tpl": {
-        "pay": "оплатити",
-        "card_payment": "оплата карткою",
-        "payment": "оплата",
         "card_holder_name": "імя власника карти",
         "card_number": "номер картки",
-        "valid_till": "дійсна до ММ/РР"
+        "card_payment": "оплата карткою",
+        "contact_info": "контактна інформація",
+        "delivery": "доставка",
+        "department": "відділення",
+        "email": "ел.пошта",
+        "empty_field": "пусте поле",
+        "expired": "дійсна до ММ/РР",
+        "first_name": "прізвище",
+        "last_name": "ім'я",
+        "middle_name": "по батькові",
+        "nova_poshta": "нова пошта",
+        "pay": "оплатити",
+        "payment": "оплата",
+        "phone": "телефон",
+        "previous": "попереднє",
+        "submit": "відправити",
+        "town": "місто",
+        "transport": "перевізник",
+        "ukr_poshta": "укр пошта"
     }
 }
