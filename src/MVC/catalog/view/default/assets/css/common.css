@@ -23,6 +23,30 @@ body {
 }
 */
 
+h1 {
+    font-size: 1.6em;
+}
+
+h2 {
+  font-size: 1.28em;
+}
+
+h3 {
+  font-size: 1.024em; 
+}
+
+h4 {
+  font-size: 0.8192em;
+}
+
+h5 {
+  font-size: 0.65536em;
+}
+
+h6 {
+  font-size: 0.524288em;
+}
+
 .btn {
     font-weight: 600;
     -padding: 12px 30px;

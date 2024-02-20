@@ -56,7 +56,7 @@ async def Main(self, aData: dict = None) -> dict:
     if (Dbl):
         Title = f'{aSearch} ({Dbl.Rec.total})'
 
-        Data = TPagination(aLimit, f'?route=product0/search&q={aSearch}&page={{page}}').Get(Dbl.Rec.total, aPage)
+        Data = TPagination(aLimit, f'?route=product0/search&q={aSearch}').Get(Dbl.Rec.total, aPage)
         DblPagination = TDbList(['page', 'title', 'href', 'current'], Data)
 
         DblProducts = await products_a(self, Dbl)

@@ -2,7 +2,7 @@
 # Author: Vladimir Vons <VladVons@gmail.com>
 # License: GNU, see LICENSE for more details
 #
-# Data = TPagination(15, 'url&page={page}').Get(250,  7)
+# Data = TPagination(15, 'url', '&page={page}').Get(250,  7)
 # for (PageNo, Title, Href, IsActive) in Data:
 #     print(f'{IsActive = :1}, {PageNo = :3}, {Href = :11}, {Title = }')
 
@@ -11,15 +11,20 @@ import math
 
 
 class TPagination():
-    def __init__(self, aPerPage: int, aHref: str):
+    def __init__(self, aPerPage: int, aHref: str, aPager: str = '&page={page}'):
         self.PerPage = aPerPage
         self.Href = aHref
+        self.Pager = aPager
         self.Back = '&lt;'
         self.Forward = '&gt;'
         self.Visible = 3
 
     def ToTuple(self, aPage: int, aTitle: str, aCurPage: bool = False) -> tuple:
-        return (aPage, aTitle, self.Href.format(page=aPage), aCurPage)
+        Href = self.Href
+        if (aPage > 1):
+            Href += self.Pager
+        Res = (aPage, aTitle, Href.format(page=aPage), aCurPage)
+        return Res
 
     def Get(self, aRecords: int, aCurPage: int) -> list:
         def Loop(aBegin: int, aEnd: int):
