@@ -3,11 +3,16 @@
 # License: GNU, see LICENSE for more details
 #
 # https://developers.novaposhta.ua/documentation
-# Token = 'a2159266677aa6452fa8f6b01c7fb71e'
+# Token = 'xxxxx'
 # NovaPoshta = TNovaPoshta(Token)
-# Res = await NovaPoshta.SearchtAddress('терноп')
-# Ref = Res['data'][0]['Addresses'][0]['Ref']
-# Res = await NovaPoshta.SearchtStreet('Живова', Ref)
+# #await GetRegions(NovaPoshta)
+#
+# ResAddr = await NovaPoshta.SearchtAddress('тернопі')
+# StreetRef = ResAddr['data'][0]['Addresses'][0]['Ref']
+# Res1 = await NovaPoshta.SearchtStreet('Живо', StreetRef)
+#
+# City = ResAddr['data'][0]['Addresses'][0]['MainDescription']
+# Res2 = await NovaPoshta.Warehouses('карп', City)
 
 
 import aiohttp
@@ -17,7 +22,7 @@ class TNovaPoshta():
     def __init__(self, aToken: str):
         self.Token = aToken
         self.Url = 'https://api.novaposhta.ua/v2.0/json/'
-        self.Limit = 10
+        self.Limit = 20
 
     @staticmethod
     async def Request(aUrl: str, aData: dict):
@@ -76,6 +81,19 @@ class TNovaPoshta():
             "calledMethod": "getCities",
             "methodProperties": {
                 "Ref" : aRef
+            }
+        }
+        return await self.Request(self.Url, Data)
+
+    async def Warehouses(self, aStreet: str, aCity: str) -> dict:
+        Data = {
+            "apiKey": self.Token,
+            "modelName": "Address",
+            "calledMethod": "getWarehouses",
+            "methodProperties": {
+                "FindByString" : aStreet,
+                "CityName": aCity,
+                "Limit" : self.Limit
             }
         }
         return await self.Request(self.Url, Data)

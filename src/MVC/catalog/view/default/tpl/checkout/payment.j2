@@ -54,6 +54,18 @@
 </div>
 
 <script>
+  function SetDataList(aDataList, aUrl, aSendData) {
+    new TSend().execA(aUrl, aSendData).then(data => {
+      aDataList.innerHTML = ''
+      for (var x of data['items']) {
+        let option = document.createElement('option')
+        option.value = x.present
+        option.setAttribute('data-ref', x.ref)
+        aDataList.appendChild(option)
+      }
+    })
+  }
+
   function inputDataList(aInputId, aUrl, aSendData = {}, aOnSelect = null, aOnKey = null) {
     let timeout = 0
     const input = document.getElementById(aInputId)
@@ -70,18 +82,8 @@
           let curOption = Array.from(dataList.options).find(e => e.value == value)
           if (curOption && aOnSelect)
             aOnSelect(curOption)
-
-          let sendData = {'method': 'ajax', 'input_name': aEvent.target.name, 'input_value': value}
-          sendData = {...sendData, ...aSendData}
-          new TSend().execA(aUrl, sendData).then(data => {
-            dataList.innerHTML = ''
-            for (var x of data['items']) {
-              let option = document.createElement('option')
-              option.value = x.present
-              option.setAttribute('data-ref', x.ref)
-              dataList.appendChild(option)
-            }
-          })
+          const sendData = {'method': 'ajax', 'input_name': aEvent.target.name, 'input_value': value}
+          SetDataList(dataList, aUrl, {...sendData, ...aSendData})
         }
       }, 500)
     })
@@ -93,6 +95,10 @@
       const townRef = element.getAttribute('data-ref')
       document.getElementById('town_ref').value = townRef
       inputDataList('department', url, {'town_ref': townRef}, null)
+
+      const departmentOptions = document.getElementById('department_options')
+      const sendData = {'method': 'ajax', 'input_name': 'department', 'input_value': '', 'town_ref': townRef}
+      SetDataList(departmentOptions, url, sendData)
     },
     (element) => {
       document.getElementById('department').value = ''
@@ -107,7 +113,7 @@
     const emptyElements = formPayment.checkEmpty(CheckFields)
     if (emptyElements.length == 0) {
       formPayment.saveToStorage()
-      //formPayment.submit()
+      formPayment.submit()
     }else{
       emptyElements[0].focus()
       alert("{{lang.empty_field}}")
