@@ -2,6 +2,7 @@
 with wt1 as (
     select
         distinct on (rlm.module_id, rlm.place) rlm.module_id as id,
+        rl.route,
         rlm.place,
         rlm.sort_order,
         rm.code,
@@ -31,6 +32,7 @@ with wt1 as (
 )
 select
     id,
+    route,
     place,
     code,
     conf,
