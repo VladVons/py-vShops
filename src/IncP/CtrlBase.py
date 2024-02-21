@@ -71,6 +71,23 @@ class TCtrlBase():
         return DblConf.ExportPair('attr', 'val')
 
 
+    async def LoadLayout(self, aData: dict) -> dict:
+        aTenantId, aLang = GetDictDef(
+            aData.get('query'),
+            ('tenant', 'lang'),
+            (1, 'ua'))
+
+        DblData = await self.ExecModel(
+            'system',
+            {
+                'method': 'Get_LayoutLang',
+                'param': {'aTenantId': aTenantId, 'aLangId': self.GetLangId(aLang), 'aRoute': aData['route'], 'aTheme': 't2', 'aPath': aData['_path']}
+            }
+        )
+        Dbl = TDbSql().Import(DblData.get('data'))
+        return Dbl.Rec.GetAsDict()
+
+
     async def LoadModules(self, aData: dict) -> list:
         aTenantId, aLang = GetDictDef(
             aData.get('query'),
@@ -78,7 +95,7 @@ class TCtrlBase():
             (1, 'ua'))
 
         Path = aData['_path']
-        Data = await self.ExecModel(
+        DblData = await self.ExecModel(
             'system',
             {
                 'method': 'Get_Module_RouteLang',
@@ -87,7 +104,7 @@ class TCtrlBase():
         )
 
         Res = []
-        Modules = Data.get('data')
+        Modules = DblData.get('data')
         if (Modules):
             Dbl = TDbSql().Import(Modules)
             for Rec in Dbl:

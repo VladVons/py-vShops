@@ -355,6 +355,15 @@ create table if not exists ref_layout (
     unique (theme, tenant_id, route)
 );
 
+create table if not exists ref_layout_lang (
+    title               varchar(128) not null,
+    descr               text,
+    meta_key            varchar(128),
+    layout_id           integer not null references ref_layout(id) on delete cascade,
+    lang_id             integer not null references ref_lang(id),
+    primary key (layout_id, lang_id)
+);
+
 create table if not exists ref_layout_module (
     enabled             boolean default true,
     sort_order          smallint default 0,

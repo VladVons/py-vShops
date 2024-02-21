@@ -1,9 +1,11 @@
 <!-- module/html + -->
 <div class="container pb-3">
-{% if title %}
-<h3>{{ title }}</h3>
-{% endif %}
+  {% if title %}
+  <h2 class="fw-bold">{{ title }}</h2>
+  {% endif %}
 
-{{ descr }}
+  <div class="pt-4">
+  {{ descr }}
+  </div>
 </div>
 <!-- module/html - -->

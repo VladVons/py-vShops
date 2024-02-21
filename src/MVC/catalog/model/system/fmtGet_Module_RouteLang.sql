@@ -25,7 +25,7 @@ with wt1 as (
         (rl.enabled) and
         (rl.theme = '{{aTheme}}') and
         (rl.path = '{{aPath}}') and
-        ((rl.tenant_id = 0) or (rl.tenant_id = {{aLangId}})) and
+        ((rl.tenant_id = 0) or (rl.tenant_id = {{aTenantId}})) and
         (rm.enabled) and
         (rlm.enabled) and
         ((rl.route = '{{aRoute}}') or (rl.common))

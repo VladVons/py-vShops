@@ -67,9 +67,13 @@ class TApiCtrl(TApiBase):
         if ('err' in Caller):
             Log.Print(1, 'i', f"TApiCtrl.Exec() {Caller['err']}")
             Res['modules'] = await self.BaseCtrl.LoadModules(aData)
+            Data = await self.BaseCtrl.LoadLayout(aData)
+            Res.update(Data)
         else:
             Module = Caller['module']
             Res['modules'] = await Module.LoadModules(aData)
+            Data = await Module.LoadLayout(aData)
+            Res.update(Data)
             Data = await Caller['method'](Module, aData)
             DictUpdate(Res, Data)
             if ('raise_err_code' in aData['query']):
