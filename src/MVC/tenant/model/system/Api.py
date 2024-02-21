@@ -60,6 +60,12 @@ async def Get_Module_RouteLang(self, aTenantId: int, aLangId: int, aRoute: str, 
         {'aTenantId': aTenantId, 'aLangId': aLangId, 'aRoute': aRoute, 'aTheme': aTheme, 'aPath': aPath}
     )
 
+async def Get_LayoutLang(self, aTenantId: int, aLangId: int, aRoute: str, aTheme: str, aPath: str) -> dict:
+    return await self.ExecQuery(
+        'fmtGet_LayoutLang.sql',
+        {'aTenantId': aTenantId, 'aLangId': aLangId, 'aRoute': aRoute, 'aTheme': aTheme, 'aPath': aPath}
+    )
+
 async def Get_TenantInf(self, aTenantId: int) -> dict:
     return await self.ExecQuery(
         'fmtGet_TenantInf.sql',
