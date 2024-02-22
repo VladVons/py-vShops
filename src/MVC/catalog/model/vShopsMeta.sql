@@ -756,6 +756,25 @@ create table if not exists doc_sale_table_product (
 
 --
 
+create or replace function ref_product_fau() returns trigger
+as $$
+begin
+    if (old.update_date = new.update_date) then
+      update ref_product
+      set update_date = now()
+      where id = new.id;
+    end if;
+
+    return null;
+end $$ language plpgsql;
+
+create or replace trigger ref_product_tai
+    after update on ref_product
+    for each row
+    execute function ref_product_fau();
+
+--
+
 create or replace function ref_tenant_fai() returns trigger
 as $$
 declare
@@ -790,6 +809,10 @@ begin
     if (old.price is null) or (old.price != new.price) or (old.qty != new.qty) then
         insert into hist_product_price (price_id, price, qty)
         values (new.id, new.price, new.qty);
+
+        update ref_product
+        set update_date = now()
+        where id = new.product_id;
     end if;
     --raise notice '% and %', old.price, new.price;
     --return new;
