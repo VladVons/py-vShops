@@ -19,18 +19,24 @@ class TForm(TFormBase):
 
         Alias = DeepGetByList(self.out, ['tenant', 'alias'])
         Param = {
-            'to': 'TQueue',
-            'type': 'add',
-            'call': TCall(TPrice().Run, [{
-                'conf_name': 'Tenant',
-                'conf': [
-                    {
-                        'key': 'plugin.Out_vShopTenant_db.depends',
-                        'action': 'set',
-                        'val': [f'In_{Alias}']
-                    }
-                ]
-            }])
+            'conf_name': 'Tenant',
+            'conf': [
+                {
+                    'key': 'plugin.Out_vShopTenant_db.depends',
+                    'action': 'set',
+                    'val': [f'In_{Alias}']
+                }
+            ]
         }
-        await Plugin.Post(self, Param)
+
+        # no wait for result method (ToDo: catch exception inside)
+        # await Plugin.Post(self, {
+        #     'to': 'TQueue',
+        #     'type': 'add',
+        #     'call': TCall(TPrice().Run, [Param])
+        # })
+
+        # wait for result method
+        await TPrice().Run(Param)
+
         self.out['in_process'] = 'ok'
