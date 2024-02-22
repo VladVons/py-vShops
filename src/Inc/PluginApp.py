@@ -52,7 +52,7 @@ class TPluginApp():
 
             TimeStart = time.time()
             Plugin = DeepGetByList(self.Conf, ['plugin', aName])
-            assert(Plugin), f'plugin key not found {aName}'
+            assert(Plugin is not None), f'plugin key not found {aName}'
             ClassName = Plugin.get('class', aName)
             TClass, Err = DynImport(self.Path + '.' + ClassName, 'T' + ClassName)
             assert(TClass), f'Err loading {aName}. {Err}'

@@ -1,9 +1,17 @@
 {
     "plugin": {
+        "In_pcdata_gspread": {
+            "class": "In_GSpread",
+            "url": "qwerty",
+            "file": "pcdata.xlsx"
+        },
         "In_pcdata": {
             "class": "In_Price_pcdata_xlsx",
             "file": "pcdata.xlsx",
-            "export": {
+           "depends": [
+                "In_pcdata_gspread"
+            ],
+              "export": {
                 "Out_vShopTenant_db": {
                     "sql": {
                         "tenant": "pcdata",
@@ -12,20 +20,8 @@
                         "price_auto": false,
                         "product0": "model"
                     }
-                },
-                "Out_Save_txt": {
-                    "TDbProductEx": {
-                        "len": 70,
-                        "fields": ["category_id", "code", "name", "available", "price_in"]
-                    }
-                },
-                "Out_Save_xlsx": {
-                    "TDbProductEx": {
-                        "fields": ["category_id", "code", "name", "available", "price_in"]
-                    }
                 }
             },
-            "url_gspread": "https://docs.google.com/spreadsheets/d/xxxxxxxxxx",
             "used": true,
             "sheet": {
                 "COMPUTERS": {

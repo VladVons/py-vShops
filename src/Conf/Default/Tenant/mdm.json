@@ -1,8 +1,16 @@
 {
     "plugin": {
+        "In_mdm_gspread": {
+            "class": "In_GSpread",
+            "url": "https://docs.google.com/spreadsheets/d/1Hc0olzpJdsOKrR_4ictPY5QLw0vxU0fO",
+            "file": "mdm.xlsx"
+        },
         "In_mdm": {
             "class": "In_Price_boda_xlsx",
             "file": "mdm.xlsx",
+            "depends": [
+                "In_mdm_gspread"
+            ],
             "export": {
                 "Out_vShopTenant_db": {
                     "sql": {
@@ -13,7 +21,6 @@
                     }
                 }
             },
-            "url_gspread": "https://docs.google.com/spreadsheets/d/1Hc0olzpJdsOKrR_4ictPY5QLw0vxU0fO",
             "used": true,
             "sheet": {
                 "COMPUTERS": {

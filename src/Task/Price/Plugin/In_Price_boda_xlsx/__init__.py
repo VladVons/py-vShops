@@ -4,9 +4,7 @@
 
 
 import os
-#import gspread
 #
-from Inc.Misc.Request import DownloadFile
 from Inc.ParserX.Common import TPluginBase
 from IncP.Log import Log
 from .Price import TPricePC, TPriceLaptop, TPriceMonit, TPricePrinter
@@ -14,21 +12,6 @@ from ..CommonDb import TDbCategory, TDbProductEx
 
 
 class TIn_Price_boda_xlsx(TPluginBase):
-    #def GDownloadXlsx(self, aUrl: str, aFile: str) -> bool:
-    #     AuthFile = os.path.expanduser('~/.config/gspread/service_account.json')
-    #     assert(os.path.isfile(AuthFile)), f'File does not exist {AuthFile}'
-
-    #     GSA = gspread.service_account()
-    #     SH = GSA.open_by_url(aUrl)
-    #     Data = SH.export(format = gspread.utils.ExportFormat.EXCEL)
-    #     with open(aFile, 'wb') as F:
-    #         F.write(Data)
-    #         return True
-
-    async def GDownloadXlsx(self, aUrl: str, aFile: str) -> int:
-        Url = f'{aUrl}/export?format=xlsx'
-        return await DownloadFile(Url, aFile)
-
     def ToDbProductEx(self, aParser, aDbProductEx: TDbProductEx, aCategoryId):
         for Rec in aParser.Dbl:
             aDbProductEx.RecAdd().SetAsDict({
@@ -42,12 +25,6 @@ class TIn_Price_boda_xlsx(TPluginBase):
             })
 
     async def Run(self):
-        Url = self.Conf.GetKey('url_gspread')
-        if (Url):
-            File = self.GetFile()
-            if (not os.path.isfile(File)):
-                await self.GDownloadXlsx(Url, File)
-
         XTable = {
             'COMPUTERS': {
                 'parser': TPricePC, 'category_id': 1, 'category': "Комп'ютер", 'enabled': True
