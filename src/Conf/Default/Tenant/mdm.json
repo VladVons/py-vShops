@@ -1,8 +1,8 @@
 {
     "plugin": {
-        "In_mdm_x": {
+        "In_mdm": {
             "class": "In_Price_boda_xlsx",
-            "file": "mdm_x.xlsx",
+            "file": "mdm.xlsx",
             "export": {
                 "Out_vShopTenant_db": {
                     "sql": {
@@ -13,7 +13,7 @@
                     }
                 }
             },
-            "url_gspread": "https://docs.google.com/spreadsheets/d/1Hc0olzpJdsOKrR_4ictPY5QLw0vxU0fO/edit#gid=279704161",
+            "url_gspread": "https://docs.google.com/spreadsheets/d/1Hc0olzpJdsOKrR_4ictPY5QLw0vxU0fO",
             "used": true,
             "sheet": {
                 "COMPUTERS": {

@@ -73,6 +73,9 @@ class TApiView(TApiBase):
             self.Cache = TCacheFileView('', aMaxAge = 0)
 
     def GetForm(self, aRequest: web.Request, aRoute: str) -> TFormBase:
+        if (aRoute.startswith('/')):
+            return
+
         TplFile = self.Tpl.SearchModule(aRoute)
         if (not TplFile):
             return

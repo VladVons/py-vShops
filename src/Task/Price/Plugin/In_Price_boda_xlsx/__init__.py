@@ -1,13 +1,12 @@
 # Created: 2023.11.21
 # Author: Vladimir Vons <VladVons@gmail.com>
 # License: GNU, see LICENSE for more details
-#
-# https://docs.google.com/spreadsheets/d/1EIwjTitfj1_oyWS7ralnUCtq8ZH0g3DWBKq3gP4qrvo
 
 
 import os
-import gspread
+#import gspread
 #
+from Inc.Misc.Request import DownloadFile
 from Inc.ParserX.Common import TPluginBase
 from IncP.Log import Log
 from .Price import TPricePC, TPriceLaptop, TPriceMonit, TPricePrinter
@@ -15,16 +14,20 @@ from ..CommonDb import TDbCategory, TDbProductEx
 
 
 class TIn_Price_boda_xlsx(TPluginBase):
-    def Download(self, aUrl: str, aFile: str) -> bool:
-        AuthFile = os.path.expanduser('~/.config/gspread/service_account.json')
-        assert(os.path.isfile(AuthFile)), f'File does not exist {AuthFile}'
+    #def GDownloadXlsx(self, aUrl: str, aFile: str) -> bool:
+    #     AuthFile = os.path.expanduser('~/.config/gspread/service_account.json')
+    #     assert(os.path.isfile(AuthFile)), f'File does not exist {AuthFile}'
 
-        GSA = gspread.service_account()
-        SH = GSA.open_by_url(aUrl)
-        Data = SH.export(format = gspread.utils.ExportFormat.EXCEL)
-        with open(aFile, 'wb') as F:
-            F.write(Data)
-            return True
+    #     GSA = gspread.service_account()
+    #     SH = GSA.open_by_url(aUrl)
+    #     Data = SH.export(format = gspread.utils.ExportFormat.EXCEL)
+    #     with open(aFile, 'wb') as F:
+    #         F.write(Data)
+    #         return True
+
+    async def GDownloadXlsx(self, aUrl: str, aFile: str) -> int:
+        Url = f'{aUrl}/export?format=xlsx'
+        return await DownloadFile(Url, aFile)
 
     def ToDbProductEx(self, aParser, aDbProductEx: TDbProductEx, aCategoryId):
         for Rec in aParser.Dbl:
@@ -43,7 +46,7 @@ class TIn_Price_boda_xlsx(TPluginBase):
         if (Url):
             File = self.GetFile()
             if (not os.path.isfile(File)):
-                self.Download(Url, File)
+                await self.GDownloadXlsx(Url, File)
 
         XTable = {
             'COMPUTERS': {

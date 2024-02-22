@@ -79,7 +79,10 @@ class TSitemapCategory(TSitemap):
 
 class TForm(TFormBase):
     async def _DoRender(self):
-        if (DeepGetByList(self.out, ['data', 'btn_sitemap']) is not None):
+        Data = await self.ExecCtrlDef()
+        self.out.update(Data)
+
+        if (DeepGetByList(self.out, ['data', 'btn_submit']) is not None):
             Dir = 'MVC/catalog/view'
             Host = f'{self.Parent.Conf.request_scheme}://{self.Request.host}'
 
@@ -91,5 +94,4 @@ class TForm(TFormBase):
             ArrProduct.extend(ArrCategory)
             SitemapProduct.WriteIndexes(ArrProduct)
 
-        Data = await self.ExecCtrlDef()
-        self.out.update(Data)
+            self.out['in_process'] = 'ok'

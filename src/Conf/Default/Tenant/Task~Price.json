@@ -4,39 +4,29 @@
     "include": [
         "boda.json",
         "pcdata.json",
-        "mdm_x.json"
+        "mdm.json"
     ],
     "plugins": [
-        "Out_vShopTenant_db",
-        "-Out_Save_txt"
+        "Out_vShopTenant_db"
     ],
     "common": {
         "sleep_loop": 0.01,
-        "save_cache": true
+        "save_cache": false
     },
     "plugin": {
         "Out_vShopTenant_db": {
             "sql": {
-                "parts": 10,
+                "parts": 50,
                 "lang": "ua"
             },
-            "auth": "{% file Conf/Default/Task.SrvModel.Api.json:db_auth %}",
+            "auth": "{% file Conf/Default/Task.SrvModel.Api.json:catalog.db_auth %}",
             "depends": [
                 "-In_boda",
                 "-In_pcdata",
-                "In_mdm_x"
+                "-In_mdm"
             ],
-            "img_loader": "{% file Conf/Default/Task.SrvCtrl.Api.json:loader.img %}",
+            "img_loader": "{% file Conf/Default/Task.SrvCtrl.Api.json:catalog.loader.img %}",
             "img_conf": "{% file Conf/Default/Task.SrvImg.Api.json %}"
-        },
-        "Out_Save_txt" : {
-            "depends": [
-                "In_mdm_t"
-            ],
-            "dir": "./Data/Pl/Out",
-            "db_list": {
-                "len": 50
-            }
         }
     }
 }

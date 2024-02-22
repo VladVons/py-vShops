@@ -1,7 +1,8 @@
 {% extends '_inc/layout1.j2' %}
 
-{% block head %}
 {% set page_title = info.title + '. ' + lang.page + ' ' ~ info.page %}
+
+{% block head %}
 <title>{{page_title}}</title>
 <meta name="robots" content="index,follow">
 <meta property="og:title" content="{{page_title}}"/>
@@ -10,7 +11,7 @@
 
 {% block content %}
 <!-- category + -->
-{% set title = info.title %}
+{% set title = page_title %}
 {% include '../_inc/products_a.j2' %}
 
 {% include '../_inc/pagination.j2' %}

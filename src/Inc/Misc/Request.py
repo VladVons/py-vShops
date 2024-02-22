@@ -233,3 +233,15 @@ class TDownloadImage(TDownloadBase):
         Len = len(aUrls)
         Data = zip(aUrls, [0] * Len, [''] * Len)
         return await self.Fetch(Data)
+
+async def DownloadFile(aUrl: str, aFile: str) -> int:
+    async with aiohttp.ClientSession() as Session:
+        async with Session.get(aUrl) as Response:
+            if (Response.status == 200):
+                Data = await Response.read()
+
+                Dir = os.path.dirname(aFile)
+                os.makedirs(Dir, exist_ok = True)
+                with open(aFile, 'wb') as F:
+                    F.write(Data)
+            return Response.status
