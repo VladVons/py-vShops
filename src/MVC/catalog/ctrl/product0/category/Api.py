@@ -44,7 +44,8 @@ async def Main(self, aData: dict = None) -> dict:
 
     Info = {
         'title': Dbl.Rec.category_title,
-        'count': Dbl.Rec.total
+        'count': Dbl.Rec.total,
+        'page': aPage
     }
 
     Data = TPagination(aLimit, f'?route=product0/category&category_id={aCategoryId}').Get(Dbl.Rec.total, aPage)

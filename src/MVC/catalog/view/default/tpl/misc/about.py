@@ -6,9 +6,9 @@
 from IncP.FormBase import TFormBase
 from Inc.Util.Obj import GetTree
 
+
 class TForm(TFormBase):
     async def _DoRender(self):
-
         Data = await self.ExecCtrlDef()
         self.out.update(Data)
 
@@ -19,4 +19,3 @@ class TForm(TFormBase):
                 if (not Nested)
             ]
             self.out[x] = '<br>\n'.join(Arr)
-

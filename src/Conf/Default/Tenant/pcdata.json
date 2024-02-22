@@ -1,0 +1,91 @@
+{
+    "plugin": {
+        "In_pcdata": {
+            "class": "In_Price_pcdata_xlsx",
+            "file": "pcdata.xlsx",
+            "export": {
+                "Out_vShopTenant_db": {
+                    "sql": {
+                        "tenant": "pcdata",
+                        "currency": "uah",
+                        "idt_auto": true,
+                        "price_auto": false,
+                        "product0": "model"
+                    }
+                },
+                "Out_Save_txt": {
+                    "TDbProductEx": {
+                        "len": 70,
+                        "fields": ["category_id", "code", "name", "available", "price_in"]
+                    }
+                },
+                "Out_Save_xlsx": {
+                    "TDbProductEx": {
+                        "fields": ["category_id", "code", "name", "available", "price_in"]
+                    }
+                }
+            },
+            "url_gspread": "https://docs.google.com/spreadsheets/d/xxxxxxxxxx",
+            "used": true,
+            "sheet": {
+                "COMPUTERS": {
+                    "skip": 1,
+                    "header": 1,
+                    "fields": {
+                        "model": "Model",
+                        "cpu": "CPU",
+                        "case": "Case type",
+                        "disk": "HDD",
+                        "ram": "RAM",
+                        "os": "License",
+                        "dvd": "Optical drive",
+                        "vga": "GPU",
+                        "price_in": "PriceIn",
+                        "price": "Price"
+                    },
+                    "title": ["model", "case", "cpu", "ram", "disk", "vga", "os"],
+                    "model": ["model", "case", "cpu"]
+                },
+                "MONITORS": {
+                    "skip": 1,
+                    "header": 1,
+                    "fields": {
+                        "model": "Model",
+                        "screen": "Size",
+                        "grade": "Screen Grade",
+                        "color": "Frame color",
+                        "stand": "Stand",
+                        "price_in": "PriceIn",
+                        "price": "Price"
+                    },
+                    "title": ["model", "screen", "grade", "color"]
+                },
+                "INDUSTRIAL MONITORS": {
+                    "skip": 1,
+                    "header": 1,
+                    "fields": {
+                        "model": "Model",
+                        "screen": "Inches",
+                        "grade": "Screen Grade",
+                        "color": "Frame color",
+                        "price_in": "PriceIn",
+                        "price": "Price"
+                    },
+                    "title": ["model", "screen", "grade", "color"]
+                },
+                "PRINTERS": {
+                    "skip": 1,
+                    "header": 1,
+                    "fields": {
+                        "model": "Model",
+                        "pages": "Page counter",
+                        "price_in": "PriceIn",
+                        "price": "Price"
+                    },
+                    "title": ["model"]
+                }
+ 
+            }
+        }
+    }
+}

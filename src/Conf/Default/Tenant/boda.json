@@ -1,0 +1,88 @@
+{
+    "plugin": {
+        "In_boda": {
+            "class": "In_Price_boda_xlsx",
+            "file": "boda.xlsx",
+            "export": {
+                "Out_vShopTenant_db": {
+                    "sql": {
+                        "tenant": "boda",
+                        "currency": "uah",
+                        "idt_auto": true,
+                        "product0": "model"
+                    }
+                }
+            },
+            "url_gspread": "https://docs.google.com/spreadsheets/d/1INnMJeNY5v0pz3ycp-Jw2RKd0BwWNJDsLfqGcPcuytk",
+            "used": true,
+            "sheet": {
+                "COMPUTERS": {
+                    "skip": 1,
+                    "header": 1,
+                    "fields": {
+                        "model": "Model",
+                        "cpu": "CPU",
+                        "case": "Case type",
+                        "disk": "HDD",
+                        "ram": "RAM",
+                        "os": "License",
+                        "dvd": "DVD",
+                        "vga": "GPU",
+                        "qty":"Quantity",
+                        "price_in": "PriceIn",
+                        "price": "Price"
+                    },
+                    "title": ["model", "case", "cpu", "ram", "disk", "vga", "os"],
+                    "model": ["model", "case", "cpu"]
+                },
+                "MONITORS": {
+                    "skip": 1,
+                    "header": 1,
+                    "fields": {
+                        "model": "Model",
+                        "grade": "Grade",
+                        "stand": "Stand",
+                        "screen": "Size",
+                        "color": "Color",
+                        "qty": "Quantity",
+                        "price_in": "PriceIn",
+                        "price": "Price"
+                    },
+                    "title": ["model", "screen", "grade", "color"]
+                },
+                "LAPTOPS": {
+                    "skip": 1,
+                    "header": 1,
+                    "fields": {
+                        "model": "Model",
+                        "screen": "Size",
+                        "cpu": "CPU",
+                        "disk": "HDD",
+                        "ram": "RAM",
+                        "os": "License",
+                        "matrix": "Matrix",
+                        "touch": "Touch",
+                          "qty": "Quantity",
+                        "price_in": "PriceIn",
+                        "price": "Price"
+                    },
+                    "title": ["model", "screen", "cpu", "ram", "disk", "matrix", "touch", "os"],
+                    "model": ["model", "cpu"]
+                },
+                "PRINTERS": {
+                    "skip": 1,
+                    "header": 1,
+                    "fields": {
+                        "model": "Model",
+                        "pages": "Page counter", 
+                        "qty": "Quantity",
+                        "price_in": "PriceIn",
+                        "price": "Price"
+                    },
+                    "title": ["model"],
+                    "model": ["model"]
+                }
+            }
+        }
+    }
+}

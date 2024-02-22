@@ -1,9 +1,10 @@
 {% extends '_inc/layout1.j2' %}
 
 {% block head %}
-<title>{{info.title}}</title>
+{% set page_title = info.title + '. ' + lang.page + ' ' ~ info.page %}
+<title>{{page_title}}</title>
 <meta name="robots" content="index,follow">
-<meta property="og:title" content="{{info.title}}"/>
+<meta property="og:title" content="{{page_title}}"/>
 <meta property="og:site_name" content="{{info.site_name}}"/>
 {% endblock %}
 

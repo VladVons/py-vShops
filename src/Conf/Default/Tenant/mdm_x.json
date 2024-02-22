@@ -1,0 +1,59 @@
+{
+    "plugin": {
+        "In_mdm_x": {
+            "class": "In_Price_boda_xlsx",
+            "file": "mdm_x.xlsx",
+            "export": {
+                "Out_vShopTenant_db": {
+                    "sql": {
+                        "tenant": "mdm",
+                        "currency": "uah",
+                        "idt_auto": true,
+                        "product0": "model"
+                    }
+                }
+            },
+            "url_gspread": "https://docs.google.com/spreadsheets/d/1Hc0olzpJdsOKrR_4ictPY5QLw0vxU0fO/edit#gid=279704161",
+            "used": true,
+            "sheet": {
+                "COMPUTERS": {
+                    "skip": 1,
+                    "header": 1,
+                    "fields": {
+                        "model": "Model",
+                        "cpu": "CPU",
+                        "case": "Case type",
+                        "disk": "HDD",
+                        "ram": "RAM",
+                        "os": "License",
+                        "vga": "GPU",
+                        "qty":"Quantity",
+                        "price_in": "PriceIn",
+                        "price": "Price"
+                    },
+                    "title": ["model", "case", "cpu", "ram", "disk", "vga", "os"],
+                    "model": ["model", "case", "cpu"]
+                },
+                "LAPTOPS": {
+                    "skip": 1,
+                    "header": 1,
+                    "fields": {
+                        "model": "Model",
+                        "screen": "Size",
+                        "cpu": "CPU",
+                        "disk": "HDD",
+                        "ram": "RAM",
+                        "os": "License",
+                        "matrix": "Matrix",
+                        "touch": "Touch",
+                        "qty": "Quantity",
+                        "price_in": "PriceIn",
+                        "price": "Price"
+                    },
+                    "title": ["model", "screen", "cpu", "ram", "disk", "matrix", "touch", "os"],
+                    "model": ["model", "cpu"]
+                }
+            }
+        }
+    }
+}
