@@ -71,7 +71,7 @@ async def Main(self, aData: dict = None) -> dict:
         'offers': {
             '@type': 'Offer',
             'itemCondition': 'https://schema.org/' + Iif(Product['cond_en'] == 'new', 'NewCondition', 'UsedCondition'),
-            'availability': 'https://schema.org/InStock',
+            'availability': 'https://schema.org/' + Iif(Product['rest'] > 0, 'InStock', 'OutOfStock'),
             'price': DblPrice.Rec.price,
             'priceCurrency': DblPrice.Rec.alias
         }

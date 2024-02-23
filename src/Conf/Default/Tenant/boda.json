@@ -21,7 +21,7 @@
                     }
                 }
             },
-            "used": true,
+            "cond": "used",
             "sheet": {
                 "COMPUTERS": {
                     "skip": 1,

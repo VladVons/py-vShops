@@ -23,8 +23,8 @@ class TFiller():
         Val = aRow.get('model').upper()
         aRow['model'] = Val
 
-        Val = self.Parent.Parent.Conf.get('used', False)
-        aRec.SetField('used', Val)
+        Val = self.Parent.Parent.Conf.get('cond', 'used')
+        aRec.SetField('cond', Val)
 
         for x in aFieldsCopy:
             self.Parent.Copy(x, aRow, aRec)
