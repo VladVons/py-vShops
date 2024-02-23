@@ -81,7 +81,7 @@ async def Main(self, aData: dict = None) -> dict:
     Res['href'] = {
         'self': aData['path_qs'],
         'category': f'?route=product0/category&category_id={Product["category_id"]}',
-        'tenant': f'?tenant={Product["tenant_id"]}'
+        'tenant': f'?route=product0/tenant&tenant_id={Product["tenant_id"]}'
     }
 
     Res['product'] = Product

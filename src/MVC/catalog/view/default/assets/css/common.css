@@ -24,7 +24,7 @@ body {
 */
 
 h1 {
-    font-size: 1.6em;
+    font-size: 1.7em;
 }
 
 h2 {
@@ -32,19 +32,19 @@ h2 {
 }
 
 h3 {
-  font-size: 1.024em; 
+  font-size: 1.02em; 
 }
 
 h4 {
-  font-size: 0.8192em;
+  font-size: 0.81em;
 }
 
 h5 {
-  font-size: 0.65536em;
+  font-size: 0.65em;
 }
 
 h6 {
-  font-size: 0.524288em;
+  font-size: 0.52em;
 }
 
 .btn {

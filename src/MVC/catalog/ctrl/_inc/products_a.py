@@ -24,7 +24,7 @@ async def Main(self, aDbl: TDbList) -> TDbList:
             Thumb,
             f'?route=product0/product&product_id={Rec.product_id}',
             f'?route=product0/category&category_id={Rec.category_id}',
-            f'?tenant={Rec.tenant_id}'
+            f'?route=product0/tenant&tenant_id={Rec.tenant_id}'
         ]
         aDbl.RecMerge(New)
     return aDbl
