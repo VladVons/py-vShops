@@ -5,7 +5,7 @@
 
 import json
 #
-from IncP.LibCtrl import GetDictDefs
+from IncP.LibCtrl import GetDictDefs, Iif
 from .Features import TFeatures
 
 
@@ -70,7 +70,7 @@ async def Main(self, aData: dict = None) -> dict:
         'description': Product['descr'],
         'offers': {
             '@type': 'Offer',
-            'itemCondition': 'https://schema.org/NewCondition',
+            'itemCondition': 'https://schema.org/' + Iif(Product['cond_en'] == 'new', 'NewCondition', 'UsedCondition'),
             'availability': 'https://schema.org/InStock',
             'price': DblPrice.Rec.price,
             'priceCurrency': DblPrice.Rec.alias

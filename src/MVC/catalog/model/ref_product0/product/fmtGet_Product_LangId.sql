@@ -3,7 +3,7 @@ with wt1 as (
     select
         rp.id,
         rp.idt,
-        rp.used,
+        rp.cond_en,
         --coalesce(rp.idt, rp.id) as code,
         rp.tenant_id,
         rps.rest::int,
@@ -74,7 +74,7 @@ wt2 as (
 select
     wt1.id,
     wt1.idt,
-    wt1.used,
+    wt1.cond_en,
     wt1.rest,
     wt1.tenant_id,
     wt1.tenant_title,

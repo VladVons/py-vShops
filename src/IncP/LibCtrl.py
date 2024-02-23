@@ -8,6 +8,6 @@ from Inc.DbList import TDbList, TDbSql, TDbRec
 from Inc.Misc.Image import TImage
 from Inc.Misc.Pagination import TPagination
 from Inc.Misc.Request import TDownload, TDownloadImage
-from Inc.Util.Obj import DeepGetByList, GetDictDef, GetDictDefs, Filter, DeepGetsRe
+from Inc.Util.Obj import DeepGetByList, GetDictDef, GetDictDefs, Filter, DeepGetsRe, Iif
 
 from .Log import Log

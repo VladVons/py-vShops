@@ -39,6 +39,13 @@ create type val_enum as enum (
     'json'
 );
 
+create type cond_enum as enum (
+    'damaged',
+    'new',
+    'refurbished',
+    'used'
+);
+
 -----------------------------------------------------------------------------
 -- references. user auth --
 -----------------------------------------------------------------------------
@@ -476,7 +483,7 @@ create table if not exists ref_product (
     update_date         timestamp default current_timestamp,
     model               varchar(64),
     is_service          boolean default false,
-    used                boolean,
+    cond_en             cond_enum,
     sort_order          smallint default 0,
     idt                 integer,
     product0_id         integer references ref_product0(id),

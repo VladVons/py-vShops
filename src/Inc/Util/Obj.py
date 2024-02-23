@@ -236,3 +236,6 @@ def GetDictDefDeep(aData: dict, aKeys: list, aDef: list) -> list:
     else:
         Res = aDef
     return Res
+
+def Iif(aCond: bool, aVal1, aVal2) -> object:
+    return aVal1 if (aCond) else aVal2
