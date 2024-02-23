@@ -14,6 +14,7 @@ async def Main(self, aData: dict = None) -> dict:
         ('0', 'ua', ('sort_order, title', 'title', 'price'), ('asc', 'desc'), 1, 18)
     )
     aLimit = min(aLimit, 50)
+    aLangId = self.GetLangId(aLang)
 
     Dbl = await self.ExecModelImport(
         'ref_product0/category',
@@ -32,8 +33,9 @@ async def Main(self, aData: dict = None) -> dict:
             'method': 'Get_CategoriesProducts_LangImagePrice',
             'param': {
                 'aCategoryIds': CategoryIds,
-                'aLangId': self.GetLangId(aLang),
-                'aPriceId': 1, 'aOrder': f'{aSort} {aOrder}',
+                'aLangId': aLangId,
+                'aPriceId': 1,
+                'aOrder': f'{aSort} {aOrder}',
                 'aLimit': aLimit,
                 'aOffset': (aPage - 1) * aLimit
             }
@@ -42,20 +44,31 @@ async def Main(self, aData: dict = None) -> dict:
     if (not Dbl):
         return {'err_code': 404}
 
-    Info = {
-        'title': Dbl.Rec.category_title,
-        'count': Dbl.Rec.total,
-        'page': aPage
-    }
-
     Data = TPagination(aLimit, f'?route=product0/category&category_id={aCategoryId}').Get(Dbl.Rec.total, aPage)
     DblPagination = TDbList(['page', 'title', 'href', 'current'], Data)
 
     DblProducts = await products_a(self, Dbl)
 
+    DblCategory = await self.ExecModelImport(
+        'ref_product0/category',
+        {
+            'method': 'Get_Category_LangId',
+            'param': {
+                'aCategoryId': aCategoryId,
+                'aLangId': aLangId
+            }
+        }
+    )
+    Category = DblCategory.Rec.GetAsDict()
+
     Res = {
         'dbl_products_a': DblProducts.Export(),
         'dbl_pagenation': DblPagination.Export(),
-        'info': Info
+        'category': Category,
+        'info': {
+            'title': Category['title'],
+            'count': Dbl.Rec.total,
+            'page': aPage
+        }
     }
     return Res

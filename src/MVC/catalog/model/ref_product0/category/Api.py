@@ -37,3 +37,9 @@ async def Get_CategoryId_Path(self, aLangId: int, aCategoryIds: list[int]) -> di
         'fmtGet_CategoryId_Path.sql',
         {'aLangId': aLangId, 'CategoryIds': CategoryIds}
     )
+
+async def Get_Category_LangId(self, aLangId: int, aCategoryId: int) -> dict:
+    return await self.ExecQuery(
+        'fmtGet_Category_LangId.sql',
+        {'aLangId': aLangId, 'aCategoryId': aCategoryId}
+    )
