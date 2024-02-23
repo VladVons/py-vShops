@@ -245,12 +245,12 @@ create table if not exists ref_product0_category (
 );
 
 create table if not exists ref_product0_category_lang (
-    id                  serial primary key,
     category_id         integer not null references ref_product0_category(id) on delete cascade,
     lang_id             integer not null references ref_lang(id),
     title               varchar(128) not null,
     descr               text,
-    meta_key            varchar(128)
+    meta_key            varchar(128),
+    primary key (category_id, lang_id)
 );
 
 -- product0 --
