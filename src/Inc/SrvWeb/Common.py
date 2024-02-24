@@ -36,7 +36,7 @@ async def FileWriter(aReader, aFile: str) -> int:
             await asyncio.sleep(0.01)
     return Res
 
-def ParseUserAgent(aValue: str) -> dict:
+def ParseUserAgent(aValue: str, aMaxLen = 64) -> dict:
     # Data  = [
     # 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36',
     # 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/110.0',
@@ -50,18 +50,16 @@ def ParseUserAgent(aValue: str) -> dict:
     # 'curl/7.81.0'
     # ]
 
-    OS = ''
     Browser = ''
-
-    Pattern = r"\((.*?)\).*(chrome|firefox|safari|opr|gecko$)/*(.*)"
+    OS = ''
     try:
+        Pattern = r"\((.*?)\).*(chrome|firefox|safari|opr|gecko$)/*(.*)"
         UArr = re.findall(Pattern, aValue, re.IGNORECASE)
         if (UArr):
-            OS = UArr[0][0].split(';')[1].strip()
             Browser = f'{UArr[0][1]}-{UArr[0][2]}'
+            OS = UArr[0][0].split(';')[1].strip()
         else:
-            Browser = aValue[:64]
+            Browser = aValue[:aMaxLen]
     except Exception:
-        Browser = ''
-        OS = ''
+        pass
     return {'os': OS.lower(), 'browser': Browser.lower()}
