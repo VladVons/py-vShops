@@ -39,18 +39,22 @@ async def GetDbInfo(self) -> dict:
     }
     return Res
 
-async def RegSession(self, aIp: str, aOs: str, aBrowser: str) -> dict:
+async def Ins_Session(self, aIp: str, aOs: str, aBrowser: str) -> dict:
     Query = f'''
-        insert into hist_session (ip, os, browser)
-        values ('{aIp}', '{aOs[:16]}', '{aBrowser[:32]}')
+        insert into hist_session
+            (ip, os, browser)
+        values
+            ('{aIp}', '{aOs[:16]}', '{aBrowser[:64]}')
         returning (id)
     '''
     return await self.ExecQueryText(Query)
 
-async def AddHistPageView(self, aSessionId: int, aUrl: str) -> dict:
+async def Ins_HistPageView(self, aSessionId: int, aUrl: str) -> dict:
     Query = f'''
-        insert into hist_page_view (session_id, url)
-        values ({aSessionId}, '{aUrl}')
+        insert into hist_page_view
+            (session_id, url)
+        values
+            ({aSessionId}, '{aUrl}')
     '''
     return await self.ExecQueryText(Query)
 
