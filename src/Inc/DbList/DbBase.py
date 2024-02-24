@@ -33,7 +33,7 @@ class TDbBase():
         return self._RecInit()
 
     def __repr__(self) -> str:
-        return self._Repr()
+        return self.GetRepr()
 
     def _DbExp(self, aData: list, aFields: list[str], aFieldsNew: list[list] = None) -> 'TDbBase':
         raise NotImplementedError()
@@ -41,9 +41,9 @@ class TDbBase():
     def _RecInit(self) -> object:
         raise NotImplementedError()
 
-    def _Repr(self) -> str:
+    def GetRepr(self, aReprLen: int = 0) -> str:
         def _GetMaxLen() -> list:
-            nonlocal Fields
+            nonlocal Fields, ReprLen
 
             Res = [len(x) for x in Fields]
 
@@ -52,10 +52,11 @@ class TDbBase():
                     Res[Idx] = max(Res[Idx], len(str(Val).strip()))
 
             for Idx, _ in enumerate(Res):
-                Res[Idx] = min(Res[Idx], self.OptReprLen)
+                Res[Idx] = min(Res[Idx], ReprLen)
 
             return Res
 
+        ReprLen = max(aReprLen, self.OptReprLen)
         Fields = self.GetFields()
         FieldsLen = _GetMaxLen()
 
@@ -74,8 +75,8 @@ class TDbBase():
             Trimmed = []
             for x in Row:
                 x = str(x)
-                if (len(x) > self.OptReprLen):
-                    x = x[:self.OptReprLen - 3] + '...'
+                if (len(x) > ReprLen):
+                    x = x[:ReprLen - 3] + '...'
                 Trimmed.append(x)
             Res.append(Format % tuple(Trimmed))
         Res.append(f'records: {self.GetSize()}')

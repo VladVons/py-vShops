@@ -197,3 +197,8 @@ input:read-only {
     max-height: 300x;
     max-width: 100%;
 }
+
+pre {
+    font-family: 'Courier New', monospace;
+    font-size: 14px;
+}

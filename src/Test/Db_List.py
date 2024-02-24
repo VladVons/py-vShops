@@ -19,6 +19,10 @@ def Test_01():
         ['User', 'Age', 'Male', 'Price'],
         Data1
     )
+    Str1 = Dbl1.GetRepr()
+    with open('dbl.txt', 'w', encoding='utf8') as F:
+        F.write(Str1)
+    return
 
     #print(Dbl1)
     Pairs = Dbl1.ExportPairs('Age', ['User', 'Price'])
@@ -55,4 +59,4 @@ def Test_02():
         csv_writer.writerow(DblP.GetFields())
         csv_writer.writerows(DblP.Data)
 
-Test_02()
+Test_01()
