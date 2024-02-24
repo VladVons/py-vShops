@@ -38,13 +38,26 @@ async def Main(self, aData: dict = None) -> dict:
     await self.Lang.Add(aLang, 'product/category')
 
     aLimit = min(aLimit, 50)
+    aLangId = self.GetLangId(aLang)
+
+    await self.ExecModel(
+        'ref_product/product',
+        {
+            'method': 'Ins_HistProductSearch',
+            'param': {
+                'aText': aSearch,
+                'aLangId': aLangId,
+                'aSessionId': aData['session']['session_id']
+            }
+        }
+    )
 
     Dbl = await self.ExecModelImport(
         'ref_product0/product',
         {
             'method': 'Get_Products_LangFilter',
             'param': {
-                'aLangId': self.GetLangId(aLang),
+                'aLangId': aLangId,
                 'aFilter': aSearch,
                 'aOrder': f'{aSort} {aOrder}',
                 'aLimit': aLimit,
