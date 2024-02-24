@@ -17,17 +17,6 @@ async def Main(self, aData: dict = None) -> dict:
     )
     aLangId = self.GetLangId(aLang)
 
-    await self.ExecModel(
-        'ref_product/product',
-        {
-            'method': 'Ins_HistProductView',
-            'param': {
-                'aProductId': aProductId,
-                'aSessionId': aData['session']['session_id']
-            }
-        }
-    )
-
     DblProduct = await self.ExecModelImport(
         'ref_product0/product',
         {
@@ -40,6 +29,17 @@ async def Main(self, aData: dict = None) -> dict:
     )
     if (not DblProduct):
         return {'err_code': 404}
+
+    await self.ExecModel(
+        'ref_product/product',
+        {
+            'method': 'Ins_HistProductView',
+            'param': {
+                'aProductId': aProductId,
+                'aSessionId': aData['session']['session_id']
+            }
+        }
+    )
 
     Res = {}
     Product = DblProduct.Rec.GetAsDict()

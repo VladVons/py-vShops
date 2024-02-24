@@ -780,6 +780,7 @@ end $$ language plpgsql;
 create or replace trigger ref_product_tai
     after update on ref_product
     for each row
+    when (old.* is distinct from new.*)
     execute function ref_product_fau();
 
 --
