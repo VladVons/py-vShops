@@ -40,18 +40,6 @@ async def Main(self, aData: dict = None) -> dict:
     aLimit = min(aLimit, 50)
     aLangId = self.GetLangId(aLang)
 
-    await self.ExecModel(
-        'ref_product/product',
-        {
-            'method': 'Ins_HistProductSearch',
-            'param': {
-                'aText': aSearch,
-                'aLangId': aLangId,
-                'aSessionId': aData['session']['session_id']
-            }
-        }
-    )
-
     Dbl = await self.ExecModelImport(
         'ref_product0/product',
         {
@@ -62,6 +50,19 @@ async def Main(self, aData: dict = None) -> dict:
                 'aOrder': f'{aSort} {aOrder}',
                 'aLimit': aLimit,
                 'aOffset': (aPage - 1) * aLimit
+            }
+        }
+    )
+
+    await self.ExecModel(
+        'ref_product/product',
+        {
+            'method': 'Ins_HistProductSearch',
+            'param': {
+                'aText': aSearch,
+                'aResults': len(Dbl),
+                'aLangId': aLangId,
+                'aSessionId': aData['session']['session_id']
             }
         }
     )
