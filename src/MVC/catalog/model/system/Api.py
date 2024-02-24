@@ -46,7 +46,7 @@ async def RegSession(self, aIp: str, aOs: str, aBrowser: str) -> dict:
         insert into hist_session
             (ip, os, browser)
         values
-            ('{aIp}', '{aOs[:16]}', '{aBrowser[:32]}')
+            ('{aIp}', '{aOs[:16]}', '{aBrowser[:64]}')
         returning (id)
     '''
     return await self.ExecQueryText(Query)
