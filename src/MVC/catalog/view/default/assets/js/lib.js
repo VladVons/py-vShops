@@ -9,6 +9,42 @@ function isDict(aData) {
     return (aData !== null) && (typeof aData === 'object')
 }
 
+class TLocalStorage {
+    constructor(aStorageId) {
+        this.storageId = aStorageId
+        this.items = null
+        this.load()
+    }
+
+    save() {
+        if (this.items) {
+            localStorage.setItem(this.storageId, JSON.stringify(this.items))
+        }
+    }
+
+    load() {
+        const data = localStorage.getItem(this.storageId)
+        if (data) {
+            this.items = JSON.parse(data)
+        }
+    }
+
+    addItemToListUniq(aItem) {
+        if (this.items == null) {
+            this.items = [aItem]
+        } else if (!this.items.includes(aItem)) {
+            this.items.push(aItem)
+        }
+    }
+
+    addItemToListCycle(aItem, aMax = 5) {
+        this.addItemToListUniq(aItem)
+        if (this.items.length > aMax) {
+            this.items.shift()
+        }
+    }
+}
+
 class TDict {
     constructor(aData = {}) {
         this.data = aData
@@ -347,4 +383,11 @@ function IterNameValue(aElements) {
 
 function dictMerge(aDict1, aDict2) {
     return { ...aDict1, ...aDict2 }
+}
+
+function generateUUID() {
+    return 'xxxxxxxx-xxxx-71xx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+        let r = Math.random() * 16 | 0, v = c === 'x' ? r : (r & 0x3 | 0x8)
+        return v.toString(16);
+    })
 }

@@ -10,15 +10,22 @@
 <meta property="og:site_name" content="{{info.site_name}}"/>
 <meta property="og:locale" content="uk_UA"/>
 <script>
-    gData.updValue('lang', {
-        "added_to_cart": "{{lang.added_to_card}}",
-        "already_in_cart": "{{lang.already_in_cart}}"
-    })
+  gData.updValue('lang', {
+    "added_to_cart": "{{lang.added_to_card}}",
+    "already_in_cart": "{{lang.already_in_cart}}"
+  })
 </script>
 
 <script type="application/ld+json">
-    {{schema}}
+  {{schema}}
 </script>
+
+<script>
+  LocalStorage = new TLocalStorage('protucts_viewed')
+  LocalStorage.addItemToListCycle('{{product.id}}')
+  LocalStorage.save()
+</script>
+
 {% endblock %}
 
 {% block content %}

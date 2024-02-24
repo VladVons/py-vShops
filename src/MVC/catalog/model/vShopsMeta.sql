@@ -642,7 +642,7 @@ create table if not exists hist_session (
     ip                  varchar(45),
     os                  varchar(16),
     browser             varchar(32),
-    uuid                varchar(32)
+    uuid                varchar(36)
 );
 
 create table if not exists hist_product_search (
