@@ -3,8 +3,10 @@
 # License: GNU, see LICENSE for more details
 
 
+import json
+#
 from Inc.Misc.Mail import TMail, TMailSend, TMailSmtp
-from IncP.LibCtrl import Log, DeepGetByList
+from IncP.LibCtrl import Log
 
 
 async def Main(self, aData: dict = None) -> dict:
@@ -35,25 +37,25 @@ async def Main(self, aData: dict = None) -> dict:
 
     LangTr = aData['lang']
     AddressJ = LangTr['addressJ_']
-    Res = {
-        'schema': {
-            "@context": "https://schema.org",
-            "@type": "Organization",
-            "url": LangTr.get('url_'),
-            "logo": LangTr.get('url_') + '/' + LangTr.get('logo_'),
-            "name": AddressJ['company'],
-            "description": LangTr.get('about_descr'),
-            "email": LangTr.get('email_'),
-            "telephone": LangTr.get('phone_'),
-            "address": {
-                "@type": "PostalAddress",
-                "streetAddress": AddressJ['street'],
-                "addressLocality": AddressJ['city'],
-                "addressCountry": AddressJ['country'],
-                "postalCode": AddressJ['post_code']
-            }
-        },
-        'mail_status': LangKey
+    Schema = {
+        '@context': 'https://schema.org',
+        '@type': 'Organization',
+        'url': LangTr.get('url_'),
+        'logo': LangTr.get('url_') + '/' + LangTr.get('logo_'),
+        'name': AddressJ['company'],
+        'description': LangTr.get('about_descr'),
+        'email': LangTr.get('email_'),
+        'telephone': LangTr.get('phone_'),
+        'address': {
+            '@type': 'PostalAddress',
+            'streetAddress': AddressJ['street'],
+            'addressLocality': AddressJ['city'],
+            'addressCountry': AddressJ['country'],
+            'postalCode': AddressJ['post_code']
+        }
     }
 
-    return Res
+    return {
+        'schema': json.dumps(Schema),
+        'mail_status': LangKey
+    }
