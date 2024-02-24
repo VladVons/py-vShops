@@ -17,6 +17,17 @@ async def Main(self, aData: dict = None) -> dict:
     )
     aLangId = self.GetLangId(aLang)
 
+    await self.ExecModel(
+        'ref_product/product',
+        {
+            'method': 'Ins_HistProductView',
+            'param': {
+                'aProductId': aProductId,
+                'aSessionId': aData['session']['session_id']
+            }
+        }
+    )
+
     DblProduct = await self.ExecModelImport(
         'ref_product0/product',
         {
