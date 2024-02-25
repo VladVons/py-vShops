@@ -1,0 +1,7 @@
+<!-- _inc/content_bottom + -->
+{% for module in modules %}
+  {% if module.place == 'inc_bottom' %}
+    {{ module.data }}
+  {% endif %}
+{% endfor %}
+<!-- _inc/content_bottom - -->
