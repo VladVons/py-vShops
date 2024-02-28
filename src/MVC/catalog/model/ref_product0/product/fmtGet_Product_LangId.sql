@@ -18,7 +18,14 @@ with wt1 as (
             from ref_product_image rpi
             where (rpi.product_id = rp.id and rpi.enabled)
             order by rpi.sort_order, rpi.image
-        ) as images
+        ) as images,
+        (
+            select jsonb_object_agg(ral.title, rpa.val)
+            from ref_product_attr rpa
+            left join ref_attr ra on (ra.id = rpa.attr_id)
+            left join ref_attr_lang ral on (ral.attr_id = ra.id and ral.lang_id = {{aLangId}})
+            where (rpa.product_id = {{aProductId}})
+        ) as attr
     from
         ref_product rp
     left join
@@ -78,6 +85,7 @@ select
     wt1.rest,
     wt1.tenant_id,
     wt1.tenant_title,
+    wt1.attr,
     coalesce(wt1.title, wt2.title) as title,
     coalesce(wt1.descr, wt2.descr) as descr,
     coalesce(wt1.features, wt2.features) as features,

@@ -131,7 +131,8 @@ class TFormBase(Form):
 
     async def Render(self) -> str:
         self.Session = await get_session(self.Request)
-        if (not self.Session.get('start')):
+        StarAt = self.Session.get('start')
+        if (not StarAt):
             self.Session['start'] = int(time.time())
             if (not await self._DoSession()):
                 await self.RegSession()

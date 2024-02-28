@@ -25,6 +25,17 @@ def GetTitleValues(aData: dict, aFields: list[str]) -> list:
             Res.append(Val)
     return Res
 
+def GetAttr(aRow: dict, aMeta: dict) -> dict:
+    Res = {}
+    for Key, Val in aMeta.items():
+        Data = aRow[Val['field']]
+        if (Data):
+            if ('delim' in Val):
+                Res[Key] = Data.split(Val['delim'])[Val['idx']]
+            else:
+                Res[Key] = Data
+    return Res
+
 
 class TDbProductEx(TDbList):
     def __init__(self):
@@ -42,7 +53,8 @@ class TDbProductEx(TDbList):
                 'features',
                 'descr',
                 'vendor',
-                'cond'
+                'cond',
+                'attr'
             ]
         )
 
@@ -74,7 +86,8 @@ class TDbCompPC(TDbList):
                 'price',
                 'price_in',
                 'qty',
-                'cond'
+                'cond',
+                'attr'
             ],
             aDef = {
                 'os': 'NoOS',
@@ -94,7 +107,8 @@ class TDbCompMonit(TDbList):
                 'price',
                 'price_in',
                 'qty',
-                'cond'
+                'cond',
+                'attr'
             ]
         )
 
@@ -108,7 +122,8 @@ class TDbPrinter(TDbList):
                 'price',
                 'price_in',
                 'qty',
-                'cond'
+                'cond',
+                'attr'
             ]
         )
 

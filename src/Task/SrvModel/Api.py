@@ -63,8 +63,10 @@ class TApiModel(TApiBase):
 
         if (Dbl.Rec.tables == 0):
             Log.Print(1, 'i', 'Database is empty. Creating tables ...')
-            await TDbExecPool(self.DbMeta.Db.Pool).ExecFile(f'{self.Models.Dir}/vShopsMeta.sql')
-            #await TDbExecPool(self.DbMeta.Db.Pool).ExecFile(f'{self.Models.Dir}/vShopsData.sql')
+            await TDbExecPool(self.DbMeta.Db.Pool).ExecFile(f'{self.Models.Dir}/dbTable.sql')
+            await TDbExecPool(self.DbMeta.Db.Pool).ExecFile(f'{self.Models.Dir}/dbMeta.sql')
+            await TDbExecPool(self.DbMeta.Db.Pool).ExecFile(f'{self.Models.Dir}/dbApp.sql')
+            await TDbExecPool(self.DbMeta.Db.Pool).ExecFile(f'{self.Models.Dir}/dbData.sql')
 
         Log.AddEcho(TEchoDb(self.DbMeta.Db))
 

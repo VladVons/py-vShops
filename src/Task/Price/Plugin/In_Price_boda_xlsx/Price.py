@@ -9,7 +9,7 @@ from Inc.DbList import TDbRec
 from Inc.Util.Str import ToFloat, ToHashWM
 from Inc.Util.Obj import GetNotNone
 from Inc.ParserX.Parser_xlsx import TParser_xlsx
-from ..CommonDb import TDbCompPC, TDbCompMonit, TDbPrinter
+from ..CommonDb import TDbCompPC, TDbCompMonit, TDbPrinter, GetAttr
 
 
 class TFiller():
@@ -18,6 +18,7 @@ class TFiller():
         Conf = aParent.GetConfSheet()
         self.ConfTitle = Conf.get('title', [])
         self.ConfModel = Conf.get('model', ['model'])
+        self.ConfAttr = Conf.get('attr', {})
 
     def SetBase(self, aRow: dict, aRec: TDbRec, aFieldsCopy: list):
         Val = aRow.get('model').upper()
@@ -40,6 +41,8 @@ class TFiller():
         for x in ['price', 'price_in']:
             Val = ToFloat(aRow.get(x))
             aRec.SetField(x, Val)
+
+        aRec.SetField('attr', GetAttr(aRow, self.ConfAttr))
 
 
 class TPricePC(TParser_xlsx):
