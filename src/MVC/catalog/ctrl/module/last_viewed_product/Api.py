@@ -8,9 +8,11 @@ from ..._inc.products_a import Main as products_a
 
 
 async def Main(self, aData: dict = None) -> dict:
-    aSessionId = DeepGetByList(aData, ['session', 'session_id'])
     aLang = DeepGetByList(aData, ['query', 'lang'], 'ua')
     LangId = self.GetLangId(aLang)
+    aSessionId = DeepGetByList(aData, ['session', 'session_id'])
+    if (not aSessionId):
+        return
 
     Dbl = await self.ExecModelImport(
         'ref_product0/product',
