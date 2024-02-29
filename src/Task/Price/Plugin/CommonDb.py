@@ -31,7 +31,10 @@ def GetAttr(aRow: dict, aMeta: dict) -> dict:
         Data = aRow[Val['field']]
         if (Data):
             if ('delim' in Val):
-                Res[Key] = Data.split(Val['delim'])[Val['idx']]
+                Idx = Val['idx']
+                Arr = Data.split(Val['delim'])
+                if (len(Arr) > Idx):
+                    Res[Key] = Arr[Idx]
             else:
                 Res[Key] = Data
     return Res

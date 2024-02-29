@@ -38,6 +38,14 @@
                         "price_in": "PriceIn",
                         "price": "Price"
                     },
+                   "attr": {
+                        "cpu_type": {"field": "cpu", "delim": "-", "idx": 0},
+                        "ram_size": {"field": "ram"},
+                        "storage_size": {"field": "disk", "delim": " ", "idx": 0},
+                        "storage_type": {"field": "disk", "delim": " ", "idx": 1},
+                        "pc_case_type": {"field": "case"},
+                        "pc_os": {"field": "os"}
+                    },
                     "title": ["model", "case", "cpu", "ram", "disk", "vga", "os"],
                     "model": ["model", "case", "cpu"]
                 },
@@ -57,7 +65,14 @@
                         "price_in": "PriceIn",
                         "price": "Price"
                     },
-                    "title": ["model", "screen", "cpu", "ram", "disk", "matrix", "touch", "os"],
+                    "attr": {
+                        "cpu_type": {"field": "cpu", "delim": "-", "idx": 0},
+                        "ram_size": {"field": "ram"},
+                        "storage_size": {"field": "disk", "delim": " ", "idx": 0},
+                        "storage_type": {"field": "disk", "delim": " ", "idx": 1},
+                        "pc_os": {"field": "os"}
+                    },
+                     "title": ["model", "screen", "cpu", "ram", "disk", "matrix", "touch", "os"],
                     "model": ["model", "cpu"]
                 }
             }
