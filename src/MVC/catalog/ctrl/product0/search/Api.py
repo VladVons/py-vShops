@@ -53,6 +53,7 @@ async def Main(self, aData: dict = None) -> dict:
             }
         }
     )
+    Found = Dbl.Rec.total if (Dbl) else 0
 
     await self.ExecModel(
         'ref_product/product',
@@ -60,15 +61,15 @@ async def Main(self, aData: dict = None) -> dict:
             'method': 'Ins_HistProductSearch',
             'param': {
                 'aText': aSearch,
-                'aResults': len(Dbl),
+                'aResults': Found,
                 'aLangId': aLangId,
                 'aSessionId': aData['session']['session_id']
             }
         }
     )
 
-    if (Dbl):
-        Title = f'{aSearch} ({Dbl.Rec.total})'
+    if (Found):
+        Title = f'{aSearch} ({Found})'
 
         Data = TPagination(aLimit, f'?route=product0/search&q={aSearch}').Get(Dbl.Rec.total, aPage)
         DblPagination = TDbList(['page', 'title', 'href', 'current'], Data)
