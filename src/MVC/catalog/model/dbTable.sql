@@ -647,7 +647,7 @@ create table if not exists hist_session (
 create table if not exists hist_product_search (
     id                  serial primary key,
     create_date         timestamp default current_timestamp,
-    context             varchar(32) not null,
+    context             varchar(64) not null,
     results             int,
     lang_id             integer not null references ref_lang(id),
     session_id          integer not null references hist_session(id) on delete cascade
