@@ -6,7 +6,7 @@
 async def Ins_HistProductSearch(self, aLangId: int, aSessionId: int, aText: str, aResults: int):
     await self.ExecQuery(
         'fmtIns_HistProductSearch.sql',
-        {'aLangId': aLangId, 'aSessionId': aSessionId, 'aText': aText, 'aResults': aResults}
+        {'aLangId': aLangId, 'aSessionId': aSessionId, 'aText': aText[:64], 'aResults': aResults}
     )
 
 async def Ins_HistProductView(self, aProductId: int, aSessionId: int):
