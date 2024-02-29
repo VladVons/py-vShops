@@ -16,6 +16,7 @@ class TApiBase():
         self.Cache = {}
         self.AEvent = None
         self.Name = None
+        self.DefRoute = None
 
     async def ExecOnce(self, aData: dict):
         pass
@@ -49,7 +50,10 @@ class TApiBase():
                 return {'err': 'undefined key `method`'}
 
             if (not aPlugin.IsModule(aRoute)):
-                return {'err': f'Route not found {aRoute}', 'code': 404}
+                if (self.DefRoute):
+                    aRoute = self.DefRoute
+                else:
+                    return {'err': f'Route not found {aRoute}', 'code': 404}
 
             aPlugin.LoadMod(aRoute)
             RouteObj = aPlugin[aRoute]

@@ -21,7 +21,7 @@ class TApiCtrl(TApiBase):
         Conf = self.GetConf()[aName]
         self.Ctrls = TCtrls(Conf['dir_route'], self)
         self.InitLoader(Conf['loader'])
-
+        self.DefRoute = 'system/def_route'
         #Def = GetDictDef(Conf['cache_route'], ['max_age', 'incl_route', 'excl_route'], [5, None, None])
         #self.Cache = TCacheMem('/', *Def)
 
