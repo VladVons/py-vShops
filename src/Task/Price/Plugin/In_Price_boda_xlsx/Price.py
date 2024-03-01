@@ -6,10 +6,16 @@
 import re
 #
 from Inc.DbList import TDbRec
-from Inc.Util.Str import ToFloat, ToHashWM
+from Inc.Util.Str import ToFloat, ToHashWM, Replace
 from Inc.Util.Obj import GetNotNone
 from Inc.ParserX.Parser_xlsx import TParser_xlsx
 from ..CommonDb import TDbCompPC, TDbCompMonit, TDbPrinter, TScheme
+
+
+ReplaceWin = {
+    'W10P': 'Windows 10 Pro',
+    'W11P': 'Windows 11 Pro',
+}
 
 
 class TFiller():
@@ -52,36 +58,53 @@ class TPricePC(TParser_xlsx):
         super().__init__(aParent, TDbCompPC())
         self.Filler: TFiller
 
-        self.ReDisk = re.compile(r'(\d+)\s*(gb|tb)\s*(hdd|ssd)', re.IGNORECASE)
+        self.ReDisk1 = re.compile(r'(\d+)\s*(gb|tb)\s*(hdd|ssd)', re.IGNORECASE)
+        self.ReDisk2 = re.compile(r'(\d+)\s*(hdd|ssd)', re.IGNORECASE)
         self.ReRam = re.compile(r'(\d+)\s*(gb)', re.IGNORECASE)
 
     def _OnLoad(self):
         self.Filler = TFiller(self)
 
-    def _Fill(self, aRow: dict):
+    def _Fill(self, aRow: dict) -> TDbRec:
         if (not aRow.get('price')):
             return
 
         Rec = self.Dbl.RecAdd()
 
         Val = aRow.get('disk', '')
-        Data = self.ReDisk.findall(Val)
+        # 256GB SSD, 256GBSSD
+        Data = self.ReDisk1.findall(Val)
         if (Data):
             Data = Data[0]
             Rec.SetField('disk_size', int(Data[0]))
             Rec.SetField('disk', Data[2])
+            aRow['disk'] = f'{Data[0]}{Data[1]} {Data[2]}'
+        else:
+            # 256SSD
+            Data = self.ReDisk2.findall(Val)
+            if (Data):
+                Data = Data[0]
+                Rec.SetField('disk_size', int(Data[0]))
+                Rec.SetField('disk', Data[1])
+                aRow['disk'] = f'{Data[0]}GB {Data[1]}'
 
-        Val = aRow.get('ram', '')
+        Val = str(aRow.get('ram', ''))
+        # 4Gb, 4 Gb
         Data = self.ReRam.findall(Val)
         if (Data):
             Data = Data[0]
             Rec.SetField('ram_size', int(Data[0]))
+            aRow['ram'] = f'{Data[0]}{Data[1]}'
+        else:
+            # 4
+            Rec.SetField('ram_size', int(Val))
+            aRow['ram'] = f'{Val}GB'
 
-        #self.Filler.SetBase(aRow, Rec, ['cpu', 'case', 'dvd', 'vga', 'os'])
+        Val = GetNotNone(aRow, 'os', '')
+        aRow['os'] = Replace(Val, ReplaceWin)
+
         self.Filler.SetBase(aRow, Rec, ['cpu', 'case', 'vga', 'os', 'qty'])
-
-        Rec.Flush()
-
+        return Rec
 
 class TPriceMonit(TParser_xlsx):
     def __init__(self, aParent):
@@ -94,7 +117,7 @@ class TPriceMonit(TParser_xlsx):
     def _Filter(self, aRow: dict):
         return (not aRow.get('price')) or (aRow.get('stand', '').lower() != 'yes')
 
-    def _Fill(self, aRow: dict):
+    def _Fill(self, aRow: dict) -> TDbRec:
         if (self._Filter(aRow)):
             return
 
@@ -106,15 +129,23 @@ class TPriceMonit(TParser_xlsx):
 
         Val = GetNotNone(aRow, 'screen', '').replace('"', '')
         Rec.SetField('screen', Val)
+        aRow['screen'] = f'{Val}"'
 
         self.Filler.SetBase(aRow, Rec, ['color', 'qty'])
-
-        Rec.Flush()
+        return Rec
 
 
 class TPriceLaptop(TPricePC):
     def _Filter(self, aRow: dict):
         return (not aRow.get('price'))
+
+    def _Fill(self, aRow: dict) -> TDbRec:
+        Rec = super()._Fill(aRow)
+        if (not Rec):
+            return
+
+        Val = GetNotNone(aRow, 'screen', '').replace('"', '')
+        aRow['screen'] = f'{Val}"'
 
 
 class TPricePrinter(TParser_xlsx):
@@ -125,10 +156,10 @@ class TPricePrinter(TParser_xlsx):
     def _OnLoad(self):
         self.Filler = TFiller(self)
 
-    def _Fill(self, aRow: dict):
+    def _Fill(self, aRow: dict) -> TDbRec:
         if (not aRow.get('price')):
             return
 
         Rec = self.Dbl.RecAdd()
         self.Filler.SetBase(aRow, Rec, ['qty'])
-        Rec.Flush()
+        return Rec

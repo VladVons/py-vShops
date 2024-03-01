@@ -48,3 +48,9 @@ def ToHashWM(aText: str) -> str:
     Res = re.sub(r'[^a-zA-Z0-9\s-]', '', Res)
     Res = Res.lower().rstrip('-')
     return Res
+
+def Replace(aText: str, aReplace: dict) -> str:
+    if (aText):
+        for Old, New in aReplace.items():
+            aText = aText.replace(Old, New)
+    return aText
