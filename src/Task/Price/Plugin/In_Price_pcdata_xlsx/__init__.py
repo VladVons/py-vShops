@@ -17,23 +17,16 @@ from ..CommonDb import TDbCategory, TDbProductEx
 
 
 class TIn_Price_pcdata_xlsx(TPluginBase):
-    def Download(self, aUrl: str, aFile: str) -> bool:
-        AuthFile = os.path.expanduser('~/.config/gspread/service_account.json')
-        assert(os.path.isfile(AuthFile)), f'File does not exist {AuthFile}'
-
-        GSA = gspread.service_account()
-        SH = GSA.open_by_url(aUrl)
-        Data = SH.export(format = gspread.utils.ExportFormat.EXCEL)
-        with open(aFile, 'wb') as F:
-            F.write(Data)
-            return True
-
     def ToDbProductEx(self, aParser, aDbProductEx: TDbProductEx, aCategoryId):
         Uniq = {}
         Price = 'price'
         PriceIn = 'price_in'
+
         Fields =  aParser.Dbl.GetFields()
         Fields.remove(Price)
+        Fields.remove('attr')
+
+        TitleToAttr = aParser.Dbl.ExportPair('title', 'attr')
         Dbl = aParser.Dbl.Group(Fields, [Price, PriceIn])
         for Rec in Dbl:
             Title = Rec.title
@@ -53,16 +46,11 @@ class TIn_Price_pcdata_xlsx(TPluginBase):
                     'price': PriceAvg,
                     'price_in': PriceInAvg,
                     'qty': Rec.count,
-                    'cond': Rec.cond
+                    'cond': Rec.cond,
+                    'attr': TitleToAttr[Rec.title]
                     })
 
     async def Run(self):
-        Url = self.Conf.GetKey('url_gspread')
-        if (Url):
-            File = self.GetFile()
-            if (not os.path.isfile(File)):
-                self.Download(Url, File)
-
         XTable = {
             'COMPUTERS': {
                 'parser': TPricePC, 'category_id': 1, 'category': "Комп'ютер", "enabled": True

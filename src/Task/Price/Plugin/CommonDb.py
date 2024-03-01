@@ -164,3 +164,19 @@ class TScheme(TSchemeBase):
         if (aObj is None):
             self.Err.append('%s->%s (none)' % (aPath, aItem))
         return aObj
+
+    def ParsePipes(self, aObj, aScheme: dict, aPath: str = '') -> object:
+        Res = {}
+        for Key, Val in aScheme.items():
+            if (isinstance(Val, list)):
+                Obj = aObj
+                for x in Val:
+                    Obj = self.ParsePipe(Obj, x, f'{aPath}/{Key}')
+                    if (Obj is None):
+                        break
+
+                if (Obj is not None):
+                    Res[Key] = Obj
+            else:
+                Res[Key] = aObj[Val]
+        return Res

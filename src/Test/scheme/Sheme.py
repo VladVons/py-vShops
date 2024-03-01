@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+o       #!/usr/bin/env python3
 
 import json
 from bs4 import BeautifulSoup

@@ -606,32 +606,33 @@ class TSql(TSqlBase):
                     Value = f"({self.lang_id}, {self.ProductIdt[Rec.id]}, '{Key}', '{Val}')"
                     Values.append(Value)
 
-            Query = f'''
-                with src_data (lang_id, product_id, attr_alias, val) as (
-                    values {', '.join(Values)}
-                ),
-                mapper as (
-                    select
-                        src_data.lang_id,
-                        src_data.product_id,
-                        ra.id,
-                        src_data.val
-                    from
-                        src_data
-                    join
-                        ref_attr ra
-                        on (src_data.attr_alias = ra.alias)
-                )
-                merge into ref_product_attr as dst
-                using mapper as src
-                on (dst.product_id = src.product_id) and (dst.lang_id = src.lang_id) and (dst.attr_id = src.id)
-                when matched then
-                    update set val = src.val
-                when not matched then
-                    insert (product_id, lang_id, attr_id, val)
-                    values (src.product_id, src.lang_id, src.id, src.val)
-            '''
-            return await TDbExecPool(self.Db.Pool).Exec(Query)
+            if (Values):
+                Query = f'''
+                    with src_data (lang_id, product_id, attr_alias, val) as (
+                        values {', '.join(Values)}
+                    ),
+                    mapper as (
+                        select
+                            src_data.lang_id,
+                            src_data.product_id,
+                            ra.id,
+                            src_data.val
+                        from
+                            src_data
+                        join
+                            ref_attr ra
+                            on (src_data.attr_alias = ra.alias)
+                    )
+                    merge into ref_product_attr as dst
+                    using mapper as src
+                    on (dst.product_id = src.product_id) and (dst.lang_id = src.lang_id) and (dst.attr_id = src.id)
+                    when matched then
+                        update set val = src.val
+                    when not matched then
+                        insert (product_id, lang_id, attr_id, val)
+                        values (src.product_id, src.lang_id, src.id, src.val)
+                '''
+                return await TDbExecPool(self.Db.Pool).Exec(Query)
 
         Log.Print(1, 'i', 'Product')
         await self.DisableTable('ref_product')

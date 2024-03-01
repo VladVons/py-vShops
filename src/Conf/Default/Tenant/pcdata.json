@@ -2,16 +2,16 @@
     "plugin": {
         "In_pcdata_gspread": {
             "class": "In_GSpread",
-            "url": "qwerty",
+            "url": "https://docs.google.com/spreadsheets/d/1L0ZDsTXlEDWHAY9cI22FqhMQ051b82wc",
             "file": "pcdata.xlsx"
         },
         "In_pcdata": {
             "class": "In_Price_pcdata_xlsx",
             "file": "pcdata.xlsx",
-           "depends": [
+            "depends": [
                 "In_pcdata_gspread"
             ],
-              "export": {
+            "export": {
                 "Out_vShopTenant_db": {
                     "sql": {
                         "tenant": "pcdata",
@@ -39,6 +39,23 @@
                         "price_in": "PriceIn",
                         "price": "Price"
                     },
+                    "attr": {
+                        "cpu_type": [
+                            ["get", ["cpu"]],
+                            ["split", ["-", 0]]
+                        ],
+                        "storage_size": [
+                            ["get", ["disk"]],
+                            ["split", [" ", 0]]
+                        ],
+                        "storage_type": [
+                            ["get", ["disk"]],
+                            ["split", [" ", 1]]
+                        ],
+                        "ram_size": "ram",
+                        "pc_case_type": "case",
+                        "pc_os": "os"
+                    },
                     "title": ["model", "case", "cpu", "ram", "disk", "vga", "os"],
                     "model": ["model", "case", "cpu"]
                 },
@@ -54,6 +71,9 @@
                         "price_in": "PriceIn",
                         "price": "Price"
                     },
+                    "attr": {
+                        "screen_size": "screen"
+                    },
                     "title": ["model", "screen", "grade", "color"]
                 },
                 "INDUSTRIAL MONITORS": {
@@ -66,6 +86,9 @@
                         "color": "Frame color",
                         "price_in": "PriceIn",
                         "price": "Price"
+                    },
+                    "attr": {
+                        "screen_size": "screen"
                     },
                     "title": ["model", "screen", "grade", "color"]
                 },

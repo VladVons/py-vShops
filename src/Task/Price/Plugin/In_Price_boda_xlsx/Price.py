@@ -43,8 +43,7 @@ class TFiller():
             aRec.SetField(x, Val)
 
         Scheme = TScheme()
-        Scheme.RegEmpty = False
-        Attr = Scheme.ParsePipes(aRow, self.ConfAttr, '')
+        Attr = Scheme.ParsePipes(aRow, self.ConfAttr)
         aRec.SetField('attr', Attr)
 
 
