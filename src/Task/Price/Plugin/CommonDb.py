@@ -174,9 +174,9 @@ class TScheme(TSchemeBase):
                     Obj = self.ParsePipe(Obj, x, f'{aPath}/{Key}')
                     if (Obj is None):
                         break
-
-                if (Obj):
-                    Res[Key] = Obj
             else:
-                Res[Key] = aObj[Val]
+                Obj = aObj[Val]
+
+            if (Obj is None):
+                Res[Key] = Obj
         return Res
