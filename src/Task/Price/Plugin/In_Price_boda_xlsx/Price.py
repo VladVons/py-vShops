@@ -13,6 +13,8 @@ from ..CommonDb import TDbCompPC, TDbCompMonit, TDbPrinter, TScheme
 
 
 ReplaceWin = {
+    'W7P': 'Windows 7 Pro',
+    'W8P': 'Windows 8 Pro',
     'W10P': 'Windows 10 Pro',
     'W11P': 'Windows 11 Pro',
 }

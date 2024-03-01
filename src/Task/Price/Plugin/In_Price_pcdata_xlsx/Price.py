@@ -61,7 +61,7 @@ class TPricePC(TParser_xlsx):
     def _OnLoad(self):
         self.Filler = TFiller(self)
 
-    def _Fill(self, aRow: dict):
+    def _Fill(self, aRow: dict) -> TDbRec:
         if (not aRow.get('price_in')):
             return
 
@@ -80,11 +80,11 @@ class TPricePC(TParser_xlsx):
             Data = Data[0]
             Rec.SetField('ram_size', int(Data[0]))
 
-        #self.Filler.SetBase(aRow, Rec, ['cpu', 'case', 'dvd', 'vga', 'os'])
+        Val = GetNotNone(aRow, 'os', '')
+        aRow['os'] = Val
+
         self.Filler.SetBase(aRow, Rec, ['cpu', 'case', 'vga', 'os'])
-
-        Rec.Flush()
-
+        return Rec
 
 class TPriceMonit(TParser_xlsx):
     def __init__(self, aParent):
@@ -97,7 +97,7 @@ class TPriceMonit(TParser_xlsx):
     def _Filter(self, aRow: dict):
         return (not aRow.get('price_in')) or (aRow.get('stand', '').lower() != 'yes')
 
-    def _Fill(self, aRow: dict):
+    def _Fill(self, aRow: dict) -> TDbRec:
         if (self._Filter(aRow)):
             return
 
@@ -111,8 +111,7 @@ class TPriceMonit(TParser_xlsx):
         Rec.SetField('screen', Val)
 
         self.Filler.SetBase(aRow, Rec, ['color'])
-
-        Rec.Flush()
+        return Rec
 
 
 class TPriceMonitInd(TPriceMonit):
@@ -128,10 +127,10 @@ class TPricePrinter(TParser_xlsx):
     def _OnLoad(self):
         self.Filler = TFiller(self)
 
-    def _Fill(self, aRow: dict):
+    def _Fill(self, aRow: dict) -> TDbRec:
         if (not aRow.get('price_in')):
             return
 
         Rec = self.Dbl.RecAdd()
         self.Filler.SetBase(aRow, Rec, ['qty'])
-        Rec.Flush()
+        return Rec
