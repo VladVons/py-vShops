@@ -102,8 +102,7 @@ class TPricePC(TParser_xlsx):
             Rec.SetField('ram_size', int(Val))
             aRow['ram'] = f'{Val}GB'
 
-        Val = GetNotNone(aRow, 'os', '')
-        aRow['os'] = Replace(Val, ReplaceWin)
+        aRow['os'] = Replace(aRow['os'], ReplaceWin)
 
         self.Filler.SetBase(aRow, Rec, ['cpu', 'case', 'vga', 'os', 'qty'])
         return Rec
