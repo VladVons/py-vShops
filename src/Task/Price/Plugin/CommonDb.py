@@ -177,6 +177,6 @@ class TScheme(TSchemeBase):
             else:
                 Obj = aObj[Val]
 
-            if (Obj is None):
+            if (Obj is not None):
                 Res[Key] = Obj
         return Res
