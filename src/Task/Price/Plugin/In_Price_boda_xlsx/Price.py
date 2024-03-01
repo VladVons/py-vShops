@@ -9,7 +9,7 @@ from Inc.DbList import TDbRec
 from Inc.Util.Str import ToFloat, ToHashWM
 from Inc.Util.Obj import GetNotNone
 from Inc.ParserX.Parser_xlsx import TParser_xlsx
-from ..CommonDb import TDbCompPC, TDbCompMonit, TDbPrinter, GetAttr
+from ..CommonDb import TDbCompPC, TDbCompMonit, TDbPrinter, TScheme
 
 
 class TFiller():
@@ -42,7 +42,10 @@ class TFiller():
             Val = ToFloat(aRow.get(x))
             aRec.SetField(x, Val)
 
-        aRec.SetField('attr', GetAttr(aRow, self.ConfAttr))
+        Scheme = TScheme()
+        Scheme.RegEmpty = False
+        Attr = Scheme.ParsePipes(aRow, self.ConfAttr, '')
+        aRec.SetField('attr', Attr)
 
 
 class TPricePC(TParser_xlsx):

@@ -1,0 +1,52 @@
+{
+  "product": {
+    "info": {
+      "author": "vladvons",
+      "date": "2023-05-31 10:00:00",
+      "url": [
+        "https://bscanner.com.ua/cipsi-kartopliani-sir-chipsters-mu-180g-2",
+        "https://bscanner.com.ua/borosno-psenicne-vg-xatinka-v-1kg"
+      ]
+    },
+    "pipe": [
+      ["find", ["main", {"class": "main"}]],
+      ["find", ["div", {"class": "container"}]],
+      ["-show"],
+      ["as_dict", {
+        "name": [
+          ["find", ["section", {"class": "product"}]],
+          ["find", ["h4"]],
+          ["text"],
+          ["replace_re", ["\\(\\d+\\)", ""]],
+          ["strip"]
+        ],
+        "images": [
+          ["find", ["section", {"class": "product"}]],
+          ["find", ["div", {"class": "product__image"}]],
+          ["ext_image"],
+          ["replace", ["thumb/", ""]]
+        ],
+        "category": [
+          ["var_get", ["$root"]],
+          ["find", ["ol", {"class": "breadcrumb"}]],
+          ["breadcrumb", [["li"], -2]],
+          ["lower"],
+          ["replace_re", ["\\s*,\\s*", "/"]],
+          ["concat", ["_bs/", false]]
+        ],
+        "features": [
+          ["find",["section",{"class":"storage"}]],
+          ["as_dict", {
+            "main": [
+              ["find",["div",{"class":"info__block"}]],
+              ["find",["ul",{"class":"info_content"}]],
+              ["find_all",["li"]],
+              ["list_map", [ ["get_text"] ]],
+              ["list_map", [ ["replace_re", ["\nhelp\n*", " "]] ]]
+            ]
+          }]
+        ]
+      }]
+    ]
+  }
+}

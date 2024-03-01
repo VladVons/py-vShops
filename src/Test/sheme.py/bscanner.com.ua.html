@@ -1,0 +1,3802 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta content="true" name="HandheldFriendly" />
+<meta content="width" name="MobileOptimized" />
+<meta content="yes" name="apple-mobile-web-app-capable" />
+<title>Напій газований 7-Up 1л - BScanner - Ваш помічник у магазині, сканер цін та штрих-кодів онлайн</title>
+<meta name="description" content="    Вся інформація про товар: склад, КБЖВ, харчові Е-добавки та ціни в магазинах.
+        Склад: Вода питна підготовлена, цукор, діоксид вуглецю, регулятор кислотності лимонна кислота, натуральний ароматизатор &quot;Лимон&quot;, натуральний екстракт лайму, регулятори кислотності цитрат натрію та яблучна кислота
+    " />
+<link rel="apple-touch-icon" sizes="60x60" href="/img/icons/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/site.webmanifest?1666789091">
+<link rel="canonical" href="https://bscanner.com.ua/napii-gazovanii-7-up-1l-2" />
+
+<meta name="msapplication-TileColor" content="#da532c">
+<meta name="theme-color" content="#ffffff">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+<link rel="stylesheet" href="https://bscanner.com.ua/web/css/style.css?1685457084">
+<link rel="stylesheet" href="https://bscanner.com.ua/web/css/styleCard.css?1685090862">
+<link rel="stylesheet" href="https://bscanner.com.ua/web/fonts/gtwalsheimpro.css?1652788817">
+<link rel="stylesheet" href="https://bscanner.com.ua/web/css/products-list.css?11">
+<link rel="stylesheet" href="https://bscanner.com.ua/web/css/mediastyle.css?1676892255">
+
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-4BJ2Y7E7XQ"></script>
+<script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+
+            gtag('config', 'G-4BJ2Y7E7XQ');
+            gtag('config', 'AW-1021087398');
+        </script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3555000966620979" crossorigin="anonymous"></script>
+<script src="https://bscanner.com.ua/web/js/jquery.min.js"></script>
+<script>
+        const getLikesClass = (argument) => {
+            var divClass = (argument.likes > argument.dislikes) ? ' more-likes' : ((argument.likes == argument.dislikes) ? '' : ' more-dislikes');
+
+            if (argument.liked) {
+                divClass += ' liked';
+            } else if (argument.disliked) {
+                divClass += ' disliked';
+            }
+
+            return 'likes-comments ' + divClass;
+        };
+
+        const setLikesClass = (el,argument) => {
+            var divClass = (argument.likes > argument.dislikes) ? ' more-likes' : ((argument.likes == argument.dislikes) ? '' : ' more-dislikes');
+
+            if (argument.liked) {
+                divClass += ' liked';
+            } else if (argument.disliked) {
+                divClass += ' disliked';
+            }
+
+            el.removeClass('more-likes more-dislikes liked disliked').addClass(divClass);
+        };
+
+        // загрузка цен товара на странице товара
+        const loadPrices = (selector = '#descriptionLinkPrice', update = false, hotline = false) => {
+
+            // if ($(selector + ' .prises__tabl[data-pricesloaded]').length) {
+            //     return;
+            // }
+
+            ///$(selector + ' .prises__tabl .text-danger').remove();
+
+            // var barcode = $('.prises__tabl[data-barcode]').attr('data-barcode'),
+            //     productId = $('.prises__tabl[data-barcode]').attr('data-productid'),
+            //     // для hotline нужен только один запрос для всех магазинов
+            //     shopsSelector = hotline ? '.prices-in-stores .prises__tabl .prises__tabl--market[data-hotline]:first' : '.prices-in-stores .prises__tabl .prises__tabl--market:not([data-hotline])';
+            var barcode = $(selector + ' .prises__tabl').attr('data-barcode'),
+                productId = $(selector + ' .prises__tabl').attr('data-productid'),
+                // для hotline нужен только один запрос для всех магазинов
+                ///shopsSelector = hotline ? selector + ' .prises__tabl .prises__tabl--market[data-hotline]:first' : selector + ' .prises__tabl .prises__tabl--market:not([data-hotline])';
+                shopsSelector = selector + ' .prises__tabl .prises__tabl--market:not([data-hotline],[data-pricesloaded])',
+                cityId = "1",
+                ///url = hotline ? "https://bscanner.com.ua/api/get-prices2" : "https://bscanner.com.ua/api/get-prices";
+                url = "https://bscanner.com.ua/api/get-prices";
+
+            cityId = (cityId == 'all') ? 1 : cityId;
+
+            if (hotline) {
+                ///$(selector + ' .prises__tabl .prises__tabl--market[data-hotline]').css('display','');
+                ///$(selector + ' .prises__tabl .prises__tabl--market[data-hotline] .loader-here').html('<span class="animated-background" style="height: 15px;width: 80%;"></span>');
+                var xhr = $.ajax({
+                    url: "https://bscanner.com.ua/api/get-prices2",
+                    method: "POST",
+                    dataType: "json",
+                    data: {
+                        city: cityId,
+                        product_id: productId,
+                        code: barcode,
+                        update: (update == false) ? 0: 1,
+                        _token: "E7XxQ50o60RqkYn4HxzJVcqooybzHrvFbr61Zu2R"
+                    },
+                    success: function (data) {
+
+                        if (data.html == '') {
+                            return;
+                        }
+                        $(selector + ' .prises__tabl--market[data-hotline]').remove();
+                        $(selector + ' .prises__tabl').append(data.html);
+                        pricesLoadSuccess(selector,data.prices);
+                    },
+                    error: function( jqXHR, textStatus, errorThrown ){
+                        pricesLoadError(selector,false,hotline);
+                    }
+                });
+
+                xhrArr.push(xhr);
+
+            } else {
+                // $(selector + ' .prises__tabl .prises__tabl--market:not([data-hotline])').css('display','');
+                // $(selector + ' .prises__tabl .prises__tabl--market:not([data-hotline]) .loader-here').html('<span class="animated-background" style="height: 15px;width: 80%;"></span>');
+                $(shopsSelector).css('display','');
+                $(shopsSelector + ' .loader-here').html('<span class="animated-background" style="height: 15px;width: 80%;"></span>');
+
+                $(shopsSelector).each(function(){
+
+                    var shopId = $(this).attr('data-shopid');
+
+                    var xhr = $.ajax({
+                        url: url,
+                        //method: "GET",
+                        method: "POST",
+                        dataType: "json",
+                        data: {
+                            city: cityId,
+                            product_id: productId,
+                            shop_ids: [shopId],
+                            code: barcode,
+                            update: (update == false) ? 0: 1,
+                            _token: "E7XxQ50o60RqkYn4HxzJVcqooybzHrvFbr61Zu2R"
+                        },
+                        success: function (data) {
+                            pricesLoadSuccess(selector,data);
+                        },
+                        error: function( jqXHR, textStatus, errorThrown ){
+                            pricesLoadError(selector,shopId,hotline);
+                        }
+                    });
+
+                    xhrArr.push(xhr);
+
+                });
+
+            }
+            };
+
+        
+
+    </script>
+</head>
+<body>
+<header class="header__card" id="headerCard">
+<div class="container">
+<div class="header__header">
+<div>
+
+<a href="https://bscanner.com.ua" class="align-middle d-inline-block">
+<img src="https://bscanner.com.ua/web/img/icons/scanner_dark_logo.svg" alt>
+</a>
+</div>
+<form class="header__header--city">
+<div class="dropdown btn-group-search cities-selector">
+<a class="dropdown-toggle btn" data-toggle="dropdown">
+<span class="text abridged-text">
+Київ
+</span>
+<span class="material-symbols-outlined">expand_more</span>
+</a>
+<div class="dropdown-menu">
+<div class="form-group">
+<input autocomplete="off" type="text" class="typeahead form-control" value placeholder="Почніть вводити назву міста" />
+</div>
+<ul role="menu" class="dropdown-menu inner cities-list">
+</ul>
+</div>
+</div>
+</form>
+</div>
+<form class="searchblock" action="/" method="get">
+
+<input id="main-search" name="barcode" class="searchblock__input" type="text" placeholder="Введіть штрих-код або назву товару">
+<div style="display: flex; align-items: center;">
+<a class="searchblock__scannerblue" href="https://bscanner.com.ua/history" title="Історія сканувань">
+<span class="material-symbols-outlined">history</span>
+</a>
+<button class="searchblock__btn btn_rounder">Пошук товару</button>
+</div>
+</form>
+<button onclick="jQuery('.searchblock').submit();" class="searchblock__btn--mobil btn_rounder">Пошук товару</button>
+</div>
+</header>
+<main class="main" id="mainCard">
+<div class="container">
+<div class="cats-menu-wrapper">
+<div class="cats-menu">
+<ul>
+<li>
+<a class="main-link"><span class="material-symbols-outlined">menu</span> Категорії</a>
+<ul>
+<li class="have-childrens active" data-id="14001">
+<div class="cats-links">
+<a class="cat-close"><span class="material-symbols-outlined">arrow_back</span></a>
+<a class="cat-name" href="https://bscanner.com.ua/category/produkti-xarcuvannia-napoyi">Продукти харчування, напої</a>
+<a class="cat-open"><span class="material-symbols-outlined">arrow_forward</span></a>
+</div>
+</li>
+<li class="have-childrens" data-id="14155">
+<div class="cats-links">
+<a class="cat-close"><span class="material-symbols-outlined">arrow_back</span></a>
+<a class="cat-name" href="https://bscanner.com.ua/category/pobutova-texnika">Побутова техніка</a>
+<a class="cat-open"><span class="material-symbols-outlined">arrow_forward</span></a>
+</div>
+</li>
+<li class="have-childrens" data-id="14337">
+<div class="cats-links">
+<a class="cat-close"><span class="material-symbols-outlined">arrow_back</span></a>
+<a class="cat-name" href="https://bscanner.com.ua/category/kosmetika-i-parfiumeriia">Косметика і парфюмерія</a>
+<a class="cat-open"><span class="material-symbols-outlined">arrow_forward</span></a>
+</div>
+</li>
+<li class="have-childrens" data-id="14425">
+<div class="cats-links">
+<a class="cat-close"><span class="material-symbols-outlined">arrow_back</span></a>
+<a class="cat-name" href="https://bscanner.com.ua/category/zootovari">Зоотовари</a>
+<a class="cat-open"><span class="material-symbols-outlined">arrow_forward</span></a>
+</div>
+</li>
+<li class="have-childrens" data-id="14457">
+<div class="cats-links">
+<a class="cat-close"><span class="material-symbols-outlined">arrow_back</span></a>
+<a class="cat-name" href="https://bscanner.com.ua/category/odiag-vzuttia-aksessuari">Одяг, взуття, аксессуари</a>
+<a class="cat-open"><span class="material-symbols-outlined">arrow_forward</span></a>
+</div>
+</li>
+<li class="have-childrens" data-id="14530">
+<div class="cats-links">
+<a class="cat-close"><span class="material-symbols-outlined">arrow_back</span></a>
+<a class="cat-name" href="https://bscanner.com.ua/category/ditiaci-tovari">Дитячі товари</a>
+<a class="cat-open"><span class="material-symbols-outlined">arrow_forward</span></a>
+</div>
+</li>
+<li class="have-childrens" data-id="14586">
+<div class="cats-links">
+<a class="cat-close"><span class="material-symbols-outlined">arrow_back</span></a>
+<a class="cat-name" href="https://bscanner.com.ua/category/ofis-i-skola">Офіс і школа</a>
+<a class="cat-open"><span class="material-symbols-outlined">arrow_forward</span></a>
+</div>
+</li>
+<li class="have-childrens" data-id="14647">
+<div class="cats-links">
+<a class="cat-close"><span class="material-symbols-outlined">arrow_back</span></a>
+<a class="cat-name" href="https://bscanner.com.ua/category/xobi-vidpocinok-i-sport">Хобі, відпочинок і спорт</a>
+<a class="cat-open"><span class="material-symbols-outlined">arrow_forward</span></a>
+</div>
+</li>
+<li class="have-childrens" data-id="14699">
+<div class="cats-links">
+<a class="cat-close"><span class="material-symbols-outlined">arrow_back</span></a>
+<a class="cat-name" href="https://bscanner.com.ua/category/sviatkova-atributika">Святкова атрибутика</a>
+<a class="cat-open"><span class="material-symbols-outlined">arrow_forward</span></a>
+</div>
+</li>
+<li class="have-childrens" data-id="14716">
+<div class="cats-links">
+<a class="cat-close"><span class="material-symbols-outlined">arrow_back</span></a>
+<a class="cat-name" href="https://bscanner.com.ua/category/tovari-dlia-domu">Товари для дому</a>
+<a class="cat-open"><span class="material-symbols-outlined">arrow_forward</span></a>
+</div>
+</li>
+<li class="have-childrens" data-id="14804">
+<div class="cats-links">
+<a class="cat-close"><span class="material-symbols-outlined">arrow_back</span></a>
+<a class="cat-name" href="https://bscanner.com.ua/category/daca-sad">Дача, сад</a>
+<a class="cat-open"><span class="material-symbols-outlined">arrow_forward</span></a>
+</div>
+</li>
+<li class="have-childrens" data-id="14873">
+<div class="cats-links">
+<a class="cat-close"><span class="material-symbols-outlined">arrow_back</span></a>
+<a class="cat-name" href="https://bscanner.com.ua/category/knigi-diski">Книги, диски</a>
+<a class="cat-open"><span class="material-symbols-outlined">arrow_forward</span></a>
+</div>
+</li>
+<li class="have-childrens" data-id="14894">
+<div class="cats-links">
+<a class="cat-close"><span class="material-symbols-outlined">arrow_back</span></a>
+<a class="cat-name" href="https://bscanner.com.ua/category/instrumenti">Інструменти</a>
+<a class="cat-open"><span class="material-symbols-outlined">arrow_forward</span></a>
+</div>
+</li>
+<li class="have-childrens" data-id="14971">
+<div class="cats-links">
+<a class="cat-close"><span class="material-symbols-outlined">arrow_back</span></a>
+<a class="cat-name" href="https://bscanner.com.ua/category/budivnictvo-remont">Будівництво, Ремонт</a>
+<a class="cat-open"><span class="material-symbols-outlined">arrow_forward</span></a>
+</div>
+</li>
+<li class="have-childrens" data-id="15076">
+<div class="cats-links">
+<a class="cat-close"><span class="material-symbols-outlined">arrow_back</span></a>
+<a class="cat-name" href="https://bscanner.com.ua/category/opalennia-vodonagriv">Опалення, Водонагрів</a>
+<a class="cat-open"><span class="material-symbols-outlined">arrow_forward</span></a>
+</div>
+</li>
+<li class="have-childrens" data-id="15094">
+<div class="cats-links">
+<a class="cat-close"><span class="material-symbols-outlined">arrow_back</span></a>
+<a class="cat-name" href="https://bscanner.com.ua/category/kondicionuvannia">Кондиціонування</a>
+<a class="cat-open"><span class="material-symbols-outlined">arrow_forward</span></a>
+</div>
+</li>
+<li class="have-childrens" data-id="15101">
+<div class="cats-links">
+<a class="cat-close"><span class="material-symbols-outlined">arrow_back</span></a>
+<a class="cat-name" href="https://bscanner.com.ua/category/santexnika">Сантехніка</a>
+<a class="cat-open"><span class="material-symbols-outlined">arrow_forward</span></a>
+</div>
+</li>
+<li class="have-childrens" data-id="15131">
+<div class="cats-links">
+<a class="cat-close"><span class="material-symbols-outlined">arrow_back</span></a>
+<a class="cat-name" href="https://bscanner.com.ua/category/elektrotovari">Електротовари</a>
+<a class="cat-open"><span class="material-symbols-outlined">arrow_forward</span></a>
+</div>
+</li>
+<li class="have-childrens" data-id="15157">
+<div class="cats-links">
+<a class="cat-close"><span class="material-symbols-outlined">arrow_back</span></a>
+<a class="cat-name" href="https://bscanner.com.ua/category/mebli-interjer">Меблі, інтер&#039;єр</a>
+<a class="cat-open"><span class="material-symbols-outlined">arrow_forward</span></a>
+</div>
+</li>
+<li class="have-childrens" data-id="15253">
+<div class="cats-links">
+<a class="cat-close"><span class="material-symbols-outlined">arrow_back</span></a>
+<a class="cat-name" href="https://bscanner.com.ua/category/avtotovari">Автотовари</a>
+<a class="cat-open"><span class="material-symbols-outlined">arrow_forward</span></a>
+</div>
+</li>
+<li class="have-childrens" data-id="15345">
+<div class="cats-links">
+<a class="cat-close"><span class="material-symbols-outlined">arrow_back</span></a>
+<a class="cat-name" href="https://bscanner.com.ua/category/farmacevtika">Фармацевтика</a>
+<a class="cat-open"><span class="material-symbols-outlined">arrow_forward</span></a>
+</div>
+</li> </ul>
+</li>
+</ul>
+</div>
+<ol class="breadcrumb">
+<li class="breadcrumb-item"><a href="https://bscanner.com.ua/category/produkti-xarcuvannia-napoyi">Продукти харчування, напої</a></li>
+<li class="breadcrumb-item"><a href="https://bscanner.com.ua/category/produkti-xarcuvannia-napoyi-bezalkogolni-napoyi">Безалкогольні напої</a></li>
+<li class="breadcrumb-item"><a href="https://bscanner.com.ua/category/produkti-xarcuvannia-napoyi-bezalkogolni-napoyi-solodka-voda">Солодка вода</a></li>
+</ol>
+</div>
+
+<section class="product">
+<div class="product__image">
+
+
+<img src="https://bscanner.com.ua/storage/products/thumb/napii-gazovanii-7-up-1l.jpg" height="350" alt="Напій газований 7-Up 1л">
+
+
+</div>
+<div class="product__description">
+<h4 class="product__description--title">Напій газований 7-Up 1л</h4>
+<p class="product__description--subtitle">Штрих-коди: <span>4823063104258, 4823063123600</span></p>
+<p class="product__description--text">Країна, де зареєстрований штрих-код: Україна</p>
+
+<p class="product__description--text">Адреса виробництва: вул. Степова, 1, с. Мішково-Погорілове, Вітовський р-н, Миколаївська обл., Україна, 57213</p>
+
+<p class="product__description--text">Поживні властивості товару:</p>
+<div class="nutriscore nutriscore-selected-D">
+<span class="val nutriscore-A" title="Відмінні">A<span class="text">Низькі</span></span>
+<span class="val nutriscore-B" title="Добрі">B<span class="text">Низькі</span></span>
+<span class="val nutriscore-C" title="Нормальні">C<span class="text">Низькі</span></span>
+<span class="val nutriscore-D" title="Низькі">D<span class="text">Низькі</span></span>
+<span class="val nutriscore-E" title="Погані">E<span class="text">Низькі</span></span>
+</div>
+<div class="nutriscore-expl">
+<div class="nutriscore-unit">
+<a>
+<span class="name">Е добавки</span>
+
+<span>
+<span class="item-score-val item-negative-2">
+Дуже низька
+</span>
+</span>
+<span class="material-symbols-outlined more">expand_more</span>
+<span class="material-symbols-outlined less">expand_less</span>
+</a>
+<div class="nutriscore-more nutriscore-additives">
+<div class="dropdown dropdown-on-hover">
+<div class="supplements_item" style="background-color: #209e20; cursor: pointer;" data-bs-toggle="dropdown" data-bs-offset="0,10">
+E296
+</div>
+<div class="dropdown-menu" style="border-color: #209e20;">
+<p class="additive-type-head-2" style="color:#209e20;padding: 5px;position: relative;left: -5px;margin: 5px 0;">
+E296 - Дуже низька небезпека
+</p>
+<p>Яблучна кислота (регулятор кислотності)</p>
+<a target="_blank" href="https://bscanner.com.ua/additives/e296">Детальніше</a>
+</div>
+</div>
+<div class="dropdown dropdown-on-hover">
+<div class="supplements_item" style="background-color: #209e20; cursor: pointer;" data-bs-toggle="dropdown" data-bs-offset="0,10">
+E330
+</div>
+<div class="dropdown-menu" style="border-color: #209e20;">
+<p class="additive-type-head-2" style="color:#209e20;padding: 5px;position: relative;left: -5px;margin: 5px 0;">
+E330 - Дуже низька небезпека
+</p>
+<p>Лимонна кислота (природний консервант)</p>
+<a target="_blank" href="https://bscanner.com.ua/additives/e330">Детальніше</a>
+</div>
+</div>
+<div class="dropdown dropdown-on-hover">
+<div class="supplements_item" style="background-color: #209e20; cursor: pointer;" data-bs-toggle="dropdown" data-bs-offset="0,10">
+E331
+</div>
+<div class="dropdown-menu" style="border-color: #209e20;">
+<p class="additive-type-head-2" style="color:#209e20;padding: 5px;position: relative;left: -5px;margin: 5px 0;">
+E331 - Дуже низька небезпека
+</p>
+<p>Цитрат натрію (емульгатор, стабілізатор)</p>
+<a target="_blank" href="https://bscanner.com.ua/additives/e331">Детальніше</a>
+</div>
+</div>
+</div>
+</div>
+<div class="nutriscore-unit">
+<a>
+<span class="name">Енергетична цінність</span>
+
+<span>
+<span class="item-score-val item-negative-6">
+<span class="txt">дуже висока</span>
+</span>
+</span>
+<span class="material-symbols-outlined more">expand_more</span>
+<span class="material-symbols-outlined less">expand_less</span>
+</a>
+<div class="nutriscore-more">
+<div class="gradient-line gradient-line-negative">
+<span class="min">0</span>
+<span class="curr-pointer" style="left: 66%; ">|</span>
+<span class="curr" style="left: 66%; right: auto;">
+42 ккал
+
+</span>
+<span class="max">64</span>
+</div>
+</div>
+</div>
+<div class="nutriscore-unit">
+<a>
+<span class="name">Білки</span>
+
+<span>
+<span class="item-score-val item-positive-0">
+<span class="txt">занадто мало</span>
+</span>
+</span>
+<span class="material-symbols-outlined more">expand_more</span>
+<span class="material-symbols-outlined less">expand_less</span>
+</a>
+<div class="nutriscore-more">
+<div class="gradient-line gradient-line-positive">
+<span class="min">0</span>
+<span class="curr-pointer" style="left: 0%; ">|</span>
+<span class="curr" style="left: 0%; right: auto;">
+0 г
+
+</span>
+<span class="max">8</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<section class="description">
+<div class="description__link">
+<a href="#descriptionLinkPrice" class="description__link--item active">Ціни<span class="d-none d-md-inline"> у магазинах</span></a>
+<a href="#descriptionLinkStorage" class="description__link--item">Склад<span class="d-none d-md-inline"> та харчова цінність</span></a>
+<a href="#descriptionLinkReview" class="description__link--item">Відгуки<span class="d-none d-md-inline"> про товар</span>
+<span class="description__link--item-review">(0)</span></a>
+</div>
+</section>
+
+<section class="prices-in-stores" id="descriptionLinkPrice">
+<div class="info__block prises">
+<div class="prices-head">
+<h5 class="info__title">Ціни у магазинах міста</h5>
+<div class="select-city">
+<div class="dropdown btn-group-search cities-selector">
+<a class="dropdown-toggle btn" data-toggle="dropdown">
+<span class="text abridged-text">
+Київ
+</span>
+<span class="material-symbols-outlined">expand_more</span>
+</a>
+<div class="dropdown-menu">
+<div class="form-group">
+<input autocomplete="off" type="text" class="typeahead form-control" value placeholder="Почніть вводити назву міста" />
+</div>
+<ul role="menu" class="dropdown-menu inner cities-list">
+</ul>
+</div>
+</div>
+<a class="btn btn-secondary btn-update-prices">Оновити ціни</a>
+</div>
+</div>
+<div class="position-relative"><div class="info__content">
+<a class="left"><span class="material-symbols-outlined">navigate_before</span></a>
+<a class="right"><span class="material-symbols-outlined">navigate_next</span></a>
+<div class="prises__tabl" data-productid="17295">
+<div class="prises__tabl--market" data-shopid="1" style="display:none" data-pricesloaded="1">
+<div class="prises__tabl--title underline">
+<img class="prises__tabl--logomarket" src="https://bscanner.com.ua/storage/shops-logos/July2022/aoeGwYr0IsdE0BPbFfwz.jpg" title="Rozetka">
+<p class="prises__tabl--namemarket">Rozetka</p>
+<span class="address-line loader-here address_1">
+<span class="animated-background" style="height: 15px;width: 80%;"></span>
+</span>
+</div>
+<div class="prises__tabl--prise underline loader-here price_1">
+<span class="animated-background" style="height: 15px;width: 80%;"></span>
+</div>
+<div class="prises__tabl--buy underline loader-here buy_1">
+</div>
+<div class="prises__tabl--date underline">
+<span class="loader-here date_1">
+01.06.2023 *
+</span>
+
+</div>
+</div>
+<div class="prises__tabl--market" data-shopid="2" style="display:none" data-pricesloaded="1">
+<div class="prises__tabl--title underline">
+<img class="prises__tabl--logomarket" src="https://bscanner.com.ua/storage/shops-logos/July2022/ODCr0cRs4klh4WRKrkki.png" title="Watsons">
+<p class="prises__tabl--namemarket">Watsons</p>
+<span class="address-line loader-here address_2">
+<span class="animated-background" style="height: 15px;width: 80%;"></span>
+</span>
+</div>
+<div class="prises__tabl--prise underline loader-here price_2">
+<span class="animated-background" style="height: 15px;width: 80%;"></span>
+</div>
+<div class="prises__tabl--buy underline loader-here buy_2">
+</div>
+<div class="prises__tabl--date underline">
+<span class="loader-here date_2">
+01.06.2023 *
+</span>
+
+</div>
+</div>
+<div class="prises__tabl--market" data-shopid="3" style="display:none" data-pricesloaded="1">
+<div class="prises__tabl--title underline">
+<img class="prises__tabl--logomarket" src="https://bscanner.com.ua/storage/shops-logos/July2022/fDajaTMJaGG7Me5VO3HM.png" title="MAUDAU">
+<p class="prises__tabl--namemarket">MAUDAU</p>
+<span class="address-line loader-here address_3">
+<span class="animated-background" style="height: 15px;width: 80%;"></span>
+</span>
+</div>
+<div class="prises__tabl--prise underline loader-here price_3">
+<span class="animated-background" style="height: 15px;width: 80%;"></span>
+</div>
+<div class="prises__tabl--buy underline loader-here buy_3">
+</div>
+<div class="prises__tabl--date underline">
+<span class="loader-here date_3">
+01.06.2023 *
+</span>
+
+</div>
+</div>
+<div class="prises__tabl--market" data-shopid="4">
+<div class="prises__tabl--title underline">
+<img class="prises__tabl--logomarket" src="https://bscanner.com.ua/storage/shops-logos/July2022/2C89bXmt4XNKp3Z0Z7pu.jpg" title="EVA">
+<p class="prises__tabl--namemarket">EVA</p>
+<span class="address-line loader-here address_4">
+вул. Борщагівська буд. 128
+</span>
+</div>
+<div class="prises__tabl--prise underline loader-here price_4">
+<span class="animated-background" style="height: 15px;width: 80%;"></span>
+</div>
+<div class="prises__tabl--buy underline loader-here buy_4">
+<span class="animated-background" style="height: 15px;width: 80%;"></span>
+</div>
+<div class="prises__tabl--date underline">
+<span class="loader-here date_4">
+<span class="animated-background" style="height: 15px;width: 80%;"></span>
+</span>
+
+</div>
+</div>
+<div class="prises__tabl--market" data-shopid="5">
+<div class="prises__tabl--title underline">
+<img class="prises__tabl--logomarket" src="https://bscanner.com.ua/storage/shops-logos/July2022/O7qxY2esmWl25UVMM3KJ.jpg" title="FOZZY">
+<p class="prises__tabl--namemarket">FOZZY</p>
+<span class="address-line loader-here address_5">
+пр-т. Степана Бандери, 23
+</span>
+</div>
+<div class="prises__tabl--prise underline loader-here price_5">
+<span class="animated-background" style="height: 15px;width: 80%;"></span>
+</div>
+<div class="prises__tabl--buy underline loader-here buy_5">
+<span class="animated-background" style="height: 15px;width: 80%;"></span>
+</div>
+<div class="prises__tabl--date underline">
+<span class="loader-here date_5">
+<span class="animated-background" style="height: 15px;width: 80%;"></span>
+</span>
+
+</div>
+</div>
+<div class="prises__tabl--market" data-shopid="7">
+<div class="prises__tabl--title underline">
+<img class="prises__tabl--logomarket" src="https://bscanner.com.ua/storage/shops-logos/July2022/1nQidHNBjVV0raPeoZ0t.png" title="NOVUS">
+<p class="prises__tabl--namemarket">NOVUS</p>
+<span class="address-line loader-here address_7">
+вул. Здолбунівська, 7г
+</span>
+</div>
+<div class="prises__tabl--prise underline loader-here price_7">
+<span class="animated-background" style="height: 15px;width: 80%;"></span>
+</div>
+<div class="prises__tabl--buy underline loader-here buy_7">
+<span class="animated-background" style="height: 15px;width: 80%;"></span>
+</div>
+<div class="prises__tabl--date underline">
+<span class="loader-here date_7">
+<span class="animated-background" style="height: 15px;width: 80%;"></span>
+</span>
+
+</div>
+</div>
+<div class="prises__tabl--market" data-shopid="8">
+<div class="prises__tabl--title underline">
+<img class="prises__tabl--logomarket" src="https://bscanner.com.ua/storage/shops-logos/July2022/9d5SfDC5yQKNoQ0ypkzq.jpeg" title="ЕКО маркет">
+<p class="prises__tabl--namemarket">ЕКО маркет</p>
+<span class="address-line loader-here address_8">
+Закревського, 12
+</span>
+</div>
+<div class="prises__tabl--prise underline loader-here price_8">
+<span class="animated-background" style="height: 15px;width: 80%;"></span>
+</div>
+<div class="prises__tabl--buy underline loader-here buy_8">
+<span class="animated-background" style="height: 15px;width: 80%;"></span>
+</div>
+<div class="prises__tabl--date underline">
+<span class="loader-here date_8">
+<span class="animated-background" style="height: 15px;width: 80%;"></span>
+</span>
+
+</div>
+</div>
+<div class="prises__tabl--market" data-shopid="9">
+<div class="prises__tabl--title underline">
+<img class="prises__tabl--logomarket" src="https://bscanner.com.ua/storage/shops-logos/July2022/XWtIyCnu8wt84VcsTdoJ.png" title="Фора">
+<p class="prises__tabl--namemarket">Фора</p>
+<span class="address-line loader-here address_9">
+Попудренка ул, 9-Г
+</span>
+</div>
+<div class="prises__tabl--prise underline loader-here price_9">
+<span class="animated-background" style="height: 15px;width: 80%;"></span>
+</div>
+<div class="prises__tabl--buy underline loader-here buy_9">
+<span class="animated-background" style="height: 15px;width: 80%;"></span>
+</div>
+<div class="prises__tabl--date underline">
+<span class="loader-here date_9">
+<span class="animated-background" style="height: 15px;width: 80%;"></span>
+</span>
+
+</div>
+</div>
+<div class="prises__tabl--market" data-shopid="10">
+<div class="prises__tabl--title underline">
+<img class="prises__tabl--logomarket" src="https://bscanner.com.ua/storage/shops-logos/July2022/od87h52CW8AbTjltCJ2K.png" title="Епіцентр">
+<p class="prises__tabl--namemarket">Епіцентр</p>
+<span class="address-line loader-here address_10">
+вул. Братиславська, 11
+</span>
+</div>
+<div class="prises__tabl--prise underline loader-here price_10">
+<span class="animated-background" style="height: 15px;width: 80%;"></span>
+</div>
+<div class="prises__tabl--buy underline loader-here buy_10">
+<span class="animated-background" style="height: 15px;width: 80%;"></span>
+</div>
+<div class="prises__tabl--date underline">
+<span class="loader-here date_10">
+<span class="animated-background" style="height: 15px;width: 80%;"></span>
+</span>
+
+</div>
+</div>
+<div class="prises__tabl--market" data-shopid="13">
+<div class="prises__tabl--title underline">
+<img class="prises__tabl--logomarket" src="https://bscanner.com.ua/storage/shops-logos/July2022/aZnG0WYDVLUVrTYxyBue.jpg" title="ВК ЕКСПРЕС">
+<p class="prises__tabl--namemarket">ВК ЕКСПРЕС</p>
+<span class="address-line loader-here address_13">
+вул. Інститутська, 15/5
+</span>
+</div>
+<div class="prises__tabl--prise underline loader-here price_13">
+<span class="animated-background" style="height: 15px;width: 80%;"></span>
+</div>
+<div class="prises__tabl--buy underline loader-here buy_13">
+<span class="animated-background" style="height: 15px;width: 80%;"></span>
+</div>
+<div class="prises__tabl--date underline">
+<span class="loader-here date_13">
+<span class="animated-background" style="height: 15px;width: 80%;"></span>
+</span>
+
+</div>
+</div>
+<div class="prises__tabl--market" data-shopid="14">
+<div class="prises__tabl--title underline">
+<img class="prises__tabl--logomarket" src="https://bscanner.com.ua/storage/shops-logos/July2022/udUdGZAeaz9gbfk7XwTF.jpg" title="ВК SELECT">
+<p class="prises__tabl--namemarket">ВК SELECT</p>
+<span class="address-line loader-here address_14">
+вул. Матикіна, 1
+</span>
+</div>
+<div class="prises__tabl--prise underline loader-here price_14">
+<span class="animated-background" style="height: 15px;width: 80%;"></span>
+</div>
+<div class="prises__tabl--buy underline loader-here buy_14">
+<span class="animated-background" style="height: 15px;width: 80%;"></span>
+</div>
+<div class="prises__tabl--date underline">
+<span class="loader-here date_14">
+<span class="animated-background" style="height: 15px;width: 80%;"></span>
+</span>
+
+</div>
+</div>
+<div class="prises__tabl--market" data-shopid="15">
+<div class="prises__tabl--title underline">
+<img class="prises__tabl--logomarket" src="https://bscanner.com.ua/storage/shops-logos/July2022/tmgYNNjOXHRBt4V3BRuG.png" title="Велика Кишеня">
+<p class="prises__tabl--namemarket">Велика Кишеня</p>
+<span class="address-line loader-here address_15">
+пр. Академіка Глушкова, 36
+</span>
+</div>
+<div class="prises__tabl--prise underline loader-here price_15">
+<span class="animated-background" style="height: 15px;width: 80%;"></span>
+</div>
+<div class="prises__tabl--buy underline loader-here buy_15">
+<span class="animated-background" style="height: 15px;width: 80%;"></span>
+</div>
+<div class="prises__tabl--date underline">
+<span class="loader-here date_15">
+<span class="animated-background" style="height: 15px;width: 80%;"></span>
+</span>
+
+</div>
+</div>
+<div class="prises__tabl--market" data-shopid="16">
+<div class="prises__tabl--title underline">
+<img class="prises__tabl--logomarket" src="https://bscanner.com.ua/storage/shops-logos/July2022/pkrv1DUS8PapewNEYLNr.png" title="Велмарт">
+<p class="prises__tabl--namemarket">Велмарт</p>
+<span class="address-line loader-here address_16">
+вул. Героїв Дніпра, 31
+</span>
+</div>
+<div class="prises__tabl--prise underline loader-here price_16">
+<span class="animated-background" style="height: 15px;width: 80%;"></span>
+</div>
+<div class="prises__tabl--buy underline loader-here buy_16">
+<span class="animated-background" style="height: 15px;width: 80%;"></span>
+</div>
+<div class="prises__tabl--date underline">
+<span class="loader-here date_16">
+<span class="animated-background" style="height: 15px;width: 80%;"></span>
+</span>
+
+</div>
+</div>
+<div class="prises__tabl--market" data-shopid="17">
+<div class="prises__tabl--title underline">
+<img class="prises__tabl--logomarket" src="https://bscanner.com.ua/storage/shops-logos/July2022/ImoKQH5mZWP4vgqIciQW.png" title="VARUS">
+<p class="prises__tabl--namemarket">VARUS</p>
+<span class="address-line loader-here address_17">
+вул. Миколи Бажана, 10А
+</span>
+</div>
+<div class="prises__tabl--prise underline loader-here price_17">
+<span class="animated-background" style="height: 15px;width: 80%;"></span>
+</div>
+<div class="prises__tabl--buy underline loader-here buy_17">
+<span class="animated-background" style="height: 15px;width: 80%;"></span>
+</div>
+<div class="prises__tabl--date underline">
+<span class="loader-here date_17">
+<span class="animated-background" style="height: 15px;width: 80%;"></span>
+</span>
+
+</div>
+</div>
+<div class="prises__tabl--market" data-shopid="18">
+<div class="prises__tabl--title underline">
+<img class="prises__tabl--logomarket" src="https://bscanner.com.ua/storage/shops-logos/July2022/WR0Oll7120oDeZOk9SLw.png" title="Сільпо">
+<p class="prises__tabl--namemarket">Сільпо</p>
+<span class="address-line loader-here address_18">
+вул. Басейна, 6
+</span>
+</div>
+<div class="prises__tabl--prise underline loader-here price_18">
+<span class="animated-background" style="height: 15px;width: 80%;"></span>
+</div>
+<div class="prises__tabl--buy underline loader-here buy_18">
+<span class="animated-background" style="height: 15px;width: 80%;"></span>
+</div>
+<div class="prises__tabl--date underline">
+<span class="loader-here date_18">
+<span class="animated-background" style="height: 15px;width: 80%;"></span>
+</span>
+
+</div>
+</div>
+<div class="prises__tabl--market" data-shopid="19">
+<div class="prises__tabl--title underline">
+<img class="prises__tabl--logomarket" src="https://bscanner.com.ua/storage/shops-logos/July2022/ZNSgaRfMsGla7xzYJK5z.png" title="Метро">
+<p class="prises__tabl--namemarket">Метро</p>
+<span class="address-line loader-here address_19">
+просп. Григоренка, 43
+</span>
+</div>
+<div class="prises__tabl--prise underline loader-here price_19">
+<span class="animated-background" style="height: 15px;width: 80%;"></span>
+</div>
+<div class="prises__tabl--buy underline loader-here buy_19">
+<span class="animated-background" style="height: 15px;width: 80%;"></span>
+</div>
+<div class="prises__tabl--date underline">
+<span class="loader-here date_19">
+<span class="animated-background" style="height: 15px;width: 80%;"></span>
+</span>
+
+</div>
+</div>
+<div class="prises__tabl--market" data-shopid="20">
+<div class="prises__tabl--title underline">
+<img class="prises__tabl--logomarket" src="https://bscanner.com.ua/storage/shops-logos/July2022/4dRxDkpNl9nlVv7fW1ja.png" title="Ашан">
+<p class="prises__tabl--namemarket">Ашан</p>
+<span class="address-line loader-here address_20">
+вулиця Здолбунівська, 17
+</span>
+</div>
+<div class="prises__tabl--prise underline loader-here price_20">
+<span class="animated-background" style="height: 15px;width: 80%;"></span>
+</div>
+<div class="prises__tabl--buy underline loader-here buy_20">
+<span class="animated-background" style="height: 15px;width: 80%;"></span>
+</div>
+<div class="prises__tabl--date underline">
+<span class="loader-here date_20">
+<span class="animated-background" style="height: 15px;width: 80%;"></span>
+</span>
+
+</div>
+</div>
+<div class="prises__tabl--market" data-shopid="21">
+<div class="prises__tabl--title underline">
+<img class="prises__tabl--logomarket" src="https://bscanner.com.ua/storage/shops-logos/July2022/qnqsQuYySivUDnth5lLc.png" title="АТБ">
+<p class="prises__tabl--namemarket">АТБ</p>
+<span class="address-line loader-here address_21">
+бул. Лесі Українки, буд. 5
+</span>
+</div>
+<div class="prises__tabl--prise underline loader-here price_21">
+<span class="animated-background" style="height: 15px;width: 80%;"></span>
+</div>
+<div class="prises__tabl--buy underline loader-here buy_21">
+<span class="animated-background" style="height: 15px;width: 80%;"></span>
+</div>
+<div class="prises__tabl--date underline">
+<span class="loader-here date_21">
+<span class="animated-background" style="height: 15px;width: 80%;"></span>
+</span>
+
+</div>
+</div>
+<div class="prises__tabl--market" data-shopid="22">
+<div class="prises__tabl--title underline">
+<img class="prises__tabl--logomarket" src="https://bscanner.com.ua/storage/shops-logos/July2022/A5rGaeRLex5jwPnZPJfg.png" title="МегаМаркет">
+<p class="prises__tabl--namemarket">МегаМаркет</p>
+<span class="address-line loader-here address_22">
+вул. Антоновича, 50
+</span>
+</div>
+<div class="prises__tabl--prise underline loader-here price_22">
+<span class="animated-background" style="height: 15px;width: 80%;"></span>
+</div>
+<div class="prises__tabl--buy underline loader-here buy_22">
+<span class="animated-background" style="height: 15px;width: 80%;"></span>
+</div>
+<div class="prises__tabl--date underline">
+<span class="loader-here date_22">
+<span class="animated-background" style="height: 15px;width: 80%;"></span>
+</span>
+
+</div>
+</div>
+<div class="prises__tabl--market" data-shopid="23" style="display:none" data-pricesloaded="1">
+<div class="prises__tabl--title underline">
+<img class="prises__tabl--logomarket" src="https://bscanner.com.ua/storage/shops-logos/July2022/qfShIc7yoxk2IJmuUSQA.PNG" title="MAKEUP">
+<p class="prises__tabl--namemarket">MAKEUP</p>
+<span class="address-line loader-here address_23">
+<span class="animated-background" style="height: 15px;width: 80%;"></span>
+</span>
+</div>
+<div class="prises__tabl--prise underline loader-here price_23">
+<span class="animated-background" style="height: 15px;width: 80%;"></span>
+</div>
+<div class="prises__tabl--buy underline loader-here buy_23">
+</div>
+<div class="prises__tabl--date underline">
+<span class="loader-here date_23">
+01.06.2023 *
+</span>
+
+</div>
+</div>
+<div class="prises__tabl--market" data-shopid="24" style="display:none" data-pricesloaded="1">
+<div class="prises__tabl--title underline">
+<img class="prises__tabl--logomarket" src="https://bscanner.com.ua/storage/shops-logos/July2022/2ZgsoCvBs1EGy2KZMzCl.png" title="PAMPIK">
+<p class="prises__tabl--namemarket">PAMPIK</p>
+<span class="address-line loader-here address_24">
+<span class="animated-background" style="height: 15px;width: 80%;"></span>
+</span>
+</div>
+<div class="prises__tabl--prise underline loader-here price_24">
+<span class="animated-background" style="height: 15px;width: 80%;"></span>
+</div>
+<div class="prises__tabl--buy underline loader-here buy_24">
+</div>
+<div class="prises__tabl--date underline">
+<span class="loader-here date_24">
+01.06.2023 *
+</span>
+
+</div>
+</div>
+<div class="prises__tabl--market" data-shopid="26" style="display:none" data-pricesloaded="1">
+<div class="prises__tabl--title underline">
+<img class="prises__tabl--logomarket" src="https://bscanner.com.ua/storage/shops-logos/August2022/jBqOQGH5Dtv3M0dl0xbU.webp" title="EXIST.UA">
+<p class="prises__tabl--namemarket">EXIST.UA</p>
+<span class="address-line loader-here address_26">
+<span class="animated-background" style="height: 15px;width: 80%;"></span>
+</span>
+</div>
+<div class="prises__tabl--prise underline loader-here price_26">
+<span class="animated-background" style="height: 15px;width: 80%;"></span>
+</div>
+<div class="prises__tabl--buy underline loader-here buy_26">
+</div>
+<div class="prises__tabl--date underline">
+<span class="loader-here date_26">
+01.06.2023 *
+</span>
+
+</div>
+</div>
+<div class="prises__tabl--market" data-shopid="42" data-pricesloaded="1">
+<div class="prises__tabl--title underline">
+<img class="prises__tabl--logomarket" src="https://bscanner.com.ua/storage/shops-logos/August2022/Svb7czHH6JX1EDGyb0yG.PNG" title="F.UA">
+<p class="prises__tabl--namemarket">F.UA</p>
+<span class="address-line loader-here address_42">
+<span class="animated-background" style="height: 15px;width: 80%;"></span>
+</span>
+</div>
+<div class="prises__tabl--prise underline loader-here price_42">
+<div class="price-item">
+<span class="price">
+<span class="price-val" data-cnt="999">25</span>
+грн
+</span>
+<br/><small>(немає в наявності)</small>
+</div>
+</div>
+<div class="prises__tabl--buy underline loader-here buy_42">
+<a target="_blank" class="btn btn-primary" href="https://f.ua/ua/7up/bezalkogolniyy-napitok-1-l-4823063104258.html">купити</a>
+</div>
+<div class="prises__tabl--date underline">
+<span class="loader-here date_42">
+01.06.2023 *
+</span>
+
+</div>
+</div>
+<div class="prises__tabl--market" data-shopid="43" style="display:none" data-pricesloaded="1">
+<div class="prises__tabl--title underline">
+<img class="prises__tabl--logomarket" src="https://bscanner.com.ua/storage/shops-logos/October2022/JGPiNjzdpOFafNMD3NgX.png" title="WINETIME">
+<p class="prises__tabl--namemarket">WINETIME</p>
+<span class="address-line loader-here address_43">
+<span class="animated-background" style="height: 15px;width: 80%;"></span>
+</span>
+</div>
+<div class="prises__tabl--prise underline loader-here price_43">
+<span class="animated-background" style="height: 15px;width: 80%;"></span>
+</div>
+<div class="prises__tabl--buy underline loader-here buy_43">
+</div>
+<div class="prises__tabl--date underline">
+<span class="loader-here date_43">
+01.06.2023 *
+</span>
+
+</div>
+</div>
+<div class="prises__tabl--market" data-shopid="44" style="display:none" data-pricesloaded="1">
+<div class="prises__tabl--title underline">
+<img class="prises__tabl--logomarket" src="https://bscanner.com.ua/storage/shops-logos/October2022/43BsSCo8gocTbs0A0G4E.jpg" title="AURA">
+<p class="prises__tabl--namemarket">AURA</p>
+<span class="address-line loader-here address_44">
+<span class="animated-background" style="height: 15px;width: 80%;"></span>
+</span>
+</div>
+<div class="prises__tabl--prise underline loader-here price_44">
+<span class="animated-background" style="height: 15px;width: 80%;"></span>
+</div>
+<div class="prises__tabl--buy underline loader-here buy_44">
+</div>
+<div class="prises__tabl--date underline">
+<span class="loader-here date_44">
+01.06.2023 *
+</span>
+
+</div>
+</div>
+<div class="prises__tabl--market" data-shopid="45" style="display:none" data-pricesloaded="1">
+<div class="prises__tabl--title underline">
+<img class="prises__tabl--logomarket" src="https://bscanner.com.ua/storage/shops-logos/October2022/wDPwjQXWod2iAjFWwL6L.PNG" title="Masmart">
+<p class="prises__tabl--namemarket">Masmart</p>
+<span class="address-line loader-here address_45">
+<span class="animated-background" style="height: 15px;width: 80%;"></span>
+</span>
+</div>
+<div class="prises__tabl--prise underline loader-here price_45">
+<span class="animated-background" style="height: 15px;width: 80%;"></span>
+</div>
+<div class="prises__tabl--buy underline loader-here buy_45">
+</div>
+<div class="prises__tabl--date underline">
+<span class="loader-here date_45">
+01.06.2023 *
+</span>
+
+</div>
+</div>
+<div class="prises__tabl--market" data-shopid="46" style="display:none" data-pricesloaded="1">
+<div class="prises__tabl--title underline">
+<img class="prises__tabl--logomarket" src="https://bscanner.com.ua/storage/shops-logos/December2022/4pauKbzrfq65mHQoMZxK.png" title="e-Coffee.com.ua">
+<p class="prises__tabl--namemarket">e-Coffee.com.ua</p>
+<span class="address-line loader-here address_46">
+<span class="animated-background" style="height: 15px;width: 80%;"></span>
+</span>
+</div>
+<div class="prises__tabl--prise underline loader-here price_46">
+<span class="animated-background" style="height: 15px;width: 80%;"></span>
+</div>
+<div class="prises__tabl--buy underline loader-here buy_46">
+</div>
+<div class="prises__tabl--date underline">
+<span class="loader-here date_46">
+01.06.2023 *
+</span>
+
+</div>
+</div>
+<div class="prises__tabl--market" data-shopid="47" style="display:none" data-pricesloaded="1">
+<div class="prises__tabl--title underline">
+<img class="prises__tabl--logomarket" src="https://bscanner.com.ua/storage/shops-logos/December2022/Kl5n9NwMdubyWPNPmFMt.png" title="KidButik.ua">
+<p class="prises__tabl--namemarket">KidButik.ua</p>
+<span class="address-line loader-here address_47">
+<span class="animated-background" style="height: 15px;width: 80%;"></span>
+</span>
+</div>
+<div class="prises__tabl--prise underline loader-here price_47">
+<span class="animated-background" style="height: 15px;width: 80%;"></span>
+</div>
+<div class="prises__tabl--buy underline loader-here buy_47">
+</div>
+<div class="prises__tabl--date underline">
+<span class="loader-here date_47">
+01.06.2023 *
+</span>
+
+</div>
+</div>
+<div class="prises__tabl--market" data-shopid="48" style="display:none" data-pricesloaded="1">
+<div class="prises__tabl--title underline">
+<img class="prises__tabl--logomarket" src="https://bscanner.com.ua/storage/shops-logos/December2022/FRtwirHGjA4XXyTMFtB6.png" title="Подорожник">
+<p class="prises__tabl--namemarket">Подорожник</p>
+<span class="address-line loader-here address_48">
+<span class="animated-background" style="height: 15px;width: 80%;"></span>
+</span>
+</div>
+<div class="prises__tabl--prise underline loader-here price_48">
+<span class="animated-background" style="height: 15px;width: 80%;"></span>
+</div>
+<div class="prises__tabl--buy underline loader-here buy_48">
+</div>
+<div class="prises__tabl--date underline">
+<span class="loader-here date_48">
+01.06.2023 *
+</span>
+
+</div>
+</div>
+<div class="prises__tabl--market" data-shopid="49" style="display:none" data-pricesloaded="1">
+<div class="prises__tabl--title underline">
+<img class="prises__tabl--logomarket" src="https://bscanner.com.ua/storage/shops-logos/December2022/66gp7qYjwOZSyky9J5Gr.PNG" title="MIKSON">
+<p class="prises__tabl--namemarket">MIKSON</p>
+<span class="address-line loader-here address_49">
+<span class="animated-background" style="height: 15px;width: 80%;"></span>
+</span>
+</div>
+<div class="prises__tabl--prise underline loader-here price_49">
+<span class="animated-background" style="height: 15px;width: 80%;"></span>
+</div>
+<div class="prises__tabl--buy underline loader-here buy_49">
+</div>
+<div class="prises__tabl--date underline">
+<span class="loader-here date_49">
+01.06.2023 *
+</span>
+
+</div>
+</div>
+<div class="prises__tabl--market" data-shopid="50" style="display:none" data-pricesloaded="1">
+<div class="prises__tabl--title underline">
+<img class="prises__tabl--logomarket" src="https://bscanner.com.ua/storage/shops-logos/December2022/V4r1hPJwXd73h1hfuXQe.jpg" title="АГУСИК">
+<p class="prises__tabl--namemarket">АГУСИК</p>
+<span class="address-line loader-here address_50">
+<span class="animated-background" style="height: 15px;width: 80%;"></span>
+</span>
+</div>
+<div class="prises__tabl--prise underline loader-here price_50">
+<span class="animated-background" style="height: 15px;width: 80%;"></span>
+</div>
+<div class="prises__tabl--buy underline loader-here buy_50">
+</div>
+<div class="prises__tabl--date underline">
+<span class="loader-here date_50">
+01.06.2023 *
+</span>
+
+</div>
+</div>
+<div class="prises__tabl--market" data-shopid="51" style="display:none" data-pricesloaded="1">
+<div class="prises__tabl--title underline">
+<img class="prises__tabl--logomarket" src="https://bscanner.com.ua/storage/shops-logos/December2022/Guc25uytWoPXsUM6mJX2.PNG" title="iHerb">
+<p class="prises__tabl--namemarket">iHerb</p>
+<span class="address-line loader-here address_51">
+<span class="animated-background" style="height: 15px;width: 80%;"></span>
+</span>
+</div>
+<div class="prises__tabl--prise underline loader-here price_51">
+<span class="animated-background" style="height: 15px;width: 80%;"></span>
+</div>
+<div class="prises__tabl--buy underline loader-here buy_51">
+</div>
+<div class="prises__tabl--date underline">
+<span class="loader-here date_51">
+01.06.2023 *
+</span>
+
+</div>
+</div>
+<div class="prises__tabl--market" data-shopid="52" style="display:none" data-pricesloaded="1">
+<div class="prises__tabl--title underline">
+<img class="prises__tabl--logomarket" src="https://bscanner.com.ua/storage/shops-logos/December2022/3H5ZVZUFhy2mb70S1ZmS.PNG" title="Lantale">
+<p class="prises__tabl--namemarket">Lantale</p>
+<span class="address-line loader-here address_52">
+<span class="animated-background" style="height: 15px;width: 80%;"></span>
+</span>
+</div>
+<div class="prises__tabl--prise underline loader-here price_52">
+<span class="animated-background" style="height: 15px;width: 80%;"></span>
+</div>
+<div class="prises__tabl--buy underline loader-here buy_52">
+</div>
+<div class="prises__tabl--date underline">
+<span class="loader-here date_52">
+01.06.2023 *
+</span>
+
+</div>
+</div>
+<div class="prises__tabl--market" data-shopid="53" style="display:none" data-pricesloaded="1">
+<div class="prises__tabl--title underline">
+<img class="prises__tabl--logomarket" src="https://bscanner.com.ua/storage/shops-logos/December2022/wko4RlWYgNSnWRaln5Os.png" title="Raptom">
+<p class="prises__tabl--namemarket">Raptom</p>
+<span class="address-line loader-here address_53">
+<span class="animated-background" style="height: 15px;width: 80%;"></span>
+</span>
+</div>
+<div class="prises__tabl--prise underline loader-here price_53">
+<span class="animated-background" style="height: 15px;width: 80%;"></span>
+</div>
+<div class="prises__tabl--buy underline loader-here buy_53">
+</div>
+<div class="prises__tabl--date underline">
+<span class="loader-here date_53">
+01.06.2023 *
+</span>
+
+</div>
+</div>
+<div class="prises__tabl--market" data-shopid="54" style="display:none" data-pricesloaded="1">
+<div class="prises__tabl--title underline">
+<img class="prises__tabl--logomarket" src="https://bscanner.com.ua/storage/shops-logos/December2022/A92C8U4BuH805VWEvWvl.PNG" title="Канцелярка">
+<p class="prises__tabl--namemarket">Канцелярка</p>
+<span class="address-line loader-here address_54">
+<span class="animated-background" style="height: 15px;width: 80%;"></span>
+</span>
+</div>
+<div class="prises__tabl--prise underline loader-here price_54">
+<span class="animated-background" style="height: 15px;width: 80%;"></span>
+</div>
+<div class="prises__tabl--buy underline loader-here buy_54">
+</div>
+<div class="prises__tabl--date underline">
+<span class="loader-here date_54">
+01.06.2023 *
+</span>
+
+</div>
+</div>
+<div class="prises__tabl--market" data-shopid="55" style="display:none" data-pricesloaded="1">
+<div class="prises__tabl--title underline">
+<img class="prises__tabl--logomarket" src="https://bscanner.com.ua/storage/shops-logos/December2022/nSEQWa5bH5fy4J3w8FXw.png" title="Кофейня">
+<p class="prises__tabl--namemarket">Кофейня</p>
+<span class="address-line loader-here address_55">
+<span class="animated-background" style="height: 15px;width: 80%;"></span>
+</span>
+</div>
+<div class="prises__tabl--prise underline loader-here price_55">
+<span class="animated-background" style="height: 15px;width: 80%;"></span>
+</div>
+<div class="prises__tabl--buy underline loader-here buy_55">
+</div>
+<div class="prises__tabl--date underline">
+<span class="loader-here date_55">
+01.06.2023 *
+</span>
+
+</div>
+</div>
+<div class="prises__tabl--market" data-shopid="56" style="display:none" data-pricesloaded="1">
+<div class="prises__tabl--title underline">
+<img class="prises__tabl--logomarket" src="https://bscanner.com.ua/storage/shops-logos/December2022/Vrd761Mlj1OOc9xm8Hkx.png" title="Престиж Плюс">
+<p class="prises__tabl--namemarket">Престиж Плюс</p>
+<span class="address-line loader-here address_56">
+<span class="animated-background" style="height: 15px;width: 80%;"></span>
+</span>
+</div>
+<div class="prises__tabl--prise underline loader-here price_56">
+<span class="animated-background" style="height: 15px;width: 80%;"></span>
+</div>
+<div class="prises__tabl--buy underline loader-here buy_56">
+</div>
+<div class="prises__tabl--date underline">
+<span class="loader-here date_56">
+01.06.2023 *
+</span>
+
+</div>
+</div>
+<div class="prises__tabl--market" data-shopid="57" style="display:none" data-pricesloaded="1">
+<div class="prises__tabl--title underline">
+<img class="prises__tabl--logomarket" src="https://bscanner.com.ua/storage/shops-logos/December2022/PJflmTM802UF8uVa4sMh.PNG" title="Rumiana">
+<p class="prises__tabl--namemarket">Rumiana</p>
+<span class="address-line loader-here address_57">
+<span class="animated-background" style="height: 15px;width: 80%;"></span>
+</span>
+</div>
+<div class="prises__tabl--prise underline loader-here price_57">
+<span class="animated-background" style="height: 15px;width: 80%;"></span>
+</div>
+<div class="prises__tabl--buy underline loader-here buy_57">
+</div>
+<div class="prises__tabl--date underline">
+<span class="loader-here date_57">
+01.06.2023 *
+</span>
+
+</div>
+</div>
+<div class="prises__tabl--market" data-shopid="58" style="display:none" data-pricesloaded="1">
+<div class="prises__tabl--title underline">
+<img class="prises__tabl--logomarket" src="https://bscanner.com.ua/storage/shops-logos/December2022/S4br2j58RdB5l1gXCGzJ.PNG" title="IpopoKids">
+<p class="prises__tabl--namemarket">IpopoKids</p>
+<span class="address-line loader-here address_58">
+<span class="animated-background" style="height: 15px;width: 80%;"></span>
+</span>
+</div>
+<div class="prises__tabl--prise underline loader-here price_58">
+<span class="animated-background" style="height: 15px;width: 80%;"></span>
+</div>
+<div class="prises__tabl--buy underline loader-here buy_58">
+</div>
+<div class="prises__tabl--date underline">
+<span class="loader-here date_58">
+01.06.2023 *
+</span>
+
+</div>
+</div>
+<div class="prises__tabl--market" data-shopid="59" style="display:none" data-pricesloaded="1">
+<div class="prises__tabl--title underline">
+<img class="prises__tabl--logomarket" src="https://bscanner.com.ua/storage/shops-logos/December2022/u0kM0jrE6o316EhQ9HLO.PNG" title="SOLO">
+<p class="prises__tabl--namemarket">SOLO</p>
+<span class="address-line loader-here address_59">
+<span class="animated-background" style="height: 15px;width: 80%;"></span>
+</span>
+</div>
+<div class="prises__tabl--prise underline loader-here price_59">
+<span class="animated-background" style="height: 15px;width: 80%;"></span>
+</div>
+<div class="prises__tabl--buy underline loader-here buy_59">
+</div>
+<div class="prises__tabl--date underline">
+<span class="loader-here date_59">
+01.06.2023 *
+</span>
+
+</div>
+</div>
+<div class="prises__tabl--market" data-shopid="60" style="display:none" data-pricesloaded="1">
+<div class="prises__tabl--title underline">
+<img class="prises__tabl--logomarket" src="https://bscanner.com.ua/storage/shops-logos/December2022/pA3tTV0eTE0RA0BuH8bt.PNG" title="SportShop">
+<p class="prises__tabl--namemarket">SportShop</p>
+<span class="address-line loader-here address_60">
+<span class="animated-background" style="height: 15px;width: 80%;"></span>
+</span>
+</div>
+<div class="prises__tabl--prise underline loader-here price_60">
+<span class="animated-background" style="height: 15px;width: 80%;"></span>
+</div>
+<div class="prises__tabl--buy underline loader-here buy_60">
+</div>
+<div class="prises__tabl--date underline">
+<span class="loader-here date_60">
+01.06.2023 *
+</span>
+
+</div>
+</div>
+<div class="prises__tabl--market" data-shopid="61" style="display:none" data-pricesloaded="1">
+<div class="prises__tabl--title underline">
+<img class="prises__tabl--logomarket" src="https://bscanner.com.ua/storage/shops-logos/December2022/uR2oOfwIE3qML0wvmSbh.PNG" title="МОБИЛЛАК">
+<p class="prises__tabl--namemarket">МОБИЛЛАК</p>
+<span class="address-line loader-here address_61">
+<span class="animated-background" style="height: 15px;width: 80%;"></span>
+</span>
+</div>
+<div class="prises__tabl--prise underline loader-here price_61">
+<span class="animated-background" style="height: 15px;width: 80%;"></span>
+</div>
+<div class="prises__tabl--buy underline loader-here buy_61">
+</div>
+<div class="prises__tabl--date underline">
+<span class="loader-here date_61">
+01.06.2023 *
+</span>
+
+</div>
+</div>
+<div class="prises__tabl--market" data-shopid="62" style="display:none" data-pricesloaded="1">
+<div class="prises__tabl--title underline">
+<img class="prises__tabl--logomarket" src="https://bscanner.com.ua/storage/shops-logos/December2022/iafy3XemPNsEHa1jRAXY.PNG" title="VINTAGE">
+<p class="prises__tabl--namemarket">VINTAGE</p>
+<span class="address-line loader-here address_62">
+<span class="animated-background" style="height: 15px;width: 80%;"></span>
+</span>
+</div>
+<div class="prises__tabl--prise underline loader-here price_62">
+<span class="animated-background" style="height: 15px;width: 80%;"></span>
+</div>
+<div class="prises__tabl--buy underline loader-here buy_62">
+</div>
+<div class="prises__tabl--date underline">
+<span class="loader-here date_62">
+01.06.2023 *
+</span>
+
+</div>
+</div>
+<div class="prises__tabl--market" data-shopid="63">
+<div class="prises__tabl--title underline">
+<img class="prises__tabl--logomarket" src="https://bscanner.com.ua/storage/shops-logos/December2022/mzN93gPTarMW5RSucswi.PNG" title="ISEI">
+<p class="prises__tabl--namemarket">ISEI</p>
+<span class="address-line loader-here address_63">
+<span class="animated-background" style="height: 15px;width: 80%;"></span>
+</span>
+</div>
+<div class="prises__tabl--prise underline loader-here price_63">
+<span class="animated-background" style="height: 15px;width: 80%;"></span>
+</div>
+<div class="prises__tabl--buy underline loader-here buy_63">
+<span class="animated-background" style="height: 15px;width: 80%;"></span>
+</div>
+<div class="prises__tabl--date underline">
+<span class="loader-here date_63">
+<span class="animated-background" style="height: 15px;width: 80%;"></span>
+</span>
+
+</div>
+</div>
+<div class="prises__tabl--market" data-shopid="64" style="display:none" data-pricesloaded="1">
+<div class="prises__tabl--title underline">
+<img class="prises__tabl--logomarket" src="https://bscanner.com.ua/storage/shops-logos/December2022/nQgum6NuWQQ5UQlWux3c.PNG" title="Аптека24">
+<p class="prises__tabl--namemarket">Аптека24</p>
+<span class="address-line loader-here address_64">
+<span class="animated-background" style="height: 15px;width: 80%;"></span>
+</span>
+</div>
+<div class="prises__tabl--prise underline loader-here price_64">
+<span class="animated-background" style="height: 15px;width: 80%;"></span>
+</div>
+<div class="prises__tabl--buy underline loader-here buy_64">
+</div>
+<div class="prises__tabl--date underline">
+<span class="loader-here date_64">
+01.06.2023 *
+</span>
+
+</div>
+</div>
+<div class="prises__tabl--market" data-shopid="65" style="display:none" data-pricesloaded="1">
+<div class="prises__tabl--title underline">
+<img class="prises__tabl--logomarket" src="https://bscanner.com.ua/storage/shops-logos/December2022/VomMeFLPEw6VWZEFi6na.png" title="ArtDrink">
+<p class="prises__tabl--namemarket">ArtDrink</p>
+<span class="address-line loader-here address_65">
+<span class="animated-background" style="height: 15px;width: 80%;"></span>
+</span>
+</div>
+<div class="prises__tabl--prise underline loader-here price_65">
+<span class="animated-background" style="height: 15px;width: 80%;"></span>
+</div>
+<div class="prises__tabl--buy underline loader-here buy_65">
+</div>
+<div class="prises__tabl--date underline">
+<span class="loader-here date_65">
+01.06.2023 *
+</span>
+
+</div>
+</div>
+<div class="prises__tabl--market" data-shopid="66" style="display:none" data-pricesloaded="1">
+<div class="prises__tabl--title underline">
+<img class="prises__tabl--logomarket" src="https://bscanner.com.ua/storage/shops-logos/January2023/OEszqtCxu9i9ZZCBK7vK.PNG" title="PAPAY">
+<p class="prises__tabl--namemarket">PAPAY</p>
+<span class="address-line loader-here address_66">
+<span class="animated-background" style="height: 15px;width: 80%;"></span>
+</span>
+</div>
+<div class="prises__tabl--prise underline loader-here price_66">
+<span class="animated-background" style="height: 15px;width: 80%;"></span>
+</div>
+<div class="prises__tabl--buy underline loader-here buy_66">
+</div>
+<div class="prises__tabl--date underline">
+<span class="loader-here date_66">
+01.06.2023 *
+</span>
+
+</div>
+</div>
+<div class="prises__tabl--market" data-shopid="67" style="display:none" data-pricesloaded="1">
+<div class="prises__tabl--title underline">
+<img class="prises__tabl--logomarket" src="https://bscanner.com.ua/storage/shops-logos/January2023/6i4iakUcBXaCfllsxMKu.PNG" title="Кідіс">
+<p class="prises__tabl--namemarket">Кідіс</p>
+<span class="address-line loader-here address_67">
+<span class="animated-background" style="height: 15px;width: 80%;"></span>
+</span>
+</div>
+<div class="prises__tabl--prise underline loader-here price_67">
+<span class="animated-background" style="height: 15px;width: 80%;"></span>
+</div>
+<div class="prises__tabl--buy underline loader-here buy_67">
+</div>
+<div class="prises__tabl--date underline">
+<span class="loader-here date_67">
+01.06.2023 *
+</span>
+
+</div>
+</div>
+<div class="prises__tabl--market" data-shopid="68" style="display:none" data-pricesloaded="1">
+<div class="prises__tabl--title underline">
+<img class="prises__tabl--logomarket" src="https://bscanner.com.ua/storage/shops-logos/January2023/urgOSLbjbguK5jxRxHoH.png" title="Антошка">
+<p class="prises__tabl--namemarket">Антошка</p>
+<span class="address-line loader-here address_68">
+<span class="animated-background" style="height: 15px;width: 80%;"></span>
+</span>
+</div>
+<div class="prises__tabl--prise underline loader-here price_68">
+<span class="animated-background" style="height: 15px;width: 80%;"></span>
+</div>
+<div class="prises__tabl--buy underline loader-here buy_68">
+</div>
+<div class="prises__tabl--date underline">
+<span class="loader-here date_68">
+01.06.2023 *
+</span>
+
+</div>
+</div>
+<div class="prises__tabl--market" data-shopid="69" style="display:none" data-pricesloaded="1">
+<div class="prises__tabl--title underline">
+<img class="prises__tabl--logomarket" src="https://bscanner.com.ua/storage/shops-logos/January2023/ns2mhASDjYntqJSQHXrB.PNG" title="BROCARD">
+<p class="prises__tabl--namemarket">BROCARD</p>
+<span class="address-line loader-here address_69">
+<span class="animated-background" style="height: 15px;width: 80%;"></span>
+</span>
+</div>
+<div class="prises__tabl--prise underline loader-here price_69">
+<span class="animated-background" style="height: 15px;width: 80%;"></span>
+</div>
+<div class="prises__tabl--buy underline loader-here buy_69">
+</div>
+<div class="prises__tabl--date underline">
+<span class="loader-here date_69">
+01.06.2023 *
+</span>
+
+</div>
+</div>
+<div class="prises__tabl--market" data-shopid="70">
+<div class="prises__tabl--title underline">
+<img class="prises__tabl--logomarket" src="https://bscanner.com.ua/storage/shops-logos/January2023/6Q7OpNyk1uyT9YGi8MTD.PNG" title="UltraMarket">
+<p class="prises__tabl--namemarket">UltraMarket</p>
+<span class="address-line loader-here address_70">
+вул. Глибочицька, буд. 44
+</span>
+</div>
+<div class="prises__tabl--prise underline loader-here price_70">
+<span class="animated-background" style="height: 15px;width: 80%;"></span>
+</div>
+<div class="prises__tabl--buy underline loader-here buy_70">
+<span class="animated-background" style="height: 15px;width: 80%;"></span>
+</div>
+<div class="prises__tabl--date underline">
+<span class="loader-here date_70">
+<span class="animated-background" style="height: 15px;width: 80%;"></span>
+</span>
+
+</div>
+</div>
+<div class="prises__tabl--market" data-shopid="73">
+<div class="prises__tabl--title underline">
+<img class="prises__tabl--logomarket" src="https://bscanner.com.ua/storage/shops-logos/January2023/1DpOsxgJB1KvzdD2yE9q.png" title="Космос">
+<p class="prises__tabl--namemarket">Космос</p>
+<span class="address-line loader-here address_73">
+Оноре де Бальзака, 2А
+</span>
+</div>
+<div class="prises__tabl--prise underline loader-here price_73">
+<span class="animated-background" style="height: 15px;width: 80%;"></span>
+</div>
+<div class="prises__tabl--buy underline loader-here buy_73">
+<span class="animated-background" style="height: 15px;width: 80%;"></span>
+</div>
+<div class="prises__tabl--date underline">
+<span class="loader-here date_73">
+<span class="animated-background" style="height: 15px;width: 80%;"></span>
+</span>
+
+</div>
+</div>
+<div class="prises__tabl--market" data-shopid="422" style="display:none" data-pricesloaded="1">
+<div class="prises__tabl--title underline">
+<img class="prises__tabl--logomarket" src="https://bscanner.com.ua/storage/shops-logos/February2023/6CAywp7Vm1NAMLJQu5Q9.png" title="Полиця">
+<p class="prises__tabl--namemarket">Полиця</p>
+<span class="address-line loader-here address_422">
+<span class="animated-background" style="height: 15px;width: 80%;"></span>
+</span>
+</div>
+<div class="prises__tabl--prise underline loader-here price_422">
+<span class="animated-background" style="height: 15px;width: 80%;"></span>
+</div>
+<div class="prises__tabl--buy underline loader-here buy_422">
+</div>
+<div class="prises__tabl--date underline">
+<span class="loader-here date_422">
+01.06.2023 *
+</span>
+
+</div>
+</div>
+<div class="prises__tabl--market" data-shopid="423" style="display:none" data-pricesloaded="1">
+<div class="prises__tabl--title underline">
+<img class="prises__tabl--logomarket" src="https://bscanner.com.ua/storage/shops-logos/February2023/xeo2JqVCCu87D1l3MqiR.png" title="Ли́тали">
+<p class="prises__tabl--namemarket">Ли́тали</p>
+<span class="address-line loader-here address_423">
+<span class="animated-background" style="height: 15px;width: 80%;"></span>
+</span>
+</div>
+<div class="prises__tabl--prise underline loader-here price_423">
+<span class="animated-background" style="height: 15px;width: 80%;"></span>
+</div>
+<div class="prises__tabl--buy underline loader-here buy_423">
+</div>
+<div class="prises__tabl--date underline">
+<span class="loader-here date_423">
+01.06.2023 *
+</span>
+
+</div>
+</div>
+<div class="prises__tabl--market" data-shopid="521" style="display:none" data-pricesloaded="1">
+<div class="prises__tabl--title underline">
+<img class="prises__tabl--logomarket" src="https://bscanner.com.ua/storage/shops-logos/February2023/8GuyS2onvSJRMvh2J1Fx.PNG" title="PROSTOR">
+<p class="prises__tabl--namemarket">PROSTOR</p>
+<span class="address-line loader-here address_521">
+<span class="animated-background" style="height: 15px;width: 80%;"></span>
+</span>
+</div>
+<div class="prises__tabl--prise underline loader-here price_521">
+<span class="animated-background" style="height: 15px;width: 80%;"></span>
+</div>
+<div class="prises__tabl--buy underline loader-here buy_521">
+</div>
+<div class="prises__tabl--date underline">
+<span class="loader-here date_521">
+01.06.2023 *
+</span>
+
+</div>
+</div>
+<div class="prises__tabl--market" data-shopid="543" style="display:none" data-pricesloaded="1">
+<div class="prises__tabl--title underline">
+<img class="prises__tabl--logomarket" src="https://bscanner.com.ua/storage/shops-logos/April2023/QYkPaS0ZZqo8PdVBYDKv.PNG" title="Наша Стройка">
+<p class="prises__tabl--namemarket">Наша Стройка</p>
+<span class="address-line loader-here address_543">
+<span class="animated-background" style="height: 15px;width: 80%;"></span>
+</span>
+</div>
+<div class="prises__tabl--prise underline loader-here price_543">
+<span class="animated-background" style="height: 15px;width: 80%;"></span>
+</div>
+<div class="prises__tabl--buy underline loader-here buy_543">
+</div>
+<div class="prises__tabl--date underline">
+<span class="loader-here date_543">
+01.06.2023 *
+</span>
+
+</div>
+</div>
+<div class="prises__tabl--market" data-shopid="1114">
+<div class="prises__tabl--title underline">
+<img class="prises__tabl--logomarket" src="https://bscanner.com.ua/storage/shops-logos/February2023/oU7OJ1ryerhdyJdSOAZT.PNG" title="OnePrice">
+<p class="prises__tabl--namemarket">OnePrice</p>
+<span class="address-line loader-here address_1114">
+вул. Васильківська, 34
+</span>
+</div>
+<div class="prises__tabl--prise underline loader-here price_1114">
+<span class="animated-background" style="height: 15px;width: 80%;"></span>
+</div>
+<div class="prises__tabl--buy underline loader-here buy_1114">
+<span class="animated-background" style="height: 15px;width: 80%;"></span>
+</div>
+<div class="prises__tabl--date underline">
+<span class="loader-here date_1114">
+<span class="animated-background" style="height: 15px;width: 80%;"></span>
+</span>
+
+</div>
+</div>
+<div class="prises__tabl--market" data-shopid="1115" style="display:none" data-pricesloaded="1">
+<div class="prises__tabl--title underline">
+<img class="prises__tabl--logomarket" src="https://bscanner.com.ua/storage/shops-logos/February2023/qVcubArbst7v0phFiLPh.PNG" title="Книгарня &quot;Є&quot;">
+<p class="prises__tabl--namemarket">Книгарня &quot;Є&quot;</p>
+<span class="address-line loader-here address_1115">
+<span class="animated-background" style="height: 15px;width: 80%;"></span>
+</span>
+</div>
+<div class="prises__tabl--prise underline loader-here price_1115">
+<span class="animated-background" style="height: 15px;width: 80%;"></span>
+</div>
+<div class="prises__tabl--buy underline loader-here buy_1115">
+</div>
+<div class="prises__tabl--date underline">
+<span class="loader-here date_1115">
+01.06.2023 *
+</span>
+
+</div>
+</div>
+<div class="prises__tabl--market" data-shopid="1470" style="display:none" data-pricesloaded="1">
+<div class="prises__tabl--title underline">
+<img class="prises__tabl--logomarket" src="https://bscanner.com.ua/storage/shops-logos/February2023/EbdrWFQ3YaYQviBApsOv.PNG" title="Мегакнига">
+<p class="prises__tabl--namemarket">Мегакнига</p>
+<span class="address-line loader-here address_1470">
+<span class="animated-background" style="height: 15px;width: 80%;"></span>
+</span>
+</div>
+<div class="prises__tabl--prise underline loader-here price_1470">
+<span class="animated-background" style="height: 15px;width: 80%;"></span>
+</div>
+<div class="prises__tabl--buy underline loader-here buy_1470">
+</div>
+<div class="prises__tabl--date underline">
+<span class="loader-here date_1470">
+01.06.2023 *
+</span>
+
+</div>
+</div>
+<div class="prises__tabl--market" data-shopid="1481" style="display:none" data-pricesloaded="1">
+<div class="prises__tabl--title underline">
+<img class="prises__tabl--logomarket" src="https://bscanner.com.ua/storage/shops-logos/February2023/vo1DktqbTyE8Vf0EE91a.png" title="Detmir">
+<p class="prises__tabl--namemarket">Detmir</p>
+<span class="address-line loader-here address_1481">
+<span class="animated-background" style="height: 15px;width: 80%;"></span>
+</span>
+</div>
+<div class="prises__tabl--prise underline loader-here price_1481">
+<span class="animated-background" style="height: 15px;width: 80%;"></span>
+</div>
+<div class="prises__tabl--buy underline loader-here buy_1481">
+</div>
+<div class="prises__tabl--date underline">
+<span class="loader-here date_1481">
+01.06.2023 *
+</span>
+
+</div>
+</div>
+<div class="prises__tabl--market" data-shopid="1552" style="display:none" data-pricesloaded="1">
+<div class="prises__tabl--title underline">
+<img class="prises__tabl--logomarket" src="https://bscanner.com.ua/storage/shops-logos/February2023/ikTmuoOMJbyOEyNk9Slo.png" title="Країна казок">
+<p class="prises__tabl--namemarket">Країна казок</p>
+<span class="address-line loader-here address_1552">
+<span class="animated-background" style="height: 15px;width: 80%;"></span>
+</span>
+</div>
+<div class="prises__tabl--prise underline loader-here price_1552">
+<span class="animated-background" style="height: 15px;width: 80%;"></span>
+</div>
+<div class="prises__tabl--buy underline loader-here buy_1552">
+</div>
+<div class="prises__tabl--date underline">
+<span class="loader-here date_1552">
+01.06.2023 *
+</span>
+
+</div>
+</div>
+<div class="prises__tabl--market" data-shopid="1553">
+<div class="prises__tabl--title underline">
+<img class="prises__tabl--logomarket" src="https://bscanner.com.ua/storage/shops-logos/February2023/3RpiFUEDDLc4Tu1y40C6.PNG" title="Продмаг">
+<p class="prises__tabl--namemarket">Продмаг</p>
+<span class="address-line loader-here address_1553">
+проспект Степана Бандери, 23
+</span>
+</div>
+<div class="prises__tabl--prise underline loader-here price_1553">
+<span class="animated-background" style="height: 15px;width: 80%;"></span>
+</div>
+<div class="prises__tabl--buy underline loader-here buy_1553">
+<span class="animated-background" style="height: 15px;width: 80%;"></span>
+</div>
+<div class="prises__tabl--date underline">
+<span class="loader-here date_1553">
+<span class="animated-background" style="height: 15px;width: 80%;"></span>
+</span>
+
+</div>
+</div>
+<div class="prises__tabl--market" data-shopid="1555" style="display:none" data-pricesloaded="1">
+<div class="prises__tabl--title underline">
+<img class="prises__tabl--logomarket" src="https://bscanner.com.ua/storage/shops-logos/February2023/3BvcsolsZeHc6UDncPR9.PNG" title="Фаунамаркет">
+<p class="prises__tabl--namemarket">Фаунамаркет</p>
+<span class="address-line loader-here address_1555">
+<span class="animated-background" style="height: 15px;width: 80%;"></span>
+</span>
+</div>
+<div class="prises__tabl--prise underline loader-here price_1555">
+<span class="animated-background" style="height: 15px;width: 80%;"></span>
+</div>
+<div class="prises__tabl--buy underline loader-here buy_1555">
+</div>
+<div class="prises__tabl--date underline">
+<span class="loader-here date_1555">
+01.06.2023 *
+</span>
+
+</div>
+</div>
+<div class="prises__tabl--market" data-shopid="1556" style="display:none" data-pricesloaded="1">
+<div class="prises__tabl--title underline">
+<img class="prises__tabl--logomarket" src="https://bscanner.com.ua/storage/shops-logos/March2023/7WAWk7rAZKKY07G3ey3e.PNG" title="zootovary.net.ua">
+<p class="prises__tabl--namemarket">zootovary.net.ua</p>
+<span class="address-line loader-here address_1556">
+<span class="animated-background" style="height: 15px;width: 80%;"></span>
+</span>
+</div>
+<div class="prises__tabl--prise underline loader-here price_1556">
+<span class="animated-background" style="height: 15px;width: 80%;"></span>
+</div>
+<div class="prises__tabl--buy underline loader-here buy_1556">
+</div>
+<div class="prises__tabl--date underline">
+<span class="loader-here date_1556">
+01.06.2023 *
+</span>
+
+</div>
+</div>
+<div class="prises__tabl--market" data-shopid="1557">
+<div class="prises__tabl--title underline">
+<img class="prises__tabl--logomarket" src="https://bscanner.com.ua/storage/shops-logos/March2023/dpRFQ2mdUAh4HPjXBxjd.PNG" title="Tabletki.ua">
+<p class="prises__tabl--namemarket">Tabletki.ua</p>
+<span class="address-line loader-here address_1557">
+<span class="animated-background" style="height: 15px;width: 80%;"></span>
+</span>
+</div>
+<div class="prises__tabl--prise underline loader-here price_1557">
+<span class="animated-background" style="height: 15px;width: 80%;"></span>
+</div>
+<div class="prises__tabl--buy underline loader-here buy_1557">
+<span class="animated-background" style="height: 15px;width: 80%;"></span>
+</div>
+<div class="prises__tabl--date underline">
+<span class="loader-here date_1557">
+<span class="animated-background" style="height: 15px;width: 80%;"></span>
+</span>
+
+</div>
+</div>
+<div class="prises__tabl--market" data-shopid="1559" style="display:none" data-pricesloaded="1">
+<div class="prises__tabl--title underline">
+<img class="prises__tabl--logomarket" src="https://bscanner.com.ua/storage/shops-logos/April2023/QTe2nMcSdVYOPJTQAQjX.PNG" title="Рово">
+<p class="prises__tabl--namemarket">Рово</p>
+<span class="address-line loader-here address_1559">
+<span class="animated-background" style="height: 15px;width: 80%;"></span>
+</span>
+</div>
+<div class="prises__tabl--prise underline loader-here price_1559">
+<span class="animated-background" style="height: 15px;width: 80%;"></span>
+</div>
+<div class="prises__tabl--buy underline loader-here buy_1559">
+</div>
+<div class="prises__tabl--date underline">
+<span class="loader-here date_1559">
+01.06.2023 *
+</span>
+
+</div>
+</div>
+<div class="prises__tabl--market" data-shopid="1560" style="display:none" data-pricesloaded="1">
+<div class="prises__tabl--title underline">
+<img class="prises__tabl--logomarket" src="https://bscanner.com.ua/storage/shops-logos/April2023/2Q5XYyEnmrpjKcUDZppu.PNG" title="Хім Опт">
+<p class="prises__tabl--namemarket">Хім Опт</p>
+<span class="address-line loader-here address_1560">
+<span class="animated-background" style="height: 15px;width: 80%;"></span>
+</span>
+</div>
+<div class="prises__tabl--prise underline loader-here price_1560">
+<span class="animated-background" style="height: 15px;width: 80%;"></span>
+</div>
+<div class="prises__tabl--buy underline loader-here buy_1560">
+</div>
+<div class="prises__tabl--date underline">
+<span class="loader-here date_1560">
+01.06.2023 *
+</span>
+
+</div>
+</div>
+<div class="prises__tabl--market" data-shopid="1563" style="display:none" data-pricesloaded="1">
+<div class="prises__tabl--title underline">
+<img class="prises__tabl--logomarket" src="https://bscanner.com.ua/storage/shops-logos/May2023/LGqhDyrC6GonVgfhizvG.PNG" title="eBay">
+<p class="prises__tabl--namemarket">eBay</p>
+<span class="address-line loader-here address_1563">
+<span class="animated-background" style="height: 15px;width: 80%;"></span>
+</span>
+</div>
+<div class="prises__tabl--prise underline loader-here price_1563">
+<span class="animated-background" style="height: 15px;width: 80%;"></span>
+</div>
+<div class="prises__tabl--buy underline loader-here buy_1563">
+</div>
+<div class="prises__tabl--date underline">
+<span class="loader-here date_1563">
+01.06.2023 *
+</span>
+
+</div>
+</div>
+<div class="prises__tabl--market" data-shopid="1564" style="display:none" data-pricesloaded="1">
+<div class="prises__tabl--title underline">
+<img class="prises__tabl--logomarket" src="https://bscanner.com.ua/storage/shops-logos/May2023/ThGAeRATmxc5c8MzYKlg.PNG" title="Inter Cars">
+<p class="prises__tabl--namemarket">Inter Cars</p>
+<span class="address-line loader-here address_1564">
+<span class="animated-background" style="height: 15px;width: 80%;"></span>
+</span>
+</div>
+<div class="prises__tabl--prise underline loader-here price_1564">
+<span class="animated-background" style="height: 15px;width: 80%;"></span>
+</div>
+<div class="prises__tabl--buy underline loader-here buy_1564">
+</div>
+<div class="prises__tabl--date underline">
+<span class="loader-here date_1564">
+01.06.2023 *
+</span>
+
+</div>
+</div>
+</div>
+</div></div>
+<p class="info__title--specification">* - дата та місце проведення моніторингу</p>
+<p class="info__title--specification">** - ціна може відрізнятися в залежності від адреси магазину</p>
+</div>
+</section>
+<div style="text-align:center;padding: 30px 0;">
+
+<ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-3555000966620979" data-ad-slot="4107942416" data-ad-format="auto" data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</div>
+
+<section class="storage" id="descriptionLinkStorage">
+<div class="info__block">
+<h5 class="info__title">Склад:</h5>
+<ul class="info_content">
+<li>Вода питна підготовлена</li>
+<li> цукор</li>
+<li> діоксид вуглецю</li>
+<li> <a title="Більше інформації" href="https://uk.wikipedia.org/wiki/Регулятори_кислотності" target="_blank"><span class="word-active">регулятор кислотності</span> <span class="material-symbols-outlined">help</span></a> <a title="Більше інформації" href="https://uk.wikipedia.org/wiki/Лимонна_кислота" target="_blank"><span class="word-active">лимонна кислота</span> <span class="material-symbols-outlined">help</span></a></li>
+<li> натуральний ароматизатор "Лимон"</li>
+<li> натуральний екстракт лайму</li>
+<li> регулятори кислотності цитрат натрію та яблучна кислота</li>
+</ul>
+</div>
+
+<div class="info__block supplements">
+<h5 class="info__title">Харчові Е-добавки:</h5>
+<div class="info__content">
+<div class="dropdown dropdown-on-hover">
+<div class="supplements_item" style="background-color: #209e20; cursor: pointer;" data-bs-toggle="dropdown" data-bs-offset="0,10">
+E296
+</div>
+<div class="dropdown-menu" style="border-color: #209e20;">
+<p class="additive-type-head-2" style="color:#209e20;padding: 5px;position: relative;left: -5px;margin: 5px 0;">
+E296 - Дуже низька небезпека
+</p>
+<p>Яблучна кислота (регулятор кислотності)</p>
+<a target="_blank" href="https://bscanner.com.ua/additives/e296">Детальніше</a>
+</div>
+</div>
+<div class="dropdown dropdown-on-hover">
+<div class="supplements_item" style="background-color: #209e20; cursor: pointer;" data-bs-toggle="dropdown" data-bs-offset="0,10">
+E330
+</div>
+<div class="dropdown-menu" style="border-color: #209e20;">
+<p class="additive-type-head-2" style="color:#209e20;padding: 5px;position: relative;left: -5px;margin: 5px 0;">
+E330 - Дуже низька небезпека
+</p>
+<p>Лимонна кислота (природний консервант)</p>
+<a target="_blank" href="https://bscanner.com.ua/additives/e330">Детальніше</a>
+</div>
+</div>
+<div class="dropdown dropdown-on-hover">
+<div class="supplements_item" style="background-color: #209e20; cursor: pointer;" data-bs-toggle="dropdown" data-bs-offset="0,10">
+E331
+</div>
+<div class="dropdown-menu" style="border-color: #209e20;">
+<p class="additive-type-head-2" style="color:#209e20;padding: 5px;position: relative;left: -5px;margin: 5px 0;">
+E331 - Дуже низька небезпека
+</p>
+<p>Цитрат натрію (емульгатор, стабілізатор)</p>
+<a target="_blank" href="https://bscanner.com.ua/additives/e331">Детальніше</a>
+</div>
+</div>
+</div>
+</div>
+
+<div class="info__block energy-value">
+<h5 class="info__title">Харчова цінність:</h5>
+<div class="info__content">
+<div class="energy-value__tabl energy-value-position">
+<p class="energy-value__tabl--overitem overitem-first">на 100 мл</p>
+<p class="energy-value__tabl--overitem overitem-second">на 1000 мл*</p>
+<p class="energy-value__tabl--overitem overitem-third">% від норми</p>
+<div class="energy-value__tabl--row ">
+<p class="energy-value__tabl--item">Енергетична цінність</p>
+<p class="energy-value__tabl--item item-score">
+176 кДж/ 42 ккал
+</p>
+<p class="energy-value__tabl--item">1680 кДж/ 420 ккал</p>
+<div class="energy-value__tabl--item energy-value__tabl--crossbar">
+<div class="crossbar__inner">
+<div class="crossbar__runner" style="width: 21%;">
+<p class="crossbar__prosent">21%</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="energy-value__tabl--row">
+<p class="energy-value__tabl--item">Жири</p>
+<p class="energy-value__tabl--item">0 г</p>
+<p class="energy-value__tabl--item">0 г</p>
+<div class="energy-value__tabl--item energy-value__tabl--crossbar">
+<div class="crossbar__inner">
+<div class="crossbar__runner" style="width: 0%;">
+<p class="crossbar__prosent">0%</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="energy-value__tabl--row">
+<p class="energy-value__tabl--item">Вуглеводи</p>
+<p class="energy-value__tabl--item">10.6 г</p>
+<p class="energy-value__tabl--item">106 г</p>
+<div class="energy-value__tabl--item energy-value__tabl--crossbar">
+<div class="crossbar__inner">
+<div class="crossbar__runner" style="width: 43%">
+<p class="crossbar__prosent">43%</p>
+</div>
+</div>
+</div>
+</div>
+<div class="energy-value__tabl--row">
+<p class="energy-value__tabl--item">Білки</p>
+<p class="energy-value__tabl--item item-score">
+0 г
+</p>
+<p class="energy-value__tabl--item">0 г</p>
+<div class="energy-value__tabl--item energy-value__tabl--crossbar">
+<div class="crossbar__inner">
+<div class="crossbar__runner" style="width: 0%">
+<p class="crossbar__prosent">0%</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<p class="info__title--specification">* - вага 1 одиниці (упаковки) продукту</p>
+</div>
+
+</section>
+
+<section class="reviews-block" id="descriptionLinkReview">
+<div class="info__block reviews">
+<h5 class="info__title">Відгуки про товар (0):</h5>
+<div class="info__content">
+
+<div class="reviews__persons">
+<div id="reviews">
+</div>
+</div>
+<form id="form-review" class="reviews__form">
+<input type="hidden" name="_token" value="E7XxQ50o60RqkYn4HxzJVcqooybzHrvFbr61Zu2R"> <input type="hidden" name="product_id" value="17295">
+<input type="hidden" name="city_id" value="1">
+<p class="reviews__title">Додати відгук</p>
+<div class="reviews__form--review">
+<input name="name" type="text" class="reviews__form--yourname" placeholder="Ваше ім’я">
+</div>
+<div class="reviews__form--yourtext">
+<textarea class="reviews__form--yourtext-review" placeholder="Ваш відгук (обов’язково)" name="text" cols="30" rows="10" required oninvalid="this.setCustomValidity('Введіть відгук')" oninput="this.setCustomValidity('')"></textarea>
+</div>
+<button class="reviews__form--btn btn_rounder" type="submit">Відправити</button>
+</form>
+</div>
+</div>
+</section>
+
+<section class="related-products">
+<h5 class="info__title">Альтернативні товари</h5>
+<div class="related-products-scroll">
+<div class="related-products-items">
+<div class="product-list-item item disable-more-btn">
+<div class="product-image">
+<div class="nutriscore">
+<span class="val nutriscore-A" title="Поживні властивості товару Відмінні">A<span class="text">Відмінні</span></span>
+
+</div>
+<a href="https://bscanner.com.ua/napii-bezalkogolnii-bez-cukru-original-aloe-vera-farmers-okf-ppl-500ml">
+<img src="https://bscanner.com.ua/storage/products/thumb/napii-bezalkogolnii-bez-cukru-original-aloe-vera-farmers-okf-ppl-500ml.jpg" alt>
+</a>
+</div>
+<div class="title">
+<h4 class="product-name"><a href="https://bscanner.com.ua/napii-bezalkogolnii-bez-cukru-original-aloe-vera-farmers-okf-ppl-500ml">Напій безалкогольний без цукру Original Aloe Vera Farmer&#039;s OKF п/пл 500мл</a></h4>
+</div>
+<div id="likes-comments-17152" class="likes-comments ">
+<div class="prises__tabl">
+</div>
+<div class="reviews__icons">
+<div class="reviews__icon product-comments">
+<a href="https://bscanner.com.ua/napii-bezalkogolnii-bez-cukru-original-aloe-vera-farmers-okf-ppl-500ml#descriptionLinkReview" title="Відгуки">
+<span class="material-symbols-outlined">mode_comment</span>
+</a>
+<p class="reviews__icon--number product__comments">0</p>
+</div>
+<div class="reviews__icons">
+<div class="reviews__icon product-dislike">
+<a href="javascript:void(0)" onclick="dislikeProduct(17152)" title="Не подобається">
+<span class="material-symbols-outlined">thumb_down</span>
+</a>
+<p class="reviews__icon--number product__dislike17152">0</p>
+</div>
+<div class="reviews__icon product-like">
+<a href="javascript:void(0)" onclick="likeProduct(17152)" title="Подобається">
+<span class="material-symbols-outlined">thumb_up</span>
+</a>
+<p class="reviews__icon--number product__like17152">0</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="product-list-item item">
+<div class="product-image">
+<div class="nutriscore">
+<span class="val nutriscore-A" title="Поживні властивості товару Відмінні">A<span class="text">Відмінні</span></span>
+
+</div>
+<a href="https://bscanner.com.ua/napii-bezalkogolnii-silnogazovanii-coca-cola-zero-ppl-750ml-2">
+<img src="https://bscanner.com.ua/storage/products/thumb/napii-bezalkogolnii-silnogazovanii-coca-cola-zero-ppl-750ml.jpg" alt>
+</a>
+</div>
+<div class="title">
+<h4 class="product-name"><a href="https://bscanner.com.ua/napii-bezalkogolnii-silnogazovanii-coca-cola-zero-ppl-750ml-2">Напій безалкогольний сильногазований Coca-Cola Zero п/пл 750мл</a></h4>
+</div>
+<div id="likes-comments-17412" class="likes-comments  more-likes">
+<div class="prises__tabl">
+<div class="prises__tabl--market">
+<div class="prises__tabl--title">
+<img class="prises__tabl--logomarket" src="https://bscanner.com.ua/storage/shops-logos/July2022/O7qxY2esmWl25UVMM3KJ.jpg" title="FOZZY" />
+</div>
+<div class="prises__tabl--prise">
+<div class="price-item">
+<span class="price">
+<span class="price-val" data-cnt="1">24.9</span>
+грн
+</span>
+<br/><small>(роздріб)</small>
+</div>
+<div class="price-item">
+<span class="price">
+<span class="price-val" data-cnt="1">23.4</span>
+грн
+</span>
+<br/><small>(від 6 од.)</small>
+</div>
+</div>
+</div>
+<div class="prises__tabl--market">
+<div class="prises__tabl--title">
+<img class="prises__tabl--logomarket" src="https://bscanner.com.ua/storage/shops-logos/July2022/1nQidHNBjVV0raPeoZ0t.png" title="NOVUS" />
+</div>
+<div class="prises__tabl--prise">
+<div class="price-item">
+<span class="price">
+<span class="price-val" data-cnt="1">29.99</span>
+грн
+</span>
+</div>
+</div>
+</div>
+<div class="prises__tabl--market">
+<div class="prises__tabl--title">
+<img class="prises__tabl--logomarket" src="https://bscanner.com.ua/storage/shops-logos/July2022/9d5SfDC5yQKNoQ0ypkzq.jpeg" title="ЕКО маркет" />
+</div>
+<div class="prises__tabl--prise">
+<div class="price-item">
+<span class="price">
+<span class="price-val" data-cnt="1">32.85</span>
+грн
+</span>
+</div>
+</div>
+</div>
+<div class="prises__tabl--market">
+<div class="prises__tabl--title">
+<img class="prises__tabl--logomarket" src="https://bscanner.com.ua/storage/shops-logos/July2022/od87h52CW8AbTjltCJ2K.png" title="Епіцентр" />
+</div>
+<div class="prises__tabl--prise">
+<div class="price-item">
+<span class="price">
+<span class="price-val" data-cnt="999">28.4</span>
+грн
+</span>
+<br/><small>(немає в наявності)</small>
+</div>
+</div>
+</div>
+<div class="prises__tabl--market">
+<div class="prises__tabl--title">
+<img class="prises__tabl--logomarket" src="https://bscanner.com.ua/storage/shops-logos/July2022/udUdGZAeaz9gbfk7XwTF.jpg" title="ВК SELECT" />
+</div>
+<div class="prises__tabl--prise">
+<div class="price-item">
+<span class="price">
+<span class="price-val" data-cnt="1">34.5</span>
+грн
+</span>
+</div>
+</div>
+</div>
+<div class="prises__tabl--market">
+<div class="prises__tabl--title">
+<img class="prises__tabl--logomarket" src="https://bscanner.com.ua/storage/shops-logos/July2022/tmgYNNjOXHRBt4V3BRuG.png" title="Велика Кишеня" />
+</div>
+<div class="prises__tabl--prise">
+<div class="price-item">
+<span class="price">
+<span class="price-val" data-cnt="1">24.95</span>
+грн
+</span>
+</div>
+</div>
+</div>
+<div class="prises__tabl--market">
+<div class="prises__tabl--title">
+<img class="prises__tabl--logomarket" src="https://bscanner.com.ua/storage/shops-logos/July2022/pkrv1DUS8PapewNEYLNr.png" title="Велмарт" />
+</div>
+<div class="prises__tabl--prise">
+<div class="price-item">
+<span class="price">
+<span class="price-val" data-cnt="1">28.85</span>
+грн
+</span>
+</div>
+</div>
+</div>
+<div class="prises__tabl--market">
+<div class="prises__tabl--title">
+<img class="prises__tabl--logomarket" src="https://bscanner.com.ua/storage/shops-logos/July2022/ImoKQH5mZWP4vgqIciQW.png" title="VARUS" />
+</div>
+<div class="prises__tabl--prise">
+<div class="price-item">
+<span class="price">
+<span class="price-val" data-cnt="1">28.9</span>
+грн
+</span>
+</div>
+</div>
+</div>
+<div class="prises__tabl--market">
+<div class="prises__tabl--title">
+<img class="prises__tabl--logomarket" src="https://bscanner.com.ua/storage/shops-logos/July2022/ZNSgaRfMsGla7xzYJK5z.png" title="Метро" />
+</div>
+<div class="prises__tabl--prise">
+<div class="price-item">
+<span class="price">
+<span class="price-val" data-cnt="1">25.9</span>
+грн
+</span>
+<br/><small>(роздріб)</small>
+</div>
+<div class="price-item">
+<span class="price">
+<span class="price-val" data-cnt="1">21.9</span>
+грн
+</span>
+<br/><small>(від 24 од.)</small>
+</div>
+<div class="price-item">
+<span class="price">
+<span class="price-val" data-cnt="1">20.9</span>
+грн
+</span>
+<br/><small>(від 36 од.)</small>
+</div>
+</div>
+</div>
+<div class="prises__tabl--market">
+<div class="prises__tabl--title">
+<img class="prises__tabl--logomarket" src="https://bscanner.com.ua/storage/shops-logos/July2022/4dRxDkpNl9nlVv7fW1ja.png" title="Ашан" />
+</div>
+<div class="prises__tabl--prise">
+<div class="price-item">
+<span class="price">
+<span class="price-val" data-cnt="1">25</span>
+грн
+</span>
+</div>
+</div>
+</div>
+<div class="prises__tabl--market">
+<div class="prises__tabl--title">
+<img class="prises__tabl--logomarket" src="https://bscanner.com.ua/storage/shops-logos/August2022/Svb7czHH6JX1EDGyb0yG.PNG" title="F.UA" />
+</div>
+<div class="prises__tabl--prise">
+<div class="price-item">
+<span class="price">
+<span class="price-val" data-cnt="1">29</span>
+грн
+</span>
+</div>
+</div>
+</div>
+<div class="prises__tabl--market">
+<div class="prises__tabl--title">
+<img class="prises__tabl--logomarket" src="https://bscanner.com.ua/storage/shops-logos/January2023/6Q7OpNyk1uyT9YGi8MTD.PNG" title="UltraMarket" />
+</div>
+<div class="prises__tabl--prise">
+<div class="price-item">
+<span class="price">
+<span class="price-val" data-cnt="1">28.5</span>
+грн
+</span>
+</div>
+</div>
+</div>
+<div class="prises__tabl--market">
+<div class="prises__tabl--title">
+<img class="prises__tabl--logomarket" src="https://bscanner.com.ua/storage/shops-logos/January2023/1DpOsxgJB1KvzdD2yE9q.png" title="Космос" />
+</div>
+<div class="prises__tabl--prise">
+<div class="price-item">
+<span class="price">
+<span class="price-val" data-cnt="1">29</span>
+грн
+</span>
+</div>
+</div>
+</div>
+<a class="more-prices" title="більше цін"><span class="material-symbols-outlined less">expand_less</span><span class="material-symbols-outlined more">expand_more</span></a>
+</div>
+<div class="reviews__icons">
+<div class="reviews__icon product-comments">
+<a href="https://bscanner.com.ua/napii-bezalkogolnii-silnogazovanii-coca-cola-zero-ppl-750ml-2#descriptionLinkReview" title="Відгуки">
+<span class="material-symbols-outlined">mode_comment</span>
+</a>
+<p class="reviews__icon--number product__comments">0</p>
+</div>
+<div class="reviews__icons">
+<div class="reviews__icon product-dislike">
+<a href="javascript:void(0)" onclick="dislikeProduct(17412)" title="Не подобається">
+<span class="material-symbols-outlined">thumb_down</span>
+</a>
+<p class="reviews__icon--number product__dislike17412">1</p>
+</div>
+<div class="reviews__icon product-like">
+<a href="javascript:void(0)" onclick="likeProduct(17412)" title="Подобається">
+<span class="material-symbols-outlined">thumb_up</span>
+</a>
+<p class="reviews__icon--number product__like17412">8</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="product-list-item item disable-more-btn">
+<div class="product-image">
+<div class="nutriscore">
+<span class="val nutriscore-A" title="Поживні властивості товару Відмінні">A<span class="text">Відмінні</span></span>
+
+</div>
+<a href="https://bscanner.com.ua/napii-bezalkogolnii-slabogazovanii-granat-exinaceia-bon-buasson-ppl-075l-2">
+<img src="https://bscanner.com.ua/storage/products/thumb/napii-bezalkogolnii-slabogazovanii-granat-exinaceia-bon-buasson-ppl-075l.jpg" alt>
+</a>
+</div>
+<div class="title">
+<h4 class="product-name"><a href="https://bscanner.com.ua/napii-bezalkogolnii-slabogazovanii-granat-exinaceia-bon-buasson-ppl-075l-2">Напій безалкогольний слабогазований Гранат-ехінацея Бон Буассон п/пл 0.75л</a></h4>
+</div>
+<div id="likes-comments-17417" class="likes-comments ">
+<div class="prises__tabl">
+</div>
+<div class="reviews__icons">
+<div class="reviews__icon product-comments">
+<a href="https://bscanner.com.ua/napii-bezalkogolnii-slabogazovanii-granat-exinaceia-bon-buasson-ppl-075l-2#descriptionLinkReview" title="Відгуки">
+<span class="material-symbols-outlined">mode_comment</span>
+</a>
+<p class="reviews__icon--number product__comments">0</p>
+</div>
+<div class="reviews__icons">
+<div class="reviews__icon product-dislike">
+<a href="javascript:void(0)" onclick="dislikeProduct(17417)" title="Не подобається">
+<span class="material-symbols-outlined">thumb_down</span>
+</a>
+<p class="reviews__icon--number product__dislike17417">0</p>
+</div>
+<div class="reviews__icon product-like">
+<a href="javascript:void(0)" onclick="likeProduct(17417)" title="Подобається">
+<span class="material-symbols-outlined">thumb_up</span>
+</a>
+<p class="reviews__icon--number product__like17417">0</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="product-list-item item disable-more-btn">
+<div class="product-image">
+<div class="nutriscore">
+<span class="val nutriscore-A" title="Поживні властивості товару Відмінні">A<span class="text">Відмінні</span></span>
+
+</div>
+<a href="https://bscanner.com.ua/napii-bezalkogolnii-slabogazovanii-smorodina-sipsina-bon-buasson-ppl-075l-2">
+<img src="https://bscanner.com.ua/storage/products/thumb/napii-bezalkogolnii-slabogazovanii-smorodina-sipsina-bon-buasson-ppl-075l.jpg" alt>
+</a>
+</div>
+<div class="title">
+<h4 class="product-name"><a href="https://bscanner.com.ua/napii-bezalkogolnii-slabogazovanii-smorodina-sipsina-bon-buasson-ppl-075l-2">Напій безалкогольний слабогазований Смородина-шипшина Бон Буассон п/пл 0.75л</a></h4>
+</div>
+<div id="likes-comments-17418" class="likes-comments ">
+<div class="prises__tabl">
+</div>
+<div class="reviews__icons">
+<div class="reviews__icon product-comments">
+<a href="https://bscanner.com.ua/napii-bezalkogolnii-slabogazovanii-smorodina-sipsina-bon-buasson-ppl-075l-2#descriptionLinkReview" title="Відгуки">
+<span class="material-symbols-outlined">mode_comment</span>
+</a>
+<p class="reviews__icon--number product__comments">0</p>
+</div>
+<div class="reviews__icons">
+<div class="reviews__icon product-dislike">
+<a href="javascript:void(0)" onclick="dislikeProduct(17418)" title="Не подобається">
+<span class="material-symbols-outlined">thumb_down</span>
+</a>
+<p class="reviews__icon--number product__dislike17418">0</p>
+</div>
+<div class="reviews__icon product-like">
+<a href="javascript:void(0)" onclick="likeProduct(17418)" title="Подобається">
+<span class="material-symbols-outlined">thumb_up</span>
+</a>
+<p class="reviews__icon--number product__like17418">0</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="product-list-item item disable-more-btn">
+<div class="product-image">
+<div class="nutriscore">
+<span class="val nutriscore-A" title="Поживні властивості товару Відмінні">A<span class="text">Відмінні</span></span>
+
+</div>
+<a href="https://bscanner.com.ua/napii-bezalkogolnii-silnogazovanii-bezkaloriinii-blek-pepsi-spl-025l-2">
+<img src="https://bscanner.com.ua/storage/products/thumb/napii-bezalkogolnii-silnogazovanii-bezkaloriinii-blek-pepsi-spl-025l.jpg" alt>
+</a>
+</div>
+<div class="title">
+<h4 class="product-name"><a href="https://bscanner.com.ua/napii-bezalkogolnii-silnogazovanii-bezkaloriinii-blek-pepsi-spl-025l-2">Напій безалкогольний сильногазований безкалорійний Блек Pepsi с/пл 0.25л</a></h4>
+</div>
+<div id="likes-comments-17420" class="likes-comments  more-likes">
+<div class="prises__tabl">
+</div>
+<div class="reviews__icons">
+<div class="reviews__icon product-comments">
+<a href="https://bscanner.com.ua/napii-bezalkogolnii-silnogazovanii-bezkaloriinii-blek-pepsi-spl-025l-2#descriptionLinkReview" title="Відгуки">
+<span class="material-symbols-outlined">mode_comment</span>
+</a>
+<p class="reviews__icon--number product__comments">0</p>
+</div>
+<div class="reviews__icons">
+<div class="reviews__icon product-dislike">
+<a href="javascript:void(0)" onclick="dislikeProduct(17420)" title="Не подобається">
+<span class="material-symbols-outlined">thumb_down</span>
+</a>
+<p class="reviews__icon--number product__dislike17420">0</p>
+</div>
+<div class="reviews__icon product-like">
+<a href="javascript:void(0)" onclick="likeProduct(17420)" title="Подобається">
+<span class="material-symbols-outlined">thumb_up</span>
+</a>
+<p class="reviews__icon--number product__like17420">1</p>
+</div>
+</div>
+</div>
+</div>
+</div> </div>
+</div>
+</section>
+</div>
+</main>
+<div class="floating-buttons">
+<div id="likes-comments-17295">
+<div class="floating-button product-like">
+<a href="javascript:void(0)" onclick="likeProduct('17295')" title="Подобається">
+<span class="material-symbols-outlined">thumb_up</span>
+</a>
+<p class="reviews__icon--number product__like17295">0</p>
+</div>
+<div class="floating-button product-dislike">
+<a href="javascript:void(0)" onclick="dislikeProduct('17295')" title="Не подобається">
+<span class="material-symbols-outlined">thumb_down</span>
+</a>
+<p class="reviews__icon--number product__dislike17295">0</p>
+</div>
+<div class="floating-button product-bookmark ">
+<a href="javascript:void(0)" onclick="bookmarkProduct('17295')" title="В обране">
+<span class="material-symbols-outlined">bookmark</span>
+</a>
+<p class="reviews__icon--number product__bookmark17295">0</p>
+</div>
+<div class="floating-button product-share">
+<a href="javascript:void(0)" onclick="shareProduct('17295','Напій газований 7-Up 1л','https://bscanner.com.ua/napii-gazovanii-7-up-1l-2')" title="Поділитися">
+<span class="material-symbols-outlined">share</span>
+</a>
+<p class="reviews__icon--number product__share17295">0</p>
+</div>
+</div>
+</div>
+<div class="position-fixed end-0 p-3" style="z-index: 11; bottom: 50px;">
+<div id="login-msg-toast" class="toast hide" role="alert" aria-live="assertive" aria-atomic="true">
+<div class="toast-body">
+Увійдіть в аккаунт, щоб мати можливість додавати товари в обране.
+<div class="mt-2 pt-2 border-top">
+<a href="https://bscanner.com.ua/login" class="btn btn-primary focus-ring focus-ring-info btn-sm">Увійти</a>
+<button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="toast">Закрити</button>
+</div>
+</div>
+</div>
+</div>
+<div class="page-text info__block text">
+<div class="container">
+<p>Дана сторінка відображає максимально повну інформацію про Напій газований 7-Up 1л.</p>
+<p>На самому початку можна побачити його зображення, назву і країну, де зареєстрований штрих-код.</p>
+<p>У випадку з продуктами харчування, ми розраховуємо ще й &laquo;харчовий світлофор&raquo;, який дозволяє швидко зрозуміти наскільки поживні речовини продукту збалансовані.</p>
+<p>Мабуть, найбільш затребуваним блоком є ціни. У таблиці відображаються логотипи магазинів, ціна, дата і адреса моніторингу, а також є кнопка &laquo;Купити&raquo; для інтернет магазинів.</p>
+<p>Коротко пройдемося по кожному полю таблиці:</p>
+<ol>
+<li>Лого. Зроблено для візуальної наочності.</li>
+<li>Ціна. Може бути як одне значення, так і кілька. Наприклад, якщо при покупці великої кількості товару, існує знижка. Мається на увазі, магазини формату Cash &amp; Carry. Так само зустрічається різні ціни, в залежності, наприклад, від об&rsquo;єму пляшки.</li>
+<li>Кнопка &laquo;Купити&raquo;. Дозволяє швидко перейти на сайт продавця і здійснити покупку. Доступна, як правило, тільки для онлайн-магазинів.</li>
+<li>Дата та адреса моніторингу. З різних причин, дата інформації може бути не найсвіжішою. Тому ми завжди прописуємо в який день бралися дані про ціни. А адреса потрібна, щоб уточнити, з якої саме торгової точки ціна. Так як, навіть в межах одного міста, в одній і тій же торговельній мережі, ціни можуть відрізнятися.</li>
+</ol>
+<p>Відзначимо, що збір цін на Напій газований 7-Up 1л ми здійснюємо серед досить великого списку магазинів, а саме: <img height="15" src="https://bscanner.com.ua/storage/shops-logos/July2022/aoeGwYr0IsdE0BPbFfwz.jpg" /> Rozetka (), <img height="15" src="https://bscanner.com.ua/storage/shops-logos/July2022/ODCr0cRs4klh4WRKrkki.png" /> Watsons (), <img height="15" src="https://bscanner.com.ua/storage/shops-logos/July2022/fDajaTMJaGG7Me5VO3HM.png" /> MAUDAU (), <img height="15" src="https://bscanner.com.ua/storage/shops-logos/July2022/2C89bXmt4XNKp3Z0Z7pu.jpg" /> EVA (вул. Борщагівська буд. 128), <img height="15" src="https://bscanner.com.ua/storage/shops-logos/July2022/O7qxY2esmWl25UVMM3KJ.jpg" /> FOZZY (пр-т. Степана Бандери, 23), <img height="15" src="https://bscanner.com.ua/storage/shops-logos/July2022/1nQidHNBjVV0raPeoZ0t.png" /> NOVUS (вул. Здолбунівська, 7г), <img height="15" src="https://bscanner.com.ua/storage/shops-logos/July2022/9d5SfDC5yQKNoQ0ypkzq.jpeg" /> ЕКО маркет (Закревського, 12), <img height="15" src="https://bscanner.com.ua/storage/shops-logos/July2022/XWtIyCnu8wt84VcsTdoJ.png" /> Фора (Попудренка ул, 9-Г), <img height="15" src="https://bscanner.com.ua/storage/shops-logos/July2022/od87h52CW8AbTjltCJ2K.png" /> Епіцентр (вул. Братиславська, 11), <img height="15" src="https://bscanner.com.ua/storage/shops-logos/July2022/aZnG0WYDVLUVrTYxyBue.jpg" /> ВК ЕКСПРЕС (вул. Інститутська, 15/5), <img height="15" src="https://bscanner.com.ua/storage/shops-logos/July2022/udUdGZAeaz9gbfk7XwTF.jpg" /> ВК SELECT (вул. Матикіна, 1), <img height="15" src="https://bscanner.com.ua/storage/shops-logos/July2022/tmgYNNjOXHRBt4V3BRuG.png" /> Велика Кишеня (пр. Академіка Глушкова, 36), <img height="15" src="https://bscanner.com.ua/storage/shops-logos/July2022/pkrv1DUS8PapewNEYLNr.png" /> Велмарт (вул. Героїв Дніпра, 31), <img height="15" src="https://bscanner.com.ua/storage/shops-logos/July2022/ImoKQH5mZWP4vgqIciQW.png" /> VARUS (вул. Миколи Бажана, 10А), <img height="15" src="https://bscanner.com.ua/storage/shops-logos/July2022/WR0Oll7120oDeZOk9SLw.png" /> Сільпо (вул. Басейна, 6), <img height="15" src="https://bscanner.com.ua/storage/shops-logos/July2022/ZNSgaRfMsGla7xzYJK5z.png" /> Метро (просп. Григоренка, 43), <img height="15" src="https://bscanner.com.ua/storage/shops-logos/July2022/4dRxDkpNl9nlVv7fW1ja.png" /> Ашан (вулиця Здолбунівська, 17), <img height="15" src="https://bscanner.com.ua/storage/shops-logos/July2022/qnqsQuYySivUDnth5lLc.png" /> АТБ (бул. Лесі Українки, буд. 5), <img height="15" src="https://bscanner.com.ua/storage/shops-logos/July2022/A5rGaeRLex5jwPnZPJfg.png" /> МегаМаркет (вул. Антоновича, 50), <img height="15" src="https://bscanner.com.ua/storage/shops-logos/July2022/qfShIc7yoxk2IJmuUSQA.PNG" /> MAKEUP (), <img height="15" src="https://bscanner.com.ua/storage/shops-logos/July2022/2ZgsoCvBs1EGy2KZMzCl.png" /> PAMPIK (), <img height="15" src="https://bscanner.com.ua/storage/shops-logos/August2022/jBqOQGH5Dtv3M0dl0xbU.webp" /> EXIST.UA (), <img height="15" src="https://bscanner.com.ua/storage/shops-logos/August2022/Svb7czHH6JX1EDGyb0yG.PNG" /> F.UA (), <img height="15" src="https://bscanner.com.ua/storage/shops-logos/October2022/JGPiNjzdpOFafNMD3NgX.png" /> WINETIME (), <img height="15" src="https://bscanner.com.ua/storage/shops-logos/October2022/43BsSCo8gocTbs0A0G4E.jpg" /> AURA (), <img height="15" src="https://bscanner.com.ua/storage/shops-logos/October2022/wDPwjQXWod2iAjFWwL6L.PNG" /> Masmart (), <img height="15" src="https://bscanner.com.ua/storage/shops-logos/December2022/4pauKbzrfq65mHQoMZxK.png" /> e-Coffee.com.ua (), <img height="15" src="https://bscanner.com.ua/storage/shops-logos/December2022/Kl5n9NwMdubyWPNPmFMt.png" /> KidButik.ua (), <img height="15" src="https://bscanner.com.ua/storage/shops-logos/December2022/FRtwirHGjA4XXyTMFtB6.png" /> Подорожник (), <img height="15" src="https://bscanner.com.ua/storage/shops-logos/December2022/66gp7qYjwOZSyky9J5Gr.PNG" /> MIKSON (), <img height="15" src="https://bscanner.com.ua/storage/shops-logos/December2022/V4r1hPJwXd73h1hfuXQe.jpg" /> АГУСИК (), <img height="15" src="https://bscanner.com.ua/storage/shops-logos/December2022/Guc25uytWoPXsUM6mJX2.PNG" /> iHerb (), <img height="15" src="https://bscanner.com.ua/storage/shops-logos/December2022/3H5ZVZUFhy2mb70S1ZmS.PNG" /> Lantale (), <img height="15" src="https://bscanner.com.ua/storage/shops-logos/December2022/wko4RlWYgNSnWRaln5Os.png" /> Raptom (), <img height="15" src="https://bscanner.com.ua/storage/shops-logos/December2022/A92C8U4BuH805VWEvWvl.PNG" /> Канцелярка (), <img height="15" src="https://bscanner.com.ua/storage/shops-logos/December2022/nSEQWa5bH5fy4J3w8FXw.png" /> Кофейня (), <img height="15" src="https://bscanner.com.ua/storage/shops-logos/December2022/Vrd761Mlj1OOc9xm8Hkx.png" /> Престиж Плюс (), <img height="15" src="https://bscanner.com.ua/storage/shops-logos/December2022/PJflmTM802UF8uVa4sMh.PNG" /> Rumiana (), <img height="15" src="https://bscanner.com.ua/storage/shops-logos/December2022/S4br2j58RdB5l1gXCGzJ.PNG" /> IpopoKids (), <img height="15" src="https://bscanner.com.ua/storage/shops-logos/December2022/u0kM0jrE6o316EhQ9HLO.PNG" /> SOLO (), <img height="15" src="https://bscanner.com.ua/storage/shops-logos/December2022/pA3tTV0eTE0RA0BuH8bt.PNG" /> SportShop (), <img height="15" src="https://bscanner.com.ua/storage/shops-logos/December2022/uR2oOfwIE3qML0wvmSbh.PNG" /> МОБИЛЛАК (), <img height="15" src="https://bscanner.com.ua/storage/shops-logos/December2022/iafy3XemPNsEHa1jRAXY.PNG" /> VINTAGE (), <img height="15" src="https://bscanner.com.ua/storage/shops-logos/December2022/mzN93gPTarMW5RSucswi.PNG" /> ISEI (), <img height="15" src="https://bscanner.com.ua/storage/shops-logos/December2022/nQgum6NuWQQ5UQlWux3c.PNG" /> Аптека24 (), <img height="15" src="https://bscanner.com.ua/storage/shops-logos/December2022/VomMeFLPEw6VWZEFi6na.png" /> ArtDrink (), <img height="15" src="https://bscanner.com.ua/storage/shops-logos/January2023/OEszqtCxu9i9ZZCBK7vK.PNG" /> PAPAY (), <img height="15" src="https://bscanner.com.ua/storage/shops-logos/January2023/6i4iakUcBXaCfllsxMKu.PNG" /> Кідіс (), <img height="15" src="https://bscanner.com.ua/storage/shops-logos/January2023/urgOSLbjbguK5jxRxHoH.png" /> Антошка (), <img height="15" src="https://bscanner.com.ua/storage/shops-logos/January2023/ns2mhASDjYntqJSQHXrB.PNG" /> BROCARD (), <img height="15" src="https://bscanner.com.ua/storage/shops-logos/January2023/6Q7OpNyk1uyT9YGi8MTD.PNG" /> UltraMarket (вул. Глибочицька, буд. 44), <img height="15" src="https://bscanner.com.ua/storage/shops-logos/January2023/1DpOsxgJB1KvzdD2yE9q.png" /> Космос (Оноре де Бальзака, 2А), <img height="15" src="https://bscanner.com.ua/storage/shops-logos/February2023/6CAywp7Vm1NAMLJQu5Q9.png" /> Полиця (), <img height="15" src="https://bscanner.com.ua/storage/shops-logos/February2023/xeo2JqVCCu87D1l3MqiR.png" /> Ли́тали (), <img height="15" src="https://bscanner.com.ua/storage/shops-logos/February2023/8GuyS2onvSJRMvh2J1Fx.PNG" /> PROSTOR (), <img height="15" src="https://bscanner.com.ua/storage/shops-logos/April2023/QYkPaS0ZZqo8PdVBYDKv.PNG" /> Наша Стройка (), <img height="15" src="https://bscanner.com.ua/storage/shops-logos/February2023/oU7OJ1ryerhdyJdSOAZT.PNG" /> OnePrice (вул. Васильківська, 34), <img height="15" src="https://bscanner.com.ua/storage/shops-logos/February2023/qVcubArbst7v0phFiLPh.PNG" /> Книгарня "Є" (), <img height="15" src="https://bscanner.com.ua/storage/shops-logos/February2023/EbdrWFQ3YaYQviBApsOv.PNG" /> Мегакнига (), <img height="15" src="https://bscanner.com.ua/storage/shops-logos/February2023/vo1DktqbTyE8Vf0EE91a.png" /> Detmir (), <img height="15" src="https://bscanner.com.ua/storage/shops-logos/February2023/ikTmuoOMJbyOEyNk9Slo.png" /> Країна казок (), <img height="15" src="https://bscanner.com.ua/storage/shops-logos/February2023/3RpiFUEDDLc4Tu1y40C6.PNG" /> Продмаг (проспект Степана Бандери, 23), <img height="15" src="https://bscanner.com.ua/storage/shops-logos/February2023/3BvcsolsZeHc6UDncPR9.PNG" /> Фаунамаркет (), <img height="15" src="https://bscanner.com.ua/storage/shops-logos/March2023/7WAWk7rAZKKY07G3ey3e.PNG" /> zootovary.net.ua (), <img height="15" src="https://bscanner.com.ua/storage/shops-logos/March2023/dpRFQ2mdUAh4HPjXBxjd.PNG" /> Tabletki.ua (), <img height="15" src="https://bscanner.com.ua/storage/shops-logos/April2023/QTe2nMcSdVYOPJTQAQjX.PNG" /> Рово (), <img height="15" src="https://bscanner.com.ua/storage/shops-logos/April2023/2Q5XYyEnmrpjKcUDZppu.PNG" /> Хім Опт (), <img height="15" src="https://bscanner.com.ua/storage/shops-logos/May2023/LGqhDyrC6GonVgfhizvG.PNG" /> eBay (), <img height="15" src="https://bscanner.com.ua/storage/shops-logos/May2023/ThGAeRATmxc5c8MzYKlg.PNG" /> Inter Cars (), <img height="15" src="https://bscanner.com.ua/storage/shops-logos/July2022/aoeGwYr0IsdE0BPbFfwz.jpg" /> Rozetka, <img height="15" src="https://bscanner.com.ua/storage/shops-logos/July2022/ODCr0cRs4klh4WRKrkki.png" /> Watsons, <img height="15" src="https://bscanner.com.ua/storage/shops-logos/July2022/fDajaTMJaGG7Me5VO3HM.png" /> MAUDAU, <img height="15" src="https://bscanner.com.ua/storage/shops-logos/July2022/qfShIc7yoxk2IJmuUSQA.PNG" /> MAKEUP, <img height="15" src="https://bscanner.com.ua/storage/shops-logos/July2022/2ZgsoCvBs1EGy2KZMzCl.png" /> PAMPIK, <img height="15" src="https://bscanner.com.ua/storage/shops-logos/August2022/jBqOQGH5Dtv3M0dl0xbU.webp" /> EXIST.UA, <img height="15" src="https://bscanner.com.ua/storage/shops-logos/August2022/Svb7czHH6JX1EDGyb0yG.PNG" /> F.UA, <img height="15" src="https://bscanner.com.ua/storage/shops-logos/October2022/JGPiNjzdpOFafNMD3NgX.png" /> WINETIME, <img height="15" src="https://bscanner.com.ua/storage/shops-logos/October2022/43BsSCo8gocTbs0A0G4E.jpg" /> AURA, <img height="15" src="https://bscanner.com.ua/storage/shops-logos/October2022/wDPwjQXWod2iAjFWwL6L.PNG" /> Masmart, <img height="15" src="https://bscanner.com.ua/storage/shops-logos/December2022/4pauKbzrfq65mHQoMZxK.png" /> e-Coffee.com.ua, <img height="15" src="https://bscanner.com.ua/storage/shops-logos/December2022/Kl5n9NwMdubyWPNPmFMt.png" /> KidButik.ua, <img height="15" src="https://bscanner.com.ua/storage/shops-logos/December2022/FRtwirHGjA4XXyTMFtB6.png" /> Подорожник, <img height="15" src="https://bscanner.com.ua/storage/shops-logos/December2022/66gp7qYjwOZSyky9J5Gr.PNG" /> MIKSON, <img height="15" src="https://bscanner.com.ua/storage/shops-logos/December2022/V4r1hPJwXd73h1hfuXQe.jpg" /> АГУСИК, <img height="15" src="https://bscanner.com.ua/storage/shops-logos/December2022/Guc25uytWoPXsUM6mJX2.PNG" /> iHerb, <img height="15" src="https://bscanner.com.ua/storage/shops-logos/December2022/3H5ZVZUFhy2mb70S1ZmS.PNG" /> Lantale, <img height="15" src="https://bscanner.com.ua/storage/shops-logos/December2022/wko4RlWYgNSnWRaln5Os.png" /> Raptom, <img height="15" src="https://bscanner.com.ua/storage/shops-logos/December2022/A92C8U4BuH805VWEvWvl.PNG" /> Канцелярка, <img height="15" src="https://bscanner.com.ua/storage/shops-logos/December2022/nSEQWa5bH5fy4J3w8FXw.png" /> Кофейня, <img height="15" src="https://bscanner.com.ua/storage/shops-logos/December2022/Vrd761Mlj1OOc9xm8Hkx.png" /> Престиж Плюс, <img height="15" src="https://bscanner.com.ua/storage/shops-logos/December2022/PJflmTM802UF8uVa4sMh.PNG" /> Rumiana, <img height="15" src="https://bscanner.com.ua/storage/shops-logos/December2022/S4br2j58RdB5l1gXCGzJ.PNG" /> IpopoKids, <img height="15" src="https://bscanner.com.ua/storage/shops-logos/December2022/u0kM0jrE6o316EhQ9HLO.PNG" /> SOLO, <img height="15" src="https://bscanner.com.ua/storage/shops-logos/December2022/pA3tTV0eTE0RA0BuH8bt.PNG" /> SportShop, <img height="15" src="https://bscanner.com.ua/storage/shops-logos/December2022/uR2oOfwIE3qML0wvmSbh.PNG" /> МОБИЛЛАК, <img height="15" src="https://bscanner.com.ua/storage/shops-logos/December2022/iafy3XemPNsEHa1jRAXY.PNG" /> VINTAGE, <img height="15" src="https://bscanner.com.ua/storage/shops-logos/December2022/nQgum6NuWQQ5UQlWux3c.PNG" /> Аптека24, <img height="15" src="https://bscanner.com.ua/storage/shops-logos/December2022/VomMeFLPEw6VWZEFi6na.png" /> ArtDrink, <img height="15" src="https://bscanner.com.ua/storage/shops-logos/January2023/OEszqtCxu9i9ZZCBK7vK.PNG" /> PAPAY, <img height="15" src="https://bscanner.com.ua/storage/shops-logos/January2023/6i4iakUcBXaCfllsxMKu.PNG" /> Кідіс, <img height="15" src="https://bscanner.com.ua/storage/shops-logos/January2023/urgOSLbjbguK5jxRxHoH.png" /> Антошка, <img height="15" src="https://bscanner.com.ua/storage/shops-logos/January2023/ns2mhASDjYntqJSQHXrB.PNG" /> BROCARD, <img height="15" src="https://bscanner.com.ua/storage/shops-logos/February2023/6CAywp7Vm1NAMLJQu5Q9.png" /> Полиця, <img height="15" src="https://bscanner.com.ua/storage/shops-logos/February2023/xeo2JqVCCu87D1l3MqiR.png" /> Ли́тали, <img height="15" src="https://bscanner.com.ua/storage/shops-logos/February2023/8GuyS2onvSJRMvh2J1Fx.PNG" /> PROSTOR, <img height="15" src="https://bscanner.com.ua/storage/shops-logos/April2023/QYkPaS0ZZqo8PdVBYDKv.PNG" /> Наша Стройка, <img height="15" src="https://bscanner.com.ua/storage/shops-logos/February2023/qVcubArbst7v0phFiLPh.PNG" /> Книгарня "Є", <img height="15" src="https://bscanner.com.ua/storage/shops-logos/February2023/EbdrWFQ3YaYQviBApsOv.PNG" /> Мегакнига, <img height="15" src="https://bscanner.com.ua/storage/shops-logos/February2023/vo1DktqbTyE8Vf0EE91a.png" /> Detmir, <img height="15" src="https://bscanner.com.ua/storage/shops-logos/February2023/ikTmuoOMJbyOEyNk9Slo.png" /> Країна казок, <img height="15" src="https://bscanner.com.ua/storage/shops-logos/February2023/3BvcsolsZeHc6UDncPR9.PNG" /> Фаунамаркет, <img height="15" src="https://bscanner.com.ua/storage/shops-logos/March2023/7WAWk7rAZKKY07G3ey3e.PNG" /> zootovary.net.ua, <img height="15" src="https://bscanner.com.ua/storage/shops-logos/April2023/QTe2nMcSdVYOPJTQAQjX.PNG" /> Рово, <img height="15" src="https://bscanner.com.ua/storage/shops-logos/April2023/2Q5XYyEnmrpjKcUDZppu.PNG" /> Хім Опт, <img height="15" src="https://bscanner.com.ua/storage/shops-logos/May2023/LGqhDyrC6GonVgfhizvG.PNG" /> eBay, <img height="15" src="https://bscanner.com.ua/storage/shops-logos/May2023/ThGAeRATmxc5c8MzYKlg.PNG" /> Inter Cars</p>
+<p>Також, про Напій газований 7-Up 1л завжди можна залишити свій відгук і лайкнути його, якщо він сподобався.</p>
+</div>
+</div>
+<div class="container pb-5">
+<footer class="d-flex flex-wrap justify-content-between align-items-center py-5 my-5 border-top">
+<div class="col-md-4 d-flex align-items-center">
+<a href="/" class="mb-3 me-2 mb-md-0 text-body-secondary text-decoration-none lh-1">
+<img src="https://bscanner.com.ua/web/img/icons/scanner_blue_logo.svg" alt>
+</a>
+
+</div>
+<ul class="nav col-md-4 justify-content-end list-unstyled d-flex">
+<li><a class="btn btn-secondary" href="https://donatello.to/bscanner">
+Підтримати проект
+</a></li>
+<li class="ms-3"><a class="text-body-secondary" href="https://www.youtube.com/@bscanner">
+<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-youtube" viewbox="0 0 16 16">
+<path d="M8.051 1.999h.089c.822.003 4.987.033 6.11.335a2.01 2.01 0 0 1 1.415 1.42c.101.38.172.883.22 1.402l.01.104.022.26.008.104c.065.914.073 1.77.074 1.957v.075c-.001.194-.01 1.108-.082 2.06l-.008.105-.009.104c-.05.572-.124 1.14-.235 1.558a2.007 2.007 0 0 1-1.415 1.42c-1.16.312-5.569.334-6.18.335h-.142c-.309 0-1.587-.006-2.927-.052l-.17-.006-.087-.004-.171-.007-.171-.007c-1.11-.049-2.167-.128-2.654-.26a2.007 2.007 0 0 1-1.415-1.419c-.111-.417-.185-.986-.235-1.558L.09 9.82l-.008-.104A31.4 31.4 0 0 1 0 7.68v-.123c.002-.215.01-.958.064-1.778l.007-.103.003-.052.008-.104.022-.26.01-.104c.048-.519.119-1.023.22-1.402a2.007 2.007 0 0 1 1.415-1.42c.487-.13 1.544-.21 2.654-.26l.17-.007.172-.006.086-.003.171-.007A99.788 99.788 0 0 1 7.858 2h.193zM6.4 5.209v4.818l4.157-2.408L6.4 5.209z" />
+</svg>
+</a></li>
+<li class="ms-3"><a class="text-body-secondary" href="https://www.tiktok.com/@bscanner">
+<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-tiktok" viewbox="0 0 16 16">
+<path d="M9 0h1.98c.144.715.54 1.617 1.235 2.512C12.895 3.389 13.797 4 15 4v2c-1.753 0-3.07-.814-4-1.829V11a5 5 0 1 1-5-5v2a3 3 0 1 0 3 3V0Z" />
+</svg>
+</a></li>
+</ul>
+</footer>
+</div>
+
+<div id="modal-scanner" class="modal" tabindex="-1">
+<div class="modal-dialog modal-dialog-centered modal-fullscreen-md-down">
+<div class="modal-content">
+<div class="modal-header modal-header-mobile">
+<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+<span class="material-symbols-outlined">arrow_back</span>
+</button>
+<h4 class="modal-title">Відскануйте штрих-код</h4>
+</div>
+<div class="modal-header modal-header-desktop">
+<h4 class="modal-title">Відскануйте штрих-код</h4>
+<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+<div class="modal-body">
+<div class="loading">Завантаження, зачекайте ,будь ласка,...</div>
+<div class="file-selection">Або оберіть файл зі штрих-кодом для сканування <input class="scan-file" type="file" accept="image/*" /></div>
+<div id="datasymbol-barcode-viewport" style="display: flex; align-items: center; display: none;"></div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="modal-cities" class="modal" tabindex="-1">
+<div class="modal-dialog modal-dialog-centered modal-fullscreen-md-down">
+<div class="modal-content">
+<div class="modal-header modal-header-mobile">
+<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+<span class="material-symbols-outlined">arrow_back</span>
+</button>
+<h6 class="modal-title">Виберіть місто</h6>
+</div>
+<div class="modal-header modal-header-desktop">
+<h4 class="modal-title">Виберіть місто</h4>
+<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+<div class="modal-body">
+<div class="cities-selector">
+<div class="form-group">
+<input autocomplete="off" type="text" class="typeahead form-control" value placeholder="Почніть вводити назву міста">
+</div>
+<ul role="menu" class="cities-list">
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="modal-cats" class="modal" tabindex="-1">
+<div class="modal-dialog modal-dialog-centered modal-fullscreen-md-down">
+<div class="modal-content">
+<div class="modal-header modal-header-mobile">
+<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+<span class="material-symbols-outlined">arrow_back</span>
+</button>
+<h6 class="modal-title">Виберіть категорію</h6>
+</div>
+<div class="modal-header modal-header-desktop">
+<h4 class="modal-title">Виберіть категорію</h4>
+<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+<div class="modal-body">
+<div class="cats-menu-mobile">
+</div>
+</div>
+</div>
+</div>
+</div>
+<nav class="navbar navbar-expand fixed-bottom bg-body-tertiary p-0">
+<ul class="navbar-nav d-flex justify-content-around align-items-stretch w-100">
+<li class="nav-item">
+<a class="nav-link d-flex flex-column text-center focus-ring focus-ring-primary " href="https://bscanner.com.ua">
+<span class="material-symbols-outlined fs-5">home</span>
+<span class="fs-10">Головна</span>
+</a>
+</li>
+<li class="nav-item">
+<a class="nav-link d-flex flex-column text-center focus-ring focus-ring-primary " href="https://bscanner.com.ua/history">
+<span class="material-symbols-outlined fs-5">history</span>
+<span class="fs-10">Історія</span>
+</a>
+</li>
+<li class="nav-item">
+<a class="nav-link d-flex flex-column text-center focus-ring focus-ring-primary " href="https://bscanner.com.ua/bookmarks">
+<span class="material-symbols-outlined fs-5">bookmark</span>
+<span class="fs-10">Обране</span>
+</a>
+</li>
+<li class="nav-item">
+<a class="nav-link d-flex flex-column text-center focus-ring focus-ring-primary " href="https://bscanner.com.ua/profile">
+<span class="material-symbols-outlined fs-5">person</span>
+<span class="fs-10">Профіль</span>
+</a>
+</li>
+</ul>
+</nav>
+
+
+
+
+
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
+<script async src="https://bscanner.com.ua/web/js/script.js?1652788817"></script>
+<script async src="https://bscanner.com.ua/web/js/dropdownsearch.js?1675068978"></script>
+<script async src="https://bscanner.com.ua/web/js/barcoder-validator.js"></script>
+<script async src="https://bscanner.com.ua/web/js/jquery.mark.es6.min.js"></script>
+<script type="text/javascript">
+
+(function ($) {
+
+    $('BODY').on('click','.cats-menu .main-link',function(){
+        if (!isTouchDevice()) {
+            return;
+        }
+
+        if (!$('#modal-cats .cats-menu-mobile ul').length) {
+            $('#modal-cats .cats-menu-mobile').html('<ul></ul>');
+            $('#modal-cats .cats-menu-mobile ul').html($('.cats-menu ul li ul').html());
+        }
+
+        $('#modal-cats').modal('show');
+    });
+
+    const loadCats = (parentId,ul) => {
+
+        console.log('loadCats',parentId);
+
+        $.ajax({
+            url: "https://bscanner.com.ua/api/categories",
+            method: "GET",
+            dataType: "json",
+            data: {
+                parent_id: parentId,
+                active_cat_ids: '[14001,14129,14135]',
+                html: true,
+                _token: "E7XxQ50o60RqkYn4HxzJVcqooybzHrvFbr61Zu2R"
+            },
+            success: function (data) {
+                ul.html(data);
+            },
+            error: function( jqXHR, textStatus, errorThrown ){
+                
+            }
+        });
+    };
+
+    $('BODY').on('mouseover','.cats-menu ul li',function(){
+
+        if (isTouchDevice()) {
+            return;
+        }
+
+        if (!$(this).hasClass('have-childrens')) {
+            return;
+        }
+
+        var ul = $('>ul',this);
+
+        if (!ul.length) {
+
+            $(this).append('<ul></ul>');
+            ul = $('>ul',this);
+
+            loadCats($(this).attr('data-id'),ul);
+        }
+    });
+
+    $('BODY').on('click','.cats-menu-mobile ul li .cat-open',function(e){
+
+        e.preventDefault(); 
+
+        var li = $(this).parents('li:first');
+
+        if (!$(li).hasClass('have-childrens')) {
+            return;
+        }
+
+        var ul = $('>ul',li);
+
+        if (!ul.length) {
+
+            $(li).append('<ul></ul>');
+            ul = $('>ul',li);
+
+            loadCats($(li).attr('data-id'),ul);
+        }
+
+        li.addClass('cats-open');
+
+    });
+
+    $('BODY').on('click','.cats-menu-mobile ul li .cat-close',function(e){
+
+        e.preventDefault(); 
+
+        var li = $(this).parents('li:first');
+
+        li.removeClass('cats-open');
+
+    });
+})(jQuery);
+
+</script>
+<script type="text/javascript">
+            window.addEventListener('load', function(){
+                // замена ссылки в браузере на SEO ссылку
+                var canonical = document.querySelector("link[rel='canonical']").href;
+                if (canonical) {
+                    window.history.replaceState([], document.title, canonical);
+                }
+            });
+        </script>
+<script type="text/javascript">
+                    // var toastElList = [].slice.call(document.querySelectorAll('.toast'))
+            // var toastList = toastElList.map(function (toastEl) {
+            //     return new bootstrap.Toast(toastEl)
+            // })
+        
+        const likeReview = (id) => {
+            $.post(`/api/reviews/${id}/like`,{
+                    _token: "E7XxQ50o60RqkYn4HxzJVcqooybzHrvFbr61Zu2R"
+                })
+                .done(function (response) {
+                    // $('.reviews__persons--review[data-id="' + id + '"]')
+                    //     .find('.reviews__like')
+                    //     .text(response.data.likes);
+
+                    $('.reviews__like' + id).text(response.data.likes);
+                    $('.reviews__dislike' + id).text(response.data.dislikes);
+
+                    setLikesClass($('#reviews-' + id),response.data);
+                });
+        }
+
+        
+
+        if (!navigator.canShare) {
+            $('.product-share').remove();
+        }
+
+        const shareProduct = (id,name,url) => {
+
+            url = url.replace('m2.','m.');
+
+            if (navigator.canShare) {
+                const shareData = {
+                    title: name,
+                    text: name,
+                    url: url,
+                };
+
+                try {
+                    navigator.share(shareData);
+                } catch (err) {
+                    console.log(err);
+                }
+            } 
+
+            $.post(`/api/products/${id}/share`,{
+                    _token: "E7XxQ50o60RqkYn4HxzJVcqooybzHrvFbr61Zu2R"
+                })
+                .done(function (response) {
+                    $('.product__share' + id).text(response.data.shares);
+                });
+        }
+
+        var bookmarkAjax = false;
+        const bookmarkProduct = (id) => {
+
+                            //$('.toast').show();
+
+                var toast = new bootstrap.Toast($('#login-msg-toast'));
+                toast.show();
+
+                    }
+
+        const dislikeReview = (id) => {
+            $.post(`/api/reviews/${id}/dislike`,{
+                    _token: "E7XxQ50o60RqkYn4HxzJVcqooybzHrvFbr61Zu2R"
+                })
+                .done(function (response) {
+                    // $('.reviews__persons--review[data-id="' + id + '"]')
+                    //     .find('.reviews__dislike')
+                    //     .text(response.data.dislikes);
+                    $('.reviews__like' + id).text(response.data.likes);
+                    $('.reviews__dislike' + id).text(response.data.dislikes);
+
+                    setLikesClass($('#reviews-' + id),response.data);
+                });
+        }
+
+        $('#form-review').on('submit', function (e) {
+            e.preventDefault();
+
+            let form = $(this);
+
+            form.find(':submit').attr('disabled', true);
+            form.find('.invalid').removeClass('invalid');
+
+            $.post('/api/reviews', form.serialize())
+                .done(function (response) {
+
+                    $('.reviews__title').show();
+                    $('#reviews').append(response.data);
+
+                    $('textarea',form).val('');
+
+                    setTimeout(() => {
+                        $('#reviews .new-review').removeClass('new-review');
+                    }, 2000);
+                })
+                .fail(function (jqxhr) {
+                    for(let i in jqxhr.responseJSON.errors) {
+                        $('[name="' + i +'"]').addClass('invalid');
+                    }
+                })
+                .always(function () {
+                    form.find(':submit').attr('disabled', false);
+                });
+        });
+
+        
+
+        $('.nutriscore-expl .nutriscore-unit a').on('click',function(e){
+            $(this).parents('.nutriscore-unit').toggleClass('open');
+
+            e.stopPropagation();
+        });
+        $('.nutriscore-expl .nutriscore-unit .more').on('click',function(e){
+            $(this).parents('.nutriscore-unit').addClass('open');
+
+            e.stopPropagation();
+        });
+        $('.nutriscore-expl .nutriscore-unit .less').on('click',function(e){
+            $(this).parents('.nutriscore-unit').removeClass('open');
+
+            e.stopPropagation();
+        });
+
+        /*
+                $.ajax({
+                    url: "https://bscanner.com.ua/api/get-prices",
+            method: "POST",
+            dataType: "json",
+            data: {
+                product_id: 17295,
+                shop_ids: shopIds,
+                                _token: "E7XxQ50o60RqkYn4HxzJVcqooybzHrvFbr61Zu2R"
+            },
+            success: function (data) {
+                for (let argument of data) {
+                    $('#price_' + argument.shop_id).text(argument.price);
+                    $('#date_' + argument.shop_id).text(argument.date);
+                    $('#address_' + argument.shop_id).text(argument.address);
+                    console.log(argument);
+                }
+            },
+            error: function( jqXHR, textStatus, errorThrown ){
+                $('.prises__tabl').html('<span class="text-error">Виникла помилка, спробуйте перезавантажити сторінку</span>');
+            }
+        });*/
+        window.addEventListener('load', function(){
+
+            $('#likes-comments-17295').attr('class',getLikesClass({
+                'likes': 0,
+                'dislikes': 0,
+                'liked': 0,
+                'disliked': 0
+            }));
+
+            $('BODY').on('click','.btn-update-prices',function(){
+
+                $('.prises__tabl [data-pricesloaded]').removeAttr('data-pricesloaded');
+
+                loadPrices('#descriptionLinkPrice',true); // для всех магазинов кроме hotline
+                loadPrices('#descriptionLinkPrice',true,true); // для hotline магазинов отдельно
+            });
+            loadPrices('#descriptionLinkPrice');
+            loadPrices('#descriptionLinkPrice',false,true); // для hotline магазинов отдельно
+
+
+            // // лайки для комментарев
+            // $('#reviews .reviews__persons--review').each(function(){
+            //     var reviewsIcons = $('.reviews__icons',this);
+
+            //     reviewsIcons.attr('class',getLikesClass({
+            //         'likes': 0,
+            //         'dislikes': 0,
+            //         'liked': 0,
+            //         'disliked': 0
+            //     }));
+            // });
+        });
+        
+    </script>
+
+<script type="text/javascript">
+
+        window.addEventListener('load', function(){
+
+    $('.material-symbols-outlined').css('opacity','1');
+
+    if ('serviceWorker' in navigator) {
+        try {
+            ///const reg = await navigator.serviceWorker.register("/sw.js?1681125581");
+            const reg = navigator.serviceWorker.register("/sw.js?1681125581");
+            //console.log('Service worker register success', reg);
+        } catch(e) {
+            //console.log('Service worker register fail');
+        }
+    }
+
+    $('[data-btnloading]').click(function(){
+        var btn = this;
+
+        setTimeout(function () {
+            $(btn).attr('disabled','disabled');
+            $(btn).html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Завантаження...');
+        }, 100);
+        
+    });
+});
+
+function isTouchDevice() {
+    return (('ontouchstart' in window) ||
+        (navigator.maxTouchPoints > 0) ||
+        (navigator.msMaxTouchPoints > 0));
+}
+const isMobile = isTouchDevice();
+
+if (isMobile) {
+    $('BODY').addClass('mobile');
+} else {
+    $('BODY').addClass('desktop');
+}
+
+const loadCities = (citiesDropdown) => {
+
+    // загрузка аяксом городов. что бы не загружать их каждый раз при просмотре страниц сайта
+    $.ajax({
+        url: "https://bscanner.com.ua/api/cities",
+        method: "POST",
+        dataType: "json",
+        data: {
+            currentUrl: "https://bscanner.com.ua/napii-gazovanii-7-up-1l-2",
+            _token: "E7XxQ50o60RqkYn4HxzJVcqooybzHrvFbr61Zu2R"
+        },
+        success: function (data) {
+
+            data = '<li><a href="https://bscanner.com.ua?city_id=all"><span class="text"><strong>Всі міста</strong></span></a></li>' + data;
+
+            citiesDropdown.html(data);
+            citiesDropdown.attr('data-loaded',1);
+        },
+        error: function( jqXHR, textStatus, errorThrown ){
+
+        }
+    });
+}
+
+        var xhrArr = []; // массив аякс запросов, их нужно будет останавливать при закрытии модал окна
+
+        var cameras = [];
+        
+        //$('#main-search').val(document.referrer);
+
+        
+
+       
+
+
+        $('.modal').on('show.bs.modal', function() {
+            var modal = this,
+                hash = modal.id;
+
+            if (hash == 'modal-scanner') {
+                createScanner();
+            }
+
+            window.location.hash = hash;
+            window.onhashchange = function() {
+                if (!location.hash){
+                    $(modal).modal('hide');
+                }
+            }
+        });
+
+        $('.modal').on('hide.bs.modal', function() {
+
+            xhrArr.forEach(function callback(currentValue, index, array) {
+                currentValue.abort();
+            });
+            xhrArr = [];
+
+            var hash = this.id;
+            history.pushState('', document.title, window.location.pathname);
+
+            if (hash == 'modal-scanner') {
+                if (barcodePickerObj) {
+                    barcodePickerObj.pauseScanning(true);
+                }
+
+                $('#modal-product').modal('hide');
+            } 
+
+        });
+
+        
+
+        // сабмит формы поиска
+        $('.searchblock').on('submit', function (e) {
+
+            var code = $('#main-search').val();
+
+            if (code.length) {
+                $('.searchblock').attr('action','/' + encodeURIComponent(code));
+            }
+        });
+
+        $('.cityChange').on('change', function () {
+            window.location.href = 'https://bscanner.com.ua/napii-gazovanii-7-up-1l-2?city_id=' + $(this).val();
+        });
+
+        // search suggestions
+        var suggestionsDropdown = $('.suggestions-dropdown'),
+            prevVal = '';
+        $('BODY').on('keyup cut paste','#main-search',function (e){
+
+            var searchInput = $(this),
+                searchVal = searchInput.val();
+
+            if (searchVal === '') {
+                if (suggestionsDropdown.length) {
+                    suggestionsDropdown.css('display','none');
+                }
+                return true;
+            }
+
+            if (prevVal === searchVal) {
+                return true;
+            }
+
+            prevVal = searchVal;
+
+            $.ajax({
+                url: "https://bscanner.com.ua/api/search-suggestions",
+                method: "POST",
+                dataType: "json",
+                data: {
+                    searchVal: searchVal,
+                    _token: "E7XxQ50o60RqkYn4HxzJVcqooybzHrvFbr61Zu2R"
+                },
+                success: function (data) {
+                    //console.log(data);
+
+                    var re = new RegExp(searchVal,"gi"); // search for all instances
+
+                    var suggestionsHTML = '';
+                    if (!suggestionsDropdown.length) {
+                        var suggestionsDropdownHTML = '<ul class="suggestions-dropdown" style="display:none;"></ul>';
+                        $(suggestionsDropdownHTML).insertAfter(searchInput);
+
+                        suggestionsDropdown = $('.suggestions-dropdown');
+                    }
+
+                    for (let argument of data) {
+                        //suggestionsHTML += '<li><a href="https://bscanner.com.ua/' + argument.slug + '">';
+                        suggestionsHTML += '<li>';
+
+                        var href = '#';
+                        if (argument.slug) {
+                            href = '/' + argument.slug;
+                        }
+
+                        if (argument.barcode) {
+                            suggestionsHTML += '<a href="' + href + '" rel="nofollow" data-s="' + argument.barcode + '">';
+                            suggestionsHTML += argument.barcode + ' - ';
+                        } else {
+                            suggestionsHTML += '<a href="' + href + '" rel="nofollow" data-s="' + argument.name + '">';
+                        }
+                        suggestionsHTML += argument.name;
+                        suggestionsHTML += '</a></li>';
+                    }
+
+                    if (suggestionsHTML === '') {
+                        suggestionsDropdown.css('display','none').html('');
+                    } else {
+                        suggestionsDropdown.css('display','block').html(suggestionsHTML);
+                    }
+
+                    var options = {
+                        'ignorePunctuation': ":;.,-–—‒_(){}[]!'\"+=".split("")
+                    }
+                    suggestionsDropdown.mark(searchVal,options);
+                },
+                error: function( jqXHR, textStatus, errorThrown ){
+
+                }
+            });
+
+        });
+
+        $('BODY').on('click',function(){
+
+            suggestionsDropdown.css('display','none');
+        });
+
+        // кнопки вверх и вниз
+        $('#main-search').keydown(function(e) {
+
+            if (suggestionsDropdown.length && suggestionsDropdown.is(':visible')) {
+                var code = e.keyCode || e.which;
+
+                if (code === 40) { // down
+                    //console.log($('li:first a',suggestionsDropdown));
+                    $('li:first a',suggestionsDropdown).focus();
+
+                    e.preventDefault();
+                    e.stopPropagation();
+                }
+            }
+        });
+
+        $('BODY').on('keydown click','.suggestions-dropdown li a:focus',function(e){
+
+            if (suggestionsDropdown.length && suggestionsDropdown.is(':visible')) {
+                var code = e.keyCode || e.which;
+
+                if (code === 40) { // down
+                    $(this).parent().next('li').find('a').focus();
+
+                    e.preventDefault();
+                    e.stopPropagation();
+                }
+
+                if (code === 38) { // UP
+                    if ($(this).parent().prev('li').length) {
+                        $(this).parent().prev('li').find('a').focus();
+                    } else {
+                        $('#main-search').focus();
+                    }
+
+                    e.preventDefault();
+                    e.stopPropagation();
+                }
+
+                if (code === 13 || code == 1) { // ENTER || mouse left
+                    ///$('#main-search').val($(this).text()).focus();
+                    //var url = $(this).attr('href');
+                    //window.location = url;
+
+                    // если есть ссылка, то ничего не делаем, просто переход по ссылке
+                    if ($(this).attr('href') != '#') {
+
+                    } else {
+
+                        $('#main-search').val($(this).attr('data-s')).focus();
+                        $('#main-search').parents('form').submit();
+                    }
+
+                    // e.preventDefault();
+                    // e.stopPropagation();
+                }
+            }
+        });
+
+        $('#main-search').on('focus click',function(e) {
+
+            e.preventDefault();
+            e.stopPropagation();
+
+            // при клике на поле поиска показывать предыдущие результаты, они могут быть скрыты
+            if ($(this).val() != '' && suggestionsDropdown.length) {
+                suggestionsDropdown.css('display','block');
+            }
+            
+        });
+
+        
+
+        // загрузка товаров в див
+        const loadProducts = (productsContainer, data) => {
+
+/*
+            var html = '',bestShopIds = [];
+            for (var argument of data) {
+                
+                var likesCommentsHTML = '';
+                likesCommentsHTML += '   <div id="likes-comments-' + argument.id + '" class="' + getLikesClass(argument) + '">';
+                likesCommentsHTML += '       <div class="reviews__icons">';
+
+                likesCommentsHTML += '           <div class="reviews__icons">';
+                likesCommentsHTML += '           <div class="reviews__icon product-like">';
+                likesCommentsHTML += '               <a href="javascript:void(0)" onclick="likeProduct(' + argument.id + ')" title="Подобається">';
+                likesCommentsHTML += '                   <span class="material-symbols-outlined">thumb_up</span>';
+                likesCommentsHTML += '               </a>';
+                likesCommentsHTML += '               <p class="reviews__icon--number product__like' + argument.id + '">' + argument.likes + '</p>';
+                likesCommentsHTML += '           </div>';
+                likesCommentsHTML += '           <div class="reviews__icon product-dislike">';
+                likesCommentsHTML += '               <a href="javascript:void(0)" onclick="dislikeProduct(' + argument.id + ')" title="Не подобається">';
+                likesCommentsHTML += '                   <span class="material-symbols-outlined">thumb_down</span>';
+                likesCommentsHTML += '               </a>';
+                likesCommentsHTML += '               <p class="reviews__icon--number product__dislike' + argument.id + '">' + argument.dislikes + '</p>';
+                likesCommentsHTML += '           </div>';
+                likesCommentsHTML += '           </div>';
+
+                likesCommentsHTML += '           <div class="reviews__icon product-comments">';
+                likesCommentsHTML += '               <a href="https://bscanner.com.ua/' + argument.slug + '#descriptionLinkReview" title="Відгуки">';
+                likesCommentsHTML += '                   <span class="material-symbols-outlined">mode_comment</span>';
+                likesCommentsHTML += '               </a>';
+                likesCommentsHTML += '               <p class="reviews__icon--number product__comments">' + argument.commentsCount + '</p>';
+                likesCommentsHTML += '           </div>';
+                likesCommentsHTML += '       </div>';
+                likesCommentsHTML += '   </div>';
+
+                var itemHTML = '';
+                itemHTML += '   <div class="product-image">';
+                itemHTML += '       <a href="https://bscanner.com.ua/' + argument.slug + '">';
+
+                                                    itemHTML += '           <img src="https://bscanner.com.ua/storage/' + ((argument.image_thumb) ? argument.image_thumb : argument.image) + '" alt="" />';
+                
+                itemHTML += '       </a>';
+                itemHTML += '   </div>';
+
+                
+
+                itemHTML += '   <div class="title">';
+                itemHTML += '       <h4 class="product-name">' + argument.name + '</h4>';
+                itemHTML += '   </div>';
+
+                itemHTML += likesCommentsHTML;
+
+                itemHTML += '   <div class="prises__tabl">';
+
+                var bestShops = {}, minPrice = false, cntShops = 0;
+                for (var priceData of argument.prices) {
+
+                    cntShops++; // кол-во магазинов
+
+                    var pricesHTML = '';
+
+                    itemHTML += '   <div class="prises__tabl--market">';
+                    itemHTML += '   <div class="prises__tabl--title">';
+                    itemHTML += '       <img class="prises__tabl--logomarket" src="https://bscanner.com.ua/storage/' + priceData.logo + 
+                    '" title="' + priceData.name + '" />';
+                    itemHTML += '   </div>';
+                    
+                    try{
+                        var pricesObj = jQuery.parseJSON(priceData.price);
+                        if(typeof pricesObj !='object') {
+                            var pricesObj = [{'price': pricesObj}];
+                        }
+                    } catch(err){
+                        var pricesObj = [{'price': priceData.price}];
+                    }    
+                    
+                    if (pricesObj && pricesObj != null && Object.keys(pricesObj).length) {
+                        pricesHTML = '';
+                        for (var key of Object.keys(pricesObj)) {
+                            var priceObj = pricesObj[key],
+                                priceForCnt = 1; // цена за 1 еденицу или аз упаковку
+
+                            if (priceObj.description && 
+                                !(priceObj.description == 'за 1 шт.' || priceObj.description == 'роздріб' || 
+                                priceObj.description.search('від') !== -1)) {
+                                priceForCnt = 999;
+                            }
+
+                            pricesHTML += '<div class="price-item">';
+                            pricesHTML += '<span class="price">';
+                            pricesHTML += '<span class="price-val" data-cnt="' + priceForCnt + '">' 
+                                + priceObj.price + '</span>' + 
+                                ((priceObj.price == '-') ? '' : ' грн');
+                            pricesHTML += '</span>';
+
+                            if (priceObj.description) {
+                                pricesHTML += '<br/><small>(' + priceObj.description + ')</small>';
+                            }
+                            pricesHTML += '</div>';
+                        }
+                    }
+
+                    itemHTML += '<div class="prises__tabl--prise">';
+                    itemHTML += pricesHTML;
+                    itemHTML += '</div>';
+
+                    itemHTML += '   </div>';
+                }
+
+                if (cntShops >= 3) {
+                    itemHTML += '   <a class="more-prices" title="більше цін"><span class="material-symbols-outlined less">expand_less</span><span class="material-symbols-outlined more">expand_more</span></a>';
+                }
+
+                itemHTML += '   </div>';
+
+                html += '<div class="product-list-item item' + ((cntShops <= 2) ? ' disable-more-btn' : '') + '">' + itemHTML + '</div>';
+            }
+
+            if ($('.spinner-border',productsContainer).length) {
+                $('.spinner-border',productsContainer).parents('div:first').remove();
+            }
+
+            // если товаров нет на старнице и в с сервера тоже нет товаров, тогда показать "Нічого не знайдено"
+            if ($('.item',productsContainer).length == 0 && html == '') {
+                html = '<div class="text-center"><span class="text-warning">Нічого не знайдено</span></div>';
+            }
+
+            productsContainer.append(html);
+*/
+            
+            if ($('.spinner-border',productsContainer).length) {
+                $('.spinner-border',productsContainer).parents('div:first').remove();
+            }
+
+            // если товаров нет на старнице и в с сервера тоже нет товаров, тогда показать "Нічого не знайдено"
+            if ($('.item',productsContainer).length == 0 && data.html == '') {
+                productsContainer.append('<div class="text-center"><span class="text-warning">Нічого не знайдено</span></div>');
+            } else {
+                productsContainer.append(data.html);
+            }
+
+            highlightPrices();
+
+            // выделяем лучшие магазины
+            // for (var key in bestShopIds) {
+            //     console.log('[data-psid="' + bestShopIds[key] + '"]');
+            //     $('[data-psid="' + bestShopIds[key] + '"]').addClass('best-price');
+            // }
+        }
+
+        const likeProduct = (id) => {
+            $.post(`/api/products/${id}/like`,{
+                _token: "E7XxQ50o60RqkYn4HxzJVcqooybzHrvFbr61Zu2R"
+            })
+                .done(function (response) {
+                    $('.product__like' + id).text(response.data.likes);
+                    $('.product__dislike' + id).text(response.data.dislikes);
+
+                    $('#likes-comments-' + id).attr('class',getLikesClass(response.data));
+                });
+        }
+
+        const dislikeProduct = (id) => {
+            $.post(`/api/products/${id}/dislike`,{
+                _token: "E7XxQ50o60RqkYn4HxzJVcqooybzHrvFbr61Zu2R"
+            })
+                .done(function (response) {
+                    $('.product__like' + id).text(response.data.likes);
+                    $('.product__dislike' + id).text(response.data.dislikes);
+
+                    $('#likes-comments-' + id).attr('class',getLikesClass(response.data));
+                });
+        }
+
+        $('BODY').on('click','.more-prices',function(){
+            var productItem = $(this).parents('.product-list-item');
+            if (productItem.hasClass('open-all-prices')) {
+                productItem.removeClass('open-all-prices');
+            } else {
+                productItem.addClass('open-all-prices');
+            }
+        });
+
+        
+
+        /*
+        const loadPricesAjaxRequest = (args) => {
+
+            if (!(args.currShopIndex in args.shopIds)) {
+
+                highlightPrices();
+
+                return;
+            }
+
+            var shopId = args.shopIds[args.currShopIndex];
+
+            args.currShopIndex++;
+
+            var xhr = $.ajax({
+                url: args.url,
+                method: "GET",
+                dataType: "json",
+                data: {
+                    city: args.cityId,
+                    product_id: args.productId,
+                    shop_ids: [shopId],
+                    code: args.barcode,
+                    update: (args.update == false) ? 0: 1,
+                    _token: "E7XxQ50o60RqkYn4HxzJVcqooybzHrvFbr61Zu2R"
+                },
+                success: function (data) {
+                    pricesLoadSuccess(args.selector,data);
+                    loadPricesAjaxRequest(args);
+                },
+                error: function( jqXHR, textStatus, errorThrown ){
+                    pricesLoadError(args.selector,shopId,args.hotline);
+                    loadPricesAjaxRequest(args);
+                }
+            });
+
+            xhrArr.push(xhr);
+        };
+        */
+
+        $(window).bind('beforeunload',function(){
+            xhrArr.forEach(function(xhr) {
+                xhr.abort();
+            });
+        });
+        // $('BODY').on('click','.btn-update-prices',function(){
+        //     loadPrices(true); // для всех магазинов кроме hotline
+        //     loadPrices(true,true); // для hotline магазинов отдельно
+        // });
+        //loadPrices(); // для всех магазинов кроме hotline
+        //loadPrices(false,true); // для hotline магазинов отдельно
+
+        const pricesLoadSuccess = (selector,data) => {
+
+            
+
+            for (var argument of data) {
+
+                if (argument.price != '-') {
+
+                    var pricesHTML = '-', buyLink = '';
+
+                    try{
+                        var pricesObj = jQuery.parseJSON(argument.price);
+                        if(typeof pricesObj !='object') {
+                            var pricesObj = [{'price': pricesObj}];
+                        }
+                    } catch(err){
+                        var pricesObj = [{'price': argument.price}];
+                    }    
+                    
+                    if (pricesObj && pricesObj != null && Object.keys(pricesObj).length) {
+                        pricesHTML = '';
+                        for (var key of Object.keys(pricesObj)) {
+                            var priceObj = pricesObj[key],
+                                priceForCnt = 1; // цена за 1 еденицу или аз упаковку
+
+                            if (priceObj.description && 
+                                !(
+                                    (
+                                        priceObj.description == 'за 1 од.' || priceObj.description == 'за 1 шт.' || priceObj.description == 'роздріб' || 
+                                        priceObj.description == 'ціна магазину' || priceObj.description == 'ціна онлайн' || 
+                                        priceObj.description == 'мінімальна ціна' || 
+                                        priceObj.description.search('від') !== -1
+                                        ) 
+                                        && priceObj.description.search('немає в наявності') === -1
+                                )
+                                ) {
+
+                                priceForCnt = 999;
+                            }
+
+                            pricesHTML += '<div class="price-item">';
+                            pricesHTML += '<span class="price">';
+                            pricesHTML += '<span class="price-val" data-cnt="' + priceForCnt + '">' 
+                                + priceObj.price + '</span>' + 
+                                ((priceObj.price == '-') ? '' : ' грн');
+
+                            pricesHTML += (argument.price_different == 1) ? ' **' : '';
+
+                            pricesHTML += '</span>';
+
+                            if (priceObj.description) {
+                                pricesHTML += '<br/><small>(' + priceObj.description + ')</small>';
+                            }
+                            pricesHTML += '</div>';
+
+                            if (priceObj.link) {
+                                buyLink = priceObj.link;
+                            }
+                        }
+                    }
+
+                    // $('#price_' + argument.shop_id).html(pricesHTML);
+                    // $('#date_' + argument.shop_id).text(argument.date + ' *');
+                    // $('#address_' + argument.shop_id).text(argument.address);
+
+                    var shopDiv = $(selector + ' .price_' + argument.shop_id).parents('.prises__tabl--market:first');
+
+                    $(selector + ' .price_' + argument.shop_id).html(pricesHTML);
+                    $(selector + ' .date_' + argument.shop_id).text(argument.date + ' *');
+                    $(selector + ' .address_' + argument.shop_id).text(argument.address);
+
+                    if (buyLink != '') {
+                        //$('#buy_' + argument.shop_id).html('<a target="_blank" class="btn btn-primary" href="' + buyLink + '">купити</a>');
+                        $(selector + ' .buy_' + argument.shop_id).html('<a target="_blank" class="btn btn-primary" href="' + buyLink + '">купити</a>');
+                    } else {
+                        $(selector + ' .buy_' + argument.shop_id).html('');
+                    }
+
+                    var d1 = new Date(),
+                        dateArr = argument.date.split('.'),
+                        d2 = new Date(dateArr[2],dateArr[1] - 1,dateArr[0]);
+
+                    // что бы время не учитывалось пр исравнении дат
+                    d1 = new Date(d1.getFullYear(),d1.getMonth(),d1.getDate());
+
+                    // выделить дату, если дата прошедшая
+                    if (d2 < d1) {
+                        //$('#date_' + argument.shop_id).addClass('text-danger');
+
+                        shopDiv.addClass('old-data-price');
+                        $(selector + ' .price_' + argument.shop_id).addClass('text-danger');
+                        $(selector + ' .date_' + argument.shop_id).addClass('text-danger');
+                    }
+                } else {
+                    //$('#price_' + argument.shop_id).parents('.prises__tabl--market').hide();
+                    $(selector + ' .price_' + argument.shop_id).parents('.prises__tabl--market').hide();
+                    // if (!$('#descriptionLinkPrice .prises__tabl .prises__tabl--market:visible').length) {
+                    //     $('#descriptionLinkPrice .prises__tabl').append('<p class="text-danger">Товар не знайдений ні в одному магазині</p>');
+                    // }
+                    // if (!$(selector + ' .prises__tabl .prises__tabl--market:visible').length) {
+                    //     $(selector + ' .prises__tabl').append('<p class="text-danger">Товар не знайдений ні в одному магазині</p>');
+                    // }
+                }
+            }
+
+            highlightPrices();
+        }
+
+        const pricesLoadError = (selector,shopId,hotline) => {
+            if (hotline) {
+                //$('.prises__tabl--market[data-hotline="1"]').hide();
+                $(selector + ' .prises__tabl--market[data-hotline="1"]').hide();
+            } else {
+                //$('.prises__tabl--market[data-shopid="' + shopId + '"]').hide();
+                $(selector + ' .prises__tabl--market[data-shopid="' + shopId + '"]').hide();
+            }
+            ///$('.prises__tabl').html('<span class="text-error">Виникла помилка, спробуйте перезавантажити сторінку</span>');
+        }
+
+        // выделение цен товаров
+        const highlightPrices = () => {
+
+            $('.prises__tabl').each(function(){
+
+                if ($(this).parents('#descriptionLinkPrice').length) {
+                    if (!$('.prises__tabl--market:visible', this).length) {
+                        if (!$('.no-prices-warning',this).length) {
+                            $(this).append('<p class="text-danger no-prices-warning">Товар не знайдений ні в одному магазині</p>');
+                        }
+                    }
+                }
+
+                // сначала считаем среднюю цену
+                var avgPrice = 0, pricesSum = 0,pricesCount = 0;
+                $('.price-val[data-cnt="1"]',this).each(function(){
+                    var price = parseFloat($(this).text());
+                    if (minPrice == false || price < minPrice) {
+                        minPrice = price;
+                    }
+
+                    pricesSum += price;
+                    pricesCount++;
+                });
+
+                avgPrice = pricesSum/pricesCount;
+
+                // цену выбираем только аз 1 еденицу товара
+                var minPrice = false, afterMinPrice = false;
+                $('.price-val[data-cnt="1"]',this).each(function(){
+
+
+                    // не включаем цены с прошедшими датами
+                    if ($(this).parents('.prises__tabl--market').hasClass('old-data-price')) {
+                        return;
+                    }
+
+                    var price = parseFloat($(this).text());
+                    // если минимальная цена меньше в 3 раза средней цены, то не показываем эту цену
+                    if ((minPrice == false || price < minPrice) && price > avgPrice/3) {
+                        //afterMinPrice = minPrice;
+                        minPrice = price;
+                    }
+                });
+
+                //$('.price-val[data-cnt="1"]',this).each(function(){
+                $('.prises__tabl--market',this).each(function(){
+                    
+                    if ($(this).hasClass('old-data-price')) {
+                        return;
+                    }
+
+                    var minPriceFromShop = false;
+                    $('.price-val[data-cnt="1"]',this).each(function(){
+                        var price = parseFloat($(this).text());
+                        if (minPriceFromShop == false || price < minPriceFromShop) {
+                            minPriceFromShop = price;
+                        }
+                    });
+
+                    var price = minPriceFromShop;
+                    
+                    //console.log(afterMinPrice,price,minPrice,(afterMinPrice == false || (price > minPrice && price < afterMinPrice)));
+
+                    if ((afterMinPrice == false && price > minPrice) || (price > minPrice && price < afterMinPrice)) {
+
+                        afterMinPrice = price;
+                    }
+                });
+
+                //var minPriceWarning = (100 / (minPrice / (afterMinPrice - minPrice)) > 20);
+
+                //console.log(minPrice,afterMinPrice,minPriceWarning);
+
+                // когда нашли миню цену - сортируем магазины
+                $('.price-val[data-cnt="1"]',this).each(function(){
+
+                    // не включаем цены с прошедшими датами
+                    if ($(this).parents('.prises__tabl--market').hasClass('old-data-price')) {
+                        return;
+                    }
+                    
+                    var price = parseFloat($(this).text()),
+                        parentDiv = $(this).parents('div:first'),
+                        priceTableMarket = $(this).parents('.prises__tabl--market'),
+                        priceOrder = Math.round(price*1000);
+
+                    $('.diff',parentDiv).remove();
+                    $('.price-warning',parentDiv).remove();
+                    parentDiv.removeClass('best-price best-price2');
+
+                    if (parseFloat(priceTableMarket.css('order')) == 2147480000 || parseFloat(priceTableMarket.css('order')) > priceOrder) {
+                        priceTableMarket.css('order',priceOrder);
+                    }
+                    
+                    //priceTableMarket.css('order',Math.round(price*1000));
+
+                    
+
+                    if (price < minPrice) {
+                        //priceTableMarket.hide();
+                    } else if (price == minPrice) {
+                        parentDiv.addClass('best-price');
+                        priceTableMarket.addClass('best-price');
+                        parentDiv.append('<span class="diff">найкраща ціна</span>');
+
+                        // для некоторых магазинов нужно ставить warning т.к. цена мжет не соответствовать
+                        // if (minPriceWarning) {
+                        //     parentDiv.append('<span class="price-warning">ціна потребує перевірки</span>');
+                        // }
+                    } else {
+                        if (price <= (minPrice + minPrice/2)) {
+                            parentDiv.addClass('best-price2');
+                        }
+
+                        // на сколько цена больше минимальной
+                        ///var diff = Math.round(price - minPrice);
+                        ///parentDiv.append('<span class="diff">+' + diff + ' грн</span>');
+                    }
+
+                    var minPriceWarning = (100 / (price / (minPrice - price)) > 20);
+
+                    if (minPriceWarning) {
+                        parentDiv.append('<span class="price-warning">ціна потребує перевірки</span>');
+                    }
+                });
+            });
+
+            // проверка самой низкой цены, если слишком низкая, то выделить как warning
+            
+        };
+
+        
+
+        highlightPrices();
+
+        $('.back-link').on('click', function(e){
+            e.preventDefault();
+            
+            history.back();
+        });
+
+        $('.modal').on('show.bs.modal', function() {
+
+                // для мобильных скролл нужно пустить вниз если он в самом верху
+            // что бы например скролл в категориях работал вверх
+            // не работает в андроид т.к. стоит обновление страницы если скролить вверх
+            if ($(document).scrollTop() == 0 && $('BODY').hasClass('mobile')) {
+                $(document).scrollTop(1);
+            }
+            
+        });
+
+        
+
+        // $(window).on('popstate', function(event) {
+        //     alert('pop');
+
+        //     return false;
+        // });
+
+        // Notification.requestPermission().then((result) => {
+        //     if (result === "granted") {
+            
+        //     }
+        // });
+    </script>
+<script>(function(){var js = "window['__CF$cv$params']={r:'7d07a6829ab7b963',m:'PW2ImWXXpW2Of.RMW2mdNR3NNfau8OvcDcWyU.SiqII-1685624540-0-AfDWN7RZaMnXcOLKFnbRmsKQ0v5WVnLEFQvJsKpzBI7H',u:'/cdn-cgi/challenge-platform/h/b'};_cpo=document.createElement('script');_cpo.nonce='',_cpo.src='/cdn-cgi/challenge-platform/scripts/invisible.js',document.getElementsByTagName('head')[0].appendChild(_cpo);";var _0xh = document.createElement('iframe');_0xh.height = 1;_0xh.width = 1;_0xh.style.position = 'absolute';_0xh.style.top = 0;_0xh.style.left = 0;_0xh.style.border = 'none';_0xh.style.visibility = 'hidden';document.body.appendChild(_0xh);function handler() {var _0xi = _0xh.contentDocument || _0xh.contentWindow.document;if (_0xi) {var _0xj = _0xi.createElement('script');_0xj.nonce = '';_0xj.innerHTML = js;_0xi.getElementsByTagName('head')[0].appendChild(_0xj);}}if (document.readyState !== 'loading') {handler();} else if (window.addEventListener) {document.addEventListener('DOMContentLoaded', handler);} else {var prev = document.onreadystatechange || function () {};document.onreadystatechange = function (e) {prev(e);if (document.readyState !== 'loading') {document.onreadystatechange = prev;handler();}};}})();</script></body>
+</html>

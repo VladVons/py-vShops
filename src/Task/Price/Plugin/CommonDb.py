@@ -4,6 +4,8 @@
 
 
 from Inc.DbList import TDbList
+from Inc.Scheme.Parser import TSchemeBase
+from Inc.Scheme.SchemeApiBase import TSchemeApiBase
 from Inc.Util.Obj import GetNotNone
 
 
@@ -151,3 +153,14 @@ class TDbCrawl(TDbList):
                 'descr'
             ]
         )
+
+class TScheme(TSchemeBase):
+    def ParsePipe(self, aObj, aItem: list, aPath: str) -> object:
+        if (hasattr(TSchemeApiBase, aItem[0])):
+            aObj = self._CallPipe(aObj, aItem, aPath, TSchemeApiBase)
+        else:
+            aObj = self._ParsePipeDef(aObj, aItem, aPath)
+
+        if (aObj is None):
+            self.Err.append('%s->%s (none)' % (aPath, aItem))
+        return aObj
