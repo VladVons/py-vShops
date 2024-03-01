@@ -8,7 +8,6 @@
 
 
 import os
-import gspread
 #
 from Inc.ParserX.Common import TPluginBase
 from IncP.Log import Log
