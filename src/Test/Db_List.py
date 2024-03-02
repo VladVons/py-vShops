@@ -19,6 +19,12 @@ def Test_01():
         ['User', 'Age', 'Male', 'Price'],
         Data1
     )
+
+    Res = Dbl1.GetReprHtml()
+    print(Res)
+    return
+
+
     Str1 = Dbl1.GetRepr()
     with open('dbl.txt', 'w', encoding='utf8') as F:
         F.write(Str1)
