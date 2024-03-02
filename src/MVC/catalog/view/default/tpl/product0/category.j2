@@ -13,8 +13,16 @@
 {% block content %}
 <!-- category + -->
 {% set title = page_title %}
-{% include '../_inc/products_a.j2' %}
+<div class="container pb-2">
+  <div>
+    {% for x in breadcrumbs %}
+      <a href="{{x.href}}">/{{x.title}}</a>
+    {% endfor %}
+  </div>
 
-{% include '../_inc/pagination.j2' %}
+  {% include '../_inc/products_a.j2' %}
+
+  {% include '../_inc/pagination.j2' %}
 <!-- category - -->
+</div>
 {% endblock %}

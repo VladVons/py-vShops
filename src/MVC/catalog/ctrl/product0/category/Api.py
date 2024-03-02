@@ -5,6 +5,7 @@
 
 from IncP.LibCtrl import GetDictDefs, TPagination, TDbList
 from ..._inc.products_a import Main as products_a
+from ..._inc import GetBreadcrumbs
 
 
 async def Main(self, aData: dict = None) -> dict:
@@ -60,11 +61,13 @@ async def Main(self, aData: dict = None) -> dict:
         }
     )
     Category = DblCategory.Rec.GetAsDict()
+    BreadCrumbs = await GetBreadcrumbs(self, aLangId, aCategoryId)
 
     Res = {
         'dbl_products_a': DblProducts.Export(),
         'dbl_pagenation': DblPagination.Export(),
         'category': Category,
+        'breadcrumbs': BreadCrumbs,
         'info': {
             'title': Category['title'],
             'count': Dbl.Rec.total,

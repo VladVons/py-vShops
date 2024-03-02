@@ -1,4 +1,4 @@
-# Created: 2023.04.24 
+# Created: 2023.04.24
 # Author: Vladimir Vons <VladVons@gmail.com>
 # License: GNU, see LICENSE for more details
 
@@ -7,6 +7,7 @@ import json
 #
 from IncP.LibCtrl import GetDictDefs, Iif
 from .Features import TFeatures
+from ..._inc import GetBreadcrumbs
 
 
 async def Main(self, aData: dict = None) -> dict:
@@ -71,7 +72,7 @@ async def Main(self, aData: dict = None) -> dict:
     )
     Product['price_hist'] = DblPrice.Export()
 
-    Res['breadcrumbs'] = await self.GetBreadcrumbs(aLangId, Product['category_id'])
+    Res['breadcrumbs'] = await GetBreadcrumbs(self, aLangId, Product['category_id'])
 
     Schema = {
         '@context': 'https://schema.org/',
