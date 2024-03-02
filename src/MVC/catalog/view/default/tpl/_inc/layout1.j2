@@ -34,11 +34,27 @@
   </head>
 
   <body>
-    {% include './header.j2' %}
-    {% include './content_top.j2' %}
-    {% block content %}{% endblock %}
-    {% include './content_bottom.j2' %}
-    {% include './footer.j2' %}
+    <div id="sect-top">
+      {% include './header.j2' %}
+    </div>
+
+    <div id="sect-main" class="row">
+      <div id="sect-main-left" class="col">
+        {% include './content_left.j2' %}
+      </div>
+      <div id="sect-main-center" class="col-9">
+        {% include './content_top.j2' %}
+        {% block content %}{% endblock %}
+        {% include './content_bottom.j2' %}
+      </div>
+      <div id="sect-main-right" class="col">
+        {% include './content_right.j2' %}
+      </div>
+    </div>
+
+    <div id="sect-bottom">
+      {% include './footer.j2' %}
+    </div>
     {% include './cart_modal.j2' %}
     {% include './gotop.j2' %}
 
