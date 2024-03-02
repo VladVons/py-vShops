@@ -3,15 +3,24 @@
 # License: GNU, see LICENSE for more details
 
 
-async def Main(self, _aData: dict = None) -> dict:
-    LangId = self.GetLangId('ua')
+from IncP.LibCtrl import GetDictDefs
+
+
+async def Main(self, aData: dict = None) -> dict:
+    aCategoryId, aLang = GetDictDefs(
+        aData.get('query'),
+        ('category_id', 'lang'),
+        ('0', 'ua')
+    )
+    aLangId = self.GetLangId(aLang)
+
     Dbl = await self.ExecModelImport(
         'ref_product0/category',
         {
             'method': 'Get_CategoryAttr',
             'param': {
-                'aLangId': LangId,
-                'aCategoryId': 4
+                'aLangId': aLangId,
+                'aCategoryId': aCategoryId
             }
         }
     )

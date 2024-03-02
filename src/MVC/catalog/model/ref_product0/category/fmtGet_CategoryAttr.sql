@@ -1,4 +1,5 @@
 -- aLangId, aCategoryId
+--and (rpa.attr_id = 1 and (rpa.val = '8GB' or rpa.val = '16GB'))
 
 with wt1 as (
     select
@@ -25,7 +26,6 @@ with wt1 as (
          (rp.enabled) and 
          (rp.product0_id is not null) and
          (rt.enabled) 
-         --and (rpa.attr_id = 1 and (rpa.val = '8GB' or rpa.val = '16GB'))
     group by
         rpa.attr_id,
         rpa.val
@@ -36,7 +36,7 @@ with wt1 as (
 select 
     attr_id,
     title,
-    jsonb_object_agg(val, count)
+    jsonb_object_agg(val, count) as attrs
 from 
     wt1
 group by 

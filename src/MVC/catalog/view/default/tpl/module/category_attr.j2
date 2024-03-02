@@ -9,5 +9,16 @@
     {{ descr }}
     </div>
   {% endif %}
+
+  <div class="mt-3">
+  {% for Rec in TDbList().Import(dbl_category_attr) %}
+    <div class="fw-bold mt-2">{{Rec.title}}</div>
+    {% for Attr, Count in Rec.attrs.items() %}
+    <div>
+      <label><input type="checkbox" name="attrId_{{Rec.attr_id}}" value="{{Attr}}" disabled>{{Attr}} ({{Count}})</label>
+    </div>
+    {%- endfor %}
+  {%- endfor %}
+  </div>
 </div>
 <!-- category_attr - -->
