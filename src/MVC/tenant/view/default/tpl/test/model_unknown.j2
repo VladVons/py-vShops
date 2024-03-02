@@ -15,8 +15,11 @@
 
 {% block content %}
 <!-- model_unknown + -->
-<div class="container pb-2">
-    {{ TDbList().Import(dbl_model_unknown).GetReprHtml() }}
+<div class="container mb-3">
+    <h2>{{lang.model_unknown}}</h2>
+    <div class="mt-2">
+      {{ TDbList().Import(dbl_model_unknown).GetReprHtml() }}
+    </div>
 </div>
 <!-- model_unknown - -->
 {% endblock %}
