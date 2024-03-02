@@ -3,7 +3,7 @@
 # License: GNU, see LICENSE for more details
 
 
-from IncP.LibCtrl import GetDictDefs, TPagination, TDbList
+from IncP.LibCtrl import GetDictDefs, TPagination, TDbList, IsDigits
 from ..._inc.products_a import Main as products_a
 from ..._inc import GetBreadcrumbs
 
@@ -14,6 +14,10 @@ async def Main(self, aData: dict = None) -> dict:
         ('category_id', 'lang', 'sort', 'order', 'page', 'limit'),
         ('0', 'ua', ('sort_order, title', 'title', 'price'), ('asc', 'desc'), 1, 18)
     )
+
+    if (not IsDigits([aCategoryId, aPage, aLimit])):
+        return {'err_code': 404}
+
     aLimit = min(aLimit, 50)
     aLangId = self.GetLangId(aLang)
 

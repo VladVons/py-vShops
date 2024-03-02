@@ -3,7 +3,7 @@
 # License: GNU, see LICENSE for more details
 
 
-from IncP.LibCtrl import GetDictDefs
+from IncP.LibCtrl import GetDictDefs, IsDigits
 
 
 async def Main(self, aData: dict = None) -> dict:
@@ -12,6 +12,10 @@ async def Main(self, aData: dict = None) -> dict:
         ('category_id', 'lang'),
         ('0', 'ua')
     )
+
+    if (not IsDigits([aCategoryId])):
+        return {'err_code': 404}
+
     aLangId = self.GetLangId(aLang)
 
     Dbl = await self.ExecModelImport(

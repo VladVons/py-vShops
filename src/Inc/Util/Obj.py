@@ -221,7 +221,10 @@ def GetDictDefs(aData: dict, aKeys: list, aDef: list) -> list:
             if (Res not in aDef):
                 Res = aDef[0]
         else:
-            Res = type(aDef)(aData.get(aKey, aDef))
+            try:
+                Res = type(aDef)(aData.get(aKey, aDef))
+            except Exception as _E:
+                Res = None
         return Res
 
     if (aData):
@@ -239,3 +242,6 @@ def GetDictDefDeep(aData: dict, aKeys: list, aDef: list) -> list:
 
 def Iif(aCond: bool, aVal1, aVal2) -> object:
     return aVal1 if (aCond) else aVal2
+
+def IsDigits(aList: list) -> bool:
+    return all(str(x).isdigit() for x in aList)

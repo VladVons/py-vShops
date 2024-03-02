@@ -3,7 +3,7 @@
 # License: GNU, see LICENSE for more details
 
 
-from IncP.LibCtrl import GetDictDefs, TDbList, TPagination
+from IncP.LibCtrl import GetDictDefs, TDbList, TPagination, IsDigits
 from ..._inc.products_a import Main as products_a
 
 
@@ -35,10 +35,12 @@ async def Main(self, aData: dict = None) -> dict:
         ('', 'ua', ('sort_order, title', 'title', 'price'), ('asc', 'desc'), 1, 18)
     )
 
-    await self.Lang.Add(aLang, 'product/category')
+    if (not IsDigits([aPage, aLimit])):
+        return {'err_code': 404}
 
-    aLimit = min(aLimit, 50)
     aLangId = self.GetLangId(aLang)
+    aLimit = min(aLimit, 50)
+    await self.Lang.Add(aLang, 'product/category')
 
     Dbl = await self.ExecModelImport(
         'ref_product0/product',

@@ -68,8 +68,7 @@ class TApiCtrl(TApiBase):
         # Language collector
         Routes = aData.get('extends', [])
         Routes.append(aData.get('route'))
-        if ('err_code' in Res) or ('err' in Caller):
-            Routes.append('_inc/errors')
+        Routes.append('_inc/errors')
         for xRoute in Routes:
             await self.Lang.Add('ua', xRoute, 'tpl')
         Lang = self.Lang.Join()

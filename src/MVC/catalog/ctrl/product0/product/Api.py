@@ -5,7 +5,7 @@
 
 import json
 #
-from IncP.LibCtrl import GetDictDefs, Iif
+from IncP.LibCtrl import GetDictDefs, Iif, IsDigits
 from .Features import TFeatures
 from ..._inc import GetBreadcrumbs
 
@@ -16,6 +16,10 @@ async def Main(self, aData: dict = None) -> dict:
         ('lang', 'product_id'),
         ('ua', 0)
     )
+
+    if (not IsDigits([aProductId])):
+        return {'err_code': 404}
+
     aLangId = self.GetLangId(aLang)
 
     DblProduct = await self.ExecModelImport(
