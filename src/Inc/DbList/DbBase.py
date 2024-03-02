@@ -82,6 +82,30 @@ class TDbBase():
         Res.append(f'records: {self.GetSize()}')
         return '\n'.join(Res)
 
+    def GetReprHtml(self) -> str:
+        Res = []
+        Res.append('<table>')
+
+        Res.append(' <thead>')
+        Res.append('  <tr>')
+        Res.append('   <th>No</th>')
+        for Field in self.GetFields():
+            Res.append(f'   <th>{Field}</th>')
+        Res.append('  </tr>')
+        Res.append(' </thead>')
+
+        Res.append(' <tbody>')
+        for Rec in self:
+            Res.append('  <tr>')
+            Res.append(f'   <td>{self.RecNo + 1}</td>')
+            for Field in Rec.GetAsList():
+                Res.append(f'   <td>{Field}</td>')
+            Res.append('  </tr>')
+        Res.append(' </tbody>')
+
+        Res.append('</table>')
+        return '\n'.join(Res)
+
     def _Group(self, aFieldsUniq: list[str], aFieldsSum: list[str]) -> dict:
         Res = {}
 

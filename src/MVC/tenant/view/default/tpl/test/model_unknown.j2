@@ -1,11 +1,22 @@
 {% extends '_inc/layout1.j2' %}
 
+{% block head %}
+<style>
+  th, td {
+    padding-right: 10px;
+    border: 1px solid black;
+    text-align: left;
+  }
+  tr:nth-child(odd) {
+    background-color: lightgray;
+  }
+</style>
+{% endblock %}
+
 {% block content %}
 <!-- model_unknown + -->
 <div class="container pb-2">
-  <pre>
-    {{ TDbList().Import(dbl_model_unknown).GetRepr(40) }}
-  </pre>
+    {{ TDbList().Import(dbl_model_unknown).GetReprHtml() }}
 </div>
 <!-- model_unknown - -->
 {% endblock %}

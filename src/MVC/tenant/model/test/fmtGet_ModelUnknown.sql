@@ -4,7 +4,8 @@ wt1 as (
     select
         rp.tenant_id,
         rp.model,
-        count(*)
+        count(*),
+        max(rp.id) as product_id
     from
         ref_product rp
     left join
@@ -35,16 +36,24 @@ wt2 as (
 select
     --wt1.count,
     --wt1.tenant_id,
-    rt.title,
+    rt.title as tenant,
+    rpcl.title as category,
     wt1.model,
     wt2.code
-    --wt2.product_id
+    --wt1.product_id
 from
     wt1
 left join wt2 on
     (wt1.model = wt2.model)
 left join ref_tenant rt on
     (wt1.tenant_id = rt.id)
- order by
-    rt.title,
-    wt1.model
+left join
+    ref_product_to_category rptc on
+    (rptc.product_id = wt1.product_id)
+left join
+    ref_product_category_lang rpcl on
+    (rpcl.category_id = rptc.category_id)
+order by
+	tenant,
+    category,
+    model
