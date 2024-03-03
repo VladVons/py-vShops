@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="uk">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+    <script src="/default/assets/js/lib.js"></script>
+    <script src="/default/assets/js/app.js"></script>
+    <script>
+      let gData = new TDict()
+      gData.updValue('href', {
+        "search_ajax": "/api/?route=product0/search",
+        "search": "/?route=product0/search&q="
+    })
+    </script>
+
+<title>сканери (сторінка 1)</title>
+
+<meta name="robots" content="index,follow"/>
+<meta property="og:title" content="сканери (сторінка 1)"/>
+<meta property="og:site_name" content="1x1.com.ua"/>
+
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="icon" type="image/png" href="/default/assets/img/logo-1x1.png">
+
+    <link rel="stylesheet" href="/default/assets/vendor/css/bootstrap.css">
+    <link rel="stylesheet" href="/default/assets/vendor/css/fontawesome.css">
+    <link rel="stylesheet" href="/default/assets/css/styles.css">
+  </head>
+
+  <body>
+    <div id="sect-top">
+<!-- header + -->
+<script>
+  gData.updValue('lang', {
+    "added_to_cart": "додано до кошика",
+    "already_in_cart": "вже в кошику"
+  })
+</script>
+
+<nav class="navbar navbar-expand-lg fixed-top navbar-dark vFooter">
+  <div class="container">
+    <div class="d-flex col-lg-2 order-1">
+      <a href="/">
+        <picture>
+          <source media="(min-width: 465px)" srcset="/default/assets/img/logo-1x1.png">
+          <img src="/default/assets/img/logo-x.png" alt="company logo" height="45" id="viLogo">
+        </picture>
+      </a>
+
+<!-- header_categories_ajax + -->
+<ul class="navbar-nav" title="категорії">
+  <li class="nav-item dropdown" id="viMainNavbar">
+    <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" id="viMainNavbarMenu"><i class="fa fa-bars" style="font-size: 2.0em;"></i></a>
+    <ul class="dropdown-menu" id="viMainNavbarItems">
+    </ul>
+  </li>
+</ul>
+<!-- header_categories_ajax - -->
+      <div class="d-flex col-12 col-md-7 order-3 order-md-2">
+        <form autocomplete="off" method="get" class="d-flex">
+          <div class="input-group autocomplete-block">
+            <div class="autocomplete vSearch">
+              <input type="hidden" name="route" value="product0/search"/>
+              <input type="text" class="form-control" value="" name="q" placeholder="пошук" id="viSearchInput"/>
+              <div class="autocomplete-items" id="viSearchSuggest">
+                <!-- JS -->
+              </div>
+            </div>
+          </div>
+          <button class="btn btn-block" type="submit"><i class="fa fa-search" title="пошук"></i></button>
+        </form>
+      </div>
+    </div>
+
+    <div class="d-flex col-lg-2 order-2 order-md-3">
+      <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#cartModal" id="viCartModal">
+        <i class="fa fa-shopping-cart" title="корзина"></i>
+        <span class="badge vBgBtn viTotalCount">3</span>
+      </button>
+
+      <ul class="navbar-nav">
+        <li class="nav-item dropdown ms-2">
+          <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa fa-user" title="профіль"></i></a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="/tenant/?route=common/login">вхід</a></li>
+            </ul>
+        </li>
+      </ul>
+    </div>
+
+  </div>
+</nav>
+<!-- header - -->    </div>
+
+    <div id="sect-main" class="row">
+      <div id="sect-main-left" class="col">
+<!-- content_left + -->
+    <!-- category_attr + -->
+<!-- category_attr - -->
+<!-- content_left - -->      </div>
+      <div id="sect-main-center" class="col-9">
+<!-- content_top + -->
+<!-- content_top - --><!-- category + -->
+<div class="container pb-2">
+  <div>
+      <a href="?route=product0/category&category_id=14">/сканери</a>
+  </div>
+
+<!-- products_a + -->
+<div class="container pb-3">
+  <div class="text-center m-3">
+    <h1>сканери (сторінка 1)</h1>
+  </div>
+  <div class="row">
+    <div class="col-sm-6 col-md-4 col-lg-2 mb-2">
+      <div class="card vCard">
+        <div class="card-header vImgCenter">
+          <a href="?route=product0/product&product_id=118"><img src="https://used.1x1.com.ua/img/thumb/product/0/taceci/78/4822378_0.jpg" alt="CANON CANONSCAN LIDE 110"></a>
+        </div>
+        <div class="card-body">
+          <a href="?route=product0/category&category_id=14">сканери</a>
+          <div class="card-title">
+            <h2>CANON CANONSCAN LIDE 110</h2>
+          </div>
+        </div>
+        <div class="card-footer">
+          <h4 class="fw-bold">2100 грн</h4>
+          <hr class="mt-1"/>
+          <a href="?route=product0/tenant&tenant_id=1">k-centre</a>
+          <p></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- products_a - -->
+<!-- pagination + -->
+<div class="container mt-1">
+  <nav>
+    <ul class="pagination justify-content-center">
+      <li class="page-item"><a class="page-link active">1</a></li>
+    </ul>
+  </nav>
+</div>
+<!-- pagination - --><!-- category - -->
+</div>
+<!-- content_bottom + -->
+    
+<!-- content_bottom - -->      </div>
+      <div id="sect-main-right" class="col">
+<!-- content_right + -->
+<!-- content_right - -->      </div>
+    </div>
+
+    <div id="sect-bottom">
+<!-- footer + -->
+<div class="mt-5 pt-3 pb-3 vFooter">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-5 col-xs-12">
+        <a class="navbar-brand mr-5" href="/">
+         <img src="/default/assets/img/logo-1x1.png" alt="company logo" height="50" class="d-inline-block">
+        </a>
+        <h4>маркет брендової комп'ютерної техніки 1х1</h4>
+        <!--
+        <p>
+          <a role="button"><i class="fab fa-facebook m-1" style="font-size: 2.0rem;" title="facebook"></i></a>
+          <a role="button"><i class="fab fa-telegram m-1" style="font-size: 2.0rem;" title="telegram"></i></a>
+          <a role="button"><i class="fab fa-viber m-1" style="font-size: 2.0rem;" title="viber"></i></a>
+        </p>
+        -->
+      </div>
+      <div class="col-lg-3 col-xs-12">
+        <h4 class="mt-lg-0 mt-sm-3">посилання</h4>
+          <ul class="m-0 p-0">
+            <li><a href="/?route=info/about_us">про нас</a></li>
+            <li><a href="/?route=info/contacts">контакти</a></li>
+            <li><a href="/?route=info/faq">часто питають</a></li>
+            <li><a href="/?route=info/privacy_policy">політика конфіденційності</a></li>
+            <li><a href="/?route=info/sitemap">карта сайту</a></li>
+          </ul>
+      </div>
+      <div class="col-lg-4 col-xs-12">
+        <h4 class="mt-lg-0 mt-sm-4">розташування</h4>
+        <p><i class="fa fa-location-arrow m-1"></i>м.Тернопіль, вул.Руська 41</p>
+        <p><i class="fa fa-phone m-1"></i>0677697216</p>
+        <p><i class="fa fa-envelope m-1"></i>info@used.1x1.com.ua</p>
+      </div>
+    </div>
+
+    <div class="border-top mt-2">
+      <p><i class="fa fa-copyright m-1"></i>2023 1x1, всі права захищені</p>
+    </div>
+  </div>
+</div>
+<!-- footer - -->    </div>
+<!-- cart_modal + -->
+<div class="modal fade" id="cartModal" tabindex="-1" aria-labelledby="cartModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="cartModalLabel">корзина</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="viCartItems">
+          <p>JS items</p>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <p>загальна сума:<span class="m-2 viTotalSum">JS 1234.5</span></p>
+        <a href="/?route=checkout/payment"><button type="button" class="btn btn-secondary"><i class="fa fa-shopping-cart m-1"></i>купити</button></a>
+        <button type="button" class="btn btn-danger viClearAll"><i class="fa fa-trash m-1"></i>очистити все</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- cart_modal - --><!-- gotop + -->
+<button class="btn btn-primary" id="viBtnGoTop" onclick="goToTop()"><i class="fa fa-arrow-up m-1"></i>на початок</button>
+<!-- gotop - -->
+    <script src="/default/assets/vendor/js/bootstrap.bundle.min.js"></script>
+    <script src="/default/assets/js/submenu_ajax.js"></script>
+    <script src="/default/assets/js/cart.js"></script>
+    <script src="/default/assets/js/search1.js"></script>
+    <script src="/default/assets/js/gotop.js"></script>
+    <script src="/default/assets/js/timer_modal.js"></script>
+
+    <script>
+      const param = {selector: 'viMainNavbar', items: 'viMainNavbarItems', url: '/api/?route=_inc/layout1'}
+      document.getElementById('viMainNavbarMenu').onclick = () => OnClickDropdownMenu(param)
+      initDropdownMenu({selector: 'viMainNavbar'})
+    </script>
+  </body>
+</html>

@@ -201,6 +201,7 @@ create table if not exists ref_person (
     email               varchar(32) unique,
     image               varchar(64),
     pwd                 varchar(64),
+    note                varchar(64),
     constraint ref_customer_chk_email_phone check ((email is not null) or (phone is not null))
 );
 
@@ -325,7 +326,7 @@ create table if not exists ref_module (
     enabled             boolean default true,
     sort_order          smallint,
     code                varchar(32) not null,
-    caption             varchar(64) not null,
+    note                varchar(64),
     image               varchar(64),
     conf                json,
     tenant_id           integer not null references ref_tenant(id)
@@ -354,7 +355,7 @@ create table if not exists ref_module_to_lang (
 create table if not exists ref_layout (
     id                  serial primary key,
     enabled             boolean default true,
-    caption             varchar(32) not null,
+    note                varchar(32),
     route               varchar(32) not null,
     theme               varchar(16),
     common              boolean,
@@ -602,7 +603,7 @@ create table if not exists ref_attr_lang (
 create table if not exists ref_attr_set (
     id                  serial primary key,
     alias               varchar(16) not null unique,
-    caption             varchar(32)
+    note                varchar(32)
 );
 
 create table if not exists ref_attr_set_item (
@@ -710,7 +711,7 @@ create table if not exists doc_order_mix (
     id                  serial primary key,
     deleted             boolean,
     actual_date         timestamp not null default current_timestamp,
-    notes               varchar(64),
+    note                varchar(64),
     customer_id         integer not null references ref_customer(id)
 );
 
@@ -729,7 +730,7 @@ create table if not exists doc_sale_mix (
     id                  serial primary key,
     deleted             boolean,
     actual_date         timestamp not null default current_timestamp,
-    notes               varchar(64),
+    note                varchar(64),
     customer_id         integer not null references ref_customer(id)
 );
 
@@ -748,7 +749,7 @@ create table if not exists doc_sale (
     id                  serial primary key,
     deleted             boolean,
     actual_date         timestamp not null default current_timestamp,
-    notes               varchar(64),
+    note                varchar(64),
     customer_id         integer not null references ref_customer(id),
     tenant_id           integer not null references ref_tenant(id)
 );

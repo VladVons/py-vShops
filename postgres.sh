@@ -29,6 +29,12 @@ BackupData()
     pg_dump --host=$Host --port=$Port --username=$User --dbname=$DbName --data-only --column-inserts > $Path
 }
 
+BackupSchema()
+{
+    echo "dump $Path ..."
+    pg_dump --host=$Host --port=$Port --username=$User --dbname=$DbName --schema-only --schema-only > $Path
+}
+
 Restore()
 {
     cat $Path | psql --host=$Host --port=$Port --username=$User --dbname=$DbName
@@ -42,7 +48,8 @@ Create()
 
 clear
 
-Backup
+#Backup
 #BackupData
+BackupSchema
 #Create
 #Restore
