@@ -72,6 +72,7 @@ async def Main(self, aData: dict = None) -> dict:
         'dbl_pagenation': DblPagination.Export(),
         'category': Category,
         'breadcrumbs': BreadCrumbs,
+        'title': '',
         'info': {
             'title': Category['title'],
             'count': Dbl.Rec.total,
