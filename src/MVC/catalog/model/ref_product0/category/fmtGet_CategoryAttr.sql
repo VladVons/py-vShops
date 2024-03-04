@@ -11,7 +11,7 @@ with wt1 as (
         ref_product0_to_category rptc0
     join
         ref_product rp on
-        (rptc0.product_id = rp.product0_id) 
+        (rptc0.product_id = rp.product0_id)
     join
         ref_product_attr rpa on
         (rpa.product_id = rp.id) and (rpa.lang_id = {{aLangId}})
@@ -19,27 +19,27 @@ with wt1 as (
         ref_attr_lang ral on
         (ral.attr_id = rpa.attr_id) and (ral.lang_id = {{aLangId}})
     join
-        ref_tenant rt on 
+        ref_tenant rt on
         (rp.tenant_id = rt.id)
     where
          (rptc0.category_id = {{aCategoryId}}) and
-         (rp.enabled) and 
+         (rp.enabled) and
          (rp.product0_id is not null) and
-         (rt.enabled) 
+         (rt.enabled)
     group by
         rpa.attr_id,
         rpa.val
-    order by 
+    order by
         title,
         val
 )
-select 
+select
     attr_id,
     title,
     jsonb_object_agg(val, count) as attrs
-from 
+from
     wt1
-group by 
+group by
     attr_id,
     title
 order by

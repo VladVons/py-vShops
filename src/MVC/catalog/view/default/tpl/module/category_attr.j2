@@ -18,7 +18,8 @@
         <div class="fw-bold mt-2">{{Rec.title}}</div>
         {% for Attr, Count in Rec.attrs.items() %}
         <div>
-          <label><input type="checkbox" name="attrId_{{Rec.attr_id}}" value='{{Attr}}'>{{Attr}} ({{Count}})</label>
+          <input class="form-check-input attrChk" type="checkbox" id="{{Rec.attr_id}}_{{Attr}}" attrId="{{Rec.attr_id}}" value='{{Attr}}'>
+          <label class="form-check-label" for="{{Rec.attr_id}}_{{Attr}}" disabled>{{Attr}} ({{Count}})</label>
         </div>
         {%- endfor %}
       {%- endfor %}
@@ -29,4 +30,68 @@
   </div>
 </div>
 {% endif %}
+
+<script>
+  function getChecked(aItems) {
+    let Res = {}
+    for (var xItem of aItems) {
+      if (xItem.checked) {
+        const attrId = xItem.getAttribute('attrId')
+        if (attrId in Res) {
+          Res[attrId].push(xItem.value)
+        }else{
+          Res[attrId] = [xItem.value]
+        }
+      }
+    }
+    return Res
+  }
+
+  function setChkEnabled(aItems, aEnable, aElement) {
+    const attrIdCur = aElement.getAttribute('attrId')
+    for (var xItem of Items) {
+      const attrId = xItem.getAttribute('attrId')
+      if (aEnable) {
+        xItem.disabled = !aEnable
+      }else if (attrIdCur != attrId) {
+        xItem.disabled = !aEnable
+      }
+    }
+  }
+
+  const Items = document.querySelectorAll(".attrChk")
+  Items.forEach(function (element) {
+    element.addEventListener('click', function (event) {
+      const checked = getChecked(Items)
+      console.log('q1', checked)
+      if (Object.keys(checked).length > 0) {
+        setChkEnabled(Items, false, event.target)
+
+        const post = {
+          'items': checked,
+          'category_id': '{{category_id}}',
+          'lang_id': '{{lang_id}}'
+        }
+        const data = new TSend().exec('/api/?route=module/category_attr', {'method': 'ajax', 'post': post})
+        let Dbl = new TDbList().Import(data)
+        for (let Rec of Dbl) {
+          const attrId = Rec.GetField('attr_id')
+          const attrVal = Rec.GetField('val')
+          const attrCount = Rec.GetField('count')
+          const id = `${attrId}_${attrVal}`
+          const element = document.getElementById(id)
+          if (element) {
+            //element.childNodes[1].textContent = `${attrVal} (${attrCount})`
+            //element.nextSibling.data = `-${attrVal} (${attrCount})`
+            element.disabled = false
+            //console.log('-x1', element.nextSibling)
+            //element.nextSibling.disabled = true
+          }
+        }
+      } else {
+        setChkEnabled(Items, true, event.target)
+      }
+    })
+  })
+</script>
 <!-- category_attr - -->

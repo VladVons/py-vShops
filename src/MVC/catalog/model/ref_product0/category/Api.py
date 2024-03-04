@@ -3,7 +3,7 @@
 # License: GNU, see LICENSE for more details
 
 
-from IncP.LibModel import ListIntToComma
+from IncP.LibModel import ListIntToComma, ListToComma
 
 
 async def Get_CategoriesSubCount_ParentLang(self, aLangId: int, aParentIdRoot: int, aParentIds: list[int] = None) -> dict:
@@ -48,4 +48,21 @@ async def Get_CategoryAttr(self, aLangId: int, aCategoryId: int) -> dict:
     return await self.ExecQuery(
         'fmtGet_CategoryAttr.sql',
         {'aLangId': aLangId, 'aCategoryId': aCategoryId}
+    )
+
+async def Get_CategoryAttrFilter(self, aLangId: int, aCategoryId: int, aAttr: dict) -> dict:
+    Arr = []
+    for AttrId, AttrVal in aAttr.items():
+        Values = ListToComma(AttrVal)
+        Arr.append(f"(rpa.attr_id = {AttrId} and rpa.val in ({Values}))")
+    CondAttrAndVal_ORs = ' or\n'.join(Arr)
+
+    return await self.ExecQuery(
+        'fmtGet_CategoryAttrFilter.sql',
+        {
+            'aLangId': aLangId,
+            'aCategoryId': aCategoryId,
+            'CondAttrAndVal_ORs': CondAttrAndVal_ORs,
+            'NumberOf_ORs': len(aAttr)
+        }
     )
