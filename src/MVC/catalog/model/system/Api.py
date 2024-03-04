@@ -53,9 +53,10 @@ async def RegSession(self, aIp: str, aOs: str, aBrowser: str) -> dict:
     return await self.ExecQueryText(Query)
 
 async def Ins_HistPageView(self, aSessionId: int, aUrl: str) -> dict:
+    MaxLen = 128
     Query = f'''
         insert into hist_page_view (session_id, url)
-        values ({aSessionId}, '{aUrl}')
+        values ({aSessionId}, '{aUrl[:MaxLen]}')
     '''
     return await self.ExecQueryText(Query)
 
