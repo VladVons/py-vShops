@@ -30,7 +30,10 @@ async def Get_CategoriesProducts_LangImagePrice(self, aLangId: int, aCategoryIds
     if (aAttr):
         DblData = await _Get_CategoryAttrFilter(self, aLangId, aCategoryIds[0], aAttr, 'fmtGet_CategoryAttrFilterProduct.sql')
         ProductIds = TDbList().Import(DblData).ExportList('product_id')
-        WhereExt = f' and\n rp.id in ({ListIntToComma(ProductIds)})'
+        if (ProductIds):
+            WhereExt = f' and\n rp.id in ({ListIntToComma(ProductIds)})'
+        else:
+            WhereExt = ' and\n false'
 
     return await self.ExecQuery(
         'fmtGet_CategoriesProducts_LangImagePrice.sql',
