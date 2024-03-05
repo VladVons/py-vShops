@@ -1,4 +1,6 @@
+-- fmtGet_ProductsInf_Ids.sql
 -- in: aLangId, aProductIds
+
 select
     rp.id,
     rpl.title,

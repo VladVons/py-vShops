@@ -1,4 +1,6 @@
+-- fmtGet_ModuleLang.sql
 -- aLangId, aModuleId
+
 select
     rml.title,
     rml.descr,

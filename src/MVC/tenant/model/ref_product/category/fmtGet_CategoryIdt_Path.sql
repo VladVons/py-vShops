@@ -1,4 +1,6 @@
+-- fmtGet_CategoryIdt_Path.sql
 -- in: aLangId, aTenantId, CategoryIdts
+
 with recursive wrpc as (
     select
         rpc.id,

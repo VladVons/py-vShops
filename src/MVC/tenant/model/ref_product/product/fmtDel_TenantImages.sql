@@ -1,3 +1,4 @@
+-- fmtDel_TenantImages.sql
 -- in: aTenantId, CondLike
 
 delete from

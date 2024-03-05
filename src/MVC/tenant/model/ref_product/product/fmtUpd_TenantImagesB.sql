@@ -1,3 +1,4 @@
+-- fmtUpd_TenantImagesB.sql
 -- in: aTenantId, Data as (product_id, image, sort_order, enabled, image_new), (...)
 
 with src (product_id, image, sort_order, enabled, image_new) as (

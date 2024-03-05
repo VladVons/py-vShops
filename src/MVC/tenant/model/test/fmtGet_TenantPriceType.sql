@@ -1,4 +1,6 @@
+-- fmtGet_TenantPriceType.sql
 -- in: aTenantId
+
 select
     rp.id,
     rp.model,

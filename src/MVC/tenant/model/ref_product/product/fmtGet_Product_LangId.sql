@@ -1,4 +1,6 @@
+-- fmtGet_Product_LangId.sql
 -- in: aLangId, aTenantId, aProductId
+
 select
     rp.enabled,
     rp.id,

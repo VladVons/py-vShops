@@ -1,4 +1,6 @@
+-- fmtGet_Gaps.sql
 -- in: aTable, aField
+
 select 
     field + 1 as gap_start, 
     next_nr - 1 as gap_end

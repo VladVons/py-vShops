@@ -1,4 +1,6 @@
+-- fmtGet_ProductInf_Id.sql
 -- in: aLangId, aId
+
 select
     rp.id,
     rp.create_date::date,

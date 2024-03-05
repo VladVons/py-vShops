@@ -1,4 +1,6 @@
+-- fmtGet_Seo_Products.sql
 -- in: aLimit, aOffset
+
 select
     id,
     update_date::date

@@ -1,4 +1,6 @@
+-- fmtGet_Auth.sql
 -- aMailPhone, aPassword
+
 select
     id,
     rttp.tenant_id

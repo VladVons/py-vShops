@@ -1,4 +1,6 @@
+-- fmtGet_Product_Images.sql
 -- in: aProductId
+
 select
     rpi.enabled,
     rpi.sort_order,

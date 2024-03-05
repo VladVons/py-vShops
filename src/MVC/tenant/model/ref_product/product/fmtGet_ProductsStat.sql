@@ -1,4 +1,6 @@
+-- fmtGet_ProductsStat.sql
 -- in: aTenantId
+
 select 
     (
         select count(*)

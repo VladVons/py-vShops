@@ -1,4 +1,6 @@
+-- fmtGet_Seo_Categories.sql
 -- in: aLang, aLimit, aOffset
+
 with recursive wrpc as (
     select
         rpc.id,

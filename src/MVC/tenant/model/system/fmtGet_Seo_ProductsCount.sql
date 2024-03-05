@@ -1,3 +1,5 @@
+-- fmtGet_Seo_ProductsCount.sql
+
 select 
     count(*)
 from 

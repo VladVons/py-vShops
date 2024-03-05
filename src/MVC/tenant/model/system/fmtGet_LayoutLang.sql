@@ -1,4 +1,6 @@
+-- fmtGet_LayoutLang.sql
 -- aLangId, aTenantId, aRoute, aTheme, aPath
+
 select
     rll.title,
     rll.descr,

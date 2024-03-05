@@ -1,4 +1,6 @@
+-- fmtGet_TenantConf.sql
 -- aTenantId, CondAttr
+
 select
     attr,
     val,

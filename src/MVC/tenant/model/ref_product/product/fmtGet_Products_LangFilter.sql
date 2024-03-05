@@ -1,4 +1,6 @@
+--fmtGet_Products_LangFilter.sql
 -- in: aLangId, Filter, aSearch, SearchRe, aOrder, aLimit, aOffset
+
 with wt1 as (
     select
         count(*) over() as total,

@@ -1,4 +1,6 @@
+-- fmtGet_TenantInf.sql
 -- in: aTenantId
+
 select
     rt.enabled, 
     rt.alias,

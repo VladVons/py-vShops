@@ -1,3 +1,4 @@
+-- fmtUpd_TenantImages.sql
 -- in: aTenantId, Data as (product_id, image), (...)
 
 insert into 
