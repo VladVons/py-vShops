@@ -1,4 +1,6 @@
+-- fmtGet_CategoriesProducts_LangImagePrice.sql
  -- in: aLangId, CategoryIds, aOrder, aLimit, aOffset
+
 with
 wt1 as (
     select
@@ -52,6 +54,7 @@ wt1 as (
          (rptc0.category_id in ({{CategoryIds}})) and
          (rp.enabled) and (rp.product0_id is not null) and
          (rt.enabled)
+         {{WhereExt}}
     order by
         {{aOrder}}
     limit

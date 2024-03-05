@@ -1,4 +1,6 @@
+-- fmtGet_Category_LangId.sql
 -- in: aLangId, aCategoryId
+
 select
     rpc.id,
     rpc.image,

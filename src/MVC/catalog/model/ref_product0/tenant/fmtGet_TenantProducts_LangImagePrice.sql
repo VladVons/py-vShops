@@ -1,4 +1,6 @@
+-- fmtGet_TenantProducts_LangImagePrice.sql
  -- in: aLangId, aTenant, aOrder, aLimit, aOffset
+
 with
 wt1 as (
     select

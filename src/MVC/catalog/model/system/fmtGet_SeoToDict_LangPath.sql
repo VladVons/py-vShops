@@ -1,4 +1,6 @@
+-- fmtGet_SeoToDict_LangPath.sql
 -- in: aLangId, CondKeyword
+
 with wrsu as (
     select
         1 as idx,

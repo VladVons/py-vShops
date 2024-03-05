@@ -1,4 +1,6 @@
+-- fmtGet_Price_Product.sql
 -- in: aProductId, aPriceType
+
 with
 wt1 as (
     select

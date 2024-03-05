@@ -1,4 +1,6 @@
+-- fmtGet_CategoriesSubCount_ParentLang.sql
 -- in: aLangId, aParentIdRoot, CondParentIds
+
 with recursive wrpc as (
     select
         rpc.id,

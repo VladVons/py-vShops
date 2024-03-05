@@ -1,4 +1,6 @@
+-- fmtGet_ProductsLastView_LangImagePrice.sql
  -- in: aLangId, aLimit, aSessionId
+
 with
 wt1 as (
     select

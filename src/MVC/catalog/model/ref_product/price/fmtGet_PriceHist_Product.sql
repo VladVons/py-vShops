@@ -1,4 +1,6 @@
+-- fmtGet_PriceHist_Product.sql
 -- in: aProductId
+
 select
     --rpp.product_id,
     hrpp.create_date::date,

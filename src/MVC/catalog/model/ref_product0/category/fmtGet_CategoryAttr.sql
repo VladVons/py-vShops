@@ -1,5 +1,5 @@
+-- fmtGet_CategoryAttr.sql 
 -- aLangId, aCategoryId
---and (rpa.attr_id = 1 and (rpa.val = '8GB' or rpa.val = '16GB'))
 
 with wt1 as (
     select

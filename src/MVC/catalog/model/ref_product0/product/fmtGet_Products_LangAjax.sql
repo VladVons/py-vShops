@@ -1,4 +1,6 @@
+-- fmtGet_Products_LangAjax.sql
 -- in: aLangId, FilterRe
+
 select
     rpl.title
 from

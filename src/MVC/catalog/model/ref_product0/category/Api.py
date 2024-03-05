@@ -3,7 +3,7 @@
 # License: GNU, see LICENSE for more details
 
 
-from IncP.LibModel import ListIntToComma, ListToComma
+from IncP.LibModel import ListIntToComma, ListToComma, TDbList
 
 
 async def Get_CategoriesSubCount_ParentLang(self, aLangId: int, aParentIdRoot: int, aParentIds: list[int] = None) -> dict:
@@ -23,12 +23,26 @@ async def Get_CategoryIds_Sub(self, aCategoryIds: list[int]) -> dict:
         {'CategoryIds': CategoryIds}
     )
 
-async def Get_CategoriesProducts_LangImagePrice(self, aLangId: int, aCategoryIds: list[int], aPriceId: int, aOrder: str, aLimit: int = 100, aOffset: int = 0) -> dict:
+async def Get_CategoriesProducts_LangImagePrice(self, aLangId: int, aCategoryIds: list[int], aAttr: dict, aPriceId: int, aOrder: str, aLimit: int = 100, aOffset: int = 0) -> dict:
     CategoryIds = ListIntToComma(aCategoryIds)
+
+    WhereExt = ''
+    if (aAttr):
+        DblData = await _Get_CategoryAttrFilter(self, aLangId, aCategoryIds[0], aAttr, 'fmtGet_CategoryAttrFilterProduct.sql')
+        ProductIds = TDbList().Import(DblData).ExportList('product_id')
+        WhereExt = f' and\n rp.id in ({ListIntToComma(ProductIds)})'
 
     return await self.ExecQuery(
         'fmtGet_CategoriesProducts_LangImagePrice.sql',
-        {'CategoryIds': CategoryIds, 'aLangId': aLangId, 'aPriceId': aPriceId, 'aOrder': aOrder, 'aLimit': aLimit, 'aOffset': aOffset}
+        {
+            'CategoryIds': CategoryIds,
+            'aLangId': aLangId,
+            'aPriceId': aPriceId,
+            'aOrder': aOrder,
+            'aLimit': aLimit,
+            'aOffset': aOffset,
+            'WhereExt': WhereExt
+        }
     )
 
 async def Get_CategoryId_Path(self, aLangId: int, aCategoryIds: list[int]) -> dict:
@@ -50,7 +64,7 @@ async def Get_CategoryAttr(self, aLangId: int, aCategoryId: int) -> dict:
         {'aLangId': aLangId, 'aCategoryId': aCategoryId}
     )
 
-async def Get_CategoryAttrFilter(self, aLangId: int, aCategoryId: int, aAttr: dict) -> dict:
+async def _Get_CategoryAttrFilter(self, aLangId: int, aCategoryId: int, aAttr: dict, aFile: str) -> dict:
     Arr = []
     for AttrId, AttrVal in aAttr.items():
         Values = ListToComma(AttrVal)
@@ -58,7 +72,7 @@ async def Get_CategoryAttrFilter(self, aLangId: int, aCategoryId: int, aAttr: di
     CondAttrAndVal_ORs = ' or\n'.join(Arr)
 
     return await self.ExecQuery(
-        'fmtGet_CategoryAttrFilter.sql',
+        aFile,
         {
             'aLangId': aLangId,
             'aCategoryId': aCategoryId,
@@ -66,3 +80,6 @@ async def Get_CategoryAttrFilter(self, aLangId: int, aCategoryId: int, aAttr: di
             'NumberOf_ORs': len(aAttr)
         }
     )
+
+async def Get_CategoryAttrFilter(self, aLangId: int, aCategoryId: int, aAttr: dict) -> dict:
+    return await _Get_CategoryAttrFilter(self, aLangId, aCategoryId, aAttr, 'fmtGet_CategoryAttrFilter.sql')

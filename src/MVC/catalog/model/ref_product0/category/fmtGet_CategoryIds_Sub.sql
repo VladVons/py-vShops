@@ -1,4 +1,6 @@
+-- fmtGet_CategoryIds_Sub.sql
 -- in: CategoryIds
+
 with recursive wrpc as (
     select
         rpc.id,

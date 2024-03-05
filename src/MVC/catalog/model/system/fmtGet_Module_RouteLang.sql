@@ -1,4 +1,6 @@
+-- fmtGet_Module_RouteLang.sql
 -- in: aLangId, aTenantId, aRoute, aPath
+
 with wt1 as (
     select
         distinct on (rlm.module_id, rlm.place) rlm.module_id as id,

@@ -1,4 +1,6 @@
+-- fmtGet_Product_LangId.sql
 -- in: aLangId, aProductId
+
 with wt1 as (
     select
         rp.id,

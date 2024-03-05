@@ -1,4 +1,6 @@
+-- fmtGet_AttrAlias.sql
 -- aLang, aAlias
+
 select 
     --ras.id  as sect_id,
     ras.alias as sect_alias,

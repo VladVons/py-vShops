@@ -1,4 +1,6 @@
+-- fmtGet_ProductsRnd_LangImagePrice.sql
  -- in: aLangId, aLimit
+
 with
 wt1 as (
     select
