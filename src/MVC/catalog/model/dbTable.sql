@@ -195,6 +195,7 @@ create table if not exists ref_person (
     enabled             boolean default true,
     firstname           varchar(32) not null,
     lastname            varchar(32) not null,
+    middlename          varchar(32),
     birthday            date,
     gender_en           gender_enum,
     phone               varchar(15) unique,
@@ -205,10 +206,10 @@ create table if not exists ref_person (
     constraint ref_customer_chk_email_phone check ((email is not null) or (phone is not null))
 );
 
-create table if not exists ref_customer_to_address (
-    customer_id         integer not null references ref_customer(id),
+create table if not exists ref_person_to_address (
+    person_id           integer not null references ref_person(id),
     address_id          integer not null references ref_address(id),
-    primary key (customer_id, address_id)
+    primary key (person_id, address_id)
 );
 
 -- company --

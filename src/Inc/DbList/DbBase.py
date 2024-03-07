@@ -285,6 +285,12 @@ class TDbBase():
             self.Import(Data)
             return self
 
+    def LoadStr(self, aData: str) -> 'TDbBase':
+        Data = json.loads(aData)
+        self.Import(Data)
+        return self
+
+
     def New(self, aData: list = None) -> 'TDbBase':
         if (not aData):
             aData = []

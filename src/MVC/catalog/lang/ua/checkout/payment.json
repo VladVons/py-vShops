@@ -1,5 +1,6 @@
 {
    "tpl": {
+        "cart_is_empty": "корзина порожня",
         "card_holder_name": "імя власника карти",
         "card_number": "номер картки",
         "card_payment": "оплата карткою",

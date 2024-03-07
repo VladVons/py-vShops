@@ -3,6 +3,9 @@
 # License: GNU, see LICENSE for more details
 
 
+from IncP.LibCtrl import TDbList
+
+
 async def ajax(self, aData: dict = None) -> dict:
     Res = {}
     match aData['input_name']:
@@ -19,13 +22,38 @@ async def ajax(self, aData: dict = None) -> dict:
     return Res
 
 async def Main(self, aData: dict = None) -> dict:
+    OrderId = None
     Post = aData.get('post')
     if (Post):
-        pass
+        DblCastomer = await self.ExecModelImport(
+            'ref_person',
+            {
+                'method': 'Set_PersonPhoneName',
+                'param': {
+                    'aPhone': Post['phone'],
+                    'aFirstName': Post['first_name'],
+                    'aLastName': Post['last_name'],
+                    'aMiddleName': Post['middle_name']
+                }
+            }
+        )
 
-    Res = {
+        DblProducts = TDbList().LoadStr(Post['cart'])
+        DblOrderMix = await self.ExecModelImport(
+            'doc_sale',
+            {
+                'method': 'Add_OrderMix',
+                'param': {
+                    'aCustomerId': DblCastomer.Rec.id,
+                    'aRows': DblProducts.ExportData(['id', 'qty', 'price'])
+                }
+            }
+        )
+        OrderId = DblOrderMix.Rec.id
+
+    return {
         'href': {
-            'novaposhta_ajax': '/api/?route=checkout/payment'
+            'novaposhta_ajax': '/api/?route=checkout/payment',
+            'order_id': OrderId
         }
     }
-    return Res

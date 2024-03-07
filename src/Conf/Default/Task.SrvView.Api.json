@@ -5,7 +5,9 @@
         "cache_route": {
             "path": "Data/catalog/cache/view",
             "max_age": 10,
-            "excl_route": []
+            "excl_route": [
+                "checkout/payment"
+            ]
         },
         "loader": {
             "ctrl": {

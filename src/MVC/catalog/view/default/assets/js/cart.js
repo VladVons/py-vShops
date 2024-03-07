@@ -5,14 +5,6 @@ License: GNU, see LICENSE for more details
 */
 
 
-function hasAllKeys(aObj, aRequiredKeys) {
-    const objKeys = new Set(Object.keys(aObj))
-    const requiredKeys = new Set(aRequiredKeys)
-    //return [...requiredKeys].every(key => objKeys.has(key))
-    return [...requiredKeys].filter(key => !objKeys.has(key))
-}
-
-
 class TShoppingCart {
     constructor() {
         this.Items = {}
@@ -23,6 +15,24 @@ class TShoppingCart {
     clear() {
         this.Items = {}
         this.saveToStorage()
+    }
+
+    getCount() {
+        return Object.keys(this.Items).length;
+    }
+
+    getDbl() {
+        let data = []
+        for (const [key, val] of Object.entries(this.Items)) {
+            data.push([parseInt(val.id), val.name, parseFloat(val.qty), parseFloat(val.price), val.href, val.img])
+        }
+
+        return {
+            'head': ['id', 'name', 'qty', 'price', 'href', 'img'],
+            'data': data,
+            'tag': this.storageId
+        }
+        return JSON.stringify(this.Items)
     }
 
     getTotal() {

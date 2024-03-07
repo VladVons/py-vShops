@@ -400,3 +400,10 @@ function generateUUID() {
         return v.toString(16);
     })
 }
+
+function hasAllKeys(aObj, aRequiredKeys) {
+    const objKeys = new Set(Object.keys(aObj))
+    const requiredKeys = new Set(aRequiredKeys)
+    //return [...requiredKeys].every(key => objKeys.has(key))
+    return [...requiredKeys].filter(key => !objKeys.has(key))
+}

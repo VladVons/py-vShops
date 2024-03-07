@@ -112,8 +112,16 @@
     const CheckFields = ['first_name', 'last_name', 'middle_name', 'phone', 'town', 'department']
     const emptyElements = formPayment.checkEmpty(CheckFields)
     if (emptyElements.length == 0) {
-      formPayment.saveToStorage()
-      formPayment.submit()
+      if (ShoppingCart.getCount() > 0) {
+        formPayment.saveToStorage()
+        const data = {
+          'name': 'cart',
+          'value': JSON.stringify(ShoppingCart.getDbl())
+        }
+        formPayment.submit(data)
+      } else {
+        alert("{{lang.cart_is_empty}}")
+      }
     }else{
       emptyElements[0].focus()
       alert("{{lang.empty_field}}")
