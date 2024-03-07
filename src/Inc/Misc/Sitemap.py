@@ -4,6 +4,7 @@
 
 
 import os
+import time
 #
 from Inc.DbList import TDbList, TDbRec
 
@@ -74,9 +75,11 @@ class TSitemap():
         while True:
             Idx += 1
             File = f'{self.BaseName}_{Idx}.xml'
+            Date = time.strftime('%Y-%m-%d')
 
             Res.append('  <sitemap>')
             Res.append(f'    <loc>{self.UrlRoot}/sitemap/{File}</loc>')
+            #Res.append(f'    <lastmod>{Date}</lastmod>')
             Res.append('  </sitemap>')
 
             Offset = await self.WriteIndex(File, Offset)
