@@ -33,7 +33,8 @@ async def Main(self, aData: dict = None) -> dict:
 
     Attrs = []
     for Rec in Dbl:
-        Attrs += Rec.attr.keys()
+        if (Rec.attr):
+            Attrs += Rec.attr.keys()
     AttrEx = ['image', 'product_id', 'title', 'price', 'category_id', 'category_title', 'tenant_id']
     Attrs = AttrEx + sorted(set(Attrs))
 
@@ -43,7 +44,8 @@ async def Main(self, aData: dict = None) -> dict:
         for x in AttrEx:
             RecNew.SetField(x, Rec.GetField(x))
 
-        for Key, Val in Rec.attr.items():
+        Items = Rec.GetField('attr', {}).items()
+        for Key, Val in Items:
             RecNew.SetField(Key, Val)
 
     DblCompare = await products_a(self, DblCompare)
