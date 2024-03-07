@@ -5,7 +5,7 @@ select
     rptc0.category_id,
     rpcl0.title as category_title,
     rp.id as product_id,
-    rpl.title,
+    rpl.title as product_title,
     rps.rest::int,
     rp.tenant_id,
     rt.title as tenant_title,

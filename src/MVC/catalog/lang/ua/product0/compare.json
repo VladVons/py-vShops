@@ -1,6 +1,6 @@
 {
    "tpl": {
-        "title": "назва",
+        "product_title": "назва",
         "price": "ціна",
         "thumb": "малюнок"
     }

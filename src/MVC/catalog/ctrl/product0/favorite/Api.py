@@ -19,3 +19,20 @@ async def Main(self, aData: dict = None) -> dict:
         return {'err_code': 404}
 
     aLangId = self.GetLangId(aLang)
+    Dbl = await self.ExecModelImport(
+        'ref_product0/product',
+        {
+            'method': 'Get_ProductsAttr',
+            'param': {
+                'aLangId': aLangId,
+                'aProductIds': ProductIds
+            }
+        }
+    )
+    if (not Dbl):
+        return {'err_code': 404}
+
+    DblProducts = await products_a(self, Dbl)
+    return {
+        'dbl_products_a': DblProducts.Export()
+    }

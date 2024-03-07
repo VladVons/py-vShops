@@ -35,7 +35,7 @@ async def Main(self, aData: dict = None) -> dict:
     for Rec in Dbl:
         if (Rec.attr):
             Attrs += Rec.attr.keys()
-    AttrEx = ['image', 'product_id', 'title', 'price', 'category_id', 'category_title', 'tenant_id']
+    AttrEx = ['image', 'product_id', 'product_title', 'price', 'category_id', 'category_title', 'tenant_id']
     Attrs = AttrEx + sorted(set(Attrs))
 
     DblCompare = TDbList(Attrs)

@@ -62,14 +62,16 @@
 </nav>
 
 <script>
-    for (const key of ['compare']) {
+    for (const key of ['compare', 'favorite']) {
       ls = new TLocalStorage('products_' + key)
-      document.getElementById('viCount_' + key).innerHTML = ls.items.length
+      if (ls.items) {
+        document.getElementById('viCount_' + key).innerHTML = ls.items.length
+      }
 
       document.getElementById('viBtnOn_' + key).addEventListener('click', function (event) {
         const value = (event.target.value ? event.target.value : event.target.parentElement.value)
         ls = new TLocalStorage('products_' + value)
-        if (ls.items.length > 0) {
+        if (ls.items && ls.items.length > 0) {
           window.location.href = '/?route=product0/' + value + '&product_ids=[' + ls.items.join(';') + ']'
         }else{
           showTooltip("{{lang.no_data}}")

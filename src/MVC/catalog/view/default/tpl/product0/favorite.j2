@@ -1,28 +1,24 @@
 {% extends '_inc/layout1.j2' %}
 
-{% set page_title = info.title + ' (' + lang.page + ' ' ~ info.page ~ ')' %}
-
-{% block head %}
-<title>{{page_title}}</title>
-
-<meta name="robots" content="index,follow"/>
-<meta property="og:title" content="{{page_title}}"/>
-<meta property="og:site_name" content="{{info.site_name}}"/>
-{% endblock %}
-
 {% block content %}
-<!-- category + -->
-{% set title = page_title %}
+<!-- favorite + -->
 <div class="container pb-2">
-  <div>
-    {% for x in breadcrumbs %}
-      <a href="{{x.href}}">/{{x.title}}</a>
-    {% endfor %}
+  <div id="viForm_favorite">
+    {% include '../_inc/products_a.j2' %}
   </div>
-
-  {% include '../_inc/products_a.j2' %}
-
-  {% include '../_inc/pagination.j2' %}
-<!-- category - -->
+  <button type="button" class="btn btn-primary mt-3" id="viBtn_Clear">
+    <i class="fa fa-trash m-1"></i>{{lang.clear_all}}
+  </button>
 </div>
+
+<script>
+  document.getElementById('viBtn_Clear').addEventListener('click', function (event) {
+      const key = 'favorite'
+      ls = new TLocalStorage('products_' + key)
+      ls.remove()
+      document.getElementById('viCount_' + key).innerHTML = null
+      document.getElementById('viForm_' + key).innerHTML = null
+  })
+</script>
+<!-- favorite - -->
 {% endblock %}
