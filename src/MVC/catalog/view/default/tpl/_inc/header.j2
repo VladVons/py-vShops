@@ -34,10 +34,18 @@
       </div>
     </div>
 
-    <div class="d-flex col-lg-2 order-2 order-md-3">
+    <div class="d-flex col-lg-3 order-2 order-md-3">
       <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#cartModal" id="viCartModal">
         <i class="fa fa-shopping-cart" title="{{lang.shopping_cart}}"></i>
-        <span class="badge vBgBtn viTotalCount">3</span>
+        <span class="badge vBgBtn" id="viCount_cart"></span>
+      </button>
+      <button type="button" class="btn btn-success" id="viBtnOn_favorite" value="favorite" title="{{lang.favorite}}">
+        <i class="fa fa-heart"></i>
+        <span class="badge vBgBtn" id="viCount_favorite"></span>
+      </button>
+      <button type="button" class="btn btn-success" id="viBtnOn_compare" value="compare" title="{{lang.compare}}">
+        <i class="fa fa-balance-scale"></i>
+        <span class="badge vBgBtn" id="viCount_compare"></span>
       </button>
 
       <ul class="navbar-nav">
@@ -52,4 +60,21 @@
 
   </div>
 </nav>
+
+<script>
+    for (const key of ['compare']) {
+      ls = new TLocalStorage('products_' + key)
+      document.getElementById('viCount_' + key).innerHTML = ls.items.length
+
+      document.getElementById('viBtnOn_' + key).addEventListener('click', function (event) {
+        const value = (event.target.value ? event.target.value : event.target.parentElement.value)
+        ls = new TLocalStorage('products_' + value)
+        if (ls.items.length > 0) {
+          window.location.href = '/?route=product0/' + value + '&product_ids=[' + ls.items.join(';') + ']'
+        }else{
+          showTooltip("{{lang.no_data}}")
+        }
+      })
+    }
+</script>
 <!-- header - -->

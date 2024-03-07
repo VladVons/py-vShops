@@ -1,0 +1,47 @@
+{% extends '_inc/layout1.j2' %}
+
+{% block head %}
+{% endblock %}
+
+{% block content %}
+<!-- compare + -->
+{% set Dbl = TDbList().Import(dbl_compare) %}
+<div id="viFormCompare">
+    {% for xRow in rows %}
+    <div class="row">
+        <div class="col-2">
+            <div>{% if lang[xRow] %} {{lang[xRow]}} {% else %} {{xRow}} {% endif %}</div>
+        </div>
+        {% for Rec in Dbl %}
+        <div class="col">
+            <div class="text-center">
+            {% if Rec.GetField(xRow) %}
+                {% if xRow == 'thumb' %}
+                    <a href="{{Rec._product_href}}"><img src="{{Rec.thumb}}"></a>
+                {% else %}
+                    {{Rec.GetField(xRow)}}
+                {% endif %}
+            {% else %}
+                ---
+            {% endif %}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% endfor %}
+</div>
+<button type="button" class="btn btn-primary mt-3" id="viBtn_Clear">
+    <i class="fa fa-trash m-1"></i>{{lang.clear_all}}
+</button>
+
+<script>
+    document.getElementById('viBtn_Clear').addEventListener('click', function (event) {
+        const key = 'compare'
+        ls = new TLocalStorage('products_' + key)
+        ls.remove()
+        document.getElementById('viCount_' + key).innerHTML = null
+        document.getElementById('viFormCompare').innerHTML = null
+    })
+</script>
+<!-- compare - -->
+{% endblock %}

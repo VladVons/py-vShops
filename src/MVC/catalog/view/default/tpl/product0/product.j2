@@ -50,7 +50,10 @@
 
       <div class="col-md-6 p-3 vBgSlave">
         <div class="d-flex justify-content-between p-2">
-          <i class="fa fa-heart"></i>
+          <div>
+            <a class="btn" id="vTo_favorite" title="{{lang.to_favorite}}" value="favorite"><i class="fa fa-heart"></i></a>
+            <a class="btn" id="vTo_compare" title="{{lang.to_compare}}" value="compare"><i class="fa fa-balance-scale"></i></a>
+          </div>
           <span>{{lang.code}}: g{{product.id}} / {{product.idt}}</span>
         </div>
 
@@ -114,5 +117,17 @@
       </div>
     </div>
   </div>
+
+  <script>
+    for (const key of ['compare', 'favorite']) {
+      document.getElementById('vTo_' + key).addEventListener('click', function (event) {
+        ls = new TLocalStorage('products_' + key)
+        ls.addItemToListUniq("{{product.id}}")
+        ls.save()
+        document.getElementById('viCount_' + key).innerHTML = ls.items.length
+        showTooltip("{{lang.added}}")
+      })
+    }
+  </script>
   <!-- product - -->
   {% endblock %}

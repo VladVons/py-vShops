@@ -1,4 +1,4 @@
--- fmtGet_Product_LangId.sql
+-- fmtGet_Products_LangId.sql
 -- in: aLangId, aProductId
 
 with wt1 as (

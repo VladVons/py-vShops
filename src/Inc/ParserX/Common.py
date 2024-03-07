@@ -105,6 +105,12 @@ class TFileDbl(TFileBase):
             Val = aRec.Def.get(aName)
         aRec.SetField(aName, Val)
 
+    def CopyAs(self, aNameSrc: str, aNameDst: str, aRow: dict, aRec: TDbRec):
+        Val = aRow.get(aNameSrc)
+        if (Val is None):
+            Val = aRec.Def.get(aNameDst)
+        aRec.SetField(aNameDst, Val)
+
     def CopySafe(self, aName: str, aRow: dict, aRec: TDbRecSafe):
         Field = self.Dbl.Fields[aName]
         Val = aRow.get(aName)

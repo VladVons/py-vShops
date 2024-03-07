@@ -17,7 +17,7 @@ wt1 as (
             left join ref_price on (rpp.price_id = ref_price.id)
             where (rpp.enabled) and (ref_price.price_en != 'purchase') and
                 ((rpp.product_id = rp.id) and (rppd.id is null)) or
-                ((rpp.product_id = rp.id) and rppd.enabled and (now() between rppd.begin_date and rppd.end_date)) 
+                ((rpp.product_id = rp.id) and rppd.enabled and (now() between rppd.begin_date and rppd.end_date))
             order by rpp.price
             limit 1
         ) as price,

@@ -113,7 +113,7 @@ function buildCart() {
 
     document.querySelector('.viCartItems').innerHTML = Arr.join('')
     document.querySelector('.viTotalSum').innerHTML = Total.sum
-    document.querySelector('.viTotalCount').innerHTML = Total.qty
+    document.getElementById('viCount_cart').innerHTML = (Total.qty == 0 ? null : Total.qty)
 }
 
 const defaultBtns = document.querySelectorAll(".viAddToCart")

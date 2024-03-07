@@ -29,11 +29,20 @@ class TLocalStorage {
         }
     }
 
+    remove() {
+        this.items = null
+        localStorage.removeItem(this.storageId)
+    }
+
+    addItemToList(aItem) {
+        this.items.push(aItem)
+    }
+
     addItemToListUniq(aItem) {
         if (this.items == null) {
             this.items = [aItem]
         } else if (!this.items.includes(aItem)) {
-            this.items.push(aItem)
+            this.addItemToList(aItem)
         }
     }
 

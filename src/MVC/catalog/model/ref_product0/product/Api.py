@@ -4,6 +4,7 @@
 
 
 import re
+from IncP.LibModel import ListIntToComma
 
 
 async def Get_ProductsRnd_LangImagePrice(self, aLangId: int, aLimit: int = 24) -> dict:
@@ -36,4 +37,11 @@ async def Get_Products_LangAjax(self, aLangId: int, aFilter: str) -> dict:
     return await self.ExecQuery(
         'fmtGet_Products_LangAjax.sql',
         {'aLangId': aLangId, 'FilterRe': ', '.join(FilterRe)}
+    )
+
+async def Get_ProductsAttr(self, aLangId: int, aProductIds: list[int]) -> dict:
+    ProductIds = ListIntToComma(aProductIds)
+    return await self.ExecQuery(
+        'fmtGet_ProductsAttr.sql',
+        {'aLangId': aLangId, 'ProductIds': ProductIds}
     )
