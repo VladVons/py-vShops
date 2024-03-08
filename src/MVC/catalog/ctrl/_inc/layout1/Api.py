@@ -54,10 +54,7 @@ async def Main(self, aData: dict = None) -> dict:
             'search_ajax': '/api/?route=product0/search',
             'category_ajax': '/api/?route=_inc/layout1'
         },
-        'search': aSearch,
-        'info': {
-            'site_name': '1x1.com.ua'
-        }
+        'search': aSearch
     }
 
     return Res

@@ -1,18 +1,12 @@
 {% extends '_inc/layout1.j2' %}
 
-{% set page_title = info.title + ' (' + lang.page + ' ' ~ info.page ~ ')' %}
-
 {% block head %}
-<title>{{page_title}}</title>
-
-<meta name="robots" content="index,follow"/>
-<meta property="og:title" content="{{page_title}}"/>
-<meta property="og:site_name" content="{{info.site_name}}"/>
+<meta property="og:title" content="{{title}}"/>
+<meta property="og:site_name" content="{{site_name}}"/>
 {% endblock %}
 
 {% block content %}
 <!-- category + -->
-{% set title = page_title %}
 <div class="container pb-2">
   <div>
     {% for x in breadcrumbs %}

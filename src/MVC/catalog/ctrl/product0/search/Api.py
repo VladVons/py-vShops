@@ -3,7 +3,7 @@
 # License: GNU, see LICENSE for more details
 
 
-from IncP.LibCtrl import GetDictDefs, TDbList, TPagination, IsDigits
+from IncP.LibCtrl import GetDictDefs, TDbList, TPagination, IsDigits, DeepGetByList
 from ..._inc.products_a import Main as products_a
 
 
@@ -71,16 +71,16 @@ async def Main(self, aData: dict = None) -> dict:
     )
 
     if (Found):
-        Title = f'{aSearch} ({Found})'
-
         Data = TPagination(aLimit, f'?route=product0/search&q={aSearch}').Get(Dbl.Rec.total, aPage)
         DblPagination = TDbList(['page', 'title', 'href', 'current'], Data)
 
         DblProducts = await products_a(self, Dbl)
+        Title = f"{DeepGetByList(aData, ['lang', 'search'], '')}: {aSearch} ({Found}) - {DeepGetByList(aData, ['lang', 'page'], '') } {aPage}"
 
         Res = {
             'dbl_products_a': DblProducts.Export(),
+            'dbl_products_a_title': Title,
             'dbl_pagenation': DblPagination.Export(),
-            'title': Title
+            'title': Title,
         }
         return Res

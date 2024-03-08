@@ -1,0 +1,6 @@
+Seconds,Closed,Pending,Connected,Service Available
+0,0,1,0,1000
+1,0,8,180,1000
+2,0,7,365,1000
+3,0,7,549,1000
+4,0,7,731,1000

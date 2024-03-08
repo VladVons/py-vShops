@@ -3,7 +3,7 @@
 # License: GNU, see LICENSE for more details
 
 
-from IncP.LibCtrl import GetDictDefs, TPagination, TDbList, IsDigits, Iif
+from IncP.LibCtrl import GetDictDefs, TPagination, TDbList, IsDigits, Iif, DeepGetByList
 from ..._inc.products_a import Main as products_a
 from ..._inc import GetBreadcrumbs
 
@@ -57,7 +57,8 @@ async def Main(self, aData: dict = None) -> dict:
     if (not Dbl):
         return {'err_code': 404}
 
-    Href = f'?route=product0/category&category_id={aCategoryId}' + Iif(aAttr, '&attr=' + aAttr, '')
+    HrefCanonical = f'?route=product0/category&category_id={aCategoryId}'
+    Href = f'{HrefCanonical}' + Iif(aAttr, '&attr=' + aAttr, '')
     Data = TPagination(aLimit, Href).Get(Dbl.Rec.total, aPage)
     DblPagination = TDbList(['page', 'title', 'href', 'current'], Data)
 
@@ -75,17 +76,15 @@ async def Main(self, aData: dict = None) -> dict:
     )
     Category = DblCategory.Rec.GetAsDict()
     BreadCrumbs = await GetBreadcrumbs(self, aLangId, aCategoryId)
+    Title = f"{DeepGetByList(aData, ['lang', 'category'], '')}: {Category['title']} ({DblProducts.Rec.total}) - {DeepGetByList(aData, ['lang', 'page'], '') } {aPage}"
 
     Res = {
+        'dbl_products_a_title': Title,
         'dbl_products_a': DblProducts.Export(),
         'dbl_pagenation': DblPagination.Export(),
         'category': Category,
         'breadcrumbs': BreadCrumbs,
-        'title': '',
-        'info': {
-            'title': Category['title'],
-            'count': Dbl.Rec.total,
-            'page': aPage
-        }
+        'canonical': HrefCanonical,
+        'title': Title
     }
     return Res

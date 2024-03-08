@@ -32,7 +32,7 @@ h2 {
 }
 
 h3 {
-  font-size: 1.02em; 
+  font-size: 1.02em;
 }
 
 h4 {
@@ -190,7 +190,7 @@ h6 {
     -background-color: var(--colorChanged);
     border: 5px solid var(--colorChanged);
 }
-    
+
 .vDisabled {
     color: var(--colorDisabled);
 }

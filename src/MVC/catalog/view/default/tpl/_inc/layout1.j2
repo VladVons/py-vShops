@@ -4,13 +4,16 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     {% if description %}
-    <meta name="description" content="{{ description }}"/>
+    <meta name="description" content="{{description}}"/>
     {% endif %}
     {% if keywords %}
-    <meta name="keywords" content="{{ keywords }}"/>
+    <meta name="keywords" content="{{keywords}}"/>
     {% endif %}
     {% if title %}
     <title>{{ title }}</title>
+    {% endif %}
+    {% if canonical %}
+    <link href="{{canonical}}" rel="canonical"/>
     {% endif %}
 
     <script src="/default/assets/js/lib.js"></script>
