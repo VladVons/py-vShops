@@ -62,4 +62,4 @@ def ParseUserAgent(aValue: str) -> dict:
             Browser = aValue
     except Exception:
         pass
-    return {'os': OS.lower(), 'browser': Browser.lower()}
+    return {'os': OS.lower(), 'browser': Browser.lower().replace("'", '"')}
