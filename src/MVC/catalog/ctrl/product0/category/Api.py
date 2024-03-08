@@ -78,9 +78,25 @@ async def Main(self, aData: dict = None) -> dict:
     BreadCrumbs = await GetBreadcrumbs(self, aLangId, aCategoryId)
     Title = f"{DeepGetByList(aData, ['lang', 'category'], '')}: {Category['title']} ({DblProducts.Rec.total}) - {DeepGetByList(aData, ['lang', 'page'], '') } {aPage}"
 
+    Idx = f'sort={aSort}&order={aOrder}'
+    dbl_products_a_sort = TDbList().Import({
+        'head': ['href', 'title', 'selected'],
+        'data': [
+            [f'{HrefCanonical}', 'Звичайне', ''],
+            [f'{HrefCanonical}&sort=title&order=asc', 'Назва (А-Я)', ''],
+            [f'{HrefCanonical}&sort=title&order=desc', 'Назва (А-Я)', ''],
+            [f'{HrefCanonical}&sort=price&order=asc', 'Ціна (1-9)', ''],
+            [f'{HrefCanonical}&sort=price&order=desc', 'Ціна (9-1)', '']
+        ]
+    })
+    for Rec in dbl_products_a_sort:
+        if (Rec.href.endswith(Idx)):
+            Rec.SetField('selected', 'selected')
+
     Res = {
-        'dbl_products_a_title': Title,
         'dbl_products_a': DblProducts.Export(),
+        'dbl_products_a_title': Title,
+        'dbl_products_a_sort': dbl_products_a_sort.Export(),
         'dbl_pagenation': DblPagination.Export(),
         'category': Category,
         'breadcrumbs': BreadCrumbs,

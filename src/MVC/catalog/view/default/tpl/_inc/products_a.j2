@@ -3,6 +3,20 @@
   <div class="text-center m-3">
     <h1>{{dbl_products_a_title}}</h1>
   </div>
+
+  {% if dbl_products_a_sort %}
+  <div class="row pb-3">
+    <div class="col-3">
+      <label class="control-label" for="input-sort">сортування</label>
+      <select class="form-control" id="input-sort" onchange="location=this.value">
+      {% for Rec in TDbList().Import(dbl_products_a_sort) %}
+        <option value="{{Rec.href}}" {{Rec.selected}}>{{Rec.title}}</option>
+      {% endfor %}
+      </select>
+    </div>
+  </div>
+  {% endif %}
+
   <div class="row">
   {% for Rec in TDbList().Import(dbl_products_a) %}
     <div class="col-sm-6 col-md-4 col-lg-2 mb-2">
