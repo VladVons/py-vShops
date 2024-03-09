@@ -34,7 +34,7 @@ def GetProductsSort(aHref: str, aCur: str, aLang: dict) -> TDbList:
             [UrlUdate(aHref, {'sort': 'title', 'order': 'asc'}), aLang.get('name_az'),  ''],
             [UrlUdate(aHref, {'sort': 'title', 'order': 'desc'}), aLang.get('name_za'),  ''],
             [UrlUdate(aHref, {'sort': 'price', 'order': 'asc'}), aLang.get('price_19'), ''],
-            [UrlUdate(aHref, {'sort': 'title', 'order': 'desc'}), aLang.get('price_91'), '']
+            [UrlUdate(aHref, {'sort': 'price', 'order': 'desc'}), aLang.get('price_91'), '']
         ]
     })
     for Rec in Dbl:
