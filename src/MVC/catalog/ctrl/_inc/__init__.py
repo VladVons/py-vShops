@@ -3,7 +3,7 @@
 # License: GNU, see LICENSE for more details
 
 
-from IncP.LibCtrl import TDbList
+from IncP.LibCtrl import TDbList, UrlUdate
 
 
 async def GetBreadcrumbs(self, aLangId: str, aCategoryId: int) -> list:
@@ -31,10 +31,10 @@ def GetProductsSort(aHref: str, aCur: str, aLang: dict) -> TDbList:
         'head': ['href', 'title', 'selected'],
         'data': [
             [f'{aHref}', aLang.get('default', '-default-'), ''],
-            [f'{aHref}&sort=title&order=asc',  aLang.get('name_az'),  ''],
-            [f'{aHref}&sort=title&order=desc', aLang.get('name_za'),  ''],
-            [f'{aHref}&sort=price&order=asc',  aLang.get('price_19'), ''],
-            [f'{aHref}&sort=price&order=desc', aLang.get('price_91'), '']
+            [UrlUdate(aHref, {'sort': 'title', 'order': 'asc'}), aLang.get('name_az'),  ''],
+            [UrlUdate(aHref, {'sort': 'title', 'order': 'desc'}), aLang.get('name_za'),  ''],
+            [UrlUdate(aHref, {'sort': 'price', 'order': 'asc'}), aLang.get('price_19'), ''],
+            [UrlUdate(aHref, {'sort': 'title', 'order': 'desc'}), aLang.get('price_91'), '']
         ]
     })
     for Rec in Dbl:

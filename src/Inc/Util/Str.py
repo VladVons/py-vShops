@@ -54,3 +54,20 @@ def Replace(aText: str, aReplace: dict) -> str:
         for Old, New in aReplace.items():
             aText = aText.replace(Old, New)
     return aText
+
+def ConcatUniq(aText: str, aAdd: list[str]) -> str:
+    for xAdd in aAdd:
+        if (xAdd not in aText):
+            aText += xAdd
+    return aText
+
+
+def UrlUdate(aText: str, aData: dict) -> str:
+    Res = {}
+    Path, Query = aText.split('?')
+    for xQuery in Query.split('&'):
+        Key, Val = xQuery.split('=')
+        Res[Key] = Val
+    Res.update(aData)
+    Res = Path + '?' + '&'.join([f'{Key}={Val}' for Key, Val in Res.items()])
+    return Res
