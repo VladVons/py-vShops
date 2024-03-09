@@ -3,9 +3,9 @@
 # License: GNU, see LICENSE for more details
 
 
-from IncP.LibCtrl import GetDictDefs, TPagination, TDbList, IsDigits, Iif, DeepGetByList
+from IncP.LibCtrl import GetDictDefs, TPagination, TDbList, IsDigits, DeepGetByList
 from ..._inc.products_a import Main as products_a
-from ..._inc import GetBreadcrumbs
+from ..._inc import GetBreadcrumbs, GetProductsSort
 
 
 async def Main(self, aData: dict = None) -> dict:
@@ -57,11 +57,6 @@ async def Main(self, aData: dict = None) -> dict:
     if (not Dbl):
         return {'err_code': 404}
 
-    HrefCanonical = f'?route=product0/category&category_id={aCategoryId}'
-    Href = f'{HrefCanonical}' + Iif(aAttr, '&attr=' + aAttr, '')
-    Data = TPagination(aLimit, Href).Get(Dbl.Rec.total, aPage)
-    DblPagination = TDbList(['page', 'title', 'href', 'current'], Data)
-
     DblProducts = await products_a(self, Dbl)
 
     DblCategory = await self.ExecModelImport(
@@ -75,23 +70,16 @@ async def Main(self, aData: dict = None) -> dict:
         }
     )
     Category = DblCategory.Rec.GetAsDict()
+
     BreadCrumbs = await GetBreadcrumbs(self, aLangId, aCategoryId)
     Title = f"{DeepGetByList(aData, ['lang', 'category'], '')}: {Category['title']} ({DblProducts.Rec.total}) - {DeepGetByList(aData, ['lang', 'page'], '') } {aPage}"
 
-    Idx = f'sort={aSort}&order={aOrder}'
-    dbl_products_a_sort = TDbList().Import({
-        'head': ['href', 'title', 'selected'],
-        'data': [
-            [f'{HrefCanonical}', 'Звичайне', ''],
-            [f'{HrefCanonical}&sort=title&order=asc', 'Назва (А-Я)', ''],
-            [f'{HrefCanonical}&sort=title&order=desc', 'Назва (А-Я)', ''],
-            [f'{HrefCanonical}&sort=price&order=asc', 'Ціна (1-9)', ''],
-            [f'{HrefCanonical}&sort=price&order=desc', 'Ціна (9-1)', '']
-        ]
-    })
-    for Rec in dbl_products_a_sort:
-        if (Rec.href.endswith(Idx)):
-            Rec.SetField('selected', 'selected')
+    HrefCanonical = f'?route=product0/category&category_id={aCategoryId}'
+    Pagination = TPagination(aLimit, aData['path_qs'])
+    PData = Pagination.Get(Dbl.Rec.total, aPage)
+    DblPagination = TDbList(['page', 'title', 'href', 'current'], PData)
+
+    dbl_products_a_sort = GetProductsSort(Pagination.Href, f'&sort={aSort}&order={aOrder}', aData['lang'])
 
     Res = {
         'dbl_products_a': DblProducts.Export(),

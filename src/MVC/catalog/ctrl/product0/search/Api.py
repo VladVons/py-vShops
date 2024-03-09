@@ -5,6 +5,7 @@
 
 from IncP.LibCtrl import GetDictDefs, TDbList, TPagination, IsDigits, DeepGetByList
 from ..._inc.products_a import Main as products_a
+from ..._inc import GetProductsSort
 
 
 async def ajax(self, aData: dict = None) -> dict:
@@ -71,15 +72,20 @@ async def Main(self, aData: dict = None) -> dict:
     )
 
     if (Found):
-        Data = TPagination(aLimit, f'?route=product0/search&q={aSearch}').Get(Dbl.Rec.total, aPage)
-        DblPagination = TDbList(['page', 'title', 'href', 'current'], Data)
+        Pagination = TPagination(aLimit, aData['path_qs'])
+        #Pagination = TPagination(aLimit, f'?route=product0/search&q={aSearch}')
+        PData = Pagination.Get(Dbl.Rec.total, aPage)
+        DblPagination = TDbList(['page', 'title', 'href', 'current'], PData)
 
         DblProducts = await products_a(self, Dbl)
         Title = f"{DeepGetByList(aData, ['lang', 'search'], '')}: {aSearch} ({Found}) - {DeepGetByList(aData, ['lang', 'page'], '') } {aPage}"
 
+        dbl_products_a_sort = GetProductsSort(Pagination.Href, f'&sort={aSort}&order={aOrder}', aData['lang'])
+
         Res = {
             'dbl_products_a': DblProducts.Export(),
             'dbl_products_a_title': Title,
+            'dbl_products_a_sort': dbl_products_a_sort.Export(),
             'dbl_pagenation': DblPagination.Export(),
             'title': Title,
         }

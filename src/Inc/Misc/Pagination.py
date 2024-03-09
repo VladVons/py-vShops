@@ -8,12 +8,12 @@
 
 
 import math
-
+import re
 
 class TPagination():
     def __init__(self, aPerPage: int, aHref: str, aPager: str = '&page={page}'):
         self.PerPage = aPerPage
-        self.Href = aHref
+        self.Href = re.sub(aPager.replace('{page}', r'\d+'), '', aHref)
         self.Pager = aPager
         self.Back = '&lt;'
         self.Forward = '&gt;'
