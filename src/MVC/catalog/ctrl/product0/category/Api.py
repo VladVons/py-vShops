@@ -35,8 +35,10 @@ async def Main(self, aData: dict = None) -> dict:
     if (aAttr):
         for Group in aAttr.strip('[]').split(';;'):
             if (Group):
-                AttrId, Val = Group.split('=')
-                Attr[AttrId] = Val.split(';')
+                Pair = Group.split(':')
+                if (len(Pair) == 2):
+                    AttrId, Val = Pair
+                    Attr[AttrId] = Val.split(';')
 
     CategoryIds = Dbl.ExportList('id')
     Dbl = await self.ExecModelImport(

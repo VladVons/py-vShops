@@ -66,8 +66,10 @@ def UrlUdate(aText: str, aData: dict) -> str:
     Res = {}
     Path, Query = aText.split('?')
     for xQuery in Query.split('&'):
-        Key, Val = xQuery.split('=')
-        Res[Key] = Val
+        Pair = xQuery.split('=')
+        if (len(Pair) == 2):
+            Key, Val = Pair
+            Res[Key] = Val
     Res.update(aData)
     Res = Path + '?' + '&'.join([f'{Key}={Val}' for Key, Val in Res.items()])
     return Res

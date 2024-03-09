@@ -50,7 +50,7 @@
   function attrEncode(aItems) {
     let Res = '['
     for (const [Key, Value] of Object.entries(aItems)) {
-      Res += `${Key}=`
+      Res += `${Key}:`
       for (var xValue of Value) {
         Res += `${xValue};`
       }
@@ -66,7 +66,7 @@
     if (attrParam) {
       attrParam.slice(1, -1).split(';;').forEach(group => {
         if (group) {
-          const [attrId, attrVal] = group.split('=')
+          const [attrId, attrVal] = group.split(':')
           for (var xVal of attrVal.split(';')) {
             const id = `${attrId}_${xVal}`
             const element = document.getElementById(id)
