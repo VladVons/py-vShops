@@ -39,13 +39,13 @@ async def GetDbInfo(self) -> dict:
     }
     return Res
 
-async def RegSession(self, aIp: str, aOs: str, aBrowser: str) -> dict:
+async def RegSession(self, aIp: str, aOs: str, aBrowser: str, aHost: str) -> dict:
     MaxLen = 64
     Query = f'''
         insert into hist_session
-            (ip, os, browser)
+            (ip, os, browser, host)
         values
-            ('{aIp}', '{aOs[:16]}', '{aBrowser[:MaxLen]}')
+            ('{aIp}', '{aOs[:16]}', '{aBrowser[:MaxLen]}', '{aHost}')
         returning (id)
     '''
     return await self.ExecQueryText(Query)

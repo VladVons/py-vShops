@@ -643,6 +643,7 @@ create table if not exists hist_session (
     ip                  varchar(45),
     os                  varchar(16),
     browser             varchar(64),
+    host                varchar(32),
     uuid                varchar(36)
 );
 

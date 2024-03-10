@@ -73,7 +73,8 @@ class TFormBase(Form):
                 'param' : {
                     'aBrowser': Parsed['browser'],
                     'aIp': Remote,
-                    'aOs': Parsed['os']
+                    'aOs': Parsed['os'],
+                    'aHost': self.Request.host
                 }
             }
         )
@@ -100,15 +101,16 @@ class TFormBase(Form):
             Extends = []
 
         Data = {
-            'type': 'form',
-            'route': self.out.route,
             '_path': self.out.path,
+            'extends': Extends,
+            'host': self.Request.host,
             'path_qs': self.Request.path_qs,
             'path': self.Request.path,
             'post': self.out.data,
             'query': dict(self.Request.query) | self.out.query,
+            'route': self.out.route,
             'session': dict(self.Session),
-            'extends': Extends
+            'type': 'form'
         }
         if (aData):
             Data.update(aData)

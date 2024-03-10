@@ -140,13 +140,14 @@ class TApiView(TApiBase):
         Query = dict(aRequest.query)
         Session = await get_session(aRequest)
         Data = {
-            'type': 'api',
-            'path': aRequest.path,
             '_path': self.Name,
-            'path_qs': aRequest.path_qs,
-            'query': Query,
+            'host': aRequest.host,
             'method': Query.get('method', 'Main'),
-            'session': dict(Session)
+            'path_qs': aRequest.path_qs,
+            'path': aRequest.path,
+            'query': Query,
+            'session': dict(Session),
+            'type': 'api'
         }
 
         Post = await aRequest.text()
