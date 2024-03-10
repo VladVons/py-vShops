@@ -60,8 +60,8 @@
         <h1>{{product.title}}</h1>
         <p>{{lang.category}}: <a href="{{href.category}}" class="h4">{{product.category_title}}</a></p>
         {% if product.attr %}
-          {% for key, val in product.attr.items() %}
-            <p>{{key}}: {{val}}</p>
+          {% for Rec in TDbList().Import(product.attr) %}
+            <p>{{Rec.title}}: <a href="{{Rec.href}}">{{Rec.val}}</a></p>
           {% endfor %}
         {% endif %}
         <p>{{lang.condition}}: {% if product.cond_en == 'new' %} {{lang.new}} {% else %} {{lang.used}} {% endif %}</p>

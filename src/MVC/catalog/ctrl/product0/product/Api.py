@@ -5,7 +5,7 @@
 
 import json
 #
-from IncP.LibCtrl import GetDictDefs, Iif, IsDigits
+from IncP.LibCtrl import GetDictDefs, Iif, IsDigits, TDbList
 from .Features import TFeatures
 from ..._inc import GetBreadcrumbs
 
@@ -48,6 +48,16 @@ async def Main(self, aData: dict = None) -> dict:
 
     Res = {}
     Product = DblProduct.Rec.GetAsDict()
+    CategoryId = Product['category_id']
+
+    DblAttr = TDbList(['id', 'alias', 'title', 'val'], Product['attr'])
+    DblAttr.AddFieldsFill(['href'], False)
+    for Rec in DblAttr:
+        Href = [
+            f'?route=product0/category&category_id={CategoryId}&attr=[{Rec.id}:{Rec.val}]'
+        ]
+        DblAttr.RecMerge(Href)
+    Product['attr'] = DblAttr.Export()
 
     Features = Product.get('features', {})
     Product['features'] = TFeatures(aLang).Adjust(Features)
@@ -76,7 +86,7 @@ async def Main(self, aData: dict = None) -> dict:
     )
     Product['price_hist'] = DblPrice.Export()
 
-    Res['breadcrumbs'] = await GetBreadcrumbs(self, aLangId, Product['category_id'])
+    Res['breadcrumbs'] = await GetBreadcrumbs(self, aLangId, CategoryId)
 
     Schema = {
         '@context': 'https://schema.org/',
@@ -96,7 +106,7 @@ async def Main(self, aData: dict = None) -> dict:
 
     Res['href'] = {
         'self': aData['path_qs'],
-        'category': f'?route=product0/category&category_id={Product["category_id"]}',
+        'category': f'?route=product0/category&category_id={CategoryId}',
         'tenant': f'?route=product0/tenant&tenant_id={Product["tenant_id"]}'
     }
 

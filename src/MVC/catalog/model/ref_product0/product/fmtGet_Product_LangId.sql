@@ -22,7 +22,7 @@ with wt1 as (
             order by rpi.sort_order, rpi.image
         ) as images,
         (
-            select jsonb_object_agg(ral.title, rpa.val)
+            select array_agg(array[ra.id::char, ra.alias, ral.title, rpa.val])
             from ref_product_attr rpa
             left join ref_attr ra on (ra.id = rpa.attr_id)
             left join ref_attr_lang ral on (ral.attr_id = ra.id and ral.lang_id = {{aLangId}})
