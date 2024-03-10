@@ -32,6 +32,7 @@ async def Main(self, aData: dict = None) -> dict:
         return {'err_code': 404}
 
     Attr = {}
+    AttrArr = []
     if (aAttr):
         for Group in aAttr.strip('[]').split(';;'):
             if (Group):
@@ -39,6 +40,7 @@ async def Main(self, aData: dict = None) -> dict:
                 if (len(Pair) == 2):
                     AttrId, Val = Pair
                     Attr[AttrId] = Val.split(';')
+                    AttrArr.append(Val)
 
     CategoryIds = Dbl.ExportList('id')
     Dbl = await self.ExecModelImport(
@@ -74,7 +76,8 @@ async def Main(self, aData: dict = None) -> dict:
     Category = DblCategory.Rec.GetAsDict()
 
     BreadCrumbs = await GetBreadcrumbs(self, aLangId, aCategoryId)
-    Title = f"{DeepGetByList(aData, ['lang', 'category'], '')}: {Category['title']} ({DblProducts.Rec.total}) - {DeepGetByList(aData, ['lang', 'page'], '') } {aPage}"
+
+    Title = f"{DeepGetByList(aData, ['lang', 'category'], '')}: {Category['title']} {';'.join(AttrArr)} ({DblProducts.Rec.total}) - {DeepGetByList(aData, ['lang', 'page'], '') } {aPage}"
 
     HrefCanonical = f'?route=product0/category&category_id={aCategoryId}'
     Pagination = TPagination(aLimit, aData['path_qs'])
