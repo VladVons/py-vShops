@@ -40,7 +40,7 @@ async def GetDbInfo(self) -> dict:
     return Res
 
 async def Ins_Session(self, aIp: str, aOs: str, aBrowser: str) -> dict:
-    MaxLen = 64
+    MaxLen = 128
     Query = f'''
         insert into hist_session
             (ip, os, browser)

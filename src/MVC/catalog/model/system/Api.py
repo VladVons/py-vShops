@@ -42,7 +42,7 @@ async def GetDbInfo(self) -> dict:
     return Res
 
 async def RegSession(self, aIp: str, aOs: str, aBrowser: str, aHost: str) -> dict:
-    MaxLen = 64
+    MaxLen = 128
     Query = f'''
         insert into hist_session
             (ip, os, browser, host)

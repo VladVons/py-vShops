@@ -642,7 +642,7 @@ create table if not exists hist_session (
     create_date         timestamp default current_timestamp,
     ip                  varchar(45),
     os                  varchar(16),
-    browser             varchar(64),
+    browser             varchar(128),
     host                varchar(32),
     uuid                varchar(36)
 );
