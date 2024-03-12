@@ -3,8 +3,9 @@
 # License: GNU, see LICENSE for more details
 
 
-from IncP.LibCtrl import GetDictDefs, TPagination, TDbList, IsDigits
+from IncP.LibCtrl import GetDictDefs, TPagination, TDbList, IsDigits, DeepGetByList
 from ..._inc.products_a import Main as products_a
+from ..._inc import GetProductsSort
 
 
 async def Main(self, aData: dict = None) -> dict:
@@ -37,19 +38,22 @@ async def Main(self, aData: dict = None) -> dict:
     if (not Dbl):
         return {'err_code': 404}
 
-    Data = TPagination(aLimit, f'?route=product0/tenant&tenant_id={aTenantId}').Get(Dbl.Rec.total, aPage)
-    DblPagination = TDbList(['page', 'title', 'href', 'current'], Data)
+    Title = f"{DeepGetByList(aData, ['lang', 'tenant'], '')}: {Dbl.Rec.tenant_title} ({Dbl.Rec.total}) - {DeepGetByList(aData, ['lang', 'page'], '') } {aPage}"
+
+    HrefCanonical = f'?route=product0/tenant&tenant_id={aTenantId}'
+    Pagination = TPagination(aLimit, aData['path_qs'])
+    PData = Pagination.Get(Dbl.Rec.total, aPage)
+    DblPagination = TDbList(['page', 'title', 'href', 'current'], PData)
+
+    dbl_products_a_sort = GetProductsSort(Pagination.Href, f'&sort={aSort}&order={aOrder}', aData['lang'])
 
     DblProducts = await products_a(self, Dbl)
 
     Res = {
         'dbl_products_a': DblProducts.Export(),
+        'dbl_products_a_title': Title,
+        'dbl_products_a_sort': dbl_products_a_sort.Export(),
         'dbl_pagenation': DblPagination.Export(),
-        'tenant': {},
-        'info': {
-            'title': Dbl.Rec.tenant_title,
-            'count': Dbl.Rec.total,
-            'page': aPage
-        }
+        'title': Title
     }
     return Res

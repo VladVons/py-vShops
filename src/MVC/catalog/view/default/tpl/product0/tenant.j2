@@ -1,19 +1,16 @@
 {% extends '_inc/layout1.j2' %}
 
-{% set page_title = lang.tenant + ' ' + info.title + ' (' + lang.page + ' ' ~ info.page ~ ')' %}
-
 {% block head %}
-<title>{{page_title}}</title>
-
-<meta property="og:title" content="{{page_title}}"/>
-<meta property="og:site_name" content="{{info.site_name}}"/>
+<meta property="og:title" content="{{title}}"/>
+<meta property="og:site_name" content="{{site_name}}"/>
 {% endblock %}
 
 {% block content %}
-<!-- tenant + -->
-{% set title = page_title %}
-{% include '../_inc/products_a.j2' %}
+<div class="container pb-2">
+  <!-- tenant + -->
+  {% include '../_inc/products_a.j2' %}
 
-{% include '../_inc/pagination.j2' %}
+  {% include '../_inc/pagination.j2' %}
+</div>
 <!-- tenant - -->
 {% endblock %}
