@@ -3,7 +3,7 @@
 # License: GNU, see LICENSE for more details
 
 
-from IncP.LibCtrl import GetDictDefs, TPagination, TDbList
+from IncP.LibCtrl import GetDictDefs, IsDigits, TPagination, TDbList
 
 
 async def Main(self, aData: dict = None) -> dict:
@@ -12,6 +12,9 @@ async def Main(self, aData: dict = None) -> dict:
         ('page', 'limit', 'having'),
         (1, 50, 0)
     )
+
+    if (not IsDigits([aPage, aLimit, aHaving])):
+        return {'err_code': 404}
 
     Dbl = await self.ExecModelImport(
         'test',
