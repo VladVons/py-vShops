@@ -74,7 +74,8 @@ class TFormBase(Form):
                     'aBrowser': Parsed['browser'],
                     'aIp': Remote,
                     'aOs': Parsed['os'],
-                    'aHost': self.Request.host
+                    'aHost': self.Request.host,
+                    'aOrigin': UserAgent.replace("'", '"')
                 }
             }
         )
