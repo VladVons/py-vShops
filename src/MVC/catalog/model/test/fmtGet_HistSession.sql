@@ -18,7 +18,7 @@ with wt1 as (
     group by 
         hs.id
     having 
-        count(hs.id) > 1
+        count(hs.id) > 0
 ),
 wt2 as (
     select
