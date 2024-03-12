@@ -82,13 +82,14 @@ class TDbBase():
         Res.append(f'records: {self.GetSize()}')
         return '\n'.join(Res)
 
-    def GetReprHtml(self) -> str:
+    def GetReprHtml(self, aShowNo: bool = True) -> str:
         Res = []
         Res.append('<table>')
 
         Res.append(' <thead>')
         Res.append('  <tr>')
-        Res.append('   <th>No</th>')
+        if (aShowNo):
+            Res.append('   <th>No</th>')
         for Field in self.GetFields():
             Res.append(f'   <th>{Field}</th>')
         Res.append('  </tr>')
@@ -97,7 +98,8 @@ class TDbBase():
         Res.append(' <tbody>')
         for Rec in self:
             Res.append('  <tr>')
-            Res.append(f'   <td>{self.RecNo + 1}</td>')
+            if (aShowNo):
+                Res.append(f'   <td>{self.RecNo + 1}</td>')
             for Field in Rec.GetAsList():
                 Res.append(f'   <td>{Field}</td>')
             Res.append('  </tr>')

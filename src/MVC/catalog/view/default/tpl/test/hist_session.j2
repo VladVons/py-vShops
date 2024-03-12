@@ -1,0 +1,47 @@
+{% extends '_inc/layout1.j2' %}
+
+{% set Fields = ['create_date', 'url', 'ip', 'os'] %}
+
+{% block head %}
+<style>
+  .grid-container {
+    display: grid;
+    --grid-template-columns: repeat({{ Fields | length }}, 1fr);
+    grid-template-columns: 200px auto 150px 200px;
+  }
+
+  .gitem {
+    border: 1px solid black;
+    padding: 0px;
+    text-align: left;
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- hist_session + -->
+<div class="container pb-2">
+  <div class="grid-container">
+    {% for xFields in Fields %}
+      <div class="grid-item fw-bold">{{xFields}}</div>
+    {% endfor %}
+
+    {% set ns = namespace(PrevId=None) %}
+    {% for Rec in TDbList().Import(dbl) %}
+      {% if ns.PrevId != Rec.id %}
+        {{ '<div>-</div>' * 4 }}
+      {% endif %}
+      {% set ns.PrevId = Rec.id %}
+
+      <div class="gitem">{{Rec.create_date.strftime('%Y-%m-%d %H:%M:%S') }}</div>
+      <div class="gitem"><a href="{{Rec.url}}" target="_blank">{{Rec.url.split('&') }}</a></div>
+      <div class="gitem">{{Rec.ip }}</div>
+      <div class="gitem">{{Rec.os }}</div>
+    {% endfor %}
+  </div>
+
+  <div class="m-3">
+    {% include '../_inc/pagination.j2' %}
+  </div>
+</div>
+{% endblock %}
