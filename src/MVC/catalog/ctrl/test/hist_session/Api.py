@@ -24,6 +24,8 @@ async def Main(self, aData: dict = None) -> dict:
             }
         }
     )
+    if (not Dbl):
+        return {'err_code': 404}
 
     Pagination = TPagination(aLimit, aData['path_qs'])
     PData = Pagination.Get(Dbl.Rec.total, aPage)
