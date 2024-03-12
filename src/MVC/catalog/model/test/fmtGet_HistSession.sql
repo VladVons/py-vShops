@@ -1,5 +1,5 @@
 -- fmtGet_HistSession.sql
--- in: aLimit, aOffset
+-- in: aLimit, aOffset, aHaving
 
 with wt1 as (
     select
@@ -12,13 +12,13 @@ with wt1 as (
         (hs.id = hpv.session_id)
     where
         (url like '%?route=%') and
-        (browser not like '%bot%') and 
-        (ip not like '217.196.161.%') and  
+        (browser not like '%bot%') and
+        (ip not like '217.196.161.%') and
         (ip not like '127.0.0.1')
-    group by 
+    group by
         hs.id
-    having 
-        count(hs.id) > 0
+    having
+        count(hs.id) >= {{aHaving}}
 ),
 wt2 as (
     select

@@ -7,10 +7,10 @@ from IncP.LibCtrl import GetDictDefs, TPagination, TDbList
 
 
 async def Main(self, aData: dict = None) -> dict:
-    aPage, aLimit = GetDictDefs(
+    aPage, aLimit, aHaving = GetDictDefs(
         aData.get('query'),
-        ('page', 'limit'),
-        (1, 50)
+        ('page', 'limit', 'having'),
+        (1, 50, 0)
     )
 
     Dbl = await self.ExecModelImport(
@@ -19,7 +19,8 @@ async def Main(self, aData: dict = None) -> dict:
             'method': 'Get_HistSession',
             'param': {
                 'aLimit': aLimit,
-                'aOffset': (aPage - 1) * aLimit
+                'aOffset': (aPage - 1) * aLimit,
+                'aHaving': aHaving
             }
         }
     )
