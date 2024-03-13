@@ -13,6 +13,7 @@ with wt1 as (
     where
         (url like '%?route=%') and
         (browser not like '%bot%') and
+        ((uagent not like '%bot%') or (uagent is null)) and
         (ip not like '217.196.161.%') and
         (ip not like '127.0.0.1')
     group by

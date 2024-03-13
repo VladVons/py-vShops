@@ -28,6 +28,8 @@ Python()
     sudo apt install --no-install-recommends $py $py-dev $py-distutils $py-venv virtualenv
 
     sudo apt install postgresql-plpython3-16
+    su postgres -c "python3 -m pip install geoip2"
+    service postgresql restart
 }
 
 PythonPkg()

@@ -13,21 +13,22 @@ as $$
     return CheckEan(a_code)
 $$ language plpython3u;
 
-create or replace function geoip(a_ip text) returns jsonb
+create or replace function geoip(a_ip text) returns varchar
 as $$
     from geoip2.database import Reader
 
     File = '/usr/share/GeoLite2/GeoLite2-City.mmdb'
     with Reader(File) as R:
         try:
-            Data = R.city(aIp)
-            Res = {
-                'continent': Data.continent.name,
-                'country': Data.country.name,
-                'city': Data.city.name
-            }
+            Data = R.city(a_ip)
+            Res = [
+                Data.continent.name,
+                Data.country.name,
+                Data.city.name
+            ]
+            return ','.join(map(str, Res))
         except Exception as _E:
-            Res = {}
+            Res = None
     return Res
 $$ language plpython3u;
 
