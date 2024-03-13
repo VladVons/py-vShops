@@ -1,13 +1,13 @@
 {% extends '_inc/layout1.j2' %}
 
-{% set Fields = ['create_date', 'id', 'url', 'ip', 'os'] %}
+{% set Fields = ['create_date', 'id', 'url', 'ip', 'location'] %}
 
 {% block head %}
 <style>
   .grid-container {
     display: grid;
     --grid-template-columns: repeat({{ Fields | length }}, 1fr);
-    grid-template-columns: 200px 100px auto 150px 200px;
+    grid-template-columns: 200px 100px auto 150px 300px;
   }
 
   .gitem {
@@ -37,7 +37,7 @@
       <div class="gitem">{{Rec.id}}</div>
       <div class="gitem"><a href="{{Rec.url}}" target="_blank">{{Rec.url.split('&') }}</a></div>
       <div class="gitem">{{Rec.ip }}</div>
-      <div class="gitem">{{Rec.os }}</div>
+      <div class="gitem">{{Rec.location }}</div>
     {% endfor %}
   </div>
 

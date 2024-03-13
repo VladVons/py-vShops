@@ -30,7 +30,8 @@ wt2 as (
         hs.id,
         hs.ip,
         hs.browser,
-        hs.os
+        hs.os,
+        hs.location
     from
         hist_page_view hpv
     left join
