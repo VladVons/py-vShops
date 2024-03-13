@@ -68,7 +68,7 @@ class TFormBase(Form):
             Remote = self.Request.headers.get('X-FORWARDED-FOR', '127.0.0.1')
 
         Location = TGeoIp().GetCity(Remote)
-        LocationArr = [Val for Key, Val in Location.items()]
+        LocationArr = [str(Val) for Val in Location.values()]
 
         Data = await self.ExecCtrl(
             'system/session',
