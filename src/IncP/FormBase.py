@@ -58,7 +58,7 @@ class TFormBase(Form):
         pass
 
     async def RegSession(self):
-        UserAgent = self.Request.headers.get('User-Agent')
+        UserAgent = self.Request.headers.get('User-Agent', '')
         Parsed = ParseUserAgent(UserAgent)
 
         #print('-x1', '\n'.join([f'{Key}:{Val}' for Key, Val in self.Request.headers.items()]))
@@ -68,7 +68,8 @@ class TFormBase(Form):
             Remote = self.Request.headers.get('X-FORWARDED-FOR', '127.0.0.1')
 
         Location = TGeoIp().GetCity(Remote)
-        LocationArr = [str(Val) for Val in Location.values()]
+        #LocationArr = [str(Val) for Val in Location.values()]
+        LocationArr = map(str, Location.values())
 
         Data = await self.ExecCtrl(
             'system/session',
