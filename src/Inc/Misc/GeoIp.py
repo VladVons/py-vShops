@@ -22,9 +22,9 @@ class TGeoIp():
             try:
                 Data = R.city(aIp)
                 Res = {
+                    'continent': Data.continent.name,
                     'country': Data.country.name,
-                    'city': Data.city.name,
-                    'continent': Data.continent.name
+                    'city': Data.city.name
                 }
             except Exception as _E:
                 Res = {}
