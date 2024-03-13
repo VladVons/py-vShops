@@ -38,6 +38,8 @@ async def FileWriter(aReader, aFile: str) -> int:
 
 def ParseUserAgent(aValue: str) -> dict:
     # Data  = [
+    # 'Mozilla/5.0 AppleWebKit/537.36 (KHTML, like Gecko; compatible; bingbot/2.0; +http://www.bing.com/bingbot.htm) Chrome/116.0.1938.76 Safari/537.36',
+    # 'Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)',
     # 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36',
     # 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/110.0',
     # 'Mozilla/5.0 (Linux; Android 10; M2004J19C) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Mobile Safari/537.36',
@@ -53,7 +55,7 @@ def ParseUserAgent(aValue: str) -> dict:
     Browser = ''
     OS = ''
     try:
-        Pattern = r"\((.*?)\).*(chrome|firefox|safari|opr|gecko$)/*(.*)"
+        Pattern = r"\((.*?)\).*(chrome|firefox|safari|opr|edge|opera|gecko$)/*(.*)"
         UArr = re.findall(Pattern, aValue, re.IGNORECASE)
         if (UArr):
             Browser = f'{UArr[0][1]}-{UArr[0][2]}'

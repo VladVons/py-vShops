@@ -18,5 +18,6 @@ pillow
 wtforms
 multidict
 openpyxl
+geoip2
 #
 pylint

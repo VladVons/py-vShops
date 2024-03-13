@@ -13,6 +13,7 @@ from Inc.DbList import TDbList
 from Inc.DictDef import TDictDef
 from Inc.Loader.Api import TLoaderApi
 from Inc.Misc.Jinja import TTemplate
+from Inc.Misc.GeoIp import TGeoIp
 from Inc.Util.Obj import DeepGetByList
 from Inc.SrvWeb.Common import ParseUserAgent
 from IncP import GetAppVer
@@ -66,6 +67,9 @@ class TFormBase(Form):
             # try to get remote ip from nginx proxy (proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;)
             Remote = self.Request.headers.get('X-FORWARDED-FOR', '127.0.0.1')
 
+        Location = TGeoIp().GetCity(Remote)
+        LocationArr = [Val for Key, Val in Location.items()]
+
         Data = await self.ExecCtrl(
             'system/session',
             {
@@ -75,7 +79,8 @@ class TFormBase(Form):
                     'aIp': Remote,
                     'aOs': Parsed['os'],
                     'aHost': self.Request.host,
-                    'aOrigin': UserAgent.replace("'", '"')
+                    'aUAgent': UserAgent.replace("'", '"'),
+                    'aLocation': ','.join(LocationArr)
                 }
             }
         )
