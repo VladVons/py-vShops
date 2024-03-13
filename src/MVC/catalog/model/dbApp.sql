@@ -13,6 +13,23 @@ as $$
     return CheckEan(a_code)
 $$ language plpython3u;
 
+create or replace function geoip(a_ip text) returns jsonb
+as $$
+    from geoip2.database import Reader
+
+    File = '/usr/share/GeoLite2/GeoLite2-City.mmdb'
+    with Reader(File) as R:
+        try:
+            Data = R.city(aIp)
+            Res = {
+                'continent': Data.continent.name,
+                'country': Data.country.name,
+                'city': Data.city.name
+            }
+        except Exception as _E:
+            Res = {}
+    return Res
+$$ language plpython3u;
 
 create or replace function crypt_simple(a_text text, a_key int) returns text
 as $$

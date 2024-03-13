@@ -47,7 +47,7 @@ async def RegSession(self, aIp: str, aOs: str, aBrowser: str, aHost: str, aUAgen
         insert into hist_session
             (ip, os, browser, host, uagent, location)
         values
-            ('{aIp}', '{aOs[:16]}', '{aBrowser[:MaxLen]}', '{aHost}', '{aUAgent}', '{aLocation}')
+            ('{aIp}', '{aOs[:16]}', '{aBrowser[:MaxLen]}', '{aHost[:32]}', '{aUAgent}', '{aLocation}')
         returning (id)
     '''
     return await self.ExecQueryText(Query)

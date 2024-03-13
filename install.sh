@@ -22,9 +22,12 @@ Python()
 {
     sudo apt update
     sudo apt dist-upgrade
+
     sudo apt install --no-install-recommends software-properties-common
     sudo add-apt-repository ppa:deadsnakes/ppa
     sudo apt install --no-install-recommends $py $py-dev $py-distutils $py-venv virtualenv
+
+    sudo apt install postgresql-plpython3-16
 }
 
 PythonPkg()
