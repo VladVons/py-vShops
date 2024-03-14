@@ -1,0 +1,9 @@
+{% extends '_inc/layout1.j2' %}
+
+{% block content %}
+<!-- filter_attr + -->
+  {% for Rec in TDbList().Import(dbl_filter_attr) %}
+    <p>{{Rec.title}}: {{Rec.href}}</p>
+  {% endfor %}
+<!-- filter_attr - -->
+{% endblock %}
