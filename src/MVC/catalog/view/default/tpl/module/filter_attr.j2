@@ -1,7 +1,13 @@
 {% block content %}
 <!-- filter_attr + -->
+<div class="container mt-3">
+  {% if title %}
+    <h2 class="fw-bold">{{ title }}</h2>
+  {% endif %}
+
   {% for Rec in TDbList().Import(dbl_filter_attr) %}
-    <p>{{Rec.title}}: {{Rec.href}}</p>
+    <a href="{{Rec.href}}">{{Rec.title}}</a>
   {% endfor %}
+</div>
 <!-- filter_attr - -->
 {% endblock %}

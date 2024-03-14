@@ -619,19 +619,19 @@ create table if not exists ref_attr_set_item (
     unique (attr_set_id, attr_id)
 );
 
-create table if not exists ref_attr_filter_group (
+create table if not exists ref_product0_category_filter_group (
     id                  serial primary key,
     enabled             boolean default true,
-    title               varchar(128) not null unique
+    title               varchar(128) not null unique,
+    category_id         integer not null references ref_product0_category(id) on delete cascade
 );
 
-create table if not exists ref_attr_filter (
+create table if not exists ref_product0_category_filter (
     val                  varchar(32) not null,
     val_max              varchar(32),
     attr_id              integer not null references ref_attr(id) on delete cascade,
-    category_id          integer not null references ref_product0_category(id) on delete cascade,
-    attr_filter_group_id integer not null references ref_attr_filter_group(id) on delete cascade,
-    unique (category_id, attr_id, val)
+    filter_group_id      integer not null references ref_product0_category_filter_group(id) on delete cascade,
+    unique (filter_group_id, attr_id, val)
 );
 
 create table if not exists ref_product_attr (
