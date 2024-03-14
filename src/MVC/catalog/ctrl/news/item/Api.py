@@ -21,7 +21,7 @@ async def Main(self, aData: dict = None) -> dict:
     Dbl = await self.ExecModelImport(
         'ref_news',
         {
-            'method': 'Get_News',
+            'method': 'Get_Item',
             'param': {
                 'aLangId': aLangId,
                 'aNewsId': aNewsId
@@ -31,4 +31,5 @@ async def Main(self, aData: dict = None) -> dict:
     if (not Dbl):
         return {'err_code': 404}
 
-    return Dbl.Rec.GetAsDict()
+    Res = Dbl.Rec.GetAsDict()
+    return Res

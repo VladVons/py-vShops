@@ -1,13 +1,14 @@
--- fmtGet_News.sql
+-- fmtGet_Item.sql
 -- in: aNewsId, aLangId
 
 select
-    coalesce(rn.public_date, rn.create_date)::date as date,
+    coalesce(rn.public_date, rn.create_date)::date as public_date,
     rnl.title,
     rnl.descr,
-    rnl.meta_key 
+    rnl.meta_key,
+    rnl.image
 from
-    ref_news rn 
+    ref_news rn
 join
     ref_news_lang rnl on
     (rnl.news_id = rn.id) and (rnl.lang_id = {{aLangId}})

@@ -45,6 +45,7 @@ async def Main(self, aData: dict = None) -> dict:
             'contacts': '/?route=info/contacts',
             'faq': '/?route=info/faq',
             'history': '/?route=checkout/history',
+            'news': '/?route=news/list',
             'order': '/?route=checkout/order',
             'payment': '/?route=checkout/payment',
             'privacy_policy': '/?route=info/privacy_policy',

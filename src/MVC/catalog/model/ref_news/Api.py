@@ -3,8 +3,14 @@
 # License: GNU, see LICENSE for more details
 
 
-async def Get_News(self, aLangId: int, aNewsId: int) -> dict:
+async def Get_Item(self, aLangId: int, aNewsId: int) -> dict:
     return await self.ExecQuery(
-        'fmtGet_News.sql',
+        'fmtGet_Item.sql',
         {'aLangId': aLangId, 'aNewsId': aNewsId}
+    )
+
+async def Get_List(self, aLangId: int, aLimit: int, aOffset: int) -> dict:
+    return await self.ExecQuery(
+        'fmtGet_List.sql',
+        {'aLangId': aLangId, 'aLimit': aLimit, 'aOffset': aOffset}
     )

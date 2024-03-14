@@ -1,0 +1,14 @@
+{% extends '_inc/layout1.j2' %}
+
+{% block content %}
+<!-- list + -->
+<div class="container pb-3">
+  <h1>{{title}}</h1>
+  <div>
+  {% for Rec in TDbList().Import(dbl_news) %}
+    {{Rec.title}}
+  {% endfor %}
+  </div>
+</div>
+<!-- list - -->
+{% endblock %}

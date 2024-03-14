@@ -411,6 +411,7 @@ create table if not exists ref_news_lang (
     title               varchar(256) not null,
     descr               text,
     meta_key            varchar(128),
+    image               varchar(64),
     news_id             integer not null references ref_news(id) on delete cascade,
     lang_id             integer not null references ref_lang(id),
     unique (news_id, lang_id)
