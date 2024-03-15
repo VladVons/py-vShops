@@ -3,10 +3,11 @@
 # License: GNU, see LICENSE for more details
 
 
+from IncP.LibCtrl import ResGetLang
 from ..._inc.products_a import Main as products_a
 
 
-async def Main(self, _aData: dict = None) -> dict:
+async def Main(self, aData: dict = None) -> dict:
     LangId = self.GetLangId('ua')
     Dbl = await self.ExecModelImport(
         'ref_product0/product',
@@ -21,5 +22,6 @@ async def Main(self, _aData: dict = None) -> dict:
     if (Dbl):
         Dbl = await products_a(self, Dbl)
         return {
-            'dbl_products_a': Dbl.Export()
+            'dbl_products_a': Dbl.Export(),
+            'products_a_title': ResGetLang(aData, 'products_of_day')
         }
