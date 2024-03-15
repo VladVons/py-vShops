@@ -113,7 +113,7 @@ async def Main(self, aData: dict = None) -> dict:
     Res = {
         'dbl_products_a': DblProducts.Export(),
         'products_a_title': Title,
-        'products_a_descr': [ModCategoryAttr.get('descr'), AttrDescr],
+        'products_a_descr': [ModCategoryAttr.get('descr', ''), AttrDescr],
         'dbl_products_a_sort': dbl_products_a_sort.Export(),
         'dbl_pagenation': DblPagination.Export(),
         'category': Category,

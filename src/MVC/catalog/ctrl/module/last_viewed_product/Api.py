@@ -3,7 +3,7 @@
 # License: GNU, see LICENSE for more details
 
 
-from IncP.LibCtrl import DeepGetByList
+from IncP.LibCtrl import DeepGetByList, ResGetLang
 from ..._inc.products_a import Main as products_a
 
 
@@ -29,5 +29,6 @@ async def Main(self, aData: dict = None) -> dict:
     if (len(Dbl) > 0):
         DblProducts = await products_a(self, Dbl)
         return {
-            'dbl_products_a': DblProducts.Export()
+            'dbl_products_a': DblProducts.Export(),
+            'products_a_title': ResGetLang(aData, 'viewed'),
         }
