@@ -3,7 +3,7 @@
 # License: GNU, see LICENSE for more details
 
 
-from IncP.LibCtrl import GetDictDefs, TDbList, TPagination, IsDigits, FindLang
+from IncP.LibCtrl import GetDictDefs, TDbList, TPagination, IsDigits, ResGetLang
 from ..._inc.products_a import Main as products_a
 from ..._inc import GetProductsSort
 
@@ -78,7 +78,7 @@ async def Main(self, aData: dict = None) -> dict:
         DblPagination = TDbList(['page', 'title', 'href', 'current'], PData)
 
         DblProducts = await products_a(self, Dbl)
-        Title = f"{FindLang(aData, 'search')}: {aSearch} ({Found}) - {FindLang(aData, 'page')} {aPage}"
+        Title = f"{ResGetLang(aData, 'search')}: {aSearch} ({Found}) - {ResGetLang(aData, 'page')} {aPage}"
 
         dbl_products_a_sort = GetProductsSort(Pagination.Href, f'&sort={aSort}&order={aOrder}', aData['res']['lang'])
 

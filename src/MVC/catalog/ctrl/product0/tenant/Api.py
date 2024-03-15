@@ -3,7 +3,7 @@
 # License: GNU, see LICENSE for more details
 
 
-from IncP.LibCtrl import GetDictDefs, TPagination, TDbList, IsDigits, FindLang
+from IncP.LibCtrl import GetDictDefs, TPagination, TDbList, IsDigits, ResGetLang
 from ..._inc.products_a import Main as products_a
 from ..._inc import GetProductsSort
 
@@ -38,7 +38,7 @@ async def Main(self, aData: dict = None) -> dict:
     if (not Dbl):
         return {'err_code': 404}
 
-    Title = f"{FindLang(aData, 'tenant')}: {Dbl.Rec.tenant_title} ({Dbl.Rec.total}) - {FindLang(aData, 'page')} {aPage}"
+    Title = f"{ResGetLang(aData, 'tenant')}: {Dbl.Rec.tenant_title} ({Dbl.Rec.total}) - {ResGetLang(aData, 'page')} {aPage}"
 
     HrefCanonical = f'?route=product0/tenant&tenant_id={aTenantId}'
     Pagination = TPagination(aLimit, aData['path_qs'])

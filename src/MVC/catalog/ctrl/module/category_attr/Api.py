@@ -3,7 +3,7 @@
 # License: GNU, see LICENSE for more details
 
 
-from IncP.LibCtrl import GetDictDefs, IsDigits
+from IncP.LibCtrl import GetDictDefs, IsDigits, AttrDecode
 
 
 async def ajax(self, aData: dict = None) -> dict:
@@ -26,10 +26,10 @@ async def ajax(self, aData: dict = None) -> dict:
         return Dbl.Export()
 
 async def Main(self, aData: dict = None) -> dict:
-    aCategoryId, aLang = GetDictDefs(
+    aCategoryId, aLang, aAttr = GetDictDefs(
         aData.get('query'),
-        ('category_id', 'lang'),
-        ('0', 'ua')
+        ('category_id', 'lang', 'attr'),
+        ('0', 'ua', '')
     )
 
     if (not IsDigits([aCategoryId])):
@@ -47,9 +47,15 @@ async def Main(self, aData: dict = None) -> dict:
             }
         }
     )
+
     if (Dbl):
+        AttrPair = Dbl.ExportPair('attr_id', 'title')
+        Attr = AttrDecode(aAttr)
+        AttrArr = [AttrPair.get(int(Key), '') + ': ' + ';'.join(Val) for Key, Val in Attr.items()]
+
         return {
             'category_id': aCategoryId,
             'lang_id': aLangId,
-            'dbl_category_attr': Dbl.Export()
+            'dbl_category_attr': Dbl.Export(),
+            'descr': ', '.join(AttrArr)
         }

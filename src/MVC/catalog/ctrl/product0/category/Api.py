@@ -3,21 +3,31 @@
 # License: GNU, see LICENSE for more details
 
 
-from IncP.LibCtrl import GetDictDefs, TPagination, TDbList, IsDigits, FindModule, FindLang
+from IncP.LibCtrl import GetDictDefs, TPagination, TDbList, IsDigits, ResGetModule, ResGetLang, AttrDecode
 from ..._inc.products_a import Main as products_a
 from ..._inc import GetBreadcrumbs, GetProductsSort
 
 
-def AttrDecode(aVal: str) -> dict:
-    Res = {}
-    if (aVal):
-        for Group in aVal.strip('[]').split(';;'):
-            if (Group):
-                Pair = Group.split(':')
-                if (len(Pair) == 2):
-                    AttrId, Val = Pair
-                    Res[AttrId] = Val.split(';')
+def FindAttrFilter(aDbl: TDbList, aAttr: dict, aCategoryId: int) -> list[str]:
+    Res = []
+    for Rec in aDbl:
+        if (Rec.category_id == int(aCategoryId)):
+            Filter = {}
+            for AttrId, Val, _ in Rec.filter:
+                if (AttrId not in Filter):
+                    Filter[AttrId] = []
+                Filter[AttrId].append(Val)
+
+            Found = True
+            for Key, Val in aAttr.items():
+                FilterVal = Filter.get(Key, [])
+                if (not any(x in Val for x in FilterVal)):
+                    Found = False
+                    break
+            if (Found):
+                Res.append(Rec.title)
     return Res
+
 
 async def Main(self, aData: dict = None) -> dict:
     aCategoryId, aLang, aAttr, aSort, aOrder, aPage, aLimit = GetDictDefs(
@@ -42,9 +52,19 @@ async def Main(self, aData: dict = None) -> dict:
     if (not Dbl):
         return {'err_code': 404}
 
+    AttrDescr = ''
     Attr = AttrDecode(aAttr)
-    if (not IsDigits(Attr.keys())):
-        return {'err_code': 404}
+    if (Attr):
+        DblAttr = await self.ExecModelImport(
+            'ref_attr',
+            {
+                'method': 'Get_AttrFilter',
+                'param': {}
+            }
+        )
+        AttrFilter = FindAttrFilter(DblAttr, Attr, aCategoryId)
+        if (AttrFilter):
+            AttrDescr = ResGetLang(aData, 'appointment') + ': ' + ', '.join(AttrFilter)
 
     CategoryIds = Dbl.ExportList('id')
     Dbl = await self.ExecModelImport(
@@ -80,25 +100,8 @@ async def Main(self, aData: dict = None) -> dict:
     Category = DblCategory.Rec.GetAsDict()
 
     BreadCrumbs = await GetBreadcrumbs(self, aLangId, aCategoryId)
-
-    ModCategoryAttr = FindModule(aData, 'category_attr')
-    if (ModCategoryAttr):
-        DblAttr = TDbList().Import(ModCategoryAttr['dbl_category_attr'])
-    else:
-        DblAttr = await self.ExecModelImport(
-            'ref_product0/category',
-            {
-                'method': 'Get_CategoryAttr',
-                'param': {
-                    'aLangId': aLangId,
-                    'aCategoryId': aCategoryId
-                }
-            }
-        )
-    AttrPair = DblAttr.ExportPair('attr_id', 'title')
-    AttrArr = [AttrPair.get(int(Key), '') + ': ' + ';'.join(Val) for Key, Val in Attr.items()]
-
-    Title = f"{FindLang(aData, 'category')}: {Category['title']} ({DblProducts.Rec.total}) - {FindLang(aData, 'page')} {aPage}"
+    ModCategoryAttr = ResGetModule(aData, 'category_attr')
+    Title = f"{ResGetLang(aData, 'category')}: {Category['title']} ({DblProducts.Rec.total}) - {ResGetLang(aData, 'page')} {aPage}"
 
     HrefCanonical = f'?route=product0/category&category_id={aCategoryId}'
     Pagination = TPagination(aLimit, aData['path_qs'])
@@ -110,7 +113,7 @@ async def Main(self, aData: dict = None) -> dict:
     Res = {
         'dbl_products_a': DblProducts.Export(),
         'products_a_title': Title,
-        'products_a_descr': ', '.join(AttrArr),
+        'products_a_descr': [ModCategoryAttr.get('descr'), AttrDescr],
         'dbl_products_a_sort': dbl_products_a_sort.Export(),
         'dbl_pagenation': DblPagination.Export(),
         'category': Category,

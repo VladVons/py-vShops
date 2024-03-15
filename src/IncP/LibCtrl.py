@@ -13,10 +13,23 @@ from Inc.Util.Obj import DeepGetByList, GetDictDef, GetDictDefs, Filter, DeepGet
 
 from .Log import Log
 
-def FindModule(aData: dict, aName: str) -> dict:
+def ResGetModule(aData: dict, aName: str) -> dict:
     for x in aData['res']['modules']:
         if (x['layout']['code'] == aName):
             return x
+    return {}
 
-def FindLang(aData: dict, aName: str) -> dict:
+def ResGetLang(aData: dict, aName: str) -> dict:
     return aData['res']['lang'].get(aName, '')
+
+def AttrDecode(aVal: str) -> dict:
+    Res = {}
+    if (aVal):
+        for Group in aVal.strip('[]').split(';;'):
+            if (Group):
+                Pair = Group.split(':')
+                if (len(Pair) == 2):
+                    AttrId, Val = Pair
+                    if (AttrId.isdigit()):
+                        Res[AttrId] = Val.split(';')
+    return Res
