@@ -35,7 +35,7 @@ async def Main(self, aData: dict = None) -> dict:
     else:
         LangKey = ''
 
-    LangTr = aData['lang']
+    LangTr = aData['res']['lang']
     AddressJ = LangTr['addressJ_']
     Schema = {
         '@context': 'https://schema.org',

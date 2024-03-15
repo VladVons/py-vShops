@@ -56,6 +56,7 @@ class TApiCtrl(TApiBase):
         await Caller['method'](Caller['module'], aData)
 
         Res = {}
+        aData['res'] = Res
         for xRoute in aData.get('extends', []):
             Caller = self.GetMethod(self.Ctrls, xRoute, aData)
             if ('err' not in Caller):
@@ -73,7 +74,6 @@ class TApiCtrl(TApiBase):
             await self.Lang.Add('ua', xRoute, 'tpl')
         Lang = self.Lang.Join()
         Res['lang'] = Lang
-        aData['lang'] = Lang
 
         if ('err' in Caller):
             Log.Print(1, 'i', f"TApiCtrl.Exec() {Caller['err']}")

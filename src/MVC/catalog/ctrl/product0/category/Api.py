@@ -3,10 +3,21 @@
 # License: GNU, see LICENSE for more details
 
 
-from IncP.LibCtrl import GetDictDefs, TPagination, TDbList, IsDigits, DeepGetByList
+from IncP.LibCtrl import GetDictDefs, TPagination, TDbList, IsDigits, FindModule, FindLang
 from ..._inc.products_a import Main as products_a
 from ..._inc import GetBreadcrumbs, GetProductsSort
 
+
+def AttrDecode(aVal: str) -> dict:
+    Res = {}
+    if (aVal):
+        for Group in aVal.strip('[]').split(';;'):
+            if (Group):
+                Pair = Group.split(':')
+                if (len(Pair) == 2):
+                    AttrId, Val = Pair
+                    Res[AttrId] = Val.split(';')
+    return Res
 
 async def Main(self, aData: dict = None) -> dict:
     aCategoryId, aLang, aAttr, aSort, aOrder, aPage, aLimit = GetDictDefs(
@@ -31,16 +42,9 @@ async def Main(self, aData: dict = None) -> dict:
     if (not Dbl):
         return {'err_code': 404}
 
-    Attr = {}
-    AttrArr = []
-    if (aAttr):
-        for Group in aAttr.strip('[]').split(';;'):
-            if (Group):
-                Pair = Group.split(':')
-                if (len(Pair) == 2):
-                    AttrId, Val = Pair
-                    Attr[AttrId] = Val.split(';')
-                    AttrArr.append(Val)
+    Attr = AttrDecode(aAttr)
+    if (not IsDigits(Attr.keys())):
+        return {'err_code': 404}
 
     CategoryIds = Dbl.ExportList('id')
     Dbl = await self.ExecModelImport(
@@ -77,18 +81,36 @@ async def Main(self, aData: dict = None) -> dict:
 
     BreadCrumbs = await GetBreadcrumbs(self, aLangId, aCategoryId)
 
-    Title = f"{DeepGetByList(aData, ['lang', 'category'], '')}: {Category['title']} {';'.join(AttrArr)} ({DblProducts.Rec.total}) - {DeepGetByList(aData, ['lang', 'page'], '') } {aPage}"
+    ModCategoryAttr = FindModule(aData, 'category_attr')
+    if (ModCategoryAttr):
+        DblAttr = TDbList().Import(ModCategoryAttr['dbl_category_attr'])
+    else:
+        DblAttr = await self.ExecModelImport(
+            'ref_product0/category',
+            {
+                'method': 'Get_CategoryAttr',
+                'param': {
+                    'aLangId': aLangId,
+                    'aCategoryId': aCategoryId
+                }
+            }
+        )
+    AttrPair = DblAttr.ExportPair('attr_id', 'title')
+    AttrArr = [AttrPair.get(int(Key), '') + ': ' + ';'.join(Val) for Key, Val in Attr.items()]
+
+    Title = f"{FindLang(aData, 'category')}: {Category['title']} ({DblProducts.Rec.total}) - {FindLang(aData, 'page')} {aPage}"
 
     HrefCanonical = f'?route=product0/category&category_id={aCategoryId}'
     Pagination = TPagination(aLimit, aData['path_qs'])
     PData = Pagination.Get(Dbl.Rec.total, aPage)
     DblPagination = TDbList(['page', 'title', 'href', 'current'], PData)
 
-    dbl_products_a_sort = GetProductsSort(Pagination.Href, f'&sort={aSort}&order={aOrder}', aData['lang'])
+    dbl_products_a_sort = GetProductsSort(Pagination.Href, f'&sort={aSort}&order={aOrder}', aData['res']['lang'])
 
     Res = {
         'dbl_products_a': DblProducts.Export(),
-        'dbl_products_a_title': Title,
+        'products_a_title': Title,
+        'products_a_descr': ', '.join(AttrArr),
         'dbl_products_a_sort': dbl_products_a_sort.Export(),
         'dbl_pagenation': DblPagination.Export(),
         'category': Category,

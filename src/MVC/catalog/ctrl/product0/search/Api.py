@@ -3,7 +3,7 @@
 # License: GNU, see LICENSE for more details
 
 
-from IncP.LibCtrl import GetDictDefs, TDbList, TPagination, IsDigits, DeepGetByList
+from IncP.LibCtrl import GetDictDefs, TDbList, TPagination, IsDigits, FindLang
 from ..._inc.products_a import Main as products_a
 from ..._inc import GetProductsSort
 
@@ -78,13 +78,13 @@ async def Main(self, aData: dict = None) -> dict:
         DblPagination = TDbList(['page', 'title', 'href', 'current'], PData)
 
         DblProducts = await products_a(self, Dbl)
-        Title = f"{DeepGetByList(aData, ['lang', 'search'], '')}: {aSearch} ({Found}) - {DeepGetByList(aData, ['lang', 'page'], '') } {aPage}"
+        Title = f"{FindLang(aData, 'search')}: {aSearch} ({Found}) - {FindLang(aData, 'page')} {aPage}"
 
-        dbl_products_a_sort = GetProductsSort(Pagination.Href, f'&sort={aSort}&order={aOrder}', aData['lang'])
+        dbl_products_a_sort = GetProductsSort(Pagination.Href, f'&sort={aSort}&order={aOrder}', aData['res']['lang'])
 
         Res = {
             'dbl_products_a': DblProducts.Export(),
-            'dbl_products_a_title': Title,
+            'products_a_title': Title,
             'dbl_products_a_sort': dbl_products_a_sort.Export(),
             'dbl_pagenation': DblPagination.Export(),
             'title': Title,
