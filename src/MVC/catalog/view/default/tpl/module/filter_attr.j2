@@ -5,9 +5,13 @@
     <h2 class="fw-bold">{{ title }}</h2>
   {% endif %}
 
+  <div>
   {% for Rec in TDbList().Import(dbl_filter_attr) %}
-    <a href="{{Rec.href}}">{{Rec.title}}</a>
+    <div>
+      <a href="{{Rec.href}}">{{Rec.title}}</a>
+    </div>
   {% endfor %}
+  </div>
 </div>
 <!-- filter_attr - -->
 {% endblock %}
