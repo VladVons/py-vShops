@@ -28,13 +28,13 @@
           <a href="{{Rec.product_href}}"><img src="{{Rec.thumb}}" alt="{{Rec.product_title}}"></a>
         </div>
         <div class="card-body">
-          <a href="{{Rec.category_href}}"><h2>{{Rec.category_title}}</h2></a>
+          <a href="{{Rec.category_href}}">{{Rec.category_title}}</a>
           <div class="card-title">
             <h3>{{Rec.product_title|truncate(50, True, '...')}}</h3>
           </div>
         </div>
         <div class="card-footer">
-          <h4 class="fw-bold">{{Rec.price|round|int}} грн</h4>
+          <h2 class="fw-bold">{{Rec.price|round|int}} грн</h2>
           <hr class="mt-1"/>
           <a href="{{Rec.tenant_href}}">{{Rec.tenant_title}}</a>
           <p></p>
