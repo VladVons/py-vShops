@@ -6,8 +6,11 @@
   <h1>{{title}}</h1>
   <div>
   {% for Rec in TDbList().Import(dbl_news) %}
-    {{Rec.title}}
+    <a href="{{Rec.href}}">{{Rec.title}}</a>
   {% endfor %}
+  </div>
+  <div>
+  {% include '../_inc/pagination.j2' %}
   </div>
 </div>
 <!-- list - -->

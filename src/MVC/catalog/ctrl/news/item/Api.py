@@ -32,4 +32,6 @@ async def Main(self, aData: dict = None) -> dict:
         return {'err_code': 404}
 
     Res = Dbl.Rec.GetAsDict()
+    Res['descr'] = Res['descr'].replace('\n', '<br>')
+
     return Res

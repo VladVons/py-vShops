@@ -2,6 +2,8 @@
 -- aLangId, aLimit, aOffset
 
 select
+    count(*) over() as total,
+    rn.id,
     coalesce(rn.public_date, rn.create_date)::date as public_date,
     rnl.title,
     rnl.descr,
@@ -17,7 +19,7 @@ where
     ((rn.public_date < now()) or (rn.public_date is null)) and
     (tenant_id = 0)
 order by
-    public_date
+    public_date desc
 limit
     {{aLimit}}
 offset

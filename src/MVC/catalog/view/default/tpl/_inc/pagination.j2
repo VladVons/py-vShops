@@ -2,13 +2,16 @@
 <div class="container mt-1">
   <nav>
     <ul class="pagination justify-content-center">
-    {% for Rec in TDbList().Import(dbl_pagenation) %}
-    {% if Rec.current %}
-      <li class="page-item"><a class="page-link active">{{Rec.title}}</a></li>
-    {% else %}
-      <li class="page-item"><a class="page-link" href="{{Rec.href}}">{{Rec.title}}</a></li>
+    {%set Dbl = TDbList().Import(dbl_pagenation) %}
+    {% if (Dbl.GetSize() > 1) %}
+      {% for Rec in Dbl %}
+        {% if Rec.current %}
+          <li class="page-item"><a class="page-link active">{{Rec.title}}</a></li>
+        {% else %}
+          <li class="page-item"><a class="page-link" href="{{Rec.href}}">{{Rec.title}}</a></li>
+        {% endif %}
+      {% endfor %}
     {% endif %}
-    {% endfor %}
     </ul>
   </nav>
 </div>

@@ -141,6 +141,11 @@ h6 {
 }
 
 /*-- card --*/
+.vCard .card {
+    border-radius: 0.5rem;
+    border: 1px solid var(--colorBgBtn);
+}
+
 .vCard img {
     max-height: 210px;
     max-width: 100%;
