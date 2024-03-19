@@ -19,13 +19,9 @@ async def Main(self, aData: dict = None) -> dict:
         }
     )
     if (DblPages):
-        DblNew = DblPages.New()
+        DblPages.ToList()
         for Rec in DblPages:
-            if (Rec.route not in ['product0/category', 'common/home', 'info/sitemap']):
-                RecNew = DblNew.RecAdd()
-                RecNew.route = f'/?route={Rec.route}'
-                RecNew.title = Rec.title
-        DblPages = DblNew
+            Rec.route = f'/?route={Rec.route}'
 
     return {
         'categories_a': Categories, 'id_a': 0,

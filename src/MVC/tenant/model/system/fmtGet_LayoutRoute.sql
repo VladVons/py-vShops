@@ -11,7 +11,8 @@ join
     ref_layout_lang rll on
     rll.layout_id = rl.id
 where
-    (rl.enabled)
+    (rl.enabled) and 
+    (rl.sitemap)
 order by
     rll.title
 limit
