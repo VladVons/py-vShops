@@ -11,6 +11,7 @@
     {% endif %}
     {% if title %}
     <title>{{ title }}</title>
+    <meta property="og:title" content="{{title}}"/>
     {% endif %}
     {% if canonical %}
     <link href="{{canonical}}" rel="canonical"/>

@@ -356,6 +356,7 @@ create table if not exists ref_module_to_lang (
 create table if not exists ref_layout (
     id                  serial primary key,
     enabled             boolean default true,
+    sitemap             boolean default true,
     note                varchar(32),
     route               varchar(32) not null,
     theme               varchar(16),
