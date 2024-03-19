@@ -5,6 +5,7 @@
 
 import os
 import json
+import asyncio
 from aiohttp import web
 from aiohttp_session import get_session
 #
@@ -12,10 +13,12 @@ from Inc.DataClass import DDataClass
 from Inc.Misc.Cache import TCacheFile
 from Inc.Misc.Jinja import TTemplate
 from Inc.Util.Obj import GetDictDef
-from IncP.Plugins import TViewes
+from Inc.SrvWeb.DDos import TDDos
 from IncP.ApiBase import TApiBase
 from IncP.FormBase import TFormBase
 from IncP.FormRender import TFormRender
+from IncP.Log import Log
+from IncP.Plugins import TViewes
 
 
 @DDataClass
@@ -71,6 +74,10 @@ class TApiView(TApiBase):
             self.Cache.Clear()
         else:
             self.Cache = TCacheFileView('', aMaxAge = 0)
+
+        #if (self.Conf.ddos):
+        self.Ddos = TDDos()
+
 
     def GetForm(self, aRequest: web.Request, aRoute: str) -> TFormBase:
         if (aRoute.startswith('/')):
@@ -128,11 +135,22 @@ class TApiView(TApiBase):
         return await self.ResponseForm(aRequest, Query)
 
     async def ResponseForm(self, aRequest: web.Request, aQuery: dict) -> web.Response:
-        Data = await self.GetFormData(aRequest, aQuery)
-        if ('err' in Data):
-            aQuery['route'] = self.Conf.form_info
-            aQuery['raise_err_code'] = 404
+        RemoteIp = aRequest.remote
+        if (RemoteIp == '127.0.0.1'):
+            RemoteIp = aRequest.headers.get('X-FORWARDED-FOR', '127.0.0.1')
+        Ban = self.Ddos.Update(RemoteIp)
+
+        if (Ban == 0):
             Data = await self.GetFormData(aRequest, aQuery)
+            if ('err' in Data):
+                aQuery['route'] = self.Conf.form_info
+                aQuery['raise_err_code'] = 404
+                Data = await self.GetFormData(aRequest, aQuery)
+        else:
+            Msg = f'Too many connections for ip: {RemoteIp}'
+            Log.Print(1, 'i', Msg)
+            await asyncio.sleep(Ban * 5)
+            Data = {'code': 429, 'data': Msg}
         Res = web.Response(text = Data['data'], content_type = 'text/html', status = Data['code'])
         return Res
 
