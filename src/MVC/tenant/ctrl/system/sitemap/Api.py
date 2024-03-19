@@ -42,5 +42,18 @@ async def ajax(self, aData: dict) -> dict:
             )
             return Dbl.Export()
 
+        case 'get_pages_data':
+            Dbl = await self.ExecModelImport(
+                'system',
+                {
+                    'method': 'Get_LayoutRoute',
+                    'param': {
+                        'aLimit': Param['limit'],
+                        'aOffset': Param['offset']
+                    }
+                }
+            )
+            return Dbl.Export()
+
 async def Main(self, aData: dict) -> dict:
     pass

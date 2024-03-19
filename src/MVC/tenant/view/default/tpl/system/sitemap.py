@@ -76,6 +76,37 @@ class TSitemapCategory(TSitemap):
         ]
         return '\n'.join(Res)
 
+class TSitemapPages(TSitemap):
+    def __init__(self, aDir: str, aUrlRoot: str, aParent):
+        super().__init__(aDir, aUrlRoot)
+        self.Parent = aParent
+        self.BaseName = 'sitemap_pages'
+
+    async def _GetSize(self) -> int:
+        Dbl = await self._GetData(1, 0)
+        if (Dbl):
+            Res = Dbl.Rec.total
+        else:
+            Res = 0
+        return Res
+
+    async def _GetData(self, aLimit: int, aOffset: int) -> TDbList:
+        Data = await self.Parent.ExecCtrl(self.Parent.out.route, {
+            'method': 'ajax',
+            'type': 'api',
+            'param': {
+                'method': 'get_pages_data',
+                'limit': aLimit,
+                'offset': aOffset
+            }
+        })
+        return TDbList().Import(Data)
+
+    async def _GetRow(self, aRec: TDbRec) -> str:
+        Res = [
+            f'  <loc>{self.UrlRoot}/?route={aRec.route}</loc>'
+        ]
+        return '\n'.join(Res)
 
 class TForm(TFormBase):
     async def _DoRender(self):
@@ -86,12 +117,16 @@ class TForm(TFormBase):
             Dir = 'MVC/catalog/view'
             Host = f'{self.Parent.Conf.request_scheme}://{self.Request.host}'
 
+            SitemapPages = TSitemapPages(Dir, Host, self)
+            ArrPages = await SitemapPages.CreateIndexes()
+
             SitemapCategory = TSitemapCategory(Dir, Host, self)
             ArrCategory = await SitemapCategory.CreateIndexes()
 
             SitemapProduct = TSitemapProduct(Dir, Host, self)
             ArrProduct = await SitemapProduct.CreateIndexes()
             ArrProduct.extend(ArrCategory)
+            ArrProduct.extend(ArrPages)
             SitemapProduct.WriteIndexes(ArrProduct)
 
             self.out['in_process'] = 'ok'

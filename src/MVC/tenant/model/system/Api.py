@@ -138,3 +138,9 @@ async def Get_ModuleLang(self, aLangId: int, aModuleId: int) -> dict:
         'fmtGet_ModuleLang.sql',
         {'aLangId': aLangId, 'aModuleId': aModuleId}
     )
+
+async def Get_LayoutRoute(self, aLimit: int, aOffset: int) -> dict:
+    return await self.ExecQuery(
+        'fmtGet_LayoutRoute.sql',
+        {'aLimit': aLimit, 'aOffset': aOffset}
+    )
