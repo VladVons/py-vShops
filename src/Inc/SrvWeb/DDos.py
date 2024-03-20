@@ -34,7 +34,7 @@ class TDDos():
                 Cnt += 1
                 Res = Cnt
             elif (Cnt >= self.CntForBan):
-                Res = Cnt
+                Res = -1
         else:
             Cnt = 0
         self.Ip[aIp] = [time.time(), Cnt]

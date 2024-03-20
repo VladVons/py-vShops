@@ -148,7 +148,7 @@ class TApiView(TApiBase):
                 Data = await self.GetFormData(aRequest, aQuery)
         else:
             Msg = f'Too many connections. ip: {RemoteIp}, cnt: {BanCnt}'
-            if (BanCnt < self.Ddos.CntForBan):
+            if (BanCnt != -1):
                 Log.Print(1, 'i', Msg)
             Data = {'code': 429, 'data': Msg}
         Res = web.Response(text = Data['data'], content_type = 'text/html', status = Data['code'])
