@@ -110,6 +110,8 @@ async def Main(self, aData: dict = None) -> dict:
         'tenant': f'?route=product0/tenant&tenant_id={Product["tenant_id"]}'
     }
 
+    Res['canonical'] = f'?route=product0/product&product_id={aProductId}'
+
     Res['product'] = Product
     Res['title'] = ''
     return Res
