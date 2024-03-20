@@ -9,6 +9,10 @@
                 "checkout/payment"
             ]
         },
+        "ip_log": {
+            "aInterval": 0.75,
+            "aCntBanMax": 3
+        },
         "loader": {
             "ctrl": {
                 "type": "fs",

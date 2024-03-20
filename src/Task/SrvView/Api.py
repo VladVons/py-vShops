@@ -24,6 +24,7 @@ from IncP.Plugins import TViewes
 class TApiViewConf():
     loader: dict
     cache_route: dict = {}
+    ip_log: dict = {}
     dir_route: str = 'MVC/catalog/view'
     dir_root: str = 'MVC/catalog/view'
     theme: str = 'theme1'
@@ -74,7 +75,7 @@ class TApiView(TApiBase):
         else:
             self.Cache = TCacheFileView('', aMaxAge = 0)
 
-        self.IpLog = TIpLog()
+        self.IpLog = TIpLog(**self.Conf.ip_log)
 
     def GetForm(self, aRequest: web.Request, aRoute: str) -> TFormBase:
         if (aRoute.startswith('/')):
