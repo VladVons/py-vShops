@@ -138,16 +138,16 @@ class TApiView(TApiBase):
         RemoteIp = aRequest.remote
         if (RemoteIp == '127.0.0.1'):
             RemoteIp = aRequest.headers.get('X-FORWARDED-FOR', '127.0.0.1')
-        Ban = self.Ddos.Update(RemoteIp)
+        BanCnt = self.Ddos.Update(RemoteIp)
 
-        if (Ban == 0):
+        if (BanCnt == 0):
             Data = await self.GetFormData(aRequest, aQuery)
             if ('err' in Data):
                 aQuery['route'] = self.Conf.form_info
                 aQuery['raise_err_code'] = 404
                 Data = await self.GetFormData(aRequest, aQuery)
         else:
-            Msg = f'Too many connections for ip: {RemoteIp}'
+            Msg = f'Too many connections. ip: {RemoteIp}, cnt: {BanCnt}'
             Log.Print(1, 'i', Msg)
             Data = {'code': 429, 'data': Msg}
         Res = web.Response(text = Data['data'], content_type = 'text/html', status = Data['code'])
