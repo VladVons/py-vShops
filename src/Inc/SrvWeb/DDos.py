@@ -36,6 +36,7 @@ class TIpLog():
                 if (not Trust) and (time.time() - Time < self.Interval):
                     CntBan += 1
                     if (CntBan >= self.CntBanMax):
+                        CntBan = 0
                         Res = False
                 self.Ip[aIp] = [CntBan, Cnt, Trust, time.time()]
             else:
