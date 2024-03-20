@@ -149,7 +149,6 @@ class TApiView(TApiBase):
         else:
             Msg = f'Too many connections for ip: {RemoteIp}'
             Log.Print(1, 'i', Msg)
-            await asyncio.sleep(Ban * 5)
             Data = {'code': 429, 'data': Msg}
         Res = web.Response(text = Data['data'], content_type = 'text/html', status = Data['code'])
         return Res

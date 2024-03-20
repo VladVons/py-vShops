@@ -12,6 +12,7 @@ class TDDos():
         self.Interval = aInterval
         self.MaxSize = 1000
         self.IpIgnore = ['127.0.0.1']
+        self.CntForBan = 5
 
     def CheckSize(self):
         if (len(self.Ip) > self.MaxSize):
@@ -31,6 +32,8 @@ class TDDos():
             Time, Cnt = self.Ip[aIp]
             if (time.time() - Time < self.Interval):
                 Cnt += 1
+                Res = Cnt
+            elif (Cnt >= self.CntForBan):
                 Res = Cnt
         else:
             Cnt = 0
