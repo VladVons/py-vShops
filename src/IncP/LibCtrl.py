@@ -19,8 +19,11 @@ def ResGetModule(aData: dict, aName: str) -> dict:
             return x
     return {}
 
-def ResGetLang(aData: dict, aName: str) -> dict:
+def ResGetLang(aData: dict, aName: str) -> str:
     return aData['res']['lang'].get(aName, '')
+
+def ResGetItem(aData: dict, aName: str) -> str:
+    return aData['res'].get(aName, '')
 
 def AttrDecode(aVal: str) -> dict:
     Res = {}
