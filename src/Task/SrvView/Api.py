@@ -5,7 +5,6 @@
 
 import os
 import json
-import asyncio
 from aiohttp import web
 from aiohttp_session import get_session
 #
@@ -13,7 +12,7 @@ from Inc.DataClass import DDataClass
 from Inc.Misc.Cache import TCacheFile
 from Inc.Misc.Jinja import TTemplate
 from Inc.Util.Obj import GetDictDef
-from Inc.SrvWeb.DDos import TDDos
+from Inc.SrvWeb.DDos import TIpLog
 from IncP.ApiBase import TApiBase
 from IncP.FormBase import TFormBase
 from IncP.FormRender import TFormRender
@@ -75,9 +74,7 @@ class TApiView(TApiBase):
         else:
             self.Cache = TCacheFileView('', aMaxAge = 0)
 
-        #if (self.Conf.ddos):
-        self.Ddos = TDDos()
-
+        self.IpLog = TIpLog()
 
     def GetForm(self, aRequest: web.Request, aRoute: str) -> TFormBase:
         if (aRoute.startswith('/')):
@@ -138,18 +135,16 @@ class TApiView(TApiBase):
         RemoteIp = aRequest.remote
         if (RemoteIp == '127.0.0.1'):
             RemoteIp = aRequest.headers.get('X-FORWARDED-FOR', '127.0.0.1')
-        BanCnt = self.Ddos.Update(RemoteIp)
 
-        if (BanCnt == 0):
+        if (self.IpLog.Update(RemoteIp)):
             Data = await self.GetFormData(aRequest, aQuery)
             if ('err' in Data):
                 aQuery['route'] = self.Conf.form_info
                 aQuery['raise_err_code'] = 404
                 Data = await self.GetFormData(aRequest, aQuery)
         else:
-            Msg = f'Too many connections. ip: {RemoteIp}, cnt: {BanCnt}'
-            if (BanCnt != -1):
-                Log.Print(1, 'i', Msg)
+            Msg = f'Too many connections. ip: {RemoteIp}'
+            Log.Print(1, 'i', Msg)
             Data = {'code': 429, 'data': Msg}
         Res = web.Response(text = Data['data'], content_type = 'text/html', status = Data['code'])
         return Res

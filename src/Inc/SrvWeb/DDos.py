@@ -6,7 +6,7 @@
 import time
 
 
-class TDDos():
+class TIpLog():
     def __init__(self, aInterval: int = 0.5):
         self.Ip = {}
         self.Interval = aInterval
@@ -14,7 +14,7 @@ class TDDos():
         self.IpIgnore = ['127.0.0.1']
         self.CntForBan = 5
 
-    def CheckSize(self):
+    def _CheckSize(self):
         if (len(self.Ip) > self.MaxSize):
             Ten = self.MaxSize // 10
             KeysTen = list(self.Ip.keys())[:Ten]
@@ -22,20 +22,21 @@ class TDDos():
             for Key in KeysTen:
                 del self.Ip[Key]
 
-    def Update(self, aIp: str) -> int:
-        Res = 0
-        if (aIp in self.IpIgnore):
-            return Res
+    def Get(self, aIp: str) -> list:
+        return self.Ip.get(aIp)
 
-        self.CheckSize()
+    def Update(self, aIp: str) -> bool:
+        self._CheckSize()
+        Res = True
         if (aIp in self.Ip):
-            Time, Cnt = self.Ip[aIp]
-            if (time.time() - Time < self.Interval):
-                Cnt += 1
-                Res = Cnt
-            elif (Cnt >= self.CntForBan):
-                Res = -1
+            CntBan, Cnt, Trust, Time = self.Ip[aIp]
+            Cnt += 1
+            if (not Trust) and (time.time() - Time < self.Interval):
+                CntBan += 1
+                if (CntBan >= self.CntForBan):
+                    Res = False
+            self.Ip[aIp] = [CntBan, Cnt, Trust, time.time()]
         else:
-            Cnt = 0
-        self.Ip[aIp] = [time.time(), Cnt]
+            Trust = aIp in self.IpIgnore
+            self.Ip[aIp] = [0, 0, Trust, time.time()]
         return Res
