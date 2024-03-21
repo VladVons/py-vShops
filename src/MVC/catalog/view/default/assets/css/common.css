@@ -133,6 +133,10 @@ h6 {
     background-color: var(--colorBgBody);
 }
 
+.vItemOdd:nth-child(odd) {
+    background-color: var(--colorBgBody);
+}
+
 .vImgCenter {
     display: flex;
     justify-content: center;
