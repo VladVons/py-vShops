@@ -21,6 +21,7 @@ async def Main(self, aData: dict = None) -> dict:
         {
             'method': 'Get_HistSession',
             'param': {
+                'aHost': aData['host'],
                 'aLimit': aLimit,
                 'aOffset': (aPage - 1) * aLimit,
                 'aHaving': aHaving

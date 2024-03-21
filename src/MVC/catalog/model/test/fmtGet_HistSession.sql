@@ -1,5 +1,5 @@
 -- fmtGet_HistSession.sql
--- in: aLimit, aOffset, aHaving
+-- in: aLimit, aOffset, aHaving, aHost
 
 with wt1 as (
     select
@@ -11,11 +11,12 @@ with wt1 as (
         hist_session hs on
         (hs.id = hpv.session_id)
     where
-        (url like '%?route=%') and
-        (browser not like '%bot%') and
-        ((uagent not like '%bot%') or (uagent is null)) and
-        (ip not like '217.196.161.%') and
-        (ip not like '127.0.0.1')
+        (hs.host = '{{aHost}}') and
+        (hpv.url like '%?route=%') and
+        (hs.browser not like '%bot%') and
+        ((hs.uagent not like '%bot%') or (hs.uagent is null)) and
+        (hs.ip not like '217.196.161.%') and
+        (hs.ip not like '127.0.0.1')
     group by
         hs.id
     having
@@ -27,7 +28,7 @@ wt2 as (
         --wt1.count,
         hpv.create_date,
         hpv.url as url,
-        --'https://used.1x1.com.ua' || hpv.url as url,
+        --'https://{{aHost}}' || hpv.url as url,
         hs.id,
         hs.ip,
         hs.browser,
@@ -42,7 +43,8 @@ wt2 as (
         wt1 on
         (wt1.id = hpv.session_id)
     where
-        (url like '%?route=%')
+        (hs.host = '{{aHost}}') and
+        (hpv.url like '%?route=%')
     order by
         hs.id desc,
         hpv.create_date
