@@ -26,7 +26,7 @@ class TFeatures():
     def Translate(self, aKey: str) -> str:
         return DeepGetByList(self.Lang, [self.Lang, aKey.lower()], aKey)
 
-    def Adjust(self, aObj: object) -> list:
+    def Adjust1(self, aObj: object) -> list:
         def Recurs(aObj: object, aDepth: int) -> list:
             Res = []
             if (isinstance(aObj, dict)):

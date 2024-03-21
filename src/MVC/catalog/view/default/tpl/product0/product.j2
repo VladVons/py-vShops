@@ -100,13 +100,22 @@
 
       <div class="tab-content mt-1">
         <div class="tab-pane fade show active m-3" id="features" role="tabpanel" aria-labelledby="features-tab">
-          <div class="vFeatures mt-2">
-          {%- for xType, xVal in product.features %}
-            {%- if xType == 'g' -%}
-              <h4 class="fw-bold mt-4">{{xVal}}</h4>
-            {%- else -%}
-              <p>{{xVal}}</p>
-            {%- endif %}
+          <div class="accordion" id="expandableGroup1">
+          {%- for Key, Val in product.features.items() %}
+            <div class="accordion-item">
+              <h2 class="accordion-header" id="heading_{{loop.index}}">
+                <button class="accordion-button" data-bs-toggle="collapse" data-bs-target="#collapse_{{loop.index}}" aria-expanded="false" aria-controls="collapse_{{loop.index}}">
+                  {{Key}}
+                </button>
+              </h2>
+              <div id="collapse_{{loop.index}}" class="accordion-collapse collapse" aria-labelledby="heading_{{loop.index}}"  data-bs-parent="#expandableGroup1">
+                <div class="accordion-body">
+                  {% for xVal in Val%}
+                    <div class="item">{{xVal}}</div>
+                  {% endfor %}
+                </div>
+              </div>
+            </div>
           {%- endfor %}
           </div>
         </div>

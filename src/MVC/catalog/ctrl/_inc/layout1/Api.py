@@ -23,7 +23,7 @@ async def GetCategories(self, aLangId: int) -> dict:
             ParentId = Dbl.Rec.parent_id
             if (ParentId not in Res):
                 Res[ParentId] = []
-            Data = Rec.GetAsDict() | {'href': f'?route=product0/category&category_id={Rec.id}'}
+            Data = Rec.GetAsDict() | {'href': f'/?route=product0/category&category_id={Rec.id}'}
             Res[ParentId].append(Data)
     return Res
 

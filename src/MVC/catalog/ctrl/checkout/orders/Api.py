@@ -29,7 +29,7 @@ async def Main(self, aData: dict = None) -> dict:
         if (DblOrdersMix):
             DblOrdersMix.ToList().AddFields(['href'])
             for Rec in  DblOrdersMix:
-                Href = f'?route=checkout/history&order_id={Rec.order_id}'
+                Href = f'/?route=checkout/history&order_id={Rec.order_id}'
                 Rec.SetField('href', Href)
 
             Res['orders'] = DblOrdersMix.Export()

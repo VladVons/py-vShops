@@ -54,13 +54,14 @@ async def Main(self, aData: dict = None) -> dict:
     DblAttr.AddFieldsFill(['href'], False)
     for Rec in DblAttr:
         Href = [
-            f'?route=product0/category&category_id={CategoryId}&attr=[{Rec.id}:{Rec.val}]'
+            f'/?route=product0/category&category_id={CategoryId}&attr=[{Rec.id}:{Rec.val}]'
         ]
         DblAttr.RecMerge(Href)
     Product['attr'] = DblAttr.Export()
 
     Features = Product.get('features', {})
-    Product['features'] = TFeatures(aLang).Adjust(Features)
+    #Product['features'] = TFeatures(aLang).Adjust1(Features)
+    Product['features'] = Features
 
     Images = await self.GetImages(Product['images'])
     Product.update(Images)
@@ -106,11 +107,11 @@ async def Main(self, aData: dict = None) -> dict:
 
     Res['href'] = {
         'self': aData['path_qs'],
-        'category': f'?route=product0/category&category_id={CategoryId}',
-        'tenant': f'?route=product0/tenant&tenant_id={Product["tenant_id"]}'
+        'category': f'/?route=product0/category&category_id={CategoryId}',
+        'tenant': f'/?route=product0/tenant&tenant_id={Product["tenant_id"]}'
     }
 
-    Res['canonical'] = f'?route=product0/product&product_id={aProductId}'
+    Res['canonical'] = f'/?route=product0/product&product_id={aProductId}'
 
     Res['product'] = Product
     Res['title'] = ''

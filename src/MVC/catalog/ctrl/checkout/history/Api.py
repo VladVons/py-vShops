@@ -17,7 +17,7 @@ async def Main(self, aData: dict = None) -> dict:
         'doc_attr': None,
         'doc_table': None,
         'href': {
-            'confirm': f'?route=checkout/orders&customer_id=1'
+            'confirm': '/?route=checkout/orders&customer_id=1'
         }
     }
 
@@ -66,7 +66,7 @@ async def Main(self, aData: dict = None) -> dict:
 
                     PathArr, TenantId = IdPairs[Rec.id]
                     Path = "_".join(map(str, PathArr))
-                    Href = f'?route=product/product&path={Path}&product_id={Rec.id}&tenant={TenantId}'
+                    Href = f'/?route=product/product&path={Path}&product_id={Rec.id}&tenant={TenantId}'
                     Rec.SetField('href', Href)
 
                 Res['doc_table'] = DblOrderMixTable.Export()

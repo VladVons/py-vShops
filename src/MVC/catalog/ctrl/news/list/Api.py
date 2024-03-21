@@ -38,7 +38,7 @@ async def Main(self, aData: dict = None) -> dict:
 
     Dbl.AddFieldsFill(['href'], False)
     for Rec in Dbl:
-        New = [f'?route=news/item&news_id={Rec.id}']
+        New = [f'/?route=news/item&news_id={Rec.id}']
         Dbl.RecMerge(New)
 
     return {

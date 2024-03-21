@@ -73,7 +73,7 @@ async def Main(self, aData: dict = None) -> dict:
 
     if (Found):
         Pagination = TPagination(aLimit, aData['path_qs'])
-        #Pagination = TPagination(aLimit, f'?route=product0/search&q={aSearch}')
+        #Pagination = TPagination(aLimit, f'/?route=product0/search&q={aSearch}')
         PData = Pagination.Get(Dbl.Rec.total, aPage)
         DblPagination = TDbList(['page', 'title', 'href', 'current'], PData)
 

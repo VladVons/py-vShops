@@ -30,7 +30,7 @@ class TSrvView(TSrvBase):
         return [
             web.post('/tenant/api/{name:.*}', self._rApiTenant),
             web.post('/tenant/{name:.*}', self._rTenant),
-            web.get('/tenant{name:.*}', self._rTenant),
+            web.get('/tenant/{name:.*}', self._rTenant),
 
             web.post('/api/{name:.*}', self._rApiCatalog),
             web.get('/{name:.*}', self._rCatalog),

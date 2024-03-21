@@ -21,9 +21,9 @@ async def GetBreadcrumbs(self, aLangId: str, aCategoryId: int) -> list:
         )
 
         if (Dbl):
-            #Res.append({'href': '?route=product0/category&category_id=0', 'title': '/'})
+            #Res.append({'href': '/?route=product0/category&category_id=0', 'title': '/'})
             for Title, Id in zip(Dbl.Rec.path_title, Dbl.Rec.path_id):
-                Res.append({'href': f'?route=product0/category&category_id={Id}', 'title': Title})
+                Res.append({'href': f'/?route=product0/category&category_id={Id}', 'title': Title})
     return Res
 
 def GetProductsSort(aHref: str, aCur: str, aLang: dict) -> TDbList:

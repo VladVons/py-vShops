@@ -40,7 +40,7 @@ async def Main(self, aData: dict = None) -> dict:
 
     Title = f"{ResGetLang(aData, 'tenant')}: {Dbl.Rec.tenant_title} ({Dbl.Rec.total}) - {ResGetLang(aData, 'page')} {aPage}"
 
-    HrefCanonical = f'?route=product0/tenant&tenant_id={aTenantId}'
+    HrefCanonical = f'/?route=product0/tenant&tenant_id={aTenantId}'
     Pagination = TPagination(aLimit, aData['path_qs'])
     PData = Pagination.Get(Dbl.Rec.total, aPage)
     DblPagination = TDbList(['page', 'title', 'href', 'current'], PData)
