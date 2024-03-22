@@ -100,7 +100,7 @@
 
       <div class="tab-content mt-1">
         <div class="tab-pane fade show active m-3" id="features" role="tabpanel" aria-labelledby="features-tab">
-          <div class="accordion" id="expandableGroup1">
+          <div class="accordion">
           {%- for Key, Val in product.features.items() %}
             <div class="accordion-item">
               <h2 class="accordion-header" id="heading_{{loop.index}}">
@@ -108,7 +108,7 @@
                   {{Key}}
                 </button>
               </h2>
-              <div id="collapse_{{loop.index}}" class="accordion-collapse collapse" aria-labelledby="heading_{{loop.index}}"  data-bs-parent="#expandableGroup1">
+              <div id="collapse_{{loop.index}}" class="accordion-collapse collapse" aria-labelledby="heading_{{loop.index}}">
                 <div class="accordion-body">
                   {%- for xVal in Val %}
                     <div class="vItemOdd">{{xVal}}</div>
