@@ -1,0 +1,13 @@
+{
+    "window.zoomLevel": 2,
+    "workbench.tree.indent": 16,
+    "workbench.editor.titleScrollbarSizing": "large",
+    "files.associations": {
+        "*.j2": "html"
+    },
+    "[j2]": {
+        "editor.tabSize": 2,
+        "editor.insertSpaces": true
+    },
+    "sftp.downloadWhenOpenInRemoteExplorer": true
+}
