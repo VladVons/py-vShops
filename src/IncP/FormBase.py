@@ -70,6 +70,7 @@ class TFormBase(Form):
         Location = TGeoIp().GetCity(Remote)
         #LocationArr = [str(Val) for Val in Location.values()]
         LocationArr = map(str, Location.values())
+        LocationStr = ','.join(LocationArr).replace("'", '')
 
         Data = await self.ExecCtrl(
             'system/session',
@@ -81,7 +82,7 @@ class TFormBase(Form):
                     'aOs': Parsed['os'],
                     'aHost': self.Request.host,
                     'aUAgent': UserAgent.replace("'", '"'),
-                    'aLocation': ','.join(LocationArr)
+                    'aLocation': LocationStr
                 }
             }
         )
