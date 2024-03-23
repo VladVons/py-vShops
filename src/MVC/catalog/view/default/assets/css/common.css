@@ -133,10 +133,6 @@ h6 {
     background-color: var(--colorBgBody);
 }
 
-.vItemOdd:nth-child(odd) {
-    background-color: var(--colorBgBody);
-}
-
 .vImgCenter {
     display: flex;
     justify-content: center;
@@ -144,6 +140,19 @@ h6 {
     /*overflow: hidden;*/
 }
 
+/*-- vItemOdd --*/
+.vItemOdd {
+    padding: 5px;
+    margin-left: 10px
+}
+
+.vItemOdd:nth-child(odd) {
+    background-color: var(--colorBgBody);
+}
+
+.vItemOdd:last-child {
+    padding-bottom: 30px;
+}
 
 /*-- accordion --*/
 .accordion-button:not(.collapsed) {
