@@ -15,7 +15,7 @@ async def Main(self, aData: dict = None) -> dict:
 
     aLangId = self.GetLangId(aLang)
     if (not IsDigits([aLangId, aNewsId])):
-        return {'err_code': 404}
+        return {'status_code': 404}
 
 
     Dbl = await self.ExecModelImport(
@@ -29,7 +29,7 @@ async def Main(self, aData: dict = None) -> dict:
         }
     )
     if (not Dbl):
-        return {'err_code': 404}
+        return {'status_code': 404}
 
     Res = Dbl.Rec.GetAsDict()
     Res['descr'] = Res['descr'].replace('\n', '<br>')

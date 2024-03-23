@@ -233,7 +233,7 @@ class TFormChangeTracker {
         return Res
     }
 
-    submit(aTarget = null) {
+    submit(aHiddens = [], aAsRequest = false) {
         let newData = document.createElement('input')
         newData.type = 'hidden'
         newData.name = 'changes'
@@ -246,14 +246,20 @@ class TFormChangeTracker {
         newData.value = this.form.id
         this.form.appendChild(newData)
 
-        if (aTarget) {
+        for (const x of aHiddens) {
             newData = document.createElement('input')
             newData.type = 'hidden'
-            newData.name = aTarget.name
-            newData.value = aTarget.value
+            newData.name = x.name
+            newData.value = x.value
             this.form.appendChild(newData)
         }
-        this.form.submit()
+
+        if (aAsRequest) {
+            const formData = new FormData(this.form)
+            return new TSend().exec(this.form.action, formData)
+        } else {
+            this.form.submit()
+        }
     }
 }
 

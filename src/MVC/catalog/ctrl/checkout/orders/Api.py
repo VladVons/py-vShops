@@ -13,24 +13,24 @@ async def Main(self, aData: dict = None) -> dict:
         ('', )
     )
 
-    Res = {
-        'orders': None
-    }
+    if (not aCustomerId):
+        return {
+            'status_code': 301,
+            'status_value': '/?route=checkout/xxx'
+        }
 
-    if (aCustomerId):
-        DblOrdersMix = await self.ExecModelImport(
-            'doc_sale',
-            {
-                'method': 'Get_OrdersMix',
-                'param': {'aCustomerId': aCustomerId}
-            }
-        )
+    DblOrdersMix = await self.ExecModelImport(
+        'doc_sale',
+        {
+            'method': 'Get_OrdersMix',
+            'param': {'aCustomerId': aCustomerId}
+        }
+    )
 
-        if (DblOrdersMix):
-            DblOrdersMix.ToList().AddFields(['href'])
-            for Rec in  DblOrdersMix:
-                Href = f'/?route=checkout/history&order_id={Rec.order_id}'
-                Rec.SetField('href', Href)
+    if (DblOrdersMix):
+        DblOrdersMix.ToList().AddFields(['href'])
+        for Rec in  DblOrdersMix:
+            Href = f'/?route=checkout/history&order_id={Rec.order_id}'
+            Rec.SetField('href', Href)
 
-            Res['orders'] = DblOrdersMix.Export()
-    return Res
+        return {'dbl_orders': DblOrdersMix.Export()}

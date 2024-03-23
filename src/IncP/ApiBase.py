@@ -53,14 +53,14 @@ class TApiBase():
                 if (self.DefRoute):
                     aRoute = self.DefRoute
                 else:
-                    return {'err': f'Route not found {aRoute}', 'code': 404}
+                    return {'err': f'Route not found {aRoute}', 'status_code': 404}
 
             aPlugin.LoadMod(aRoute)
             RouteObj = aPlugin[aRoute]
 
             MethodObj = getattr(RouteObj.Api, Method, None)
             if (MethodObj is None):
-                return {'err': f'Method {Method} not found in route {aRoute}', 'code': 404}
+                return {'err': f'Method {Method} not found in route {aRoute}', 'status_code': 404}
 
             Res = {'method': MethodObj, 'module': RouteObj}
             aPlugin.Cache[Key] = Res

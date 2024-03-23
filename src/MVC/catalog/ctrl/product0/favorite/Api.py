@@ -16,7 +16,7 @@ async def Main(self, aData: dict = None) -> dict:
 
     ProductIds = aProductIds.strip('[]').split(';')
     if (not IsDigits(ProductIds)):
-        return {'err_code': 404}
+        return {'status_code': 404}
 
     aLangId = self.GetLangId(aLang)
     Dbl = await self.ExecModelImport(
@@ -30,7 +30,7 @@ async def Main(self, aData: dict = None) -> dict:
         }
     )
     if (not Dbl):
-        return {'err_code': 404}
+        return {'status_code': 404}
 
     DblProducts = await products_a(self, Dbl)
     return {

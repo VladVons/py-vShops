@@ -37,7 +37,7 @@ async def Main(self, aData: dict = None) -> dict:
     )
 
     if (not IsDigits([aCategoryId, aPage, aLimit])):
-        return {'err_code': 404}
+        return {'status_code': 404}
 
     aLimit = min(aLimit, 50)
     aLangId = self.GetLangId(aLang)
@@ -50,7 +50,7 @@ async def Main(self, aData: dict = None) -> dict:
         }
     )
     if (not Dbl):
-        return {'err_code': 404}
+        return {'status_code': 404}
 
     AttrDescr = ''
     Attr = AttrDecode(aAttr)
@@ -83,7 +83,7 @@ async def Main(self, aData: dict = None) -> dict:
         }
     )
     if (not Dbl):
-        return {'err_code': 404}
+        return {'status_code': 404}
 
     DblProducts = await products_a(self, Dbl)
 

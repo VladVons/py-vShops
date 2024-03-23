@@ -37,7 +37,7 @@ async def Main(self, aData: dict = None) -> dict:
     )
 
     if (not IsDigits([aPage, aLimit])):
-        return {'err_code': 404}
+        return {'status_code': 404}
 
     aLangId = self.GetLangId(aLang)
     aLimit = min(aLimit, 50)

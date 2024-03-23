@@ -87,8 +87,8 @@ class TApiCtrl(TApiBase):
             Res.update(Data)
             Data = await Caller['method'](Module, aData)
             DictUpdate(Res, Data)
-            if ('raise_err_code' in aData['query']):
-                Res['err_code'] = aData['query']['raise_err_code']
+            if ('raise_status_code' in aData['query']):
+                Res['status_code'] = aData['query']['raise_status_code']
         return Res
 
     async def ExecApi(self, aRoute: str, aData: dict) -> dict:

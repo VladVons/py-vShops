@@ -1,54 +1,71 @@
 {% extends '_inc/layout1.j2' %}
 
+{% block head %}
+<style>
+  .sub-page {
+    display: none;
+  }
+  .sub-page.active {
+    display: block;
+  }
+</style>
+{% endblock %}
+
 {% block content %}
 <!-- payment + -->
 <div class="container pb-2">
   <form autocomplete="off" id="formPayment" method="post">
-    <div class="row">
-      <div class="col">
-        <h3>{{lang.contact_info}}</h3>
-        <div class="mb-3">
-          <label for="first_name" class="form-label">{{lang.first_name}}*</label>
-          <input type="text" class="form-control" name="first_name" required/>
+    <div id="section_1" class="sub-page active">
+      <div class="row">
+        <div class="col">
+          <h3>{{lang.contact_info}}</h3>
+          <div class="mb-3">
+            <label for="first_name" class="form-label">{{lang.first_name}}*</label>
+            <input type="text" class="form-control" name="first_name" required/>
+          </div>
+          <div class="mb-3">
+            <label for="last_name" class="form-label">{{lang.last_name}}*</label>
+            <input type="text" class="form-control" name="last_name" required/>
+          </div>
+          <div class="mb-3">
+            <label for="middle_name" class="form-label">{{lang.middle_name}}*</label>
+            <input type="text" class="form-control" name="middle_name" required/>
+          </div>
+          <div class="mb-3">
+            <label for="phone" class="form-label">{{lang.phone}}*</label>
+            <input type="text" class="form-control" name="phone" required/>
+          </div>
         </div>
-        <div class="mb-3">
-          <label for="last_name" class="form-label">{{lang.last_name}}*</label>
-          <input type="text" class="form-control" name="last_name" required/>
-        </div>
-        <div class="mb-3">
-          <label for="middle_name" class="form-label">{{lang.middle_name}}*</label>
-          <input type="text" class="form-control" name="middle_name" required/>
-        </div>
-        <div class="mb-3">
-          <label for="phone" class="form-label">{{lang.phone}}*</label>
-          <input type="text" class="form-control" name="phone" required/>
+        <div class="col">
+          <h3>{{lang.delivery}}</h3>
+          <div class="mb-3">
+            <label for="town" class="form-label">{{lang.transport}}*</label>
+            <input type="text" class="form-control" id="transport" name="transport" value="{{lang.nova_poshta}}" required readonly>
+          </div>
+          <div class="mb-3">
+            <label for="town" class="form-label">{{lang.town}}*</label>
+            <input type="text" class="form-control" id="town" name="town" list="town_options" required/>
+            <datalist id="town_options">
+              <!-- JS -->
+            </datalist>
+            <input type="hidden" id="town_ref"/>
+          </div>
+          <div class="mb-3">
+            <label for="department" class="form-label">{{lang.department}}*</label>
+            <input type="text" class="form-control" id="department" name="department" list="department_options" required/>
+            <datalist id="department_options">
+              <!-- JS -->
+            </datalist>
+          </div>
         </div>
       </div>
-      <div class="col">
-        <h3>{{lang.delivery}}</h3>
-        <div class="mb-3">
-          <label for="town" class="form-label">{{lang.transport}}*</label>
-          <input type="text" class="form-control" id="transport" name="transport" value="{{lang.nova_poshta}}" required readonly>
-        </div>
-        <div class="mb-3">
-          <label for="town" class="form-label">{{lang.town}}*</label>
-          <input type="text" class="form-control" id="town" name="town" list="town_options" required/>
-          <datalist id="town_options">
-            <!-- JS -->
-          </datalist>
-          <input type="hidden" id="town_ref"/>
-        </div>
-        <div class="mb-3">
-          <label for="department" class="form-label">{{lang.department}}*</label>
-          <input type="text" class="form-control" id="department" name="department" list="department_options" required/>
-          <datalist id="department_options">
-            <!-- JS -->
-          </datalist>
-        </div>
+      <div class="mb-3">
+        <button type="button" class="btn btn-primary" id="viBtnSave">{{lang.submit}}</button>
       </div>
     </div>
-    <div class="mb-3">
-      <button type="button" class="btn btn-primary" id="viBtnSave">{{lang.submit}}</button>
+
+    <div id="section_2" class="sub-page">
+      <h2></h2>
     </div>
   </form>
 </div>
@@ -105,6 +122,8 @@
     }
   )
 
+  const sections = document.querySelectorAll('.sub-page')
+
   const formPayment = new TFormChangeTracker('formPayment', 'vChanged')
   formPayment.loadFromStorage()
 
@@ -114,17 +133,22 @@
     if (emptyElements.length == 0) {
       if (ShoppingCart.getCount() > 0) {
         formPayment.saveToStorage()
-        const data = {
-          'name': 'cart',
-          'value': JSON.stringify(ShoppingCart.getDbl())
-        }
+        const data = [
+          {
+            'name': 'cart',
+            'value': JSON.stringify(ShoppingCart.getDbl())
+          }
+        ]
         formPayment.submit(data)
+        //ShoppingCart.clear()
+        //sections[0].classList.remove('active')
+        //sections[1].classList.add('active')
       } else {
-        alert("{{lang.cart_is_empty}}")
+        alert('{{lang.cart_is_empty}}')
       }
     }else{
       emptyElements[0].focus()
-      alert("{{lang.empty_field}}")
+      alert('{{lang.empty_field}}')
     }
   }
 </script>

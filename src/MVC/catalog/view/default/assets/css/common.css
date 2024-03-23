@@ -144,6 +144,16 @@ h6 {
     /*overflow: hidden;*/
 }
 
+
+/*-- accordion --*/
+.accordion-button:not(.collapsed) {
+    background-color: var(--colorBgMaster);
+}
+
+.accordion-button  {
+    padding: 0.25rem;
+}
+
 /*-- card --*/
 .vCard .card {
     border-radius: 0.5rem;

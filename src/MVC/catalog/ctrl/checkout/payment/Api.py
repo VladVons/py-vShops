@@ -22,7 +22,12 @@ async def ajax(self, aData: dict = None) -> dict:
     return Res
 
 async def Main(self, aData: dict = None) -> dict:
-    OrderId = None
+    Res = {
+        'href': {
+            'novaposhta_ajax': '/api/?route=checkout/payment'
+        }
+    }
+
     Post = aData.get('post')
     if (Post):
         DblCastomer = await self.ExecModelImport(
@@ -49,11 +54,7 @@ async def Main(self, aData: dict = None) -> dict:
                 }
             }
         )
-        OrderId = DblOrderMix.Rec.id
 
-    return {
-        'href': {
-            'novaposhta_ajax': '/api/?route=checkout/payment',
-            'order_id': OrderId
-        }
-    }
+        Res['status_code'] = 301
+        Res['status_value'] = f'/?route=checkout/orders&order_id={DblOrderMix.Rec.id}'
+    return Res

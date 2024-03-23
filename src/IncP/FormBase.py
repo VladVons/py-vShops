@@ -160,9 +160,9 @@ class TFormBase(Form):
         self.out['places'] = {x['place']: True for x in Modules}
 
         File = f'{self.out.route}.{self.Tpl.Ext}'
-        if ('err_code' in self.out):
+        if ('status_code' in self.out):
             File = f'{self.Parent.Conf.form_info}.{self.Tpl.Ext}'
-            ErrCode = f'err_code_{self.out.err_code}'
+            ErrCode = f'status_code_{self.out.status_code}'
             self.out.info_data = DeepGetByList(self.out, ['lang',  ErrCode], 'Unknown error')
         #return self.Tpl.RenderInc(File, Data)
         return self.Tpl.Render(File, self.out)

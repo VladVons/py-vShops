@@ -16,7 +16,7 @@ async def Main(self, aData: dict = None) -> dict:
     )
 
     if (not IsDigits([aTenantId, aPage, aLimit])):
-        return {'err_code': 404}
+        return {'status_code': 404}
 
     aLangId = self.GetLangId(aLang)
     aLimit = min(aLimit, 50)
@@ -36,7 +36,7 @@ async def Main(self, aData: dict = None) -> dict:
         }
     )
     if (not Dbl):
-        return {'err_code': 404}
+        return {'status_code': 404}
 
     Title = f"{ResGetLang(aData, 'tenant')}: {Dbl.Rec.tenant_title} ({Dbl.Rec.total}) - {ResGetLang(aData, 'page')} {aPage}"
 

@@ -108,9 +108,16 @@ class TApiView(TApiBase):
             Form.out.path = self.Name
             Form.out.query = aQuery
             Data = await Form.Render()
-            Res = {'data': Data, 'code': Form.out.get('err_code', 200)}
+            Res = {
+                'data': Data,
+                'status_code': Form.out.get('status_code', 200),
+                'status_value': Form.out.get('status_value'),
+            }
         else:
-            Res = {'err': f'Route not found {Route}', 'code': 404}
+            Res = {
+                'err': f'Route not found {Route}',
+                'status_code': 404
+            }
         return Res
 
     async def GetFormData(self, aRequest: web.Request, aQuery: dict) -> dict:
@@ -141,14 +148,18 @@ class TApiView(TApiBase):
             Data = await self.GetFormData(aRequest, aQuery)
             if ('err' in Data):
                 aQuery['route'] = self.Conf.form_info
-                aQuery['raise_err_code'] = 404
+                aQuery['raise_status_code'] = 404
                 Data = await self.GetFormData(aRequest, aQuery)
         else:
             Msg = f'Too many connections. ip: {RemoteIp}'
             Log.Print(1, 'i', Msg)
-            Data = {'code': 429, 'data': Msg}
-        Res = web.Response(text = Data['data'], content_type = 'text/html', status = Data['code'])
-        return Res
+            Data = {'status_code': 429, 'data': Msg}
+
+        if (Data['status_code'] in [301, 302]):
+            raise web.HTTPFound(location = Data['status_value'])
+        else:
+            Res = web.Response(text = Data['data'], content_type = 'text/html', status = Data['status_code'])
+            return Res
 
     async def ResponseApi(self, aRequest: web.Request) -> web.Response:
         Query = dict(aRequest.query)

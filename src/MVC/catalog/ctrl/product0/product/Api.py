@@ -18,7 +18,7 @@ async def Main(self, aData: dict = None) -> dict:
     )
 
     if (not IsDigits([aProductId])):
-        return {'err_code': 404}
+        return {'status_code': 404}
 
     aLangId = self.GetLangId(aLang)
 
@@ -33,7 +33,7 @@ async def Main(self, aData: dict = None) -> dict:
         }
     )
     if (not DblProduct):
-        return {'err_code': 404}
+        return {'status_code': 404}
 
     await self.ExecModel(
         'ref_product/product',

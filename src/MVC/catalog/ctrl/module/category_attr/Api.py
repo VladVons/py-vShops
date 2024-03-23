@@ -33,7 +33,7 @@ async def Main(self, aData: dict = None) -> dict:
     )
 
     if (not IsDigits([aCategoryId])):
-        return {'err_code': 404}
+        return {'status_code': 404}
 
     aLangId = self.GetLangId(aLang)
 
