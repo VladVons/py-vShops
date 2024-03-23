@@ -59,7 +59,7 @@ async def Main(self, aData: dict = None) -> dict:
         DblAttr.RecMerge(Href)
     Product['attr'] = DblAttr.Export()
 
-    Features = Product.get('features', {})
+    Features = Product.get('features') or {}
     #Product['features'] = TFeatures(aLang).Adjust1(Features)
     Product['features'] = Features
 
