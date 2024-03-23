@@ -5,6 +5,7 @@
 
 # pylint: skip-file
 from Inc.DbList import TDbList, TDbSql, TDbRec
+from Inc.Misc.Crypt import GetCRC
 from Inc.Misc.Image import TImage
 from Inc.Misc.Pagination import TPagination
 from Inc.Misc.Request import TDownload, TDownloadImage

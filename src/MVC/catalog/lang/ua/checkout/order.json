@@ -1,0 +1,14 @@
+{
+   "tpl": {
+        "order_id": " номер",
+        "actual_date": "дата",
+        "firstname": "прізвище",
+        "lastname": "ім'я",
+        "summ": "сума",
+        "number": "номер",
+        "title": "назва",
+        "price": "ціна",
+        "qty": "кількість",
+        "summ": "сума"
+    }
+}

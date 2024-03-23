@@ -3,7 +3,7 @@
 # License: GNU, see LICENSE for more details
 
 
-from IncP.LibCtrl import TDbList
+from IncP.LibCtrl import TDbList, GetCRC
 
 
 async def ajax(self, aData: dict = None) -> dict:
@@ -30,7 +30,7 @@ async def Main(self, aData: dict = None) -> dict:
 
     Post = aData.get('post')
     if (Post):
-        DblCastomer = await self.ExecModelImport(
+        DblPerson = await self.ExecModelImport(
             'ref_person',
             {
                 'method': 'Set_PersonPhoneName',
@@ -49,12 +49,13 @@ async def Main(self, aData: dict = None) -> dict:
             {
                 'method': 'Add_OrderMix',
                 'param': {
-                    'aCustomerId': DblCastomer.Rec.id,
+                    'aPersonId': DblPerson.Rec.id,
                     'aRows': DblProducts.ExportData(['id', 'qty', 'price'])
                 }
             }
         )
 
+        OrderId = str(DblOrderMix.Rec.id)
         Res['status_code'] = 301
-        Res['status_value'] = f'/?route=checkout/orders&order_id={DblOrderMix.Rec.id}'
+        Res['status_value'] = f'/?route=checkout/order&order_id={OrderId}&crc={GetCRC(OrderId)}'
     return Res

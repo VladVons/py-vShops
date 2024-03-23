@@ -3,15 +3,18 @@
 # License: GNU, see LICENSE for more details
 
 
-from IncP.LibCtrl import GetDictDefs
+from IncP.LibCtrl import GetDictDefs, IsDigits, GetCRC
 
 
 async def Main(self, aData: dict = None) -> dict:
-    aCustomerId, = GetDictDefs(
+    aLang, aCustomerId, aCRC = GetDictDefs(
         aData.get('query'),
-        ('customer_id', ),
-        ('', )
+        ('lang', 'customer_id', 'crc'),
+        ('ua', 0, 0)
     )
+
+    if (not IsDigits([aCustomerId, aCRC])) or (GetCRC(str(aCustomerId)) != aCRC):
+        return {'status_code': 404}
 
     if (not aCustomerId):
         return {
@@ -19,7 +22,7 @@ async def Main(self, aData: dict = None) -> dict:
             'status_value': '/?route=checkout/xxx'
         }
 
-    DblOrdersMix = await self.ExecModelImport(
+    DblOrders = await self.ExecModelImport(
         'doc_sale',
         {
             'method': 'Get_OrdersMix',
@@ -27,10 +30,10 @@ async def Main(self, aData: dict = None) -> dict:
         }
     )
 
-    if (DblOrdersMix):
-        DblOrdersMix.ToList().AddFields(['href'])
-        for Rec in  DblOrdersMix:
+    if (DblOrders):
+        DblOrders.ToList().AddFields(['href'])
+        for Rec in  DblOrders:
             Href = f'/?route=checkout/history&order_id={Rec.order_id}'
             Rec.SetField('href', Href)
 
-        return {'dbl_orders': DblOrdersMix.Export()}
+        return {'dbl_orders': DblOrders.Export()}

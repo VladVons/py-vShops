@@ -1,10 +1,10 @@
 -- fmtAdd_OrderMix.sql
--- aCustomerId, Rows[product_id, qty, price]
+-- aPersonId, Rows[product_id, qty, price]
 
 with
 wt1 as (
-    insert into doc_order_mix (customer_id)
-    values ({{aCustomerId}})
+    insert into doc_order_mix (person_id)
+    values ({{aPersonId}})
     returning id
 ),
 wt2 as (

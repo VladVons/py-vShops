@@ -6,11 +6,11 @@
 from Inc.Sql import ListsToComma
 
 
-async def Add_OrderMix(self, aCustomerId: int, aRows: list) -> dict:
+async def Add_OrderMix(self, aPersonId: int, aRows: list) -> dict:
     Products = ListsToComma(aRows)
     return await self.ExecQuery(
         'fmtAdd_OrderMix.sql',
-        {'aCustomerId': aCustomerId, 'Rows': Products}
+        {'aPersonId': aPersonId, 'Rows': Products}
     )
 
 async def Get_OrderMix(self, aOrderId: int) -> dict:
@@ -19,14 +19,14 @@ async def Get_OrderMix(self, aOrderId: int) -> dict:
         {'aOrderId': aOrderId}
     )
 
-async def Get_OrderMixTableProduct(self, aOrderId: int, aLang: str) -> dict:
+async def Get_OrderMixTableProduct(self, aOrderId: int, aLangId: int) -> dict:
     return await self.ExecQuery(
         'fmtGet_OrderMixTableProduct.sql',
-        {'aOrderId': aOrderId, 'aLang': aLang}
+        {'aOrderId': aOrderId, 'aLangId': aLangId}
     )
 
-async def Get_OrdersMix(self, aCustomerId: int) -> dict:
+async def Get_OrdersMix(self, aPersonId: int) -> dict:
     return await self.ExecQuery(
         'fmtGet_OrdersMix.sql',
-        {'aCustomerId': aCustomerId}
+        {'aPersonId': aPersonId}
     )

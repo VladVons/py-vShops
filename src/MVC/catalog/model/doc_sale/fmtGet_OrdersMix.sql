@@ -1,5 +1,5 @@
 -- fmtGet_OrdersMix.sql
--- aCustomerId
+-- aPersonId
 
 select
     dom.id as order_id,
@@ -14,9 +14,9 @@ select
 from
     doc_order_mix dom
 left join
-    ref_customer rc on
-    (dom.customer_id = rc.id)
+    ref_person rp on
+    (dom.person_id = rp.id)
 where
-    (dom.customer_id = {{aCustomerId}})
+    (dom.person_id = {{aPersonId}})
 order by
     dom.actual_date desc

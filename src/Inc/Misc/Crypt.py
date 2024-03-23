@@ -49,3 +49,11 @@ def CryptSimple(aText: str, aKey: int) -> str:
 
     Res = ''.join(Arr)
     return _Shift(Res, LenText * 3)
+
+def GetCRC(aValue: str, aShift: int = 7) -> int:
+    Res = 0
+    for Char in aValue:
+        Res ^= ord(Char) + aShift
+        Res = (Res << 1) | (Res >> 31)
+    ShiftCycleRight = ((Res >> aShift) | (Res << (32 - aShift))) & 0xFFFFFFFF
+    return ShiftCycleRight

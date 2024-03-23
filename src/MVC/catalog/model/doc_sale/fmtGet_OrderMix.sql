@@ -4,8 +4,8 @@
 select
     dom.id as order_id,
     dom.actual_date::date,
-    rc.firstname,
-    rc.lastname,
+    rp.firstname,
+    rp.lastname,
     (
         select sum(qty * price)
         from doc_order_mix_table_product
@@ -14,7 +14,7 @@ select
 from
     doc_order_mix dom
 left join
-    ref_customer rc on
-    (dom.customer_id = rc.id)
+    ref_person rp on
+    (dom.person_id = rp.id)
 where
     (dom.id = {{aOrderId}})

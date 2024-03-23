@@ -1,0 +1,45 @@
+{% extends '_inc/layout1.j2' %}
+
+{% set Fields = ['number', 'title', 'price', 'qty', 'summ'] %}
+
+{% block head %}
+<style>
+  .grid-container {
+    display: grid;
+    grid-template-columns: 70px auto 150px 100px 150px;
+  }
+
+  .gitem {
+    border: 1px solid black;
+    padding: 0px;
+    text-align: left;
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- order + -->
+<div class="container pb-2">
+    <h1>{{title}}</h1>
+    <div>
+    {% for Key, Val in order.items() %}
+        <h3>{{lang[Key]}}: {{Val}}</h3>
+    {% endfor %}
+    </div>
+
+    <div class="grid-container">
+      {% for xField in Fields %}
+        <div class="grid-item fw-bold">{{lang[xField]}}</div>
+      {% endfor %}
+
+      {% for Rec in TDbList().Import(dbl_order_products) %}
+        <div class="gitem">{{loop.index}}</div>
+        <div class="gitem"><a href="{{Rec.href}}">{{Rec.title}}</a></div>
+        <div class="gitem">{{Rec.price}}</div>
+        <div class="gitem">{{Rec.qty}}</div>
+        <div class="gitem">{{Rec.summ}}</div>
+      {% endfor %}
+    </div>
+</div>
+<!-- order - -->
+{% endblock %}

@@ -188,7 +188,7 @@ create table if not exists ref_address (
     door_code           varchar(8)
 );
 
--- customer --
+-- person --
 
 create table if not exists ref_person (
     id                  serial primary key,
@@ -203,7 +203,7 @@ create table if not exists ref_person (
     image               varchar(64),
     pwd                 varchar(64),
     note                varchar(64),
-    constraint ref_customer_chk_email_phone check ((email is not null) or (phone is not null))
+    constraint ref_person_chk_email_phone check ((email is not null) or (phone is not null))
 );
 
 create table if not exists ref_person_to_address (
@@ -424,7 +424,7 @@ create table if not exists ref_news_comment (
     update_date         timestamp,
     descr               text,
     news_id             integer not null references ref_news(id) on delete cascade,
-    customer_id         integer not null references ref_customer(id) on delete cascade
+    person_id           integer not null references ref_person(id) on delete cascade
 );
 
 -- price --
@@ -584,7 +584,7 @@ create table if not exists ref_product_review (
     rating              smallint,
     create_date         timestamp default current_timestamp,
     product_id          integer not null references ref_product(id) on delete cascade,
-    customer_id         integer not null references ref_customer(id) on delete cascade
+    person_id           integer not null references ref_person(id) on delete cascade
 );
 create index if not exists ref_product_review_product_id_idx ON ref_product_review (product_id);
 
@@ -732,7 +732,7 @@ create table if not exists doc_order_mix (
     deleted             boolean,
     actual_date         timestamp not null default current_timestamp,
     note                varchar(64),
-    customer_id         integer not null references ref_customer(id)
+    person_id           integer not null references ref_person(id)
 );
 
 create table if not exists doc_order_mix_table_product (
@@ -751,7 +751,7 @@ create table if not exists doc_sale_mix (
     deleted             boolean,
     actual_date         timestamp not null default current_timestamp,
     note                varchar(64),
-    customer_id         integer not null references ref_customer(id)
+    person_id           integer not null references ref_person(id)
 );
 
 create table if not exists doc_sale_mix_table_product (
@@ -770,7 +770,7 @@ create table if not exists doc_sale (
     deleted             boolean,
     actual_date         timestamp not null default current_timestamp,
     note                varchar(64),
-    customer_id         integer not null references ref_customer(id),
+    person_id           integer not null references ref_person(id),
     tenant_id           integer not null references ref_tenant(id)
 );
 
