@@ -57,8 +57,7 @@
           <span>{{lang.code}}: g{{product.id}} / {{product.idt}}</span>
         </div>
 
-        <h1>{{product.title}}</h1>
-        <p>{{lang.category}}: <a href="{{href.category}}" class="h4">{{product.category_title}}</a></p>
+        <h1>{{product.category_title}} {{product.title}}</h1>
         {% if product.attr %}
           {% for Rec in TDbList().Import(product.attr) %}
             <p>{{Rec.title}}: {{Rec.val}}</p>
