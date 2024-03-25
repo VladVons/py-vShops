@@ -9,6 +9,7 @@ from Inc.Misc.Crypt import GetCRC
 from Inc.Misc.Image import TImage
 from Inc.Misc.Pagination import TPagination
 from Inc.Misc.Request import TDownload, TDownloadImage
+from Inc.Misc.Telegram import TTelegram
 from Inc.Util.Str import UrlUdate, Replace
 from Inc.Util.Obj import DeepGetByList, GetDictDef, GetDictDefs, Filter, DeepGetsRe, Iif, IsDigits
 
@@ -37,3 +38,10 @@ def AttrDecode(aVal: str) -> dict:
                     if (AttrId.isdigit()):
                         Res[AttrId] = Val.split(';')
     return Res
+
+async def TelegramMessage(self, aMsg: str) -> object:
+    DbConf = self.Cache.Get('conf_tenant_0', {})
+    BotToken = DbConf['telegram_bot_token']
+    GroupId = DbConf['telegram_group_id']
+    Telegram = TTelegram(BotToken)
+    return await Telegram.MessageToGroup(GroupId, aMsg, 'HTML')

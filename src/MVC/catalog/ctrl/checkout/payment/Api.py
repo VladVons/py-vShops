@@ -3,7 +3,7 @@
 # License: GNU, see LICENSE for more details
 
 
-from IncP.LibCtrl import TDbList, GetCRC
+from IncP.LibCtrl import TDbList, GetCRC, TelegramMessage
 
 
 async def ajax(self, aData: dict = None) -> dict:
@@ -64,5 +64,6 @@ async def Main(self, aData: dict = None) -> dict:
 Phone: {Post['phone']}
 Name: {Post['first_name']} {Post['last_name']}
         '''
-        await self.Telegram.MessageToGroup(self.DbConf['telegram_group_id'], Msg, 'HTML')
+        await TelegramMessage(self, Msg)
+
     return Res

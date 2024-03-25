@@ -29,9 +29,10 @@ class TTelegram():
             return Res
 
     async def MessageToGroup(self, aChatId: int, aText: str, aMode: str = 'TEXT'):
-        return await self._Post('sendMessage', {
+        Res =  await self._Post('sendMessage', {
                 'chat_id': aChatId,
                 'text': aText,
                 'parse_mode': aMode
             }
         )
+        return Res
