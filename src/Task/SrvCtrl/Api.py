@@ -19,9 +19,11 @@ class TApiCtrl(TApiBase):
         self.Name = aName
         self.ApiCommon = aApiCommon
         Conf = self.GetConf()[aName]
+        #self.Conf = Conf #(moved to DB )
         self.Ctrls = TCtrls(Conf['dir_route'], self)
         self.InitLoader(Conf['loader'])
         self.DefRoute = 'system/def_route'
+
         #Def = GetDictDef(Conf['cache_route'], ['max_age', 'incl_route', 'excl_route'], [5, None, None])
         #self.Cache = TCacheMem('/', *Def)
 
@@ -123,6 +125,7 @@ class TApiCtrlAuth(TApiCtrl):
             Log.Print(1, 'i', Msg)
             Res = {'err': Msg}
         return Res
+
 
 ApiCommon = TApiCtrl('_common')
 ApiCtrls = {

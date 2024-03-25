@@ -58,4 +58,11 @@ async def Main(self, aData: dict = None) -> dict:
         OrderId = str(DblOrderMix.Rec.id)
         Res['status_code'] = 301
         Res['status_value'] = f'/?route=checkout/order&order_id={OrderId}&crc={GetCRC(OrderId)}'
+
+        Msg = f'''
+<a href="https://used.1x1.com.ua{Res['status_value']}">Order: {OrderId}</a>
+Phone: {Post['phone']}
+Name: {Post['first_name']} {Post['last_name']}
+        '''
+        await self.Telegram.MessageToGroup(self.DbConf['telegram_group_id'], Msg, 'HTML')
     return Res
