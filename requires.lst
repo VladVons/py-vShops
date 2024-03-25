@@ -11,7 +11,7 @@ aiopg
 aiohttp 
 aiohttp_session 
 aiosmtplib
-aiogram
+#aiogram
 cryptography 
 jinja2 
 pillow 

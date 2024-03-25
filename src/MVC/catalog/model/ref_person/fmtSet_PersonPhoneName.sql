@@ -1,18 +1,27 @@
 -- fmtSet_PersonPhoneName.sql
 -- in: aPhone, aFirstName
 
-insert into ref_person
-    (phone, firstname, lastname, middlename)
-values (
-    '{{aPhone}}',
-    lower('{{aFirstName}}'),
-    lower('{{aLastName}}'),
-    lower('{{aMiddleName}}')
+with src (phone, firstname, lastname, middlename) as (
+    values (
+        '{{aPhone}}',
+        lower('{{aFirstName}}'),
+        lower('{{aLastName}}'),
+        lower('{{aMiddleName}}')
+    )
 )
-on
-    conflict (phone) do update
-set
-    firstname = excluded.firstname,
-    lastname = excluded.lastname,
-    middlename = excluded.middlename
-returning id
+merge into ref_person as dst
+using src
+on (dst.phone = src.phone)
+when matched then
+update set
+    firstname = src.firstname,
+    lastname = src.lastname,
+    middlename = src.middlename
+when not matched then
+    insert (phone, firstname, lastname, middlename)
+    values (src.phone, src.firstname, src.lastname, src.middlename);
+
+-- ToDo. 2 queries
+select id
+from ref_person rp 
+where (phone = '{{aPhone}}')

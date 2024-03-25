@@ -165,27 +165,18 @@ create table if not exists ref_currency (
 
 -- address --
 
-create table if not exists ref_country (
-    id                  serial primary key,
-    title               varchar(32) not null,
-    alias               varchar(3) not null unique,
-    code                varchar(5) unique
-);
-
-create table if not exists ref_city (
-    id                  serial primary key,
-    title               varchar(32) not null,
-    country_id          integer not null references ref_country(id)
-);
-
 create table if not exists ref_address (
     id                  serial primary key,
-    city_id             integer not null references ref_city(id),
     post_code           varchar(8),
-    street              varchar(32) not null,
+    country             varchar(24) default '',
+    district            varchar(24) not null,
+    city                varchar(24) not null,
+    street              varchar(24) not null,
     house               varchar(4) not null,
-    room                varchar(4),
-    door_code           varchar(8)
+    room                varchar(4) default '',
+    door_code           varchar(8),
+    note                varchar(24),
+    unique (country, city, street, house, room)
 );
 
 -- person --

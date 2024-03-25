@@ -64,6 +64,6 @@ async def Main(self, aData: dict = None) -> dict:
 Phone: {Post['phone']}
 Name: {Post['first_name']} {Post['last_name']}
         '''
-        await TelegramMessage(self, Msg)
+        #await TelegramMessage(self, Msg)
 
     return Res
