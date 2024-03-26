@@ -53,8 +53,8 @@ class TSrvView(TSrvBase):
             else:
                 Res = await self._Err_404(aRequest)
         else:
-            Q1 = await ApiView.SeoUrl('Decode', Name)
-            Q2 = await ApiView.SeoUrl('Encode', [Q1, 'route=product0/category&category_id=2'])
+            # Q1 = await ApiView.SeoUrl('Decode', Name)
+            # Q2 = await ApiView.SeoUrl('Encode', [Q1, 'route=product0/category&category_id=2&attr=1'])
 
             Query = dict(aRequest.query)
             if (aPath == 'tenant'):

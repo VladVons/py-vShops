@@ -55,7 +55,10 @@ async def Encode(self, aData: dict) -> dict:
             }
         }
     )
-    Pairs = Dbl.ExportPair('attr_val', 'keyword')
 
-    Arr = [Pairs.get(x, x) x in Parsed]
-    return
+    Pairs = Dbl.ExportPair('attr_val', 'keyword')
+    Res = []
+    for xPath in Parsed:
+        Arr = [Pairs.get(x, f'&{x}') for x in xPath]
+        Res.append('/'.join(Arr).replace('/&', '&'))
+    return Res
