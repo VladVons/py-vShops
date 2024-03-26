@@ -93,13 +93,22 @@ async def Get_TenantConf(self, aTenantId: int, aAttr: str = None) -> dict:
                 Rec.SetField('val', json.loads(Rec.val))
     return Dbl.Export()
 
-async def Get_SeoToDict_LangPath(self, aLangId: int, aPath: list[str]) -> dict:
+async def Get_SeoToDict(self, aLangId: int, aPath: list[str]) -> dict:
     Arr = [f"(keyword = '{x}' or keyword like '%/{x}')" for x in aPath]
     CondKeyword = ' or\n'.join(Arr)
     return await self.ExecQuery(
-        'fmtGet_SeoToDict_LangPath.sql',
+        'fmtGet_SeoToDict.sql',
         {'aLangId': aLangId, 'CondKeyword': CondKeyword}
     )
+
+async def Get_SeoFromDict(self, aLangId: int, aAttrVal: list) -> dict:
+    AttrVal = [f"('{Key}', '{Val}')" for Key, Val in aAttrVal]
+    return await self.ExecQuery(
+        'fmtGet_SeoFromDict.sql',
+        {'aLangId': aLangId, 'AttrVal': ', '.join(AttrVal)}
+    )
+
+
 
 async def Get_Langs(self) -> dict:
     return await self.ExecQuery(

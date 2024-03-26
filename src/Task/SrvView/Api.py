@@ -193,5 +193,13 @@ class TApiView(TApiBase):
             Res = web.Response(text = Data)
         return Res
 
+    async def SeoUrl(self, aMethod: str, aUrl: str) -> str:
+        Ctrl = self.Loader['ctrl']
+        Data = {
+            'type': 'api',
+            'path': aUrl,
+            'method': aMethod
+        }
+        return await Ctrl.Get('system/seo', Data)
 
 ApiViews = {Key: TApiView(Key) for Key in ['catalog', 'tenant']}

@@ -42,7 +42,20 @@ class TSrvView(TSrvBase):
         assert(ApiView), f'unknown path `{aPath}` in {ApiViews.keys()}'
 
         Name = aRequest.match_info.get('name')
-        if (Name in ['/', '']):
+        Ext = Name.rsplit('.', maxsplit=1)[-1].lower()
+        if (Ext in ['js', 'css', 'jpg', 'png', 'ico', 'gif', 'woff2']):
+            File = f'{ApiView.Conf.dir_root}/{Name}'
+            if (os.path.isfile(File)):
+                if (re.search(self._SrvConf.deny, Name)):
+                    Res = await ApiView.ResponseFormInfo(aRequest, f'Access denied {aRequest.path}', 403)
+                else:
+                    Res = self._GetMimeFile(File)
+            else:
+                Res = await self._Err_404(aRequest)
+        else:
+            Q1 = await ApiView.SeoUrl('Decode', Name)
+            Q2 = await ApiView.SeoUrl('Encode', [Q1, 'route=product0/category&category_id=2'])
+
             Query = dict(aRequest.query)
             if (aPath == 'tenant'):
                 Session = await get_session(aRequest)
@@ -53,15 +66,6 @@ class TSrvView(TSrvBase):
             if (not Query.get('route')):
                 Query.update({'route': ApiView.Conf.form_home})
             Res = await ApiView.ResponseForm(aRequest, Query)
-        else:
-            File = f'{ApiView.Conf.dir_root}/{Name}'
-            if (os.path.isfile(File)):
-                if (re.search(self._SrvConf.deny, Name)):
-                    Res = await ApiView.ResponseFormInfo(aRequest, f'Access denied {aRequest.path}', 403)
-                else:
-                    Res = self._GetMimeFile(File)
-            else:
-                Res = await self._Err_404(aRequest)
         return Res
 
     @staticmethod
