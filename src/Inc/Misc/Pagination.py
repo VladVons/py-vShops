@@ -10,6 +10,7 @@
 import math
 import re
 
+
 class TPagination():
     def __init__(self, aPerPage: int, aHref: str, aPager: str = '&page={page}'):
         self.PerPage = aPerPage
@@ -22,7 +23,10 @@ class TPagination():
     def ToTuple(self, aPage: int, aTitle: str, aCurPage: bool = False) -> tuple:
         Href = self.Href
         if (aPage > 1):
-            Href += self.Pager
+            if ('?' in Href):
+                Href += self.Pager
+            else:
+                Href = '?' + self.Pager[1:]
         Res = (aPage, aTitle, Href.format(page=aPage), aCurPage)
         return Res
 

@@ -60,16 +60,3 @@ def ConcatUniq(aText: str, aAdd: list[str]) -> str:
         if (xAdd not in aText):
             aText += xAdd
     return aText
-
-
-def UrlUdate(aText: str, aData: dict) -> str:
-    Res = {}
-    Path, Query = aText.split('?')
-    for xQuery in Query.split('&'):
-        Pair = xQuery.split('=')
-        if (len(Pair) == 2):
-            Key, Val = Pair
-            Res[Key] = Val
-    Res.update(aData)
-    Res = Path + '?' + '&'.join([f'{Key}={Val}' for Key, Val in Res.items()])
-    return Res

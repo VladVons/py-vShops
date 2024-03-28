@@ -13,7 +13,8 @@ class TIpLog():
 
         self.Ip = {}
         self.MaxSize = 1000
-        self.IpIgnore = ['127.0.0.1']
+        self.IntervalReset = 3
+        self.IpIgnore = ['127.0.0.11']
 
     def _CheckSize(self):
         if (len(self.Ip) > self.MaxSize):
@@ -33,11 +34,17 @@ class TIpLog():
             if (aIp in self.Ip):
                 CntBan, Cnt, Trust, Time = self.Ip[aIp]
                 Cnt += 1
-                if (not Trust) and (time.time() - Time < self.Interval):
-                    CntBan += 1
-                    if (CntBan >= self.CntBanMax):
+                if (not Trust):
+                    Interval = time.time() - Time
+                    if (Interval < self.Interval):
+                        CntBan += 1
+                        if (CntBan >= self.CntBanMax):
+                            CntBan = 0
+                            Res = False
+                    elif (Interval >= self.IntervalReset):
                         CntBan = 0
-                        Res = False
+                        print('reset')
+
                 self.Ip[aIp] = [CntBan, Cnt, Trust, time.time()]
             else:
                 Trust = aIp in self.IpIgnore

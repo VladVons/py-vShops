@@ -9,6 +9,7 @@ from aiohttp_session import get_session
 #
 from Inc.DataClass import DDataClass
 from Inc.SrvWeb import TSrvBase, TSrvConf
+from Inc.SrvWeb.Common import UrlDecode
 from IncP.Log import Log
 from .Api import ApiViews
 
@@ -43,7 +44,8 @@ class TSrvView(TSrvBase):
 
         Name = aRequest.match_info.get('name')
         Ext = Name.rsplit('.', maxsplit=1)[-1].lower()
-        if (Ext in ['js', 'css', 'jpg', 'png', 'ico', 'gif', 'woff2']):
+        #if (Ext in ['js', 'css', 'jpg', 'png', 'ico', 'gif', 'txt', 'xml', 'woff2']):
+        if (Ext and len(Ext) <= 4):
             File = f'{ApiView.Conf.dir_root}/{Name}'
             if (os.path.isfile(File)):
                 if (re.search(self._SrvConf.deny, Name)):
@@ -53,10 +55,12 @@ class TSrvView(TSrvBase):
             else:
                 Res = await self._Err_404(aRequest)
         else:
-            # Q1 = await ApiView.SeoUrl('Decode', Name)
-            # Q2 = await ApiView.SeoUrl('Encode', [Q1, 'route=product0/category&category_id=2&attr=1'])
+            if (Name):
+                Url = await ApiView.GetSeoUrl('Decode', Name)
+                Query = UrlDecode(Url)
+            else:
+                Query = dict(aRequest.query)
 
-            Query = dict(aRequest.query)
             if (aPath == 'tenant'):
                 Session = await get_session(aRequest)
                 AuthId = Session.get('auth_id')

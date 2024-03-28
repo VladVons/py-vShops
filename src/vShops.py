@@ -9,7 +9,6 @@ from IncP import GetSysInfo
 from IncP.Log import Log
 from Task.Main import TTask
 
-
 def Run():
     Info = GetSysInfo()
     Log.Print(1, 'i', f'os: {Info["os"]}, python: {Info["python"]}, uptime: {Info["uptime"]}')

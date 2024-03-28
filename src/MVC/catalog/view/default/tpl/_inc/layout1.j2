@@ -13,8 +13,8 @@
     <title>{{ title }}</title>
     <meta property="og:title" content="{{title}}"/>
     {% endif %}
-    {% if canonical %}
-    <link rel="canonical" href="{{canonical}}"/>
+    {% if href.canonical %}
+    <link rel="canonical" href="{{href.canonical}}"/>
     {% endif %}
 
     <script src="/default/assets/js/lib.js"></script>

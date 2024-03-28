@@ -32,7 +32,10 @@ async def Main(self, aData: dict = None) -> dict:
     if (not Dbl):
         return {'status_code': 404}
 
-    Pagination = TPagination(aLimit, aData['path_qs'])
+    Href = aData['path_qs']
+    #Href = UrlEncode(aData['query'])
+
+    Pagination = TPagination(aLimit, Href)
     PData = Pagination.Get(Dbl.Rec.total, aPage)
     DblPagination = TDbList(['page', 'title', 'href', 'current'], PData)
 

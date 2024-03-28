@@ -65,3 +65,35 @@ def ParseUserAgent(aValue: str) -> dict:
     except Exception:
         pass
     return {'os': OS.lower(), 'browser': Browser.lower().replace("'", '"')}
+
+def UrlDecode(aUrl: str) -> dict:
+    Res = {}
+    for xParam in aUrl.split('&'):
+        if (xParam):
+            KeyVal = xParam.split('=')
+            if (len(KeyVal) == 2):
+                Res[KeyVal[0]] = KeyVal[1]
+            else:
+                Res[KeyVal[0]] = None
+    return Res
+
+def UrlEncode(aQuery: dict) -> str:
+    Arr = [f'{Key}={Val}'for Key, Val in aQuery.items()]
+    return '&'.join(Arr)
+
+def UrlUdate(aUrl: str, aData: dict) -> str:
+    if ('?' in aUrl):
+        Path, Query = aUrl.split('?')
+    else:
+        Path = ''
+        Query = aUrl
+
+    Res = {}
+    for xQuery in Query.split('&'):
+        Pair = xQuery.split('=')
+        if (len(Pair) == 2):
+            Key, Val = Pair
+            Res[Key] = Val
+    Res.update(aData)
+    Res = Path + '?' + '&'.join([f'{Key}={Val}' for Key, Val in Res.items()])
+    return Res

@@ -5,7 +5,7 @@
 
 import json
 #
-from IncP.LibCtrl import GetDictDefs, Iif, IsDigits, TDbList
+from IncP.LibCtrl import GetDictDefs, Iif, IsDigits, TDbList, SeoEncodeDict, UrlEncode
 #from .Features import TFeatures
 from ..._inc import GetBreadcrumbs
 
@@ -105,13 +105,13 @@ async def Main(self, aData: dict = None) -> dict:
     }
     Res['schema'] = json.dumps(Schema)
 
-    Res['href'] = {
+    Href = {
         'self': aData['path_qs'],
         'category': f'/?route=product0/category&category_id={CategoryId}',
-        'tenant': f'/?route=product0/tenant&tenant_id={Product["tenant_id"]}'
+        'tenant': f'/?route=product0/tenant&tenant_id={Product["tenant_id"]}',
+        'canonical': f'/?route=product0/product&product_id={aProductId}'
     }
-
-    Res['canonical'] = f'/?route=product0/product&product_id={aProductId}'
+    Res['href'] = await SeoEncodeDict(self, Href)
 
     Res['product'] = Product
     Res['title'] = ''

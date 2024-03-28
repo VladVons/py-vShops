@@ -3,6 +3,7 @@
 # License: GNU, see LICENSE for more details
 
 
+import re
 from IncP.LibCtrl import GetDictDefs
 
 
@@ -11,7 +12,9 @@ async def Decode(self, aData: dict) -> dict:
         ('lang', 'path'),
         ('ua', '')
     )
+    return aPath
 
+    Values = re.split(r'[/&]', aPath)
     aLangId = self.GetLangId(aLang)
     Dbl = await self.ExecModelImport(
         'system',
@@ -19,7 +22,7 @@ async def Decode(self, aData: dict) -> dict:
             'method': 'Get_SeoToDict',
             'param': {
                 'aLangId': aLangId,
-                'aPath': aPath.split('/')
+                'aPath': Values
             }
         }
     )
@@ -32,11 +35,12 @@ async def Encode(self, aData: dict) -> dict:
         ('lang', 'path'),
         ('ua', [])
     )
+    return aPath
 
     AttrVal = set()
     Parsed = []
     for xPath in aPath:
-        Pairs = xPath.split('&')
+        Pairs = xPath.strip('/?').split('&')
         ArrPair = []
         for xPair in Pairs:
             ArrPair.append(xPair)
@@ -58,7 +62,10 @@ async def Encode(self, aData: dict) -> dict:
 
     Pairs = Dbl.ExportPair('attr_val', 'keyword')
     Res = []
-    for xPath in Parsed:
+    for Idx, xPath in enumerate(Parsed):
         Arr = [Pairs.get(x, f'&{x}') for x in xPath]
-        Res.append('/'.join(Arr).replace('/&', '&'))
+        if (Arr[0].startswith('&')):
+            Res.append(aPath[Idx])
+        else:
+            Res.append('/'.join(Arr).replace('/&', '&'))
     return Res

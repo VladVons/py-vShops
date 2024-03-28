@@ -11,7 +11,7 @@
         },
         "ip_log": {
             "aInterval": 0.75,
-            "aCntBanMax": 3
+            "aCntBanMax": 5
         },
         "loader": {
             "ctrl": {

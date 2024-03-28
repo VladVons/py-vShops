@@ -193,7 +193,7 @@ class TApiView(TApiBase):
             Res = web.Response(text = Data)
         return Res
 
-    async def SeoUrl(self, aMethod: str, aUrl: str) -> str:
+    async def GetSeoUrl(self, aMethod: str, aUrl: str) -> str:
         Ctrl = self.Loader['ctrl']
         Data = {
             'type': 'api',

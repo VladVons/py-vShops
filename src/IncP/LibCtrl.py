@@ -10,8 +10,9 @@ from Inc.Misc.Image import TImage
 from Inc.Misc.Pagination import TPagination
 from Inc.Misc.Request import TDownload, TDownloadImage
 from Inc.Misc.Telegram import TTelegram
-from Inc.Util.Str import UrlUdate, Replace
+from Inc.Util.Str import Replace
 from Inc.Util.Obj import DeepGetByList, GetDictDef, GetDictDefs, Filter, DeepGetsRe, Iif, IsDigits
+from Inc.SrvWeb.Common import UrlEncode, UrlUdate
 
 from .Log import Log
 
@@ -45,3 +46,17 @@ async def TelegramMessage(self, aMsg: str) -> object:
     GroupId = DbConf['telegram_group_id']
     Telegram = TTelegram(BotToken)
     return await Telegram.MessageToGroup(GroupId, aMsg, 'HTML')
+
+
+async def SeoEncode(self, aUrls: list[str]) -> list[str]:
+    return await self.ApiCtrl.ExecApi(
+        'system/seo',
+        {
+            'path': aUrls,
+            'method': 'Encode'
+        }
+    )
+
+async def SeoEncodeDict(self, aUrls: dict) -> dict:
+    Urls = await SeoEncode(self, aUrls.values())
+    return dict(zip(aUrls.keys(), Urls))

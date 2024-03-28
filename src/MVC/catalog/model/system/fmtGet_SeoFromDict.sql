@@ -6,7 +6,8 @@ with src (attr, val) as (
 )
 select
     distinct(rsu.attr || '=' || rsu.val) as attr_val,
-    rsu.keyword
+    rsu.keyword,
+    rsu.sort_order
 from
     ref_seo_url rsu
 join

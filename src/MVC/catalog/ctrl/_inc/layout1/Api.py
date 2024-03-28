@@ -3,7 +3,7 @@
 # License: GNU, see LICENSE for more details
 
 
-from IncP.LibCtrl import GetDictDefs
+from IncP.LibCtrl import GetDictDefs, SeoEncodeDict
 
 async def GetCategories(self, aLangId: int) -> dict:
     Dbl = await self.ExecModelImport (
@@ -39,22 +39,25 @@ async def Main(self, aData: dict = None) -> dict:
         ('', 'ua')
     )
 
+    Href = {
+        'about_us': '/?route=info/about_us',
+        'contacts': '/?route=info/contacts',
+        'faq': '/?route=info/faq',
+        'news': '/?route=news/list',
+        'privacy_policy': '/?route=info/privacy_policy',
+        'sitemap': '/?route=info/sitemap',
+
+        'order': '/?route=checkout/order',
+        'payment': '/?route=checkout/payment',
+        'search': '/?route=product0/search&q=',
+        'login_tenant': '/tenant/?route=common/login',
+        'search_ajax': '/api/?route=product0/search',
+        'category_ajax': '/api/?route=_inc/layout1'
+    }
+    Href = await SeoEncodeDict(self, Href)
+
     Res = {
-        'href': {
-            'about_us': '/?route=info/about_us',
-            'contacts': '/?route=info/contacts',
-            'faq': '/?route=info/faq',
-            'history': '/?route=checkout/history',
-            'news': '/?route=news/list',
-            'order': '/?route=checkout/order',
-            'payment': '/?route=checkout/payment',
-            'privacy_policy': '/?route=info/privacy_policy',
-            'sitemap': '/?route=info/sitemap',
-            'search': '/?route=product0/search&q=',
-            'login_tenant': '/tenant/?route=common/login',
-            'search_ajax': '/api/?route=product0/search',
-            'category_ajax': '/api/?route=_inc/layout1'
-        },
+        'href': Href,
         'search': aSearch
     }
 
