@@ -103,10 +103,10 @@ async def Main(self, aData: dict = None) -> dict:
     ModCategoryAttr = ResGetModule(aData, 'category_attr')
     Title = f"{ResGetLang(aData, 'category')}: {Category['title']} ({DblProducts.Rec.total}) - {ResGetLang(aData, 'page')} {aPage}"
 
-    Href = aData['path_qs']
-    # Href = UrlEncode(aData['query'])
-    # HrefSeo = await SeoEncode(self, [Href])
-    # Href = HrefSeo[0]
+    #Href = aData['path_qs']
+    Href = UrlEncode(aData['query'])
+    HrefSeo = await SeoEncode(self, [Href])
+    Href = HrefSeo[0]
 
     Pagination = TPagination(aLimit, Href)
     PData = Pagination.Get(Dbl.Rec.total, aPage)

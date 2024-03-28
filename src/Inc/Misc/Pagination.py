@@ -12,9 +12,10 @@ import re
 
 
 class TPagination():
-    def __init__(self, aPerPage: int, aHref: str, aPager: str = '&page={page}'):
+    def __init__(self, aPerPage: int, aHref: str, aPager: str = 'page={page}'):
         self.PerPage = aPerPage
-        self.Href = re.sub(aPager.replace('{page}', r'\d+'), '', aHref)
+        Pattern = r'[&?]' + aPager.replace('{page}', r'\d+')
+        self.Href = re.sub(Pattern, '', aHref)
         self.Pager = aPager
         self.Back = '&lt;'
         self.Forward = '&gt;'
@@ -24,9 +25,9 @@ class TPagination():
         Href = self.Href
         if (aPage > 1):
             if ('?' in Href):
-                Href += self.Pager
+                Href += '&' + self.Pager
             else:
-                Href = '?' + self.Pager[1:]
+                Href += '?' + self.Pager
         Res = (aPage, aTitle, Href.format(page=aPage), aCurPage)
         return Res
 

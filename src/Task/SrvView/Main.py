@@ -45,7 +45,7 @@ class TSrvView(TSrvBase):
         Name = aRequest.match_info.get('name')
         Ext = Name.rsplit('.', maxsplit=1)[-1].lower()
         #if (Ext in ['js', 'css', 'jpg', 'png', 'ico', 'gif', 'txt', 'xml', 'woff2']):
-        if (Ext and len(Ext) <= 5):
+        if (0 < len(Ext) <= 5):
             File = f'{ApiView.Conf.dir_root}/{Name}'
             if (os.path.isfile(File)):
                 if (re.search(self._SrvConf.deny, Name)):
@@ -58,6 +58,7 @@ class TSrvView(TSrvBase):
             if (Name):
                 Url = await ApiView.GetSeoUrl('Decode', Name)
                 Query = UrlDecode(Url)
+                Query.update(aRequest.query)
             else:
                 Query = dict(aRequest.query)
 

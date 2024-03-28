@@ -101,11 +101,11 @@ async def Get_SeoToDict(self, aLangId: int, aPath: list[str]) -> dict:
         {'aLangId': aLangId, 'CondKeyword': CondKeyword}
     )
 
-async def Get_SeoFromDict(self, aLangId: int, aAttrVal: list) -> dict:
-    AttrVal = [f"('{Key}', '{Val}')" for Key, Val in aAttrVal]
+async def Get_SeoFromDict(self, aLangId: int, aData: list) -> dict:
+    Data = [f"('{Key}', '{Val}', {Idx})" for Key, Val, Idx in aData]
     return await self.ExecQuery(
         'fmtGet_SeoFromDict.sql',
-        {'aLangId': aLangId, 'AttrVal': ', '.join(AttrVal)}
+        {'aLangId': aLangId, 'Data': ', '.join(Data)}
     )
 
 
