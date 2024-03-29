@@ -200,6 +200,6 @@ class TApiView(TApiBase):
             'path': aUrl,
             'method': aMethod
         }
-        return await Ctrl.Get('system/seo', Data)
+        return await Ctrl.Get('seo', Data)
 
 ApiViews = {Key: TApiView(Key) for Key in ['catalog', 'tenant']}

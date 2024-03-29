@@ -1,5 +1,5 @@
 -- fmtGet_SeoFromDict.sql
--- in: aLangId, Data(attr, val, idx), ...
+-- in: Data(attr, val, idx), ...
 
 
 with 
@@ -7,7 +7,7 @@ src as (
     select attr, val, idx
     from (
         values {{Data}}
-    ) AS t1 (attr, val, idx)
+    ) as t1 (attr, val, idx)
 ),
 wt1 as ( 
     select
@@ -20,8 +20,6 @@ wt1 as (
     join
         src on
         (src.attr = rsu.attr) and (src.val = rsu.val)
-    where
-        (lang_id = {{aLangId}})
     order by
         src.idx,
         rsu.sort_order

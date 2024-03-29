@@ -60,7 +60,7 @@ async def TelegramMessage(self, aMsg: str) -> object:
 async def SeoEncodeList(self, aPaths: list[str]) -> list[str]:
     if (aPaths):
         return await self.ApiCtrl.ExecApi(
-            'system/seo',
+            'seo',
             {
                 'path': aPaths,
                 'method': 'Encode'

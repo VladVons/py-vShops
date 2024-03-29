@@ -141,15 +141,12 @@ create table if not exists ref_lang (
 -- SEO --
 
 create table if not exists ref_seo_url (
-    id                  serial primary key,
     attr                varchar(32) not null,
-    val                 varchar(128) not null,
-    keyword             varchar(128) not null,
+    val                 varchar(32) not null,
+    keyword             varchar(128) not null unique,
     sort_order          smallint default 0,
-    lang_id             integer not null references ref_lang(id)
+    primary key (attr, val)
 );
-create index if not exists ref_seo_url_keyword on ref_seo_url(keyword);
-create index if not exists ref_seo_url_query on ref_seo_url(attr, val);
 COMMENT ON TABLE public.ref_seo_url IS 'key+value urls into SEO';
 
 -- currency --

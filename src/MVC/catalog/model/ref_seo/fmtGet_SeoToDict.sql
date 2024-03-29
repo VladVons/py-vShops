@@ -1,5 +1,5 @@
 -- fmtGet_SeoToDict_LangPath.sql
--- in: aLangId, CondKeyword
+-- in: CondKeyword
 
 with wrsu as (
     select
@@ -12,13 +12,10 @@ with wrsu as (
     from
         ref_seo_url
     where
-        (lang_id = {{aLangId}}) and
         {{CondKeyword}}
 )
 
 select
-    --json_agg(json_build_object(attr, keyword))
-    --
     attr,
     val,
     keyword

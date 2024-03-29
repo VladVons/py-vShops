@@ -3,7 +3,7 @@
 # License: GNU, see LICENSE for more details
 
 
-from IncP.LibCtrl import HtmlEsc
+from IncP.LibCtrl import HtmlEsc, SeoEncodeList
 
 
 def AttrEncode(aItems: list) -> str:
@@ -28,11 +28,17 @@ async def Main(self, aData: dict = None) -> dict:
     )
 
     if (Dbl):
-        Dbl.AddFieldsFill(['href'], False)
+        Hrefs = []
         for Rec in Dbl:
             Attr = HtmlEsc(AttrEncode(Rec.filter))
-            New = [f'/?route=product0/category&category_id={Rec.category_id}&attr=[{Attr}]']
-            Dbl.RecMerge(New)
+            Hrefs.append(f'/?route=product0/category&category_id={Rec.category_id}&attr=[{Attr}]')
+        # ToDo
+        #if (self.ApiCtrl.Conf.get('seo_url')):
+        #    Hrefs = await SeoEncodeList(self, Hrefs)
+
+        Dbl.AddFieldsFill(['href'], False)
+        for Idx, Rec in enumerate(Dbl):
+            Dbl.RecMerge([Hrefs[Idx]])
 
         Res = {
             'dbl_filter_attr': Dbl.Export()

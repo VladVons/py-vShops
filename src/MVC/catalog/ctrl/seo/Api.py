@@ -4,26 +4,21 @@
 
 
 import re
-from IncP.LibCtrl import GetDictDefs, Iif
+from IncP.LibCtrl import Iif
 
 
 async def Decode(self, aData: dict) -> dict:
-    aLang, aPath = GetDictDefs(aData,
-        ('lang', 'path'),
-        ('ua', '')
-    )
+    aPath = aData.get('path', [])
 
     if (not self.ApiCtrl.Conf['seo_url']):
         return aPath
 
     Values = re.split(r'[/&]', aPath)
-    aLangId = self.GetLangId(aLang)
     Dbl = await self.ExecModelImport(
-        'system',
+        'ref_seo',
         {
             'method': 'Get_SeoToDict',
             'param': {
-                'aLangId': aLangId,
                 'aPath': Values
             }
         }
@@ -33,10 +28,7 @@ async def Decode(self, aData: dict) -> dict:
     return '&'.join(Arr)
 
 async def Encode(self, aData: dict) -> dict:
-    aLang, aPath = GetDictDefs(aData,
-        ('lang', 'path'),
-        ('ua', [])
-    )
+    aPath = aData.get('path', [])
 
     if (not self.ApiCtrl.Conf['seo_url']):
         return aPath
@@ -54,13 +46,11 @@ async def Encode(self, aData: dict) -> dict:
             Key, Val = xPair.split('=')
             Data.append((Key, Val, Idx))
 
-    aLangId = self.GetLangId(aLang)
     Dbl = await self.ExecModelImport(
-        'system',
+        'ref_seo',
         {
             'method': 'Get_SeoFromDict',
             'param': {
-                'aLangId': aLangId,
                 'aData': Data
             }
         }

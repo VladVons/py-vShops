@@ -116,13 +116,13 @@ async def Main(self, aData: dict = None) -> dict:
     Res['schema'] = json.dumps(Schema, ensure_ascii=False)
 
     Href = {
-        'self': aData['path_qs'],
         'category': f'/?route=product0/category&category_id={CategoryId}',
         'tenant': f'/?route=product0/tenant&tenant_id={Product["tenant_id"]}',
         'canonical': f'/?route=product0/product&product_id={aProductId}'
     }
     if (self.ApiCtrl.Conf.get('seo_url')):
         Href = await SeoEncodeDict(self, Href)
+    Href['self'] = aData['path_qs']
     Res['href'] = Href
 
     Res['product'] = Product
