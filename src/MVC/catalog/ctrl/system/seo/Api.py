@@ -12,7 +12,9 @@ async def Decode(self, aData: dict) -> dict:
         ('lang', 'path'),
         ('ua', '')
     )
-    #return aPath
+
+    if (not self.ApiCtrl.Conf['seo_url']):
+        return aPath
 
     Values = re.split(r'[/&]', aPath)
     aLangId = self.GetLangId(aLang)
@@ -35,7 +37,10 @@ async def Encode(self, aData: dict) -> dict:
         ('lang', 'path'),
         ('ua', [])
     )
-    #return aPath
+
+    if (not self.ApiCtrl.Conf['seo_url']):
+        return aPath
+
     # aPath = [
     #     '/?route=product0/tenant&tenant_id=1',
     #     'page=2&order=2&route=product0/category&category_id=2',

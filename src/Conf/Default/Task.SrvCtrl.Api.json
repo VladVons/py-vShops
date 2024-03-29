@@ -21,7 +21,8 @@
                 "user": "user01",
                 "password": "passw01"
             }
-        }
+        },
+        "seo_url": true
     },
     "tenant": {
         "dir_route": "MVC/tenant/ctrl",

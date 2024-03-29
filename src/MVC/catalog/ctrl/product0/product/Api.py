@@ -5,7 +5,7 @@
 
 import json
 #
-from IncP.LibCtrl import GetDictDefs, Iif, IsDigits, TDbList, SeoEncodeDict, UrlEncode
+from IncP.LibCtrl import GetDictDefs, Iif, IsDigits, TDbList, SeoEncodeDict, SeoEncodeList, HtmlEsc
 #from .Features import TFeatures
 from ..._inc import GetBreadcrumbs
 
@@ -51,12 +51,22 @@ async def Main(self, aData: dict = None) -> dict:
     CategoryId = Product['category_id']
 
     DblAttr = TDbList(['id', 'alias', 'title', 'val'], Product['attr'])
-    DblAttr.AddFieldsFill(['href'], False)
+    Hrefs = []
+    Descr = []
     for Rec in DblAttr:
-        Href = [
-            f'/?route=product0/category&category_id={CategoryId}&attr=[{Rec.id}:{Rec.val}]'
-        ]
-        DblAttr.RecMerge(Href)
+        Hrefs.append(f'/?route=product0/category&category_id={CategoryId}&attr=[{Rec.id}:{Rec.val}]')
+        Descr.append(f'{Rec.title}: {Rec.val}')
+
+    if (self.ApiCtrl.Conf.get('seo_url')):
+        Hrefs = await SeoEncodeList(self, Hrefs)
+
+    if (not Product['descr']):
+        Product['descr'] = ', '.join(Descr)
+    Product['descr'] = HtmlEsc(Product['descr'])
+
+    DblAttr.AddFieldsFill(['href'], False)
+    for Idx, Rec in enumerate(DblAttr):
+        DblAttr.RecMerge([Hrefs[Idx]])
     Product['attr'] = DblAttr.Export()
 
     Features = Product.get('features') or {}
@@ -103,7 +113,7 @@ async def Main(self, aData: dict = None) -> dict:
             'priceCurrency': DblPrice.Rec.alias
         }
     }
-    Res['schema'] = json.dumps(Schema)
+    Res['schema'] = json.dumps(Schema, ensure_ascii=False)
 
     Href = {
         'self': aData['path_qs'],
@@ -111,8 +121,11 @@ async def Main(self, aData: dict = None) -> dict:
         'tenant': f'/?route=product0/tenant&tenant_id={Product["tenant_id"]}',
         'canonical': f'/?route=product0/product&product_id={aProductId}'
     }
-    Res['href'] = await SeoEncodeDict(self, Href)
+    if (self.ApiCtrl.Conf.get('seo_url')):
+        Href = await SeoEncodeDict(self, Href)
+    Res['href'] = Href
 
     Res['product'] = Product
     Res['title'] = ''
+    Res['descr'] = Product['descr']
     return Res

@@ -3,7 +3,7 @@
 # License: GNU, see LICENSE for more details
 
 
-from IncP.LibCtrl import GetDictDefs, TDbList, TPagination, IsDigits, ResGetLang, UrlEncode
+from IncP.LibCtrl import GetDictDefs, TDbList, TPagination, IsDigits, ResGetLang, UrlEncode, SeoEncodeStr
 from ..._inc.products_a import Main as products_a
 from ..._inc import GetProductsSort
 
@@ -72,8 +72,10 @@ async def Main(self, aData: dict = None) -> dict:
     )
 
     if (Found):
-        Href = aData['path_qs']
-        #Href = UrlEncode(aData['query'])
+        if (self.ApiCtrl.Conf.get('seo_url')):
+            Href = await SeoEncodeStr(self, UrlEncode(aData['query']))
+        else:
+            Href = aData['path_qs']
 
         Pagination = TPagination(aLimit, Href)
         PData = Pagination.Get(Dbl.Rec.total, aPage)

@@ -3,7 +3,7 @@
 # License: GNU, see LICENSE for more details
 
 
-from IncP.LibCtrl import GetDictDefs, TPagination, TDbList, IsDigits, ResGetLang, UrlEncode
+from IncP.LibCtrl import GetDictDefs, TPagination, TDbList, IsDigits, ResGetLang, UrlEncode, SeoEncodeStr
 from ..._inc.products_a import Main as products_a
 from ..._inc import GetProductsSort
 
@@ -40,10 +40,11 @@ async def Main(self, aData: dict = None) -> dict:
 
     Title = f"{ResGetLang(aData, 'tenant')}: {Dbl.Rec.tenant_title} ({Dbl.Rec.total}) - {ResGetLang(aData, 'page')} {aPage}"
 
-    Href = aData['path_qs']
-    #Href = UrlEncode(aData['query'])
+    if (self.ApiCtrl.Conf.get('seo_url')):
+        Href = await SeoEncodeStr(self, UrlEncode(aData['query']))
+    else:
+        Href = aData['path_qs']
 
-    HrefCanonical = f'/?route=product0/tenant&tenant_id={aTenantId}'
     Pagination = TPagination(aLimit, Href)
     PData = Pagination.Get(Dbl.Rec.total, aPage)
     DblPagination = TDbList(['page', 'title', 'href', 'current'], PData)

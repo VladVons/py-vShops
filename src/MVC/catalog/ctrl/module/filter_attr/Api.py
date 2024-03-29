@@ -3,7 +3,7 @@
 # License: GNU, see LICENSE for more details
 
 
-from IncP.LibCtrl import Replace
+from IncP.LibCtrl import HtmlEsc
 
 
 def AttrEncode(aItems: list) -> str:
@@ -30,11 +30,8 @@ async def Main(self, aData: dict = None) -> dict:
     if (Dbl):
         Dbl.AddFieldsFill(['href'], False)
         for Rec in Dbl:
-            Attr = AttrEncode(Rec.filter)
-            Attr = Replace(Attr, {"'": '&#39;', '"': '&quot;'})
-            New = [
-                f'/?route=product0/category&category_id={Rec.category_id}&attr=[{Attr}]'
-            ]
+            Attr = HtmlEsc(AttrEncode(Rec.filter))
+            New = [f'/?route=product0/category&category_id={Rec.category_id}&attr=[{Attr}]']
             Dbl.RecMerge(New)
 
         Res = {

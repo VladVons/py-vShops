@@ -16,6 +16,15 @@ from Inc.SrvWeb.Common import UrlEncode, UrlUdate
 
 from .Log import Log
 
+def HtmlEsc(aVal: str) -> str:
+    return Replace(aVal,
+        {
+            "'": '&#39;',
+            '"': '&quot;',
+            '&': '&amp;'
+        }
+    )
+
 def ResGetModule(aData: dict, aName: str) -> dict:
     for x in aData['res']['modules']:
         if (x['layout']['code'] == aName):
@@ -48,15 +57,20 @@ async def TelegramMessage(self, aMsg: str) -> object:
     return await Telegram.MessageToGroup(GroupId, aMsg, 'HTML')
 
 
-async def SeoEncode(self, aUrls: list[str]) -> list[str]:
-    return await self.ApiCtrl.ExecApi(
-        'system/seo',
-        {
-            'path': aUrls,
-            'method': 'Encode'
-        }
-    )
+async def SeoEncodeList(self, aPaths: list[str]) -> list[str]:
+    if (aPaths):
+        return await self.ApiCtrl.ExecApi(
+            'system/seo',
+            {
+                'path': aPaths,
+                'method': 'Encode'
+            }
+        )
 
-async def SeoEncodeDict(self, aUrls: dict) -> dict:
-    Urls = await SeoEncode(self, aUrls.values())
-    return dict(zip(aUrls.keys(), Urls))
+async def SeoEncodeDict(self, aHref: dict) -> dict:
+    Res = await SeoEncodeList(self, aHref.values())
+    return dict(zip(aHref.keys(), Res))
+
+async def SeoEncodeStr(self, aHref: str) -> str:
+    Res = await SeoEncodeList(self, [aHref])
+    return Res[0]
