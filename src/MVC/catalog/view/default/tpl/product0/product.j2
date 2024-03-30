@@ -57,14 +57,16 @@
         </div>
 
         <h1>{{product.category_title}} {{product.title}}</h1>
-        {% if product.attr %}
-          {% for Rec in TDbList().Import(product.attr) %}
-            <h2>{{Rec.title}}: {{Rec.val}}</h2>
-          {% endfor %}
-        {% endif %}
-        <h2>{{lang.condition}}: {% if product.cond_en == 'new' %} {{lang.new}} {% else %} {{lang.used}} {% endif %}</h2>
-        <h2>{{lang.available}}: {{product.rest}}</h2>
-        <h2>{{lang.seller}}: <a href="{{href.tenant}}">{{product.tenant_title}}</a></h2>
+        <div class="pt-2 pb-2">
+          {% if product.attr %}
+            {% for Rec in TDbList().Import(product.attr) %}
+              <h2>{{Rec.title}}: {{Rec.val}}</h2>
+            {% endfor %}
+          {% endif %}
+          <h2>{{lang.condition}}: {% if product.cond_en == 'new' %} {{lang.new}} {% else %} {{lang.used}} {% endif %}</h2>
+          <h2>{{lang.available}}: {{product.rest}}</h2>
+          <h2>{{lang.seller}}: <a href="{{href.tenant}}">{{product.tenant_title}}</a></h2>
+        </div>
 
         {% set ns = namespace(Price=0) %}
         {% for Rec in TDbList().Import(product.price) %}
