@@ -1,9 +1,5 @@
 {
    "tpl": {
-        "add_to_card": "додати до кошика",
-        "added_to_card": "додано до кошика",
-        "added": "додано",
-        "already_in_cart": "вже в кошику",
         "available": "в наявності",
         "category": "категорія",
         "condition": "стан",

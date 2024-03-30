@@ -4,31 +4,29 @@
     margin: 0 1px;
     border-width: 0;
 }
-
-/* desktop */
-@media (min-width: 768px) {
-    /* Fixed */
-    body {
-        padding-top: 80px;
-    }
-
-    .navbar.fixed-top {
-        position: fixed;
-        width: 100%;
-        box-shadow: 0 2px 10px var(--colorBgBtn);
-    }
+nav{ 
+background:#25375A;
+/* background-color: hsl(210, 24%, 44%);*/
 }
 
-/* mobile */
-@media (max-width: 767px) {
-    /* Non-fixed */
-    body {
-        padding-top: 2px;
-    }
 
-    .navbar.fixed-top {
-        position: static;
-        box-shadow: none;
-        box-shadow: 0 2px 10px var(--colorBgBtn);
-    }
+#viMainNavbarMenu, #sect-top nav  a.account{
+    color: #f5f7f7;
+}
+nav.navbar button.btn{
+    border:none;
+    background: none !important;
+}
+nav.navbar button.btn:hover{
+    background: #5e7592;
+}
+nav i.fa, nav .dropdown-toggle::after, nav .dropdown-toggle::before{
+ color: #cde0f8;
+}
+
+#viMainNavbar:hover, nav .dropdown:hover{
+ cursor:pointer;
+}
+#viMainNavbarItems{
+    position:absolute !important;
 }

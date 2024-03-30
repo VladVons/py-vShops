@@ -43,7 +43,6 @@ class TIpLog():
                             Res = False
                     elif (Interval >= self.IntervalReset):
                         CntBan = 0
-                        print('reset')
 
                 self.Ip[aIp] = [CntBan, Cnt, Trust, time.time()]
             else:

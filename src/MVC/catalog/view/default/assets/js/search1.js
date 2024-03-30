@@ -23,18 +23,20 @@ function searchNavbar() {
             return
 
         if (aEvent.key == 'ArrowDown') {
-            currentFocus++
+            curFocus++
             setActive(x)
         } else if (aEvent.key == 'ArrowUp') {
-            currentFocus--
+            curFocus--
             setActive(x)
         } else if (aEvent.key == 'Enter') {
             aEvent.preventDefault()
-            if (currentFocus >= 0) {
-                x[currentFocus].click()
+            if (curFocus >= 0) {
+                x[curFocus].click()
             }
+        } else if (aEvent.key == 'Escape') {
+            elSearchSuggest.innerHTML = ''
         } else {
-            currentFocus = -1
+            curFocus = -1
         }
     })
 
@@ -79,13 +81,13 @@ function searchNavbar() {
     function setActive(x) {
         delActive(x)
 
-        if (currentFocus >= x.length)
-            currentFocus = 0
+        if (curFocus >= x.length)
+            curFocus = 0
 
-        if (currentFocus < 0)
-            currentFocus = (x.length - 1)
+        if (curFocus < 0)
+            curFocus = (x.length - 1)
 
-        x[currentFocus].classList.add(autocompleteActive)
+        x[curFocus].classList.add(autocompleteActive)
     }
 
     function delActive(x) {

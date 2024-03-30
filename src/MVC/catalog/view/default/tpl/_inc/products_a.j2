@@ -1,6 +1,6 @@
 <!-- products_a + -->
-<div class="container pb-3">
-  <div class="text-center m-3">
+<div class="container pb-1">
+  <div class="text-center m-3 prod-list-title">
     <h1>{{products_a_title}}</h1>
     {% for xDescr in products_a_descr %}
       <h2>{{xDescr}}</h2>
@@ -8,7 +8,7 @@
   </div>
 
   {% if dbl_products_a_sort %}
-  <div class="row pb-3">
+  <div class="row pb-1">
     <div class="col-3">
       <label class="control-label" for="input-sort">сортування</label>
       <select class="form-control" id="input-sort" onchange="location=this.value">
@@ -20,26 +20,29 @@
   </div>
   {% endif %}
 
-  <div class="row">
+  <div class="row gx-1">
   {% for Rec in TDbList().Import(dbl_products_a) %}
-    <div class="col-sm-6 col-md-4 col-lg-2 mb-2">
-      <div class="vCard">
-        <div class="card">
-          <div class="card-header vImgCenter">
-            <a href="{{Rec.product_href}}"><img src="{{Rec.thumb}}" alt="{{Rec.product_title}}"></a>
+    <div class="col-6 col-sm-4 col-md-3 col-lg-2 mb-1 ">
+      <div class="vCard ">
+        <div class="card ">
+           <a href="{{Rec.product_href}}">
+          <div class="card-header vImgCenter rounded-top-3">
+           <img src="{{Rec.thumb}}" alt="{{Rec.product_title}}">
           </div>
-          <div class="card-body">
-            <a href="{{Rec.category_href}}">{{Rec.category_title}}</a>
-            <div class="card-title">
-              <h3>{{Rec.product_title|truncate(45, True, '...')}}</h3>
+          </a>
+          <div class="card-body w-100 m-0 p-0">
+            <a href="{{Rec.tenant_href}}">{{Rec.tenant_title}}</a>
+            <div class="card-title w-100 m-0 p-0">
+              <h3 ><a href="{{Rec.product_href}}">{{Rec.product_title|truncate(45, True, '...')}}</a></h3>
             </div>
           </div>
-          <div class="card-footer">
-            <h2 class="fw-bold">{{Rec.price|round|int}} грн</h2>
-            <hr class="mt-1"/>
-            <a href="{{Rec.tenant_href}}">{{Rec.tenant_title}}</a>
-            <p></p>
-          </div>
+          <div class="card-footer  m-0 p-0 rounded-bottom-3">
+            <h2 class="fw-bold  m-0 p-0">{{Rec.price|round|int}} грн</h2>
+              <button type="button" class="buyButton mt-1 viAddToCart w-75 align-self-center mb-3 p-0"
+                data='{"id":"{{Rec.product_id}}", "name":"{{Rec.product_title}}", "price":{{Rec.price}}, "img":"{{Rec.thumb}}", "qty":1, "href":"{{Rec.product_href}}"}'>
+                {{lang.buy}}
+              </button>
+            </div>
         </div>
       </div>
     </div>

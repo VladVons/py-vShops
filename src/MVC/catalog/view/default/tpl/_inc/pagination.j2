@@ -1,6 +1,6 @@
 <!-- pagination + -->
 <div class="container mt-1">
-  <nav>
+  <div class="p-0">
     <ul class="pagination justify-content-center">
     {%set Dbl = TDbList().Import(dbl_pagenation) %}
     {% if (Dbl.GetSize() > 1) %}
@@ -13,6 +13,6 @@
       {% endfor %}
     {% endif %}
     </ul>
-  </nav>
+  </div>
 </div>
 <!-- pagination - -->

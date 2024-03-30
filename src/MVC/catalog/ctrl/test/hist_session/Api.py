@@ -3,7 +3,7 @@
 # License: GNU, see LICENSE for more details
 
 
-from IncP.LibCtrl import GetDictDefs, IsDigits, TPagination, TDbList, UrlEncode
+from IncP.LibCtrl import GetDictDefs, IsDigits, TPagination, TDbList
 
 
 async def Main(self, aData: dict = None) -> dict:
@@ -29,7 +29,7 @@ async def Main(self, aData: dict = None) -> dict:
         }
     )
     if (not Dbl):
-        return {'status_code': 404}
+        return
 
     Href = aData['path_qs']
     #Href = UrlEncode(aData['query'])

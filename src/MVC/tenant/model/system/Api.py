@@ -111,18 +111,6 @@ async def Get_SeoToDict_LangPath(self, aLangId: int, aPath: list[str]) -> dict:
         {'aLangId': aLangId, 'CondKeyword': CondKeyword}
     )
 
-async def Get_Seo_Products(self, aLimit: int, aOffset: int) -> dict:
-    return await self.ExecQuery(
-        'fmtGet_Seo_Products.sql',
-        {'aLimit': aLimit, 'aOffset': aOffset}
-    )
-
-async def Get_Seo_Categories(self, aLang: int, aLimit: int, aOffset: int) -> dict:
-    return await self.ExecQuery(
-        'fmtGet_Seo_Categories.sql',
-        {'aLang': aLang, 'aLimit': aLimit, 'aOffset': aOffset}
-    )
-
 async def Get_Seo_ProductsCount(self) -> dict:
     return await self.ExecQuery(
         'fmtGet_Seo_ProductsCount.sql'
@@ -137,10 +125,4 @@ async def Get_ModuleLang(self, aLangId: int, aModuleId: int) -> dict:
     return await self.ExecQuery(
         'fmtGet_ModuleLang.sql',
         {'aLangId': aLangId, 'aModuleId': aModuleId}
-    )
-
-async def Get_LayoutRoute(self, aLimit: int, aOffset: int) -> dict:
-    return await self.ExecQuery(
-        'fmtGet_LayoutRoute.sql',
-        {'aLimit': aLimit, 'aOffset': aOffset}
     )

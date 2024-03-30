@@ -3,8 +3,8 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    {% if description %}
-    <meta name="description" content="{{description}}"/>
+    {% if descr %}
+    <meta name="description" content="{{descr}}"/>
     {% endif %}
     {% if keywords %}
     <meta name="keywords" content="{{keywords}}"/>
@@ -13,8 +13,8 @@
     <title>{{ title }}</title>
     <meta property="og:title" content="{{title}}"/>
     {% endif %}
-    {% if canonical %}
-    <link href="{{canonical}}" rel="canonical"/>
+    {% if href.canonical %}
+    <link rel="canonical" href="{{href.canonical}}"/>
     {% endif %}
 
     <script src="/default/assets/js/lib.js"></script>
@@ -39,28 +39,25 @@
   </head>
 
   <body>
-
-    <div id="sect-top p-0 m-0">
+    <div id="sect-top">
       {% include './header.j2' %}
     </div>
 
-    <div id="sect-main" class="container-fluid p-0 m-0 wd-100">
-      <div class="row wd-100">
-      <div id="sect-main-left" class=" .d-none .d-sm-block col-sm-1">
+    <div id="sect-main" class="row">
+      <div id="sect-main-left" class="col">
         {% include './content_left.j2' %}
       </div>
-      <div id="sect-main-center" class="col-12 col-sm-10">
+      <div id="sect-main-center" class="col-9">
         {% include './content_top.j2' %}
         {% block content %}{% endblock %}
         {% include './content_bottom.j2' %}
       </div>
-      <div id="sect-main-right" class=" .d-none .d-sm-block col-sm-1">
+      <div id="sect-main-right" class="col">
         {% include './content_right.j2' %}
-      </div>
       </div>
     </div>
 
-    <div id="sect-bottom p-0 m-0 ">
+    <div id="sect-bottom">
       {% include './footer.j2' %}
     </div>
     {% include './cart_modal.j2' %}
@@ -79,6 +76,5 @@
       initDropdownMenu({selector: 'viMainNavbar'})
     </script>
     {% block foot %}{% endblock %}
-
   </body>
 </html>

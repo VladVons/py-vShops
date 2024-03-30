@@ -1,0 +1,82 @@
+<!-- header + -->
+<script>
+  gData.updValue('lang', {
+    "added_to_cart": "{{lang.added_to_card}}",
+    "already_in_cart": "{{lang.already_in_cart}}"
+  })
+</script>
+
+<nav class="navbar navbar-expand-lg fixed-top navbar-dark vFooter">
+  <div class="container">
+    <div class="d-flex col-lg-2 order-1">
+      <a href="/">
+        <picture>
+          <source media="(min-width: 465px)" srcset="/default/assets/img/logo-1x1.png">
+          <img src="/default/assets/img/logo-x.png" alt="company logo" height="45" id="viLogo">
+        </picture>
+      </a>
+
+      {% include './header_categories_ajax.j2' %}
+
+      <div class="d-flex col-12 col-md-7 order-3 order-md-2">
+        <form autocomplete="off" method="get" class="d-flex">
+          <div class="input-group autocomplete-block">
+            <div class="autocomplete vSearch">
+              <input type="hidden" name="route" value="product0/search"/>
+              <input type="text" class="form-control" value="{{search}}" name="q" placeholder="{{lang.search}}" id="viSearchInput"/>
+              <div class="autocomplete-items" id="viSearchSuggest">
+                <!-- JS -->
+              </div>
+            </div>
+          </div>
+          <button class="btn btn-block" type="submit"><i class="fa fa-search" title="{{lang.search}}"></i></button>
+        </form>
+      </div>
+    </div>
+
+    <div class="d-flex col-lg-3 order-2 order-md-3">
+      <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#cartModal" id="viCartModal">
+        <i class="fa fa-shopping-cart" title="{{lang.shopping_cart}}"></i>
+        <span class="badge vBgBtn" id="viCount_cart"></span>
+      </button>
+      <button type="button" class="btn btn-success" id="viBtnOn_favorite" value="favorite" title="{{lang.favorite}}">
+        <i class="fa fa-heart"></i>
+        <span class="badge vBgBtn" id="viCount_favorite"></span>
+      </button>
+      <button type="button" class="btn btn-success" id="viBtnOn_compare" value="compare" title="{{lang.compare}}">
+        <i class="fa fa-balance-scale"></i>
+        <span class="badge vBgBtn" id="viCount_compare"></span>
+      </button>
+
+      <ul class="navbar-nav">
+        <li class="nav-item dropdown ms-2">
+          <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa fa-user" title="{{lang.profile}}"></i></a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="{{href.login_tenant}}">{{lang.login}}</a></li>
+            </ul>
+        </li>
+      </ul>
+    </div>
+
+  </div>
+</nav>
+
+<script>
+    for (const key of ['compare', 'favorite']) {
+      ls = new TLocalStorage('products_' + key)
+      if (ls.items) {
+        document.getElementById('viCount_' + key).innerHTML = ls.items.length
+      }
+
+      document.getElementById('viBtnOn_' + key).addEventListener('click', function (event) {
+        const value = (event.target.value ? event.target.value : event.target.parentElement.value)
+        ls = new TLocalStorage('products_' + value)
+        if (ls.items && ls.items.length > 0) {
+          window.location.href = '/?route=product0/' + value + '&product_ids=[' + ls.items.join(';') + ']'
+        }else{
+          showTooltip("{{lang.no_data}}")
+        }
+      })
+    }
+</script>
+<!-- header - -->

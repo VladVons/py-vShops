@@ -3,7 +3,7 @@
 # License: GNU, see LICENSE for more details
 
 
-from IncP.LibCtrl import TDbList, UrlUdate
+from IncP.LibCtrl import TDbList, UrlUdate, SeoEncodeList
 
 
 async def GetBreadcrumbs(self, aLangId: str, aCategoryId: int) -> list:
@@ -19,11 +19,15 @@ async def GetBreadcrumbs(self, aLangId: str, aCategoryId: int) -> list:
                 }
             }
         )
-
         if (Dbl):
-            #Res.append({'href': '/?route=product0/category&category_id=0', 'title': '/'})
-            for Title, Id in zip(Dbl.Rec.path_title, Dbl.Rec.path_id):
-                Res.append({'href': f'/?route=product0/category&category_id={Id}', 'title': Title})
+            Hrefs = [f'/?route=product0/category&category_id={Id}' for Id in Dbl.Rec.path_id]
+            #Hrefs.insert(0, '/?route=product0/category&category_id=0')
+            if (self.ApiCtrl.Conf.get('seo_url')):
+                Hrefs = await SeoEncodeList(self, Hrefs)
+
+            for Idx, (Title, Id) in enumerate(zip(Dbl.Rec.path_title, Dbl.Rec.path_id)):
+                Res.append({'href': Hrefs[Idx], 'title': Title})
+
     return Res
 
 def GetProductsSort(aHref: str, aCur: str, aLang: dict) -> TDbList:

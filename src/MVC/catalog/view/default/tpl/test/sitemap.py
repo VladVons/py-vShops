@@ -38,7 +38,7 @@ class TSitemapProduct(TSitemap):
 
     async def _GetRow(self, aRec: TDbRec) -> str:
         Res = [
-            f'  <loc>{self.UrlRoot}/?route=product0/product&product_id={aRec.id}</loc>',
+            f'  <loc>{self.UrlRoot}{aRec.href}</loc>',
             f'  <lastmod>{aRec.update_date}</lastmod>'
         ]
         return '\n'.join(Res)
@@ -72,7 +72,7 @@ class TSitemapCategory(TSitemap):
 
     async def _GetRow(self, aRec: TDbRec) -> str:
         Res = [
-            f'  <loc>{self.UrlRoot}/?route=product0/category&category_id={aRec.id}</loc>'
+            f'  <loc>{self.UrlRoot}{aRec.href}</loc>'
         ]
         return '\n'.join(Res)
 
@@ -104,7 +104,7 @@ class TSitemapPages(TSitemap):
 
     async def _GetRow(self, aRec: TDbRec) -> str:
         Res = [
-            f'  <loc>{self.UrlRoot}/?route={aRec.route}</loc>'
+            f'  <loc>{self.UrlRoot}{aRec.href}</loc>'
         ]
         return '\n'.join(Res)
 

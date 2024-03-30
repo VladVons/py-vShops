@@ -109,3 +109,21 @@ async def Get_LayoutRoute(self) -> dict:
         'fmtGet_LayoutRoute.sql',
         {}
     )
+
+async def Get_LayoutRouteLimit(self, aLimit: int, aOffset: int) -> dict:
+    return await self.ExecQuery(
+        'fmtGet_LayoutRouteLimit.sql',
+        {'aLimit': aLimit, 'aOffset': aOffset}
+    )
+
+async def Get_LimitProducts(self, aLimit: int, aOffset: int) -> dict:
+    return await self.ExecQuery(
+        'fmtGet_LimitProducts.sql',
+        {'aLimit': aLimit, 'aOffset': aOffset}
+    )
+
+async def Get_LimitCategories(self, aLang: int, aLimit: int, aOffset: int) -> dict:
+    return await self.ExecQuery(
+        'fmtGet_LimitCategories.sql',
+        {'aLang': aLang, 'aLimit': aLimit, 'aOffset': aOffset}
+    )

@@ -6,7 +6,7 @@ insert into
     select
         'tenant_id' as attr,
         id as val,
-        translate(lower(cyrtolat(title)), ' ()', '_') as title,
+        lower(cyrtolat(title))  as title,
         0 as sort_order
     from
         ref_tenant rt
@@ -19,7 +19,7 @@ insert into
     select
         'category_id',
         id,
-        translate(lower(cyrtolat(title)), ' ()', '_'),
+        translate(lower(cyrtolat(title)), ' /&=', '__'),
         0
     from
         ref_product0_category rpc
@@ -35,7 +35,7 @@ insert into
     select
         'product_id',
         id,
-        translate(lower(cyrtolat(title)), ' ()/', '_') || '__t' || tenant_id,
+        translate(lower(cyrtolat(title)), ' /&=', '__') || '_t' || tenant_id,
         0
     from
         ref_product rp
