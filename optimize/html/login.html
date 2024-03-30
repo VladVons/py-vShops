@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="ua">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+    <script src="/default/assets/js/lib.js"></script>
+    <script src="/default/assets/js/app.js"></script>
+    <script>
+      const gData = new TDict()
+    </script>
+
+
+    <link rel="stylesheet" href="/default/assets/vendor/css/bootstrap.css">
+    <link rel="stylesheet" href="/default/assets/vendor/css/fontawesome.css">
+    <link rel="stylesheet" href="/tenant/default/assets/css/styles.css">
+  </head>
+
+  <body>
+<!-- _inc/header + -->
+<script>
+    gData.updValue('lang', {
+        "added_to_cart": "",
+        "already_in_cart": ""
+    })
+</script>
+
+<nav class="navbar navbar-expand-lg navbar-dark vFooter">
+  <div class="container">
+    <a href="/tenant">
+      <picture>
+        <source media="(min-width: 465px)" srcset="/default/assets/img/logo-1x1.png">
+        <img src="/default/assets/img/logo-x.png" alt="company logo" height="45" id="viLogo">
+      </picture>
+    </a>
+
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav">
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            товари
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <li><a class="dropdown-item" href="/tenant/?route=product/products">довідник</a></li>
+            <li><a class="dropdown-item" href="/tenant/?route=common/filemanager2">файли</a></li>
+            <li><a class="dropdown-item" href="/tenant/?route=misc/price_list_import">імпорт прайсу</a></li>
+            <li><a class="dropdown-item" href="/tenant/?route=test/model_unknown">невідомі моделі</a></li>
+          </ul>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/">магазин</a>
+        </li>
+      </ul>
+    </div>
+
+    <div class="d-flex">
+      <div class="flex-grow-1"></div>
+        <form class="d-flex">
+          <input class="form-control me-2" type="search" placeholder="пошук" aria-label="Search">
+          <button class="btn btn-outline-success" type="submit">пошук</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+</nav>
+<!-- _inc/header - --><!-- _inc/content_top + -->
+<!-- _inc/content_top - --><!-- login + -->
+<div class="container d-flex justify-content-center align-items-center min-vh-100">
+  <div class="card" style="width: 20em;">
+    <div class="card-header vBgSlave">
+      <h3>реєстрація</h3>
+    </div>
+    <div class="card-body">
+      <form method="post">
+        <div class="mb-3">
+          <label>користувач</label>
+          <input type="text" class="form-control" name="user" placeholder="користувач" required>
+        </div>
+        <div class="mb-3">
+          <label>пароль</label>
+          <input type="password" class="form-control" name="password" placeholder="пароль" required>
+        </div>
+        <button type="submit" class="btn btn-primary w-100" name="ok"><i class="fa fa-user m-1"></i>Login</button>
+      </form>
+    </div>
+  </div>
+</div>
+<!-- login - -->
+<!-- _inc/footer + -->
+<div class="container mt-5 pt-3 pb-1 vFooter">
+  <div class="row">
+    <div class="col-lg-6 col-xs-12">
+      <div class="d-flex">
+        <a href="/tenant"><img src="/default/assets/img/logo-1x1.png" alt="company logo" height="45"></a>
+        <h4 class="m-2">маркет брендової компютерної техніки</h4>
+      </div>
+    </div>
+    <div class="border-top mt-2">
+      <p><i class="fa fa-copyright m-1"></i>2023 1x1, всі права захищені</p>
+    </div>
+  </div>
+</div>
+<!-- _inc/footer - --><!-- _inc/gotop + -->
+<button class="btn btn-primary" id="viBtnGoTop" onclick="goToTop()"><i class="fa fa-arrow-up m-1"></i>на початок</button>
+<!-- _inc/gotop - -->
+    <script src="/default/assets/vendor/js/bootstrap.bundle.min.js"></script>
+    <script src="/default/assets/js/gotop.js"></script>
+  </body>
+</html>

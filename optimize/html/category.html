@@ -1,0 +1,903 @@
+<!DOCTYPE html>
+<html lang="uk">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>категорія: лазерні принтери (18) - сторінка 1</title>
+    <meta property="og:title" content="категорія: лазерні принтери (18) - сторінка 1"/>
+
+    <script src="/default/assets/js/lib.js"></script>
+    <script src="/default/assets/js/app.js"></script>
+    <script src="/default/assets/js/TDbList.js"></script>
+    <script>
+      let gData = new TDict()
+      gData.updValue('href', {
+        "search_ajax": "/api/?route=product0/search",
+        "search": "/?route=product0/search&q="
+    })
+    </script>
+
+<meta property="og:title" content="категорія: лазерні принтери (18) - сторінка 1"/>
+<meta property="og:site_name" content=""/>
+
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="icon" type="image/png" href="/default/assets/img/logo-1x1.png">
+
+    <link rel="stylesheet" href="/default/assets/vendor/css/bootstrap.css">
+    <link rel="stylesheet" href="/default/assets/vendor/css/fontawesome.css">
+    <link rel="stylesheet" href="/default/assets/css/styles.css">
+  </head>
+
+  <body>
+
+    <div id="sect-top p-0 m-0">
+<!-- header + -->
+<script>
+  gData.updValue('lang', {
+    "added_to_cart": "додано до кошика",
+    "already_in_cart": "вже в кошику"
+  })
+</script>
+
+<nav class="navbar navbar-expand-lg  navbar-dark">
+  <div class="container-fluid">
+    <div class="d-flex col-2 col-sm-2 col-md-3 order-1 justify-content-between">
+      <a href="/" id="ALogo" title="головна">
+        <picture>
+          <source media="(min-width: 465px)" srcset="/default/assets/img/logo-1x1.png">
+          <img src="/default/assets/img/logo-x.png" alt="company logo" height="45" id="viLogo">
+        </picture>
+      </a>
+    </div>
+    <div class="d-flex col-12 col-sm-12 col-md-8 order-3 order-md-2 justify-content-between">
+      <div class="d-flex col-12 col-sm-12 col-md-7 justify-content-center">
+        <ul class="navbar-nav" title="категорії">
+          <li class="nav-item dropdown" id="viMainNavbar">
+            <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" id="viMainNavbarMenu"><i class="fa fa-bars" style="font-size: 2.0em;"></i></a>
+            <ul class="dropdown-menu " id="viMainNavbarItems"></ul>
+          </li>
+        </ul>
+        <form autocomplete="off" method="get" class="d-flex col-9 col-sm-9 col-md-9 col-lg-9 align-items-center">
+          <div class="input-group autocomplete-block">
+            <div class="autocomplete vSearch">
+              <input type="hidden" name="route" value="product0/search"/>
+              <input type="text" class="form-control" value="" name="q" placeholder="пошук" id="viSearchInput"/>
+              <div class="autocomplete-items" id="viSearchSuggest">
+                <!-- JS -->
+              </div>
+            </div>
+          </div>
+          <button class="btn float-end" type="submit"><i class="fa fa-search" title="пошук"></i></button>
+        </form>
+      </div>
+    </div>
+
+    <div class="d-flex col-10 col-sm-1 col-md-1 order-2 justify-content-end">
+      <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#cartModal" id="viCartModal">
+        <i class="fa fa-shopping-cart" title="корзина"></i>
+        <span class="badge vBgBtn" id="viCount_cart"></span>
+      </button>
+      <button type="button" class="btn btn-success" id="viBtnOn_favorite" value="favorite" title="улюблені">
+        <i class="fa fa-heart"></i>
+        <span class="badge vBgBtn" id="viCount_favorite"></span>
+      </button>
+      <button type="button" class="btn btn-success" id="viBtnOn_compare" value="compare" title="порівняти">
+        <i class="fa fa-balance-scale"></i>
+        <span class="badge vBgBtn" id="viCount_compare"></span>
+      </button>
+
+      <ul class="navbar-nav dropstart">
+        <li class="nav-item dropdown ms-2">
+          <div class="nav-link dropdown-toggle account" data-bs-toggle="dropdown"><i class="fa fa-user" title="профіль"></i></div>
+            <ul class="dropdown-menu">
+              <li>
+                <a class="dropdown-item " href="/tenant/?route=common/login">вхід</a>
+              </li>
+            </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<script>
+  for (const key of ['compare', 'favorite']) {
+    ls = new TLocalStorage('products_' + key)
+    if (ls.items) {
+      document.getElementById('viCount_' + key).innerHTML = ls.items.length
+    }
+
+    document.getElementById('viBtnOn_' + key).addEventListener('click', function (event) {
+      const value = (event.target.value ? event.target.value : event.target.parentElement.value)
+      ls = new TLocalStorage('products_' + value)
+      if (ls.items && ls.items.length > 0) {
+        window.location.href = '/?route=product0/' + value + '&product_ids=[' + ls.items.join(';') + ']'
+      }else{
+        showTooltip("немає даних")
+      }
+    })
+  }
+</script>
+<!-- header - -->    </div>
+
+    <div id="sect-main" class="container-fluid p-0 m-0 wd-100">
+      <div class="row wd-100">
+      <div id="sect-main-left" class=" .d-none .d-sm-block col-sm-1">
+<!-- content_left + -->
+    <!-- category_attr + -->
+
+<script>
+  function getChecked(aItems) {
+    let Res = {}
+    for (var xItem of aItems) {
+      if (xItem.checked) {
+        const attrId = xItem.getAttribute('attrId')
+        if (attrId in Res) {
+          Res[attrId].push(xItem.value)
+        }else{
+          Res[attrId] = [xItem.value]
+        }
+      }
+    }
+    return Res
+  }
+
+  function attrEncode(aItems) {
+    let Res = '['
+    for (const [Key, Value] of Object.entries(aItems)) {
+      Res += `${Key}:`
+      for (var xValue of Value) {
+        Res += `${xValue};`
+      }
+      Res += ';'
+    }
+    Res += ']'
+    return Res
+  }
+
+  function attrDecode(aItems) {
+    const urlParams = new URLSearchParams(window.location.search)
+    const attrParam = urlParams.get('attr');
+    if (attrParam) {
+      attrParam.slice(1, -1).split(';;').forEach(group => {
+        if (group) {
+          const [attrId, attrVal] = group.split(':')
+          for (var xVal of attrVal.split(';')) {
+            const id = `${attrId}_${xVal}`
+            const element = document.getElementById(id)
+            if (element) {
+              element.checked = true
+            }
+          }
+        }
+      })
+    }
+  }
+
+  function setChkEnabled(aItems, aEnable, aElement) {
+    const attrIdCur = aElement.getAttribute('attrId')
+    for (var xItem of Items) {
+      const attrId = xItem.getAttribute('attrId')
+      if (aEnable) {
+        xItem.disabled = !aEnable
+      }else if (attrIdCur != attrId) {
+        xItem.disabled = !aEnable
+      }
+    }
+  }
+
+  const Items = document.querySelectorAll(".attrChk")
+  attrDecode(Items)
+
+  Items.forEach(function (element) {
+    element.addEventListener('click', function (event) {
+      const checked = getChecked(Items)
+      if (Object.keys(checked).length > 0) {
+        setChkEnabled(Items, false, event.target)
+
+        const post = {
+          'items': checked,
+          'category_id': '',
+          'lang_id': ''
+        }
+        const data = new TSend().exec('/api/?route=module/category_attr', {'method': 'ajax', 'post': post})
+        let Dbl = new TDbList().Import(data)
+        for (let Rec of Dbl) {
+          const attrId = Rec.GetField('attr_id')
+          const attrVal = Rec.GetField('val')
+          const attrCount = Rec.GetField('count')
+          const id = `${attrId}_${attrVal}`
+          const element = document.getElementById(id)
+          if (element) {
+            //element.childNodes[1].textContent = `${attrVal} (${attrCount})`
+            //element.nextSibling.data = `-${attrVal} (${attrCount})`
+            element.disabled = false
+          }
+        }
+      } else {
+        setChkEnabled(Items, true, event.target)
+      }
+    })
+  })
+
+  document.getElementById('viFormMain').addEventListener('submit', function(event) {
+    event.preventDefault()
+    //const q1 = encodeURIComponent('[1=21;3;5;;3=2;4;]')
+    const Attr = attrEncode(getChecked(Items))
+    const apiUrl = '/?route=product0/category&category_id=&attr=' + Attr
+    window.location.href = apiUrl
+  })
+</script>
+<!-- category_attr - -->
+<!-- content_left - -->      </div>
+      <div id="sect-main-center" class="col-12 col-sm-10">
+<!-- content_top + -->
+<!-- content_top - --><!-- category + -->
+<div class="container pb-2">
+  <div class="breadcrumbs">
+      <a href="/category/lazerni_printeri">/лазерні принтери</a>
+  </div>
+
+<!-- products_a + -->
+<div class="container pb-1">
+  <div class="text-center m-3 prod-list-title">
+    <h1>категорія: лазерні принтери (18) - сторінка 1</h1>
+      <h2></h2>
+      <h2></h2>
+  </div>
+
+  <div class="row pb-1">
+    <div class="col-3">
+      <label class="control-label" for="input-sort">сортування</label>
+      <select class="form-control" id="input-sort" onchange="location=this.value">
+        <option value="/category/lazerni_printeri" >звичайне</option>
+        <option value="?sort=title&order=asc" >назва (а-я)</option>
+        <option value="?sort=title&order=desc" >назва (я-а)</option>
+        <option value="?sort=price&order=asc" >ціна (1-9)</option>
+        <option value="?sort=price&order=desc" >ціна (9-1)</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="row gx-1">
+    <div class="col-6 col-sm-4 col-md-3 col-lg-2 mb-1 ">
+      <div class="vCard ">
+        <div class="card ">
+           <a href="/product/brother_hl-2250dn_t1">
+          <div class="card-header vImgCenter rounded-top-3">
+           <img src="http://localhost:8083/img/thumb/product/0/taceci/96/4810096_0.jpg" alt="BROTHER HL-2250DN">
+          </div>
+          </a>
+          <div class="card-body w-100 m-0 p-0">
+            <a href="/seller/k-centre">k-centre</a>
+            <div class="card-title w-100 m-0 p-0">
+              <h3 ><a href="/product/brother_hl-2250dn_t1">BROTHER HL-2250DN</a></h3>
+            </div>
+          </div>
+          <div class="card-footer  m-0 p-0 rounded-bottom-3">
+            <h2 class="fw-bold  m-0 p-0">3700 грн</h2>
+              <button type="button" class="buyButton mt-1 viAddToCart w-75 align-self-center mb-3 p-0"
+                data='{"id":"117", "name":"BROTHER HL-2250DN", "price":3700.0, "img":"http://localhost:8083/img/thumb/product/0/taceci/96/4810096_0.jpg", "qty":1, "href":"/product/brother_hl-2250dn_t1"}'>
+                купити
+              </button>
+            </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-6 col-sm-4 col-md-3 col-lg-2 mb-1 ">
+      <div class="vCard ">
+        <div class="card ">
+           <a href="/product/hp_color_laserjet_cp1515n_t1">
+          <div class="card-header vImgCenter rounded-top-3">
+           <img src="http://localhost:8083/img/thumb/product/0/taceci/75/9232275_0.jpg" alt="HP COLOR LASERJET CP1515N">
+          </div>
+          </a>
+          <div class="card-body w-100 m-0 p-0">
+            <a href="/seller/k-centre">k-centre</a>
+            <div class="card-title w-100 m-0 p-0">
+              <h3 ><a href="/product/hp_color_laserjet_cp1515n_t1">HP COLOR LASERJET CP1515N</a></h3>
+            </div>
+          </div>
+          <div class="card-footer  m-0 p-0 rounded-bottom-3">
+            <h2 class="fw-bold  m-0 p-0">3000 грн</h2>
+              <button type="button" class="buyButton mt-1 viAddToCart w-75 align-self-center mb-3 p-0"
+                data='{"id":"120", "name":"HP COLOR LASERJET CP1515N", "price":3000.0, "img":"http://localhost:8083/img/thumb/product/0/taceci/75/9232275_0.jpg", "qty":1, "href":"/product/hp_color_laserjet_cp1515n_t1"}'>
+                купити
+              </button>
+            </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-6 col-sm-4 col-md-3 col-lg-2 mb-1 ">
+      <div class="vCard ">
+        <div class="card ">
+           <a href="/product/hp_laser_107a_t1">
+          <div class="card-header vImgCenter rounded-top-3">
+           <img src="http://localhost:8083/img/thumb/product/0/taceci/49/81812749_0.jpg" alt="HP LASER 107A">
+          </div>
+          </a>
+          <div class="card-body w-100 m-0 p-0">
+            <a href="/seller/k-centre">k-centre</a>
+            <div class="card-title w-100 m-0 p-0">
+              <h3 ><a href="/product/hp_laser_107a_t1">HP LASER 107A</a></h3>
+            </div>
+          </div>
+          <div class="card-footer  m-0 p-0 rounded-bottom-3">
+            <h2 class="fw-bold  m-0 p-0">3580 грн</h2>
+              <button type="button" class="buyButton mt-1 viAddToCart w-75 align-self-center mb-3 p-0"
+                data='{"id":"123", "name":"HP LASER 107A", "price":3580.0, "img":"http://localhost:8083/img/thumb/product/0/taceci/49/81812749_0.jpg", "qty":1, "href":"/product/hp_laser_107a_t1"}'>
+                купити
+              </button>
+            </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-6 col-sm-4 col-md-3 col-lg-2 mb-1 ">
+      <div class="vCard ">
+        <div class="card ">
+           <a href="/product/hp_laserjet_1022n_t1">
+          <div class="card-header vImgCenter rounded-top-3">
+           <img src="http://localhost:8083/img/thumb/product/0/taceci/19/941919_0.jpg" alt="HP LASERJET 1022N">
+          </div>
+          </a>
+          <div class="card-body w-100 m-0 p-0">
+            <a href="/seller/k-centre">k-centre</a>
+            <div class="card-title w-100 m-0 p-0">
+              <h3 ><a href="/product/hp_laserjet_1022n_t1">HP LASERJET 1022N</a></h3>
+            </div>
+          </div>
+          <div class="card-footer  m-0 p-0 rounded-bottom-3">
+            <h2 class="fw-bold  m-0 p-0">2600 грн</h2>
+              <button type="button" class="buyButton mt-1 viAddToCart w-75 align-self-center mb-3 p-0"
+                data='{"id":"125", "name":"HP LASERJET 1022N", "price":2600.0, "img":"http://localhost:8083/img/thumb/product/0/taceci/19/941919_0.jpg", "qty":1, "href":"/product/hp_laserjet_1022n_t1"}'>
+                купити
+              </button>
+            </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-6 col-sm-4 col-md-3 col-lg-2 mb-1 ">
+      <div class="vCard ">
+        <div class="card ">
+           <a href="/product/hp_laserjet_enterprise_m506x_t1">
+          <div class="card-header vImgCenter rounded-top-3">
+           <img src="http://localhost:8083/img/thumb/product/0/taceci/24/21464424_0.jpg" alt="HP LASERJET ENTERPRISE M506X">
+          </div>
+          </a>
+          <div class="card-body w-100 m-0 p-0">
+            <a href="/seller/k-centre">k-centre</a>
+            <div class="card-title w-100 m-0 p-0">
+              <h3 ><a href="/product/hp_laserjet_enterprise_m506x_t1">HP LASERJET ENTERPRISE M506X</a></h3>
+            </div>
+          </div>
+          <div class="card-footer  m-0 p-0 rounded-bottom-3">
+            <h2 class="fw-bold  m-0 p-0">4950 грн</h2>
+              <button type="button" class="buyButton mt-1 viAddToCart w-75 align-self-center mb-3 p-0"
+                data='{"id":"126", "name":"HP LASERJET ENTERPRISE M506X", "price":4950.0, "img":"http://localhost:8083/img/thumb/product/0/taceci/24/21464424_0.jpg", "qty":1, "href":"/product/hp_laserjet_enterprise_m506x_t1"}'>
+                купити
+              </button>
+            </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-6 col-sm-4 col-md-3 col-lg-2 mb-1 ">
+      <div class="vCard ">
+        <div class="card ">
+           <a href="/product/hp_laserjet_enterprise_m602dn_t1">
+          <div class="card-header vImgCenter rounded-top-3">
+           <img src="http://localhost:8083/img/thumb/product/0/taceci/86/19220086_0.jpg" alt="HP LASERJET ENTERPRISE M602DN">
+          </div>
+          </a>
+          <div class="card-body w-100 m-0 p-0">
+            <a href="/seller/k-centre">k-centre</a>
+            <div class="card-title w-100 m-0 p-0">
+              <h3 ><a href="/product/hp_laserjet_enterprise_m602dn_t1">HP LASERJET ENTERPRISE M602DN</a></h3>
+            </div>
+          </div>
+          <div class="card-footer  m-0 p-0 rounded-bottom-3">
+            <h2 class="fw-bold  m-0 p-0">6000 грн</h2>
+              <button type="button" class="buyButton mt-1 viAddToCart w-75 align-self-center mb-3 p-0"
+                data='{"id":"127", "name":"HP LASERJET ENTERPRISE M602DN", "price":6000.0, "img":"http://localhost:8083/img/thumb/product/0/taceci/86/19220086_0.jpg", "qty":1, "href":"/product/hp_laserjet_enterprise_m602dn_t1"}'>
+                купити
+              </button>
+            </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-6 col-sm-4 col-md-3 col-lg-2 mb-1 ">
+      <div class="vCard ">
+        <div class="card ">
+           <a href="/product/hp_laserjet_enterprise_m602n_t1">
+          <div class="card-header vImgCenter rounded-top-3">
+           <img src="http://localhost:8083/img/thumb/product/0/taceci/97/07915797_0.jpg" alt="HP LASERJET ENTERPRISE M602N">
+          </div>
+          </a>
+          <div class="card-body w-100 m-0 p-0">
+            <a href="/seller/k-centre">k-centre</a>
+            <div class="card-title w-100 m-0 p-0">
+              <h3 ><a href="/product/hp_laserjet_enterprise_m602n_t1">HP LASERJET ENTERPRISE M602N</a></h3>
+            </div>
+          </div>
+          <div class="card-footer  m-0 p-0 rounded-bottom-3">
+            <h2 class="fw-bold  m-0 p-0">4950 грн</h2>
+              <button type="button" class="buyButton mt-1 viAddToCart w-75 align-self-center mb-3 p-0"
+                data='{"id":"128", "name":"HP LASERJET ENTERPRISE M602N", "price":4950.0, "img":"http://localhost:8083/img/thumb/product/0/taceci/97/07915797_0.jpg", "qty":1, "href":"/product/hp_laserjet_enterprise_m602n_t1"}'>
+                купити
+              </button>
+            </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-6 col-sm-4 col-md-3 col-lg-2 mb-1 ">
+      <div class="vCard ">
+        <div class="card ">
+           <a href="/product/hp_laserjet_p2015dn_t1">
+          <div class="card-header vImgCenter rounded-top-3">
+           <img src="http://localhost:8083/img/thumb/product/0/taceci/22/156722_0.jpg" alt="HP LASERJET P2015DN">
+          </div>
+          </a>
+          <div class="card-body w-100 m-0 p-0">
+            <a href="/seller/k-centre">k-centre</a>
+            <div class="card-title w-100 m-0 p-0">
+              <h3 ><a href="/product/hp_laserjet_p2015dn_t1">HP LASERJET P2015DN</a></h3>
+            </div>
+          </div>
+          <div class="card-footer  m-0 p-0 rounded-bottom-3">
+            <h2 class="fw-bold  m-0 p-0">4000 грн</h2>
+              <button type="button" class="buyButton mt-1 viAddToCart w-75 align-self-center mb-3 p-0"
+                data='{"id":"130", "name":"HP LASERJET P2015DN", "price":4000.0, "img":"http://localhost:8083/img/thumb/product/0/taceci/22/156722_0.jpg", "qty":1, "href":"/product/hp_laserjet_p2015dn_t1"}'>
+                купити
+              </button>
+            </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-6 col-sm-4 col-md-3 col-lg-2 mb-1 ">
+      <div class="vCard ">
+        <div class="card ">
+           <a href="/product/hp_laserjet_p3015dn_t1">
+          <div class="card-header vImgCenter rounded-top-3">
+           <img src="http://localhost:8083/img/thumb/product/0/taceci/10/6993010_0.jpg" alt="HP LASERJET P3015DN">
+          </div>
+          </a>
+          <div class="card-body w-100 m-0 p-0">
+            <a href="/seller/k-centre">k-centre</a>
+            <div class="card-title w-100 m-0 p-0">
+              <h3 ><a href="/product/hp_laserjet_p3015dn_t1">HP LASERJET P3015DN</a></h3>
+            </div>
+          </div>
+          <div class="card-footer  m-0 p-0 rounded-bottom-3">
+            <h2 class="fw-bold  m-0 p-0">4950 грн</h2>
+              <button type="button" class="buyButton mt-1 viAddToCart w-75 align-self-center mb-3 p-0"
+                data='{"id":"131", "name":"HP LASERJET P3015DN", "price":4950.0, "img":"http://localhost:8083/img/thumb/product/0/taceci/10/6993010_0.jpg", "qty":1, "href":"/product/hp_laserjet_p3015dn_t1"}'>
+                купити
+              </button>
+            </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-6 col-sm-4 col-md-3 col-lg-2 mb-1 ">
+      <div class="vCard ">
+        <div class="card ">
+           <a href="/product/hp_laserjet_pro_200_m251n_t3">
+          <div class="card-header vImgCenter rounded-top-3">
+           <img src="http://localhost:8083/img/thumb/product/0/taceci/02/15237902_0.jpg" alt="HP LASERJET PRO 200 M251N">
+          </div>
+          </a>
+          <div class="card-body w-100 m-0 p-0">
+            <a href="/seller/technotern">technotern</a>
+            <div class="card-title w-100 m-0 p-0">
+              <h3 ><a href="/product/hp_laserjet_pro_200_m251n_t3">HP LASERJET PRO 200 M251N</a></h3>
+            </div>
+          </div>
+          <div class="card-footer  m-0 p-0 rounded-bottom-3">
+            <h2 class="fw-bold  m-0 p-0">4200 грн</h2>
+              <button type="button" class="buyButton mt-1 viAddToCart w-75 align-self-center mb-3 p-0"
+                data='{"id":"243", "name":"HP LASERJET PRO 200 M251N", "price":4200.0, "img":"http://localhost:8083/img/thumb/product/0/taceci/02/15237902_0.jpg", "qty":1, "href":"/product/hp_laserjet_pro_200_m251n_t3"}'>
+                купити
+              </button>
+            </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-6 col-sm-4 col-md-3 col-lg-2 mb-1 ">
+      <div class="vCard ">
+        <div class="card ">
+           <a href="/product/hp_laserjet_professional_cp5225dn_t1">
+          <div class="card-header vImgCenter rounded-top-3">
+           <img src="http://localhost:8083/img/thumb/product/0/taceci/83/81812883_0.jpg" alt="HP LASERJET PROFESSIONAL CP5225DN">
+          </div>
+          </a>
+          <div class="card-body w-100 m-0 p-0">
+            <a href="/seller/k-centre">k-centre</a>
+            <div class="card-title w-100 m-0 p-0">
+              <h3 ><a href="/product/hp_laserjet_professional_cp5225dn_t1">HP LASERJET PROFESSIONAL CP5225DN</a></h3>
+            </div>
+          </div>
+          <div class="card-footer  m-0 p-0 rounded-bottom-3">
+            <h2 class="fw-bold  m-0 p-0">12960 грн</h2>
+              <button type="button" class="buyButton mt-1 viAddToCart w-75 align-self-center mb-3 p-0"
+                data='{"id":"142", "name":"HP LASERJET PROFESSIONAL CP5225DN", "price":12960.0, "img":"http://localhost:8083/img/thumb/product/0/taceci/83/81812883_0.jpg", "qty":1, "href":"/product/hp_laserjet_professional_cp5225dn_t1"}'>
+                купити
+              </button>
+            </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-6 col-sm-4 col-md-3 col-lg-2 mb-1 ">
+      <div class="vCard ">
+        <div class="card ">
+           <a href="/product/hp_laserjet_pro_m15a_t1">
+          <div class="card-header vImgCenter rounded-top-3">
+           <img src="http://localhost:8083/img/thumb/product/0/taceci/45/49343245_0.jpg" alt="HP LASERJET PRO M15A">
+          </div>
+          </a>
+          <div class="card-body w-100 m-0 p-0">
+            <a href="/seller/k-centre">k-centre</a>
+            <div class="card-title w-100 m-0 p-0">
+              <h3 ><a href="/product/hp_laserjet_pro_m15a_t1">HP LASERJET PRO M15A</a></h3>
+            </div>
+          </div>
+          <div class="card-footer  m-0 p-0 rounded-bottom-3">
+            <h2 class="fw-bold  m-0 p-0">4200 грн</h2>
+              <button type="button" class="buyButton mt-1 viAddToCart w-75 align-self-center mb-3 p-0"
+                data='{"id":"134", "name":"HP LASERJET PRO M15A", "price":4200.0, "img":"http://localhost:8083/img/thumb/product/0/taceci/45/49343245_0.jpg", "qty":1, "href":"/product/hp_laserjet_pro_m15a_t1"}'>
+                купити
+              </button>
+            </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-6 col-sm-4 col-md-3 col-lg-2 mb-1 ">
+      <div class="vCard ">
+        <div class="card ">
+           <a href="/product/hp_laserjet_pro_m402dne_t1">
+          <div class="card-header vImgCenter rounded-top-3">
+           <img src="http://localhost:8083/img/thumb/product/0/taceci/45/70432645_0.jpg" alt="HP LASERJET PRO M402DNE">
+          </div>
+          </a>
+          <div class="card-body w-100 m-0 p-0">
+            <a href="/seller/k-centre">k-centre</a>
+            <div class="card-title w-100 m-0 p-0">
+              <h3 ><a href="/product/hp_laserjet_pro_m402dne_t1">HP LASERJET PRO M402DNE</a></h3>
+            </div>
+          </div>
+          <div class="card-footer  m-0 p-0 rounded-bottom-3">
+            <h2 class="fw-bold  m-0 p-0">4950 грн</h2>
+              <button type="button" class="buyButton mt-1 viAddToCart w-75 align-self-center mb-3 p-0"
+                data='{"id":"137", "name":"HP LASERJET PRO M402DNE", "price":4950.0, "img":"http://localhost:8083/img/thumb/product/0/taceci/45/70432645_0.jpg", "qty":1, "href":"/product/hp_laserjet_pro_m402dne_t1"}'>
+                купити
+              </button>
+            </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-6 col-sm-4 col-md-3 col-lg-2 mb-1 ">
+      <div class="vCard ">
+        <div class="card ">
+           <a href="/product/hp_laserjet_pro_p1102_t1">
+          <div class="card-header vImgCenter rounded-top-3">
+           <img src="http://localhost:8083/img/thumb/product/0/taceci/21/2925121_0.jpg" alt="HP LASERJET PRO P1102">
+          </div>
+          </a>
+          <div class="card-body w-100 m-0 p-0">
+            <a href="/seller/k-centre">k-centre</a>
+            <div class="card-title w-100 m-0 p-0">
+              <h3 ><a href="/product/hp_laserjet_pro_p1102_t1">HP LASERJET PRO P1102</a></h3>
+            </div>
+          </div>
+          <div class="card-footer  m-0 p-0 rounded-bottom-3">
+            <h2 class="fw-bold  m-0 p-0">4900 грн</h2>
+              <button type="button" class="buyButton mt-1 viAddToCart w-75 align-self-center mb-3 p-0"
+                data='{"id":"140", "name":"HP LASERJET PRO P1102", "price":4900.0, "img":"http://localhost:8083/img/thumb/product/0/taceci/21/2925121_0.jpg", "qty":1, "href":"/product/hp_laserjet_pro_p1102_t1"}'>
+                купити
+              </button>
+            </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-6 col-sm-4 col-md-3 col-lg-2 mb-1 ">
+      <div class="vCard ">
+        <div class="card ">
+           <a href="/product/hp_laserjet_pro_p1505n_t3">
+          <div class="card-header vImgCenter rounded-top-3">
+           <img src="http://localhost:8083/img/thumb/product/0/taceci/11/9133011_0.jpg" alt="HP LASERJET PRO P1505N">
+          </div>
+          </a>
+          <div class="card-body w-100 m-0 p-0">
+            <a href="/seller/technotern">technotern</a>
+            <div class="card-title w-100 m-0 p-0">
+              <h3 ><a href="/product/hp_laserjet_pro_p1505n_t3">HP LASERJET PRO P1505N</a></h3>
+            </div>
+          </div>
+          <div class="card-footer  m-0 p-0 rounded-bottom-3">
+            <h2 class="fw-bold  m-0 p-0">3700 грн</h2>
+              <button type="button" class="buyButton mt-1 viAddToCart w-75 align-self-center mb-3 p-0"
+                data='{"id":"245", "name":"HP LASERJET PRO P1505N", "price":3700.0, "img":"http://localhost:8083/img/thumb/product/0/taceci/11/9133011_0.jpg", "qty":1, "href":"/product/hp_laserjet_pro_p1505n_t3"}'>
+                купити
+              </button>
+            </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-6 col-sm-4 col-md-3 col-lg-2 mb-1 ">
+      <div class="vCard ">
+        <div class="card ">
+           <a href="/product/hp_laserjet_pro_p1606dn_t1">
+          <div class="card-header vImgCenter rounded-top-3">
+           <img src="http://localhost:8083/img/thumb/product/0/taceci/00/10454900_0.jpg" alt="HP LASERJET PRO P1606DN">
+          </div>
+          </a>
+          <div class="card-body w-100 m-0 p-0">
+            <a href="/seller/k-centre">k-centre</a>
+            <div class="card-title w-100 m-0 p-0">
+              <h3 ><a href="/product/hp_laserjet_pro_p1606dn_t1">HP LASERJET PRO P1606DN</a></h3>
+            </div>
+          </div>
+          <div class="card-footer  m-0 p-0 rounded-bottom-3">
+            <h2 class="fw-bold  m-0 p-0">4900 грн</h2>
+              <button type="button" class="buyButton mt-1 viAddToCart w-75 align-self-center mb-3 p-0"
+                data='{"id":"141", "name":"HP LASERJET PRO P1606DN", "price":4900.0, "img":"http://localhost:8083/img/thumb/product/0/taceci/00/10454900_0.jpg", "qty":1, "href":"/product/hp_laserjet_pro_p1606dn_t1"}'>
+                купити
+              </button>
+            </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-6 col-sm-4 col-md-3 col-lg-2 mb-1 ">
+      <div class="vCard ">
+        <div class="card ">
+           <a href="/product/hp_laserjet_pro_p1606dn_t3">
+          <div class="card-header vImgCenter rounded-top-3">
+           <img src="http://localhost:8083/img/thumb/product/0/taceci/55/19220055_0.jpg" alt="HP LASERJET PRO P1606DN">
+          </div>
+          </a>
+          <div class="card-body w-100 m-0 p-0">
+            <a href="/seller/technotern">technotern</a>
+            <div class="card-title w-100 m-0 p-0">
+              <h3 ><a href="/product/hp_laserjet_pro_p1606dn_t3">HP LASERJET PRO P1606DN</a></h3>
+            </div>
+          </div>
+          <div class="card-footer  m-0 p-0 rounded-bottom-3">
+            <h2 class="fw-bold  m-0 p-0">4200 грн</h2>
+              <button type="button" class="buyButton mt-1 viAddToCart w-75 align-self-center mb-3 p-0"
+                data='{"id":"246", "name":"HP LASERJET PRO P1606DN", "price":4200.0, "img":"http://localhost:8083/img/thumb/product/0/taceci/55/19220055_0.jpg", "qty":1, "href":"/product/hp_laserjet_pro_p1606dn_t3"}'>
+                купити
+              </button>
+            </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-6 col-sm-4 col-md-3 col-lg-2 mb-1 ">
+      <div class="vCard ">
+        <div class="card ">
+           <a href="/product/lexmark_ms610dn_t1">
+          <div class="card-header vImgCenter rounded-top-3">
+           <img src="http://localhost:8083/img/thumb/product/0/taceci/54/07991554_0.jpg" alt="LEXMARK MS610DN">
+          </div>
+          </a>
+          <div class="card-body w-100 m-0 p-0">
+            <a href="/seller/k-centre">k-centre</a>
+            <div class="card-title w-100 m-0 p-0">
+              <h3 ><a href="/product/lexmark_ms610dn_t1">LEXMARK MS610DN</a></h3>
+            </div>
+          </div>
+          <div class="card-footer  m-0 p-0 rounded-bottom-3">
+            <h2 class="fw-bold  m-0 p-0">3800 грн</h2>
+              <button type="button" class="buyButton mt-1 viAddToCart w-75 align-self-center mb-3 p-0"
+                data='{"id":"146", "name":"LEXMARK MS610DN", "price":3800.0, "img":"http://localhost:8083/img/thumb/product/0/taceci/54/07991554_0.jpg", "qty":1, "href":"/product/lexmark_ms610dn_t1"}'>
+                купити
+              </button>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- products_a - -->
+<!-- pagination + -->
+<div class="container mt-1">
+  <div class="p-0">
+    <ul class="pagination justify-content-center">
+    </ul>
+  </div>
+</div>
+<!-- pagination - --><!-- category - -->
+</div>
+<!-- content_bottom + -->
+    <!-- products_a + -->
+<div class="container pb-1">
+  <div class="text-center m-3 prod-list-title">
+    <h1>переглянуто</h1>
+  </div>
+
+
+  <div class="row gx-1">
+    <div class="col-6 col-sm-4 col-md-3 col-lg-2 mb-1 ">
+      <div class="vCard ">
+        <div class="card ">
+           <a href="/product/hp_zr2330w_23_a_black_t3">
+          <div class="card-header vImgCenter rounded-top-3">
+           <img src="http://localhost:8083/img/thumb/product/0/taceci/74/06103174_0.jpg" alt="HP ZR2330W/23/A/Black">
+          </div>
+          </a>
+          <div class="card-body w-100 m-0 p-0">
+            <a href="/seller/technotern">technotern</a>
+            <div class="card-title w-100 m-0 p-0">
+              <h3 ><a href="/product/hp_zr2330w_23_a_black_t3">HP ZR2330W/23/A/Black</a></h3>
+            </div>
+          </div>
+          <div class="card-footer  m-0 p-0 rounded-bottom-3">
+            <h2 class="fw-bold  m-0 p-0">2000 грн</h2>
+              <button type="button" class="buyButton mt-1 viAddToCart w-75 align-self-center mb-3 p-0"
+                data='{"id":"226", "name":"HP ZR2330W/23/A/Black", "price":2000.0, "img":"http://localhost:8083/img/thumb/product/0/taceci/74/06103174_0.jpg", "qty":1, "href":"/product/hp_zr2330w_23_a_black_t3"}'>
+                купити
+              </button>
+            </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-6 col-sm-4 col-md-3 col-lg-2 mb-1 ">
+      <div class="vCard ">
+        <div class="card ">
+           <a href="/product/dell_lat_5500_15_i7-8665u_16gb_512gb_ssd_fhd_windows_10_pro_t2">
+          <div class="card-header vImgCenter rounded-top-3">
+           <img src="http://localhost:8083/img/thumb/product/0/taceci/58/60413158_0.jpg" alt="DELL LAT 5500/15/i7-8665U/16GB/512GB SSD/FHD/Windows 10 Pro">
+          </div>
+          </a>
+          <div class="card-body w-100 m-0 p-0">
+            <a href="/seller/lotus">lotus</a>
+            <div class="card-title w-100 m-0 p-0">
+              <h3 ><a href="/product/dell_lat_5500_15_i7-8665u_16gb_512gb_ssd_fhd_windows_10_pro_t2">DELL LAT 5500/15/i7-8665U/16GB/512GB SSD/F...</a></h3>
+            </div>
+          </div>
+          <div class="card-footer  m-0 p-0 rounded-bottom-3">
+            <h2 class="fw-bold  m-0 p-0">16193 грн</h2>
+              <button type="button" class="buyButton mt-1 viAddToCart w-75 align-self-center mb-3 p-0"
+                data='{"id":"184", "name":"DELL LAT 5500/15/i7-8665U/16GB/512GB SSD/FHD/Windows 10 Pro", "price":16193.0, "img":"http://localhost:8083/img/thumb/product/0/taceci/58/60413158_0.jpg", "qty":1, "href":"/product/dell_lat_5500_15_i7-8665u_16gb_512gb_ssd_fhd_windows_10_pro_t2"}'>
+                купити
+              </button>
+            </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-6 col-sm-4 col-md-3 col-lg-2 mb-1 ">
+      <div class="vCard ">
+        <div class="card ">
+           <a href="/product/dell_5410_14_i5-10310u_16gb_512gb_ssd_fhd_windows_10_pro_t2">
+          <div class="card-header vImgCenter rounded-top-3">
+           <img src="http://localhost:8083/img/thumb/product/0/taceci/81/68622281_0.jpg" alt="DELL 5410/14/i5-10310U/16GB/512GB SSD/FHD/Windows 10 Pro">
+          </div>
+          </a>
+          <div class="card-body w-100 m-0 p-0">
+            <a href="/seller/lotus">lotus</a>
+            <div class="card-title w-100 m-0 p-0">
+              <h3 ><a href="/product/dell_5410_14_i5-10310u_16gb_512gb_ssd_fhd_windows_10_pro_t2">DELL 5410/14/i5-10310U/16GB/512GB SSD/FHD/...</a></h3>
+            </div>
+          </div>
+          <div class="card-footer  m-0 p-0 rounded-bottom-3">
+            <h2 class="fw-bold  m-0 p-0">13201 грн</h2>
+              <button type="button" class="buyButton mt-1 viAddToCart w-75 align-self-center mb-3 p-0"
+                data='{"id":"195", "name":"DELL 5410/14/i5-10310U/16GB/512GB SSD/FHD/Windows 10 Pro", "price":13201.0, "img":"http://localhost:8083/img/thumb/product/0/taceci/81/68622281_0.jpg", "qty":1, "href":"/product/dell_5410_14_i5-10310u_16gb_512gb_ssd_fhd_windows_10_pro_t2"}'>
+                купити
+              </button>
+            </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-6 col-sm-4 col-md-3 col-lg-2 mb-1 ">
+      <div class="vCard ">
+        <div class="card ">
+           <a href="/product/acer_b246hl_wmdpr_24_a_white_yellow_t1">
+          <div class="card-header vImgCenter rounded-top-3">
+           <img src="http://localhost:8083/img/thumb/product/0/taceci/75/26508775_0.jpg" alt="ACER B246HL WMDPR 24 A White/Yellow">
+          </div>
+          </a>
+          <div class="card-body w-100 m-0 p-0">
+            <a href="/seller/k-centre">k-centre</a>
+            <div class="card-title w-100 m-0 p-0">
+              <h3 ><a href="/product/acer_b246hl_wmdpr_24_a_white_yellow_t1">ACER B246HL WMDPR 24 A White/Yellow</a></h3>
+            </div>
+          </div>
+          <div class="card-footer  m-0 p-0 rounded-bottom-3">
+            <h2 class="fw-bold  m-0 p-0">1920 грн</h2>
+              <button type="button" class="buyButton mt-1 viAddToCart w-75 align-self-center mb-3 p-0"
+                data='{"id":"57", "name":"ACER B246HL WMDPR 24 A White/Yellow", "price":1920.0, "img":"http://localhost:8083/img/thumb/product/0/taceci/75/26508775_0.jpg", "qty":1, "href":"/product/acer_b246hl_wmdpr_24_a_white_yellow_t1"}'>
+                купити
+              </button>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- products_a - -->
+<!-- content_bottom - -->      </div>
+      <div id="sect-main-right" class=" .d-none .d-sm-block col-sm-1">
+<!-- content_right + -->
+<!-- content_right - -->      </div>
+      </div>
+    </div>
+
+    <div id="sect-bottom p-0 m-0 ">
+<!-- footer + -->
+<div class="mt-5 pt-3 pb-3 vFooter">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-5 col-xs-12">
+        <a class="navbar-brand mr-5" href="/">
+         <img src="/default/assets/img/logo-1x1.png" alt="company logo" height="50" class="d-inline-block">
+        </a>
+        <h4>магазин вживаної комп'ютерної техніки 1х1<br>брендові комп'ютери з Європи та комлектуючі</h4>
+        <!--
+        <p>
+          <a role="button"><i class="fab fa-facebook m-1" style="font-size: 2.0rem;" title="facebook"></i></a>
+          <a role="button"><i class="fab fa-telegram m-1" style="font-size: 2.0rem;" title="telegram"></i></a>
+          <a role="button"><i class="fab fa-viber m-1" style="font-size: 2.0rem;" title="viber"></i></a>
+        </p>
+        -->
+      </div>
+      <div class="col-lg-3 col-xs-12">
+        <h4 class="mt-lg-0 mt-sm-3">посилання</h4>
+          <ul class="m-0 p-0">
+            <li><a href="/about_us">про нас</a></li>
+            <li><a href="/contacts">контакти</a></li>
+            <li><a href="/faq">часто питають</a></li>
+            <li><a href="/news_list">новини</a></li>
+            <li><a href="/privacy_policy">політика конфіденційності</a></li>
+            <li><a href="/sitemap">карта сайту</a></li>
+          </ul>
+      </div>
+      <div class="col-lg-4 col-xs-12">
+        <h4 class="mt-lg-0 mt-sm-4">розташування</h4>
+        <p><i class="fa fa-location-arrow m-1"></i>м.Тернопіль, вул.Руська 41</p>
+        <p><i class="fa fa-phone m-1"></i>0677697216</p>
+        <p><i class="fa fa-envelope m-1"></i>info@used.1x1.com.ua</p>
+      </div>
+    </div>
+
+    <div class="border-top mt-2">
+      <p><i class="fa fa-copyright m-1"></i>2024 1x1, всі права захищені</p>
+    </div>
+  </div>
+</div>
+<!-- footer - -->    </div>
+<!-- cart_modal + -->
+<div class="modal fade" id="cartModal" tabindex="-1" aria-labelledby="cartModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="cartModalLabel">корзина</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="viCartItems">
+          <p>JS items</p>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <p>загальна сума:<span class="m-2 viTotalSum">JS 1234.5</span></p>
+        <a href="/?route=checkout/payment"><button type="button" class="btn btn-secondary"><i class="fa fa-shopping-cart m-1"></i>купити</button></a>
+        <button type="button" class="btn btn-danger viClearAll"><i class="fa fa-trash m-1"></i>очистити все</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- cart_modal - --><!-- gotop + -->
+<button class="btn btn-primary" id="viBtnGoTop" onclick="goToTop()"><i class="fa fa-arrow-up m-1"></i>на початок</button>
+<!-- gotop - -->
+    <script src="/default/assets/vendor/js/bootstrap.bundle.min.js"></script>
+    <script src="/default/assets/js/submenu_ajax.js"></script>
+    <script src="/default/assets/js/cart.js"></script>
+    <script src="/default/assets/js/search1.js"></script>
+    <script src="/default/assets/js/gotop.js"></script>
+    <script src="/default/assets/js/timer_modal.js"></script>
+
+    <script>
+      const param = {selector: 'viMainNavbar', items: 'viMainNavbarItems', url: '/api/?route=_inc/layout1'}
+      document.getElementById('viMainNavbarMenu').onclick = () => OnClickDropdownMenu(param)
+      initDropdownMenu({selector: 'viMainNavbar'})
+    </script>
+
+  </body>
+</html>

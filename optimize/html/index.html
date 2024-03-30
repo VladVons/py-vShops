@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="uk">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>1x1 - вживані комп'ютери з Європи</title>
+    <meta property="og:title" content="1x1 - вживані комп'ютери з Європи"/>
+
+    <script src="/default/assets/js/lib.js"></script>
+    <script src="/default/assets/js/app.js"></script>
+    <script src="/default/assets/js/TDbList.js"></script>
+    <script>
+      let gData = new TDict()
+      gData.updValue('href', {
+        "search_ajax": "/api/?route=product0/search",
+        "search": "/?route=product0/search&q="
+    })
+    </script>
+
+
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="icon" type="image/png" href="/default/assets/img/logo-1x1.png">
+
+    <link rel="stylesheet" href="/default/assets/vendor/css/bootstrap.css">
+    <link rel="stylesheet" href="/default/assets/vendor/css/fontawesome.css">
+    <link rel="stylesheet" href="/default/assets/css/styles.css">
+  </head>
+
+  <body>
+
+    <div id="sect-top p-0 m-0">
+<!-- header + -->
+<script>
+  gData.updValue('lang', {
+    "added_to_cart": "додано до кошика",
+    "already_in_cart": "вже в кошику"
+  })
+</script>
+
+<nav class="navbar navbar-expand-lg  navbar-dark">
+  <div class="container-fluid">
+    <div class="d-flex col-2 col-sm-2 col-md-3 order-1 justify-content-between">
+      <a href="/" id="ALogo" title="головна">
+        <picture>
+          <source media="(min-width: 465px)" srcset="/default/assets/img/logo-1x1.png">
+          <img src="/default/assets/img/logo-x.png" alt="company logo" height="45" id="viLogo">
+        </picture>
+      </a>
+    </div>
+    <div class="d-flex col-12 col-sm-12 col-md-8 order-3 order-md-2 justify-content-between">
+      <div class="d-flex col-12 col-sm-12 col-md-7 justify-content-center">
+        <ul class="navbar-nav" title="категорії">
+          <li class="nav-item dropdown" id="viMainNavbar">
+            <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" id="viMainNavbarMenu"><i class="fa fa-bars" style="font-size: 2.0em;"></i></a>
+            <ul class="dropdown-menu " id="viMainNavbarItems"></ul>
+          </li>
+        </ul>
+        <form autocomplete="off" method="get" class="d-flex col-9 col-sm-9 col-md-9 col-lg-9 align-items-center">
+          <div class="input-group autocomplete-block">
+            <div class="autocomplete vSearch">
+              <input type="hidden" name="route" value="product0/search"/>
+              <input type="text" class="form-control" value="" name="q" placeholder="пошук" id="viSearchInput"/>
+              <div class="autocomplete-items" id="viSearchSuggest">
+                <!-- JS -->
+              </div>
+            </div>
+          </div>
+          <button class="btn float-end" type="submit"><i class="fa fa-search" title="пошук"></i></button>
+        </form>
+      </div>
+    </div>
+
+    <div class="d-flex col-10 col-sm-1 col-md-1 order-2 justify-content-end">
+      <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#cartModal" id="viCartModal">
+        <i class="fa fa-shopping-cart" title="корзина"></i>
+        <span class="badge vBgBtn" id="viCount_cart"></span>
+      </button>
+      <button type="button" class="btn btn-success" id="viBtnOn_favorite" value="favorite" title="улюблені">
+        <i class="fa fa-heart"></i>
+        <span class="badge vBgBtn" id="viCount_favorite"></span>
+      </button>
+      <button type="button" class="btn btn-success" id="viBtnOn_compare" value="compare" title="порівняти">
+        <i class="fa fa-balance-scale"></i>
+        <span class="badge vBgBtn" id="viCount_compare"></span>
+      </button>
+
+      <ul class="navbar-nav dropstart">
+        <li class="nav-item dropdown ms-2">
+          <div class="nav-link dropdown-toggle account" data-bs-toggle="dropdown"><i class="fa fa-user" title="профіль"></i></div>
+            <ul class="dropdown-menu">
+              <li>
+                <a class="dropdown-item " href="/tenant/?route=common/login">вхід</a>
+              </li>
+            </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<script>
+  for (const key of ['compare', 'favorite']) {
+    ls = new TLocalStorage('products_' + key)
+    if (ls.items) {
+      document.getElementById('viCount_' + key).innerHTML = ls.items.length
+    }
+
+    document.getElementById('viBtnOn_' + key).addEventListener('click', function (event) {
+      const value = (event.target.value ? event.target.value : event.target.parentElement.value)
+      ls = new TLocalStorage('products_' + value)
+      if (ls.items && ls.items.length > 0) {
+        window.location.href = '/?route=product0/' + value + '&product_ids=[' + ls.items.join(';') + ']'
+      }else{
+        showTooltip("немає даних")
+      }
+    })
+  }
+</script>
+<!-- header - -->    </div>
+
+    <div id="sect-main" class="container-fluid p-0 m-0 wd-100">
+      <div class="row wd-100">
+      <div id="sect-main-left" class=" .d-none .d-sm-block col-sm-1">
+<!-- content_left + -->
+<!-- content_left - -->      </div>
+      <div id="sect-main-center" class="col-12 col-sm-10">
+<!-- content_top + -->
+    <!-- module/carousel + -->
+<div class="container pb-3">
+  <div class="vTitle"></div>
+
+    <div id="carouselCaptions" class="carousel slide" data-bs-ride="carousel">
+      <div class="carousel-indicators">
+          <button type="button" data-bs-target="#carouselCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 0"></button>
+          <button type="button" data-bs-target="#carouselCaptions" data-bs-slide-to="1" aria-label="Slide 1"></button>
+      </div>
+      <div class="carousel-inner">
+          <div class="carousel-item active">
+        <img src="default/assets/img/banner-1.jpg" class="d-block w-100">
+          <div class="carousel-caption">
+            <h3>іноваційні, потужні  ноутбуки</h3>
+            <h4>безкоштовна доставка</h4>
+          </div>
+        </div>
+          <div class="carousel-item">
+        <img src="default/assets/img/banner-2.jpg" class="d-block w-100">
+          <div class="carousel-caption">
+            <h3>долучаємось до допомоги ЗСУ</h3>
+            <h4>разом до перемоги</h4>
+          </div>
+        </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselCaptions" data-bs-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="visually-hidden"></span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselCaptions" data-bs-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">наступний</span>
+        </button>
+    </div>
+</div>
+<!-- module/carousel- -->
+    <!-- products_a + -->
+<div class="container pb-1">
+  <div class="text-center m-3 prod-list-title">
+    <h1>товари дня</h1>
+  </div>
+
+
+  <div class="row gx-1">
+    <div class="col-6 col-sm-4 col-md-3 col-lg-2 mb-1 ">
+      <div class="vCard ">
+        <div class="card ">
+           <a href="/product/acer_b246hl_wmdpr_24_a_white_yellow_t1">
+          <div class="card-header vImgCenter rounded-top-3">
+           <img src="http://localhost:8083/img/thumb/product/0/taceci/75/26508775_0.jpg" alt="ACER B246HL WMDPR 24 A White/Yellow">
+          </div>
+          </a>
+          <div class="card-body w-100 m-0 p-0">
+            <a href="/seller/k-centre">k-centre</a>
+            <div class="card-title w-100 m-0 p-0">
+              <h3 ><a href="/product/acer_b246hl_wmdpr_24_a_white_yellow_t1">ACER B246HL WMDPR 24 A White/Yellow</a></h3>
+            </div>
+          </div>
+          <div class="card-footer  m-0 p-0 rounded-bottom-3">
+            <h2 class="fw-bold  m-0 p-0">1920 грн</h2>
+              <button type="button" class="buyButton mt-1 viAddToCart w-75 align-self-center mb-3 p-0"
+                data='{"id":"57", "name":"ACER B246HL WMDPR 24 A White/Yellow", "price":1920.0, "img":"http://localhost:8083/img/thumb/product/0/taceci/75/26508775_0.jpg", "qty":1, "href":"/product/acer_b246hl_wmdpr_24_a_white_yellow_t1"}'>
+                купити
+              </button>
+            </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-6 col-sm-4 col-md-3 col-lg-2 mb-1 ">
+      <div class="vCard ">
+        <div class="card ">
+           <a href="/product/samsung_md40b_40_black_t1">
+          <div class="card-header vImgCenter rounded-top-3">
+           <img src="http://localhost:8083/img/thumb/product/0/taceci/69/06627869_0.jpg" alt="SAMSUNG MD40B 40 Black">
+          </div>
+          </a>
+          <div class="card-body w-100 m-0 p-0">
+            <a href="/seller/k-centre">k-centre</a>
+            <div class="card-title w-100 m-0 p-0">
+              <h3 ><a href="/product/samsung_md40b_40_black_t1">SAMSUNG MD40B 40 Black</a></h3>
+            </div>
+          </div>
+          <div class="card-footer  m-0 p-0 rounded-bottom-3">
+            <h2 class="fw-bold  m-0 p-0">5900 грн</h2>
+              <button type="button" class="buyButton mt-1 viAddToCart w-75 align-self-center mb-3 p-0"
+                data='{"id":"113", "name":"SAMSUNG MD40B 40 Black", "price":5900.0, "img":"http://localhost:8083/img/thumb/product/0/taceci/69/06627869_0.jpg", "qty":1, "href":"/product/samsung_md40b_40_black_t1"}'>
+                купити
+              </button>
+            </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-6 col-sm-4 col-md-3 col-lg-2 mb-1 ">
+      <div class="vCard ">
+        <div class="card ">
+           <a href="/product/hp_z24i_24_a_black_t1">
+          <div class="card-header vImgCenter rounded-top-3">
+           <img src="http://localhost:8083/img/thumb/product/0/taceci/81/08209681_0.jpg" alt="HP Z24I 24 A Black">
+          </div>
+          </a>
+          <div class="card-body w-100 m-0 p-0">
+            <a href="/seller/k-centre">k-centre</a>
+            <div class="card-title w-100 m-0 p-0">
+              <h3 ><a href="/product/hp_z24i_24_a_black_t1">HP Z24I 24 A Black</a></h3>
+            </div>
+          </div>
+          <div class="card-footer  m-0 p-0 rounded-bottom-3">
+            <h2 class="fw-bold  m-0 p-0">2500 грн</h2>
+              <button type="button" class="buyButton mt-1 viAddToCart w-75 align-self-center mb-3 p-0"
+                data='{"id":"83", "name":"HP Z24I 24 A Black", "price":2500.0, "img":"http://localhost:8083/img/thumb/product/0/taceci/81/08209681_0.jpg", "qty":1, "href":"/product/hp_z24i_24_a_black_t1"}'>
+                купити
+              </button>
+            </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-6 col-sm-4 col-md-3 col-lg-2 mb-1 ">
+      <div class="vCard ">
+        <div class="card ">
+           <a href="/product/hp_elitedesk_800_g1_mt_i3-4130_4gb_500gb_hdd_windows_7_pro_t1">
+          <div class="card-header vImgCenter rounded-top-3">
+           <img src="http://localhost:8083/img/thumb/product/0/taceci/85/18417985_0.jpg" alt="HP ELITEDESK 800 G1 MT i3-4130 4GB 500GB HDD Windows 7 Pro">
+          </div>
+          </a>
+          <div class="card-body w-100 m-0 p-0">
+            <a href="/seller/k-centre">k-centre</a>
+            <div class="card-title w-100 m-0 p-0">
+              <h3 ><a href="/product/hp_elitedesk_800_g1_mt_i3-4130_4gb_500gb_hdd_windows_7_pro_t1">HP ELITEDESK 800 G1 MT i3-4130 4GB 500GB H...</a></h3>
+            </div>
+          </div>
+          <div class="card-footer  m-0 p-0 rounded-bottom-3">
+            <h2 class="fw-bold  m-0 p-0">3300 грн</h2>
+              <button type="button" class="buyButton mt-1 viAddToCart w-75 align-self-center mb-3 p-0"
+                data='{"id":"27", "name":"HP ELITEDESK 800 G1 MT i3-4130 4GB 500GB HDD Windows 7 Pro", "price":3300.0, "img":"http://localhost:8083/img/thumb/product/0/taceci/85/18417985_0.jpg", "qty":1, "href":"/product/hp_elitedesk_800_g1_mt_i3-4130_4gb_500gb_hdd_windows_7_pro_t1"}'>
+                купити
+              </button>
+            </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-6 col-sm-4 col-md-3 col-lg-2 mb-1 ">
+      <div class="vCard ">
+        <div class="card ">
+           <a href="/product/dell_p2214hb_21.5_black_t1">
+          <div class="card-header vImgCenter rounded-top-3">
+           <img src="http://localhost:8083/img/thumb/product/0/taceci/26/19529026_0.jpg" alt="DELL P2214HB 21.5 Black">
+          </div>
+          </a>
+          <div class="card-body w-100 m-0 p-0">
+            <a href="/seller/k-centre">k-centre</a>
+            <div class="card-title w-100 m-0 p-0">
+              <h3 ><a href="/product/dell_p2214hb_21.5_black_t1">DELL P2214HB 21.5 Black</a></h3>
+            </div>
+          </div>
+          <div class="card-footer  m-0 p-0 rounded-bottom-3">
+            <h2 class="fw-bold  m-0 p-0">2300 грн</h2>
+              <button type="button" class="buyButton mt-1 viAddToCart w-75 align-self-center mb-3 p-0"
+                data='{"id":"66", "name":"DELL P2214HB 21.5 Black", "price":2300.0, "img":"http://localhost:8083/img/thumb/product/0/taceci/26/19529026_0.jpg", "qty":1, "href":"/product/dell_p2214hb_21.5_black_t1"}'>
+                купити
+              </button>
+            </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-6 col-sm-4 col-md-3 col-lg-2 mb-1 ">
+      <div class="vCard ">
+        <div class="card ">
+           <a href="/product/dell_7300_13_i5-8365u_8gb_256gb_ssd_fhd_touch_windows_10_pro_t3">
+          <div class="card-header vImgCenter rounded-top-3">
+           <img src="http://localhost:8083/img/thumb/product/0/taceci/60/61601360_0.jpg" alt="DELL 7300/13/I5-8365U/8GB/256GB SSD/FHD/TOUCH/Windows 10 Pro">
+          </div>
+          </a>
+          <div class="card-body w-100 m-0 p-0">
+            <a href="/seller/technotern">technotern</a>
+            <div class="card-title w-100 m-0 p-0">
+              <h3 ><a href="/product/dell_7300_13_i5-8365u_8gb_256gb_ssd_fhd_touch_windows_10_pro_t3">DELL 7300/13/I5-8365U/8GB/256GB SSD/FHD/TO...</a></h3>
+            </div>
+          </div>
+          <div class="card-footer  m-0 p-0 rounded-bottom-3">
+            <h2 class="fw-bold  m-0 p-0">9240 грн</h2>
+              <button type="button" class="buyButton mt-1 viAddToCart w-75 align-self-center mb-3 p-0"
+                data='{"id":"239", "name":"DELL 7300/13/I5-8365U/8GB/256GB SSD/FHD/TOUCH/Windows 10 Pro", "price":9240.0, "img":"http://localhost:8083/img/thumb/product/0/taceci/60/61601360_0.jpg", "qty":1, "href":"/product/dell_7300_13_i5-8365u_8gb_256gb_ssd_fhd_touch_windows_10_pro_t3"}'>
+                купити
+              </button>
+            </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-6 col-sm-4 col-md-3 col-lg-2 mb-1 ">
+      <div class="vCard ">
+        <div class="card ">
+           <a href="/product/dell_p2214hb_21.5_a_black_t1">
+          <div class="card-header vImgCenter rounded-top-3">
+           <img src="http://localhost:8083/img/thumb/product/0/taceci/26/19529026_0.jpg" alt="DELL P2214HB 21.5 A Black">
+          </div>
+          </a>
+          <div class="card-body w-100 m-0 p-0">
+            <a href="/seller/k-centre">k-centre</a>
+            <div class="card-title w-100 m-0 p-0">
+              <h3 ><a href="/product/dell_p2214hb_21.5_a_black_t1">DELL P2214HB 21.5 A Black</a></h3>
+            </div>
+          </div>
+          <div class="card-footer  m-0 p-0 rounded-bottom-3">
+            <h2 class="fw-bold  m-0 p-0">2300 грн</h2>
+              <button type="button" class="buyButton mt-1 viAddToCart w-75 align-self-center mb-3 p-0"
+                data='{"id":"67", "name":"DELL P2214HB 21.5 A Black", "price":2300.0, "img":"http://localhost:8083/img/thumb/product/0/taceci/26/19529026_0.jpg", "qty":1, "href":"/product/dell_p2214hb_21.5_a_black_t1"}'>
+                купити
+              </button>
+            </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-6 col-sm-4 col-md-3 col-lg-2 mb-1 ">
+      <div class="vCard ">
+        <div class="card ">
+           <a href="/product/dell_5411_14_i5-10400h_8gb_256gb_ssd_hd_windows_10_pro_t2">
+          <div class="card-header vImgCenter rounded-top-3">
+           <img src="http://localhost:8083/img/thumb/product/0/taceci/41/68719441_1.jpg" alt="DELL 5411/14/i5-10400H/8GB/256GB SSD/HD/Windows 10 Pro">
+          </div>
+          </a>
+          <div class="card-body w-100 m-0 p-0">
+            <a href="/seller/lotus">lotus</a>
+            <div class="card-title w-100 m-0 p-0">
+              <h3 ><a href="/product/dell_5411_14_i5-10400h_8gb_256gb_ssd_hd_windows_10_pro_t2">DELL 5411/14/i5-10400H/8GB/256GB SSD/HD/Wi...</a></h3>
+            </div>
+          </div>
+          <div class="card-footer  m-0 p-0 rounded-bottom-3">
+            <h2 class="fw-bold  m-0 p-0">13780 грн</h2>
+              <button type="button" class="buyButton mt-1 viAddToCart w-75 align-self-center mb-3 p-0"
+                data='{"id":"203", "name":"DELL 5411/14/i5-10400H/8GB/256GB SSD/HD/Windows 10 Pro", "price":13780.0, "img":"http://localhost:8083/img/thumb/product/0/taceci/41/68719441_1.jpg", "qty":1, "href":"/product/dell_5411_14_i5-10400h_8gb_256gb_ssd_hd_windows_10_pro_t2"}'>
+                купити
+              </button>
+            </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-6 col-sm-4 col-md-3 col-lg-2 mb-1 ">
+      <div class="vCard ">
+        <div class="card ">
+           <a href="/product/hp_lp2275w_22_a_black_t1">
+          <div class="card-header vImgCenter rounded-top-3">
+           <img src="http://localhost:8083/img/thumb/product/0/taceci/26/05560526_0.jpg" alt="HP LP2275W 22 A Black">
+          </div>
+          </a>
+          <div class="card-body w-100 m-0 p-0">
+            <a href="/seller/k-centre">k-centre</a>
+            <div class="card-title w-100 m-0 p-0">
+              <h3 ><a href="/product/hp_lp2275w_22_a_black_t1">HP LP2275W 22 A Black</a></h3>
+            </div>
+          </div>
+          <div class="card-footer  m-0 p-0 rounded-bottom-3">
+            <h2 class="fw-bold  m-0 p-0">1850 грн</h2>
+              <button type="button" class="buyButton mt-1 viAddToCart w-75 align-self-center mb-3 p-0"
+                data='{"id":"81", "name":"HP LP2275W 22 A Black", "price":1850.0, "img":"http://localhost:8083/img/thumb/product/0/taceci/26/05560526_0.jpg", "qty":1, "href":"/product/hp_lp2275w_22_a_black_t1"}'>
+                купити
+              </button>
+            </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-6 col-sm-4 col-md-3 col-lg-2 mb-1 ">
+      <div class="vCard ">
+        <div class="card ">
+           <a href="/product/dell_precision_t5810_cmt_e5-1620_v3_16gb_500gb_hdd_nvida_quadro___amd_radeon_windows_10_pro__t1">
+          <div class="card-header vImgCenter rounded-top-3">
+           <img src="http://localhost:8083/img/thumb/product/0/taceci/80/14834080_0.jpg" alt="DELL PRECISION T5810 CMT E5-1620 v3 16GB 500GB HDD nVida Quadro / AMD Radeon Windows 10 Pro ">
+          </div>
+          </a>
+          <div class="card-body w-100 m-0 p-0">
+            <a href="/seller/k-centre">k-centre</a>
+            <div class="card-title w-100 m-0 p-0">
+              <h3 ><a href="/product/dell_precision_t5810_cmt_e5-1620_v3_16gb_500gb_hdd_nvida_quadro___amd_radeon_windows_10_pro__t1">DELL PRECISION T5810 CMT E5-1620 v3 16GB 5...</a></h3>
+            </div>
+          </div>
+          <div class="card-footer  m-0 p-0 rounded-bottom-3">
+            <h2 class="fw-bold  m-0 p-0">6100 грн</h2>
+              <button type="button" class="buyButton mt-1 viAddToCart w-75 align-self-center mb-3 p-0"
+                data='{"id":"15", "name":"DELL PRECISION T5810 CMT E5-1620 v3 16GB 500GB HDD nVida Quadro / AMD Radeon Windows 10 Pro ", "price":6100.0, "img":"http://localhost:8083/img/thumb/product/0/taceci/80/14834080_0.jpg", "qty":1, "href":"/product/dell_precision_t5810_cmt_e5-1620_v3_16gb_500gb_hdd_nvida_quadro___amd_radeon_windows_10_pro__t1"}'>
+                купити
+              </button>
+            </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-6 col-sm-4 col-md-3 col-lg-2 mb-1 ">
+      <div class="vCard ">
+        <div class="card ">
+           <a href="/product/dell_e2211hb_21.5_a_black_t1">
+          <div class="card-header vImgCenter rounded-top-3">
+           <img src="http://localhost:8083/img/thumb/product/0/taceci/83/4604283_0.jpg" alt="DELL E2211HB 21.5 A Black">
+          </div>
+          </a>
+          <div class="card-body w-100 m-0 p-0">
+            <a href="/seller/k-centre">k-centre</a>
+            <div class="card-title w-100 m-0 p-0">
+              <h3 ><a href="/product/dell_e2211hb_21.5_a_black_t1">DELL E2211HB 21.5 A Black</a></h3>
+            </div>
+          </div>
+          <div class="card-footer  m-0 p-0 rounded-bottom-3">
+            <h2 class="fw-bold  m-0 p-0">2000 грн</h2>
+              <button type="button" class="buyButton mt-1 viAddToCart w-75 align-self-center mb-3 p-0"
+                data='{"id":"61", "name":"DELL E2211HB 21.5 A Black", "price":2000.0, "img":"http://localhost:8083/img/thumb/product/0/taceci/83/4604283_0.jpg", "qty":1, "href":"/product/dell_e2211hb_21.5_a_black_t1"}'>
+                купити
+              </button>
+            </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-6 col-sm-4 col-md-3 col-lg-2 mb-1 ">
+      <div class="vCard ">
+        <div class="card ">
+           <a href="/product/dell_latitude_5490_14_i5-7300u_8gb_256gb_ssd_fhd_windows_10_pro_t3">
+          <div class="card-header vImgCenter rounded-top-3">
+           <img src="http://localhost:8083/img/thumb/product/0/taceci/05/47329005_0.jpg" alt="DELL LATITUDE 5490/14/i5-7300U/8GB/256GB SSD/FHD/Windows 10 Pro">
+          </div>
+          </a>
+          <div class="card-body w-100 m-0 p-0">
+            <a href="/seller/technotern">technotern</a>
+            <div class="card-title w-100 m-0 p-0">
+              <h3 ><a href="/product/dell_latitude_5490_14_i5-7300u_8gb_256gb_ssd_fhd_windows_10_pro_t3">DELL LATITUDE 5490/14/i5-7300U/8GB/256GB S...</a></h3>
+            </div>
+          </div>
+          <div class="card-footer  m-0 p-0 rounded-bottom-3">
+            <h2 class="fw-bold  m-0 p-0">7980 грн</h2>
+              <button type="button" class="buyButton mt-1 viAddToCart w-75 align-self-center mb-3 p-0"
+                data='{"id":"231", "name":"DELL LATITUDE 5490/14/i5-7300U/8GB/256GB SSD/FHD/Windows 10 Pro", "price":7980.0, "img":"http://localhost:8083/img/thumb/product/0/taceci/05/47329005_0.jpg", "qty":1, "href":"/product/dell_latitude_5490_14_i5-7300u_8gb_256gb_ssd_fhd_windows_10_pro_t3"}'>
+                купити
+              </button>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- products_a - -->
+<!-- content_top - --><!-- content_bottom + -->
+    <!-- products_a + -->
+<div class="container pb-1">
+  <div class="text-center m-3 prod-list-title">
+    <h1>переглянуто</h1>
+  </div>
+
+
+  <div class="row gx-1">
+    <div class="col-6 col-sm-4 col-md-3 col-lg-2 mb-1 ">
+      <div class="vCard ">
+        <div class="card ">
+           <a href="/product/hp_zr2330w_23_a_black_t3">
+          <div class="card-header vImgCenter rounded-top-3">
+           <img src="http://localhost:8083/img/thumb/product/0/taceci/74/06103174_0.jpg" alt="HP ZR2330W/23/A/Black">
+          </div>
+          </a>
+          <div class="card-body w-100 m-0 p-0">
+            <a href="/seller/technotern">technotern</a>
+            <div class="card-title w-100 m-0 p-0">
+              <h3 ><a href="/product/hp_zr2330w_23_a_black_t3">HP ZR2330W/23/A/Black</a></h3>
+            </div>
+          </div>
+          <div class="card-footer  m-0 p-0 rounded-bottom-3">
+            <h2 class="fw-bold  m-0 p-0">2000 грн</h2>
+              <button type="button" class="buyButton mt-1 viAddToCart w-75 align-self-center mb-3 p-0"
+                data='{"id":"226", "name":"HP ZR2330W/23/A/Black", "price":2000.0, "img":"http://localhost:8083/img/thumb/product/0/taceci/74/06103174_0.jpg", "qty":1, "href":"/product/hp_zr2330w_23_a_black_t3"}'>
+                купити
+              </button>
+            </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-6 col-sm-4 col-md-3 col-lg-2 mb-1 ">
+      <div class="vCard ">
+        <div class="card ">
+           <a href="/product/dell_5410_14_i5-10310u_16gb_512gb_ssd_fhd_windows_10_pro_t2">
+          <div class="card-header vImgCenter rounded-top-3">
+           <img src="http://localhost:8083/img/thumb/product/0/taceci/81/68622281_0.jpg" alt="DELL 5410/14/i5-10310U/16GB/512GB SSD/FHD/Windows 10 Pro">
+          </div>
+          </a>
+          <div class="card-body w-100 m-0 p-0">
+            <a href="/seller/lotus">lotus</a>
+            <div class="card-title w-100 m-0 p-0">
+              <h3 ><a href="/product/dell_5410_14_i5-10310u_16gb_512gb_ssd_fhd_windows_10_pro_t2">DELL 5410/14/i5-10310U/16GB/512GB SSD/FHD/...</a></h3>
+            </div>
+          </div>
+          <div class="card-footer  m-0 p-0 rounded-bottom-3">
+            <h2 class="fw-bold  m-0 p-0">13201 грн</h2>
+              <button type="button" class="buyButton mt-1 viAddToCart w-75 align-self-center mb-3 p-0"
+                data='{"id":"195", "name":"DELL 5410/14/i5-10310U/16GB/512GB SSD/FHD/Windows 10 Pro", "price":13201.0, "img":"http://localhost:8083/img/thumb/product/0/taceci/81/68622281_0.jpg", "qty":1, "href":"/product/dell_5410_14_i5-10310u_16gb_512gb_ssd_fhd_windows_10_pro_t2"}'>
+                купити
+              </button>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- products_a - -->
+<!-- content_bottom - -->      </div>
+      <div id="sect-main-right" class=" .d-none .d-sm-block col-sm-1">
+<!-- content_right + -->
+<!-- content_right - -->      </div>
+      </div>
+    </div>
+
+    <div id="sect-bottom p-0 m-0 ">
+<!-- footer + -->
+<div class="mt-5 pt-3 pb-3 vFooter">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-5 col-xs-12">
+        <a class="navbar-brand mr-5" href="/">
+         <img src="/default/assets/img/logo-1x1.png" alt="company logo" height="50" class="d-inline-block">
+        </a>
+        <h4>магазин вживаної комп'ютерної техніки 1х1<br>брендові комп'ютери з Європи та комлектуючі</h4>
+        <!--
+        <p>
+          <a role="button"><i class="fab fa-facebook m-1" style="font-size: 2.0rem;" title="facebook"></i></a>
+          <a role="button"><i class="fab fa-telegram m-1" style="font-size: 2.0rem;" title="telegram"></i></a>
+          <a role="button"><i class="fab fa-viber m-1" style="font-size: 2.0rem;" title="viber"></i></a>
+        </p>
+        -->
+      </div>
+      <div class="col-lg-3 col-xs-12">
+        <h4 class="mt-lg-0 mt-sm-3">посилання</h4>
+          <ul class="m-0 p-0">
+            <li><a href="/about_us">про нас</a></li>
+            <li><a href="/contacts">контакти</a></li>
+            <li><a href="/faq">часто питають</a></li>
+            <li><a href="/news_list">новини</a></li>
+            <li><a href="/privacy_policy">політика конфіденційності</a></li>
+            <li><a href="/sitemap">карта сайту</a></li>
+          </ul>
+      </div>
+      <div class="col-lg-4 col-xs-12">
+        <h4 class="mt-lg-0 mt-sm-4">розташування</h4>
+        <p><i class="fa fa-location-arrow m-1"></i>м.Тернопіль, вул.Руська 41</p>
+        <p><i class="fa fa-phone m-1"></i>0677697216</p>
+        <p><i class="fa fa-envelope m-1"></i>info@used.1x1.com.ua</p>
+      </div>
+    </div>
+
+    <div class="border-top mt-2">
+      <p><i class="fa fa-copyright m-1"></i>2024 1x1, всі права захищені</p>
+    </div>
+  </div>
+</div>
+<!-- footer - -->    </div>
+<!-- cart_modal + -->
+<div class="modal fade" id="cartModal" tabindex="-1" aria-labelledby="cartModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="cartModalLabel">корзина</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="viCartItems">
+          <p>JS items</p>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <p>загальна сума:<span class="m-2 viTotalSum">JS 1234.5</span></p>
+        <a href="/?route=checkout/payment"><button type="button" class="btn btn-secondary"><i class="fa fa-shopping-cart m-1"></i>купити</button></a>
+        <button type="button" class="btn btn-danger viClearAll"><i class="fa fa-trash m-1"></i>очистити все</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- cart_modal - --><!-- gotop + -->
+<button class="btn btn-primary" id="viBtnGoTop" onclick="goToTop()"><i class="fa fa-arrow-up m-1"></i>на початок</button>
+<!-- gotop - -->
+    <script src="/default/assets/vendor/js/bootstrap.bundle.min.js"></script>
+    <script src="/default/assets/js/submenu_ajax.js"></script>
+    <script src="/default/assets/js/cart.js"></script>
+    <script src="/default/assets/js/search1.js"></script>
+    <script src="/default/assets/js/gotop.js"></script>
+    <script src="/default/assets/js/timer_modal.js"></script>
+
+    <script>
+      const param = {selector: 'viMainNavbar', items: 'viMainNavbarItems', url: '/api/?route=_inc/layout1'}
+      document.getElementById('viMainNavbarMenu').onclick = () => OnClickDropdownMenu(param)
+      initDropdownMenu({selector: 'viMainNavbar'})
+    </script>
+
+  </body>
+</html>
