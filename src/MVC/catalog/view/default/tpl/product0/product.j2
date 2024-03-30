@@ -59,12 +59,12 @@
         <h1>{{product.category_title}} {{product.title}}</h1>
         {% if product.attr %}
           {% for Rec in TDbList().Import(product.attr) %}
-            <p>{{Rec.title}}: {{Rec.val}}</p>
+            <h2>{{Rec.title}}: {{Rec.val}}</h2>
           {% endfor %}
         {% endif %}
-        <p>{{lang.condition}}: {% if product.cond_en == 'new' %} {{lang.new}} {% else %} {{lang.used}} {% endif %}</p>
-        <p>{{lang.available}}: {{product.rest}}</p>
-        <p>{{lang.seller}}: <a href="{{href.tenant}}">{{product.tenant_title}}</a></p>
+        <h2>{{lang.condition}}: {% if product.cond_en == 'new' %} {{lang.new}} {% else %} {{lang.used}} {% endif %}</h2>
+        <h2>{{lang.available}}: {{product.rest}}</h2>
+        <h2>{{lang.seller}}: <a href="{{href.tenant}}">{{product.tenant_title}}</a></h2>
 
         {% set ns = namespace(Price=0) %}
         {% for Rec in TDbList().Import(product.price) %}
@@ -77,7 +77,7 @@
              </p>
           {%- else -%}
             {% set ns.Price = Rec.price %}
-            <p class="h3">{{Rec.price}} грн</p>
+            <p class="h4">{{lang.price}}: {{Rec.price}} грн</p>
           {%- endif %}
         {% endfor %}
         <button type="button" class="btn btn-primary mt-3 viAddToCart" data='{"id":"{{product.id}}", "name":"{{product.title}}", "price":{{ns.Price}}, "img":"{{product.image}}", "qty":1, "href":"{{href.self}}"}'>
