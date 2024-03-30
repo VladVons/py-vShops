@@ -61,7 +61,7 @@ async def Main(self, aData: dict = None) -> dict:
         Hrefs = await SeoEncodeList(self, Hrefs)
 
     if (not Product['descr']):
-        Product['descr'] = ', '.join(Descr)
+        Product['descr'] = f"{Product['category_title']} {Product['title']} {', '.join(Descr)}"
     Product['descr'] = HtmlEsc(Product['descr'])
 
     DblAttr.AddFieldsFill(['href'], False)
