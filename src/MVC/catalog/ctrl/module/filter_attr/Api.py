@@ -19,6 +19,8 @@ def AttrEncode(aItems: list) -> str:
 
 
 async def Main(self, aData: dict = None) -> dict:
+    return
+
     Dbl = await self.ExecModelImport(
         'ref_attr',
         {

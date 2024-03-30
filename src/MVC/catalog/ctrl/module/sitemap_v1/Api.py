@@ -3,7 +3,7 @@
 # License: GNU, see LICENSE for more details
 
 
-from IncP.LibCtrl import DeepGetByList
+from IncP.LibCtrl import DeepGetByList, SeoEncodeList
 from ..._inc.layout1.Api import GetCategories
 
 async def Main(self, aData: dict = None) -> dict:
@@ -19,9 +19,13 @@ async def Main(self, aData: dict = None) -> dict:
         }
     )
     if (DblPages):
+        Hrefs = [f'/?route={Rec.route}' for Rec in DblPages]
+        if (self.ApiCtrl.Conf.get('seo_url')):
+            Hrefs = await SeoEncodeList(self, Hrefs)
+
         DblPages.ToList()
-        for Rec in DblPages:
-            Rec.route = f'/?route={Rec.route}'
+        for Idx, Rec in enumerate(DblPages):
+            Rec.route = Hrefs[Idx]
 
     return {
         'categories_a': Categories, 'id_a': 0,
