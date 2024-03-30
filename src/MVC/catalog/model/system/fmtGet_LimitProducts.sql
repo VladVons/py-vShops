@@ -1,4 +1,4 @@
--- fmtGet_Seo_Products.sql
+-- fmtGet_LimitProducts.sql
 -- in: aLimit, aOffset
 
 select

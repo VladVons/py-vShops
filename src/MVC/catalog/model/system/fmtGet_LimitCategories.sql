@@ -1,4 +1,4 @@
--- fmtGet_Seo_Categories.sql
+-- fmtGet_LimitCategories.sql
 -- in: aLang, aLimit, aOffset
 
 with recursive wrpc as (
