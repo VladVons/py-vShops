@@ -2,7 +2,7 @@
     --textSizeTitle: 1.5em;
     --font-roboto: normal 20px / 1.4em Roboto Condensed;
 
-    --colorBgBody: rgb(240, 236, 236);
+    --colorBgBody: rgb(245, 240, 240);
     --colorBgBtn: red;
     --colorBgFooter: #2e3d4f;
     --colorBgMaster: White;
@@ -17,7 +17,7 @@
 body {
 
 /*   background-image: url("../img/pxfuel.jpg");*/
-     background-color: #d3d3d3;
+     background-color: var(--colorBgBody);
 }
 
 /*body * {
