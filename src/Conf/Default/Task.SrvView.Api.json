@@ -2,6 +2,7 @@
     "catalog": {
         "dir_route": "MVC/catalog/view",
         "dir_root": "MVC/catalog/view",
+        "request_scheme": "https",
         "cache_route": {
             "path": "Data/catalog/cache/view",
             "max_age": 10,
@@ -24,7 +25,6 @@
     "tenant": {
         "dir_route": "MVC/tenant/view",
         "dir_root": "MVC/tenant/view",
-        "request_scheme": "http",
         "loader": {
             "ctrl": {
                 "type": "fs",
