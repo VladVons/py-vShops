@@ -3,19 +3,19 @@
 # License: GNU, see LICENSE for more details
 
 
-from IncP.LibCtrl import TDbList, TPagination, DeepGetByList, GetDictDefs
+import IncP.LibCtrl as Lib
 from ..._inc.products_b import Main as products_b
 
 
 async def Main(self, aData: dict = None) -> dict:
-    aSearch, aFilter, aLang, aSort, aOrder, aPage, aLimit = GetDictDefs(
+    aSearch, aFilter, aLang, aSort, aOrder, aPage, aLimit = Lib.GetDictDefs(
         aData.get('query'),
         ('search', 'filter', 'lang', 'sort', 'order', 'page', 'limit'),
         ('','', 'ua', ('sort_order, title', 'title', 'price'), ('asc', 'desc'), 1, 25)
     )
 
     #await self.Lang.Add(aLang, 'product/category')
-    AuthId = DeepGetByList(aData, ['session', 'auth_id'])
+    AuthId = Lib.DeepGetByList(aData, ['session', 'auth_id'])
     aLimit = min(aLimit, 50)
 
     Dbl = await self.ExecModelImport(
@@ -35,8 +35,8 @@ async def Main(self, aData: dict = None) -> dict:
     )
 
     if (Dbl):
-        Data = TPagination(aLimit, f'/{self.Name}?route=product/products&search={aSearch}&filter={aFilter}').Get(Dbl.Rec.total, aPage)
-        DblPagination = TDbList(['page', 'title', 'href', 'current'], Data)
+        Data = Lib.TPagination(aLimit, f'/{self.Name}?route=product/products&search={aSearch}&filter={aFilter}').Get(Dbl.Rec.total, aPage)
+        DblPagination = Lib.TDbList(['page', 'title', 'href', 'current'], Data)
 
         DblProducts = await products_b(self, Dbl)
 

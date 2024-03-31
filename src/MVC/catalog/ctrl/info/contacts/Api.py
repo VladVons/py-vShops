@@ -6,7 +6,7 @@
 import json
 #
 from Inc.Misc.Mail import TMail, TMailSend, TMailSmtp
-from IncP.LibCtrl import Log
+import IncP.LibCtrl as Lib
 
 
 async def Main(self, aData: dict = None) -> dict:
@@ -31,7 +31,7 @@ async def Main(self, aData: dict = None) -> dict:
             LangKey = 'send_ok'
         except Exception as E:
             LangKey = 'send_err'
-            Log.Print(1, 'x', 'TMail error', aE=E)
+            Lib.Log.Print(1, 'x', 'TMail error', aE=E)
     else:
         LangKey = ''
 

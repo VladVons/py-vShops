@@ -3,11 +3,11 @@
 # License: GNU, see LICENSE for more details
 
 
-from IncP.LibCtrl import GetDictDefs
+import IncP.LibCtrl as Lib
 
 
 async def Main(self, aData: dict = None) -> dict:
-    aOrderId, aLang = GetDictDefs(
+    aOrderId, aLang = Lib.GetDictDefs(
         aData.get('query'),
         ('order_id', 'lang'),
         ('', 'ua')

@@ -5,13 +5,13 @@
 
 import json
 #
-from IncP.LibCtrl import DeepGetByList, GetDictDefs, TDbList
+import IncP.LibCtrl as Lib
 
 
 async def ajax(self, aData: dict = None) -> dict:
     aLang = aData.get('lang', 'ua')
     LangId = self.GetLangId(aLang)
-    AuthId = DeepGetByList(aData, ['session', 'auth_id'])
+    AuthId = Lib.DeepGetByList(aData, ['session', 'auth_id'])
     return await self.GetCategories(LangId, AuthId)
 
 async def Save(self, aPost: dict, aLangId: int, aTenantId: int, aProductId: int) -> dict:
@@ -29,14 +29,14 @@ async def Save(self, aPost: dict, aLangId: int, aTenantId: int, aProductId: int)
     )
 
 async def Main(self, aData: dict = None) -> dict:
-    aLang, aProductId = GetDictDefs(
+    aLang, aProductId = Lib.GetDictDefs(
         aData.get('query'),
         ('lang', 'product_id'),
         ('ua', 0)
     )
 
     aLangId = self.GetLangId(aLang)
-    AuthId = DeepGetByList(aData, ['session', 'auth_id'])
+    AuthId = Lib.DeepGetByList(aData, ['session', 'auth_id'])
 
     Post = aData.get('post')
     if (Post and len(Post.get('changes', '')) > 2):
@@ -81,7 +81,7 @@ async def Main(self, aData: dict = None) -> dict:
 
         DblImages = await self.GetImages(aProductId)
         if (not DblImages):
-            DblImages = TDbList(['name', 'type', 'size', 'date', 'href', 'path', 'sort_order', 'enabled', 'image'])
+            DblImages = Lib.TDbList(['name', 'type', 'size', 'date', 'href', 'path', 'sort_order', 'enabled', 'image'])
         # add extra new blank record
         DblImages.RecAdd().SetAsDict({
             'name': '', 'size': -1, 'date': 0, 'href': '', 'path': '', 'sort_order': 0, 'enabled': False, 'image': ''

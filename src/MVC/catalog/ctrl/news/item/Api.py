@@ -3,18 +3,18 @@
 # License: GNU, see LICENSE for more details
 
 
-from IncP.LibCtrl import GetDictDefs, IsDigits
+import IncP.LibCtrl as Lib
 
 
 async def Main(self, aData: dict = None) -> dict:
-    aLang, aNewsId = GetDictDefs(
+    aLang, aNewsId = Lib.GetDictDefs(
         aData.get('query'),
         ('lang', 'news_id'),
         ('ua', 0)
     )
 
     aLangId = self.GetLangId(aLang)
-    if (not IsDigits([aLangId, aNewsId])):
+    if (not Lib.IsDigits([aLangId, aNewsId])):
         return {'status_code': 404}
 
 

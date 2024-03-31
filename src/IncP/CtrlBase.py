@@ -7,7 +7,7 @@ from Inc.Misc.Cache import TCacheMem
 from Inc.Misc.Profiler import TTimerLog
 from Inc.Loader.Lang import TLoaderLang
 from Task.SrvCtrl.Api import TApiCtrl
-from IncP.LibCtrl import TDbSql, GetDictDef
+import IncP.LibCtrl as Lib
 
 
 class TCtrlBase():
@@ -49,7 +49,7 @@ class TCtrlBase():
         Data = await self.ApiModel(aMethod, aData)
         DblData = Data.get('data')
         if (DblData):
-            return TDbSql().Import(DblData)
+            return Lib.TDbSql().Import(DblData)
 
     async def ExecModelExport(self, aMethod: str, aData: dict) -> dict:
         Dbl = await self.ExecModelImport(aMethod, aData)
@@ -67,12 +67,12 @@ class TCtrlBase():
                 'param': {'aTenantId': 0}
             }
         )
-        DblConf = TDbSql().Import(Res['data'])
+        DblConf = Lib.TDbSql().Import(Res['data'])
         return DblConf.ExportPair('attr', 'val')
 
 
     async def LoadLayout(self, aData: dict) -> dict:
-        aTenantId, aLang = GetDictDef(
+        aTenantId, aLang = Lib.GetDictDef(
             aData.get('query'),
             ('tenant', 'lang'),
             (1, 'ua'))
@@ -84,12 +84,12 @@ class TCtrlBase():
                 'param': {'aTenantId': aTenantId, 'aLangId': self.GetLangId(aLang), 'aRoute': aData['route'], 'aTheme': 't2', 'aPath': aData['_path']}
             }
         )
-        Dbl = TDbSql().Import(DblData.get('data'))
+        Dbl = Lib.TDbSql().Import(DblData.get('data'))
         return Dbl.Rec.GetAsDict()
 
 
     async def LoadModules(self, aData: dict) -> list:
-        aTenantId, aLang = GetDictDef(
+        aTenantId, aLang = Lib.GetDictDef(
             aData.get('query'),
             ('tenant', 'lang'),
             (1, 'ua'))
@@ -106,7 +106,7 @@ class TCtrlBase():
         Res = []
         Modules = DblData.get('data')
         if (Modules):
-            Dbl = TDbSql().Import(Modules)
+            Dbl = Lib.TDbSql().Import(Modules)
             for Rec in Dbl:
                 Module = Rec.code
                 Path = f'module/{Module}'

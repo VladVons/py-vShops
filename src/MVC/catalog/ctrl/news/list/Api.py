@@ -3,17 +3,17 @@
 # License: GNU, see LICENSE for more details
 
 
-from IncP.LibCtrl import GetDictDefs, IsDigits, TPagination, TDbList
+import IncP.LibCtrl as Lib
 
 
 async def Main(self, aData: dict = None) -> dict:
-    aLang, aPage, aLimit = GetDictDefs(
+    aLang, aPage, aLimit = Lib.GetDictDefs(
         aData.get('query'),
         ('lang', 'page', 'limit'),
         ('ua', 1, 20)
     )
 
-    if (not IsDigits([aPage, aLimit])):
+    if (not Lib.IsDigits([aPage, aLimit])):
         return {'status_code': 404}
 
     aLimit = max(aLimit, 50)
@@ -35,9 +35,9 @@ async def Main(self, aData: dict = None) -> dict:
     Href = aData['path_qs']
     #Href = UrlEncode(aData['query'])
 
-    Pagination = TPagination(aLimit, Href)
+    Pagination = Lib.TPagination(aLimit, Href)
     PData = Pagination.Get(Dbl.Rec.total, aPage)
-    DblPagination = TDbList(['page', 'title', 'href', 'current'], PData)
+    DblPagination = Lib.TDbList(['page', 'title', 'href', 'current'], PData)
 
     Dbl.AddFieldsFill(['href'], False)
     for Rec in Dbl:

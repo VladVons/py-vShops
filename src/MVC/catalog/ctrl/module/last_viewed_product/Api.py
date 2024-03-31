@@ -3,14 +3,14 @@
 # License: GNU, see LICENSE for more details
 
 
-from IncP.LibCtrl import DeepGetByList, ResGetLang
+import IncP.LibCtrl as Lib
 from ..._inc.products_a import Main as products_a
 
 
 async def Main(self, aData: dict = None) -> dict:
-    aLang = DeepGetByList(aData, ['query', 'lang'], 'ua')
+    aLang = Lib.DeepGetByList(aData, ['query', 'lang'], 'ua')
     LangId = self.GetLangId(aLang)
-    aSessionId = DeepGetByList(aData, ['session', 'session_id'])
+    aSessionId = Lib.DeepGetByList(aData, ['session', 'session_id'])
     if (not aSessionId):
         return
 
@@ -30,5 +30,5 @@ async def Main(self, aData: dict = None) -> dict:
         DblProducts = await products_a(self, Dbl)
         return {
             'dbl_products_a': DblProducts.Export(),
-            'products_a_title': ResGetLang(aData, 'viewed'),
+            'products_a_title': Lib.ResGetLang(aData, 'viewed'),
         }

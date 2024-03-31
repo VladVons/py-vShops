@@ -3,7 +3,7 @@
 # License: GNU, see LICENSE for more details
 
 
-from IncP.LibCtrl import ResGetLang
+import IncP.LibCtrl as Lib
 from ..._inc.products_a import Main as products_a
 
 
@@ -23,5 +23,5 @@ async def Main(self, aData: dict = None) -> dict:
         Dbl = await products_a(self, Dbl)
         return {
             'dbl_products_a': Dbl.Export(),
-            'products_a_title': ResGetLang(aData, 'products_of_day')
+            'products_a_title': Lib.ResGetLang(aData, 'products_of_day')
         }

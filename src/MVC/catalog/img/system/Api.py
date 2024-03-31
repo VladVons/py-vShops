@@ -8,11 +8,11 @@ import time
 import base64
 #
 from Inc.Misc.FS import DirRemove
-from IncP.LibCtrl import TDownload, TDownloadImage, TImage, TDbList
+import IncP.LibCtrl as Lib
 
 
-def _GetImagesInfo(self, aFiles: list[str]) -> TDbList:
-    Dbl = TDbList(['name', 'type', 'size', 'date', 'href', 'path'])
+def _GetImagesInfo(self, aFiles: list[str]) -> Lib.TDbList:
+    Dbl = Lib.TDbList(['name', 'type', 'size', 'date', 'href', 'path'])
     for xFile in aFiles:
         Path = f'{self.Conf.dir_root}/{xFile}'
         if (os.path.exists(Path)):
@@ -41,7 +41,7 @@ async def GetThumbs(self, aFiles: list[str]) -> dict:
                 Path, _File = x.rsplit('/', maxsplit = 1)
                 PathOut = f'{self.Conf.dir_root}/{self.Conf.dir_thumb}/{Path}'
                 os.makedirs(PathOut, exist_ok = True)
-                TImage.ResizeFile(FileIn, FileOut, self.Conf.size_thumb)
+                Lib.TImage.ResizeFile(FileIn, FileOut, self.Conf.size_thumb)
             else:
                 Thumb = ''
         Res.append(Thumb)
@@ -94,18 +94,18 @@ async def UploadFiles(self, aPath: str, aFiles: dict) -> list[str]:
     for Key, Val in aFiles.items():
         File = f'{Path}/{Key.lower()}'
         Data = base64.b64decode(Val)
-        TImage.ResizeImg(Data, File, self.Conf.size_product)
+        Lib.TImage.ResizeImg(Data, File, self.Conf.size_product)
         Res.append(File)
     return {'files': Res}
 
 async def UploadUrl(self, aUrl: str, aFile: str) -> dict:
     Path, File = aFile.rsplit('/', maxsplit = 1)
-    Download = TDownload(f'{self.Conf.dir_root}/{Path}')
+    Download = Lib.TDownload(f'{self.Conf.dir_root}/{Path}')
     Res = await Download.Get([aUrl], [File])
     return {'status': Res}
 
 async def UploadUrls(self, aUrlD: list, aDir: str, aDownload: bool = True) -> dict:
-    Download = TDownloadImage(f'{self.Conf.dir_root}/{aDir}', self.Conf.size_product)
+    Download = Lib.TDownloadImage(f'{self.Conf.dir_root}/{aDir}', self.Conf.size_product)
     Download.Download = aDownload
     Res = await Download.Fetch(aUrlD)
     return {'status': Res}

@@ -2,10 +2,11 @@
 # Author: Vladimir Vons <VladVons@gmail.com>
 # License: GNU, see LICENSE for more details
 
-from IncP.LibCtrl import TDbList, SeoEncodeList
+
+import IncP.LibCtrl as Lib
 
 
-async def Main(self, aDbl: TDbList) -> TDbList:
+async def Main(self, aDbl: Lib.TDbList) -> Lib.TDbList:
     Missed = aDbl.Rec.GetFieldsMissed(['image', 'category_id', 'category_title', 'product_id', 'tenant_id'])
     assert (not Missed), f'Missed fields {Missed}'
 
@@ -24,7 +25,7 @@ async def Main(self, aDbl: TDbList) -> TDbList:
         Hrefs.append(f'/?route=product0/category&category_id={Rec.category_id}')
         Hrefs.append(f'/?route=product0/tenant&tenant_id={Rec.tenant_id}')
     if (self.ApiCtrl.Conf.get('seo_url')):
-        Hrefs = await SeoEncodeList(self, Hrefs)
+        Hrefs = await Lib.SeoEncodeList(self, Hrefs)
 
     PartSize = len(Hrefs) // len(aDbl)
     aDbl.AddFieldsFill(['thumb', 'product_href', 'category_href', 'tenant_href'], False)

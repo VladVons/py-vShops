@@ -3,7 +3,7 @@
 # License: GNU, see LICENSE for more details
 
 
-from IncP.LibCtrl import TDbList, GetCRC, TelegramMessage
+import IncP.LibCtrl as Lib
 
 
 async def ajax(self, aData: dict = None) -> dict:
@@ -43,7 +43,7 @@ async def Main(self, aData: dict = None) -> dict:
             }
         )
 
-        DblProducts = TDbList().LoadStr(Post['cart'])
+        DblProducts = Lib.TDbList().LoadStr(Post['cart'])
         DblOrderMix = await self.ExecModelImport(
             'doc_sale',
             {
@@ -57,7 +57,7 @@ async def Main(self, aData: dict = None) -> dict:
 
         OrderId = str(DblOrderMix.Rec.id)
         Res['status_code'] = 301
-        Res['status_value'] = f'/?route=checkout/order&order_id={OrderId}&crc={GetCRC(OrderId)}'
+        Res['status_value'] = f'/?route=checkout/order&order_id={OrderId}&crc={Lib.GetCRC(OrderId)}'
 
         Msg = f'''
 <a href="https://used.1x1.com.ua{Res['status_value']}">Order: {OrderId}</a>

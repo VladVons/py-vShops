@@ -3,19 +3,19 @@
 # License: GNU, see LICENSE for more details
 
 
-from IncP.LibCtrl import GetDictDefs, TPagination, TDbList, IsDigits, ResGetLang, UrlEncode, SeoEncodeStr
+import IncP.LibCtrl as Lib
 from ..._inc.products_a import Main as products_a
 from ..._inc import GetProductsSort
 
 
 async def Main(self, aData: dict = None) -> dict:
-    aTenantId, aLang, aSort, aOrder, aPage, aLimit = GetDictDefs(
+    aTenantId, aLang, aSort, aOrder, aPage, aLimit = Lib.GetDictDefs(
         aData.get('query'),
         ('tenant_id', 'lang', 'sort', 'order', 'page', 'limit'),
         ('1', 'ua', ('sort_order, title', 'title', 'price'), ('asc', 'desc'), 1, 18)
     )
 
-    if (not IsDigits([aTenantId, aPage, aLimit])):
+    if (not Lib.IsDigits([aTenantId, aPage, aLimit])):
         return {'status_code': 404}
 
     aLangId = self.GetLangId(aLang)
@@ -38,16 +38,16 @@ async def Main(self, aData: dict = None) -> dict:
     if (not Dbl):
         return {'status_code': 404}
 
-    Title = f"{ResGetLang(aData, 'tenant')}: {Dbl.Rec.tenant_title} ({Dbl.Rec.total}) - {ResGetLang(aData, 'page')} {aPage}"
+    Title = f"{Lib.ResGetLang(aData, 'tenant')}: {Dbl.Rec.tenant_title} ({Dbl.Rec.total}) - {Lib.ResGetLang(aData, 'page')} {aPage}"
 
     if (self.ApiCtrl.Conf.get('seo_url')):
-        Href = await SeoEncodeStr(self, UrlEncode(aData['query']))
+        Href = await Lib.SeoEncodeStr(self, Lib.UrlEncode(aData['query']))
     else:
         Href = aData['path_qs']
 
-    Pagination = TPagination(aLimit, Href)
+    Pagination = Lib.TPagination(aLimit, Href)
     PData = Pagination.Get(Dbl.Rec.total, aPage)
-    DblPagination = TDbList(['page', 'title', 'href', 'current'], PData)
+    DblPagination = Lib.TDbList(['page', 'title', 'href', 'current'], PData)
 
     dbl_products_a_sort = GetProductsSort(Pagination.Href, f'&sort={aSort}&order={aOrder}', aData['res']['lang'])
 

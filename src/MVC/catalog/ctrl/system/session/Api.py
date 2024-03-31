@@ -3,16 +3,16 @@
 # License: GNU, see LICENSE for more details
 
 
-from IncP.LibCtrl import DeepGetByList, Filter
+import IncP.LibCtrl as Lib
 
 
 async def RegSession(self, aData: dict) -> dict:
-    return await self.ExecModel('system', Filter(aData, ['method', 'param']))
+    return await self.ExecModel('system', Lib.Filter(aData, ['method', 'param']))
 
 async def OnExec(self, aData: dict) -> dict:
     await self.Cache.ProxyA('conf_tenant_0', {}, self.GetConf, [aData])
 
-    SessionId = DeepGetByList(aData, ['session', 'session_id'])
+    SessionId = Lib.DeepGetByList(aData, ['session', 'session_id'])
     if (SessionId):
         await self.ExecModel(
             'system',

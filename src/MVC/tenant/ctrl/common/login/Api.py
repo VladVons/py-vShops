@@ -3,11 +3,11 @@
 # License: GNU, see LICENSE for more details
 
 
-from IncP.LibCtrl import GetDictDefs
+import IncP.LibCtrl as Lib
 
 
 async def Main(self, aData: dict = None) -> dict:
-    aUser, aPassword = GetDictDefs(
+    aUser, aPassword = Lib.GetDictDefs(
         aData.get('post'),
         ('user', 'password'),
         ('', '')

@@ -3,18 +3,18 @@
 # License: GNU, see LICENSE for more details
 
 
-from IncP.LibCtrl import GetDictDefs, IsDigits, TDbList
+import IncP.LibCtrl as Lib
 from ..._inc.products_a import Main as products_a
 
 async def Main(self, aData: dict = None) -> dict:
-    aProductIds, aLang  = GetDictDefs(
+    aProductIds, aLang  = Lib.GetDictDefs(
         aData.get('query'),
         ('product_ids', 'lang'),
         ('', 'ua')
     )
 
     ProductIds = aProductIds.strip('[]').split(';')
-    if (not IsDigits(ProductIds)):
+    if (not Lib.IsDigits(ProductIds)):
         return {'status_code': 404}
 
     aLangId = self.GetLangId(aLang)
@@ -38,7 +38,7 @@ async def Main(self, aData: dict = None) -> dict:
     AttrEx = ['image', 'product_id', 'product_title', 'price', 'category_id', 'category_title', 'tenant_id']
     Attrs = AttrEx + sorted(set(Attrs))
 
-    DblCompare = TDbList(Attrs)
+    DblCompare = Lib.TDbList(Attrs)
     for Rec in Dbl:
         RecNew = DblCompare.RecAdd()
         for x in AttrEx:

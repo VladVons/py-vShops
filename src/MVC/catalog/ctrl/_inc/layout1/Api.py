@@ -4,8 +4,7 @@
 
 
 from IncP import GetAppVer
-from IncP.LibCtrl import GetDictDefs, SeoEncodeDict, SeoEncodeList
-
+import IncP.LibCtrl as Lib
 
 async def GetCategories(self, aLangId: int) -> dict:
     Dbl = await self.ExecModelImport (
@@ -21,7 +20,7 @@ async def GetCategories(self, aLangId: int) -> dict:
 
     Hrefs = [f'/?route=product0/category&category_id={Rec.id}' for Rec in Dbl]
     if (self.ApiCtrl.Conf.get('seo_url')):
-        Hrefs = await SeoEncodeList(self, Hrefs)
+        Hrefs = await Lib.SeoEncodeList(self, Hrefs)
 
     Res = {}
     for Idx, Rec in enumerate(Dbl):
@@ -38,7 +37,7 @@ async def ajax(self, aData: dict = None) -> dict:
     return await GetCategories(self, LangId)
 
 async def Main(self, aData: dict = None) -> dict:
-    aSearch, _aLang = GetDictDefs(
+    aSearch, _aLang = Lib.GetDictDefs(
         aData.get('query'),
         ('q', 'lang'),
         ('', 'ua')
@@ -54,7 +53,7 @@ async def Main(self, aData: dict = None) -> dict:
         'sitemap': '/?route=info/sitemap',
     }
     if (self.ApiCtrl.Conf.get('seo_url')):
-        Href = await SeoEncodeDict(self, Href)
+        Href = await Lib.SeoEncodeDict(self, Href)
 
     Href.update(
         {

@@ -3,10 +3,10 @@
 # License: GNU, see LICENSE for more details
 
 
-from IncP.LibCtrl import TDbList
+import IncP.LibCtrl as Lib
 
 
-async def Main(self, aDbl: TDbList) -> TDbList:
+async def Main(self, aDbl: Lib.TDbList) -> Lib.TDbList:
     Missed = aDbl.Rec.GetFieldsMissed(['id', 'category_title', 'image'])
     assert not Missed, f'Missed fields {Missed}'
 

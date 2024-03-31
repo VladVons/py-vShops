@@ -3,12 +3,12 @@
 # License: GNU, see LICENSE for more details
 
 
-from IncP.LibCtrl import GetDictDefs, TDbList, TPagination
+import IncP.LibCtrl as Lib
 from ..._inc.products_b import Main as products_b
 
 
 async def Main(self, aData: dict = None) -> dict:
-    aSearch, aLang, aSort, aOrder, aPage, aLimit = GetDictDefs(
+    aSearch, aLang, aSort, aOrder, aPage, aLimit = Lib.GetDictDefs(
         aData.get('query'),
         ('search', 'lang', 'sort', 'order', 'page', 'limit'),
         ('', 'ua', 'product_title', 'asc', 1, 12)
@@ -34,8 +34,8 @@ async def Main(self, aData: dict = None) -> dict:
     )
 
     if (Dbl):
-        Data = TPagination(aLimit, f'/?route=product/search0&search={aSearch}').Get(Dbl.Rec.total, aPage)
-        DblPagination = TDbList(['page', 'title', 'href', 'current'], Data)
+        Data = Lib.TPagination(aLimit, f'/?route=product/search0&search={aSearch}').Get(Dbl.Rec.total, aPage)
+        DblPagination = Lib.TDbList(['page', 'title', 'href', 'current'], Data)
 
         DblProducts = await products_b(self, Dbl)
 

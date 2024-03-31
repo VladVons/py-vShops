@@ -3,18 +3,18 @@
 # License: GNU, see LICENSE for more details
 
 
-from IncP.LibCtrl import GetDictDefs, IsDigits, GetCRC
+import IncP.LibCtrl as Lib
 
 
 async def Main(self, aData: dict = None) -> dict:
-    aLang, aOrderId, aCRC = GetDictDefs(
+    aLang, aOrderId, aCRC = Lib.GetDictDefs(
         aData.get('query'),
         ('lang', 'order_id', 'crc'),
         ('ua', 0, 0)
     )
     aLangId = self.GetLangId(aLang)
 
-    if (not IsDigits([aOrderId, aCRC])) or (GetCRC(str(aOrderId)) != aCRC):
+    if (not Lib.IsDigits([aOrderId, aCRC])) or (Lib.GetCRC(str(aOrderId)) != aCRC):
         return {'status_code': 404}
 
 

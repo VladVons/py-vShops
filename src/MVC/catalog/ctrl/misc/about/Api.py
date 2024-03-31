@@ -6,4 +6,4 @@
 async def Main(self, _aQuery: dict = None) -> dict:
     ResDb = await self.ExecModel('system', {'method': 'GetDbInfo'})
     ResSys = await self.ExecModel('system', {'method': 'GetSysInfo'})
-    return {'db': ResDb, 'sys': ResSys}
+    return {'db': ResDb, 'ibsys': ResSys}

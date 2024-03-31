@@ -5,7 +5,7 @@
 
 from Inc.Util.Mod import DAddModules
 from IncP.CtrlBase import TCtrlBase
-from IncP.LibCtrl import TDbList
+import IncP.LibCtrl as Lib
 from . import Api
 
 
@@ -34,7 +34,7 @@ class TMain(TCtrlBase):
                 Res[ParentIdt].append(Data)
         return Res
 
-    async def _MergeImages(self, aDbl: TDbList) -> TDbList:
+    async def _MergeImages(self, aDbl: Lib.TDbList) -> Lib.TDbList:
         if (aDbl and len(aDbl) > 0):
             Images = [f'product/{Rec.image}' for Rec in aDbl]
             DblData = await self.ExecImg(
@@ -44,11 +44,11 @@ class TMain(TCtrlBase):
                     'param': {'aFiles': Images}
                 }
             )
-            DblImg = TDbList().Import(DblData)
+            DblImg = Lib.TDbList().Import(DblData)
             DblImg.MergeDbl(aDbl, ['sort_order', 'enabled', 'image'])
             return DblImg
 
-    async def GetImages(self, aProductId: int) -> TDbList:
+    async def GetImages(self, aProductId: int) -> Lib.TDbList:
         DblDb = await self.ExecModelImport(
             'ref_product/product',
             {
@@ -58,7 +58,7 @@ class TMain(TCtrlBase):
         )
         return await self._MergeImages(DblDb)
 
-    async def GetImages0(self, aProductId: int) -> TDbList:
+    async def GetImages0(self, aProductId: int) -> Lib.TDbList:
         DblDb = await self.ExecModelImport(
             'ref_product0/product',
             {

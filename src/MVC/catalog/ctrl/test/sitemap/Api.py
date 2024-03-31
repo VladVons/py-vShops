@@ -3,13 +3,12 @@
 # License: GNU, see LICENSE for more details
 
 
-from IncP.LibCtrl import TDbList, SeoEncodeList
+import IncP.LibCtrl as Lib
 
-
-async def AddHref(self, aDbl: TDbList, aHref: list[str]):
+async def AddHref(self, aDbl: Lib.TDbList, aHref: list[str]):
     if (aDbl):
         if (self.ApiCtrl.Conf.get('seo_url')):
-            aHref = await SeoEncodeList(self, aHref)
+            aHref = await Lib.SeoEncodeList(self, aHref)
         aDbl.AddFields(['href'], [aHref])
 
 async def ajax(self, aData: dict) -> dict:

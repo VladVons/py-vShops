@@ -3,11 +3,11 @@
 # License: GNU, see LICENSE for more details
 
 
-from IncP.LibCtrl import DeepGetByList
+import IncP.LibCtrl as Lib
 
 
 async def Main(self, aData: dict = None) -> dict:
-    aModuleId = DeepGetByList(aData, ['rec', 'id'])
+    aModuleId = Lib.DeepGetByList(aData, ['rec', 'id'])
     LangId = self.GetLangId('ua')
 
     Dbl = await self.ExecModelImport(

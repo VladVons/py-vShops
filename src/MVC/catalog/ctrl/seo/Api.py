@@ -4,7 +4,7 @@
 
 
 import re
-from IncP.LibCtrl import Iif
+import IncP.LibCtrl as Lib
 
 
 async def Decode(self, aData: dict) -> dict:
@@ -63,6 +63,6 @@ async def Encode(self, aData: dict) -> dict:
             if (Path):
                 Url += '/' + Path
             else:
-                Url += Iif('?' in Url, '&', '?') + Query
+                Url += Lib.Iif('?' in Url, '&', '?') + Query
         Res.append(Url.lstrip('&'))
     return Res

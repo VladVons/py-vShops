@@ -3,12 +3,12 @@
 # License: GNU, see LICENSE for more details
 
 
-from IncP.LibCtrl import GetDictDefs, TPagination, TDbList, IsDigits, ResGetModule, ResGetLang, AttrDecode, UrlEncode, SeoEncodeStr
+import IncP.LibCtrl as Lib
 from ..._inc.products_a import Main as products_a
 from ..._inc import GetBreadcrumbs, GetProductsSort
 
 
-def FindAttrFilter(aDbl: TDbList, aAttr: dict, aCategoryId: int) -> list[str]:
+def FindAttrFilter(aDbl: Lib.TDbList, aAttr: dict, aCategoryId: int) -> list[str]:
     Res = []
     for Rec in aDbl:
         if (Rec.category_id == int(aCategoryId)):
@@ -30,13 +30,13 @@ def FindAttrFilter(aDbl: TDbList, aAttr: dict, aCategoryId: int) -> list[str]:
 
 
 async def Main(self, aData: dict = None) -> dict:
-    aCategoryId, aLang, aAttr, aSort, aOrder, aPage, aLimit = GetDictDefs(
+    aCategoryId, aLang, aAttr, aSort, aOrder, aPage, aLimit = Lib.GetDictDefs(
         aData.get('query'),
         ('category_id', 'lang', 'attr', 'sort', 'order', 'page', 'limit'),
         ('0', 'ua', '', ('sort_order, title', 'title', 'price'), ('asc', 'desc'), 1, 18)
     )
 
-    if (not IsDigits([aCategoryId, aPage, aLimit])):
+    if (not Lib.IsDigits([aCategoryId, aPage, aLimit])):
         return {'status_code': 404}
 
     aLimit = min(aLimit, 50)
@@ -53,7 +53,7 @@ async def Main(self, aData: dict = None) -> dict:
         return {'status_code': 404}
 
     AttrDescr = ''
-    Attr = AttrDecode(aAttr)
+    Attr = Lib.AttrDecode(aAttr)
     if (Attr):
         DblAttr = await self.ExecModelImport(
             'ref_attr',
@@ -64,7 +64,7 @@ async def Main(self, aData: dict = None) -> dict:
         )
         AttrFilter = FindAttrFilter(DblAttr, Attr, aCategoryId)
         if (AttrFilter):
-            AttrDescr = ResGetLang(aData, 'appointment') + ': ' + ', '.join(AttrFilter)
+            AttrDescr = Lib.ResGetLang(aData, 'appointment') + ': ' + ', '.join(AttrFilter)
 
     CategoryIds = Dbl.ExportList('id')
     Dbl = await self.ExecModelImport(
@@ -100,17 +100,17 @@ async def Main(self, aData: dict = None) -> dict:
     Category = DblCategory.Rec.GetAsDict()
 
     BreadCrumbs = await GetBreadcrumbs(self, aLangId, aCategoryId)
-    ModCategoryAttr = ResGetModule(aData, 'category_attr')
-    Title = f"{ResGetLang(aData, 'category')}: {Category['title']} ({DblProducts.Rec.total}) - {ResGetLang(aData, 'page')} {aPage}"
+    ModCategoryAttr = Lib.ResGetModule(aData, 'category_attr')
+    Title = f"{Lib.ResGetLang(aData, 'category')}: {Category['title']} ({DblProducts.Rec.total}) - {Lib.ResGetLang(aData, 'page')} {aPage}"
 
     if (self.ApiCtrl.Conf.get('seo_url')):
-        Href = await SeoEncodeStr(self, UrlEncode(aData['query']))
+        Href = await Lib.SeoEncodeStr(self, Lib.UrlEncode(aData['query']))
     else:
         Href = aData['path_qs']
 
-    Pagination = TPagination(aLimit, Href)
+    Pagination = Lib.TPagination(aLimit, Href)
     PData = Pagination.Get(Dbl.Rec.total, aPage)
-    DblPagination = TDbList(['page', 'title', 'href', 'current'], PData)
+    DblPagination = Lib.TDbList(['page', 'title', 'href', 'current'], PData)
 
     dbl_products_a_sort = GetProductsSort(Pagination.Href, f'&sort={aSort}&order={aOrder}', aData['res']['lang'])
 

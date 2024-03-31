@@ -3,11 +3,11 @@
 # License: GNU, see LICENSE for more details
 
 
-from IncP.LibCtrl import GetDictDefs
+import IncP.LibCtrl as Lib
 
 
 async def Main(self, aData: dict) -> dict:
-    aLang, aPath, aKey = GetDictDefs(
+    aLang, aPath, aKey = Lib.GetDictDefs(
         aData,
         ('lang', 'path', 'key'),
         ('ua', '', 'tpl')

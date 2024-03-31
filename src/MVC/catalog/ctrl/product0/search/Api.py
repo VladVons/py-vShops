@@ -3,13 +3,13 @@
 # License: GNU, see LICENSE for more details
 
 
-from IncP.LibCtrl import GetDictDefs, TDbList, TPagination, IsDigits, ResGetLang, UrlEncode, SeoEncodeStr
+import IncP.LibCtrl as Lib
 from ..._inc.products_a import Main as products_a
 from ..._inc import GetProductsSort
 
 
 async def ajax(self, aData: dict = None) -> dict:
-    aSearch, aLang = GetDictDefs(
+    aSearch, aLang = Lib.GetDictDefs(
         aData,
         ('q', 'lang'),
         ('', 'ua')
@@ -30,13 +30,13 @@ async def ajax(self, aData: dict = None) -> dict:
         return Res
 
 async def Main(self, aData: dict = None) -> dict:
-    aSearch, aLang, aSort, aOrder, aPage, aLimit = GetDictDefs(
+    aSearch, aLang, aSort, aOrder, aPage, aLimit = Lib.GetDictDefs(
         aData.get('query'),
         ('q', 'lang', 'sort', 'order', 'page', 'limit'),
         ('', 'ua', ('sort_order, title', 'title', 'price'), ('asc', 'desc'), 1, 18)
     )
 
-    if (not IsDigits([aPage, aLimit])):
+    if (not Lib.IsDigits([aPage, aLimit])):
         return {'status_code': 404}
 
     aLangId = self.GetLangId(aLang)
@@ -73,16 +73,16 @@ async def Main(self, aData: dict = None) -> dict:
 
     if (Found):
         if (self.ApiCtrl.Conf.get('seo_url')):
-            Href = await SeoEncodeStr(self, UrlEncode(aData['query']))
+            Href = await Lib.SeoEncodeStr(self, Lib.UrlEncode(aData['query']))
         else:
             Href = aData['path_qs']
 
-        Pagination = TPagination(aLimit, Href)
+        Pagination = Lib.TPagination(aLimit, Href)
         PData = Pagination.Get(Dbl.Rec.total, aPage)
-        DblPagination = TDbList(['page', 'title', 'href', 'current'], PData)
+        DblPagination = Lib.TDbList(['page', 'title', 'href', 'current'], PData)
 
         DblProducts = await products_a(self, Dbl)
-        Title = f"{ResGetLang(aData, 'search')}: {aSearch} ({Found}) - {ResGetLang(aData, 'page')} {aPage}"
+        Title = f"{Lib.ResGetLang(aData, 'search')}: {aSearch} ({Found}) - {Lib.ResGetLang(aData, 'page')} {aPage}"
 
         dbl_products_a_sort = GetProductsSort(Pagination.Href, f'&sort={aSort}&order={aOrder}', aData['res']['lang'])
 

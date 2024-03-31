@@ -3,17 +3,17 @@
 # License: GNU, see LICENSE for more details
 
 
-from IncP.LibCtrl import GetDictDefs, IsDigits, TPagination, TDbList
+import IncP.LibCtrl as Lib
 
 
 async def Main(self, aData: dict = None) -> dict:
-    aPage, aLimit, aHaving = GetDictDefs(
+    aPage, aLimit, aHaving = Lib.GetDictDefs(
         aData.get('query'),
         ('page', 'limit', 'having'),
         (1, 50, 0)
     )
 
-    if (not IsDigits([aPage, aLimit, aHaving])):
+    if (not Lib.IsDigits([aPage, aLimit, aHaving])):
         return {'status_code': 404}
 
     Dbl = await self.ExecModelImport(
@@ -34,9 +34,9 @@ async def Main(self, aData: dict = None) -> dict:
     Href = aData['path_qs']
     #Href = UrlEncode(aData['query'])
 
-    Pagination = TPagination(aLimit, Href)
+    Pagination = Lib.TPagination(aLimit, Href)
     PData = Pagination.Get(Dbl.Rec.total, aPage)
-    DblPagination = TDbList(['page', 'title', 'href', 'current'], PData)
+    DblPagination = Lib.TDbList(['page', 'title', 'href', 'current'], PData)
 
     return {
         'dbl': Dbl.Export(),

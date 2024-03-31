@@ -8,9 +8,7 @@ from Inc.Loader.Lang import TLoaderLangFs
 from Inc.Util.Obj import DeepGetByList, DictUpdate
 from IncP.ApiBase import TApiBase
 from IncP.Plugins import TCtrls
-from IncP.LibCtrl import GetDictDef
-from IncP.Log import Log
-
+import IncP.LibCtrl as Lib
 
 class TApiCtrl(TApiBase):
     def __init__(self, aName: str, aApiCommon: 'TApiCtrl' = None):
@@ -36,7 +34,7 @@ class TApiCtrl(TApiBase):
 
         Section = Conf['lang']
         if (Section['type'] == 'fs'):
-            Def = GetDictDef(Section, ['dir'], ['MVC/catalog/lang'])
+            Def = Lib.GetDictDef(Section, ['dir'], ['MVC/catalog/lang'])
             self.Lang = TLoaderLangFs(*Def)
         else:
             raise ValueError()
@@ -82,7 +80,7 @@ class TApiCtrl(TApiBase):
         Res['lang'] = Lang
 
         if ('err' in Caller):
-            Log.Print(1, 'i', f"TApiCtrl.Exec() {Caller['err']}")
+            Lib.Log.Print(1, 'i', f"TApiCtrl.Exec() {Caller['err']}")
             Res['modules'] = await self.BaseCtrl.LoadModules(aData)
             Data = await self.BaseCtrl.LoadLayout(aData)
             Res.update(Data)

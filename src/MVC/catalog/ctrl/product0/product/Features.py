@@ -3,7 +3,7 @@
 # License: GNU, see LICENSE for more details
 
 
-from IncP.LibCtrl import DeepGetByList
+import IncP.LibCtrl as Lib
 
 
 class TFeatures():
@@ -24,7 +24,7 @@ class TFeatures():
         self.Lang = aLang
 
     def Translate(self, aKey: str) -> str:
-        return DeepGetByList(self.Lang, [self.Lang, aKey.lower()], aKey)
+        return Lib.DeepGetByList(self.Lang, [self.Lang, aKey.lower()], aKey)
 
     def Adjust1(self, aObj: object) -> list:
         def Recurs(aObj: object, aDepth: int) -> list:

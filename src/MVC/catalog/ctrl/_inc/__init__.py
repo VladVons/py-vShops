@@ -3,7 +3,7 @@
 # License: GNU, see LICENSE for more details
 
 
-from IncP.LibCtrl import TDbList, UrlUdate, SeoEncodeList
+import IncP.LibCtrl as Lib
 
 
 async def GetBreadcrumbs(self, aLangId: str, aCategoryId: int) -> list:
@@ -23,22 +23,22 @@ async def GetBreadcrumbs(self, aLangId: str, aCategoryId: int) -> list:
             Hrefs = [f'/?route=product0/category&category_id={Id}' for Id in Dbl.Rec.path_id]
             #Hrefs.insert(0, '/?route=product0/category&category_id=0')
             if (self.ApiCtrl.Conf.get('seo_url')):
-                Hrefs = await SeoEncodeList(self, Hrefs)
+                Hrefs = await Lib.SeoEncodeList(self, Hrefs)
 
             for Idx, (Title, Id) in enumerate(zip(Dbl.Rec.path_title, Dbl.Rec.path_id)):
                 Res.append({'href': Hrefs[Idx], 'title': Title})
 
     return Res
 
-def GetProductsSort(aHref: str, aCur: str, aLang: dict) -> TDbList:
-    Dbl = TDbList().Import({
+def GetProductsSort(aHref: str, aCur: str, aLang: dict) -> Lib.TDbList:
+    Dbl = Lib.TDbList().Import({
         'head': ['href', 'title', 'selected'],
         'data': [
             [f'{aHref}', aLang.get('default', '-default-'), ''],
-            [UrlUdate(aHref, {'sort': 'title', 'order': 'asc'}), aLang.get('name_az'),  ''],
-            [UrlUdate(aHref, {'sort': 'title', 'order': 'desc'}), aLang.get('name_za'),  ''],
-            [UrlUdate(aHref, {'sort': 'price', 'order': 'asc'}), aLang.get('price_19'), ''],
-            [UrlUdate(aHref, {'sort': 'price', 'order': 'desc'}), aLang.get('price_91'), '']
+            [Lib.UrlUdate(aHref, {'sort': 'title', 'order': 'asc'}), aLang.get('name_az'),  ''],
+            [Lib.UrlUdate(aHref, {'sort': 'title', 'order': 'desc'}), aLang.get('name_za'),  ''],
+            [Lib.UrlUdate(aHref, {'sort': 'price', 'order': 'asc'}), aLang.get('price_19'), ''],
+            [Lib.UrlUdate(aHref, {'sort': 'price', 'order': 'desc'}), aLang.get('price_91'), '']
         ]
     })
     for Rec in Dbl:

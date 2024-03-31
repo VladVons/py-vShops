@@ -5,19 +5,19 @@
 
 import json
 #
-from IncP.LibCtrl import GetDictDefs, Iif, IsDigits, TDbList, SeoEncodeDict, SeoEncodeList, HtmlEsc
+import IncP.LibCtrl as Lib
 #from .Features import TFeatures
 from ..._inc import GetBreadcrumbs
 
 
 async def Main(self, aData: dict = None) -> dict:
-    aLang, aProductId = GetDictDefs(
+    aLang, aProductId = Lib.GetDictDefs(
         aData.get('query'),
         ('lang', 'product_id'),
         ('ua', 0)
     )
 
-    if (not IsDigits([aProductId])):
+    if (not Lib.IsDigits([aProductId])):
         return {'status_code': 404}
 
     aLangId = self.GetLangId(aLang)
@@ -50,7 +50,7 @@ async def Main(self, aData: dict = None) -> dict:
     Product = DblProduct.Rec.GetAsDict()
     CategoryId = Product['category_id']
 
-    DblAttr = TDbList(['id', 'alias', 'title', 'val'], Product['attr'])
+    DblAttr = Lib.TDbList(['id', 'alias', 'title', 'val'], Product['attr'])
     Hrefs = []
     Descr = []
     for Rec in DblAttr:
@@ -58,11 +58,11 @@ async def Main(self, aData: dict = None) -> dict:
         Descr.append(f'{Rec.title}: {Rec.val}')
 
     if (self.ApiCtrl.Conf.get('seo_url')):
-        Hrefs = await SeoEncodeList(self, Hrefs)
+        Hrefs = await Lib.SeoEncodeList(self, Hrefs)
 
     if (not Product['descr']):
         Product['descr'] = f"{Product['category_title']} {Product['title']} {', '.join(Descr)}"
-    Product['descr'] = HtmlEsc(Product['descr'])
+    Product['descr'] = Lib.HtmlEsc(Product['descr'])
 
     DblAttr.AddFieldsFill(['href'], False)
     for Idx, Rec in enumerate(DblAttr):
@@ -107,8 +107,8 @@ async def Main(self, aData: dict = None) -> dict:
         'description': Product['descr'],
         'offers': {
             '@type': 'Offer',
-            'itemCondition': 'https://schema.org/' + Iif(Product['cond_en'] == 'new', 'NewCondition', 'UsedCondition'),
-            'availability': 'https://schema.org/' + Iif(Product['rest'] > 0, 'InStock', 'OutOfStock'),
+            'itemCondition': 'https://schema.org/' + Lib.Iif(Product['cond_en'] == 'new', 'NewCondition', 'UsedCondition'),
+            'availability': 'https://schema.org/' + Lib.Iif(Product['rest'] > 0, 'InStock', 'OutOfStock'),
             'price': DblPrice.Rec.price,
             'priceCurrency': DblPrice.Rec.alias
         }
@@ -121,7 +121,7 @@ async def Main(self, aData: dict = None) -> dict:
         'canonical': f'/?route=product0/product&product_id={aProductId}'
     }
     if (self.ApiCtrl.Conf.get('seo_url')):
-        Href = await SeoEncodeDict(self, Href)
+        Href = await Lib.SeoEncodeDict(self, Href)
     Href['self'] = aData['path_qs']
     Res['href'] = Href
 

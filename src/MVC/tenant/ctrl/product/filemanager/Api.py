@@ -6,17 +6,17 @@
 import base64
 import json
 #
-from IncP.LibCtrl import  DeepGetByList, GetDictDefs, TDbList, DeepGetsRe
+import IncP.LibCtrl as Lib
 
 ImgPrefix = 'product'
 
 async def ajax(self, aData: dict = None) -> dict:
-    aLang, aPath, Mode = GetDictDefs(
+    aLang, aPath, Mode = Lib.GetDictDefs(
         aData.get('query'),
         ('lang', 'path', 'mode'),
         ('ua', '', 'list')
     )
-    AuthId = DeepGetByList(aData, ['session', 'auth_id'])
+    AuthId = Lib.DeepGetByList(aData, ['session', 'auth_id'])
     Path = f'{ImgPrefix}/{AuthId}'
     Dir = f'{Path}/{aPath}'.rstrip('/')
     Post = aData.get('post', {})
@@ -35,7 +35,7 @@ async def DoPost(self, aPost, aAuthId, aDir) -> dict:
         )
 
     if (aPost.get('btn_delete')):
-        ChkItems = DeepGetsRe(aPost, ['chk_(file|folder)_.*'])
+        ChkItems = Lib.DeepGetsRe(aPost, ['chk_(file|folder)_.*'])
         Items = [f'{ImgPrefix}/{x[0]}' for x in ChkItems]
         if (Items):
             await self.ExecImg(
@@ -82,13 +82,13 @@ async def DoPost(self, aPost, aAuthId, aDir) -> dict:
 
 async def Main(self, aData: dict = None) -> dict:
     # - entry -
-    aLang, aPath, Mode = GetDictDefs(
+    aLang, aPath, Mode = Lib.GetDictDefs(
         aData.get('query'),
         ('lang', 'path', 'mode'),
         ('ua', '', 'list')
     )
 
-    AuthId = DeepGetByList(aData, ['session', 'auth_id'])
+    AuthId = Lib.DeepGetByList(aData, ['session', 'auth_id'])
     Path = f'product/{AuthId}'
     Dir = f'{Path}/{aPath}'.rstrip('/')
 
@@ -105,7 +105,7 @@ async def Main(self, aData: dict = None) -> dict:
     )
 
     if (DblData):
-        Dbl = TDbList().Import(DblData)
+        Dbl = Lib.TDbList().Import(DblData)
         for Rec in Dbl:
             if (Rec.type == 'd'):
                 Arr = Rec.href.rsplit(Path, maxsplit=1)

@@ -3,7 +3,7 @@
 # License: GNU, see LICENSE for more details
 
 
-from IncP.LibCtrl import HtmlEsc, SeoEncodeList
+import IncP.LibCtrl as Lib
 
 
 def AttrEncode(aItems: list) -> str:
@@ -32,7 +32,7 @@ async def Main(self, aData: dict = None) -> dict:
     if (Dbl):
         Hrefs = []
         for Rec in Dbl:
-            Attr = HtmlEsc(AttrEncode(Rec.filter))
+            Attr = Lib.HtmlEsc(AttrEncode(Rec.filter))
             Hrefs.append(f'/?route=product0/category&category_id={Rec.category_id}&attr=[{Attr}]')
         # ToDo
         #if (self.ApiCtrl.Conf.get('seo_url')):

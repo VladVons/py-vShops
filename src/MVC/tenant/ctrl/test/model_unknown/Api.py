@@ -3,11 +3,11 @@
 # License: GNU, see LICENSE for more details
 
 
-from IncP.LibCtrl import DeepGetByList
+import IncP.LibCtrl as Lib
 
 
 async def Main(self, aData: dict) -> dict:
-    AuthId = DeepGetByList(aData, ['session', 'auth_id'])
+    AuthId = Lib.DeepGetByList(aData, ['session', 'auth_id'])
 
     Dbl = await self.ExecModelImport(
         'test',
