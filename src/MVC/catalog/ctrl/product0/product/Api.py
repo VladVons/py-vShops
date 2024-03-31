@@ -127,5 +127,5 @@ async def Main(self, aData: dict = None) -> dict:
 
     Res['product'] = Product
     Res['title'] = ''
-    Res['descr'] = Product['descr']
+    Res['description'] = Product['descr']
     return Res
