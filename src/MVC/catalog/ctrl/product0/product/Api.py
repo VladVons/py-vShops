@@ -105,6 +105,7 @@ async def Main(self, aData: dict = None) -> dict:
         'image': Product['images'],
         'name': Product['title'],
         'description': Product['descr'],
+        'category': Product['category_title'],
         'offers': {
             '@type': 'Offer',
             'itemCondition': 'https://schema.org/' + Lib.Iif(Product['cond_en'] == 'new', 'NewCondition', 'UsedCondition'),
