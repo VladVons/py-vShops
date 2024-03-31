@@ -9,6 +9,10 @@ from IncP import GetSysInfo
 from IncP.Log import Log
 from Task.Main import TTask
 
+
+def Test():
+    pass
+
 def Run():
     Info = GetSysInfo()
     Log.Print(1, 'i', f'os: {Info["os"]}, python: {Info["python"]}, uptime: {Info["uptime"]}')
@@ -21,3 +25,4 @@ def Run():
 
 if (__name__ == '__main__'):
     Run()
+    #Test()

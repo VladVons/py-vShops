@@ -43,9 +43,9 @@ class TSrvView(TSrvBase):
         assert(ApiView), f'unknown path `{aPath}` in {ApiViews.keys()}'
 
         Name = aRequest.match_info.get('name')
-        Ext = Name.rsplit('.', maxsplit=1)[-1].lower()
+        NameExt = Name.rsplit('.', maxsplit=1)
         #if (Ext in ['js', 'css', 'jpg', 'png', 'ico', 'gif', 'txt', 'xml', 'woff2']):
-        if (0 < len(Ext) <= 5):
+        if (len(NameExt) == 2) and (2 <= len(NameExt) <= 5):
             File = f'{ApiView.Conf.dir_root}/{Name}'
             if (os.path.isfile(File)):
                 if (re.search(self._SrvConf.deny, Name)):
