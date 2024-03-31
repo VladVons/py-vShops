@@ -10,13 +10,14 @@ import platform
 from Inc.Misc.Info import GetSysInfo, DictToText
 
 
-__version__ = '1.0.19'
-__date__ =  '2024.03.15'
+__version__ = '1.0.21'
+__date__ =  '2024.03.30'
 
 
 
 def GetAppVer() -> dict:
     return {
+        'app_name': 'vShops',
         'app_ver' : __version__,
         'app_date': __date__,
         'author':  'Vladimir Vons, VladVons@gmail.com',

@@ -3,7 +3,9 @@
 # License: GNU, see LICENSE for more details
 
 
+from IncP import GetAppVer
 from IncP.LibCtrl import GetDictDefs, SeoEncodeDict, SeoEncodeList
+
 
 async def GetCategories(self, aLangId: int) -> dict:
     Dbl = await self.ExecModelImport (
@@ -64,9 +66,14 @@ async def Main(self, aData: dict = None) -> dict:
         }
     )
 
+    AppVer = GetAppVer()
+    App = f'{AppVer["app_name"]} {AppVer["app_ver"]} {AppVer["app_date"]}'
+    Copyright = f'Fast async python MVC framework; {App}; {AppVer["author"]}'
+
     Res = {
         'href': Href,
-        'search': aSearch
+        'search': aSearch,
+        'copyright': Copyright
     }
 
     return Res
