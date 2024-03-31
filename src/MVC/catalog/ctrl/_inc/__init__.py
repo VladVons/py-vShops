@@ -25,7 +25,7 @@ async def GetBreadcrumbs(self, aLangId: str, aCategoryId: int) -> list:
             if (self.ApiCtrl.Conf.get('seo_url')):
                 Hrefs = await Lib.SeoEncodeList(self, Hrefs)
 
-            for Idx, (Title, Id) in enumerate(zip(Dbl.Rec.path_title, Dbl.Rec.path_id)):
+            for Idx, Title in enumerate(Dbl.Rec.path_title):
                 Res.append({'href': Hrefs[Idx], 'title': Title})
 
     return Res

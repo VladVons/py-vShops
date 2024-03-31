@@ -27,7 +27,7 @@
   <div class="mt-3">
     {% for Rec in TDbList().Import(dbl_pages) %}
     <div>
-      <a href="{{Rec.route}}">{{Rec.title}}</a>
+      <a href="{{Rec.href}}">{{Rec.title}}</a>
     </div>
     {% endfor %}
   </div>

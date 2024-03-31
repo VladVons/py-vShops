@@ -23,9 +23,7 @@ async def Main(self, aData: dict = None) -> dict:
         if (self.ApiCtrl.Conf.get('seo_url')):
             Hrefs = await Lib.SeoEncodeList(self, Hrefs)
 
-        DblPages.ToList()
-        for Idx, Rec in enumerate(DblPages):
-            Rec.route = Hrefs[Idx]
+        DblPages.AddFields(['href'], [Hrefs])
 
     return {
         'categories_a': Categories, 'id_a': 0,

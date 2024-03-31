@@ -9,6 +9,7 @@ async def AddHref(self, aDbl: Lib.TDbList, aHref: list[str]):
     if (aDbl):
         if (self.ApiCtrl.Conf.get('seo_url')):
             aHref = await Lib.SeoEncodeList(self, aHref)
+
         aDbl.AddFields(['href'], [aHref])
 
 async def ajax(self, aData: dict) -> dict:
