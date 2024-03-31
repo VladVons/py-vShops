@@ -12,6 +12,9 @@
   text-rendering: auto;
   line-height: 1; }
 
+.fa-3x {
+  font-size: 3em; }
+
 @-webkit-keyframes fa-spin {
   0% {
     -webkit-transform: rotate(0deg);
@@ -40,8 +43,20 @@ readers do not read off random characters that represent icons */
 .fa-bars:before {
   content: "\f0c9"; }
 
+.fa-book-open:before {
+  content: "\f518"; }
+
+.fa-cc-mastercard:before {
+  content: "\f1f1"; }
+
+.fa-cc-visa:before {
+  content: "\f1f0"; }
+
 .fa-copyright:before {
   content: "\f1f9"; }
+
+.fa-dollar-sign:before {
+  content: "\f155"; }
 
 .fa-envelope:before {
   content: "\f0e0"; }
@@ -52,8 +67,14 @@ readers do not read off random characters that represent icons */
 .fa-heart:before {
   content: "\f004"; }
 
+.fa-home:before {
+  content: "\f015"; }
+
 .fa-location-arrow:before {
   content: "\f124"; }
+
+.fa-money-bill-wave:before {
+  content: "\f53a"; }
 
 .fa-phone:before {
   content: "\f095"; }
