@@ -36,8 +36,8 @@ function searchNavbar() {
             curFocus--
             setActive(x)
         } else if (aEvent.key == 'Enter') {
-            aEvent.preventDefault()
             if (curFocus >= 0) {
+                aEvent.preventDefault()
                 x[curFocus].click()
             }
         } else if (aEvent.key == 'Escape') {
