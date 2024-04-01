@@ -21,7 +21,6 @@ async def Main(self, aData: dict = None) -> dict:
         return {'status_code': 404}
 
     aLangId = self.GetLangId(aLang)
-
     DblProduct = await self.ExecModelImport(
         'ref_product0/product',
         {

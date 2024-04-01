@@ -17,6 +17,13 @@ function searchNavbar() {
     const elSearchSuggest = document.getElementById('viSearchSuggest')
     assert(elSearchSuggest)
 
+    document.addEventListener('click', function(event) {
+        if (!elSearchSuggest.contains(event.target)) {
+          elSearchSuggest.innerHTML = ''
+          elSearchInput.value = ''
+        }
+    })
+
     elSearchInput.addEventListener('keydown', function(aEvent) {
         let x = elSearchSuggest.getElementsByTagName('div')
         if (x.length == 0)
