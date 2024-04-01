@@ -165,35 +165,36 @@ h6 {
 }
 
 /*-- card --*/
-.card-header{
+.card-header {
     text-align: center;
     border-bottom: none;
 }
-.card-body{
+.card-body {
     text-align: center;
     border-top: none;
     border-bottom: none;
 }
-.card-body a, .card-footer a{
+.card-body a, .card-footer a {
     font-family: 'Nunito', sans-serif;
     font-size: 14px;
     color:#4B4B4B;
 }
-.card-footer{
+.card-footer {
     text-align: center;
     border-top: none;
-
 }
-.card-footer .fw-bold{
+.card-footer .fw-bold {
     color:#BD5959;
 }
-.card-title h3 a{
-font-family: font-family: 'Ubuntu', sans-serif;
-color: #292929;
-font-size: 14px;
-font-weight: bold;
-text-decoration: none;
+
+.card-title h3 a {
+    font-family: 'Ubuntu', sans-serif;
+    color: #292929;
+    font-size: 14px;
+    font-weight: bold;
+    text-decoration: none;
 }
+
 .vCard img {
     max-height: 210px;
     max-width: 100%;

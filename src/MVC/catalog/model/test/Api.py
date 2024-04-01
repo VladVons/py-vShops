@@ -8,3 +8,9 @@ async def Get_HistSession(self, aHost: str, aLimit: int, aOffset: int, aHaving: 
         'fmtGet_HistSession.sql',
         {'aHost': aHost, 'aLimit': aLimit, 'aOffset': aOffset, 'aHaving': aHaving}
     )
+
+async def Get_HistGoogle(self, aHost: str, aLimit: int, aOffset: int) -> dict:
+    return await self.ExecQuery(
+        'fmtGet_HistGoogle.sql',
+        {'aHost': aHost, 'aLimit': aLimit, 'aOffset': aOffset}
+    )

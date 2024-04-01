@@ -1,13 +1,13 @@
 {% extends '_inc/layout1.j2' %}
 
-{% set Fields = ['create_date', 'id', 'url', 'ip', 'location'] %}
+{% set Fields = ['create_date', 'count', 'url', 'title'] %}
 
 {% block head %}
 <style>
   .grid-container {
     display: grid;
     --grid-template-columns: repeat({{ Fields | length }}, 1fr);
-    grid-template-columns: 200px 100px auto 150px 300px;
+    grid-template-columns: 200px 100px auto 300px;
   }
 
   .gitem {
@@ -19,25 +19,17 @@
 {% endblock %}
 
 {% block content %}
-<!-- hist_session + -->
+<!-- hist_google + -->
 <div class="container pb-2">
   <div class="grid-container">
     {% for xFields in Fields %}
       <div class="grid-item fw-bold">{{xFields}}</div>
     {% endfor %}
-
-    {% set ns = namespace(PrevId=None) %}
     {% for Rec in TDbList().Import(dbl) %}
-      {% if ns.PrevId != Rec.id %}
-        {{ '<div>-</div>' * (Fields | length) }}
-      {% endif %}
-      {% set ns.PrevId = Rec.id %}
-
       <div class="gitem">{{Rec.create_date.strftime('%Y-%m-%d %H:%M:%S') }}</div>
-      <div class="gitem">{{Rec.id}}</div>
+      <div class="gitem">{{Rec.count}}</div>
       <div class="gitem"><a href="{{Rec.url}}" target="_blank">{{Rec.url.split('&') }}</a></div>
-      <div class="gitem">{{Rec.ip }}</div>
-      <div class="gitem">{{Rec.location }}</div>
+      <div class="gitem">{{Rec.GetField('title', '')}}</div>
     {% endfor %}
   </div>
 
@@ -45,5 +37,5 @@
     {% include '../_inc/pagination.j2' %}
   </div>
 </div>
-<!-- hist_session - -->
+<!-- hist_google - -->
 {% endblock %}
