@@ -20,7 +20,7 @@ function searchNavbar() {
     document.addEventListener('click', function(event) {
         if (!elSearchSuggest.contains(event.target)) {
           elSearchSuggest.innerHTML = ''
-          elSearchInput.value = ''
+          //elSearchInput.value = ''
         }
     })
 
