@@ -44,7 +44,7 @@ async def Main(self, aData: dict = None) -> dict:
     )
 
     Href = {
-        #'furl': '',
+        'furl': aData['path_qs'],
         'about_us': '/?route=info/about_us',
         'contacts': '/?route=info/contacts',
         'faq': '/?route=info/faq',
