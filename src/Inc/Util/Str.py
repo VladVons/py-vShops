@@ -60,18 +60,3 @@ def ConcatUniq(aText: str, aAdd: list[str]) -> str:
         if (xAdd not in aText):
             aText += xAdd
     return aText
-
-def CyrToLat(aText: str) -> str:
-    Cyr = ['а', 'б', 'в', 'г', 'ґ', 'д', 'е', 'є',  'ж',  'з', 'и', 'і', 'ї',  'й', 'к', 'л', 'м', 'н', 'о', 'п', 'р', 'с', 'т', 'у', 'ф', 'х',  'ц',  'ч',  'ш',  'щ',    'ю',  'я', 'ь']
-    Lat = ['a', 'b', 'v', 'h', 'g', 'd', 'e', 'ye', 'zh', 'z', 'y', 'i', 'yi', 'y', 'k', 'l', 'm', 'n', 'o', 'p', 'r', 's', 't', 'u', 'f', 'kh', 'ts', 'ch', 'sh', 'shch', 'yu', 'ya', '']
-
-    Res = []
-    for x in aText:
-        if ('а' < x <= 'ь'):
-            Idx = Cyr.index(x)
-            x = Lat[Idx]
-        elif ('А' < x <= 'Ь'):
-            Idx = Cyr.index(x.lower())
-            x = Lat[Idx].capitalize()
-        Res.append(x)
-    return ''.join(Res)

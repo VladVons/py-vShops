@@ -335,3 +335,20 @@ class TSchemeApiBase():
 
         print(aVal)
         return aVal
+
+    @staticmethod
+    def keyval(aVal: dict, aKeyName: str, aValName: str) -> tuple:
+        '''
+        get key and value pair from dict into tuple
+        ["keyval", ["name", "descr"]]
+        '''
+        return (aVal[aKeyName], aVal[aValName])
+
+    @staticmethod
+    def keyval2dict(aVal: list) -> dict:
+        '''
+        get dict from keyval list
+        ["list_map", [ ["keyval", ["name", "value"]]]]
+        ["keyval2dict"]
+        '''
+        return {xVal[0]: xVal[1] for xVal in aVal}
