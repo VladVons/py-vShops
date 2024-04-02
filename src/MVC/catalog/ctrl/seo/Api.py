@@ -43,7 +43,10 @@ async def Encode(self, aData: dict) -> dict:
     for Idx, xPath in enumerate(aPath):
         Pairs = xPath.strip('/?').split('&')
         for xPair in Pairs:
-            Key, Val = xPair.split('=')
+            if ('=' in xPair):
+                Key, Val = xPair.split('=')
+            else:
+                Key = Val = xPair
             Data.append((Key, Val, Idx))
 
     Dbl = await self.ExecModelImport(
