@@ -139,6 +139,11 @@ class TApiView(TApiBase):
         Query.update({'route': self.Conf.form_home})
         return await self.ResponseForm(aRequest, Query)
 
+    async def ResponseErr(self, aRequest: web.Request, aErrCode = 404) -> web.Response:
+        Query = {'route': self.Conf.form_info, 'raise_status_code': aErrCode}
+        Data = await self.GetFormData(aRequest, Query)
+        return web.Response(text = Data['data'], content_type = 'text/html', status = Data['status_code'])
+
     async def ResponseForm(self, aRequest: web.Request, aQuery: dict) -> web.Response:
         RemoteIp = aRequest.remote
         if (RemoteIp == '127.0.0.1'):
@@ -147,9 +152,7 @@ class TApiView(TApiBase):
         if (self.IpLog.Update(RemoteIp)):
             Data = await self.GetFormData(aRequest, aQuery)
             if ('err' in Data):
-                aQuery['route'] = self.Conf.form_info
-                aQuery['raise_status_code'] = 404
-                Data = await self.GetFormData(aRequest, aQuery)
+                return await self.ResponseErr(aRequest, 404)
         else:
             Msg = f'Too many connections. ip: {RemoteIp}'
             Log.Print(1, 'i', Msg)

@@ -59,6 +59,8 @@ class TSrvView(TSrvBase):
                 Url = await ApiView.GetSeoUrl('Decode', Name)
                 Query = UrlDecode(Url)
                 Query.update(aRequest.query)
+                if (not Query):
+                    return await ApiView.ResponseErr(aRequest, 404)
             else:
                 Query = dict(aRequest.query)
 

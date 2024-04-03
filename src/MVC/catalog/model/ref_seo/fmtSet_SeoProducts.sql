@@ -19,7 +19,7 @@ insert into
     select
         'category_id',
         id,
-        translate(lower(cyrtolat(title)), ' /&=', '__'),
+        translate(lower(cyrtolat(title)), ' /.&=', '___'),
         0
     from
         ref_product0_category rpc
@@ -35,7 +35,7 @@ insert into
     select
         'product_id',
         id,
-        translate(lower(cyrtolat(title)), ' /&=', '__') || '_t' || tenant_id,
+        translate(lower(cyrtolat(title)), ' /.&=', '___') || '_t' || tenant_id,
         0
     from
         ref_product rp
