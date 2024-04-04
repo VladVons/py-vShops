@@ -16,9 +16,10 @@
         },
         "loader": {
             "ctrl": {
-                "type": "fs",
-                "module": "Task.SrvCtrl.Api",
-                "class": "ApiCtrls"
+                "type": "url",
+                "url": "http://localhost:8082/route",
+                "user": "user01",
+                "password": "passw01"
             }
         }
     },

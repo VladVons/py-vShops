@@ -36,9 +36,6 @@ class TApiModel(TApiBase):
 
         Data = self.GetMethod(self.Models, aRoute, aData)
         assert('err' not in Data), Data['err']
-        if ('err' in Data):
-            Log.Print(1, 'e', f"TApiModel.Exec() {Data['err']}")
-            return Data
 
         Method, Module = (Data['method'], Data['module'])
         Param = aData.get('param', {})

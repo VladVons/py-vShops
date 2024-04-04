@@ -9,7 +9,7 @@ import time
 import aiohttp
 from aiohttp import web
 #
-from Inc.DbList import TDbListSafe
+from Inc.DbList import TDbList
 from Inc.Util.Obj import DeepGet
 from IncP.Log import Log
 
@@ -95,9 +95,7 @@ class TApiBase():
 
 class TWebClient():
     def __init__(self, aAuth: dict = None):
-        if (aAuth is None):
-            aAuth = {}
-        self.Auth = aAuth
+        self.Auth = aAuth or {}
 
     async def Send(self, aPath: str, aPost: dict = None):
         if (aPost is None):
@@ -155,7 +153,7 @@ class TWebSockClient():
 
 class TWebSockSrv():
     def __init__(self):
-        self.DblWS = TDbListSafe([('ws', web.WebSocketResponse), ('id', str)])
+        self.DblWS = TDbList(['ws', 'id'])
         self.Api = None
 
     async def Handle(self, aRequest: web.Request) -> web.WebSocketResponse:

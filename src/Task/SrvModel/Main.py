@@ -38,8 +38,13 @@ class TSrvModel(TSrvBase):
 
     @staticmethod
     async def _DbConnect():
-        for Key in ApiModels:
-            await ApiModels[Key].DbConnect()
+        for Val in ApiModels.values():
+            await Val.DbConnect()
+
+    @staticmethod
+    async def _DbClose():
+        for Val in ApiModels.values():
+            await Val.DbClose()
 
     async def _cbOnStartup(self, aApp: web.Application):
         try:
@@ -50,7 +55,7 @@ class TSrvModel(TSrvBase):
             Log.Print(1, 'x', '_cbOnStartup()', aE = E)
         finally:
             Log.Print(1, 'i', '_cbOnStartup(). Close connection')
-            await ApiModels.DbClose()
+            await self._DbClose()
 
     def _GetDefRoutes(self) -> list:
         return [

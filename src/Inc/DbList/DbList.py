@@ -105,6 +105,11 @@ class TDbList(TDbBase):
             Data.append(Row)
         return self.Init(aFields, Data)
 
+    def ImportPair(self, aData: dict, aKeyName: str, aFieldValue: tuple) -> 'TDbBase':
+        #self.Fields = TDbFields([(aKeyName, str), aFieldValue])
+        self.Data = [[Key, Val] for Key, Val in aData.items()]
+        return self
+
     def Init(self, aFields: list[str], aData: list) -> 'TDbList':
         self.Rec.Init(aFields, aData)
 

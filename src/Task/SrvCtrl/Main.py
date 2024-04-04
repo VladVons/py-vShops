@@ -28,8 +28,11 @@ class TSrvCtrl(TSrvBase):
         else:
             Status = 200
             Data = await aRequest.json()
-            Path = Data['_path']
-            Res = await ApiCtrls[Path].Exec(Name, Data)
+            Path = Data.get('_path')
+            if (Path in ApiCtrls):
+                Res = await ApiCtrls[Path].Exec(Name, Data)
+            else:
+                Res = {'err': f'unknown _path `{Path}`'}
 
         if (Data.get('type') != 'api'):
             Res['info'] = {

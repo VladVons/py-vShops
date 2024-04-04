@@ -101,11 +101,6 @@ class TDbListSafe(TDbBase):
         self.Tag = aDbl.Tag
         return self
 
-    def ImportPair(self, aData: dict, aKeyName: str, aFieldValue: tuple) -> 'TDbListSafe':
-        self.Fields = TDbFields([(aKeyName, str), aFieldValue])
-        self.Data = [[Key, Val] for Key, Val in aData.items()]
-        return self
-
     def Init(self, aFields: list, aData: list = None):
         self.Fields = TDbFields()
         self.Fields.AddList(aFields)
