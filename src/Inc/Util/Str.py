@@ -60,3 +60,8 @@ def ConcatUniq(aText: str, aAdd: list[str]) -> str:
         if (xAdd not in aText):
             aText += xAdd
     return aText
+
+def StartsWith(aText: str, aItems: list[str]) -> str:
+    for xItem in aItems:
+        if (aText.startswith(xItem)):
+            return xItem

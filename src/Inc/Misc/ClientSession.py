@@ -5,7 +5,7 @@
 # async with TClientSession(aHost = 'https://httpbin.org') as Session:
 #     Data = await Session.Json('/post', {'method': 'help'})
 #
-# async with TDownloadSpeed(aHost = 'https://speed.hetzner.de') as Session:
+# async with TDownloadSpeed(aHost = 'https://ash-speed.hetzner.com') as Session:
 #     await Session.Test('/1GB.bin')
 #
 # echo test
@@ -101,7 +101,7 @@ class TClientSession():
         while (Res < aLen):
             Len = min(self.BlockSize, aLen - Res)
             Data = await self.Reader.read(Len)
-            aWriter.write(Data)
+            await aWriter.write(Data)
             Res += len(Data)
 
             self._DoProgress(aLen, Res)
@@ -127,7 +127,7 @@ class TClientSession():
 
         Data = self._CreateRequest(Param).encode()
         self.Writer.write(Data)
-        if ('_data' in aData):
+        if (aData and '_data' in aData):
             self.Writer.write(aData['_data'])
         await self.Writer.drain()
 

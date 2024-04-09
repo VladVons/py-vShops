@@ -1,5 +1,5 @@
 Data = '''
--- fmtGet_News.sql\n-- in: aNewsId, aLangId\n\nselect\n    coalesce(rn.public_date, rn.create_date)::date as date,\n    rnl.title,\n    rnl.descr,\n    rnl.meta_key \nfrom\n    ref_news rn \njoin\n    ref_news_lang rnl on\n    (rnl.news_id = rn.id) and (rnl.lang_id = 1)\nwhere\n    (rn.enabled) and\n    (rn.id = 1)\n    ((rn.public_date < now()) or (rn.public_date is null)) and\n    (tenant_id = 0)
+-- fmtIns_HistUrl.sql\n\ninsert into hist_url(\n    data_size, \n    url_count, \n    status_code, \n    parsed_data, \n    url_id,\n    user_id\n)\nvalues (\n    27633, \n    53, \n    200, \n     \'{\n "name": "Gembird (4.5м) SPG5-G-15B black",\n "price": [\n  250.0,\n  "грн"\n ],\n "stock": true,\n "image": "http://oster.com.ua/image/cache/catalog/products/678811-500x500.jpg",\n "category": "Периферія, аксесуари/Мережеві фільтри",\n "sku": "678811",\n "description": null\n}\' , \n    338,\n    \n)
 '''
 with open('RowValue.txt', 'w') as F:
     F.write(Data)

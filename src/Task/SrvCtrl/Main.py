@@ -53,7 +53,7 @@ class TSrvCtrl(TSrvBase):
         return web.json_response({'err': aStack}, status = 500)
 
     async def RunApp(self):
-        Log.Print(1, 'i', f'SrvCtrl.RunApp() on port {self._SrvConf.port}')
+        Log.Print(1, 'i', f'{self.__class__.__name__}.RunApp() on port {self._SrvConf.port}')
 
         ErroMiddleware = {
             404: self._Err_404,
@@ -63,7 +63,7 @@ class TSrvCtrl(TSrvBase):
         await self.Run(App)
 
     async def RunApi(self):
-        Log.Print(1, 'i', 'SrvCtrl.RunApi() only')
+        Log.Print(1, 'i', f'{self.__class__.__name__}.RunApi() only')
 
         #from Task.SrvModel.Api import ApiModel
         #await ApiModel.AEvent.wait()

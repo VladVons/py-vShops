@@ -25,7 +25,7 @@ class TLoaderApiFs(TLoaderApi):
         self.Api = getattr(Mod, aClass)
 
     async def Get(self, aPath: str, aData: dict = None):
-        Res = await self.Api[self.Name].Exec(aPath, aData)
+        Res = await self.Api.Exec(aPath, aData)
         #return TJsonEncoder.Dumps(Res) #ToDo
         return Res
 

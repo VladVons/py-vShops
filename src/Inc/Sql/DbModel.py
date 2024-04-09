@@ -147,7 +147,7 @@ class TDbModel():
 
     async def ExecQueryTextCursor(self, aQuery: str, aCursor) -> TDbSql:
         Dbl = await TDbExecCursor(aCursor).Exec(aQuery)
-        if (Dbl):
+        if (Dbl is not None):
             return Dbl.Export()
 
     async def ExecQuery(self, aPath: str, aValues: dict = None) -> tuple:

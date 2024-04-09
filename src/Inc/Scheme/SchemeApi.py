@@ -83,7 +83,7 @@ class TSchemeApi(TSchemeApiBase):
         return TSchemeApi.strip(aVal.get_text())
 
     @staticmethod
-    def price(aVal: str) -> tuple:
+    def price(aVal: str) -> list:
         '''
         get price
         ["price"]
@@ -96,7 +96,7 @@ class TSchemeApi(TSchemeApiBase):
         if (not After) and (Before):
             After = Before
 
-        return (float(Dig), After.lower())
+        return [float(Dig), After.lower()]
 
     @staticmethod
     def price_find(aVal: str, aCur: str = 'грн') -> list:
@@ -211,6 +211,10 @@ class TSchemeApi(TSchemeApiBase):
         if (Items):
             Res = SoupGetParentsObj(aVal, Items, aDepth)
             return Res[0][-1]
+
+    @staticmethod
+    def find_next_text(aVal: BeautifulSoup, aIsText: bool = True) -> object:
+        return aVal.find_next_sibling(text = aIsText)
 
     # @staticmethod
     # def find_next_string(aVal: BeautifulSoup, aStr: str) -> object:
