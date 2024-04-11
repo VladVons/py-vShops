@@ -47,25 +47,5 @@
                 "password": "passw01"
             }
         }
-    },
-    "_common": {
-        "dir_route": "MVC/_common/ctrl",
-        "lang": {
-            "type": "fs",
-            "dir": "MVC/_common/lang"
-        },
-        "loader": {
-            "model": {
-                "type": "fs",
-                "module": "Task.SrvModel.Api",
-                "class": "ApiModels"
-            },
-            "img": {
-               "type": "url",
-                "url": "http://localhost:8083/api",
-                "user": "user01",
-                "password": "passw01"
-            }
-        }
     }
 }

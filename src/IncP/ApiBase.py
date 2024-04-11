@@ -70,7 +70,7 @@ class TApiBase():
         for Key, Val in aConf.items():
             Type = Val['type']
             if (Type == 'url'):
-                Loader = TLoaderApiHttp(Val['user'], Val['password'], Val['url'])
+                Loader = TLoaderApiHttp(Val['user'], Val['password'], Val['url'], self.Name)
             elif (Type == 'fs'):
                 Loader = TLoaderApiFs(Val['module'], Val['class'], self.Name)
             else:

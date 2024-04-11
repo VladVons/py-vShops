@@ -129,7 +129,8 @@ class TApiCtrlAuth(TApiCtrl):
         return Res
 
 
-ApiCommon = TApiCtrl('_common')
+#ApiCommon = TApiCtrl('_common')
+ApiCommon = None
 ApiCtrls = {
     'catalog': TApiCtrl('catalog', ApiCommon),
     'tenant': TApiCtrlAuth('tenant', ApiCommon)
