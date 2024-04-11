@@ -77,7 +77,7 @@ class TRequestJson(TRequest):
                 Data = await Response.json()
                 Res = {'data': Data, 'status': Response.status}
         except _Excepts as E:
-            Res = {'err': str(E)}
+            Res = {'err': str(E), 'status': -1}
         return Res
 
     async def _SendRec(self, aRecSes: TRecSes) -> dict:

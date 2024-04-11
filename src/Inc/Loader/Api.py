@@ -8,7 +8,7 @@ from urllib.parse import urlparse
 #
 #from Inc.Misc.Misc import TJsonEncoder
 from Inc.Misc.Request import TRequestJson, TAuth
-
+from Inc.Util.Obj import DeepGetByList
 
 class TLoaderApi():
     async def Get(self, aPath: str, aData: dict = None):
@@ -53,4 +53,4 @@ class TLoaderApiHttp(TLoaderApi):
 
         Path = f'{self.Api}/{aPath}'
         Res = await self.Request.Send(Path, aData)
-        return Res.get('data', Res)
+        return DeepGetByList(Res, ['data', 'data'], Res)
