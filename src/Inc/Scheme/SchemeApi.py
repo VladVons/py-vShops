@@ -313,3 +313,12 @@ class TSchemeApiExt():
             ]]
         ]
         return Res
+
+    @staticmethod
+    def ext_title() -> list:
+        Res = [
+            ["var_get", ["$root"]],
+            ["find", ["title"]],
+            ["text"]
+        ]
+        return Res

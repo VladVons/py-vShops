@@ -97,3 +97,22 @@ def UrlUdate(aUrl: str, aData: dict) -> str:
     Res.update(aData)
     Res = Path + '?' + '&'.join([f'{Key}={Val}' for Key, Val in Res.items()])
     return Res
+
+
+# # urllib.robotparser doesnt filter
+class TRobots():
+    def __init__(self):
+        self.Disallow = []
+
+    def Parse(self, aText: str):
+        for Line in aText.splitlines():
+            if ('Disallow' in Line):
+                Rule = Line.split(':')[1].strip()
+                Rule = re.escape(Rule).replace("\\*", ".*")
+                self.Disallow.append(Rule)
+
+    def CheckUrl(self, aUrl: str) -> bool:
+        for Rule in self.Disallow:
+            if (re.match(Rule, aUrl)):
+                return False
+        return True

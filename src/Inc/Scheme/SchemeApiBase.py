@@ -351,4 +351,4 @@ class TSchemeApiBase():
         ["list_map", [ ["keyval", ["name", "value"]]]]
         ["keyval2dict"]
         '''
-        return {xVal[0]: xVal[1] for xVal in aVal}
+        return {xVal[0].replace("'", ''): xVal[1] for xVal in aVal}
