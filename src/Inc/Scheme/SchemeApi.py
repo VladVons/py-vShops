@@ -23,12 +23,16 @@ class TSchemeExt():
     def list_map(self, aVal: list, aItem: list) -> list:
         '''
         call pipe mapper over a list
-        ['list_map', [ ["get", ["src"]]] ]
+          ["list_map", [[
+            ["get", ["offers"]],
+            ["list", [0]],
+            ["get", ["url"]]
+          ]]]
         '''
 
         Res = []
         for x in aVal:
-            Data = self.Parent.ParsePipe(x, aItem, 'list_map')
+            Data = self.Parent.ParsePipes(x, aItem, 'list_map')
             if (Data is not None):
                 Res.append(Data)
         return Res
