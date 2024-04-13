@@ -216,6 +216,14 @@ class TSchemeApi(TSchemeApiBase):
     def find_next_text(aVal: BeautifulSoup, aIsText: bool = True) -> object:
         return aVal.find_next_sibling(text = aIsText)
 
+    @staticmethod
+    def keyval_fromlist(aVal: list, aIdxKey: int = 0, aIdxVal: int = 1) -> tuple:
+        Res = []
+        for xVal in aVal:
+            Arr = xVal.find_all()
+            Res.append((Arr[aIdxKey].text.strip(), Arr[aIdxVal].text.strip()))
+        return Res
+
     # @staticmethod
     # def find_next_string(aVal: BeautifulSoup, aStr: str) -> object:
     #     return soup.find('b', string='Назва:')

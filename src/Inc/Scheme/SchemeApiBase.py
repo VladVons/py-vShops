@@ -250,9 +250,18 @@ class TSchemeApiBase():
         regEx replace string
         ["replace_re", ["\s*,\s*", "/"]]
         '''
-
         Res = re.sub(aFind, aRepl, aVal)
         return Res
+
+    @staticmethod
+    def replace_list(aVal: str, aFind: list, aRepl: list) -> str:
+        '''
+        multiple replace string
+        ["replace", [["1", "2"], ["one", "two"]]]
+        '''
+        for xFind, xRepl in zip(aFind, aRepl, strict=True):
+            aVal = aVal.replace(xFind, xRepl)
+        return aVal
 
     @staticmethod
     def _translate(aVal: str, aFind: str, aRepl: str, aDel: str = None) -> str:
