@@ -206,7 +206,11 @@ class TSchemeApiBase():
         ["txt2float"]
         '''
 
-        return float(aVal.replace(',', ''))
+        if (isinstance(aVal, str)):
+            Res = float(aVal.replace(',', ''))
+        elif (isinstance(aVal, (int, float))):
+            Res = aVal
+        return Res
 
     @staticmethod
     def json2txt(aVal: dict) -> str:
