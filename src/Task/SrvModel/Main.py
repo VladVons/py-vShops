@@ -3,39 +3,14 @@
 # License: GNU, see LICENSE for more details
 
 
-import time
 from aiohttp import web
 #
-from Inc.Misc.Misc import TJsonEncoder
-from Inc.SrvWeb.SrvBase import TSrvBase
 from IncP.Log import Log
+from IncP.SrvBaseEx import TSrvBaseEx
 from .Api import ApiModels
 
 
-class TSrvModel(TSrvBase):
-    async def _rApi(self, aRequest: web.Request) -> web.Response:
-        TimeStart = time.time()
-        Name = aRequest.match_info.get('name')
-        if (not self._CheckRequestAuth(aRequest)):
-            Status = 403
-            Method = ''
-            Res = {'err': 'Authorization failed'}
-        else:
-            Status = 200
-            Data = await aRequest.json()
-            #Path = Data['_path'] #ToDo ?
-            Path = 'catalog'
-            Method = Data.get('method')
-            Res = await ApiModels[Path].Exec(Name, Data)
-
-        Res['info'] = {
-            'module': Name,
-            'method': Method,
-            'time': round(time.time() - TimeStart, 4),
-            'status': Status
-        }
-        return web.json_response(Res, status=Status, dumps=TJsonEncoder.Dumps)
-
+class TSrvModel(TSrvBaseEx):
     @staticmethod
     async def _DbConnect():
         for Val in ApiModels.values():
@@ -72,6 +47,9 @@ class TSrvModel(TSrvBase):
     @staticmethod
     async def _Err_All(_aRequest: web.Request, aStack: dict) -> web.Response:
         return web.json_response({'err': aStack}, status = 500)
+
+    def GetApi(self) -> object:
+        return ApiModels
 
     async def RunApp(self):
         Log.Print(1, 'i', f'{self.__class__.__name__}.RunApp() on port {self._SrvConf.port}')

@@ -4,16 +4,15 @@
 
 
 import os
-import time
 from aiohttp import web
 #
-from Inc.Misc.Misc import TJsonEncoder
-from Inc.SrvWeb.SrvBase import TSrvBase, TSrvConf
+from Inc.SrvWeb.SrvBase import TSrvConf
 from IncP.Log import Log
+from IncP.SrvBaseEx import TSrvBaseEx
 from .Api import ApiImg
 
 
-class TSrvImg(TSrvBase):
+class TSrvImg(TSrvBaseEx):
     def __init__(self, aSrvConf: TSrvConf):
         super().__init__(aSrvConf)
         assert(os.path.isdir(ApiImg.Conf.dir_root)), f'Directory not exists {ApiImg.Conf.dir_root}'
@@ -23,25 +22,6 @@ class TSrvImg(TSrvBase):
             web.post('/api/{name:.*}', self._rApi),
             web.get('/img/{name:.*}', self._rImg)
         ]
-
-    async def _rApi(self, aRequest: web.Request) -> web.Response:
-        TimeStart = time.time()
-        Name = aRequest.match_info.get('name')
-        if (not self._CheckRequestAuth(aRequest)):
-            Status = 403
-            Res = {'err': 'Authorization failed'}
-        else:
-            Status = 200
-            Data = await aRequest.json()
-            Res = await ApiImg.Exec(Name, Data)
-
-        Res['info'] = {
-            'module': Name,
-            'method': aRequest.query.get('method', 'Main'),
-            'time': round(time.time() - TimeStart, 4),
-            'status': Status
-        }
-        return web.json_response(Res, status = Status, dumps=TJsonEncoder.Dumps)
 
     async def _rImg(self, aRequest: web.Request) -> web.Response:
         Name = aRequest.match_info.get('name')
@@ -60,6 +40,9 @@ class TSrvImg(TSrvBase):
     @staticmethod
     async def _Err_All(_aRequest: web.Request, aStack: list) -> web.Response:
         return web.json_response({'err': aStack}, status = 500)
+
+    def GetApi(self) -> object:
+        return ApiImg
 
     async def RunApp(self):
         Log.Print(1, 'i', f'{self.__class__.__name__}.RunApp() on port {self._SrvConf.port}')
