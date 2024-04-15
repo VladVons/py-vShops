@@ -65,7 +65,9 @@
           {% endif %}
           <h2>{{lang.condition}}: {% if product.cond_en == 'new' %} {{lang.new}} {% else %} {{lang.used}} {% endif %}</h2>
           <h2>{{lang.available}}: {{product.rest}}</h2>
+          <!--
           <h2>{{lang.seller}}: <a href="{{href.tenant}}">{{product.tenant_title}}</a></h2>
+          -->
         </div>
 
         {% set ns = namespace(Price=0) %}
