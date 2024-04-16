@@ -67,6 +67,28 @@ class TSchemeExt():
         self.Parent.Var[aName] = aVal
         return aVal
 
+    def check_or(self, aVal: object, *aPipes: list) -> list:
+        '''
+         check pipes until result is None
+         ["check_or", [
+            [
+                ["get", ["price"]]
+            ],
+            [
+              ["var_get", ["$root"]],
+              ["find", ["div", {"class": "product__price"}]],
+              ["text"],
+              ["price"]
+            ]
+          ]]
+
+        '''
+
+        for xPipe in aPipes:
+            Res = self.Parent.ParsePipes(aVal, xPipe, 'check_or')
+            if (Res is not None):
+                return Res
+
 
 class TSchemeApi(TSchemeApiBase):
     @staticmethod

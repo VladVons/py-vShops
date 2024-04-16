@@ -250,7 +250,7 @@ class TSchemeApiBase():
 
     @staticmethod
     def replace_re(aVal: str, aFind: str, aRepl: str) -> str:
-        '''
+        r'''
         regEx replace string
         ["replace_re", ["\s*,\s*", "/"]]
         '''
@@ -285,13 +285,13 @@ class TSchemeApiBase():
         return aVal[:aIdx]
 
     @staticmethod
-    def comment(aVal: object, aText: str = '') -> object:
+    def comment(aVal: object, aText: str, aShow: bool = False) -> object:
         '''
         comment
         ["comment", ["just comment"]]
         '''
 
-        if (aText):
+        if (aShow):
             print(aText)
         return aVal
 
