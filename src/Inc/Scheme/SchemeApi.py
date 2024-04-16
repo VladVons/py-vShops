@@ -104,7 +104,7 @@ class TSchemeApi(TSchemeApiBase):
 
     @staticmethod
     def price_find(aVal: str, aCur: str = 'грн') -> list:
-        '''
+        r'''
         get prices from string using regEx r'[\d\.]{2,}\s*' + aCur
         ["price_find"]
         '''

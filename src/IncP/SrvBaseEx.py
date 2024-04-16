@@ -14,7 +14,7 @@ class TSrvBaseEx(TSrvBase):
     def _GetDefRoutes(self) -> list:
         raise NotImplementedError()
 
-    def GetApi(self) -> object:
+    def GetApi(self, aPath: str) -> object:
         raise NotImplementedError()
 
     @staticmethod
@@ -36,7 +36,8 @@ class TSrvBaseEx(TSrvBase):
         else:
             Status = 200
             DataIn = await aRequest.json()
-            Api = self.GetApi()
+            Path = DataIn.get('_path')
+            Api = self.GetApi(Path)
             DataOut = await Api.Exec(Name, DataIn)
             if (isinstance(DataOut, dict)) and ('err' in DataOut):
                 Res = DataOut

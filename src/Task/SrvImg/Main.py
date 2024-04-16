@@ -41,7 +41,7 @@ class TSrvImg(TSrvBaseEx):
     async def _Err_All(_aRequest: web.Request, aStack: list) -> web.Response:
         return web.json_response({'err': aStack}, status = 500)
 
-    def GetApi(self) -> object:
+    def GetApi(self, _aPath: str) -> object:
         return ApiImg
 
     async def RunApp(self):

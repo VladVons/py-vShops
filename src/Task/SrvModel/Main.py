@@ -48,8 +48,8 @@ class TSrvModel(TSrvBaseEx):
     async def _Err_All(_aRequest: web.Request, aStack: dict) -> web.Response:
         return web.json_response({'err': aStack}, status = 500)
 
-    def GetApi(self) -> object:
-        return ApiModels
+    def GetApi(self, aPath: str) -> object:
+        return ApiModels[aPath]
 
     async def RunApp(self):
         Log.Print(1, 'i', f'{self.__class__.__name__}.RunApp() on port {self._SrvConf.port}')
