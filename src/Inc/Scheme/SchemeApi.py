@@ -20,22 +20,41 @@ class TSchemeExt():
     def __init__(self, aParent):
         self.Parent = aParent
 
-    def list_map(self, aVal: list, aItem: list) -> list:
+    def list_map(self, aVal: list, *aItems: list) -> list:
         '''
         call pipe mapper over a list
-          ["list_map", [[
+        ["list_map", [
             ["get", ["offers"]],
             ["list", [0]],
             ["get", ["url"]]
-          ]]]
+        ]]
         '''
 
         Res = []
         for x in aVal:
-            Data = self.Parent.ParsePipes(x, aItem, 'list_map')
+            Data = self.Parent.ParsePipes(x, aItems, 'list_map')
             if (Data is not None):
                 Res.append(Data)
         return Res
+
+    def check_or(self, aVal: object, *aPipes: list) -> list:
+        '''
+         check pipes until result is None
+         ["check_or", [
+            [
+                ["get", ["offers.price"]]
+            ],
+            [
+              ["find", ["div", {"class": "product__price"}]], ["text"], ["price"]
+            ]
+        ]]
+
+        '''
+
+        for xPipe in aPipes:
+            Res = self.Parent.ParsePipes(aVal, xPipe, 'check_or')
+            if (Res is not None):
+                return Res
 
     def url_pad(self, aVal: str) -> str:
         '''
@@ -66,25 +85,6 @@ class TSchemeExt():
 
         self.Parent.Var[aName] = aVal
         return aVal
-
-    def check_or(self, aVal: object, *aPipes: list) -> list:
-        '''
-         check pipes until result is None
-         ["check_or", [
-            [
-                ["get", ["offers.price"]]
-            ],
-            [
-              ["find", ["div", {"class": "product__price"}]], ["text"], ["price"]
-            ]
-          ]]
-
-        '''
-
-        for xPipe in aPipes:
-            Res = self.Parent.ParsePipes(aVal, xPipe, 'check_or')
-            if (Res is not None):
-                return Res
 
 
 class TSchemeApi(TSchemeApiBase):

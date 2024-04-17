@@ -78,6 +78,15 @@ class TSchemeApiBase():
         return Res
 
     @staticmethod
+    def list_join(aVal: list, aDelim: str = '\n') -> str:
+        '''
+        join list ['one', 'two', 'three'] into string 'one. two. three'
+        ["list_join", [". "]]
+        '''
+
+        return aDelim.join(aVal)
+
+    @staticmethod
     def list_sort(aVal: list, aReverse: bool = False) -> list:
         '''
         sort list alphabetically
