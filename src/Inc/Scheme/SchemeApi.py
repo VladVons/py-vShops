@@ -72,13 +72,10 @@ class TSchemeExt():
          check pipes until result is None
          ["check_or", [
             [
-                ["get", ["price"]]
+                ["get", ["offers.price"]]
             ],
             [
-              ["var_get", ["$root"]],
-              ["find", ["div", {"class": "product__price"}]],
-              ["text"],
-              ["price"]
+              ["find", ["div", {"class": "product__price"}]], ["text"], ["price"]
             ]
           ]]
 

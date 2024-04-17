@@ -64,6 +64,20 @@ class TSchemeApiBase():
             return Res
 
     @staticmethod
+    def list_group(aVal: list, aStep: int, aIdxs: list) -> list:
+        '''
+        group list [1,2,3,4,5,6,7,8,9,0] into [[1,3], [4,6], [7,9]]
+        ["list_group", [3, [0, 1]]]
+        '''
+
+        Res = []
+        for Idx in range(0, len(aVal), aStep):
+            Data = aVal[Idx : Idx + aStep]
+            Val = [Data[i] for i in aIdxs]
+            Res.append(Val)
+        return Res
+
+    @staticmethod
     def list_sort(aVal: list, aReverse: bool = False) -> list:
         '''
         sort list alphabetically
@@ -350,6 +364,18 @@ class TSchemeApiBase():
         return aVal
 
     @staticmethod
+    def keydel(aVal: dict, aKeys: list) -> dict:
+        '''
+        delete key from dict
+        ["keydel", [["name", "descr"]]]
+        '''
+
+        for Key in aKeys:
+            if Key in aVal:
+                del aVal[Key]
+        return aVal
+
+    @staticmethod
     def keyval(aVal: dict, aKeyName: str, aValName: str) -> tuple:
         '''
         get key and value pair from dict into tuple
@@ -358,10 +384,16 @@ class TSchemeApiBase():
         return (aVal[aKeyName], aVal[aValName])
 
     @staticmethod
-    def keyval2dict(aVal: list) -> dict:
+    def keyval2dict(aVal: list, aIdxKey: int = 0, aIdxVal: int = 1) -> dict:
         '''
         get dict from keyval list
+
+        ex. 1
         ["list_map", [ ["keyval", ["name", "value"]]]]
         ["keyval2dict"]
+
+        ex. 2
+        ["table"]]
+        ["keyval2dict", [1, 3]]
         '''
-        return {xVal[0].replace("'", ''): xVal[1] for xVal in aVal}
+        return {xVal[aIdxKey].replace("'", ''): xVal[aIdxVal].strip() for xVal in aVal}
