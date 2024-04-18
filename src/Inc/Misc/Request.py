@@ -8,8 +8,6 @@ import time
 from datetime import datetime
 import asyncio
 import aiohttp
-#
-from Inc.Misc.Image import TImage
 
 
 _Excepts = (aiohttp.ClientConnectorError, aiohttp.ClientError, aiohttp.InvalidURL, asyncio.TimeoutError)
@@ -85,6 +83,7 @@ class TRequestJson(TRequest):
             Data = await Response.json()
             return {'data': Data, 'status': Response.status}
 
+
 class TRequestGet(TRequest):
     async def Send(self, aUrl: str) -> dict:
         try:
@@ -102,6 +101,7 @@ class TRequestGet(TRequest):
             else:
                 Res = await Response.read()
             return {'data': Res, 'status': Response.status}
+
 
 class TRequestPost(TRequest):
     async def _SendRec(self, aRecSes: TRecSes) -> dict:
@@ -170,7 +170,6 @@ class TDownloadBase():
             return await asyncio.gather(*Tasks)
 
 
-
 class TDownload(TDownloadBase):
     def __init__(self, aDir: str, aMaxConn: int = 5, aForce: bool = False):
         super().__init__(aMaxConn)
@@ -196,43 +195,6 @@ class TDownload(TDownloadBase):
             assert(len(aUrls) == len(aSaveAs)), f'Size mismatch {len(aUrls)} {len(aSaveAs)}'
         return await self.Fetch(zip(aUrls, aSaveAs))
 
-
-class TDownloadImage(TDownloadBase):
-    def __init__(self, aDir: str, aMaxSize: int = 1024, aMaxConn: int = 5):
-        super().__init__(aMaxConn)
-        self.Dir = aDir
-        self.MaxSize = aMaxSize
-        self.Download = True
-
-    def _GetDir(self, aId: int) -> str:
-        # Last = '/'.join(reversed(str(aId)[-2:]))
-        # return f'{self.Dir}/{Last}'
-        return self.Dir
-
-    async def _DoFetch(self, aUrlD, aResponse: aiohttp.ClientResponse):
-        aUrl, aSaveAs, aSize, aImageId = aUrlD
-
-        if (not aSaveAs):
-            aSaveAs = aUrl.rsplit('/', maxsplit=1)[-1]
-        File = self._GetDir(aImageId) + '/' + aSaveAs
-
-        FileOk = os.path.isfile(File)
-        if (aSize == 0 and FileOk):
-            aSize = os.path.getsize(File)
-
-        if (self.Download) and ((not FileOk) or (aSize != aResponse.content_length)):
-            Dir = File.rsplit('/', maxsplit=1)[0]
-            os.makedirs(Dir, exist_ok=True)
-            Data = await aResponse.read()
-            if (self.MaxSize):
-                TImage.ResizeImg(Data, File, self.MaxSize)
-            else:
-                self._FileWrite(File, Data)
-
-    async def Get(self, aUrls: list[str]) -> list[tuple]:
-        Len = len(aUrls)
-        Data = zip(aUrls, [0] * Len, [''] * Len)
-        return await self.Fetch(Data)
 
 async def DownloadFile(aUrl: str, aFile: str) -> int:
     async with aiohttp.ClientSession() as Session:

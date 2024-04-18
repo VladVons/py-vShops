@@ -1,7 +1,8 @@
 import aiohttp
 import asyncio
 #
-from Inc.Misc.Request import TDownload, TDownloadImage
+from Inc.Misc.Request import TDownload
+from Inc.Misc.RequestImage import TDownloadImage
 
 
 async def Test_01():
