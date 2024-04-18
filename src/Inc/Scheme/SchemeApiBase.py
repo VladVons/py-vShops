@@ -178,6 +178,18 @@ class TSchemeApiBase():
             return False
 
     @staticmethod
+    def search_xlat(aVal: str, aSearch: list, aXlat: list) -> str:
+        '''
+        search string and return associated string
+        ["search_xlat", ["NewCondition", "UsedCondition"], ["нове", "вживане"]]
+        '''
+
+        for xSearch, xXlat in zip(aSearch, aXlat):
+            if (xSearch in aVal):
+                return xXlat
+        return aVal
+
+    @staticmethod
     def _compare(aVal: object, aOp: str, aValue = None) -> bool:
         Func = getattr(operator, aOp, None)
         if (Func):
@@ -373,7 +385,20 @@ class TSchemeApiBase():
         return aVal
 
     @staticmethod
-    def keydel(aVal: dict, aKeys: list) -> dict:
+    def dict_update(aVal: list) -> dict:
+        '''
+        join dict from list of dict
+        ["dict_update"]
+        '''
+
+        Res = {}
+        for xVal in aVal:
+            if (xVal):
+                Res.update(xVal)
+        return Res
+
+    @staticmethod
+    def dict_key_del(aVal: dict, aKeys: list) -> dict:
         '''
         delete key from dict
         ["keydel", [["name", "descr"]]]
@@ -385,7 +410,7 @@ class TSchemeApiBase():
         return aVal
 
     @staticmethod
-    def keyval(aVal: dict, aKeyName: str, aValName: str) -> tuple:
+    def dict_keyval2list(aVal: dict, aKeyName: str, aValName: str) -> tuple:
         '''
         get key and value pair from dict into tuple
         ["keyval", ["name", "descr"]]

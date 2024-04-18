@@ -240,7 +240,7 @@ class TSchemeApi(TSchemeApiBase):
         return aVal.find_next_sibling(text = aIsText)
 
     @staticmethod
-    def keyval_fromlist(aVal: list, aIdxKey: int = 0, aIdxVal: int = 1) -> tuple:
+    def list_get_keyval(aVal: list, aIdxKey: int = 0, aIdxVal: int = 1) -> tuple:
         Res = []
         for xVal in aVal:
             Arr = xVal.find_all()
