@@ -13,14 +13,14 @@ class TSchemeApiBase():
         raise TypeError('Cant instantiate static class')
 
     @staticmethod
-    def strip(aVal: str) -> str:
+    def strip(aVal: str, aChars: str = None) -> str:
         '''
         remove invisible chars
         ["strip"]
         '''
 
-        #return aVal.strip()
-        return aVal.strip(StrWhiteSpaces)
+        aChars = aChars or StrWhiteSpaces
+        return aVal.strip(aChars)
         #return ReCmp_Strip.sub('', aVal)
 
     @staticmethod

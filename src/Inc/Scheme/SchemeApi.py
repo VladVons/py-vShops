@@ -191,24 +191,23 @@ class TSchemeApi(TSchemeApiBase):
         searches value in sections <script>application/ld+json</script>
         ["app_json", [{"@type": "product"}]]
         '''
+
         if (aFind is None):
-            aFind = {'@type': 'product'}
+            aFind = {'@type': 'Product'}
 
         Res = {}
-        Items = aVal.find_all('script', type='application/ld+json')
-        for x in Items:
-            Data: str = x.text
-            #Pos1 = Data.find('{')
-            #Pos2 = Data.rfind('}')
-            #if (Pos1 == -1) or (Pos2 == -1):
-            #    continue
-            #Data = Data[Pos1 : Pos2 + 1]
+        Scripts = aVal.find_all('script', type='application/ld+json')
+        for xScript in Scripts:
+            Data: str = xScript.text.strip()
 
-            try:
-                Data = json.loads(Data, strict=False)
-            except ValueError:
-                return None
+            # check for extra closes brace
+            OpenBraces = Data.count('{')
+            CloseBraces = Data.count('}')
+            if (CloseBraces > OpenBraces):
+                LastBrace = Data.rfind('}')
+                Data = Data[:LastBrace]
 
+            Data = json.loads(Data, strict=False)
             if (isinstance(Data, list)):
                 Data = Data[0]
 
