@@ -4,7 +4,7 @@
 
 
 import re
-
+import json
 
 def SplitPad(aCnt: int, aStr: str, aDelim: str) -> list:
     R = aStr.split(aDelim, aCnt - 1)
@@ -33,6 +33,33 @@ def ToInt(aVal: str) -> int:
 
 def ToBool(aVal: str) -> bool:
     return aVal.lower() in ('true', '1', 'yes', 'y', 't')
+
+def ToObj(aVal: str) -> object:
+    if (not isinstance(aVal, str)) or (aVal == ''):
+        return aVal
+
+    if (aVal.isdigit()):
+        return int(aVal)
+
+    Pos = aVal.rfind('.')
+    if (Pos > 0):
+        Left, Right = aVal.split('.')
+        if (Left.isdigit() and Right.isdigit()):
+            return float(aVal)
+
+    ValL = aVal.lower().strip()
+
+    if (ValL.startswith('[') and ValL.endswith(']')) or \
+       (ValL.startswith('{') and ValL.endswith('}')):
+        return json.loads(aVal)
+
+    if (ValL in ('true', 'yes')):
+        return True
+    if (ValL in ('false', 'no')):
+        return False
+
+    return aVal
+
 
 def ToHashW(aText: str) -> str:
     Res = re.sub(r'[\s/]+', ' ', aText)
