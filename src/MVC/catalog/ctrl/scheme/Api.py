@@ -5,8 +5,9 @@
 
 import json
 #
-import IncP.LibCtrl as Lib
+from Inc.Misc.Misc import TJsonEncoder
 from Inc.Scheme.Scheme import TSoupScheme
+import IncP.LibCtrl as Lib
 from .Util import GetSoup, GetUrlData
 
 
@@ -33,7 +34,8 @@ async def Parse(self, aData: dict) -> dict:
     Res = SoupScheme.Parse(Soup, Script)
 
     Pipe = Lib.DeepGetByList(Res, ['product', 'pipe'])
+    PipeStr = json.dumps(Pipe, indent=2, ensure_ascii=False, cls=TJsonEncoder)
     return {
         'err': '\n'.join(SoupScheme.Err),
-        'data': json.dumps(Pipe, indent=2, ensure_ascii=False)
+        'data': PipeStr
     }
