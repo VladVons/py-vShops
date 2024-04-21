@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Scheme test</title>
+
+  <script src="/default/assets/js/lib.js"></script>
+  <link rel="stylesheet" href="/default/assets/vendor/css/bootstrap.css">
+</head>
+<body>
+  <div class="m-5">
+    <div class="row mt-3">
+        <div class="col-6">
+            <textarea class="form-control" id="ta_script" rows="20" placeholder="your script"></textarea>
+        </div>
+        <div class="col-6">
+            <textarea class="form-control" id="ta_result" rows="20" placeholder="result"></textarea>
+        </div>
+    </div>
+    <div class="row mt-3">
+      <textarea class="form-control" id="ta_error" rows="5" placeholder="errors"></textarea>
+    </div>
+    <div class="row mt-3">
+      <div class="col-6">
+        <button class="btn btn-primary" id="btn_test">Test</button>
+      </div>
+    </div>
+  </div>
+
+  <script type="text/javascript">
+    const elScript = document.getElementById("ta_script")
+    const elResult = document.getElementById("ta_result")
+    const elError = document.getElementById("ta_error")
+
+    document.getElementById("btn_test").onclick = function(event) {
+      if (elScript.value.trim() != '') {
+        const post = {'script': elScript.value}
+        const res = new TSend().exec(
+          '/api/?route=scheme',
+          {'method': 'Parse', 'post': post}
+        )
+
+        elError.value = res['err']
+        elResult.value = res['data'] || ''
+      } else {
+        elError.value = 'empty script'
+      }
+    }
+  </script>
+
+  <script src="/default/assets/vendor/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

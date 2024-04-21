@@ -3,7 +3,8 @@ Host="localhost"
 #Port="5432"
 Port="5433"
 #
-DbName="used"
+DbName="crawler2"
+#DbName="used"
 #DbName="used_davyd"
 #
 User="admin"
@@ -11,7 +12,7 @@ User="admin"
 #
 #File="shop2.sql.dat"
 #File="vShopsMeta.sql"
-File="10.10.1.1_used.data.sql.dat"
+File="$(hostname)_${DbName}.sql.dat"
 #
 Path=${Host}_${File}
 Date=$(date "+%y%m%d-%H%M")
@@ -20,7 +21,9 @@ Date=$(date "+%y%m%d-%H%M")
 Backup()
 {
     echo "dump $Path ..."
-    pg_dump --verbose --host=$Host --port=$Port --username=$User --dbname=$DbName > $Path
+    #pg_dump --verbose --host=$Host --port=$Port --username=$User --dbname=$DbName > $Path
+    #pg_dump --verbose --host=$Host --port=$Port --username=$User --dbname=$DbName | gzip > $Path.gz
+    pg_dump --verbose --host=$Host --port=$Port --username=$User --dbname=$DbName | zstd > $Path.zstd
 }
 
 BackupData()
@@ -48,8 +51,8 @@ Create()
 
 clear
 
-#Backup
+Backup
 #BackupData
-BackupSchema
+#BackupSchema
 #Create
 #Restore
