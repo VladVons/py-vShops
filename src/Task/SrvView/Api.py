@@ -32,7 +32,8 @@ class TApiViewConf():
     form_info: str = 'misc/info'
     form_home: str = 'common/home'
     form_module: str = 'module'
-    request_scheme: str = 'http'
+    request_scheme: str = 'http',
+    force_redirect_to_seo: bool = False
 
 class TCacheFileView(TCacheFile):
     def _GetAfter(self, _aPath: str, aData: object):

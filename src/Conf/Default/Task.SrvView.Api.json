@@ -25,7 +25,8 @@
                 "user": "user01",
                 "password": "passw01"
             }
-        }
+        },
+        "force_redirect_to_seo": true
     },
     "tenant": {
         "dir_route": "MVC/tenant/view",
