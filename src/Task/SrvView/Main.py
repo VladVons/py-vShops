@@ -62,12 +62,13 @@ class TSrvView(TSrvBase):
                 if (not Query):
                     return await ApiView.ResponseErr(aRequest, 404)
             else:
-                Query = dict(aRequest.query)
-                if (ApiView.Conf.force_redirect_to_seo):
+                if (ApiView.Conf.force_redirect_to_seo) and (aRequest.path_qs != '/'):
                     Url = await ApiView.GetSeoUrl('Encode', [aRequest.path_qs])
+                    # prevent recursion
                     if (Url[0].lstrip('/?') != aRequest.path_qs.lstrip('/?')):
                         raise web.HTTPFound(location = Url[0])
 
+                Query = dict(aRequest.query)
             if (aPath == 'tenant'):
                 Session = await get_session(aRequest)
                 AuthId = Session.get('auth_id')

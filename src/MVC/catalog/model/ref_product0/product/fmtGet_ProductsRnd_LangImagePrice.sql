@@ -44,6 +44,9 @@ wt1 as (
         ref_product rp on
         (rptc0.product_id = rp.product0_id)
     left join
+        reg_product_stock rps on
+        (rp.id = rps.product_id)
+    left join
         ref_product_lang rpl
         on (rp.id = rpl.product_id and rpl.lang_id = {{aLangId}})
     left join
@@ -52,7 +55,8 @@ wt1 as (
     where
          (rp.enabled) and 
          (rp.product0_id is not null) and
-         (rt.enabled)
+         (rt.enabled) and
+         (rps.rest > 0)
     order by
         random()
     limit

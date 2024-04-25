@@ -11,6 +11,7 @@ wt1 as (
         rp.tenant_id,
         rt.title as tenant_title,
         rpl.title,
+        rps.rest::int,
         (
             select rpi.image
             from ref_product0_image rpi
@@ -47,6 +48,9 @@ wt1 as (
     left join
         ref_product_lang rpl
         on (rp.id = rpl.product_id and rpl.lang_id = {{aLangId}})
+   left join
+        reg_product_stock rps on
+        (rp.id = rps.product_id)
     left join
         ref_tenant rt
         on (rp.tenant_id = rt.id)
