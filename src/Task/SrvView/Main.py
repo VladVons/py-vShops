@@ -55,6 +55,12 @@ class TSrvView(TSrvBase):
             else:
                 Res = await self._Err_404(aRequest)
         else:
+            if (ApiView.Conf.status_410):
+                for xPattern in ApiView.Conf.status_410:
+                    if (xPattern) and (not xPattern.startswith('-')):
+                        Match = re.findall(xPattern, aRequest.path_qs)
+                        if (Match):
+                            return await ApiView.ResponseErr(aRequest, 410)
             if (Name):
                 Url = await ApiView.GetSeoUrl('Decode', Name)
                 Query = UrlDecode(Url)
@@ -67,8 +73,8 @@ class TSrvView(TSrvBase):
                     # prevent recursion
                     if (Url[0].lstrip('/?') != aRequest.path_qs.lstrip('/?')):
                         raise web.HTTPFound(location = Url[0])
-
                 Query = dict(aRequest.query)
+
             if (aPath == 'tenant'):
                 Session = await get_session(aRequest)
                 AuthId = Session.get('auth_id')

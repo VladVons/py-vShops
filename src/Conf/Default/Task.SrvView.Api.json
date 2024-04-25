@@ -26,7 +26,10 @@
                 "password": "passw01"
             }
         },
-        "force_redirect_to_seo": true
+        "force_redirect_to_seo": true,
+        "status_410": [
+            "product_id=([3-9]\\d\\d|\\d{4,})"
+        ]
     },
     "tenant": {
         "dir_route": "MVC/tenant/view",
