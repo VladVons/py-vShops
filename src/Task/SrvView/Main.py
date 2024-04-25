@@ -11,7 +11,7 @@ from Inc.DataClass import DDataClass
 from Inc.SrvWeb import TSrvBase, TSrvConf
 from Inc.SrvWeb.Common import UrlDecode
 from IncP.Log import Log
-from .Api import ApiViews
+from .Api import ApiViews, TApiView
 
 
 @DDataClass
@@ -38,22 +38,27 @@ class TSrvView(TSrvBase):
             web.post('/{name:.*}', self._rCatalog)
         ]
 
-    async def _Route(self, aRequest: web.Request, aPath: str) -> web.Response:
-        ApiView = ApiViews.get(aPath)
-        assert(ApiView), f'unknown path `{aPath}` in {ApiViews.keys()}'
+    async def _LoadFile(self, aRequest: web.Request, aApiView: TApiView) -> web.Response:
+        Name = aRequest.match_info.get('name')
+        File = f'{aApiView.Conf.dir_root}/{Name}'
+        if (os.path.isfile(File)):
+            if (re.search(self._SrvConf.deny, Name)):
+                Res = await aApiView.ResponseFormInfo(aRequest, f'Access denied {aRequest.path}', 403)
+            else:
+                Res = self._GetMimeFile(File)
+        else:
+            Res = await self._Err_404(aRequest)
+        return Res
+
+    async def _rCatalog(self, aRequest: web.Request) -> web.Response:
+        ApiView = ApiViews.get('catalog')
+        assert(ApiView), f'unknown path `catalog` in {ApiViews.keys()}'
 
         Name = aRequest.match_info.get('name')
         NameExt = Name.rsplit('.', maxsplit=1)
         #if (Ext in ['js', 'css', 'jpg', 'png', 'ico', 'gif', 'txt', 'xml', 'woff2']):
         if (len(NameExt) == 2) and (2 <= len(NameExt) <= 5):
-            File = f'{ApiView.Conf.dir_root}/{Name}'
-            if (os.path.isfile(File)):
-                if (re.search(self._SrvConf.deny, Name)):
-                    Res = await ApiView.ResponseFormInfo(aRequest, f'Access denied {aRequest.path}', 403)
-                else:
-                    Res = self._GetMimeFile(File)
-            else:
-                Res = await self._Err_404(aRequest)
+            Res = await self._LoadFile(aRequest, ApiView)
         else:
             if (ApiView.Conf.status_410):
                 for xPattern in ApiView.Conf.status_410:
@@ -71,15 +76,10 @@ class TSrvView(TSrvBase):
                 if (ApiView.Conf.force_redirect_to_seo) and (aRequest.path_qs != '/'):
                     Url = await ApiView.GetSeoUrl('Encode', [aRequest.path_qs])
                     # prevent recursion
-                    if (Url[0].lstrip('/?') != aRequest.path_qs.lstrip('/?')):
+                    #if (Url[0].lstrip('/?') != aRequest.path_qs.lstrip('/?')):
+                    if ('?' not in Url[0]):
                         raise web.HTTPFound(location = Url[0])
                 Query = dict(aRequest.query)
-
-            if (aPath == 'tenant'):
-                Session = await get_session(aRequest)
-                AuthId = Session.get('auth_id')
-                if (not AuthId):
-                    Query = {'route': 'common/login'}
 
             if (not Query.get('route')):
                 Query.update({'route': ApiView.Conf.form_home})
@@ -103,10 +103,22 @@ class TSrvView(TSrvBase):
         return await ApiViews['catalog'].ResponseApi(aRequest)
 
     async def _rTenant(self, aRequest: web.Request) -> web.Response:
-        return await self._Route(aRequest, 'tenant')
+        ApiView = ApiViews.get('tenant')
+        assert(ApiView), f'unknown path `tenant` in {ApiViews.keys()}'
 
-    async def _rCatalog(self, aRequest: web.Request) -> web.Response:
-        return await self._Route(aRequest, 'catalog')
+        Route = aRequest.query.get('route')
+        if (Route):
+            Session = await get_session(aRequest)
+            AuthId = Session.get('auth_id')
+            if (not AuthId):
+                Query = {'route': 'common/login'}
+
+            if (not Query.get('route')):
+                Query.update({'route': ApiView.Conf.form_home})
+            Res = await ApiView.ResponseForm(aRequest, Query)
+        else:
+            Res = await self._LoadFile(aRequest, ApiView)
+        return Res
 
     async def RunApp(self):
         Log.Print(1, 'i', f'{self.__class__.__name__}.RunApp() on port {self._SrvConf.port}')
