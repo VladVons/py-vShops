@@ -6,7 +6,8 @@ select
     rpc.image,
     rpcl.title,
     rpcl.descr,
-    rpcl.meta_key
+    rpcl.meta_key,
+    rpcl.meta_descr
 from
     ref_product0_category rpc
 left join

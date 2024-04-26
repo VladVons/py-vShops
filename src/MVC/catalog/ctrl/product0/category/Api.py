@@ -85,7 +85,9 @@ async def Main(self, aData: dict = None) -> dict:
     if (not Dbl):
         return {'status_code': 404}
 
+    Res = {}
     DblProducts = await products_a(self, Dbl)
+    Res['dbl_products_a'] = DblProducts.Export()
 
     DblCategory = await self.ExecModelImport(
         'ref_product0/category',
@@ -97,11 +99,15 @@ async def Main(self, aData: dict = None) -> dict:
             }
         }
     )
-    Category = DblCategory.Rec.GetAsDict()
+    Res.update(DblCategory.Rec.GetAsDict())
+    if (not Res['meta_descr']):
+        Res['meta_descr'] = f"{Res['title']}, {Lib.ResGetLang(aData, 'meta_descr')}"
 
-    BreadCrumbs = await GetBreadcrumbs(self, aLangId, aCategoryId)
+    Res['breadcrumbs'] = await GetBreadcrumbs(self, aLangId, aCategoryId)
     ModCategoryAttr = Lib.ResGetModule(aData, 'category_attr')
-    Title = f"{Lib.ResGetLang(aData, 'category')}: {Category['title']} ({DblProducts.Rec.total}) - {Lib.ResGetLang(aData, 'page')} {aPage}"
+    Title = f"{Lib.ResGetLang(aData, 'category')}: {Res['title']} ({DblProducts.Rec.total}) - {Lib.ResGetLang(aData, 'page')} {aPage}"
+    Res['title'] = Res['products_a_title'] = Title
+    Res['products_a_descr'] = [ModCategoryAttr.get('descr', ''), AttrDescr]
 
     if (self.ApiCtrl.Conf.get('seo_url')):
         Href = await Lib.SeoEncodeStr(self, Lib.UrlEncode(aData['query']))
@@ -111,17 +117,9 @@ async def Main(self, aData: dict = None) -> dict:
     Pagination = Lib.TPagination(aLimit, Href)
     PData = Pagination.Get(Dbl.Rec.total, aPage)
     DblPagination = Lib.TDbList(['page', 'title', 'href', 'current'], PData)
+    Res['dbl_pagenation'] = DblPagination.Export()
 
     dbl_products_a_sort = GetProductsSort(Pagination.Href, f'&sort={aSort}&order={aOrder}', aData['res']['lang'])
+    Res['dbl_products_a_sort'] = dbl_products_a_sort.Export()
 
-    Res = {
-        'dbl_products_a': DblProducts.Export(),
-        'products_a_title': Title,
-        'products_a_descr': [ModCategoryAttr.get('descr', ''), AttrDescr],
-        'dbl_products_a_sort': dbl_products_a_sort.Export(),
-        'dbl_pagenation': DblPagination.Export(),
-        'category': Category,
-        'breadcrumbs': BreadCrumbs,
-        'title': Title
-    }
     return Res

@@ -63,6 +63,11 @@ async def Main(self, aData: dict = None) -> dict:
         Product['descr'] = f"{Product['category_title']} {Product['title']} {', '.join(Descr)}"
     Product['descr'] = Lib.HtmlEsc(Product['descr'])
 
+    if (Product['meta_descr']):
+        Res['meta_descr'] = Product['meta_descr']
+    else:
+        Res['meta_descr'] = f"{Product['title']}, {Lib.ResGetLang(aData, 'meta_descr')}"
+
     DblAttr.AddFieldsFill(['href'], False)
     for Idx, Rec in enumerate(DblAttr):
         DblAttr.RecMerge([Hrefs[Idx]])
@@ -127,5 +132,4 @@ async def Main(self, aData: dict = None) -> dict:
 
     Res['product'] = Product
     Res['title'] = ''
-    Res['description'] = Product['descr']
     return Res

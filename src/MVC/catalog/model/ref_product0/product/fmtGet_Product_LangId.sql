@@ -14,6 +14,7 @@ with wt1 as (
         rpl.descr,
         rpl.features,
         rpl.meta_key,
+        rpl.meta_descr,
         rpcl.title as category_title,
         array (
             select rpi.image
@@ -57,6 +58,7 @@ wt2 as (
         rpl.descr,
         rpl.features,
         rpl.meta_key,
+        rpl.meta_descr,
         rptc.category_id,
         rpcl.title as category_title,
         array (
@@ -92,6 +94,7 @@ select
     coalesce(wt1.descr, wt2.descr) as descr,
     coalesce(wt1.features, wt2.features) as features,
     coalesce(wt1.meta_key, wt2.meta_key) as meta_key,
+    coalesce(wt1.meta_descr, wt2.meta_descr) as meta_descr,
     wt2.category_id,
     coalesce(wt1.category_title, wt2.category_title) as category_title,
     case when (cardinality(wt1.images) = 0) then wt2.images else wt1.images end as images

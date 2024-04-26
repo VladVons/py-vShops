@@ -17,6 +17,9 @@
   {% include '../_inc/products_a.j2' %}
 
   {% include '../_inc/pagination.j2' %}
+  <div class="mt-4">
+    {{descr | replace("\n", "<br/>")}}
+  </div>
 <!-- category - -->
 </div>
 {% endblock %}

@@ -3,7 +3,9 @@
   <div class="text-center m-3 prod-list-title">
     <h1>{{products_a_title}}</h1>
     {% for xDescr in products_a_descr %}
+      {% if xDescr %}
       <h2>{{xDescr}}</h2>
+      {% endif %}
     {% endfor %}
   </div>
 
