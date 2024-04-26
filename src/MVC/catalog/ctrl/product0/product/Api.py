@@ -4,6 +4,7 @@
 
 
 import json
+from jinja2 import Environment
 #
 import IncP.LibCtrl as Lib
 #from .Features import TFeatures
@@ -60,7 +61,25 @@ async def Main(self, aData: dict = None) -> dict:
         Hrefs = await Lib.SeoEncodeList(self, Hrefs)
 
     if (not Product['descr']):
-        Product['descr'] = f"{Product['category_title']} {Product['title']} {', '.join(Descr)}"
+        DblDescrRnd = await self.ExecModelImport(
+            'ref_product0/category',
+            {
+                'method': 'Get_CategoryDescrRnd',
+                'param': {
+                    'aCategoryId': Product['category_id'],
+                    'aLangId': aLangId
+                }
+            }
+        )
+
+        if (DblDescrRnd):
+            Env = Environment()
+            Template = Env.from_string(DblDescrRnd.Rec.descr)
+            Product['descr'] = Template.render({
+                'product_title': Product['title']
+            })
+        else:
+            Product['descr'] = f"{Product['category_title']} {Product['title']} {', '.join(Descr)}"
     Product['descr'] = Lib.HtmlEsc(Product['descr'])
 
     if (Product['meta_descr']):

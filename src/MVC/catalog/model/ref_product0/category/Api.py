@@ -61,6 +61,12 @@ async def Get_Category_LangId(self, aLangId: int, aCategoryId: int) -> dict:
         {'aLangId': aLangId, 'aCategoryId': aCategoryId}
     )
 
+async def Get_CategoryDescrRnd(self, aLangId: int, aCategoryId: int) -> dict:
+    return await self.ExecQuery(
+        'fmtGet_CategoryDescrRnd.sql',
+        {'aLangId': aLangId, 'aCategoryId': aCategoryId}
+    )
+
 async def Get_CategoryAttr(self, aLangId: int, aCategoryId: int) -> dict:
     return await self.ExecQuery(
         'fmtGet_CategoryAttr.sql',
