@@ -60,7 +60,7 @@ async def Main(self, aData: dict = None) -> dict:
     if (self.ApiCtrl.Conf.get('seo_url')):
         Hrefs = await Lib.SeoEncodeList(self, Hrefs)
 
-    if (not Product['descr']):
+    if (not Product['descr']) and (Product['category_id']):
         DblDescrRnd = await self.ExecModelImport(
             'ref_product0/category',
             {
