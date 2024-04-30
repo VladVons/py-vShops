@@ -23,7 +23,7 @@ Backup()
     echo "dump $Path ..."
     #pg_dump --verbose --host=$Host --port=$Port --username=$User --dbname=$DbName > $Path
     #pg_dump --verbose --host=$Host --port=$Port --username=$User --dbname=$DbName | gzip > $Path.gz
-    pg_dump --verbose --host=$Host --port=$Port --username=$User --dbname=$DbName | zstd > $Path.zstd
+    pg_dump --verbose --host=$Host --port=$Port --username=$User --dbname=$DbName | zstd > $Path.zst
 }
 
 BackupData()
@@ -40,8 +40,11 @@ BackupSchema()
 
 Restore()
 {
-    cat $Path | psql --host=$Host --port=$Port --username=$User --dbname=$DbName
-    #pg_restore --verbose --clean --no-acl --no-owner --host=$Host --port=5432 --dbname=$DbName --username=$User $File
+    #pg_restore --verbose --clean --no-acl --no-owner --host=$Host --port=$Port --dbname=$DbName --username=$User $File
+    #cat $Path | psql --host=$Host --port=$Port --username=$User --dbname=$DbName
+
+    ### drop all tables before
+    zstd -dc $Path.zst | psql --host=$Host --port=$Port --username=$User --dbname=$DbName
 }
 
 Create()

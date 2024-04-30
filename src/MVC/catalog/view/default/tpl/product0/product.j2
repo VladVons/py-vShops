@@ -25,6 +25,19 @@
   LocalStorage.addItemToListCycle('{{product.id}}')
   LocalStorage.save()
 </script>
+
+<style>
+  .arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    padding: 2px;
+    cursor: pointer;
+  }
+</style>
 {% endblock %}
 
 {% block content %}
@@ -38,7 +51,9 @@
     <div class="row vProduct mt-2">
       <div class="col-md-6 text-center vBgMaster">
         <div class="vProductImg">
-          <a href="{{product.image}}"><img class="img-fluid border mt-2" src="{{product.image}}" id="viMainImg" alt="{{product.title}}"/></a>
+          <button class="arrow" onclick="slideImage(-1)">←</button>
+          <img class="img-fluid border mt-2" src="{{product.image}}" id="viMainImg" alt="{{product.title}}"/>
+          <button class="arrow" onclick="slideImage(1)">→</button>
         </div>
         <div class="border-top mt-3 vProductThumbs_X">
         {% for xImage in product.images %}
@@ -132,6 +147,20 @@
         document.getElementById('viCount_' + key).innerHTML = ls.items.length
         showTooltip("{{lang.added}}")
       })
+    }
+
+    let curIdx = 0;
+    const currentImage = document.getElementById("viMainImg");
+    const images = document.getElementsByClassName("img-thumbnail")
+
+    function slideImage(aStep) {
+      curIdx += aStep;
+        if (curIdx < 0) {
+          curIdx = images.length - 1;
+        } else if (curIdx >= images.length) {
+          curIdx = 0;
+        }
+        currentImage.src = images[curIdx].src;
     }
   </script>
   <!-- product - -->
