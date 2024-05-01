@@ -1,32 +1,35 @@
 .dropdown-menu .dropdown .dropdown-menu {
-    left: 100%;
-    top: 0%;
-    margin: 0 1px;
-    border-width: 0;
-}
-nav{ 
-background:#25375A;
-/* background-color: hsl(210, 24%, 44%);*/
+  left: 100%;
+  top: 0%;
+  margin: 0 1px;
+  border-width: 0;
 }
 
+nav{ 
+  background:#25375A;
+  /* background-color: hsl(210, 24%, 44%);*/
+}
 
 #viMainNavbarMenu, #sect-top nav  a.account{
     color: #f5f7f7;
 }
 nav.navbar button.btn{
-    border:none;
-    background: none !important;
+  border:none;
+  background: none !important;
 }
+
 nav.navbar button.btn:hover{
     background: #5e7592;
 }
+
 nav i.fa, nav .dropdown-toggle::after, nav .dropdown-toggle::before{
- color: #cde0f8;
+  color: #cde0f8;
 }
 
 #viMainNavbar:hover, nav .dropdown:hover{
- cursor:pointer;
+  cursor:pointer;
 }
+
 #viMainNavbarItems{
-    position:absolute !important;
+  position:absolute !important;
 }

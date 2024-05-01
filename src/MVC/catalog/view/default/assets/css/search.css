@@ -27,7 +27,6 @@
 
 .autocomplete-items {
   position: absolute;
-  -border: 1px solid #d4d4d4;
   color: black;
   left: 0;
   right: 0;

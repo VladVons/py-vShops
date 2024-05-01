@@ -51,12 +51,9 @@ h6 {
 
 .btn {
     font-weight: 600;
-    -padding: 12px 30px;
     border-radius: 10px;
     color: white;
     background: var(--colorBgFooter);
-    -border-color: var(--colorBgBtn);
-/*    box-shadow: 0 2px 5px var(--colorBgBtn);*/
 
 }
 
@@ -241,7 +238,6 @@ h6 {
 
 /*-- inputs --*/
 .vChanged {
-    -background-color: var(--colorChanged);
     border: 5px solid var(--colorChanged);
 }
 
@@ -262,7 +258,7 @@ div.breadcrumbs{
 }
 div.breadcrumbs a{
     text-decoration: none;
-   color:#2e3d4f;
+    color:#2e3d4f;
     font-family: Roboto Mono;
 }
 
