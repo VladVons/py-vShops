@@ -73,10 +73,10 @@ async def Get_CategoryAttr(self, aLangId: int, aCategoryId: int) -> dict:
         {'aLangId': aLangId, 'aCategoryId': aCategoryId}
     )
 
-async def Get_CategoryPopular(self, aLangId: int) -> dict:
+async def Get_CategoryPopular(self, aLangId: int, aLimit: int) -> dict:
     return await self.ExecQuery(
         'fmtGet_CategoryPopular.sql',
-        {'aLangId': aLangId}
+        {'aLangId': aLangId, 'aLimit': aLimit}
     )
 
 async def _Get_CategoryAttrFilter(self, aLangId: int, aCategoryId: int, aAttr: dict, aFile: str) -> dict:

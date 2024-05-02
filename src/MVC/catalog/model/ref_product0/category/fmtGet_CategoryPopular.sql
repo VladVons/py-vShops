@@ -1,5 +1,5 @@
 -- fmtGet_CategoryPopular.sql
--- in: aLangId
+-- in: aLangId, aLimit
 
 select
     rpc.id,
@@ -16,3 +16,5 @@ where
 order by
     sort_order,
     title
+limit
+    {{aLimit}}
