@@ -73,6 +73,12 @@ async def Get_CategoryAttr(self, aLangId: int, aCategoryId: int) -> dict:
         {'aLangId': aLangId, 'aCategoryId': aCategoryId}
     )
 
+async def Get_CategoryPopular(self, aLangId: int) -> dict:
+    return await self.ExecQuery(
+        'fmtGet_CategoryPopular.sql',
+        {'aLangId': aLangId}
+    )
+
 async def _Get_CategoryAttrFilter(self, aLangId: int, aCategoryId: int, aAttr: dict, aFile: str) -> dict:
     Arr = []
     for AttrId, AttrVal in aAttr.items():
