@@ -61,15 +61,19 @@ select
     wrpc.deep,
     wrpc.path_id,
     cp.products,
-    rpcl.title
+    rpcl.title,
+    rpc.popular
 from
      wrpc
 left join
-    category_products cp
-    on (wrpc.id = cp.cat_id)
+    category_products cp on 
+    (wrpc.id = cp.cat_id)
 left join
-    ref_product0_category_lang rpcl
-    on (wrpc.id = rpcl.category_id and rpcl.lang_id = {{aLangId}})
+    ref_product0_category_lang rpcl on 
+    (wrpc.id = rpcl.category_id and rpcl.lang_id = {{aLangId}})
+left join
+    ref_product0_category rpc on
+    (wrpc.id = rpc.id)
 where
     (cp.products is not null)
     {{CondParentIds}}

@@ -26,7 +26,8 @@ function  OnClickDropdownMenu(aOptions) {
                 Res.push('</ul>')
                 Res.push('</li>')
             }else{
-                Res.push(`<li><a class="dropdown-item" href="${x.href}" ${x.data}>${x.title} (${x.products})</a></li>`)
+                const bold = (x.popular ? 'fw-bold' : '')
+                Res.push(`<li><a class="dropdown-item ${bold}" href="${x.href}" ${x.data}>${x.title} (${x.products})</a></li>`)
             }
         }
         return Res

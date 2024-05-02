@@ -231,7 +231,8 @@ create table if not exists ref_product0_category (
     enabled             boolean default true,
     parent_id           integer references ref_product0_category(id) on delete cascade,
     image               varchar(64),
-    sort_order          smallint default 0
+    icon                varchar(64),
+    sort_order          smallint
 );
 
 create table if not exists ref_product0_category_lang (
@@ -459,7 +460,8 @@ create table if not exists ref_product_category (
     parent_idt          integer,
     category0_id        integer references ref_product0_category(id),
     image               varchar(64),
-    sort_order          smallint default 0,
+    icon                varchar(64),
+    sort_order          smallint,
     margin              json,
     tenant_id           integer not null references ref_tenant(id),
     attr_set_id         references ref_attr_set(id) on delete cascade,
