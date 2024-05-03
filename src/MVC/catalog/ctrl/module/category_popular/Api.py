@@ -22,9 +22,17 @@ async def Main(self, aData: dict = None) -> dict:
     )
 
     if (Dbl):
-        Hrefs = [f'/?route=product0/category&category_id={Rec.id}' for Rec in Dbl]
+        Hrefs = {}
+        Href = '/?route=product0/category&category_id='
+        for Rec in Dbl:
+            Hrefs[Rec.id] = f'{Href}{Rec.id}'
+            Childs = Rec.childs
+            if (Childs):
+                for Id, _Title in Childs:
+                    Hrefs[int(Id)] = f'{Href}{Id}'
+
         if (self.ApiCtrl.Conf.get('seo_url')):
-            Hrefs = await Lib.SeoEncodeList(self, Hrefs)
+            Hrefs = await Lib.SeoEncodeDict(self, Hrefs)
 
         Images = Dbl.ExportStr(['image'], 'category/{}')
         ResThumbs = await self.ExecImg(
@@ -36,10 +44,15 @@ async def Main(self, aData: dict = None) -> dict:
         )
 
         Dbl.AddFieldsFill(['thumb', 'href'], False)
-        Zip = zip(ResThumbs['thumb'], Hrefs, Dbl, strict=True)
-        for Thumb, Href, Rec in Zip:
-            Dbl.RecMerge([Thumb, Href])
-
+        Zip = zip(ResThumbs['thumb'], Dbl, strict=True)
+        for Thumb, Rec in Zip:
+            Dbl.RecMerge([Thumb, Hrefs[Rec.id]])
+            Childs = Rec.childs
+            if (Childs):
+                for Idx, xChild in enumerate(Childs):
+                    Id = int(xChild[0])
+                    Childs[Idx][0] = Hrefs[Id]
+                Dbl.Rec.SetField('childs', Childs)
         return {
             'dbl_category_popular': Dbl.Export()
         }
