@@ -161,6 +161,10 @@ h6 {
     /*overflow: hidden;*/
 }
 
+.vGrayscale {
+    filter: grayscale(100%);
+}
+
 /*-- card --*/
 .card-header {
     text-align: center;
