@@ -10,6 +10,7 @@ from IncP.ApiBase import TApiBase
 from IncP.Plugins import TCtrls
 import IncP.LibCtrl as Lib
 
+
 class TApiCtrl(TApiBase):
     def __init__(self, aName: str, aApiCommon: 'TApiCtrl' = None):
         super().__init__()
