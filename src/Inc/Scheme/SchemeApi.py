@@ -349,6 +349,7 @@ class TSchemeApiExt():
         Res = [
             ["var_get", ["$root"]],
             ["find", ["title"]],
-            ["text"]
+            ["text"],
+            ["strip"]
         ]
         return Res
