@@ -246,9 +246,9 @@ class TSchemeApi(TSchemeApiBase):
             Res.append((Arr[aIdxKey].text.strip(), Arr[aIdxVal].text.strip()))
         return Res
 
-    # @staticmethod
-    # def find_next_string(aVal: BeautifulSoup, aStr: str) -> object:
-    #     return soup.find('b', string='Назва:')
+    @staticmethod
+    def find_string(aVal: BeautifulSoup, aTag: str, aStr: str) -> object:
+        return aVal.find(aTag, string=aStr)
 
     @staticmethod
     def table(aVal: BeautifulSoup) -> list:

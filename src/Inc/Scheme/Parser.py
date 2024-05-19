@@ -103,11 +103,12 @@ class TSchemeBase():
             ParamCnt = len(aItem)
             if (ParamCnt >= 2):
                 try:
+                    Param1 = aItem[1]
                     if (ParamCnt == 2):
-                        aObj = aObj(*aItem[1])
+                        aObj = aObj(*Param1)
                     elif (ParamCnt == 3):
-                        if (aItem[1]):
-                            aObj = aObj(*aItem[1], **aItem[2])
+                        if (Param1):
+                            aObj = aObj(*Param1, **aItem[2])
                         else:
                             aObj = aObj(**aItem[2])
                 except Exception as E:
