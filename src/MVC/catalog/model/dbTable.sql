@@ -24,6 +24,7 @@ create type doc_enum as enum (
 create type price_enum as enum (
     'purchase',
     'sale',
+    'sale_copy',
     'action'
 );
 

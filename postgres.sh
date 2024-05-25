@@ -52,6 +52,11 @@ Create()
     psql --host=$Host --port=$Port --username=$User -d template1 -c "CREATE DATABASE $DbName;"
 }
 
+VacuumDb()
+{
+    echo "vacuum $Path ..."
+    vacuumdb --verbose --host=$Host --port=$Port --username=$User --dbname=$DbName
+}
 clear
 
 Backup
@@ -59,3 +64,4 @@ Backup
 #BackupSchema
 #Create
 #Restore
+#VacuumDb

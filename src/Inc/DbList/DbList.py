@@ -6,6 +6,7 @@
 from .DbBase import TDbBase
 from .DbCond import TDbCond
 from .DbRec import TDbRec
+from .DbErr import TDbListException
 
 
 class TDbList(TDbBase):
@@ -14,7 +15,11 @@ class TDbList(TDbBase):
         self.Rec = TDbRec()
 
         if (aFields):
+            if (len(aFields) != len(set(aFields))):
+                Duplicates = [x for x in aFields if aFields.count(x) > 1]
+                raise TDbListException(f'duplicate fields {set(Duplicates)}')
             self.Init(aFields, aData)
+
             if (aDef):
                 self.Rec.Def = aDef
 
