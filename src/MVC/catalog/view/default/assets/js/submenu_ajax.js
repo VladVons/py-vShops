@@ -7,12 +7,12 @@ License: GNU, see LICENSE for more details
 
 function  OnClickDropdownMenu(aOptions) {
     const defOption = {
-        selector: 'viMainNavbar',
+        selector: 'viMainNavbarId',
         items: 'viMainNavbarItems',
-        url: '/api/?route=product0/search'
+        url: '/api/?route=product0/search',
+        async: true
     }
     const Options = { ...defOption, ...aOptions }
-
 
     function Recurs(aData, aId) {
         let Res = []
@@ -40,10 +40,15 @@ function  OnClickDropdownMenu(aOptions) {
         initDropdownMenu({"selector": Options.selector})
     }
 
-    new TSend().execA(Options.url, {'method': 'ajax'})
-        .then(data => {
-            displayResults(data)
-        })
+    if (Options.async) {
+        new TSend().execA(Options.url, {'method': 'ajax'})
+            .then(data => {
+                displayResults(data)
+            })
+    }else{
+        const data = new TSend().exec(Options.url, {'method': 'ajax'})
+        displayResults(data)
+    }
 }
 
 function initDropdownMenu(aOptions) {
