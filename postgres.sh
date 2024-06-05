@@ -14,8 +14,8 @@ User="admin"
 #File="vShopsMeta.sql"
 File="$(hostname)_${DbName}.sql.dat"
 #
-Path=${Host}_${File}
 Date=$(date "+%y%m%d-%H%M")
+Path=${Host}_${Date}_${File}
 
 
 Backup()

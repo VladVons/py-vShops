@@ -99,7 +99,7 @@ async def Main(self, aData: dict = None) -> dict:
     Images = await self.GetImages(Product['images'])
     Product.update(Images)
 
-    Price = await self.ExecModelExport(
+    DblPriceSale = await self.ExecModelImport(
         'ref_product/price',
         {
             'method': 'Get_Price_Product',
@@ -109,16 +109,16 @@ async def Main(self, aData: dict = None) -> dict:
             }
         }
     )
-    Product['price'] = Price
+    Product['price'] = DblPriceSale.Export()
 
-    DblPrice = await self.ExecModelImport(
+    DblPriceHist = await self.ExecModelImport(
         'ref_product/price',
         {
             'method': 'Get_PriceHist_Product',
             'param': {'aProductId': aProductId}
         }
     )
-    Product['price_hist'] = DblPrice.Export()
+    Product['price_hist'] = DblPriceHist.Export()
 
     Res['breadcrumbs'] = await GetBreadcrumbs(self, aLangId, CategoryId)
 
@@ -133,8 +133,8 @@ async def Main(self, aData: dict = None) -> dict:
             '@type': 'Offer',
             'itemCondition': 'https://schema.org/' + Lib.Iif(Product['cond_en'] == 'new', 'NewCondition', 'UsedCondition'),
             'availability': 'https://schema.org/' + Lib.Iif(Product['rest'] > 0, 'InStock', 'OutOfStock'),
-            'price': DblPrice.Rec.price,
-            'priceCurrency': DblPrice.Rec.alias
+            'price': DblPriceSale.Rec.price,
+            'priceCurrency': DblPriceSale.Rec.alias
         }
     }
     Res['schema'] = json.dumps(Schema, ensure_ascii=False)
