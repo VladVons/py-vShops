@@ -1,4 +1,6 @@
+-- fmtGet_ProductMargin.sql
 -- in: aProductIds
+
 with wrptc as (
     select product_id, category_id
     from ref_product_to_category

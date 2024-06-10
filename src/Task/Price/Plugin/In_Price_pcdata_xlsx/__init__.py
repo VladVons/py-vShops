@@ -11,7 +11,7 @@ import os
 #
 from Inc.ParserX.Common import TPluginBase
 from IncP.Log import Log
-from .Price import TPricePC, TPriceMonit, TPriceMonitInd, TPricePrinter
+from .Price import TPricePC, TPriceNotebook, TPriceMonit, TPriceMonitInd, TPricePrinter
 from ..CommonDb import TDbCategory, TDbProductEx
 
 
@@ -62,8 +62,10 @@ class TIn_Price_pcdata_xlsx(TPluginBase):
             },
             'PRINTERS': {
                 'parser': TPricePrinter, 'category_id': 4, 'category': 'Принтер'
+            },
+            'ALL IN ONES': {
+                'parser': TPriceNotebook, 'category_id': 5, 'category': "Ноутбук"
             }
-
         }
 
         DbProductEx = TDbProductEx()

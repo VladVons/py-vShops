@@ -29,6 +29,8 @@ class TFiller():
         aRec.SetField('cond', Val)
 
         for x in aFieldsCopy:
+            if (aRow.get(x) == '--'):
+                aRow[x] = ''
             self.Parent.Copy(x, aRow, aRec)
 
         #Arr = [str(aRow.get(x, '')) for x in self.ConfModel]
@@ -48,6 +50,9 @@ class TFiller():
 
         Scheme = TScheme()
         Attr = Scheme.ParsePipes(aRow, self.ConfAttr)
+        for Key, Val in Attr.items():
+            if (len(Val) >= 32):
+                Attr[Key] = ''
         aRec.SetField('attr', Attr)
 
 class TPricePC(TParser_xlsx):
@@ -61,8 +66,11 @@ class TPricePC(TParser_xlsx):
     def _OnLoad(self):
         self.Filler = TFiller(self)
 
+    def _Filter(self, aRow: dict):
+        return (not aRow.get('price_in')) or (not aRow.get('ram')) or (not aRow.get('disk')) or ('--' in aRow.get('disk'))
+
     def _Fill(self, aRow: dict) -> TDbRec:
-        if (not aRow.get('price_in')):
+        if (self._Filter(aRow)):
             return
 
         Rec = self.Dbl.RecAdd()
@@ -83,6 +91,18 @@ class TPricePC(TParser_xlsx):
         self.Filler.SetBase(aRow, Rec, ['cpu', 'case', 'vga', 'os'])
         return Rec
 
+class TPriceNotebook(TPricePC):
+    def _Fill(self, aRow: dict):
+        Val = aRow.get('screen', '')
+        if (Val):
+            Data = re.findall(r'(\d+)', Val)
+            if (Data):
+                aRow['screen'] = Data[0]
+            else:
+                aRow['screen'] = ''
+
+        super()._Fill(aRow)
+
 class TPriceMonit(TParser_xlsx):
     def __init__(self, aParent):
         super().__init__(aParent, TDbCompMonit())
@@ -101,6 +121,8 @@ class TPriceMonit(TParser_xlsx):
         Rec = self.Dbl.RecAdd()
 
         Val = GetNotNone(aRow, 'grade', '').replace('-', '')
+        if (not Val):
+            Val = 'A'
         Rec.SetField('grade', Val)
         aRow['grade'] = Val
 

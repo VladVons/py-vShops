@@ -62,6 +62,7 @@ class TPricePC(TParser_xlsx):
 
         self.ReDisk1 = re.compile(r'(\d+)\s*(gb|tb)\s*(hdd|ssd)', re.IGNORECASE)
         self.ReDisk2 = re.compile(r'(\d+)\s*(hdd|ssd)', re.IGNORECASE)
+        self.ReDisk3 = re.compile(r'(\d+)x(\d+)\s*(gb|tb)\s*(hdd|ssd)', re.IGNORECASE)
         self.ReRam = re.compile(r'(\d+)\s*(gb)', re.IGNORECASE)
 
     def _OnLoad(self):
@@ -74,21 +75,36 @@ class TPricePC(TParser_xlsx):
         Rec = self.Dbl.RecAdd()
 
         Val = aRow.get('disk', '')
-        # 256GB SSD, 256GBSSD
-        Data = self.ReDisk1.findall(Val)
-        if (Data):
-            Data = Data[0]
-            Rec.SetField('disk_size', int(Data[0]))
-            Rec.SetField('disk', Data[2])
-            aRow['disk'] = f'{Data[0]}{Data[1]} {Data[2]}'
-        else:
-            # 256SSD
-            Data = self.ReDisk2.findall(Val)
+        if (Val):
+            # 4x256GB SSD
+            Data = self.ReDisk3.findall(Val)
             if (Data):
                 Data = Data[0]
-                Rec.SetField('disk_size', int(Data[0]))
-                Rec.SetField('disk', Data[1])
-                aRow['disk'] = f'{Data[0]}GB {Data[1]}'
+                Size = int(Data[0]) * int(Data[1])
+                Rec.SetField('disk_size', Size)
+                Rec.SetField('disk', Data[3])
+                aRow['disk'] = f'{Size}{Data[2]} {Data[3]}'
+            else:
+                # 256GB SSD, 256GBSSD
+                Data = self.ReDisk1.findall(Val)
+                if (Data):
+                    Size = 0
+                    for xData in Data:
+                        Size += int(xData[0])
+                    Data = Data[0]
+                    Rec.SetField('disk_size', Size)
+                    Rec.SetField('disk', Data[2])
+                    aRow['disk'] = f'{Size}{Data[1]} {Data[2]}'
+                else:
+                    # 256SSD
+                    Data = self.ReDisk2.findall(Val)
+                    if (Data):
+                        Data = Data[0]
+                        Rec.SetField('disk_size', int(Data[0]))
+                        Rec.SetField('disk', Data[1])
+                        aRow['disk'] = f'{Data[0]}GB {Data[1]}'
+        else:
+            Rec.SetField('disk_size', 0)
 
         Val = str(aRow.get('ram', ''))
         # 4Gb, 4 Gb

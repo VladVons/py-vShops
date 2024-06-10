@@ -635,7 +635,7 @@ class TSql(TSqlBase):
                 return await TDbExecPool(self.Db.Pool).Exec(Query)
 
         Log.Print(1, 'i', 'Product')
-        await self.DisableTable('ref_product')
+        #await self.DisableTable('ref_product')
         await Product(aDbl)
         aDbl = GetUnique(aDbl)
 

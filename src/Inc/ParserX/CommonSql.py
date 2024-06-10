@@ -81,9 +81,9 @@ class TSqlBase():
         self.price_purchase_id: int
         self.stock_id: int
 
-    async def ExecQuery(self, aPackage: str, aFile: str, aFormat: dict) -> TDbList:
+    async def ExecQuery(self, aPackage: str, aFile: str, aFormat: dict = None) -> TDbList:
         Dir = aPackage.replace('.', '/')
-        Query = FormatFile(f'{Dir}/{aFile}', aFormat)
+        Query = FormatFile(f'{Dir}/{aFile}', aFormat or {})
         return await TDbExecPool(self.Db.Pool).Exec(Query)
 
     async def LoadTenantConf(self, aTenant: str, aLang: str):

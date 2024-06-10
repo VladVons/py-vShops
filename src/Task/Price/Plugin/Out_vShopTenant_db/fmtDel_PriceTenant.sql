@@ -1,4 +1,6 @@
+-- fmtDel_PriceTenant.sql 
 -- in: aTenentId
+
 delete from ref_product_price 
 where product_id in (
     select rpp.product_id

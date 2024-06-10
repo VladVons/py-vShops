@@ -5,7 +5,7 @@
 
 import os
 #
-from Inc.DbList import TDbList, TDbRec, TDbRecSafe
+from Inc.DbList import TDbList, TDbRec
 from Inc.Util.Obj import DeepGet, DeepGetByList, GetClassPath
 from Inc.Misc.Time import TASleep
 from Inc.Misc.Request import TRequestGet, TRequestJson
@@ -67,12 +67,13 @@ class TPluginBase():
 
     def GetFile(self) -> str:
         Res = self.Conf.GetKey('file')
+        Dir = self.Conf.get('dir', self.Parent.Conf.GetKey('dir_data'))
         if (not Res):
             Split = self.Plugin.split('_')
             File = '/'.join(Split[:-1]) + '.' + Split[-1]
-            Res = self.Parent.Conf.GetKey('dir_data') + '/' + File
+            Res = Dir + '/' + File
         elif (os.sep not in Res):
-            Res = self.Parent.Conf.GetKey('dir_data') + '/' + Res
+            Res = Dir + '/' + Res
         return Res
 
 
@@ -111,7 +112,7 @@ class TFileDbl(TFileBase):
             Val = aRec.Def.get(aNameDst)
         aRec.SetField(aNameDst, Val)
 
-    def CopySafe(self, aName: str, aRow: dict, aRec: TDbRecSafe):
+    def CopySafe(self, aName: str, aRow: dict, aRec: TDbRec):
         Field = self.Dbl.Fields[aName]
         Val = aRow.get(aName)
         if (Val is None):
