@@ -102,6 +102,9 @@ class TSql(TSqlBase):
     async def ProductModelUnknown(self):
         return await self.ExecQuery(__package__, 'fmtGet_ModelUnknown.sql', {'aTenantId': self.tenant_id})
 
+    async def ProductSeo(self):
+        return await self.ExecQuery(__package__, 'fmtSet_SeoProducts.sql', {'aTenantId': self.tenant_id, 'aLangId': self.lang_id})
+
     async def GetProductsMargin(self, aProductIds: list[int]):
         Res = {}
         ProductIds = ListIntToComma(aProductIds)
@@ -664,6 +667,8 @@ class TSql(TSqlBase):
         Log.Print(1, 'i', 'Product_Image')
         await self.DisableTableByProduct('ref_product_image', 'and (src_url is not null)')
         await SProduct_Image(aDbl, self.Conf.parts)
+
+        await self.ProductSeo()
 
 
 class TMain(TFileBase):
