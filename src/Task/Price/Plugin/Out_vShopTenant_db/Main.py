@@ -77,6 +77,31 @@ class TSql(TSqlBase):
         Url = f'{self.ImgApi.Url}/system'
         return await self.ImgApi.Send(Url, aData)
 
+    async def Product_Stock_Zero(self, aDbl: TDbProductEx):
+        print('Product_Stock_Zero()')
+
+        Ids = [self.ProductIdt[Rec.id] for Rec in aDbl]
+        Query = f'''
+            update reg_product_stock
+            set rest = 0
+            where
+                (stock_id = {self.stock_id}) and
+                product_id in (
+                    select
+                        rps.product_id
+                    from
+                        reg_product_stock rps
+                    join
+                        ref_product rp on
+                        (rp.id = rps.product_id) and (rp.tenant_id = {self.tenant_id})
+                    where
+                        (rps.stock_id = {self.stock_id}) and
+                        (rps.rest != 0) and
+                        (rps.product_id not in ({ListIntToComma(Ids)}))
+                )
+        '''
+        return await TDbExecPool(self.Db.Pool).Exec(Query)
+
     async def DisableTable(self, aTable: str):
         Query = f'''
             update {aTable}
@@ -572,7 +597,7 @@ class TSql(TSqlBase):
                         'doc_rest'
             	)
             '''
-            await TDbExecPool(self.Db.Pool).Exec(Query)
+            return await TDbExecPool(self.Db.Pool).Exec(Query)
 
         @DASplitDbl
         async def SProduct_Barcode(aDbl: TDbProductEx, _aMax: int, aIdx: int = 0, aLen: int = 0) -> TDbList:
@@ -650,6 +675,7 @@ class TSql(TSqlBase):
 
         Log.Print(1, 'i', 'Product_Stock')
         await SProduct_Stock(aDbl, self.Conf.parts)
+        await self.Product_Stock_Zero(aDbl)
 
         if (self.Conf.product0 == 'ean'):
             Log.Print(1, 'i', 'Product_Barcode')
@@ -668,7 +694,7 @@ class TSql(TSqlBase):
         await self.DisableTableByProduct('ref_product_image', 'and (src_url is not null)')
         await SProduct_Image(aDbl, self.Conf.parts)
 
-        await self.ProductSeo()
+        #await self.ProductSeo()
 
 
 class TMain(TFileBase):

@@ -10,6 +10,7 @@ wt1 as (
         rp.tenant_id,
         rt.title as tenant_title,
         rpl.title,
+        rps.rest::int,
         (
             select rpp.price
             from ref_product_price rpp
@@ -70,6 +71,7 @@ select
     wt1.tenant_title,
     coalesce(wt1.price, 0)::float as price,
     wt1.title as product_title,
-    coalesce(wt1.image, wt1.image0) as image
+    coalesce(wt1.image, wt1.image0) as image,
+    wt1.rest
 from
     wt1

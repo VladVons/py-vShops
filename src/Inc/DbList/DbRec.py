@@ -82,6 +82,13 @@ class TDbRec():
             Res = aDef
         return Res
 
+    def GetFieldSafe(self, aName: str, aDef = None) -> object:
+        Idx = self.Fields.get(aName)
+        if (not Idx):
+            return aDef
+
+        return self.Data[Idx]
+
     def GetFieldByNo(self, aNo: int) -> object:
         return self.Data[aNo]
 

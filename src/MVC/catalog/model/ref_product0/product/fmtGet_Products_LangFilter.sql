@@ -12,6 +12,7 @@ with wt1 as (
         rt.title as tenant_title,
         rpl.title,
         rpcl.title as category_title,
+        rps.rest::int,
         (
             select rpp.price
             from ref_product_price rpp
@@ -55,6 +56,9 @@ with wt1 as (
         ref_product_category_lang rpcl on
         (rptc.category_id = rpcl.category_id) and (rpl.lang_id = {{aLangId}})
     left join
+        reg_product_stock rps on
+        (rp.id = rps.product_id)
+    left join
         ref_tenant rt on
         (rp.tenant_id = rt.id)
     where
@@ -68,6 +72,7 @@ with wt1 as (
             (rpb.code = '{{aFilter}}')
         )
     order by
+        (rest > 0) desc,
         {{aOrder}}
     limit
         {{aLimit}}
@@ -84,6 +89,7 @@ select
     wt1.title as product_title,
     coalesce(wt1.price, 0)::float as price,
     coalesce(wt1.image, wt1.image0) as image,
-    wt1.category_title
+    wt1.category_title,
+    wt1.rest
 from
     wt1

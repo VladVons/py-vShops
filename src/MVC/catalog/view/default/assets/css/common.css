@@ -10,6 +10,7 @@
 
     --colorChanged: LightGreen;
     --colorDisabled: Gray;
+    --colorDisabledLight: LightGray;
     --colorReadonly: #f0f0f0;
 }
 
@@ -274,4 +275,10 @@ div.breadcrumbs a{
 }
 .buyButton:hover{
      background-color: #FBEA8E;
+}
+
+.buyButtonOff{
+    border-radius: 27px;
+    border: 1px solid #CCC37E;
+    background-color: var(--colorDisabledLight);
 }

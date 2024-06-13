@@ -10,6 +10,7 @@ wt1 as (
         rp.tenant_id,
         rt.title as tenant_title,
         rpl.title,
+        rps.rest::int,
         (
             select rpp.price
             from ref_product_price rpp
@@ -47,6 +48,9 @@ wt1 as (
         ref_product_lang rpl
         on (rp.id = rpl.product_id and rpl.lang_id = {{aLangId}})
     left join
+        reg_product_stock rps on
+        (rp.id = rps.product_id)
+    left join
         ref_tenant rt
         on (rp.tenant_id = rt.id)
     where
@@ -70,6 +74,7 @@ select
     wt1.tenant_title,
     coalesce(wt1.price, 0)::float as price,
     wt1.title as product_title,
-    coalesce(wt1.image, wt1.image0) as image
+    coalesce(wt1.image, wt1.image0) as image,
+    wt1.rest
 from
     wt1

@@ -48,7 +48,7 @@ wt1 as (
     left join
         ref_product_lang rpl
         on (rp.id = rpl.product_id and rpl.lang_id = {{aLangId}})
-   left join
+    left join
         reg_product_stock rps on
         (rp.id = rps.product_id)
     left join
@@ -60,6 +60,7 @@ wt1 as (
          (rt.enabled)
          {{WhereExt}}
     order by
+        (rest > 0) desc,
         {{aOrder}}
     limit
         {{aLimit}}
@@ -75,6 +76,7 @@ select
     wt1.tenant_title,
     coalesce(wt1.price, 0)::float as price,
     wt1.title as product_title,
-    coalesce(wt1.image, wt1.image0) as image
+    coalesce(wt1.image, wt1.image0) as image,
+    wt1.rest
 from
     wt1
