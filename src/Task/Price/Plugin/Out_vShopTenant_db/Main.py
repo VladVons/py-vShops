@@ -77,7 +77,7 @@ class TSql(TSqlBase):
         Url = f'{self.ImgApi.Url}/system'
         return await self.ImgApi.Send(Url, aData)
 
-    async def Product_Stock_Zero(self, aDbl: TDbProductEx):
+    async def Product_Stock_DisableZero(self, aDbl: TDbProductEx):
         print('Product_Stock_Zero()')
 
         Ids = [self.ProductIdt[Rec.id] for Rec in aDbl]
@@ -675,7 +675,7 @@ class TSql(TSqlBase):
 
         Log.Print(1, 'i', 'Product_Stock')
         await SProduct_Stock(aDbl, self.Conf.parts)
-        await self.Product_Stock_Zero(aDbl)
+        await self.Product_Stock_DisableZero(aDbl)
 
         if (self.Conf.product0 == 'ean'):
             Log.Print(1, 'i', 'Product_Barcode')
