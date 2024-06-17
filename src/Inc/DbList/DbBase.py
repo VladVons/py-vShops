@@ -114,17 +114,17 @@ class TDbBase():
         FieldsNoUniq = [self.GetFieldNo(x) for x in aFieldsUniq]
         FieldsNoSum = [self.GetFieldNo(x) for x in aFieldsSum]
 
-        for Row in self.Data:
-            FKey = tuple(Row[x] for x in FieldsNoUniq)
+        for xData in self.Data:
+            FKey = tuple(xData[x] for x in FieldsNoUniq)
             if (FKey not in Res):
                 Res[FKey] = []
-            FSum = [Row[x] for x in FieldsNoSum]
+            FSum = [xData[x] for x in FieldsNoSum]
             Res[FKey].append(FSum)
         return Res
 
     def Append(self, aDbl: list['TDbBase']) -> 'TDbBase':
-        for x in aDbl:
-            self.Data += x.Data
+        for xDbl in aDbl:
+            self.Data += xDbl.Data
         return self
 
     def Clone(self, aFields: list[str] = None, aCond: TDbCond = None, aRecNo: tuple = None) -> 'TDbBase':

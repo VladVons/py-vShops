@@ -4,6 +4,7 @@
 select
     rll.title,
     rll.descr,
+    rll.meta_descr,
     rll.meta_key
 from
     ref_layout rl

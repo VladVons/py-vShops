@@ -20,7 +20,6 @@ def Run():
     if (Info['python'] >= PyNeed):
         Task = TTask().Run()
         asyncio.run(Task)
-
     else:
         print(f'Need python >= {PyNeed}')
     Log.Print(1, 'i', 'Quit')

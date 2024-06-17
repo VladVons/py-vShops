@@ -368,6 +368,7 @@ create table if not exists ref_layout (
 create table if not exists ref_layout_lang (
     title               varchar(128) not null,
     descr               text,
+    meta_descr          varchar(150),
     meta_key            varchar(128),
     layout_id           integer not null references ref_layout(id) on delete cascade,
     lang_id             integer not null references ref_lang(id),
