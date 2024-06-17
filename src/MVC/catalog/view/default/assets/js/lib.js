@@ -413,3 +413,7 @@ function hasAllKeys(aObj, aRequiredKeys) {
     //return [...requiredKeys].every(key => objKeys.has(key))
     return [...requiredKeys].filter(key => !objKeys.has(key))
 }
+
+function isDesktopDevice() {
+    return window.matchMedia("(min-width: 992px)").matches
+}

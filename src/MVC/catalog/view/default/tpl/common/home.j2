@@ -2,6 +2,8 @@
 
 {% block foot %}
 <script>
+  if (isDesktopDevice()) {
     document.getElementById('viMainNavbarMenu').click()
+  }
 </script>
 {% endblock %}
