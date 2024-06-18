@@ -6,21 +6,27 @@
 import re
 
 
-class TDictRepl:
+class TDictRepl():
     def __init__(self, aDict: dict = None):
         self.Dict = aDict
 
         #self.ReVar = re.compile(r'(\$\w+)\b')
-        self.ReVar = re.compile(r'(\$[a-zA-Z0-9]+)')
+        #self.ReVar = re.compile(r'(\$[a-zA-Z0-9]+)')
+        self.ReVar = re.compile(r'(\$[a-zA-Z0-9._]+)')
+
+
+    def _Get(self, aFind: str) -> str:
+        return self.Dict.get(aFind, f'-{aFind}-')
 
     def Parse(self, aStr: str) -> str:
         if (self.Dict):
-            Arr = self.ReVar.search(aStr)
-            while (Arr):
-                Find = Arr.group(0)
-                Repl = self.Dict.get(Find, '-x-')
-                aStr = aStr.replace(Find, Repl)
+            while (True):
                 Arr = self.ReVar.search(aStr)
+                if (not Arr):
+                    break
+                Find = Arr.group(0)
+                Repl = self._Get(Find)
+                aStr = aStr.replace(Find, Repl)
 
             self.Dict = {}
         return aStr

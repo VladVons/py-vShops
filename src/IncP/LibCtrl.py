@@ -11,11 +11,20 @@ from Inc.Misc.Pagination import TPagination
 from Inc.Misc.Request import TDownload
 from Inc.Misc.RequestImage import TDownloadImage
 from Inc.Misc.Telegram import TTelegram
+from Inc.Misc.Template import TDictRepl
 from Inc.SrvWeb.Common import UrlEncode, UrlUdate
-from Inc.Util.Obj import DeepGetByList, GetDictDef, GetDictDefs, Filter, DeepGetsRe, Iif, IsDigits
+from Inc.Util.Obj import DeepGet, DeepGetByList, GetDictDef, GetDictDefs, Filter, DeepGetsRe, Iif, IsDigits
 from Inc.Util.Str import Replace
 from .Log import Log
 
+
+class TDictReplDeep(TDictRepl):
+    def _Get(self, aFind: str) -> str:
+        aFind = aFind.strip('.')[1:]
+        Res = DeepGet(self.Dict, aFind)
+        if (not isinstance(Res, (str, int, float))):
+           Res = f'-{aFind}-'
+        return Res
 
 def HtmlEsc(aVal: str) -> str:
     return Replace(aVal,

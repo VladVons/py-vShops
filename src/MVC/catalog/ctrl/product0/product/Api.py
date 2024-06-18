@@ -85,7 +85,7 @@ async def Main(self, aData: dict = None) -> dict:
     if (Product['meta_descr']):
         Res['meta_descr'] = Product['meta_descr']
     else:
-        Res['meta_descr'] = f"{Product['title']}, {Lib.ResGetLang(aData, 'meta_descr')}"
+        Res['meta_descr'] = Lib.ResGetItem(aData, 'meta_descr')
 
     DblAttr.AddFieldsFill(['href'], False)
     for Idx, Rec in enumerate(DblAttr):
@@ -110,6 +110,7 @@ async def Main(self, aData: dict = None) -> dict:
         }
     )
     Product['price'] = DblPriceSale.Export()
+    Product['price_sale'] = f'{DblPriceSale.Rec.price} {DblPriceSale.Rec.alias}'
 
     DblPriceHist = await self.ExecModelImport(
         'ref_product/price',
@@ -151,4 +152,8 @@ async def Main(self, aData: dict = None) -> dict:
 
     Res['product'] = Product
     Res['title'] = ''
+
+    DictRepl = Lib.TDictReplDeep(Res)
+    Res['meta_descr'] = DictRepl.Parse(Res['meta_descr'])
+
     return Res
