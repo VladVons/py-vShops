@@ -14,7 +14,7 @@ wt1 as (
     where 
         (hs.host = '{{aHost}}') and
         (hs.browser like '%google%') and
-        (hs.create_date >= '2024-04-01')
+        (hs.create_date >= '2024-06-01')
     group by
         url
 )

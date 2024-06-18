@@ -11,12 +11,11 @@ with wt1 as (
         hist_session hs on
         (hs.id = hpv.session_id)
     where
-        (hs.host = '{{aHost}}') and
-        (hpv.url like '%?route=%') and
+        (hs.host like '%{{aHost}}') and
+        (hpv.url ~'%?route=%|/category/|/product/|/about_us|/contacts') and
         (hs.browser not like '%bot%') and
         ((hs.uagent not like '%bot%') or (hs.uagent is null)) and
-        (hs.ip not like '217.196.161.%') and
-        (hs.ip not like '127.0.0.1')
+        (hs.ip  !~'127.0.0.1|5.58.222.201|5.58.78.170')
     group by
         hs.id
     having
@@ -41,7 +40,7 @@ join
     wt1 on
     (wt1.id = hpv.session_id)
 where
-    (hs.host = '{{aHost}}')
+    (hs.host like '%{{aHost}}')
 --    (hpv.url like '%?route=%')
 order by
     hs.id desc,
