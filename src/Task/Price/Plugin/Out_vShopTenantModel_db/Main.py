@@ -3,24 +3,17 @@
 # License: GNU, see LICENSE for more details
 
 
-from Inc.DataClass import DDataClass
 from Inc.DbList  import TDbList
 from Inc.ParserX.Common import TFileBase
-from Inc.ParserX.CommonSql import TSqlBase, TLogEx, DASplitDbl
+from Inc.ParserX.CommonSql import TSqlBase, TSqlTenantConf, TLogEx, DASplitDbl
 from Inc.Sql import TDbExecPool, TDbPg, ListToComma
 from IncP.Log import Log
 from ..CommonDb import TDbCrawl
 
 
-@DDataClass
-class TSqlConf():
-    lang: str
-    tenant: str
-    parts: int = 100
-
 
 class TSql(TSqlBase):
-    def __init__(self, aDb: TDbPg, aSqlConf: TSqlConf):
+    def __init__(self, aDb: TDbPg, aSqlConf: TSqlTenantConf):
         super().__init__(aDb)
 
         self.Conf = aSqlConf
@@ -72,7 +65,7 @@ class TMain(TFileBase):
         self.LogEx = self.LogEx.Init(ConfFile)
 
         SqlDef = self.Parent.Conf.GetKey('sql', {})
-        SqlConf = TSqlConf(**SqlDef)
+        SqlConf = TSqlTenantConf(**SqlDef)
         self.Sql = TSql(aDb, SqlConf)
 
     async def InsertToDb(self, aDbCrawl: TDbCrawl):

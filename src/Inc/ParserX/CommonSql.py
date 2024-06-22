@@ -7,11 +7,19 @@ import time
 import re
 import os
 #
+from Inc.DataClass import DDataClass
 from Inc.DbList import TDbList
 from Inc.Log import TLog, TEchoFile
 from Inc.Misc.Template import FormatFile
 from Inc.Sql import TDbExecPool, TDbPg
 from Inc.Util.Arr import Parts
+
+
+@DDataClass
+class TSqlTenantConf():
+    lang: str
+    tenant: str
+    parts: int = 100
 
 
 def StripQuery(aData: str) -> str:
