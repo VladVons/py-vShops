@@ -39,6 +39,7 @@ class TSemQuery():
 class TOpenAI(TSemQuery):
     def __init__(self):
         self.Url = 'https://api.openai.com/v1/chat/completions'
+        self.Model = ['gpt-3.5-turbo', 'gpt-4-turbo']
 
         EnvKey = 'OPENAI_API_KEY'
         self.ApiKey = os.getenv(EnvKey)
@@ -51,7 +52,7 @@ class TOpenAI(TSemQuery):
         }
 
         Data = {
-            'model': 'gpt-3.5-turbo',
+            'model': self.Model[1],
             'messages': [
                 {'role': 'system', 'content': 'You are a helpful assistant.'},
                 {'role': 'user', 'content': aMsg}

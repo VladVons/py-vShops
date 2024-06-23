@@ -19,7 +19,7 @@ class TDictRepl():
         return self.Dict.get(aFind, f'-{aFind}-')
 
     def Parse(self, aStr: str) -> str:
-        if (self.Dict):
+        if (self.Dict and aStr) :
             while (True):
                 Arr = self.ReVar.search(aStr)
                 if (not Arr):
@@ -28,7 +28,7 @@ class TDictRepl():
                 Repl = self._Get(Find)
                 aStr = aStr.replace(Find, Repl)
 
-            self.Dict = {}
+            #self.Dict = {}
         return aStr
 
 

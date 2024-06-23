@@ -154,6 +154,7 @@ async def Main(self, aData: dict = None) -> dict:
     Res['title'] = ''
 
     DictRepl = Lib.TDictReplDeep(Res)
+    Product['descr'] = DictRepl.Parse(Product['descr'])
     Res['meta_descr'] = DictRepl.Parse(Res['meta_descr'])
 
     return Res
