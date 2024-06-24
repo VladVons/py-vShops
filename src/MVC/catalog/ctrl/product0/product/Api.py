@@ -150,8 +150,10 @@ async def Main(self, aData: dict = None) -> dict:
     Href['self'] = aData['path_qs']
     Res['href'] = Href
 
+    if (not Product['meta_title']):
+        Res['meta_title'] = f"{Product['category_title']} {Product['title']}"
+
     Res['product'] = Product
-    Res['title'] = ''
 
     DictRepl = Lib.TDictReplDeep(Res)
     Res['meta_descr'] = DictRepl.Parse(Res['meta_descr'])

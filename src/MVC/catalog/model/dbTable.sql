@@ -241,6 +241,7 @@ create table if not exists ref_product0_category_lang (
     lang_id             integer not null references ref_lang(id),
     title               varchar(128) not null,
     descr               text,
+    meta_title          varchar(160),
     meta_key            varchar(128),
     meta_descr          varchar(160),
     primary key (category_id, lang_id)
@@ -277,6 +278,7 @@ create table if not exists ref_product0_lang (
     title               varchar(128) not null,
     descr               text,
     features            json,
+    meta_title          varchar(160),
     meta_key            varchar(128),
     meta_descr          varchar(160),
     product_id          integer not null references ref_product0(id) on delete cascade,
@@ -368,8 +370,9 @@ create table if not exists ref_layout (
 create table if not exists ref_layout_lang (
     title               varchar(128) not null,
     descr               text,
-    meta_descr          varchar(150),
+    meta_title          varchar(160),
     meta_key            varchar(128),
+    meta_descr          varchar(160),
     layout_id           integer not null references ref_layout(id) on delete cascade,
     lang_id             integer not null references ref_lang(id),
     primary key (layout_id, lang_id)
@@ -477,6 +480,7 @@ create table if not exists ref_product_category_lang (
     lang_id             integer not null references ref_lang(id),
     title               varchar(128) not null,
     descr               text,
+    meta_title          varchar(160),
     meta_key            varchar(128),
     meta_descr          varchar(160),
     unique (category_id, lang_id)
@@ -543,6 +547,7 @@ create table if not exists ref_product_lang (
     summary             json,
     features            json,
     descr               text,
+    meta_title          varchar(160),
     meta_key            varchar(128),
     meta_descr          varchar(160),
     product_id          integer not null references ref_product(id) on delete cascade,

@@ -6,6 +6,7 @@ select
     rpc.image,
     rpcl.title,
     rpcl.descr,
+    rpcl.meta_title,
     rpcl.meta_key,
     rpcl.meta_descr
 from

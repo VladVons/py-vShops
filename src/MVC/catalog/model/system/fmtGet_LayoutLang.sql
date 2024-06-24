@@ -4,8 +4,9 @@
 select
     rll.title,
     rll.descr,
-    rll.meta_descr,
-    rll.meta_key
+    coalesce(rll.meta_title, rll.title) as meta_title,
+    rll.meta_key,
+    rll.meta_descr
 from
     ref_layout rl
 join 

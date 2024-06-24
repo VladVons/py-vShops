@@ -125,7 +125,7 @@ class TApiCtrlAuth(TApiCtrl):
             Res = await super().Exec(aRoute, aData)
         else:
             Msg = f'no session auth in {type(self).__name__}'
-            Log.Print(1, 'i', Msg)
+            Lib.Log.Print(1, 'i', Msg)
             Res = {'err': Msg}
         return Res
 

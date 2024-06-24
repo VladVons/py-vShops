@@ -105,8 +105,15 @@ async def Main(self, aData: dict = None) -> dict:
 
     Res['breadcrumbs'] = await GetBreadcrumbs(self, aLangId, aCategoryId)
     ModCategoryAttr = Lib.ResGetModule(aData, 'category_attr')
-    Title = f"{Lib.ResGetLang(aData, 'category')}: {Res['title']} ({DblProducts.Rec.total}) - {Lib.ResGetLang(aData, 'page')} {aPage}"
+
+    TotalPager = f'({DblProducts.Rec.total}) - {Lib.ResGetLang(aData, 'page')} {aPage}'
+    Title = f"{Lib.ResGetLang(aData, 'category')}: {Res['title']} {TotalPager}"
     Res['title'] = Res['products_a_title'] = Title
+    if (Res['meta_title']):
+        Res['meta_title'] = f"{Res['meta_title']} {TotalPager}"
+    else:
+        Res['meta_title'] = Title
+
     Res['products_a_descr'] = [ModCategoryAttr.get('descr', ''), AttrDescr]
 
     if (self.ApiCtrl.Conf.get('seo_url')):
