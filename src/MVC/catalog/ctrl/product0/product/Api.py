@@ -4,7 +4,6 @@
 
 
 import json
-from jinja2 import Environment
 #
 import IncP.LibCtrl as Lib
 #from .Features import TFeatures
@@ -73,11 +72,12 @@ async def Main(self, aData: dict = None) -> dict:
         )
 
         if (DblDescrRnd):
-            Env = Environment()
-            Template = Env.from_string(DblDescrRnd.Rec.descr)
-            Product['descr'] = Template.render({
-                'product_title': Product['title']
-            })
+            # Env = Environment()
+            # Template = Env.from_string(DblDescrRnd.Rec.descr)
+            # Product['descr'] = Template.render({
+            #     'product_title': Product['title']
+            # })
+            Product['descr'] = DblDescrRnd.Rec.descr
         else:
             Product['descr'] = f"{Product['category_title']} {Product['title']} {', '.join(Descr)}"
     Product['descr'] = Lib.HtmlEsc(Product['descr'])
@@ -154,7 +154,7 @@ async def Main(self, aData: dict = None) -> dict:
     Res['title'] = ''
 
     DictRepl = Lib.TDictReplDeep(Res)
-    Product['descr'] = DictRepl.Parse(Product['descr'])
     Res['meta_descr'] = DictRepl.Parse(Res['meta_descr'])
+    Product['descr'] = DictRepl.Parse(Product['descr'])
 
     return Res

@@ -9,11 +9,11 @@ import re
 class TDictRepl():
     def __init__(self, aDict: dict = None):
         self.Dict = aDict
+        self._VarTpl()
 
+    def _VarTpl(self):
         #self.ReVar = re.compile(r'(\$\w+)\b')
-        #self.ReVar = re.compile(r'(\$[a-zA-Z0-9]+)')
-        self.ReVar = re.compile(r'(\$[a-zA-Z0-9._]+)')
-
+        self.ReVar = re.compile(r'(\$[a-zA-Z0-9]+)')
 
     def _Get(self, aFind: str) -> str:
         return self.Dict.get(aFind, f'-{aFind}-')

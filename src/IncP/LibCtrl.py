@@ -2,6 +2,7 @@
 # Author:  Vladimir Vons <VladVons@gmail.com>
 # License: GNU, see LICENSE for more details
 
+import re
 
 # pylint: skip-file
 from Inc.DbList import TDbList, TDbSql, TDbRec
@@ -18,9 +19,24 @@ from Inc.Util.Str import Replace
 from .Log import Log
 
 
+#from jinja2 import Environment, Undefined
+#Env = Lib.TplEnvIgnore()
+#Product['descr'] = Env.from_string(Product['descr']).render(Res)
+# class TplEnvIgnore(Environment):
+#     class _TplIgnore(Undefined):
+#         def _fail_with_undefined_error(self, *args, **kwargs):
+#             return f'?{self._undefined_name}?'
+
+#     def __init__(self):
+#         super().__init__(undefined=self._TplIgnore)
+
+
 class TDictReplDeep(TDictRepl):
+    def _VarTpl(self):
+        self.ReVar = re.compile(r'(\{\{[a-zA-Z0-9_.]+\}\})')
+
     def _Get(self, aFind: str) -> str:
-        aFind = aFind.strip('.')[1:]
+        aFind = aFind.strip('{}')
         Res = DeepGet(self.Dict, aFind)
         if (not isinstance(Res, (str, int, float))):
            Res = f'-{aFind}-'

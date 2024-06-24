@@ -47,7 +47,8 @@ select
     wt2.price::float as price_new,
     wt2.begin_date,
     wt2.end_date,
-    rc.alias
+    rc.alias,
+    rc.title
 from
     wt1
 left join wt2 on
