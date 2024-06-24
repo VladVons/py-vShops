@@ -20,6 +20,7 @@ class TSqlTenantConf():
     lang: str
     tenant: str
     parts: int = 100
+    categories: list[str] = []
 
 
 def StripQuery(aData: str) -> str:

@@ -7,15 +7,14 @@ import random
 #
 from Inc.ParserX.Common import TPluginBase
 from Inc.ParserX.CommonSql import TSqlBase, TSqlTenantConf
-from Inc.Sql import TDbPg, TDbAuth, TDbExecPool
+from Inc.Sql import TDbPg, TDbAuth, TDbExecPool, ListToComma
 from IncP.Log import Log
 from .AI import TOpenAI
 
 
 
-Textes = [
-'''
-Напиши унікальний опис товару для покращення SEO інтернет сторінки до {TextSize} символів.
+Textes = {
+    'Ноутбук': '''Напиши унікальний опис товару для покращення SEO інтернет сторінки до {TextSize} символів.
 Опиши сильні сторони товару, дай приклади що ним можна робити і як використовувати.
 Якщо розмір оперативної пам'яті менше, або рівна 4Gb, то запропонуй для кращої роботи докупити пам'ять, щоб стало 8Gb.
 Якщо тип сховища HDD, то запропонуй докупити більш швидший тип SSD.
@@ -23,7 +22,8 @@ Textes = [
 Використовуй теги <h3> для характеристик товару і <b> для підкреслення цікавих моментів. Не використовуй тег <ul>.
 Замість ціни пиши $product.price_sale і валюту.
 '''
-]
+
+}
 
 class TOut_vShopNoDescr_db(TPluginBase):
     async def Run(self):
@@ -37,8 +37,16 @@ class TOut_vShopNoDescr_db(TPluginBase):
 
         Sql = TSqlBase(Db)
         await Sql.LoadTenantConf(SqlConf.tenant, SqlConf.lang)
+
+        assert(SqlConf.categories), 'no categories defined'
         Dbl = await Sql.ExecQuery(__package__, 'fmtGet_NoDescr.sql',
-                    {'aLangId': Sql.lang_id, 'aTenantId': Sql.tenant_id, 'aLimit': SqlConf.parts})
+            {
+                'aLangId': Sql.lang_id,
+                'aTenantId': Sql.tenant_id,
+                'aLimit': SqlConf.parts,
+                'aCategories': ListToComma(SqlConf.categories)
+            }
+        )
 
         Queries = []
         for Rec in Dbl:
@@ -47,7 +55,9 @@ class TOut_vShopNoDescr_db(TPluginBase):
             Attr.append(f'Стан: {Cond}')
             Attr.append('Ціна: 1000 грн.')
 
-            Text = Textes[0].format(TextSize=random.randint(2500, 5000))
+            Text = Textes.get(Rec.category_title)
+            assert(Text), f'no AI text found for category {Rec.category_title}'
+            Text = Text.format(TextSize=random.randint(2500, 5000))
 
             Query = f'''
                 {Text}

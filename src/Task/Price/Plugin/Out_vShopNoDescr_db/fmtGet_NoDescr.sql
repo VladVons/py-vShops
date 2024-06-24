@@ -1,5 +1,5 @@
 -- fmtGet_Products_WithoutDescr.sql
--- in: aLangId, aTenantId, aLimit
+-- in: aLangId, aTenantId, aCtegories, aLimit
 
 select
     rp.id,
@@ -17,7 +17,7 @@ from
     ref_product rp
 left join
     ref_product_lang rpl on
-    (rp.id = rpl.product_id) and (rpl.lang_id = 1)
+    (rp.id = rpl.product_id) and (rpl.lang_id = {aLangId})
 left join
     ref_product_to_category rptc on
     (rp.id = rptc.product_id)
@@ -31,6 +31,7 @@ where
     (rp.enabled) and
     (rp.tenant_id = {aTenantId}) and
     (rps.rest > 0) and
-    (rpl.descr is null or rpl.descr = '')
-limit 
+    (rpl.descr is null) and
+    (rpcl.title in ({aCategories}))
+limit
     {aLimit}
