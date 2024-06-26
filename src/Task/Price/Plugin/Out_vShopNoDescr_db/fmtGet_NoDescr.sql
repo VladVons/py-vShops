@@ -2,6 +2,7 @@
 -- in: aLangId, aTenantId, aCtegories, aLimit
 
 select
+    count(*) over() as total,
     rp.id,
     rp.cond_en,
     rpl.title,

@@ -47,6 +47,10 @@ class TOut_vShopNoDescr_db(TPluginBase):
                 'aCategories': ListToComma(SqlConf.categories)
             }
         )
+        if (not Dbl):
+            return
+
+        Log.Print(1, 'i', f'{Dbl.GetSize()}/{Dbl.Rec.total} products without descr in {SqlConf.categories}')
 
         Queries = []
         for Rec in Dbl:

@@ -2,6 +2,10 @@
 # VladVons@gmail.com
 # Created: 2024.06.25
 
+# crontab -e
+# 0 23 * * * /home/vladvons/www/vShops/postgresDump.sh
+
+
 DbBackup()
 {
     #echo "hostname:port:database:username:password" > ~/.pgpass
