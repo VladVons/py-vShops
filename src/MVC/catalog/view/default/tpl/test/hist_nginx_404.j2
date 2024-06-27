@@ -1,0 +1,35 @@
+{% extends '_inc/layout1.j2' %}
+
+{% set Fields = ['no', 'path'] %}
+
+{% block head %}
+<style>
+  .grid-container {
+    display: grid;
+    grid-template-columns: 50px auto;
+  }
+
+  .gitem {
+    border: 1px solid black;
+    padding: 0px;
+    text-align: left;
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- hist_nginx_404 + -->
+<div class="container pb-2">
+  <h1>Google bot 404</h1>
+  <div class="grid-container">
+    {% for xFields in Fields %}
+      <div class="grid-item fw-bold">{{xFields}}</div>
+    {% endfor %}
+    {% for Rec in TDbList().Import(dbl) %}
+      <div class="gitem">{{loop.index}}</div>
+      <div class="gitem">{{Rec.path}}</div>
+    {% endfor %}
+  </div>
+</div>
+<!-- hist_nginx_404 - -->
+{% endblock %}
