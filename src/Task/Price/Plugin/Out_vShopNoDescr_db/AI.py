@@ -69,5 +69,5 @@ class TOpenAI(TSemQuery):
                     Log.Print(1, 'x', f'_Query(). {self.Url}', aE = E)
                     Res = {'err': str(E)}
             else:
-                Res = {'err': f'{Response.status}, {Response.text}'}
+                Res = {'err': f'{Response.status}, {Response.text}, {Response.reason}'}
             return Res

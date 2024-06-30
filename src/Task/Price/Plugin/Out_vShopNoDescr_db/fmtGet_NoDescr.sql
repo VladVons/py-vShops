@@ -30,6 +30,7 @@ left join
     (rp.id = rps.product_id)
 where
     (rp.enabled) and
+    (rp.product0_id is not null) and
     (rp.tenant_id = {aTenantId}) and
     (rps.rest > 0) and
     (rpl.descr is null) and
