@@ -13,7 +13,7 @@ with wt1 as (
     where
         (hs.host like '%{{aHost}}') and
         (hpv.url ~'route=|/category/|/product/|/about_us|/contacts') and
-        ((hs.uagent not like '%bot%') or (hs.uagent not like '%facebook%') or (hs.uagent is null)) and
+        (((hs.uagent not like '%bot%') and (hs.uagent not like '%facebook%')) or (hs.uagent is null)) and
         (hs.ip  !~'127.0.0.1|5.58.222.201|5.58.78.170')
     group by
         hs.id
