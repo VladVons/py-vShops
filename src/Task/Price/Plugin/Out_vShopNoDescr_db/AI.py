@@ -26,6 +26,7 @@ class TSemQuery():
 
     async def Exec(self, aQuery: list, aMaxConn: int):
         self.CntDown = len(aQuery)
+        Log.Print(1, 'i', f'Preparing {self.CntDown} tasks')
 
         Sem = asyncio.Semaphore(aMaxConn)
         async with aiohttp.ClientSession() as Session:

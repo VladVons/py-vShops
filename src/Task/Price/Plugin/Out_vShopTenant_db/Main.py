@@ -16,7 +16,7 @@ from Inc.Util.Obj import DeepGetByList
 from Inc.Util.Str import ToHashW
 from Inc.Util.Num import RoundNear
 from IncP.Log import Log
-from ..CommonDb import TDbCategory, TDbProductEx
+from ..CommonDb import TDbCategory, TDbProductEx, GetNullStr
 
 
 @DDataClass
@@ -413,23 +413,27 @@ class TSql(TSqlBase):
                 if (Key not in Uniq):
                     Uniq[Key] = ''
 
-                    Descr = Rec.GetField('descr', '').translate(self.Escape)
+
+                    Descr = Rec.GetField('descr')
+                    if (Descr):
+                        Descr = Descr.translate(self.Escape)
 
                     Features = Rec.GetField('features')
                     if (Features):
-                        Features = "'" + json.dumps(Features, ensure_ascii=False).replace("'", '`') + "'"
-                    else:
-                        Features = 'null'
+                        Features = json.dumps(Features, ensure_ascii=False).replace("'", '`')
 
-                    Value = f"({self.ProductIdt[Rec.id]}, {self.lang_id}, '{Rec.name.translate(self.Escape)}', '{Descr}', {Features})"
+                    Value = f"({self.ProductIdt[Rec.id]}, {self.lang_id}, '{Rec.name.translate(self.Escape)}', {GetNullStr(Descr)}, {GetNullStr(Features)})"
                     Values.append(Value)
 
             # no serial column
             Query = f'''
-                insert into ref_product_lang (product_id, lang_id, title, descr, features)
+                insert into ref_product_lang as src (product_id, lang_id, title, descr, features)
                 values {', '.join(Values)}
                 on conflict (product_id, lang_id) do update
-                set title = excluded.title, features = excluded.features, descr = excluded.descr
+                set
+                    title = excluded.title,
+                    features = excluded.features,
+                    descr = case when (excluded.descr is null) then src.descr else excluded.descr end
             '''
             await TDbExecPool(self.Db.Pool).Exec(Query)
 

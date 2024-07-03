@@ -41,6 +41,9 @@ def GetAttr(aRow: dict, aMeta: dict) -> dict:
                 Res[Key] = Data
     return Res
 
+def GetNullStr(aStr: str):
+    return f"'{aStr}'" if (aStr) else 'null'
+
 
 class TDbProductEx(TDbList):
     def __init__(self):
