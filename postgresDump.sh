@@ -32,7 +32,7 @@ ToFtp()
     PasswFtp="/home/vladvons/.passw_ftp1"
     Host="download.oster.com.ua"
     User="backups"
-    RemotePath="/backups"
+    RemotePath="/backups/"
 
     echo "To FTP $PathDump ..."
     Passw=$(cat $PasswFtp)
