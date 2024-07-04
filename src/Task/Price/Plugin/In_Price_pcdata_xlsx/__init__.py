@@ -64,7 +64,10 @@ class TIn_Price_pcdata_xlsx(TPluginBase):
                 'parser': TPricePrinter, 'category_id': 4, 'category': 'Принтер'
             },
             'ALL IN ONES': {
-                'parser': TPriceNotebook, 'category_id': 5, 'category': "Ноутбук"
+                'parser': TPriceNotebook, 'category_id': 5, 'category': "Моноблок"
+            },
+            'LAPTOPS': {
+                'parser': TPriceNotebook, 'category_id': 6, 'category': "Ноутбук", "enabled": False
             }
         }
 
