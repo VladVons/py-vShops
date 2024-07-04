@@ -32,7 +32,7 @@ class TApiViewConf():
     form_info: str = 'misc/info'
     form_home: str = 'common/home'
     form_module: str = 'module'
-    request_scheme: str = 'http',
+    request_scheme: str = 'https'
     force_redirect_to_seo: bool = False
     status_410: list = []
 
