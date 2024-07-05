@@ -85,6 +85,9 @@ readers do not read off random characters that represent icons */
 .fa-shopping-cart:before {
   content: "\f07a"; }
 
+.fa-star:before {
+  content: "\f005"; }
+
 .fa-telegram:before {
   content: "\f2c6"; }
 
