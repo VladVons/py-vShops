@@ -13,7 +13,7 @@ wt1 as (
         (hs.id = hpv.session_id)
     where 
         (hs.host = '{{aHost}}') and
-        (hs.browser like '%google%') and
+        (hs.uagent like '%google%') and
         (hs.create_date >= '2024-06-01')
     group by
         url
@@ -47,7 +47,7 @@ left join
     wt1 on
     (wt1.url = hpv.url)
 where
-    (hs.browser like '%google%')
+    (hs.uagent like '%google%')
     and (hpv.create_date >= now() - interval '24 hours')
 order by
     hpv.create_date desc

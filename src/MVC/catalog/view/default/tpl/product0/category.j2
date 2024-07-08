@@ -20,7 +20,7 @@
 
   {% include '../_inc/pagination.j2' %}
   <div class="mt-4">
-    {{descr | replace("\n", "<br/>")}}
+    {{Text2Html(descr)}}
   </div>
 <!-- category - -->
 </div>

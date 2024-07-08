@@ -7,6 +7,11 @@ from Inc.DbList import TDbList
 from Inc.Util.Obj import GetTree
 
 
+def Text2Html(aText: str) -> str:
+    aText = aText.replace('\n-', '\n<li>')
+    aText = aText.replace('\n', '<br>')
+    return aText
+
 def Dump(self, aDepth = 0, aName: str = '') -> str:
     '''
     in template use {{Dump(self, 2, 'lang/')}}
@@ -103,6 +108,7 @@ class TTemplate():
         self.Env = TEnvironment(loader = Loader)
         self.Env.globals['TDbList'] = TDbList
         self.Env.globals['Dump'] = Dump
+        self.Env.globals['Text2Html'] = Text2Html
         #self.Env.filters['MyFunc'] = MyFunc
         self.Env.trim_blocks = True
         self.Env.lstrip_blocks = True
