@@ -8,8 +8,9 @@ from Inc.Util.Obj import GetTree
 
 
 def Text2Html(aText: str) -> str:
-    aText = aText.replace('\n-', '\n<li>')
-    aText = aText.replace('\n', '<br>')
+    if (aText):
+        aText = aText.replace('\n-', '\n<li>')
+        aText = aText.replace('\n', '<br>')
     return aText
 
 def Dump(self, aDepth = 0, aName: str = '') -> str:
