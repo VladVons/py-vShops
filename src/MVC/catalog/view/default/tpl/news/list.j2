@@ -6,7 +6,7 @@
   <h1>{{title}}</h1>
   <div>
   {% for Rec in TDbList().Import(dbl_news) %}
-    <a href="{{Rec.href}}">{{Rec.title}}</a>
+    <div><a href="{{Rec.href}}">{{Rec.title}}</a></div>
   {% endfor %}
   </div>
   <div>
