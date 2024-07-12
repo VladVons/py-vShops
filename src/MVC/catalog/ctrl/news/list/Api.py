@@ -39,10 +39,13 @@ async def Main(self, aData: dict = None) -> dict:
     PData = Pagination.Get(Dbl.Rec.total, aPage)
     DblPagination = Lib.TDbList(['page', 'title', 'href', 'current'], PData)
 
+    Hrefs = [f'/?route=news/item&news_id={Rec.id}' for Rec in Dbl]
+    if (self.ApiCtrl.Conf.get('seo_url')):
+        Hrefs = await Lib.SeoEncodeList(self, Hrefs)
+
     Dbl.AddFieldsFill(['href'], False)
-    for Rec in Dbl:
-        New = [f'/?route=news/item&news_id={Rec.id}']
-        Dbl.RecMerge(New)
+    for Idx, Rec in enumerate(Dbl):
+        Dbl.RecMerge([Hrefs[Idx]])
 
     return {
         'dbl_news': Dbl.Export(),

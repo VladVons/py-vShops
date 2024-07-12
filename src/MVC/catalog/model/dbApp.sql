@@ -102,3 +102,10 @@ as $$
 
     return CyrToLat(a_text)
 $$ language plpython3u;
+
+create or replace function cyrtolat_url(a_text text) returns text
+as $$
+begin
+    return translate(cyrtolat(lower(a_text)), ' /.&=?', '___');
+end
+$$ language plpgsql;
