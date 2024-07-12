@@ -4,7 +4,7 @@
 select
     count(*) over() as total,
     rn.id,
-    coalesce(rn.public_date, rn.create_date)::date as public_date,
+    coalesce(rn.public_date, rn.create_date) as public_date,
     rnl.title,
     rnl.descr,
     rnl.meta_key,

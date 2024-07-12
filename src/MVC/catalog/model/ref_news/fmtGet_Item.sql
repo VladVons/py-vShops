@@ -2,9 +2,10 @@
 -- in: aNewsId, aLangId
 
 select
-    coalesce(rn.public_date, rn.create_date)::date as public_date,
+    coalesce(rn.public_date, rn.create_date) as public_date,
     rnl.title,
     rnl.descr,
+    coalesce(rnl.meta_title, rnl.title) as meta_title,
     rnl.meta_key,
     rnl.image
 from

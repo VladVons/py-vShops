@@ -32,4 +32,6 @@ async def Main(self, aData: dict = None) -> dict:
         return {'status_code': 404}
 
     Res = Dbl.Rec.GetAsDict()
+    DictRepl = Lib.TDictReplDeep(Res)
+    Res['meta_title'] = DictRepl.Parse(Res['meta_title'])
     return Res
