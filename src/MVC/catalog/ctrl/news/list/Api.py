@@ -24,6 +24,7 @@ async def Main(self, aData: dict = None) -> dict:
             'method': 'Get_List',
             'param': {
                 'aLangId': aLangId,
+                'aGroupId': 1, 
                 'aLimit': aLimit,
                 'aOffset': (aPage - 1) * aLimit
             }

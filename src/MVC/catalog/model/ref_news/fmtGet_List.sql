@@ -1,5 +1,5 @@
 -- fmtGet_list.sql
--- aLangId, aLimit, aOffset
+-- aGroupId, aLangId, aLimit, aOffset
 
 select
     count(*) over() as total,
@@ -17,6 +17,7 @@ join
 where
     (rn.enabled) and
     ((rn.public_date < now()) or (rn.public_date is null)) and
+    (rn.group_id = {{aGroupId}}) and
     (tenant_id = 0)
 order by
     public_date desc

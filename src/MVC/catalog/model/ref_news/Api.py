@@ -9,8 +9,8 @@ async def Get_Item(self, aLangId: int, aNewsId: int) -> dict:
         {'aLangId': aLangId, 'aNewsId': aNewsId}
     )
 
-async def Get_List(self, aLangId: int, aLimit: int, aOffset: int) -> dict:
+async def Get_List(self, aLangId: int, aGroupId: int, aLimit: int, aOffset: int) -> dict:
     return await self.ExecQuery(
         'fmtGet_List.sql',
-        {'aLangId': aLangId, 'aLimit': aLimit, 'aOffset': aOffset}
+        {'aLangId': aLangId, 'aGroupId': aGroupId, 'aLimit': aLimit, 'aOffset': aOffset}
     )
