@@ -4,23 +4,35 @@
 with
 wt1 as (
     {% include './fmtGet_CategoryAttrFilterProduct.sql' %}
+),
+wt2 as (
+    select
+        rpa.attr_id,
+        rpa.val,
+        count(*)
+    from
+        ref_product_attr rpa
+    join
+        wt1 on
+        (wt1.product_id = rpa.product_id)
+    group by
+        rpa.attr_id,
+        rpa.val
 )
 select
-    rpa.attr_id,
-    rpa.val,
-    max(ral.title) as title,
-    count(*)
+    wt2.attr_id,
+    wt2.val,
+    wt2.count,
+    ra.alias,
+    ral.title
 from
-    ref_product_attr rpa
+    wt2
 join
     ref_attr_lang ral on
-    (ral.attr_id = rpa.attr_id) and (ral.lang_id = {{aLangId}})
+    (ral.attr_id = wt2.attr_id) and (ral.lang_id = {{aLangId}})
 join
-    wt1 on
-    (wt1.product_id = rpa.product_id)
-group by
-    rpa.attr_id,
-    rpa.val
+    ref_attr ra on
+    (ra.id = wt2.attr_id)
 order by
     title,
     val
