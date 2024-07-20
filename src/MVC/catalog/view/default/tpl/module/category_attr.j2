@@ -18,7 +18,7 @@
         <div class="fw-bold mt-2">{{Rec.title}}</div>
         {% for Attr, Count in Rec.attrs.items() %}
         <div>
-          <input class="form-check-input attrChk" type="checkbox" id='{{Rec.attr_id}}_{{Attr}}' attrId='{{Rec.attr_id}}' value='{{Attr}}'>
+          <input class="form-check-input attrChk" type="checkbox" id='{{Rec.attr_id}}_{{Attr}}' data-attr_id='{{Rec.attr_id}}' value='{{Attr}}'>
           <label class="form-check-label" for='{{Rec.attr_id}}_{{Attr}}' disabled>{{Attr}} ({{Count}})</label>
         </div>
         {%- endfor %}
@@ -36,7 +36,7 @@
     let Res = {}
     for (var xItem of aItems) {
       if (xItem.checked) {
-        const attrId = xItem.getAttribute('attrId')
+        const attrId = xItem.getAttribute('data-attr_id')
         if (attrId in Res) {
           Res[attrId].push(xItem.value)
         }else{
@@ -80,9 +80,9 @@
   }
 
   function setChkEnabled(aItems, aEnable, aElement) {
-    const attrIdCur = aElement.getAttribute('attrId')
+    const attrIdCur = aElement.getAttribute('data-attr_id')
     for (var xItem of Items) {
-      const attrId = xItem.getAttribute('attrId')
+      const attrId = xItem.getAttribute('data-attr_id')
       if (aEnable) {
         xItem.disabled = !aEnable
       }else if (attrIdCur != attrId) {
