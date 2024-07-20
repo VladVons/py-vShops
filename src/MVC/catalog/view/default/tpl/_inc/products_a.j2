@@ -44,7 +44,7 @@
             <h2 class="fw-bold  m-0 p-0">{{Rec.price|round|int}} грн</h2>
             {% if Rec.GetFieldSafe('rest', 1) %}
               <button type="button" class="buyButton mt-1 viAddToCart w-75 align-self-center mb-3 p-0"
-                data='{"id":"{{Rec.product_id}}", "name":"{{Rec.product_title}}", "price":{{Rec.price}}, "img":"{{Rec.thumb}}", "qty":1, "href":"{{Rec.product_href}}"}'>
+                data-product='{"id":"{{Rec.product_id}}", "name":"{{Rec.product_title}}", "price":{{Rec.price}}, "img":"{{Rec.thumb}}", "qty":1, "href":"{{Rec.product_href}}"}'>
                 {{lang.buy}}
               </button>
             {% else %}
