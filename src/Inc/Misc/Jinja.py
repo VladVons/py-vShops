@@ -9,7 +9,7 @@ from Inc.Util.Obj import GetTree
 
 def Text2Html(aText: str) -> str:
     if (aText):
-        aText = aText.replace('\n-', '\n<li>')
+        #aText = aText.replace('\n-', '\n<li>')
         aText = aText.replace('\n', '<br>')
     return aText
 
