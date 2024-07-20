@@ -19,7 +19,7 @@
         {% for Attr, Count in Rec.attrs.items() %}
         <div>
           <input class="form-check-input attrChk" type="checkbox" id='{{Rec.attr_id}}_{{Attr}}' data-attrId='{{Rec.attr_id}}' value='{{Attr}}'>
-          <label class="form-check-label" for='{{Rec.attr_id}}_{{Attr}}' disabled>{{Attr}} ({{Count}})</label>
+          <label class="form-check-label" for='{{Rec.attr_id}}_{{Attr}}'>{{Attr}} ({{Count}})</label>
         </div>
         {%- endfor %}
       {%- endfor %}
