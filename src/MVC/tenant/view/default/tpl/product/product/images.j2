@@ -13,7 +13,7 @@
         </div>
         <div class="card-footer">
           <span>
-            <input type="hidden" name="card_{{loop.index}}_file_" value="{{Rec.image}}"/>
+            <input type="hidden" name="card_{{loop.index}}_file_" value="{{Rec.image}}">
             {{lang.file}}:<input type="text" class="imgFile" name="card_{{loop.index}}_file" value="{{Rec.image}}" readonly>
             <button class="btn btn-primary btn_ImgEdit" cardId="card_{{loop.index}}" data-bs-toggle="modal" data-bs-target="#viFileManagerModal">
               <i class="fa fa-edit" title="{{lang.edit}}"></i>

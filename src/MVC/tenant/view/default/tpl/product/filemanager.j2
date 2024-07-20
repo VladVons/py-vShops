@@ -5,25 +5,25 @@
       <a href="{{href.parent}}" class="btn btn-primary" id="href_parent"><i class="fa fa-level-up-alt m-1" title="{{lang.parent}}"></i></a>
       <a href="{{href.refresh}}" class="btn btn-primary" id="href_refresh"><i class="fa fa-sync m-1" title="{{lang.refresh}}"></i></a>
       <button type="button" class="btn btn-danger" id="btn_delete" name="btn_delete" value="ok" title="{{lang.delete}}"><i class="fa fa-trash"></i></button>
-      <input type="hidden" value="{{href.refresh}}" id="input_refresh"/>
+      <input type="hidden" value="{{href.refresh}}" id="input_refresh">
     </div>
     <div class="col-sm-3">
       <form id="FormUpload" enctype="multipart/form-data">
         <div class="input-group">
-          <input type="file" class="form-control custom-file-input" id="files" name="files" multiple/>
+          <input type="file" class="form-control custom-file-input" id="files" name="files" multiple>
           <button type="button" class="btn btn-primary" id="btn_upload" name="btn_upload" value="ok" title="{{lang.upload}}"><i class="fa fa-upload"></i></button>
         </div>
       </form>
     </div>
     <div class="col-sm-3">
       <div class="input-group">
-        <input type="text" name="new_folder" placeholder="{{lang.new_folder}}" class="form-control"/>
+        <input type="text" name="new_folder" placeholder="{{lang.new_folder}}" class="form-control">
         <button type="button" class="btn btn-primary" id="btn_new_folder" name="btn_new_folder" value="ok" title="{{lang.new_folder}}"><i class="fa fa-folder"></i></button>
       </div>
     </div>
     <div class="col-sm-3">
       <div class="input-group">
-        <input type="text" name="btn_search" value="" placeholder="{{lang.search}}..." class="form-control"/>
+        <input type="text" name="btn_search" value="" placeholder="{{lang.search}}..." class="form-control">
         <button type="button" class="btn btn-primary" name="btn_search" value="ok" title="{{lang.search}}"><i class="fa fa-search"></i></button>
       </div>
     </div>
@@ -41,7 +41,7 @@
         <div class="vKeyValue">
           <span>{{lang.name}}</span><span>{{Rec.name}}</span>
           <span>{{lang.date}}</span><span>{{Rec.date}}</span>
-          <span>{{lang.delete}}</span><span><input type="checkbox" name="chk_folder_{{loop.index}}" value="{{Rec.path}}"/></span>
+          <span>{{lang.delete}}</span><span><input type="checkbox" name="chk_folder_{{loop.index}}" value="{{Rec.path}}"></span>
         </div>
       </div>
     </div>
@@ -61,7 +61,7 @@
           <span>{{lang.name}}</span><span>{{Rec.name}}</span>
           <span>{{lang.date}}</span><span>{{Rec.date}}</span>
           <span>{{lang.size}}</span><span>{{(Rec.size / 1000) | int}}Kb</span>
-          <span>{{lang.delete}}</span><span><input type="checkbox" name="chk_file_{{loop.index}}" value="{{Rec.path}}"/></span>
+          <span>{{lang.delete}}</span><span><input type="checkbox" name="chk_file_{{loop.index}}" value="{{Rec.path}}"></span>
         </div>
       </div>
     </div>

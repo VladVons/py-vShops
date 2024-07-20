@@ -5,7 +5,7 @@
     <form1 id="viFormProduct0" method="post">
       <div class="row mb-3">
         <div class="col-2">
-          <input class="form-check-input" type="checkbox" name="chk_product0" {% if product0 %}checked{% endif %}/>
+          <input class="form-check-input" type="checkbox" name="chk_product0" {% if product0 %}checked{% endif %}>
           <label class="form-check-label">{{lang.product0}}</label>
           <button type="button" class="btn btn-primary" name="btn_search" value="ok" title="{{lang.edit}}" data-bs-toggle="modal" data-bs-target="#viSearch0Modal">
             <i class="fa fa-edit"></i>
@@ -17,22 +17,22 @@
     <div class="mb-3">
       <label>{{lang.category}}</label>
       <div class="d-flex">
-        <input type="text" class="form-control m-1" value="{{product0.category_title}}" readonly/>
+        <input type="text" class="form-control m-1" value="{{product0.category_title}}" readonly>
       </div>
     </div>
 
     <div class="row mb-3">
       <div class="col-8">
         <label>{{lang.name}}</label>
-        <input type="text" class="form-control" value="{{product0.title}}" readonly/>
+        <input type="text" class="form-control" value="{{product0.title}}" readonly>
       </div>
       <div class="col-2">
         <label>{{lang.code}}</label>
-        <input type="text" class="form-control" id="product0-id" value="{{product0.id}}" readonly/>
+        <input type="text" class="form-control" id="product0-id" value="{{product0.id}}" readonly>
       </div>
       <div class="col-2">
         <label>{{lang.create_date}}</label>
-        <input type="text" class="form-control" value="{{product0.create_date}}" readonly/>
+        <input type="text" class="form-control" value="{{product0.create_date}}" readonly>
       </div>
     </div>
 
@@ -40,7 +40,7 @@
     <div class="mb-3">
       <label>{{lang.code}}</label>
       <div class="d-flex">
-        <input type="text" class="form-control m-1" value="{{product0.barcodes}}" readonly/>
+        <input type="text" class="form-control m-1" value="{{product0.barcodes}}" readonly>
       </div>
     </div>
     {% endif %}

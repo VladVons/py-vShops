@@ -4,7 +4,7 @@
   <form id="viFormMain" method="post">
     <div class="row mb-3">
       <div class="col-2">
-        <input class="form-check-input" type="checkbox" name="enabled" id="chk_enabled" {% if product.enabled %}checked{% endif %}/>
+        <input class="form-check-input" type="checkbox" name="enabled" id="chk_enabled" {% if product.enabled %}checked{% endif %}>
         <label class="form-check-label">{{lang.enabled}}</label>
       </div>
       <div class="col-10">
@@ -18,7 +18,7 @@
       <label>{{lang.category}}</label>
       <div class="d-flex">
         <input type="hidden" id="viCategoryId" name="category_id" value="{{product.category_id}}">
-        <input type="text" class="form-control m-1" name="category_title" id="viCategoryTitle" value="{{product.category_title}}" readonly/>
+        <input type="text" class="form-control m-1" name="category_title" id="viCategoryTitle" value="{{product.category_title}}" readonly>
         <ul class="navbar-nav" title="{{lang.categories}}">
           <li class="nav-item dropdown" id="viCategory">
             <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" id="viCategoryMenu"><i class="fa fa-bars" style="font-size: 1.5em;"></i></a>
@@ -32,15 +32,15 @@
     <div class="row mb-3">
       <div class="col-8">
         <label>{{lang.name}}</label>
-        <input type="text" class="form-control" name="title" placeholder="{{lang.name}}" value="{{product.title}}"/>
+        <input type="text" class="form-control" name="title" placeholder="{{lang.name}}" value="{{product.title}}">
       </div>
       <div class="col-2">
         <label>{{lang.code}}</label>
-        <input type="text" class="form-control"  value="{{product.idt}}" readonly/>
+        <input type="text" class="form-control"  value="{{product.idt}}" readonly>
       </div>
       <div class="col-2">
         <label>{{lang.create_date}}</label>
-        <input type="text" class="form-control"  value="{{product.create_date}}" readonly/>
+        <input type="text" class="form-control"  value="{{product.create_date}}" readonly>
       </div>
     </div>
 
@@ -48,7 +48,7 @@
     <div class="mb-3">
       <label>{{lang.code}}</label>
       <div class="d-flex">
-        <input type="text" class="form-control m-1" value="{{product.barcodes}}" readonly/>
+        <input type="text" class="form-control m-1" value="{{product.barcodes}}" readonly>
       </div>
     </div>
     {% endif %}
@@ -70,11 +70,11 @@
       </div>
       <div class="col">
         <label>{{lang.price_purchase}}</label>
-        <input type="number" class="form-control" name="price_purchase" value="{{product.price.purchase}}" min="0"/>
+        <input type="number" class="form-control" name="price_purchase" value="{{product.price.purchase}}" min="0">
       </div>
       <div class="col">
         <label>{{lang.margin}} %</label>
-        <input type="number" class="form-control" value="{{percentage}}" readonly/>
+        <input type="number" class="form-control" value="{{percentage}}" readonly>
       </div>
       <div class="col">
         <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" id="navbarDropdown"> {{lang.history}}</a>
@@ -88,7 +88,7 @@
 
     <div class="mb-3">
       <label>{{lang.quantity}}</label>
-      <input type="number" class="form-control" name="quantity" placeholder="{{lang.quantity}}" value="{{product.rest}}" min="0"/>
+      <input type="number" class="form-control" name="quantity" placeholder="{{lang.quantity}}" value="{{product.rest}}" min="0">
     </div>
 
     <div class="mb-3">
