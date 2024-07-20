@@ -121,7 +121,7 @@
           <div class="accordion">
           {%- for Key, Val in product.features.items() %}
             <button class="accordion-button" data-bs-toggle="collapse" data-bs-target="#collapse_{{loop.index}}">
-              <h3>{{Key}}</h3>
+              {{Key}}
             </button>
             <div id="collapse_{{loop.index}}" class="collapse">
             {%- for xVal in Val %}
