@@ -130,7 +130,7 @@ const defaultBtns = document.querySelectorAll(".viAddToCart")
 defaultBtns.forEach(function (btn) {
     btn.addEventListener('click', function (event) {
         event.preventDefault()
-        let data = btn.getAttribute('data')
+        let data = btn.getAttribute('data-product')
         data = JSON.parse(data)
 
         const Missed = hasAllKeys(data, ['id', 'name', 'img', 'price', 'href'])
