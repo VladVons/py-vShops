@@ -9,7 +9,9 @@
         "send_ok": "Лист відправлено",
         "send_err": "Лист не відправлено",
         "vote_us": "Залиште відгук про нас",
+        "votes": "Відгуки про нас",
         "vote_": "https://1x1.com.ua/vote/google",
+        "votes_": "https://www.google.com/search?q=Магазин+вживаних+комп'ютерів+1x1",
         "write_us": "Напишіть нам"
     }
 }
