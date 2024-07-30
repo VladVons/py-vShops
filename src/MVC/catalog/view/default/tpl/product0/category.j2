@@ -4,7 +4,12 @@
 <meta name="robots" content="index,follow">
 <meta property="og:title" content="{{title}}">
 <meta property="og:site_name" content="{{lang.url_}}">
+{% if image %}
+<meta property="og:image" content="{{image}}">
+{% endif %}
+{% if meta_descr %}
 <meta property="og:description" content="{{meta_descr}}">
+{% endif %}
 {% endblock %}
 
 {% block content %}

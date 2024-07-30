@@ -103,6 +103,19 @@ async def Main(self, aData: dict = None) -> dict:
     if (not Res['meta_descr']):
         Res['meta_descr'] = f"{Res['title']}, {Lib.ResGetLang(aData, 'meta_descr')}"
 
+    if (Res['image']):
+        Image = f"category/{Res['image']}"
+        ResThumbs = await self.ExecImg(
+            'system',
+            {
+                'method': 'GetThumbs',
+                'param': {
+                    'aFiles': [Image]
+                }
+            }
+        )
+        Res['image'] = ResThumbs['thumb'][0]
+
     Res['breadcrumbs'] = await GetBreadcrumbs(self, aLangId, aCategoryId)
     ModCategoryAttr = Lib.ResGetModule(aData, 'category_attr')
 
