@@ -1,0 +1,47 @@
+{% extends '_inc/layout2.j2' %}
+
+{% set Fields = ['name', 'price_old', 'price_new'] %}
+
+{% block head %}
+<style>
+  .grid-container {
+    display: grid;
+    grid-template-columns: 400px 80px 80px;
+  }
+
+  .gitem {
+    border: 1px solid black;
+    padding: 0px;
+    text-align: left;
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- denis_ua + -->
+<div class="container">
+  <form method="post">
+    <div class="col-md-6 m-2">
+      <div class="input-group">
+        <input type="text" class="form-control" name="url" placeholder="denis url" value="{{url}}">
+        <button class="btn btn-primary" type="submit" name="btn_grab" value="grab">grab</button>
+        <button class="btn btn-primary" type="submit" name="btn_file" value="file">file</button>
+      </div>
+    </div>
+  </form>
+
+  <div class="grid-container">
+    {% for xFields in Fields %}
+      <div class="grid-item fw-bold">{{xFields}}</div>
+    {% endfor %}
+
+    {% for Rec in TDbList().Import(dbl) %}
+      <div class="gitem">{{Rec.name}}</div>
+      <div class="gitem">{{Rec.price_old}}</div>
+      <div class="gitem">{{Rec.price_new}}</div>
+    {% endfor %}
+  </div>
+
+</div>
+<!-- denis_ua - -->
+{% endblock %}

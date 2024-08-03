@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="uk">
+  <head>
+    <meta charset="utf-8">
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="icon" type="image/png" href="/default/assets/img/logo-1x1.png">
+    <link rel="stylesheet" href="/default/assets/vendor/css/bootstrap.css">
+    <link rel="stylesheet" href="/default/assets/vendor/css/fontawesome.css">
+    {% block head %}{% endblock %}
+  </head>
+
+  <body>
+    <div id="sect-main" class="container-fluid p-0 m-0 wd-100">
+      <div class="row wd-100">
+        <div id="sect-main-center" class="col-12 col-sm-10">
+        {% block content %}{% endblock %}
+        </div>
+      </div>
+    </div>
+
+    <script src="/default/assets/vendor/js/bootstrap.bundle.min.js"></script>
+  </body>
+</html>

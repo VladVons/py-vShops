@@ -6,7 +6,8 @@
             "path": "Data/catalog/cache/view",
             "max_age": 10,
             "excl_route": [
-                "checkout/payment"
+                "checkout/payment",
+                "test/parser/denis_ua"
             ]
         },
         "ip_log": {

@@ -1,0 +1,40 @@
+{
+  "product": {
+    "info": {
+      "author": "vladvons",
+      "date": "2024-08-02 12:12:57",
+      "url": [
+        "https://denis.ua/ua/kardiologiya/"
+      ]
+    },
+    "pipe": [
+      ["as_dict", {
+        "price": [
+          ["-find", ["div", {"class": "popup_inner"}]],
+          ["find", ["div", {"id": "js-popup-search-items"}]],
+          ["find_all", ["div", {"class": "appoint_item"}]],
+          ["list_map", [
+            ["as_list", [
+              [
+                ["find", ["a", {"class": "appoint_item_title"}]],
+                ["text"],
+                ["strip"]
+              ],
+              [
+                ["find", ["span", {"class": "price_old button_old_price"}]],
+                ["get_text"],
+                ["split", ["\n", -1]],
+                ["dig"]
+              ],
+              [
+                ["find", ["span", {"class": "price"}]],
+                ["text"],
+                ["dig"]
+              ]
+            ]]
+          ]]
+         ]
+      }]
+    ]
+  }
+}

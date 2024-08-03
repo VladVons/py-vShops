@@ -9,7 +9,7 @@ from Inc.DbList import TDbList, TDbSql, TDbRec
 from Inc.Misc.Crypt import GetCRC
 from Inc.Misc.Image import TImage
 from Inc.Misc.Pagination import TPagination
-from Inc.Misc.Request import TDownload
+from Inc.Misc.Request import TDownload, TRequestGet
 from Inc.Misc.RequestImage import TDownloadImage
 from Inc.Misc.Telegram import TTelegram
 from Inc.Misc.Template import TDictRepl
@@ -100,3 +100,6 @@ async def SeoEncodeDict(self, aHref: dict) -> dict:
 async def SeoEncodeStr(self, aHref: str) -> str:
     Res = await SeoEncodeList(self, [aHref])
     return Res[0]
+
+def GetPkgFile(aPkg: str, aFile: str) -> str:
+    return aPkg.replace('.', '/') + '/' + aFile

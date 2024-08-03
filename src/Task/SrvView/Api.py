@@ -115,6 +115,7 @@ class TApiView(TApiBase):
                 'data': Data,
                 'status_code': Form.out.get('status_code', 200),
                 'status_value': Form.out.get('status_value'),
+                'response': Form.out.get('response')
             }
         else:
             Res = {
@@ -163,9 +164,10 @@ class TApiView(TApiBase):
 
         if (Data['status_code'] in [301, 302]):
             raise web.HTTPFound(location = Data['status_value'])
+        elif (Data.get('response') is not None):
+            return Data['response']
         else:
-            Res = web.Response(text = Data['data'], content_type = 'text/html', status = Data['status_code'])
-            return Res
+            return web.Response(text = Data['data'], content_type = 'text/html', status = Data['status_code'])
 
     async def ResponseApi(self, aRequest: web.Request) -> web.Response:
         Query = dict(aRequest.query)
