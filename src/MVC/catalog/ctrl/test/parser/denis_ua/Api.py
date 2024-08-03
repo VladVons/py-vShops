@@ -26,11 +26,11 @@ async def Main(self, aData: dict = None) -> dict:
             Parsed = SoupScheme.Parse(Soup, Scheme)
             DblData = Lib.DeepGetByList(Parsed, ['product', 'pipe', 'price'])
 
-        Dbl = Lib.TDbList(['name', 'price_old', 'price_new'], DblData)
-        Xlsx = DblToXlsx(Dbl)
+            Dbl = Lib.TDbList(['name', 'price_old', 'price_new'], DblData)
+            Xlsx = DblToXlsx(Dbl)
 
-        return {
-            'dbl': Dbl.Export(),
-            'file': b64encode(Xlsx),
-            'url': Url
-        }
+            return {
+                'dbl': Dbl.Export(),
+                'file': b64encode(Xlsx),
+                'url': Url
+            }
