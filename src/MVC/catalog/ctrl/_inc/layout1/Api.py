@@ -49,7 +49,9 @@ async def Main(self, aData: dict = None) -> dict:
         'faq': '/?route=info/faq',
         'news': '/?route=news/list',
         'privacy_policy': '/?route=info/privacy_policy',
+        'priсу': '/?route=info/privacy_policy',
         'sitemap': '/?route=info/sitemap',
+        'price_list': '/?route=misc/price_list',
     }
     if (self.ApiCtrl.Conf.get('seo_url')):
         Href = await Lib.SeoEncodeDict(self, Href)

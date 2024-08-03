@@ -11,28 +11,33 @@ from openpyxl.styles import Font
 from .DbList import TDbList
 
 
-def DblToXlsx(aDbl: TDbList) -> bytes:
+def DblToXlsx(aDbl: list[TDbList]) -> bytes:
     WB = Workbook()
-    WS = WB.active
-    WS.title = "price"
+    WB.remove(WB.active)
+    for Idx, xDbl in enumerate(aDbl):
+        Title = xDbl.Tag if xDbl.Tag else f'Sheet{Idx+1}'
+        WS = WB.create_sheet(title=Title)
 
-    RowNo = 1
-    Fields = aDbl.GetFields()
-    Rec = aDbl.RecGo(0)
-    for Idx, Field in enumerate(Fields):
-        CD = WS.column_dimensions[get_column_letter(Idx + 1)]
-
-        Cell = WS.cell(RowNo, Idx + 1)
-        Cell.value = Field
-        Cell.font = Font(bold = True)
-        if (isinstance(Rec.GetField(Field), (int, float))):
-            CD.number_format = '#,##0.00'
-
-    RowNo += 1
-    WS.freeze_panes = WS.cell(RowNo, 1)
-    for Rec in aDbl:
+        RowNo = 1
+        Fields = xDbl.GetFields()
+        Rec = xDbl.RecGo(0)
         for Idx, Field in enumerate(Fields):
-            Cell = WS.cell(RowNo + aDbl.RecNo, Idx + 1).value = Rec.GetField(Field)
+            Cell = WS.cell(RowNo, Idx + 1)
+            Cell.value = Field
+            Cell.font = Font(bold = True)
+
+            CD = WS.column_dimensions[get_column_letter(Idx + 1)]
+            Val = Rec.GetField(Field)
+            if (isinstance(Val, int)):
+                CD.number_format = '#0'
+            elif (isinstance(Val, float)):
+                CD.number_format = '#,##0.00'
+
+        RowNo += 1
+        WS.freeze_panes = WS.cell(RowNo, 1)
+        for Rec in xDbl:
+            for Idx, Field in enumerate(Fields):
+                Cell = WS.cell(RowNo + xDbl.RecNo, Idx + 1).value = Rec.GetField(Field)
 
     Stream = BytesIO()
     WB.save(Stream)

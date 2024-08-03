@@ -27,7 +27,7 @@ async def Main(self, aData: dict = None) -> dict:
             DblData = Lib.DeepGetByList(Parsed, ['product', 'pipe', 'price'])
 
             Dbl = Lib.TDbList(['name', 'price_old', 'price_new'], DblData)
-            Xlsx = DblToXlsx(Dbl)
+            Xlsx = DblToXlsx([Dbl])
 
             return {
                 'dbl': Dbl.Export(),

@@ -45,3 +45,9 @@ async def Get_ProductsAttr(self, aLangId: int, aProductIds: list[int]) -> dict:
         'fmtGet_ProductsAttr.sql',
         {'aLangId': aLangId, 'ProductIds': ProductIds}
     )
+
+async def Get_Products_PriceList(self, aLangId: int) -> dict:
+    return await self.ExecQuery(
+        'fmtGet_Products_PriceList.sql',
+        {'aLangId': aLangId}
+    )
