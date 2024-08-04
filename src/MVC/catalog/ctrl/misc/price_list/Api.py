@@ -30,22 +30,14 @@ async def Main(self, aQuery: dict = None) -> dict:
                     'name': Category,
                     'fields': {
                         'product': {'width': 60},
-                        'rest': {'width': 5}
+                        'rest': {'width': 5},
+                        'price': {'format': '#0'}
                     }
                 }
                 DblList.append(DblNew)
 
             DblNew.RecAdd(list(Rec.Data))
-            Val = DblNew.Rec.rest
-            if (Val > 10):
-                Val = '>10'
-            elif (Val > 5):
-                Val = '>5'
-            elif (Val > 1):
-                Val = '>1'
-            else:
-                Val = '1'
-            DblNew.Rec.rest = Val
+            DblNew.Rec.rest = Lib.HideDigit(DblNew.Rec.rest)
 
         Xlsx = DblToXlsx(DblList)
         return {'file': b64encode(Xlsx)}

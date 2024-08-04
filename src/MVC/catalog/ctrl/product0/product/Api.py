@@ -158,5 +158,6 @@ async def Main(self, aData: dict = None) -> dict:
     DictRepl = Lib.TDictReplDeep(Res)
     Res['meta_descr'] = DictRepl.Parse(Res['meta_descr'])
     Product['descr'] = DictRepl.Parse(Product['descr'])
+    Product['rest'] = Lib.HideDigit(Product['rest'])
 
     return Res

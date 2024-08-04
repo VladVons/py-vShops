@@ -24,22 +24,28 @@ def DblToXlsx(aDbl: list[TDbList]) -> bytes:
         RowNo = 1
         Fields = xDbl.GetFields()
         Rec = xDbl.RecGo(0)
-        for Idx, Field in enumerate(Fields):
+        for Idx, xField in enumerate(Fields):
             Cell = WS.cell(RowNo, Idx + 1)
-            Cell.value = Field
+            Cell.value = xField
             Cell.font = Font(bold = True)
 
             CD = WS.column_dimensions[get_column_letter(Idx + 1)]
 
-            Val = Rec.GetField(Field)
-            if (isinstance(Val, int)):
+            FieldVal = Rec.GetField(xField)
+            if (isinstance(FieldVal, int)):
                 CD.number_format = '#0'
-            elif (isinstance(Val, float)):
+            elif (isinstance(FieldVal, float)):
                 CD.number_format = '#,##0.00'
 
-            Width = DeepGetByList(xDbl.Tag, ['fields', Field, 'width'])
-            if (Width):
-                CD.width = Width
+            FieldFmt = DeepGetByList(xDbl.Tag, ['fields', xField])
+            if (FieldFmt):
+                Val = FieldFmt.get('format')
+                if (Val):
+                    CD.number_format = Val
+
+                Val = FieldFmt.get('width')
+                if (Val):
+                    CD.width = Val
 
         RowNo += 1
         WS.freeze_panes = WS.cell(RowNo, 1)

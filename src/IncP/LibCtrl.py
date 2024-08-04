@@ -103,3 +103,14 @@ async def SeoEncodeStr(self, aHref: str) -> str:
 
 def GetPkgFile(aPkg: str, aFile: str) -> str:
     return aPkg.replace('.', '/') + '/' + aFile
+
+def HideDigit(aVal: int) -> str:
+    if (aVal > 10):
+        aVal = '>10'
+    elif (aVal > 5):
+        aVal = '>5'
+    elif (aVal > 1):
+        aVal = '>1'
+    else:
+        aVal = str(aVal)
+    return aVal
