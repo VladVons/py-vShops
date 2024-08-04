@@ -39,6 +39,10 @@ def DblToXlsx(aDbl: list[TDbList]) -> bytes:
 
             FieldFmt = DeepGetByList(xDbl.Tag, ['fields', xField])
             if (FieldFmt):
+                Val = FieldFmt.get('name')
+                if (Val):
+                    Cell.value = Val
+
                 Val = FieldFmt.get('format')
                 if (Val):
                     CD.number_format = Val

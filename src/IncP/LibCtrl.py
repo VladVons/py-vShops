@@ -58,7 +58,7 @@ def ResGetModule(aData: dict, aName: str) -> dict:
     return {}
 
 def ResGetLang(aData: dict, aName: str) -> str:
-    return aData['res']['lang'].get(aName, '')
+    return aData['res']['lang'].get(aName, aName)
 
 def ResGetItem(aData: dict, aName: str) -> str:
     return aData['res'].get(aName, '')
