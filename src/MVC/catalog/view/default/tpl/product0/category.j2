@@ -24,9 +24,12 @@
   {% include '../_inc/products_a.j2' %}
 
   {% include '../_inc/pagination.j2' %}
+
+  {% if descr %}
   <div class="mt-4">
     {{Text2Html(descr)}}
   </div>
-<!-- category - -->
+  {% endif %}
 </div>
+<!-- category - -->
 {% endblock %}
