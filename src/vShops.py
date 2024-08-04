@@ -25,5 +25,5 @@ def Run():
     Log.Print(1, 'i', 'Quit')
 
 if (__name__ == '__main__'):
+    Test()
     Run()
-    #Test()

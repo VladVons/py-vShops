@@ -14,7 +14,7 @@ from .DbErr import TDbListException
 class TDbBase():
     def __init__(self):
         self.Data = []
-        self.Tag = 0
+        self.Tag = None
         self._RecNo = 0
         self.BeeTree = {}
         self.OptReprLen = 25
