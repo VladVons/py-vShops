@@ -16,9 +16,7 @@ def DblToXlsx(aDbl: list[TDbList]) -> bytes:
     WB = Workbook()
     WB.remove(WB.active)
     for Idx, xDbl in enumerate(aDbl):
-        Title = DeepGetByList(xDbl.Tag, ['name'])
-        if (not Title):
-            Title = f'Sheet{Idx+1}'
+        Title = DeepGetByList(xDbl.Tag, ['name'], f'Sheet{Idx+1}')
         WS = WB.create_sheet(title=Title)
 
         RowNo = 1

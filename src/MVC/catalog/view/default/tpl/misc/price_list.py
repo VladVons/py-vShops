@@ -4,6 +4,7 @@
 
 
 from base64 import b64decode
+from datetime import datetime
 from aiohttp import web
 #
 from Inc.Util.Obj import DeepGetByList
@@ -17,10 +18,11 @@ class TForm(TFormBase):
         if (DeepGetByList(self.out, ['data', 'btn_download'])):
             if ('file' in Data):
                 Body = b64decode(Data['file'])
+                FileName = f'price_1x1_{datetime.now().strftime("%Y%m%d")}.xlsx'
                 self.out['response'] = web.Response(
                     body = Body,
                     headers = {
                         'Content-Type': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-                        'Content-Disposition': 'attachment; filename="price_1x1.xlsx"'
+                        'Content-Disposition': f'attachment; filename="{FileName}"'
                     }
                 )
