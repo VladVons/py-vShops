@@ -6,7 +6,7 @@
 async def Get_HistSession(self, aHost: str, aLimit: int, aOffset: int, aHaving: int = 1) -> dict:
     #aHost = '1x1.com.ua'
     return await self.ExecQuery(
-        'fmtGet_HistSession.sql',
+        'fmtGet_HistSession2.sql',
         {'aHost': aHost, 'aLimit': aLimit, 'aOffset': aOffset, 'aHaving': aHaving}
     )
 
