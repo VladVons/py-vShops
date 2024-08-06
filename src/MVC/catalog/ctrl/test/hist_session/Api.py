@@ -51,5 +51,5 @@ async def Main(self, aData: dict = None) -> dict:
     return {
         'dbl_main': DblMain.Export(),
         'dbl_pagenation': DblPagination.Export(),
-        'day_ip': DblDay.ExportPairs('create_day', ['count', 'count_id', 'count_url', 'count_ip', 'count_location'])
+        'day_info': DblDay.ExportPairs('create_day', ['count', 'count_id', 'count_url', 'count_ip', 'count_location'])
     }
