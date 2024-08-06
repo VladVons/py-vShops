@@ -33,11 +33,11 @@
         {% set ns.Prev = Rec.create_day %}
         {% set DayInfo = day_info[Rec.create_day] %}
         {{ '<div>&nbsp;</div>' * (Fields | length) }}
-        <div>{{DayInfo[0]}}</div>
-        <div>{{DayInfo[1]}}</div>
-        <div>{{DayInfo[2]}}</div>
-        <div>{{DayInfo[3]}}</div>
-        <div>{{DayInfo[4]}}</div>
+        <div>{{DayInfo}}</div>
+        <div>{{DayInfo}}</div>
+        <div>{{DayInfo}}</div>
+        <div>{{DayInfo}}</div>
+        <div>{{DayInfo}}</div>
       {% endif %}
       <div class="gitem">{{Rec.create_date.strftime('%Y-%m-%d %H:%M:%S') }}</div>
       <div class="gitem">{{Rec.id}}</div>
