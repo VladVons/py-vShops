@@ -3,7 +3,11 @@
 
 select
     hpv.create_date::date as create_day,
-    count(distinct hs.ip) as count_ip
+    count(*),
+    count(distinct hs.ip) as count_ip,
+    count(distinct hs.id) as count_id,
+    count(distinct hs.location) as count_location,
+    count(distinct hpv.url) as count_url
 from
     hist_page_view hpv
 left join

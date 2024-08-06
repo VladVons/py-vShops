@@ -27,13 +27,16 @@
       <div class="grid-item fw-bold">{{xFields}}</div>
     {% endfor %}
 
-    {% set DblMain = TDbList().Import(dbl_main) %}
     {% set ns = namespace(Prev=None) %}
-    {% for Rec in DblMain %}
+    {% for Rec in TDbList().Import(dbl_main) %}
       {% if ns.Prev != Rec.create_day %}
-      {% set ns.Prev = Rec.create_day %}
-      {{ '<div>&nbsp;</div>' * (Fields | length) }}
-      <div>&nbsp;</div> <div>&nbsp;</div> <div>&nbsp;</div> <div>{{day_ip[Rec.create_day]}}</div> <div>&nbsp;</div>
+        {% set ns.Prev = Rec.create_day %}
+        {{ '<div>&nbsp;</div>' * (Fields | length) }}
+        <div>{{day_ip[Rec.create_day][0]}}</div>
+        <div>{{day_ip[Rec.create_day][1]}}</div>
+        <div>{{day_ip[Rec.create_day][2]}}</div>
+        <div>{{day_ip[Rec.create_day][3]}}</div>
+        <div>{{day_ip[Rec.create_day][4]}}</div>
       {% endif %}
       <div class="gitem">{{Rec.create_date.strftime('%Y-%m-%d %H:%M:%S') }}</div>
       <div class="gitem">{{Rec.id}}</div>
