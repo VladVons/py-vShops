@@ -16,7 +16,7 @@ async def Main(self, aData: dict = None) -> dict:
     if (not Lib.IsDigits([aPage, aLimit, aHaving])):
         return {'status_code': 404}
 
-    Dbl = await self.ExecModelImport(
+    DblMain = await self.ExecModelImport(
         'test',
         {
             'method': 'Get_HistSession',
@@ -28,17 +28,28 @@ async def Main(self, aData: dict = None) -> dict:
             }
         }
     )
-    if (not Dbl):
+    if (not DblMain):
         return
 
     Href = aData['path_qs']
     #Href = UrlEncode(aData['query'])
 
     Pagination = Lib.TPagination(aLimit, Href)
-    PData = Pagination.Get(Dbl.Rec.total, aPage)
+    PData = Pagination.Get(DblMain.Rec.total, aPage)
     DblPagination = Lib.TDbList(['page', 'title', 'href', 'current'], PData)
 
+    DblDay = await self.ExecModelImport(
+        'test',
+        {
+            'method': 'Get_HistUniqIpPerDay',
+            'param': {
+                'aHost': aData['host']
+            }
+        }
+    )
+
     return {
-        'dbl': Dbl.Export(),
-        'dbl_pagenation': DblPagination.Export()
+        'dbl_main': DblMain.Export(),
+        'dbl_pagenation': DblPagination.Export(),
+        'day_ip': DblDay.ExportPair('create_day', 'count_ip')
     }

@@ -28,11 +28,12 @@
     {% endfor %}
 
     {% set ns = namespace(Prev=None) %}
-    {% for Rec in TDbList().Import(dbl) %}
+    {% for Rec in TDbList().Import(dbl_main) %}
       {% if ns.Prev != Rec.create_day %}
         {% set ns.Prev = Rec.create_day %}
-        {{ '<div>---</div>' * (Fields | length) }}
-      {% endif %}
+        <div>&nbsp;</div> <div>&nbsp;</div> <div>&nbsp;</div> <div>{{day_ip[Rec.create_day]}}</div> <div>&nbsp;</div>
+        {{ '<div>&nbsp;</div>' * (Fields | length) }}
+        {% endif %}
 
       <div class="gitem">{{Rec.create_date.strftime('%Y-%m-%d %H:%M:%S') }}</div>
       <div class="gitem">{{Rec.id}}</div>
