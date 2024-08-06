@@ -31,7 +31,7 @@
     {% for Rec in TDbList().Import(dbl) %}
       {% if ns.Prev != Rec.create_day %}
         {% set ns.Prev = Rec.create_day %}
-        {{ '<div>-</div>' * (Fields | length) }}
+        {{ '<div>---</div>' * (Fields | length) }}
       {% endif %}
 
       <div class="gitem">{{Rec.create_date.strftime('%Y-%m-%d %H:%M:%S') }}</div>
