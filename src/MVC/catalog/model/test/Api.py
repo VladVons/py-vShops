@@ -10,7 +10,7 @@ async def Get_HistSession(self, aHost: str, aLimit: int, aOffset: int, aHaving: 
         {'aHost': aHost, 'aLimit': aLimit, 'aOffset': aOffset, 'aHaving': aHaving}
     )
 
-async def fmtGet_HistUniqIpPerDay(self, aHost: str) -> dict:
+async def Get_HistUniqIpPerDay(self, aHost: str) -> dict:
     return await self.ExecQuery(
         'fmtGet_HistUniqIpPerDay.sql',
         {'aHost': aHost}
