@@ -27,12 +27,12 @@
       <div class="grid-item fw-bold">{{xFields}}</div>
     {% endfor %}
 
-    {% set ns = namespace(PrevId=None) %}
+    {% set ns = namespace(Prev=None) %}
     {% for Rec in TDbList().Import(dbl) %}
-      {% if ns.PrevId != Rec.id %}
+      {% if ns.Prev != Rec.id %}
+        {% set ns.Prev = Rec.id %}
         {{ '<div>-</div>' * (Fields | length) }}
       {% endif %}
-      {% set ns.PrevId = Rec.id %}
 
       <div class="gitem">{{Rec.create_date.strftime('%Y-%m-%d %H:%M:%S') }}</div>
       <div class="gitem">{{Rec.id}}</div>
