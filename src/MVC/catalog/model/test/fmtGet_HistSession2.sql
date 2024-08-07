@@ -26,7 +26,7 @@ select
     count(*) over() as total,
     wt1.count,
     hpv.create_date,
-    hpv.create_date::date as create_day,
+    hpv.create_date::date::varchar as create_day,
     hpv.url as url,
     hs.id,
     hs.ip,
