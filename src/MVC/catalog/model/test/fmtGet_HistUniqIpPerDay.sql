@@ -2,7 +2,7 @@
 -- in: aHost
 
 select
-    hpv.create_date::date as create_day,
+    to_char(hpv.create_date, 'YYYY-MM-DD') as hpv.create_day,
     count(*),
     count(distinct hs.ip) as count_ip,
     count(distinct hs.id) as count_id,
