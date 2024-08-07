@@ -32,6 +32,9 @@ def Dump(self, aDepth = 0, aName: str = '') -> str:
                     Res.append(Data)
     return '<br>\n'.join(Res)
 
+def Type(aVar) -> str:
+    return type(aVar).__name__
+
 class TFileSystemLoader(BaseLoader):
     def __init__(self, aSearchPath: list[str] = None):
         self.SearchPath = aSearchPath or []
@@ -110,6 +113,7 @@ class TTemplate():
         self.Env.globals['TDbList'] = TDbList
         self.Env.globals['Dump'] = Dump
         self.Env.globals['Text2Html'] = Text2Html
+        self.Env.globals['Type'] = Type
         #self.Env.filters['MyFunc'] = MyFunc
         self.Env.trim_blocks = True
         self.Env.lstrip_blocks = True
