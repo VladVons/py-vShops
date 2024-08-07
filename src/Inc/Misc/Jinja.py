@@ -33,7 +33,7 @@ def Dump(self, aDepth = 0, aName: str = '') -> str:
     return '<br>\n'.join(Res)
 
 def Type(aVar) -> str:
-    return type(aVar).__name__
+    return f'{aVar} {type(aVar).__name__}'
 
 class TFileSystemLoader(BaseLoader):
     def __init__(self, aSearchPath: list[str] = None):
