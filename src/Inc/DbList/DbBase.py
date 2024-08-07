@@ -230,8 +230,10 @@ class TDbBase():
 
     def ExportPairs(self, aFieldKey: str, aFields: list[str], aAsDict: bool = False) -> dict:
         '''
-        Returns two binded fields as key:[val1, val2, ...]
+        if aAsDict returns {key:{'field1': val1, 'field2':val2, ...}, ...}
+        else returns {key:[val1, val2, ...], ...}
         '''
+
         if (aAsDict):
             Res = {Rec.GetField(aFieldKey): {xField: Rec.GetField(xField) for xField in aFields} for Rec in self}
         else:
