@@ -33,7 +33,7 @@
         {% set ns.Prev = Rec.create_day %}
         {% set DayInfo = day_info[Rec.create_day] %}
         {{ '<div>&nbsp;</div>' * (Fields | length) }}
-        <div>DayInfo</div>
+        <div>{{Dump(self, DayInfo)}}</div>
         <div>DayInfo</div>
         <div>DayInfo</div>
         <div>DayInfo</div>
