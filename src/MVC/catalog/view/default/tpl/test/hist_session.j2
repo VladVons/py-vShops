@@ -31,9 +31,9 @@
     {% for Rec in TDbList().Import(dbl_main) %}
       {% if ns.Prev != Rec.create_day %}
         {% set ns.Prev = Rec.create_day %}
-        {% set DayInfo = day_info[Rec.create_day] %}
+        {% set DayInf = day_info[Rec.create_day] %}
         {{ '<div>&nbsp;</div>' * (Fields | length) }}
-        <div>{{DayInfo[0]}}</div>
+        <div>{{DayInf[0]}}</div>
         <div>DayInfo</div>
         <div>DayInfo</div>
         <div>DayInfo</div>
