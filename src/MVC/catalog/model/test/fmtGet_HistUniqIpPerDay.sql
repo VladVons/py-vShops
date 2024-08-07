@@ -15,7 +15,7 @@ left join
     (hs.id = hpv.session_id)
 where
     (hs.host like '%{{aHost}}') and
-    (hpv.url ~'route=|/category/|/product/|/about_us|/contacts') and
+    (hpv.url ~'route=|/category/|/product/|/about_us|/contacts|/price_list') and
     (((hs.uagent not ilike '%bot%') and (hs.uagent not ilike '%facebook%')) or (hs.uagent is null)) and
     (hs.location ilike '%ukraine%') and
     (hs.ip  !~'127.0.0.1|5.58.222.201|5.58.78.170')
