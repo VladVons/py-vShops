@@ -228,13 +228,17 @@ class TDbBase():
             Res = {xData[KeyNo]: aFieldVal for xData in self.Data}
         return Res
 
-    def ExportPairs(self, aFieldKey: str, aFields: list[str]) -> dict:
+    def ExportPairs(self, aFieldKey: str, aFields: list[str], aAsDict: bool = False) -> dict:
         '''
         Returns two binded fields as key:[val1, val2, ...]
         '''
-        KeyNo = self.GetFieldNo(aFieldKey)
-        FieldsNo = [self.GetFieldNo(xField) for xField in aFields]
-        return {xData[KeyNo]: [xData[i] for i in FieldsNo] for xData in self.Data}
+        if (aAsDict):
+            Res = {Rec.GetField(aFieldKey): {xField: Rec.GetField(xField) for xField in aFields} for Rec in self}
+        else:
+            KeyNo = self.GetFieldNo(aFieldKey)
+            FieldsNo = [self.GetFieldNo(xField) for xField in aFields]
+            Res = {xData[KeyNo]: [xData[i] for i in FieldsNo] for xData in self.Data}
+        return Res
 
     def GetDiff(self, aField: str, aList: list) -> tuple:
         Set1 = set(self.ExportList(aField))
