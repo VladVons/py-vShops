@@ -16,12 +16,15 @@ async def Main(self, aData: dict = None) -> dict:
     if (not Lib.IsDigits([aPage, aLimit, aHaving])):
         return {'status_code': 404}
 
+    Host = aData['host']
+    Host = '1x1.com.ua'
+
     DblMain = await self.ExecModelImport(
         'test',
         {
             'method': 'Get_HistSession',
             'param': {
-                'aHost': aData['host'],
+                'aHost': Host,
                 'aLimit': aLimit,
                 'aOffset': (aPage - 1) * aLimit,
                 'aHaving': aHaving
@@ -43,7 +46,7 @@ async def Main(self, aData: dict = None) -> dict:
         {
             'method': 'Get_HistUniqIpPerDay',
             'param': {
-                'aHost': aData['host']
+                'aHost': Host
             }
         }
     )
@@ -51,6 +54,6 @@ async def Main(self, aData: dict = None) -> dict:
     Res = {
         'dbl_main': DblMain.Export(),
         'dbl_pagenation': DblPagination.Export(),
-        'day_info': DblDay.ExportPairs('create_day', ['count', 'count_id', 'count_url', 'count_ip', 'count_location'], True)
+        'day_inf': DblDay.ExportPairs('create_day', ['count', 'count_id', 'count_url', 'count_ip', 'count_location'], True)
     }
     return Res
