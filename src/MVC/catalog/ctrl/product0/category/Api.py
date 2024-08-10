@@ -138,6 +138,7 @@ async def Main(self, aData: dict = None) -> dict:
     PData = Pagination.Get(Dbl.Rec.total, aPage)
     DblPagination = Lib.TDbList(['page', 'title', 'href', 'current'], PData)
     Res['dbl_pagenation'] = DblPagination.Export()
+    Res['page'] = aPage
 
     dbl_products_a_sort = GetProductsSort(Pagination.Href, f'&sort={aSort}&order={aOrder}', aData['res']['lang'])
     Res['dbl_products_a_sort'] = dbl_products_a_sort.Export()

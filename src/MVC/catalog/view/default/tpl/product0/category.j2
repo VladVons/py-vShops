@@ -1,7 +1,9 @@
 {% extends '_inc/layout1.j2' %}
 
 {% block head %}
-<meta name="robots" content="index,follow">
+{% if page > 1 %}
+<meta name="robots" content="noindex">
+{% endif %}
 <meta property="og:title" content="{{title}}">
 <meta property="og:site_name" content="{{lang.url_}}">
 {% if image %}
