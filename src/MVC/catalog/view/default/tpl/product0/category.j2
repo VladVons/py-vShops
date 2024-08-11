@@ -27,7 +27,7 @@
 
   {% include '../_inc/pagination.j2' %}
 
-  {% if descr %}
+  {% if descr and page == 1 %}
   <div class="mt-4">
     {{Text2Html(descr)}}
   </div>
