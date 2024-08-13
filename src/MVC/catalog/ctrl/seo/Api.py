@@ -43,7 +43,7 @@ async def Encode(self, aData: dict) -> dict:
     for Idx, xPath in enumerate(aPath):
         Pairs = xPath.strip('/?').split('&')
         for xPair in Pairs:
-            if ('=' in xPair):
+            if (xPair.count('=') == 1):
                 Key, Val = xPair.split('=')
             else:
                 Key = Val = xPair

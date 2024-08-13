@@ -58,18 +58,20 @@ async def Main(self, aData: dict = None) -> dict:
     )
     Found = Dbl.Rec.total if (Dbl) else 0
 
-    await self.ExecModel(
-        'ref_product/product',
-        {
-            'method': 'Ins_HistProductSearch',
-            'param': {
-                'aText': aSearch,
-                'aResults': Found,
-                'aLangId': aLangId,
-                'aSessionId': aData['session']['session_id']
+    SessionId = Lib.DeepGetByList(aData, ['session', 'session_id'])
+    if (SessionId):
+        await self.ExecModel(
+            'ref_product/product',
+            {
+                'method': 'Ins_HistProductSearch',
+                'param': {
+                    'aText': aSearch,
+                    'aResults': Found,
+                    'aLangId': aLangId,
+                    'aSessionId': SessionId
+                }
             }
-        }
-    )
+        )
 
     if (Found):
         if (self.ApiCtrl.Conf.get('seo_url')):
