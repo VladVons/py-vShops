@@ -66,8 +66,7 @@ with wt1 as (
         (rp.product0_id is not null) and
         (rt.enabled) and
         (
-            (rpl.title ilike all (values {{FilterRe}})) or
-            (rpcl.title ilike all (values {{FilterRe}})) or
+            ((rpl.title || ' ' || rpcl.title) ilike all (values {{FilterRe}})) or
             (rp.idt::varchar = '{{aFilter}}' ) or
             (rpb.code = '{{aFilter}}')
         )

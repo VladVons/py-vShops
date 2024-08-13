@@ -84,7 +84,7 @@ async def Main(self, aData: dict = None) -> dict:
         DblPagination = Lib.TDbList(['page', 'title', 'href', 'current'], PData)
 
         DblProducts = await products_a(self, Dbl)
-        Title = f"{Lib.ResGetLang(aData, 'search')}: {aSearch} ({Found}) - {Lib.ResGetLang(aData, 'page')} {aPage}"
+        Title = f"{Lib.ResGetLang(aData, 'found')} {Found}. {Lib.ResGetLang(aData, 'page')} {aPage}"
 
         dbl_products_a_sort = GetProductsSort(Pagination.Href, f'&sort={aSort}&order={aOrder}', aData['res']['lang'])
 
@@ -93,6 +93,10 @@ async def Main(self, aData: dict = None) -> dict:
             'products_a_title': Title,
             'dbl_products_a_sort': dbl_products_a_sort.Export(),
             'dbl_pagenation': DblPagination.Export(),
-            'title': Title,
+            'search': aSearch
         }
+
+        DictRepl = Lib.TDictReplDeep(Res)
+        Res['meta_title'] = DictRepl.Parse(Lib.ResGetItem(aData, 'meta_title'))
+
         return Res

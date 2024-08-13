@@ -1,11 +1,10 @@
 {% extends '_inc/layout1.j2' %}
 
-{% block head %}
-<meta name="robots" content="noindex">
-{% endblock %}
-
 {% block content %}
 <!-- search + -->
+<div class="text-center m-3">
+  <h1>{{search}}</h1>
+</div>
 {% include '../_inc/products_a.j2' %}
 {% include '../_inc/pagination.j2' %}
 <!-- search - -->
