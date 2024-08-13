@@ -6,6 +6,7 @@ import os
 import re
 from aiohttp import web
 from aiohttp_session import get_session
+import urllib.parse
 #
 from Inc.DataClass import DDataClass
 from Inc.SrvWeb import TSrvBase, TSrvConf
@@ -74,7 +75,8 @@ class TSrvView(TSrvBase):
                     return await ApiView.ResponseErr(aRequest, 404)
             else:
                 if (ApiView.Conf.force_redirect_to_seo) and (aRequest.path_qs != '/'):
-                    PathQs = aRequest.path_qs.replace('%2F', '/')
+                    #PathQs = aRequest.path_qs.replace('%2F', '/').replace('%2B', '+')
+                    PathQs = urllib.parse.unquote(aRequest.path_qs)
                     Url = await ApiView.GetSeoUrl('Encode', [PathQs])
                     # prevent recursion
                     #if ('?' not in Url[0]):
