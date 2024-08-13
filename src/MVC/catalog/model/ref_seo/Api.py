@@ -3,6 +3,9 @@
 # License: GNU, see LICENSE for more details
 
 
+import IncP.LibModel as Lib
+
+
 async def Get_SeoToDict(self, aPath: list[str]) -> dict:
     Arr = [f"(keyword = '{x}' or keyword like '%/{x}')" for x in aPath]
     CondKeyword = ' or\n'.join(Arr)
@@ -12,7 +15,7 @@ async def Get_SeoToDict(self, aPath: list[str]) -> dict:
     )
 
 async def Get_SeoFromDict(self, aData: list) -> dict:
-    Data = [f"('{Key}', '{Val}', {Idx})" for Key, Val, Idx in aData]
+    Data = [f"('{Key}', '{Lib.Escape(Val)}', {Idx})" for Key, Val, Idx in aData]
     return await self.ExecQuery(
         'fmtGet_SeoFromDict.sql',
         {'Data': ', '.join(Data)}

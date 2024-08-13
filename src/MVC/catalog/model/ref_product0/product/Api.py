@@ -4,6 +4,7 @@
 
 
 import re
+import IncP.LibModel as Lib
 from IncP.LibModel import ListIntToComma
 
 
@@ -26,6 +27,7 @@ async def Get_Product_LangId(self, aLangId: int, aProductId: int) -> dict:
     )
 
 async def Get_Products_LangFilter(self, aLangId: int, aFilter: str, aOrder: str, aLimit: int = 100, aOffset: int = 0) -> dict:
+    aFilter = Lib.Escape(aFilter)
     FilterRe = [f"('%{x}%')" for x in re.split(r'\s+', aFilter)]
     return await self.ExecQuery(
         'fmtGet_Products_LangFilter.sql',
@@ -33,6 +35,7 @@ async def Get_Products_LangFilter(self, aLangId: int, aFilter: str, aOrder: str,
     )
 
 async def Get_Products_LangAjax(self, aLangId: int, aFilter: str) -> dict:
+    aFilter = Lib.Escape(aFilter)
     FilterRe = [f"('%{x}%')" for x in re.split(r'\s+', aFilter)]
     return await self.ExecQuery(
         'fmtGet_Products_LangAjax.sql',
