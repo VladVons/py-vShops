@@ -46,7 +46,9 @@ async def Main(self, aData: dict = None) -> dict:
         {
             'method': 'Get_HistUniqIpPerDay',
             'param': {
-                'aHost': Host
+                'aHost': Host,
+                'aLimit': 360//2,
+                'aOffset': 0
             }
         }
     )

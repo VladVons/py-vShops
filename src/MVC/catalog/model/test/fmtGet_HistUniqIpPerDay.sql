@@ -1,9 +1,12 @@
 -- fmtGet_HistUniqIpPerDay.sql
--- in: aHost
+-- in: aHost, aLimit, aOffset
 
 select
-    hpv.create_date::date::varchar as create_day,
+    count(*) over() as total,
     count(*),
+    --extract(dow from hpv.create_date::date)+1 as dow,
+    TO_CHAR(hpv.create_date::date, 'Day') AS dow,
+    hpv.create_date::date::varchar as create_day,
     count(distinct hs.ip) as count_ip,
     count(distinct hs.id) as count_id,
     count(distinct hs.location) as count_location,
@@ -23,3 +26,7 @@ group by
     hpv.create_date::date
 order by 
     create_day desc
+limit
+    {{aLimit}}
+offset
+    {{aOffset}}

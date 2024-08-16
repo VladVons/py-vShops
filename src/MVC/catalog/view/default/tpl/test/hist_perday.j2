@@ -1,0 +1,44 @@
+{% extends '_inc/layout1.j2' %}
+
+{% set Fields = ['create_date', 'dow', 'id', 'url', 'ip', 'location'] %}
+
+{% block head %}
+<style>
+  .grid-container {
+    display: grid;
+    grid-template-columns: repeat({{ Fields | length }}, 1fr);
+  }
+
+  .gitem {
+    border: 1px solid black;
+    padding: 0px;
+    text-align: left;
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- hist_perday + -->
+<div class="container pb-2">
+  <h1>Per day visits</h1>
+  <div class="grid-container">
+    {% for xFields in Fields %}
+      <div class="grid-item fw-bold">{{xFields}}</div>
+    {% endfor %}
+
+    {% for Rec in TDbList().Import(dbl_day) %}
+      <div class="gitem">{{Rec.create_day}}</div>
+      <div class="gitem">{{Rec.dow}}</div>
+      <div class="gitem">{{Rec.count_id}}</div>
+      <div class="gitem">{{Rec.count_url}}</div>
+      <div class="gitem">{{Rec.count_ip}}</div>
+      <div class="gitem">{{Rec.count_location}}</div>
+    {% endfor %}
+  </div>
+
+  <div class="m-3">
+    {% include '../_inc/pagination.j2' %}
+  </div>
+</div>
+<!-- hist_perday - -->
+{% endblock %}

@@ -150,6 +150,18 @@ create table if not exists ref_seo_url (
 );
 COMMENT ON TABLE public.ref_seo_url IS 'key+value urls into SEO';
 
+create table if not exists ref_seo_backlink (
+    id                  serial primary key,
+    create_date         date default current_timestamp,
+    url                 varchar(128) not null unique,
+    title               varchar(128),
+    descr               text,
+    price               numeric(10, 2),
+    dr_hrefs            int,
+    publisher           varchar(32),
+    note                varchar(64)
+);
+
 -- currency --
 
 create table if not exists ref_currency (
@@ -510,7 +522,6 @@ create table if not exists ref_product_price (
     enabled             boolean default true,
     product_id          integer not null references ref_product(id) on delete cascade,
     price_id            integer not null references ref_price(id),
-    price               numeric(10, 2) not null,
     qty                 smallint not null default 1,
     unique (product_id, price_id, qty)
 );
@@ -578,7 +589,7 @@ create table if not exists ref_product_product0 (
     product_en          product_enum not null,
     product0_id         integer not null references ref_product0(id) on delete cascade,
     tenant_id           integer not null references ref_tenant(id),
-    unique (tenant_id, code, product_en)
+    primary key (tenant_id, code, product_en)
 );
 
 create table if not exists ref_product_related (
