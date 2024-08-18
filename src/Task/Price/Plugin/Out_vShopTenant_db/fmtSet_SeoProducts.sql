@@ -15,21 +15,21 @@ insert into
         (rt.enabled) and
         (rt.id = {aTenantId})
 
-    union all
+    -- union all
 
-    select
-        'category_id',
-        rpc.id,
-        translate(lower(cyrtolat(rpcl.title)), ' /.&=', '___'),
-        0
-    from
-        ref_product0_category rpc
-    join
-        ref_product0_category_lang rpcl on
-        (rpcl.category_id = rpc.id) and (rpcl.lang_id = {aLangId})
-    where
-        (rpc.enabled) and
-        (rpc.parent_id is not null)
+    -- select
+    --     'category_id',
+    --     rpc.id,
+    --     translate(lower(cyrtolat(rpcl.title)), ' /.&=', '___'),
+    --     0
+    -- from
+    --     ref_product0_category rpc
+    -- join
+    --     ref_product0_category_lang rpcl on
+    --     (rpcl.category_id = rpc.id) and (rpcl.lang_id = {aLangId})
+    -- where
+    --     (rpc.enabled) and
+    --     (rpc.parent_id is not null)
 
     union all
 

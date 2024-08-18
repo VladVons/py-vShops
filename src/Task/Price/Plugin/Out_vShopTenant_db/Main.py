@@ -130,6 +130,9 @@ class TSql(TSqlBase):
     async def ProductSeo(self):
         return await self.ExecQuery(__package__, 'fmtSet_SeoProducts.sql', {'aTenantId': self.tenant_id, 'aLangId': self.lang_id})
 
+    async def Product0ImageRnd(self):
+        return await self.ExecQuery(__package__, 'fmtSet_Product0ImagRnd.sql', {'aTenantId': self.tenant_id})
+
     async def GetProductsMargin(self, aProductIds: list[int]):
         Res = {}
         ProductIds = ListIntToComma(aProductIds)
@@ -698,8 +701,8 @@ class TSql(TSqlBase):
         await self.DisableTableByProduct('ref_product_image', 'and (src_url is not null)')
         await SProduct_Image(aDbl, self.Conf.parts)
 
-        #await self.ProductSeo()
-
+        await self.ProductSeo()
+        await self.Product0ImageRnd()
 
 class TMain(TFileBase):
     def __init__(self, aParent, aDb: TDbPg, aExport: dict):
