@@ -88,6 +88,12 @@ class TPricePC(TParser_xlsx):
             Data = Data[0]
             Rec.SetField('ram_size', int(Data[0]))
 
+        # MaxLen = len('Windows 10 Home')
+        MaxLen = 17
+        Val = aRow.get('os', '')
+        if Val and (len(Val) > MaxLen):
+            Rec.SetField('os', Val[:MaxLen])
+
         self.Filler.SetBase(aRow, Rec, ['cpu', 'case', 'vga', 'os'])
         return Rec
 
