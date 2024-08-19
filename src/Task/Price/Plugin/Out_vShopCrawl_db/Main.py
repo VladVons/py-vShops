@@ -271,7 +271,7 @@ class TSql(TSqlBase):
                         select
                             wrp.id,
                             {self.lang_id},
-                            '{Name}',
+                            '{Name[:128]}',
                             {Features},
                             '{Descr}'
                         from wrp

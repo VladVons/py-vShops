@@ -26,3 +26,9 @@ async def Set_SeoProducts(self) -> dict:
         'fmtSet_SeoProducts.sql',
         {}
     )
+
+async def Get_SeoRedirect(self, aPath: str) -> dict:
+    return await self.ExecQuery(
+        'fmtGet_SeoRedirect.sql',
+        {'aPath': aPath}
+    )

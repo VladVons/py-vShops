@@ -150,6 +150,13 @@ create table if not exists ref_seo_url (
 );
 COMMENT ON TABLE public.ref_seo_url IS 'key+value urls into SEO';
 
+create table if not exists ref_seo_redirect (
+    enabled             boolean default true,
+    url_old             varchar(128) not null,
+    url_new             varchar(128) not null,
+    primary key (url_old)
+);
+
 create table if not exists ref_seo_backlink (
     id                  serial primary key,
     create_date         date default current_timestamp,

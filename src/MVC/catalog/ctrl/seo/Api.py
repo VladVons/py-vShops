@@ -69,3 +69,17 @@ async def Encode(self, aData: dict) -> dict:
                 Url += Lib.Iif('?' in Url, '&', '?') + Query
         Res.append(Url.lstrip('&'))
     return Res
+
+async def Redirect(self, aData: dict) -> dict:
+    aPath = aData.get('path')
+    Dbl = await self.ExecModelImport(
+        'ref_seo',
+        {
+            'method': 'Get_SeoRedirect',
+            'param': {
+                'aPath': aPath
+            }
+        }
+    )
+    if (Dbl):
+        return Dbl.Rec.url_new

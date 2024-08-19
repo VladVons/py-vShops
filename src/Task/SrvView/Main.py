@@ -67,6 +67,12 @@ class TSrvView(TSrvBase):
                         Match = re.findall(xPattern, aRequest.path_qs)
                         if (Match):
                             return await ApiView.ResponseErr(aRequest, 410)
+
+            PathQs = urllib.parse.unquote(aRequest.path_qs)
+            Url = await ApiView.GetSeoRedirect(PathQs)
+            if (Url):
+                raise web.HTTPFound(location=Url)
+
             if (Name):
                 Url = await ApiView.GetSeoUrl('Decode', Name)
                 Query = UrlDecode(Url)
@@ -76,7 +82,6 @@ class TSrvView(TSrvBase):
             else:
                 if (ApiView.Conf.force_redirect_to_seo) and (aRequest.path_qs != '/'):
                     #PathQs = aRequest.path_qs.replace('%2F', '/').replace('%2B', '+')
-                    PathQs = urllib.parse.unquote(aRequest.path_qs)
                     Url = await ApiView.GetSeoUrl('Encode', [PathQs])
                     # prevent recursion
                     #if ('?' not in Url[0]):

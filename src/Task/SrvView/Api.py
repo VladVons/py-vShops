@@ -202,12 +202,21 @@ class TApiView(TApiBase):
         return Res
 
     async def GetSeoUrl(self, aMethod: str, aUrl: str) -> str:
-        Ctrl = self.Loader['ctrl']
         Data = {
             'type': 'api',
             'path': aUrl,
             'method': aMethod
         }
+        Ctrl = self.Loader['ctrl']
+        return await Ctrl.Get('seo', Data)
+
+    async def GetSeoRedirect(self, aPath: str) -> str:
+        Data = {
+            'type': 'api',
+            'method': 'Redirect',
+            'path': aPath
+        }
+        Ctrl = self.Loader['ctrl']
         return await Ctrl.Get('seo', Data)
 
 ApiViews = {Key: TApiView(Key) for Key in ['catalog', 'tenant']}
