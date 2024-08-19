@@ -7,4 +7,5 @@ from
     ref_seo_redirect
 where 
     enabled and 
-    (url_old = '{{aPath}}')
+    (url_old = '{{aPath}}') and
+    (url_old != url_new)
