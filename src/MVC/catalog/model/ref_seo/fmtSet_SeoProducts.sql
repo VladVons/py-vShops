@@ -6,7 +6,7 @@ insert into
     select
         'tenant_id' as attr,
         id as val,
-        lower(cyrtolat(title)) as title,
+        cyrtolat_url(title) as title,
         0 as sort_order
     from
         ref_tenant rt

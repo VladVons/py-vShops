@@ -21,7 +21,7 @@ async def ajax(self, aData: dict = None) -> dict:
             'method': 'Get_Products_LangAjax',
             'param': {
                 'aLangId': self.GetLangId(aLang),
-                'aFilter': aSearch
+                'aFilter': aSearch.replace('_', ' ')
             }
         }
     )
@@ -43,6 +43,7 @@ async def Main(self, aData: dict = None) -> dict:
     aLimit = min(aLimit, 50)
     await self.Lang.Add(aLang, 'product/category')
 
+    aSearch = aSearch.replace('_', ' ')
     Dbl = await self.ExecModelImport(
         'ref_product0/product',
         {
