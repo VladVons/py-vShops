@@ -56,9 +56,9 @@ class TSrvView(TSrvBase):
         assert(ApiView), f'unknown path `catalog` in {ApiViews.keys()}'
 
         Name = aRequest.match_info.get('name')
-        NameExt = Name.rsplit('.', maxsplit=1)
+        Ext = Name.rsplit('.', maxsplit=1)[-1]
         #if (Ext in ['js', 'css', 'jpg', 'png', 'ico', 'gif', 'txt', 'xml', 'woff2']):
-        if (len(NameExt) == 2) and (2 <= len(NameExt) <= 5):
+        if (2 <= len(Ext) <= 5):
             Res = await self._LoadFile(aRequest, ApiView)
         else:
             if (ApiView.Conf.status_410):
