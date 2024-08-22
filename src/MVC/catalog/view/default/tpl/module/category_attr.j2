@@ -28,11 +28,12 @@
       </div>
     {%- endfor %}
     </div>
-    <form method="get" id="viFormMain">
-      <div class="mt-2">
-        <button type="submit" class="btn btn-primary" id="btnAttrFilter">{{lang.submit}}</button>
+      <div class="d-flex mt-2">
+        <form method="get" id="viFormMain">
+          <button type="submit" class="btn btn-primary" id="btnAttrFilter">{{lang.filter}}</button>
+        </form>
+        <button class="btn btn-danger" id="btnAttrClear" title="{{lang.clear}}">x</button>
       </div>
-    </form>
   </div>
 </div>
 {% endif %}
@@ -138,5 +139,12 @@
     const apiUrl = '/?route=product0/category&category_id={{category_id}}&attr=' + Attr
     window.location.href = apiUrl
   })
+
+  document.getElementById('btnAttrClear').addEventListener('click', function(event) {
+    for (var xItem of Items) {
+      xItem.checked = false
+    }
+  })
+
 </script>
 <!-- category_attr - -->
