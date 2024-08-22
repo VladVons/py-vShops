@@ -1,7 +1,7 @@
 <!-- category_attr + -->
 {% set DblAttr = TDbList().Import(dbl_category_attr) %}
 {% if DblAttr.GetSize() > 0 %}
-<div class="container mt-3">
+<div class="container1 mt-3">
   {% if title %}
     <h2 class="fw-bold">{{ title }}</h2>
   {% endif %}
@@ -13,16 +13,22 @@
   {% endif %}
 
   <div class="mt-3">
-    <form method="get" id="viFormMain">
-      {% for Rec in DblAttr %}
-        <div class="fw-bold mt-2">{{Rec.title}}</div>
+    <div class="accordion">
+    {% for Rec in DblAttr %}
+      <button class="accordion-button" data-bs-toggle="collapse" data-bs-target="#collapse_attr_{{loop.index}}">
+        {{Rec.title}}
+      </button>
+      <div id="collapse_attr_{{loop.index}}" class="collapse">
         {% for Attr, Count in Rec.attrs.items() %}
         <div>
           <input class="form-check-input attrChk" type="checkbox" id='{{Rec.attr_id}}_{{Attr}}' data-attrId='{{Rec.attr_id}}' value='{{Attr}}'>
           <label class="form-check-label" for='{{Rec.attr_id}}_{{Attr}}'>{{Attr}} ({{Count}})</label>
         </div>
         {%- endfor %}
-      {%- endfor %}
+      </div>
+    {%- endfor %}
+    </div>
+    <form method="get" id="viFormMain">
       <div class="mt-2">
         <button type="submit" class="btn btn-primary" id="btnAttrFilter">{{lang.submit}}</button>
       </div>
