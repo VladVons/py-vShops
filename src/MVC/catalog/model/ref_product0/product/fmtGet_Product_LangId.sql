@@ -33,7 +33,7 @@ with wt1 as (
         (
             select array_agg(array[rpr.public_date::date::varchar, rpr.rating::varchar, rpr.descr])
             from ref_product_review rpr
-            where (rpr.enabled and rpr.product_id = rp.id)
+            where (rpr.enabled and rpr.public_date <= now() and rpr.product_id = rp.id)
             --order by rpr.public_date::date::varchar desc
         ) as review
     from
