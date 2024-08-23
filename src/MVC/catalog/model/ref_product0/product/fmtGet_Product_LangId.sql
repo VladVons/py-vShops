@@ -28,8 +28,14 @@ with wt1 as (
             from ref_product_attr rpa
             left join ref_attr ra on (ra.id = rpa.attr_id)
             left join ref_attr_lang ral on (ral.attr_id = ra.id and ral.lang_id = {{aLangId}})
-            where (rpa.product_id = {{aProductId}})
-        ) as attr
+            where (rpa.product_id = rp.id)
+        ) as attr,
+        (
+            select array_agg(array[rpr.public_date::date::varchar, rpr.rating::varchar, rpr.descr])
+            from ref_product_review rpr
+            where (rpr.enabled and rpr.product_id = rp.id)
+            --order by rpr.public_date::date::varchar desc
+        ) as review
     from
         ref_product rp
     left join
@@ -92,6 +98,7 @@ select
     wt1.tenant_id,
     wt1.tenant_title,
     wt1.attr,
+    wt1.review,
     coalesce(wt1.title, wt2.title) as title,
     coalesce(wt1.descr, wt2.descr) as descr,
     coalesce(wt1.features, wt2.features) as features,

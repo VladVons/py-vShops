@@ -82,6 +82,9 @@ async def Main(self, aData: dict = None) -> dict:
             Product['descr'] = f"{Product['category_title']} {Product['title']} {', '.join(Descr)}"
     Product['descr'] = Lib.HtmlEsc(Product['descr'])
 
+    if (Product['review']):
+        Product['review'] = Lib.TDbList(['public_date', 'rating', 'descr'], Product['review']).Export()
+
     if (Product['meta_descr']):
         Res['meta_descr'] = Product['meta_descr']
     else:

@@ -67,7 +67,7 @@ with wt1 as (
         (rt.enabled) and
         (
             ((rpl.title || ' ' || rpcl.title) ilike all (values {{FilterRe}})) or
-            (rp.idt::varchar = '{{aFilter}}' ) or
+            (rp.id::varchar = '{{aFilter}}' ) or
             (rpb.code = '{{aFilter}}')
         )
     order by

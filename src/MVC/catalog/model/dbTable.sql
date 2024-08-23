@@ -609,9 +609,10 @@ create table if not exists ref_product_related (
 create table if not exists ref_product_review (
     id                  serial primary key,
     enabled             boolean default true,
+    create_date         timestamp default current_timestamp,
+    public_date         timestamp,
     descr               text,
     rating              smallint,
-    create_date         timestamp default current_timestamp,
     product_id          integer not null references ref_product(id) on delete cascade,
     person_id           integer not null references ref_person(id) on delete cascade
 );
