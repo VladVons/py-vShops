@@ -5,12 +5,11 @@
 
 import random
 #
+from Inc.AI.OpenAI import TOpenAI
 from Inc.ParserX.Common import TPluginBase
 from Inc.ParserX.CommonSql import TSqlBase, TSqlTenantConf
 from Inc.Sql import TDbPg, TDbAuth, TDbExecPool, ListToComma
 from IncP.Log import Log
-from .AI import TOpenAI
-
 
 
 Textes = {
@@ -80,7 +79,7 @@ async def UpdateDb(aSql: TSqlBase, aSqlConf: TSqlTenantConf) -> list[int]:
     ResAI = await AI.Exec(Queries, 5)
 
     Values = [
-        f"({xRec.id}, '{xResAI['data'].replace("'", '')}')"
+        f'''({xRec.id}, '{xResAI['data'].replace("'", '')}')'''
         for xRec, xResAI in zip(Dbl, ResAI)
         if 'err' not in xResAI
     ]
@@ -111,7 +110,7 @@ async def UpdateDb(aSql: TSqlBase, aSqlConf: TSqlTenantConf) -> list[int]:
     return Res
 
 
-class TOut_vShopNoDescr_db(TPluginBase):
+class TOut_vShopAiNoDescr_db(TPluginBase):
     async def Run(self):
         Conf = self.Conf.GetKey('auth')
         DbAuth = TDbAuth(**Conf)

@@ -31,10 +31,12 @@ with wt1 as (
             where (rpa.product_id = rp.id)
         ) as attr,
         (
-            select array_agg(array[rpr.public_date::date::varchar, rpr.rating::varchar, rpr.descr])
+            select array_agg(
+                array[rpr.public_date::date::varchar, rpr.rating::varchar, rpr.descr]
+                order by rpr.public_date desc
+            )
             from ref_product_review rpr
             where (rpr.enabled and rpr.public_date <= now() and rpr.product_id = rp.id)
-            --order by rpr.public_date::date::varchar desc
         ) as review
     from
         ref_product rp

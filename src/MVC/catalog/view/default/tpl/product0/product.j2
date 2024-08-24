@@ -106,16 +106,17 @@
       </div>
     </div>
 
+    {% set DblReview = TDbList().Import(product.review) %}
     <div class="row vBgMaster mt-1">
       <ul class="nav nav-tabs pt-3" id="productTabs" role="tablist">
         <li class="nav-item">
-          <a class="nav-link active" id="features-tab" data-bs-toggle="tab" href="#features" role="tab" aria-controls="features" aria-selected="true">{{lang.features}}</a>
+          <a class="nav-link active" id="features-tab" data-bs-toggle="tab" href="#features" role="tab" aria-controls="features" aria-selected="true">{{lang.features}} ({{product.features | length}})</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" id="details-tab" data-bs-toggle="tab" href="#details" role="tab" aria-controls="details" aria-selected="false">{{lang.description}}</a>
+          <a class="nav-link" id="details-tab" data-bs-toggle="tab" href="#details" role="tab" aria-controls="details" aria-selected="false">{{lang.description}} ({{Iif(product.descr, '+', '-')}})</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" id="reviews-tab" data-bs-toggle="tab" href="#reviews" role="tab" aria-controls="details" aria-selected="false">{{lang.reviews}}</a>
+          <a class="nav-link" id="reviews-tab" data-bs-toggle="tab" href="#reviews" role="tab" aria-controls="details" aria-selected="false">{{lang.reviews}} ({{DblReview.GetSize()}})</a>
         </li>
       </ul>
 
@@ -145,7 +146,7 @@
 
         <!--  tab_reviews + -->
         <div class="tab-pane fade" id="reviews" role="tabpanel" aria-labelledby="reviews-tab">
-          {% for Rec in TDbList().Import(product.review) %}
+          {% for Rec in DblReview %}
             <div class="vItemOdd mt-2">
               <div>{{loop.index}}) {{lang.rating}} {{Rec.rating}}/5, {{Rec.public_date}}</div>
               <div>{{Text2Html(Rec.descr)}}</div>
