@@ -1,3 +1,5 @@
+# 2024.08.26
+
 import os
 import re
 import time
@@ -62,33 +64,66 @@ class TOlx():
             Data = self.GetProducts(Url)
             if (not Data):
                 break
-
             Dbl.RecAdds(Data)
         return Dbl
 
-class TReDrogobich():
-    def Init(self) -> list:
-        reModel1 = re.compile(r'(?P<model>(Dell|HP|Lenovo|Gateway) \w+ \w+ )', re.IGNORECASE)
-        #reModel2 = re.compile(r'(?P<model>(DELL|HP|Lenovo) [A-Za-z\s\d\-]+) ', re.IGNORECASE)
+class TRePriceList():
+    @staticmethod
+    def GetPatterns(aKeys: list) -> list:
+        Patterns = {
+            'model1': re.compile(r'(?P<model>(Dell|HP|Lenovo|Gateway) \w+ \w+ )', re.IGNORECASE),
+            'model2': re.compile(r'(?P<model>(DELL|HP|Lenovo) [A-Za-z\s\d\-]+) ', re.IGNORECASE),
 
-        reCpu1 = re.compile(r'(?P<cpu>(i\d)-\w+)', re.IGNORECASE)
+            'cpu1': re.compile(r'(?P<cpu>(i\d)-\w+)', re.IGNORECASE),
 
-        reScreen1 = re.compile(r'(?P<screen>\d{1,2}[\.,]?\d?\")')
-        reScreen2 = re.compile(r"(?P<screen>\d{1,2}[\.,]?\d?\'')")
-        reScreen3 = re.compile(r"(?P<screen>\d{1,2}\.\d)")
+            'screen1': re.compile(r'(?P<screen>\d{1,2}[\.,]?\d?\")'),
+            'screen2': re.compile(r"(?P<screen>\d{1,2}[\.,]?\d?\'')"),
+            'screen3': re.compile(r"(?P<screen>\d{1,2}\.\d)"),
 
-        reMatrix1 = re.compile(r'(?P<matrix>(HD|FHD|UHD)[ /])')
+            'matrix1': re.compile(r'(?P<matrix>(HD|FHD|UHD)[ /])'),
 
-        reRam1 = re.compile(r'(?P<ram>RAM?\d{1,2}G?b?)')
-        reRam2 = re.compile(r'(?P<ram>/\d{1,2}GB)', re.IGNORECASE)
+            'ram1': re.compile(r'(?P<ram>RAM?\d{1,2}G?b?)'),
+            'ram2': re.compile(r'(?P<ram>/\d{1,2}GB)', re.IGNORECASE),
 
-        reDisk1 = re.compile(r'(?P<disk>(SSD|HDD)\d{1,3}[GT]?B?)', re.IGNORECASE)
-        return [reModel1, reCpu1, reScreen1, reScreen2, reScreen3, reMatrix1, reRam1, reRam2, reDisk1]
+            'disk1': re.compile(r'(?P<disk>(SSD|HDD)\d{1,3}[GT]?B?)', re.IGNORECASE)
+        }
+        return [Patterns[xKey] for xKey in aKeys]
 
+    @staticmethod
+    def Ram1(aVal: str) -> str:
+        RVal = re.search(r'(\d+)([Gg]?[Bb]?)', aVal).groups()
+        RVal = list(RVal)
+        if (not RVal[1]):
+            RVal[1] = 'gb'
+        elif (not RVal[1].lower().endswith('b')):
+            RVal[1] += 'b'
+        return f'{RVal[0]}{RVal[1].upper()}'
+
+    @staticmethod
+    def Disk1(aVal: str) -> str:
+        RVal = re.search(r'(SSD|HDD)(\d+)([GgTtBb]?)', aVal).groups()
+        RVal = list(RVal)
+        if (not RVal[2]):
+            RVal[2] = 'gb'
+        elif (not RVal[2].lower().endswith('b')):
+            RVal[2] += 'b'
+        return f'{RVal[1]}{RVal[2].upper()} {RVal[0]}'
+
+    @staticmethod
+    def Screen1(aVal: str) -> str:
+        RVal = re.search(r'(\d+),?\d*', aVal).groups()
+        return f'{RVal[0]}"'
+
+class TReDrogobich(TRePriceList):
     def Adjust(self, aDbl: TDbList) -> TDbList:
-        DblNew = TDbList(['model',	'cpu', 'ram', 'disk', 'screen', 'matrix', 'price_in', 'name', 'url'])
+        DblNew = TDbList(
+            ['model',	'cpu', 'ram', 'disk', 'screen', 'matrix', 'price_in', 'price', 'name', 'url']
+        )
 
-        Patterns = self.Init()
+        Patterns = self.GetPatterns(
+            ['model1', 'cpu1', 'screen1', 'screen2', 'screen3', 'matrix1', 'ram1', 'ram2', 'disk1']
+        )
+
         for Rec in aDbl:
             Name = Rec.name.strip()
             Parts = {}
@@ -104,24 +139,13 @@ class TReDrogobich():
             for Key, Val in Parts.items():
                 Val = Val.strip('/ ')
                 if (Key == 'ram'):
-                    RVal = re.search(r'(\d+)([Gg]?[Bb]?)', Val).groups()
-                    RVal = list(RVal)
-                    if (not RVal[1]):
-                        RVal[1] = 'Gb'
-                    Val = f'{RVal[0]}{RVal[1].upper()}'
+                    Val = self.Ram1(Val)
                 elif (Key == 'disk'):
-                    RVal = re.search(r'(SSD|HDD)(\d+)([GgTtBb]?)', Val).groups()
-                    RVal = list(RVal)
-                    if (not RVal[2]):
-                        RVal[2] = 'Gb'
-                    elif (not RVal[2].lower().endswith('b')):
-                        RVal[2] += 'b'
-                    Val = f'{RVal[1]}{RVal[2].upper()} {RVal[0]}'
+                    Val = self.Disk1(Val)
                 if (Key == 'screen'):
-                    RVal = re.search(r'(\d+),?\d*', Val).groups()
-                    Val = f'{RVal[0]}"'
-
+                    Val = self.Screen1(Val)
                 RecNew.SetField(Key, Val)
+
             RecNew.SetField('price_in', Rec.price)
             RecNew.SetField('name', Rec.name)
             RecNew.SetField('url', Rec.url)
@@ -135,12 +159,14 @@ def Main(aFile: str, aUrl: str, aMax: int):
     else:
         Olx = TOlx()
         Dbl = Olx.Parse(aUrl, aMax)
+        print(f'Found products: {len(Dbl)}')
         Dbl.Save(File, True)
         DblToXlsxSave([Dbl], aFile + '.xlsx')
 
-    #ReDrogobich = TReDrogobich()
-    #DblAdj = ReDrogobich.Adjust(Dbl)
-    #DblToXlsxSave([DblAdj], aFile + '_price.xlsx')
+    ReDrogobich = TReDrogobich()
+    DblAdj = ReDrogobich.Adjust(Dbl)
+    DblToXlsxSave([DblAdj], aFile + '_price.xlsx')
+    print(f'Done')
 
-#Main('olx_drogobich', 'https://www.olx.ua/uk/list/user/1WdU1/', 14)
-Main('olx_krig', 'https://laptopshop.olx.ua/uk/home/', 1)
+Main('olx_drogobich', 'https://www.olx.ua/uk/list/user/1WdU1/', 17)
+#Main('olx_krig', 'https://laptopshop.olx.ua/uk/home/', 1)
