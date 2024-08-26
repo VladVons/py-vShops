@@ -692,7 +692,9 @@ create table if not exists hist_session (
     browser             varchar(128),
     host                varchar(32),
     origin              text,
-    uuid                varchar(36)
+    uuid                varchar(36),
+    uagent              varchar(256),
+    location            varchar(64)
 );
 
 create table if not exists hist_product_search (

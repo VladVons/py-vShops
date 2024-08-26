@@ -166,6 +166,12 @@ class TDbList(TDbBase):
         self._RecNo = self.GetSize() - 1
         return self._RecInit()
 
+    def RecAdds(self, aData: list[list]) -> TDbRec:
+        assert(len(aData[0]) == len(self.Rec.Fields)), f'Length mismatch {len(aData[0])}, {len(self.Rec.Fields)}'
+        self.Data.extend(aData)
+        self._RecNo = self.GetSize() - 1
+        return self._RecInit()
+
     def RecGo(self, aNo: int) -> TDbRec:
         self.RecNo = aNo
         return self.Rec

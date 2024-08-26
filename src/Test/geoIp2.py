@@ -1,9 +1,10 @@
 from geoip2.database import Reader
 
 
-Ip = '5.58.6.236'
-Ip = '46.173.175.14'
-Ip = '8.8.8.8'
+#Ip = '5.58.6.236'
+#Ip = '46.173.175.14'
+#Ip = '8.8.8.8'
+Ip = '72.14.201.51'
 
 def Test1():
     with Reader('/usr/share/GeoLite2/GeoLite2-ASN.mmdb') as reader:

@@ -13,6 +13,8 @@ from .DbList import TDbList
 
 
 def DblToXlsx(aDbl: list[TDbList]) -> bytes:
+    assert isinstance(aDbl, list), 'Must be a list of TDbList'
+
     WB = Workbook()
     WB.remove(WB.active)
     for Idx, xDbl in enumerate(aDbl):
@@ -60,3 +62,8 @@ def DblToXlsx(aDbl: list[TDbList]) -> bytes:
     Res = Stream.getvalue()
     Stream.close()
     return Res
+
+def DblToXlsxSave(aDbl: list[TDbList], aFile: str):
+    Data = DblToXlsx(aDbl)
+    with open(aFile, 'wb') as F:
+        F.write(Data)
