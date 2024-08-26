@@ -25,8 +25,8 @@ class TIn_Price_boda_xlsx(TPluginBase):
                 'attr': Rec.attr
             })
 
-    async def Run(self):
-        XTable = {
+    def GetHandlers(self) -> dict:
+        return {
             'COMPUTERS': {
                 'parser': TPricePC, 'category_id': 1, 'category': "Комп'ютер", 'enabled': True
             },
@@ -41,11 +41,12 @@ class TIn_Price_boda_xlsx(TPluginBase):
             }
         }
 
+    async def Run(self):
         DbProductEx = TDbProductEx()
         DbCategory = TDbCategory()
         Engine = None
         Cached = False
-        for xKey, xVal in XTable.items():
+        for xKey, xVal in self.GetHandlers().items():
             if (xVal.get('enabled', True)) and (xKey in self.Conf['sheet']):
                 Parser = xVal['parser'](self)
                 if (Engine):

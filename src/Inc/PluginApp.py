@@ -54,7 +54,7 @@ class TPluginApp():
             Plugin = DeepGetByList(self.Conf, ['plugin', aName])
             assert(Plugin is not None), f'plugin key not found {aName}'
             ClassName = Plugin.get('class', aName)
-            TClass, Err = DynImport(self.Path + '.' + ClassName, 'T' + ClassName)
+            TClass, Err = DynImport(self.Path + '.' + ClassName, 'T' + ClassName.replace('.', '_'))
             assert(TClass), f'Err loading {aName}. {Err}'
 
             Conf = TConfJson(self.Conf.JoinKeys(['common', 'plugin.' + aName]))

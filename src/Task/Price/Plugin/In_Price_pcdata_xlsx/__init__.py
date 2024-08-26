@@ -49,10 +49,10 @@ class TIn_Price_pcdata_xlsx(TPluginBase):
                     'attr': TitleToAttr[Rec.title]
                     })
 
-    async def Run(self):
-        XTable = {
+    def GetHandlers(self) -> dict:
+        return {
             'COMPUTERS': {
-                'parser': TPricePC, 'category_id': 1, 'category': "Комп'ютер", "enabled": True
+                'parser': TPricePC, 'category_id': 1, 'category': "Комп'ютер"
             },
             'MONITORS': {
                 'parser': TPriceMonit,'category_id': 2, 'category': 'Монітор'
@@ -71,11 +71,12 @@ class TIn_Price_pcdata_xlsx(TPluginBase):
             }
         }
 
+    async def Run(self):
         DbProductEx = TDbProductEx()
         DbCategory = TDbCategory()
         Engine = None
         Cached = False
-        for xKey, xVal in XTable.items():
+        for xKey, xVal in self.GetHandlers().items():
             if (xVal.get('enabled', True)):
                 Parser = xVal['parser'](self)
                 if (Engine):
@@ -87,5 +88,4 @@ class TIn_Price_pcdata_xlsx(TPluginBase):
                 Cached |= Parser.Cached
                 self.ToDbProductEx(Parser, DbProductEx, xVal['category_id'])
                 DbCategory.RecAdd().SetAsDict({'id': xVal['category_id'], 'parent_id': 0, 'name': xVal['category']})
-
         return {'cached': Cached, 'TDbCategory': DbCategory, 'TDbProductEx': DbProductEx}
