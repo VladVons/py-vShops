@@ -117,7 +117,7 @@ class TRePriceList():
 class TReDrogobich(TRePriceList):
     def Adjust(self, aDbl: TDbList) -> TDbList:
         DblNew = TDbList(
-            ['model',	'cpu', 'ram', 'disk', 'screen', 'matrix', 'price_in', 'price', 'name', 'url']
+            ['model',	'cpu', 'ram', 'disk', 'screen', 'matrix', 'os', 'price_in', 'price', 'name', 'url']
         )
 
         Patterns = self.GetPatterns(
