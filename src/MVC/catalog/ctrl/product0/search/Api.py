@@ -74,6 +74,11 @@ async def Main(self, aData: dict = None) -> dict:
             }
         )
 
+    Res = {
+        'found': Found,
+        'search': aSearch
+    }
+
     if (Found):
         if (self.ApiCtrl.Conf.get('seo_url')):
             Href = await Lib.SeoEncodeStr(self, Lib.UrlEncode(aData['query']))
@@ -89,19 +94,12 @@ async def Main(self, aData: dict = None) -> dict:
 
         dbl_products_a_sort = GetProductsSort(Pagination.Href, f'&sort={aSort}&order={aOrder}', aData['res']['lang'])
 
-        Res = {
+        Res.update({
             'dbl_products_a': DblProducts.Export(),
             'products_a_title': Title,
             'dbl_products_a_sort': dbl_products_a_sort.Export(),
-            'dbl_pagenation': DblPagination.Export(),
-            'found': Found,
-            'search': aSearch
-        }
-    else:
-        Res = {
-            'found': Found,
-            'search': aSearch
-        }
+            'dbl_pagenation': DblPagination.Export()
+        })
 
     DictRepl = Lib.TDictReplDeep(Res)
     Res['meta_title'] = DictRepl.Parse(Lib.ResGetItem(aData, 'meta_title'))
