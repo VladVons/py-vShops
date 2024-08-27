@@ -94,10 +94,15 @@ async def Main(self, aData: dict = None) -> dict:
             'products_a_title': Title,
             'dbl_products_a_sort': dbl_products_a_sort.Export(),
             'dbl_pagenation': DblPagination.Export(),
+            'found': Found,
+            'search': aSearch
+        }
+    else:
+        Res = {
+            'found': Found,
             'search': aSearch
         }
 
-        DictRepl = Lib.TDictReplDeep(Res)
-        Res['meta_title'] = DictRepl.Parse(Lib.ResGetItem(aData, 'meta_title'))
-
-        return Res
+    DictRepl = Lib.TDictReplDeep(Res)
+    Res['meta_title'] = DictRepl.Parse(Lib.ResGetItem(aData, 'meta_title'))
+    return Res

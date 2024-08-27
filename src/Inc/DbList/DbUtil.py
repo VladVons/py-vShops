@@ -20,6 +20,8 @@ def DblToXlsx(aDbl: list[TDbList]) -> bytes:
     for Idx, xDbl in enumerate(aDbl):
         Title = DeepGetByList(xDbl.Tag, ['name'], f'Sheet{Idx+1}')
         WS = WB.create_sheet(title=Title)
+        if (len(xDbl) == 0):
+            continue
 
         RowNo = 1
         Fields = xDbl.GetFields()

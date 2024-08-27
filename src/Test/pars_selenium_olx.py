@@ -49,16 +49,25 @@ class TOlx():
         Res = []
         products = self.driver.find_elements(By.CSS_SELECTOR, ".css-1grlwc9")
         pass
-        for product in products:
+        for Idx, product in enumerate(products):
             Name = product.find_element(By.CSS_SELECTOR, "p.css-ki4ei7 a").text
             Price = product.find_element(By.CSS_SELECTOR, "span[data-testid='ad-price']").text
             Price = Price.replace('грн.', '').replace(' ', '')
             Url = product.find_element(By.CSS_SELECTOR, "p.css-ki4ei7 a").get_attribute('href')
-            Res.append([Name, Price, Url])
+
+            Descr = ''
+            # Error: The element with the reference is stale
+            # print(Idx+1, Url)
+            # self.driver.get(Url)
+            # time.sleep(PageReady+1)
+            # Descr = self.driver.find_element(By.CSS_SELECTOR, ".css-1o924a9").text
+            # self.driver.back()
+
+            Res.append([Name, Price, Url, Descr])
         return Res
 
     def Parse(self, aUrl: str, aMax: int = 100) -> TDbList:
-        Dbl = TDbList(['name', 'price', 'url'])
+        Dbl = TDbList(['name', 'price', 'url', 'descr'])
         for i in range(0, aMax):
             Url = f'{aUrl}?page={i+1}'
             Data = self.GetProducts(Url)
@@ -166,7 +175,7 @@ def Main(aFile: str, aUrl: str, aMax: int):
     ReDrogobich = TReDrogobich()
     DblAdj = ReDrogobich.Adjust(Dbl)
     DblToXlsxSave([DblAdj], aFile + '_price.xlsx')
-    print(f'Done')
+    print('Done')
 
-Main('olx_drogobich', 'https://www.olx.ua/uk/list/user/1WdU1/', 17)
+Main('olx_drogobich', 'https://www.olx.ua/uk/list/user/1WdU1/', 18)
 #Main('olx_krig', 'https://laptopshop.olx.ua/uk/home/', 1)

@@ -3,7 +3,11 @@
 {% block content %}
 <!-- search + -->
 <div class="text-center m-3">
+  <div>{{lang.search}}</div>
   <h1>{{search}}</h1>
+  {% if found == 0 %}
+  <div>{{lang.not_found}}</div>
+  {% endif%}
 </div>
 {% include '../_inc/products_a.j2' %}
 {% include '../_inc/pagination.j2' %}
