@@ -723,6 +723,8 @@ class TMain(TFileBase):
         self.Sql = TSql(aDb, SqlConf, ImgApi)
 
     async def InsertToDb(self, aDbCategory: TDbCategory, aDbProductEx: TDbProductEx):
+        Log.Print(1, 'i', f'InsertToDb(). Tenant id {self.Sql.Conf.tenant}')
+
         await self.Sql.LoadTenantConf(self.Sql.Conf.tenant, self.Sql.Conf.lang)
         await self.Sql.GetCurrencyRate()
 
