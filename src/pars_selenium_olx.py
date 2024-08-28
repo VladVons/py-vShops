@@ -78,6 +78,12 @@ class TOlx():
 
 class TRePriceList():
     @staticmethod
+    def DblNew_PC() -> TDbList:
+        return TDbList(
+            ['model', 'cpu', 'ram', 'disk', 'screen', 'matrix', 'os', 'price_in', 'price', 'name', 'url']
+        )
+
+    @staticmethod
     def GetPatterns(aKeys: list) -> list:
         Patterns = {
             'model1': re.compile(r'(?P<model>(Dell|HP|Lenovo|Gateway) \w+ \w+ )', re.IGNORECASE),
@@ -125,9 +131,7 @@ class TRePriceList():
 
 class TReDrogobich(TRePriceList):
     def Adjust(self, aDbl: TDbList) -> TDbList:
-        DblNew = TDbList(
-            ['model',	'cpu', 'ram', 'disk', 'screen', 'matrix', 'os', 'price_in', 'price', 'name', 'url']
-        )
+        DblNew = self.DblNew_PC()
 
         Patterns = self.GetPatterns(
             ['model1', 'cpu1', 'screen1', 'screen2', 'screen3', 'matrix1', 'ram1', 'ram2', 'disk1']
@@ -177,5 +181,5 @@ def Main(aFile: str, aUrl: str, aMax: int):
     DblToXlsxSave([DblAdj], aFile + '_price.xlsx')
     print('Done')
 
-Main('olx_drogobich', 'https://www.olx.ua/uk/list/user/1WdU1/', 18)
+Main('olx_drogobich', 'https://www.olx.ua/uk/list/user/1WdU1/', 3)
 #Main('olx_krig', 'https://laptopshop.olx.ua/uk/home/', 1)

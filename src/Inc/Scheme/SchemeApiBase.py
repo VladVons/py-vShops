@@ -78,6 +78,20 @@ class TSchemeApiBase():
         return Res
 
     @staticmethod
+    def list_listgroup(aVal: list, aStep: int, aIdxs: list) -> list:
+        '''
+        group list [1,2,3,4,5,6,7,8,9,0] into [[1,3], [4,6], [7,9]]
+        ["list_group", [3, [0, 1]]]
+        '''
+
+        Res = []
+        for Idx in range(0, len(aVal), aStep):
+            Data = aVal[Idx : Idx + aStep]
+            Val = [Data[i] for i in aIdxs]
+            Res.append(Val)
+        return Res
+
+    @staticmethod
     def list_join(aVal: list, aDelim: str = '\n') -> str:
         '''
         join list ['one', 'two', 'three'] into string 'one. two. three'
@@ -144,13 +158,13 @@ class TSchemeApiBase():
         return Res
 
     @staticmethod
-    def is_equal(aVal: str, aStr: list) -> bool:
+    def is_equal(aVal: str, *aStr: list) -> bool:
         '''
         compare values
         ["is_equal", ["InStock", "available"]]
         '''
 
-        if (isinstance(aStr, list)):
+        if (isinstance(aStr, (list, tuple))):
             return (aVal in aStr)
 
     @staticmethod
@@ -163,6 +177,15 @@ class TSchemeApiBase():
         return (aVal is not None)
 
     @staticmethod
+    def val_return(_aVal: object, aValRet: object) -> object:
+        '''
+        return value
+        ["val_return", true]
+        '''
+
+        return aValRet
+
+    @staticmethod
     def not_none(aVal: list) -> object:
         '''
         get first not None item
@@ -172,6 +195,13 @@ class TSchemeApiBase():
         for x in aVal:
             if (x is not None):
                 return x
+
+    @staticmethod
+    def if_none(aVal) -> bool:
+        '''
+        return true if None
+        ["if_none"]
+        '''
 
     @staticmethod
     def search(aVal: object, aStr: list) -> bool:
@@ -253,8 +283,17 @@ class TSchemeApiBase():
         if (isinstance(aVal, str)):
             Res = float(aVal.replace(',', ''))
         elif (isinstance(aVal, (int, float))):
-            Res = aVal
+            Res = float(aVal)
         return Res
+
+    @staticmethod
+    def txt2int(aVal: str) -> int:
+        '''
+        convert text to int
+        ["txt2int"]
+        '''
+
+        return int(TSchemeApiBase.txt2float(aVal))
 
     @staticmethod
     def json2txt(aVal: dict) -> str:
@@ -347,6 +386,15 @@ class TSchemeApiBase():
         '''
 
         return None
+
+    @staticmethod
+    def invert(aVal: bool) -> bool:
+        '''
+        return logical not
+        ["invert"]
+        '''
+
+        return not aVal
 
     @staticmethod
     def _sub(aVal: str, aIdx: int, aEnd: int) -> str:

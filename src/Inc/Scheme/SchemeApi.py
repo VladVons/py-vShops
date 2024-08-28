@@ -39,7 +39,7 @@ class TSchemeExt():
 
     def check_or(self, aVal: object, *aPipes: list) -> list:
         '''
-         check pipes until result is None
+         check pipes until result is not None
          ["check_or", [
             [
                 ["get", ["offers.price"]]
@@ -221,6 +221,14 @@ class TSchemeApi(TSchemeApiBase):
                     Res[Name] = Data
         if (len(Res) > 0):
             return Res
+
+    @staticmethod
+    def find_path(aVal: BeautifulSoup, *aPath: list) -> object:
+        for xPath in aPath:
+            aVal = aVal.find(*xPath)
+            if (aVal is None):
+                break
+        return aVal
 
     @staticmethod
     def find_parent(aVal: BeautifulSoup, aStr: str, aDepth: int = 1) -> object:
