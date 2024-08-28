@@ -158,6 +158,18 @@ class TSchemeApiBase():
         return Res
 
     @staticmethod
+    def split_cr(aVal: str, aDelim: str = '\t\n') -> dict:
+        '''
+        split string into list
+        aVal = '\n\t\t\t\tWeight\t\t\n\n1.23\n\n'
+        return ['Weight', '1.23']
+        '''
+
+        Parts = re.split(rf'[{aDelim}]+', aVal.strip(aDelim))
+        if (len(Parts) > 1):
+            return Parts
+
+    @staticmethod
     def is_equal(aVal: str, *aStr: list) -> bool:
         '''
         compare values
