@@ -41,8 +41,8 @@ def ToObj(aVal: str) -> object:
     if (aVal.isdigit()):
         return int(aVal)
 
-    Pos = aVal.rfind('.')
-    if (Pos > 0):
+    Dots = aVal.count('.')
+    if (Dots == 2):
         Left, Right = aVal.split('.')
         if (Left.isdigit() and Right.isdigit()):
             return float(aVal)
