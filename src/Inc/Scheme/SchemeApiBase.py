@@ -170,16 +170,6 @@ class TSchemeApiBase():
             return Parts
 
     @staticmethod
-    def is_equal(aVal: str, *aStr: list) -> bool:
-        '''
-        compare values
-        ["is_equal", ["InStock", "available"]]
-        '''
-
-        if (isinstance(aStr, (list, tuple))):
-            return (aVal in aStr)
-
-    @staticmethod
     def val2bool(aVal: object) -> bool:
         '''
         convert value to boolean
@@ -209,24 +199,25 @@ class TSchemeApiBase():
                 return x
 
     @staticmethod
-    def if_none(aVal) -> bool:
+    def search(aVal: str, *aStr: list) -> bool:
         '''
-        return true if None
-        ["if_none"]
-        '''
-
-    @staticmethod
-    def search(aVal: object, aStr: list) -> bool:
-        '''
-        search any string value from a list
+        search any substring from a list in aVal
         ["search", ["InStock", "available"]]
         '''
 
-        if (isinstance(aStr, list)):
-            for x in aStr:
-                if (aVal.find(x) >= 0):
-                    return True
-            return False
+        for xStr in aStr:
+            if (aVal.find(xStr) >= 0):
+                return True
+        return False
+
+    @staticmethod
+    def search_eq(aVal: str, *aStr: list) -> bool:
+        '''
+        search any string from a list in aVal
+        ["search_eq", ["InStock", "available"]]
+        '''
+
+        return aVal in aStr
 
     @staticmethod
     def search_xlat(aVal: str, aSearch: list, aXlat: list) -> str:
