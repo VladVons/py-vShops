@@ -42,7 +42,7 @@ def ToObj(aVal: str) -> object:
         return int(aVal)
 
     Dots = aVal.count('.')
-    if (Dots == 2):
+    if (Dots == 1):
         Left, Right = aVal.split('.')
         if (Left.isdigit() and Right.isdigit()):
             return float(aVal)
