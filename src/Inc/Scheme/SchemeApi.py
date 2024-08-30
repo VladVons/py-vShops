@@ -57,6 +57,25 @@ class TSchemeExt():
             if (Res is not None):
                 return Res
 
+    def check_and(self, aVal: object, *aPipes: list) -> list:
+        '''
+         check all pipes for not None
+         ["check_and", [
+            [
+                ["get", ["offers.price"]]
+            ],
+            [
+              ["find", ["div", {"class": "product__price"}]], ["text"], ["price"]
+            ]
+        ]]
+        '''
+
+        for xPipe in aPipes:
+            Res = self.Parent.ParsePipes(aVal, xPipe, 'check_and')
+            if (Res is None):
+                break
+        return Res
+
     def url_pad(self, aVal: str) -> str:
         '''
         pad url with host prefix
