@@ -8,6 +8,7 @@ import re
 from bs4 import BeautifulSoup
 #
 from Inc.Util.ModHelp import GetClass
+from Inc.Util.Obj import Iif
 from Inc.Misc.Misc import FilterMatch
 from .Utils import DigSplit, TInStock, SoupGetParentsObj
 from .SchemeApiBase import TSchemeApiBase
@@ -259,7 +260,7 @@ class TSchemeApi(TSchemeApiBase):
         return aVal.find(aTag, string=aStr)
 
     @staticmethod
-    def table(aVal: BeautifulSoup) -> list:
+    def table(aVal: BeautifulSoup, aHeader: bool = True) -> list:
         '''
         parse table by tr, th+td
         ["table"]
@@ -268,7 +269,7 @@ class TSchemeApi(TSchemeApiBase):
         Res = []
         for Row in aVal.find_all('tr'):
             ResTag = []
-            Td = Row.find_all('th') + Row.find_all('td')
+            Td = Iif(aHeader, Row.find_all('th'), []) + Row.find_all('td')
             for xTd in Td:
                 Text = xTd.text.strip()
                 ResTag.append(Text)
@@ -306,39 +307,37 @@ class TSchemeApi(TSchemeApiBase):
 class TSchemeApiExt():
     @staticmethod
     def ext_image(aIdx: int = 0) -> list:
-        Res = [
+        return [
             ['find_all', ['img']],
             ['list', [aIdx]],
             ['get', ['src']],
             ['url_pad']
         ]
-        return Res
 
     @staticmethod
     def ext_image_og() -> list:
-        Res = [
+        return [
+            ['var_get', ['$root']],
             ['find', ['head']],
             ['find', ['meta', {'property': 'og:image'}]],
             ['get', ['content']],
             ['url_pad']
         ]
-        return Res
 
     @staticmethod
     def ext_category_prom(aIdx: int = -2) -> list:
-        Res = [
+        return [
             ['find', ['div', {'class': 'b-breadcrumb'}]],
             ['get', ['data-crumbs-path']],
             ['txt2json'],
             ['list', [aIdx]],
             ['get', ['name']]
         ]
-        return Res
 
     @staticmethod
     def ext_price_app(aTxt2Float: bool = False) -> list:
         txt2float = ['txt2float'] if (aTxt2Float) else ['comment']
-        Res = [
+        return [
             ['get', ['offers']],
             ['as_list', [
                 [
@@ -350,14 +349,21 @@ class TSchemeApiExt():
                 ]
             ]]
         ]
-        return Res
 
     @staticmethod
     def ext_title() -> list:
-        Res = [
+        return [
             ["var_get", ["$root"]],
             ["find", ["title"]],
             ["text"],
             ["strip"]
         ]
-        return Res
+
+    @staticmethod
+    def ext_stock() -> list:
+        return [
+          ["var_get", ["$root"]],
+          ["find", ["link", {"itemprop": "availability"}]],
+          ["get", ["href"]],
+          ["stock"]
+        ]

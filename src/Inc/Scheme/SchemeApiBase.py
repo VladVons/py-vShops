@@ -490,4 +490,12 @@ class TSchemeApiBase():
         ["table"]]
         ["keyval2dict", [1, 3]]
         '''
-        return {xVal[aIdxKey].replace("'", ''): xVal[aIdxVal].strip() for xVal in aVal}
+
+        Res = {}
+        for xVal in aVal:
+            Len = len(xVal)
+            if (aIdxKey < Len) and (aIdxVal < Len):
+                Key = xVal[aIdxKey].replace("'", '')
+                Val = xVal[aIdxVal].strip()
+                Res[Key] = Val
+        return Res
