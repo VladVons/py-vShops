@@ -495,7 +495,7 @@ class TSchemeApiBase():
         for xVal in aVal:
             Len = len(xVal)
             if (aIdxKey < Len) and (aIdxVal < Len):
-                Key = xVal[aIdxKey].replace("'", '')
+                Key = xVal[aIdxKey].replace("'", '').strip()
                 Val = xVal[aIdxVal].strip()
                 Res[Key] = Val
         return Res
