@@ -176,7 +176,7 @@ def TScheme(aScheme: str | dict):
         def GetPipe(self, aRoot: str = 'product') -> dict:
             Res = {}
             for xKey1, xVal1 in self.Data[aRoot].items():
-                if (xKey1.startswith('pipe')):
+                if (isinstance(xVal1, dict) and xKey1.startswith('pipe')):
                     for xKey2, xVal2 in xVal1.items():
                         if (Res.get(xKey2) is None):
                             Res[xKey2] = xVal2
