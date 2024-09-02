@@ -107,8 +107,6 @@ class TSchemePy():
                 Data = Res.get('data')
                 self.Data = Data.get('data', {})
                 self.Err = Data.get('err', [])
-
-                self.Pipe = FilterKey(self.Data, self.GetFields(), dict)
         return self
 
     def GetUrl(self) -> list:
@@ -116,9 +114,6 @@ class TSchemePy():
         Match = re.search(r'(?P<url>http[s]?://[^\s]+)', self.Python.Script, re.DOTALL)
         if (Match):
             return [Match.group('url')]
-
-    def GetFields(self) -> list:
-        raise NotImplementedError()
 
 
 class TSchemeJson():
@@ -142,15 +137,10 @@ class TSchemeJson():
             self.Data = SoupScheme.Parse(aObj, self.Scheme)
             self.Err = SoupScheme.Err
             self.Warn = SoupScheme.Warn
-
-            self.Pipe = FilterKey(self.Data, self.GetFields(), dict)
         return self
 
     def GetUrl(self) -> list:
         return DeepGetByList(self.Scheme, ['product', 'info', 'url'])
-
-    def GetFields(self) -> list:
-        raise NotImplementedError()
 
 
 def TScheme(aScheme: str | dict):
@@ -183,10 +173,13 @@ def TScheme(aScheme: str | dict):
                 Res = {Key: Res.get(Key) for Key in aKeys}
             return Res
 
-        def GetFields(self) -> list:
-            return ['image', 'price', 'price_old', 'name', 'stock', 'mpn', 'sku', 'category', 'description']
-
-        def GetPipe(self) -> dict:
-            return {Key.split('.')[-1]: Val for Key, Val in self.Pipe.items()}
+        def GetPipe(self, aRoot: str = 'product') -> dict:
+            Res = {}
+            for xKey1, xVal1 in self.Data[aRoot].items():
+                if (xKey1.startswith('pipe')):
+                    for xKey2, xVal2 in xVal1.items():
+                        if (Res.get(xKey2) is None):
+                            Res[xKey2] = xVal2
+            return Res
 
     return TClass(aScheme)
