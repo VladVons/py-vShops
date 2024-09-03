@@ -199,7 +199,7 @@ class TSchemeApi(TSchemeApiBase):
                 if (aChain):
                     Items = Items if (aIdx == -1) else Items[:aIdx + 1]
                     Arr = [TSchemeApi.strip(x.text) for x in Items]
-                    Arr = [x for x in Arr if (len(x) > 1)]
+                    Arr = [x.replace('/', '-') for x in Arr if (len(x) > 1)]
                     Res = '/'.join(Arr)
                 else:
                     Res = Items[aIdx].text.strip()

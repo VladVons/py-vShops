@@ -156,7 +156,7 @@ def TScheme(aScheme: str | dict):
     class TClass(Class):
         def IsJson(self) -> bool:
             #Name = self.__class__.__bases__[0].__name__
-            return self.__class__.__bases__[0] == TSchemeJson
+            return (self.__class__.__bases__[0] == TSchemeJson)
 
         def Clear(self):
             self.Data = {}

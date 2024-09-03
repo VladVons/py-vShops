@@ -32,6 +32,7 @@ class TInStock():
         'додати у кошик',
         'добавити в корзину',
         'є в наявності',
+        'є у наявності',
         'є на складі',
         'закінчується',
         'купити',
@@ -87,8 +88,9 @@ def DigSplit(aVal: str) -> tuple:
     Digit = ''
     Before = ''
     After = ''
+    WhiteSpaces = StrWhiteSpaces + "'"
     for x in aVal.rstrip('.'):
-        if (x in StrWhiteSpaces):
+        if (x in WhiteSpaces):
             continue
 
         if (After == '') and (x in StrDigitsDotComma):
