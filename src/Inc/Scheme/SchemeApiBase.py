@@ -64,6 +64,15 @@ class TSchemeApiBase():
             return Res
 
     @staticmethod
+    def list_uniq(aVal: list) -> list:
+        '''
+        return unique items from a list'
+        ["list_uniq"]
+        '''
+
+        return list(set(aVal))
+
+    @staticmethod
     def list_group(aVal: list, aStep: int, aIdxs: list) -> list:
         '''
         group list [1,2,3,4,5,6,7,8,9,0] into [[1,3], [4,6], [7,9]]
@@ -207,6 +216,18 @@ class TSchemeApiBase():
 
         for xStr in aStr:
             if (aVal.find(xStr) >= 0):
+                return True
+        return False
+
+    @staticmethod
+    def search_prefix(aVal: str, *aStr: list) -> bool:
+        '''
+        search string that starts with a given prefix
+        ["search_prefix", ["InStock", "available"]]
+        '''
+
+        for xStr in aStr:
+            if (aVal.startswith(xStr)):
                 return True
         return False
 
