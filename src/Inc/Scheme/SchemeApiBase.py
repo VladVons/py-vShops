@@ -66,11 +66,11 @@ class TSchemeApiBase():
     @staticmethod
     def list_uniq(aVal: list) -> list:
         '''
-        return unique items from a list'
+        return unique sorted items from a list'
         ["list_uniq"]
         '''
 
-        return list(set(aVal))
+        return sorted(set(aVal))
 
     @staticmethod
     def list_group(aVal: list, aStep: int, aIdxs: list) -> list:

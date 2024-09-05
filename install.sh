@@ -43,7 +43,7 @@ PythonPkg()
     pip3 install --requirement requires.lst
 }
 
-VSCode
+#VSCode
 
 #Python
-#PythonPkg
+PythonPkg

@@ -243,6 +243,16 @@ class TSchemeApi(TSchemeApiBase):
             return Res
 
     @staticmethod
+    def find_re(aVal: BeautifulSoup, aTag: str, aParam: dict) -> object:
+        '''
+        find more than one word in class
+        ["find_re", ["catalog_block.*items"]]
+        '''
+        for Key, Val in aParam.items():
+            aParam[Key] = re.compile(Val)
+        return aVal.find(aTag, aParam)
+
+    @staticmethod
     def find_path(aVal: BeautifulSoup, *aPath: list) -> object:
         for xPath in aPath:
             aVal = aVal.find(*xPath)
