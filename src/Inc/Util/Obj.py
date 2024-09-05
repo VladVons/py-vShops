@@ -243,5 +243,8 @@ def GetDictDefDeep(aData: dict, aKeys: list, aDef: list) -> list:
 def Iif(aCond: bool, aVal1, aVal2) -> object:
     return aVal1 if (aCond) else aVal2
 
+def IifNone(aVal, aDef) -> object:
+    return aDef if (aVal is None) else aVal
+
 def IsDigits(aList: list) -> bool:
     return all(str(x).isdigit() for x in aList)
