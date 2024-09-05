@@ -6,7 +6,7 @@
 import json
 #
 from Inc.Misc.Misc import TJsonEncoder
-from Inc.Scheme.Scheme import TSoupScheme
+from Inc.Scheme.Scheme import TScheme
 import IncP.LibCtrl as Lib
 from .Util import GetSoup, GetUrlData
 
@@ -15,27 +15,28 @@ async def Parse(self, aData: dict) -> dict:
     Script = Lib.DeepGetByList(aData, ['post', 'script'])
     try:
         Script = json.loads(Script)
+        Type = list(Script.keys())[0]
     except Exception as E:
         return {'err': f'json {E}'}
 
-    Url = Lib.DeepGetByList(Script, ['product', 'info', 'url'])
+    Url = Lib.DeepGetByList(Script, [Type, 'info', 'url'])
     if (not Url):
-        return {'err': 'path not found: product->info->url'}
+        return {'err': f'path not found: {Type}->info->url'}
 
     if (not isinstance(Url, list)):
-        return {'err': 'not a list: product->info->url'}
+        return {'err': f'not a list: {Type}->info->url'}
 
     UrlData = await GetUrlData(Url[0])
     if (UrlData['status'] != 200):
         return {'err': f'download status code {UrlData["status"]}'}
 
-    Soup = GetSoup(UrlData['data'])
-    SoupScheme = TSoupScheme()
-    Res = SoupScheme.Parse(Soup, Script)
+    BSoup = GetSoup(UrlData['data'])
+    Scheme = TScheme(Script)
+    Scheme.Parse(BSoup)
+    Pipe = Scheme.GetPipe(Type)
 
-    Pipe = Lib.DeepGetByList(Res, ['product', 'pipe'])
     PipeStr = json.dumps(Pipe, indent=2, ensure_ascii=False, cls=TJsonEncoder)
     return {
-        'err': '\n'.join(SoupScheme.Err),
+        'err': '\n'.join(Scheme.Err),
         'data': PipeStr
     }
