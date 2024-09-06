@@ -324,14 +324,15 @@ class TSchemeApi(TSchemeApiBase):
         return Res
 
     @staticmethod
-    def _help(_aVal: object) -> list:
+    def help(_aVal: object) -> list:
         '''
         show brief help
         ["help"]
         '''
 
         Data = GetClass(TSchemeApi)
-        return [x[2] for x in Data]
+        Res = [[x[2], x[3].strip()] for x in Data]
+        return Res
 
 
 class TSchemeApiExt():
