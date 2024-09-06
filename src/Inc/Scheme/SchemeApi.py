@@ -83,7 +83,8 @@ class TSchemeExt():
         '''
 
         if (not aVal.startswith('http')):
-            aVal = self.Parent.Var.get('$host') + '/' + aVal.strip('/')
+            Host = self.Parent.Var.get('$host')
+            aVal = Host + Iif(aVal.startswith('/'), '', '/') + aVal
         return aVal
 
     def var_get(self, _aNotUsed: object, aName: str) -> object:
