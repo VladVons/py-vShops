@@ -1,5 +1,6 @@
 # pip install playwright
 # playwright install
+# playwright install-deps
 
 
 import time
