@@ -64,7 +64,7 @@ class TSoupScheme(TSchemeBase):
                     else:
                         Res[Key] = self._ParseRecurs(aSoup, Val, Path)
                         if (Key == 'url'):
-                            UrlData = urlparse(Val[0])
+                            UrlData = urlparse(Val[0].lstrip('-'))
                             self.Var['$host'] = '%s://%s' % (UrlData.scheme, UrlData.hostname)
         elif (isinstance(aData, list)):
             if (aData[0].startswith('$')):
