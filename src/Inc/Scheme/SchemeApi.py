@@ -366,9 +366,9 @@ class TSchemeApiExt():
         ]
 
     @staticmethod
-    def ext_price_app(aTxt2Float: bool = False) -> list:
+    def ext_price_app(aTxt2Float: bool = True) -> list:
         txt2float = ['txt2float'] if (aTxt2Float) else ['comment']
-        return [
+        Res = [
             ['get', ['offers']],
             ['as_list', [
                 [
@@ -380,6 +380,7 @@ class TSchemeApiExt():
                 ]
             ]]
         ]
+        return Res
 
     @staticmethod
     def ext_title() -> list:
