@@ -20,15 +20,24 @@ async def Parse(self, aData: dict) -> dict:
         return {'err': f'json {E}'}
 
     Url = Lib.DeepGetByList(Script, [Type, 'info', 'url'])
-    if (not Url):
-        return {'err': f'path not found: {Type}->info->url'}
+    if (Url):
+        if (not isinstance(Url, list)):
+            return {'err': f'not a list: {Type}->info->url'}
 
-    if (not isinstance(Url, list)):
-        return {'err': f'not a list: {Type}->info->url'}
-
-    UrlData = await GetUrlData(Url[0])
-    if (UrlData['status'] != 200):
-        return {'err': f'download status code {UrlData["status"]}'}
+        UrlData = await GetUrlData(Url[0])
+        if (UrlData['status'] != 200):
+            return {'err': f'download status code {UrlData["status"]}'}
+    else:
+        UrlData = {
+            'data': f'''
+                <html>
+                    <body>
+                        No {Type}->info->url section found !
+                        The quick brown fox jumps over the lazy dog.
+                    </body>
+                </html>
+            '''
+        }
 
     BSoup = GetSoup(UrlData['data'])
     Scheme = TScheme(Script)
