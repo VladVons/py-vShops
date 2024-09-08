@@ -69,7 +69,7 @@
         </div>
 
         <h1>{{product.category_title}} {{product.title}}</h1>
-        <div class="pt-2 pb-2">
+        <div class="pt-2 pb-2 product-attr-short">
           {% if product.attr %}
             {% for Rec in TDbList().Import(product.attr) %}
               <h2>{{Rec.title}}: {{Rec.val}}</h2>
