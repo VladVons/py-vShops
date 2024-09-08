@@ -86,7 +86,7 @@
         {% for Rec in TDbList().Import(product.price) %}
           {%- if Rec.price_new -%}
           {% set ns.Price = Rec.price_new %}
-          <p class="h3 text-danger">{{Rec.price_new}} грн</p>
+          <p class="h3 text-danger price-old">{{Rec.price_new}} грн</p>
             <p>
               <span class="h3 text-decoration-line-through">{{Rec.qty}}{{lang.qty}} {{Rec.price}} грн</span>
               {{ "%.1f" | format((Rec.price_new / Rec.price * 100) - 100) }}%

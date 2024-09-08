@@ -19,12 +19,15 @@ async def Parse(self, aData: dict) -> dict:
     except Exception as E:
         return {'err': f'json {E}'}
 
-    Url = Lib.DeepGetByList(Script, [Type, 'info', 'url'])
-    if (Url):
-        if (not isinstance(Url, list)):
+    Urls = Lib.DeepGetByList(Script, [Type, 'info', 'url'])
+    if (Urls):
+        if (not isinstance(Urls, list)):
             return {'err': f'not a list: {Type}->info->url'}
+        Urls = [xUrl for xUrl in Urls if xUrl.startswith('http')]
+        if (not Urls):
+            return {'err': 'no urls with http prefix'}
 
-        UrlData = await GetUrlData(Url[0])
+        UrlData = await GetUrlData(Urls[0])
         if (UrlData['status'] != 200):
             return {'err': f'download status code {UrlData["status"]}'}
     else:

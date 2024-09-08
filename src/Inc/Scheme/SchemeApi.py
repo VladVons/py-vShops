@@ -334,6 +334,17 @@ class TSchemeApi(TSchemeApiBase):
         Res = [[x[2], x[3].strip()] for x in Data]
         return Res
 
+    @staticmethod
+    def replace_br(aVal: object, aNew: str = '\n') -> list:
+        '''
+        replace <br> with '\n'
+        ["replace_br", ["\n"]]
+        '''
+
+        for br in aVal.find_all('br'):
+            br.replace_with(aNew)
+        return aVal
+
 
 class TSchemeApiExt():
     @staticmethod
