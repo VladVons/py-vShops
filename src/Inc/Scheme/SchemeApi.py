@@ -143,6 +143,16 @@ class TSchemeApi(TSchemeApiBase):
         return [float(Dig), After.lower()]
 
     @staticmethod
+    def price_meta(aVal: BeautifulSoup) -> list:
+        '''
+        get price from meta
+        ["price_meta"]
+        '''
+        Price = aVal.find('meta', {'itemprop': 'price'}).get('content')
+        Currency = aVal.find('meta', {'itemprop': 'priceCurrency'}).get('content')
+        return [float(Price), Currency]
+
+    @staticmethod
     def price_find(aVal: str, aCur: str = 'грн') -> list:
         r'''
         get prices from string using regEx r'[\d\.]{2,}\s*' + aCur
@@ -251,6 +261,7 @@ class TSchemeApi(TSchemeApiBase):
         '''
         for Key, Val in aParam.items():
             aParam[Key] = re.compile(Val)
+
         return aVal.find(aTag, aParam)
 
     @staticmethod
