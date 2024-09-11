@@ -342,8 +342,12 @@ class TSchemeApi(TSchemeApiBase):
         '''
 
         Data = GetClass(TSchemeApi)
-        Res = [[x[2], x[3].strip()] for x in Data]
-        return Res
+        SchemeApi = [[x[2], x[3].strip()] for x in Data]
+
+        Data = GetClass(TSchemeExt)
+        SchemeExt = [[x[2], x[3].strip()] for x in Data]
+
+        return SchemeApi + SchemeExt
 
     @staticmethod
     def replace_br(aVal: object, aNew: str = '\n') -> list:
