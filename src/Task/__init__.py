@@ -11,7 +11,7 @@ from Inc.Conf import TConf
 from Inc.ConfJson import TConfJson
 from Inc.PluginTask import TPluginTask
 from Inc.Misc.Log import TEchoConsoleEx, TEchoFileEx
-from Inc.Misc.Misc import GetEnvWithWarn
+from Inc.Misc.Env import GetEnvWithWarn
 from IncP.Log import Log
 from IncP import GetInfo
 

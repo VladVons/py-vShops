@@ -112,11 +112,3 @@ def GetRandStr(aLen: int) -> str:
 
 def GetRandStrPattern(aLen: int, aPattern = 'YourPattern') -> str:
     return ''.join((random.choice(aPattern)) for x in range(aLen))
-
-
-#--- misc
-def GetEnvWithWarn(aName: str, aLog) -> object:
-    Res = os.getenv(aName)
-    if (Res is None):
-        aLog.Print(1, 'e', f'Warn! environment variable {aName} is empty')
-    return Res
