@@ -8,7 +8,7 @@ import json
 from Inc.Misc.Misc import TJsonEncoder
 from Inc.Scheme.Scheme import TScheme
 import IncP.LibCtrl as Lib
-from .Util import GetSoup, GetUrlData
+from .Util import GetSoup, UrlGetData
 
 
 async def Parse(self, aData: dict) -> dict:
@@ -27,7 +27,7 @@ async def Parse(self, aData: dict) -> dict:
         if (not Urls):
             return {'err': 'no urls with http prefix'}
 
-        UrlData = await GetUrlData(Urls[0])
+        UrlData = await UrlGetData(Urls[0])
         if (UrlData['status'] != 200):
             return {'err': f'download status code {UrlData["status"]}'}
     else:

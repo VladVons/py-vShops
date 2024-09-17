@@ -27,7 +27,7 @@ from playwright.async_api import async_playwright
 from Inc.Util.Obj import Iif
 
 
-async def GetUrlData(aUrl: str) -> str:
+async def UrlGetData(aUrl: str) -> str:
     Response = None
     async def ResponseHandler(response_obj):
         nonlocal Response

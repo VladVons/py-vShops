@@ -14,7 +14,7 @@ def GetSoup(aData: str) -> BeautifulSoup:
         Res = BeautifulSoup(aData, 'html.parser')
     return Res
 
-async def GetUrlData(aUrl: str) -> object:
+async def UrlGetData(aUrl: str) -> object:
     async def _GetUrlData(aHeaders: dict):
         async with aiohttp.ClientSession() as Session:
             try:
