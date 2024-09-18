@@ -3,6 +3,8 @@
 # License: GNU, see LICENSE for more details
 
 
+from datetime import datetime
+#
 from .DbBase import TDbBase
 from .DbCond import TDbCond
 from .DbRec import TDbRec
@@ -70,7 +72,10 @@ class TDbList(TDbBase):
         Returns all data in a simple dict for future import
         '''
         Head = list(self.Rec.Fields.keys())
-        return {'data': self.Data, 'head': Head, 'tag': self.Tag}
+        Res = {'data': self.Data, 'head': Head, 'tag': self.Tag}
+        if (self.GetSize() > 0):
+           Res['type'] = [type(x).__name__.replace('NoneType', '') for x in self.Data[0]]
+        return Res
 
     def GetFieldNo(self, aField: str) -> int:
         return self.Rec.GetFieldNo(aField)
@@ -81,13 +86,29 @@ class TDbList(TDbBase):
     def Import(self, aData: dict) -> 'TDbList':
         if (aData):
             self.Tag = aData.get('tag')
+            self.Type = aData.get('type', [])
 
             Head = aData.get('head', [])
             # TDbListSafe fields compatibility
             if (Head) and (isinstance(Head[0], list)):
                 Head = [x[0] for x in Head]
 
-            self.Init(Head, aData.get('data'))
+
+            Data = aData.get('data')
+            if (len(Data) > 0):
+                TypeIdx = [
+                    i
+                    for i, x in enumerate(self.Type)
+                    if (isinstance(Data[0][i], str)) and (x in ['datetime'])
+                ]
+                if (TypeIdx):
+                    for xRow in Data:
+                        for Idx in TypeIdx:
+                            if (xRow[Idx]):
+                                if (self.Type[Idx] == 'datetime'):
+                                    xRow[Idx] = datetime.strptime(xRow[Idx], '%Y-%m-%d %H:%M:%S')
+
+            self.Init(Head, Data)
         else:
             self.Rec.Fields = {}
             self.Rec.Data = []

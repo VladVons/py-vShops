@@ -41,6 +41,13 @@ def GetTree(aObj, aMaxDepth: int = 99) -> iter:
                         yield from Recurs(Obj, ClassName + '/' + Key, aDepth + 1)
     yield from Recurs(aObj, '', 0)
 
+def GetClassVars(aClass) -> dict:
+    return {
+        Key: Val
+        for Key, Val in vars(aClass).items()
+        if (not callable(Val)) and (not Key.startswith('__'))
+    }
+
 def GetClassPath(aClass):
     def GetClassPathRecurs(aInstance: object, aPath: str = '', aDepth: int = 99) -> str:
         Instance = aInstance.__bases__

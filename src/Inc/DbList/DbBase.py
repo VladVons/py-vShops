@@ -15,6 +15,7 @@ class TDbBase():
     def __init__(self):
         self.Data = []
         self.Tag = None
+        self.Type = []
         self._RecNo = 0
         self.BeeTree = {}
         self.OptReprLen = 25
