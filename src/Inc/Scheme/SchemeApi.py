@@ -265,7 +265,7 @@ class TSchemeApi(TSchemeApiBase):
 
         for xPath in aPath:
             Res = aVal.find(*xPath)
-            if (Res):
+            if (Res is not None):
                 return Res
 
     @staticmethod
