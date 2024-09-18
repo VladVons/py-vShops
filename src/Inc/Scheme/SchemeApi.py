@@ -254,6 +254,21 @@ class TSchemeApi(TSchemeApiBase):
             return Res
 
     @staticmethod
+    def find_or(aVal: BeautifulSoup, *aPath: list) -> object:
+        '''
+        find first pattern from list
+        ["find_or", [
+            ["p", {"class": "price"}],
+            ["span", {"class": "price_new"}]
+        ]],
+        '''
+
+        for xPath in aPath:
+            Res = aVal.find(*xPath)
+            if (Res):
+                return Res
+
+    @staticmethod
     def find_re(aVal: BeautifulSoup, aTag: str, aParam: dict) -> object:
         '''
         find more than one word in class
