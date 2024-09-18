@@ -14,6 +14,9 @@ class TPlugin(dict):
         #assert (aDirMod and os.path.isdir(aDirMod)), f'Directory not exists {aDirMod}'
         super().__init__()
 
+        if (aDirConf):
+            assert(os.path.isdir(aDirConf)), f'Config directory {aDirConf} does not exist'
+
         self.Dir = aDirMod
         self.DirConf = aDirConf
         self.Cache = {}

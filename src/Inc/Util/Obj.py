@@ -82,7 +82,8 @@ def DictUpdateDeep(aMaster: dict, aSlave: dict, aJoin = False, aDepth: int = 99)
             if (Macro):
                 Type, Val = Macro[0]
                 if (Type == 'env'):
-                    aVal = os.getenv(Val, f'-{Val}-')
+                    aVal = os.getenv(Val)
+                    assert(aVal), f'Environment variable {Val} is not set'
                 elif (Type == 'file'):
                     File, *Path = Val.split(':')
                     with open(File, 'r', encoding = 'utf8') as F:
