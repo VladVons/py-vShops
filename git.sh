@@ -7,9 +7,10 @@
 source ./common.sh
 
 
+cProject="py-vShops"
 cUser="VladVons"
 cMail="vladvons@gmail.com"
-cUrl="https://github.com/$cUser/py-vShops.git"
+cUrl="https://github.com/$cUser/$cProject"
 cBranch="master2"
 
 
@@ -171,6 +172,7 @@ GitNewBranch()
 
 
 clear
+echo "Repository: $cUrl"
 case $1 in
     Clean)              "$1"        "$2" "$3" ;;
     GitAuth)            "$1"        "$2" "$3" ;;
