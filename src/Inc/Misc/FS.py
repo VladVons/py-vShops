@@ -5,6 +5,9 @@
 
 import os
 import re
+import json
+#
+from .Misc import TJsonEncoder
 
 
 def DirWalk(aPath: str, aMask: str = '.*', aType: str = 'f', aDepthMax: int = 99) -> iter:
@@ -46,3 +49,15 @@ def DirRemove(aPath: str) -> list[str]:
 
 def FilesExist(aFiles: list[str]) -> list[int]:
     return [int(os.path.exists(File)) for File in aFiles]
+
+
+def WriteFileTyped(aFile: str, aData):
+    if (isinstance(aData, str)):
+        with open(aFile, 'w', encoding='utf8') as F:
+            F.write(aData)
+    if (isinstance(aData, (list, dict, set))):
+        with open(aFile, 'w', encoding='utf8') as F:
+            json.dump(aData, F, indent=2, ensure_ascii=False, cls=TJsonEncoder)
+    else:
+        with open(aFile, 'wb') as F:
+            F.write(aData)

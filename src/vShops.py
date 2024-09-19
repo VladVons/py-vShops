@@ -15,7 +15,7 @@ def Test():
 
 def Run():
     Info = GetSysInfo()
-    Log.Print(1, 'i', f'os: {Info["os"]}, python: {Info["python"]}, uptime: {Info["uptime"]}')
+    Log.Print(1, 'i', f'os: {Info["os"]}, python: {Info["python"]}, user: {Info["user"]}, uptime: {Info["uptime"]}')
     PyNeed = (3, 10, 0)
     if (Info['python'] >= PyNeed):
         Task = TTask().Run()

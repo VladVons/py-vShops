@@ -269,7 +269,17 @@ class TSchemeApi(TSchemeApiBase):
                 return Res
 
     @staticmethod
-    def find_re(aVal: BeautifulSoup, aTag: str, aParam: dict) -> object:
+    def find_not(aVal: BeautifulSoup, aTag: str, aParam: dict = None) -> object:
+        '''
+        if not find return prev value, else return None
+        ["find_not", ["a", {"class": "__grayscale"}]]
+        '''
+        Data = aVal.find(aTag, aParam)
+        if (Data is None):
+            return aVal
+
+    @staticmethod
+    def find_re(aVal: BeautifulSoup, aTag: str, aParam: dict = None) -> object:
         '''
         find more than one word in class
         ["find_re", ["catalog_block.*items"]]

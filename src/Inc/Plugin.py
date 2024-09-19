@@ -15,10 +15,10 @@ class TPlugin(dict):
         super().__init__()
 
         if (aDirConf):
-            assert(os.path.isdir(aDirConf)), f'Config directory {aDirConf} does not exist'
+            assert (os.path.isdir(aDirConf)), f'Directory not exists {aDirConf}'
 
-        self.Dir = aDirMod
         self.DirConf = aDirConf
+        self.Dir = aDirMod
         self.Cache = {}
 
     def _Create(self, _aModule: object, _aPath: str) -> object:
