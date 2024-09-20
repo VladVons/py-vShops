@@ -141,7 +141,7 @@ class TSchemeBase():
 
     def ParsePipes(self, aObj, aScheme: list, aPath: str) -> object:
         i = 0
-        while (aObj) and (i < len(aScheme)):
+        while (aObj is not None) and (i < len(aScheme)):
             Scheme = aScheme[i]
             if (not isinstance(Scheme, list)):
                 self.Err.append('%s->%s (not a list)' % (aPath, Scheme))
@@ -161,9 +161,11 @@ class TSchemeBase():
                     for Key, Val in Scheme[1].items():
                         if (not Key.startswith('-') and (Val)):
                             Res = self.ParsePipes(aObj, Val, aPath + '/' + Key)
-                            if (Res or self.RegEmpty):
+                            if ((Res is not None)
+                                #or self.RegEmpty
+                            ):
                                 R[Key] = Res
-                                self.Var['$' + Key] =  R[Key]
+                                self.Var['$' + Key] =  Res
                     aObj = R
                 else:
                     aObj = self.ParsePipe(aObj, Scheme, aPath)

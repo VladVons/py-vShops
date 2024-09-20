@@ -77,6 +77,15 @@ class TSchemeApiBase():
         return sorted(set(aVal))
 
     @staticmethod
+    def list_in(aVal: list, aFind: str) -> bool:
+        '''
+        search value in list'
+        ["list_in"]
+        '''
+
+        return (aFind in aVal)
+
+    @staticmethod
     def list_group(aVal: list, aStep: int, aIdxs: list) -> list:
         '''
         group list [1,2,3,4,5,6,7,8,9,0] into [[1,3], [4,6], [7,9]]
