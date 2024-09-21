@@ -6,7 +6,6 @@
 import sys
 from urllib.parse import urlparse
 #
-#from Inc.Misc.Misc import TJsonEncoder
 from Inc.Misc.Request import TRequestJson, TAuth
 from Inc.Util.Obj import DeepGetByList
 
@@ -27,9 +26,7 @@ class TLoaderApiFs(TLoaderApi):
             self.Api = self.Api[aName]
 
     async def Get(self, aPath: str, aData: dict = None):
-        Res = await self.Api.Exec(aPath, aData)
-        #return TJsonEncoder.Dumps(Res) #ToDo
-        return Res
+        return await self.Api.Exec(aPath, aData)
 
 
 class TLoaderApiHttp(TLoaderApi):

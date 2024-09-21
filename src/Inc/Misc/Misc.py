@@ -8,15 +8,11 @@ import json
 import random
 from datetime import datetime
 #
-from Inc.DbList import TDbList
-
 
 #--- json ---
 class TJsonEncoder(json.JSONEncoder):
     def default(self, o):
-        if (isinstance(o, TDbList)):
-            Res = o.Export()
-        elif (isinstance(o, set)):
+        if (isinstance(o, set)):
             Res = list(o)
         elif (isinstance(o, datetime)):
             Res = o.strftime('%Y-%m-%d %H:%M:%S')

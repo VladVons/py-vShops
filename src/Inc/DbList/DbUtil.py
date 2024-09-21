@@ -3,6 +3,7 @@
 # License: GNU, see LICENSE for more details
 
 
+import json
 from io import BytesIO
 from openpyxl import Workbook
 from openpyxl.utils import get_column_letter
@@ -69,3 +70,19 @@ def DblToXlsxSave(aDbl: list[TDbList], aFile: str):
     Data = DblToXlsx(aDbl)
     with open(aFile, 'wb') as F:
         F.write(Data)
+
+class TJsonEncoder(json.JSONEncoder):
+    def default(self, o):
+        if (isinstance(o, TDbList)):
+            Res = o.Export()
+        elif (isinstance(o, set)):
+            Res = list(o)
+        elif (isinstance(o, datetime)):
+            Res = o.strftime('%Y-%m-%d %H:%M:%S')
+        else:
+            Res = str(o)
+        return Res
+
+    @staticmethod
+    def Dumps(aObj):
+        return json.dumps(aObj, cls = TJsonEncoder)

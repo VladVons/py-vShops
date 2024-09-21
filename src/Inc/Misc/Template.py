@@ -8,7 +8,8 @@ import re
 
 class TDictRepl():
     def __init__(self, aDict: dict = None):
-        self.Dict = aDict
+        self.Dict = aDict or {}
+        self.UserData = None
         self._VarTpl()
 
     def _VarTpl(self):
@@ -19,7 +20,7 @@ class TDictRepl():
         return self.Dict.get(aFind, f'-{aFind}-')
 
     def Parse(self, aStr: str) -> str:
-        if (self.Dict and aStr) :
+        if (aStr) :
             while (True):
                 Arr = self.ReVar.search(aStr)
                 if (not Arr):
@@ -27,8 +28,6 @@ class TDictRepl():
                 Find = Arr.group(0)
                 Repl = self._Get(Find)
                 aStr = aStr.replace(Find, Repl)
-
-            #self.Dict = {}
         return aStr
 
 
