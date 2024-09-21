@@ -401,7 +401,10 @@ class TSchemeApiExt():
         return [
             ['var_get', ['$root']],
             ['find', ['head']],
-            ['find', ['meta', {'property': 'og:image'}]],
+            ["find_or", [
+                ["meta", {"property": "og:image"}],
+                ["meta", {"name": "og:image"}]
+            ]],
             ['get', ['content']],
             ['url_pad']
         ]
