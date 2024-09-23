@@ -14,7 +14,9 @@ from Inc.Misc.RequestImage import TDownloadImage
 from Inc.Misc.Telegram import TTelegram
 from Inc.Misc.Template import TDictRepl
 from Inc.SrvWeb.Common import UrlEncode, UrlUdate
-from Inc.Util.Obj import DeepGet, DeepGetByList, GetDictDef, GetDictDefs, Filter, DeepGetsRe, Iif, IsDigits
+from Inc.Util.Dict import DeepGet, DeepGetByList, GetDictDef, GetDictDefs, Filter
+from Inc.Util.DictEx import DeepGetsRe
+from Inc.Util.Obj import Iif, IsDigits
 from Inc.Util.Str import Replace
 from .Log import Log
 

@@ -1,7 +1,8 @@
 import os
 import json
 #
-from Inc.Util.Obj import DeepGet, DeepGetsRe
+from Inc.Util.Dict import DeepGet
+from Inc.Util.DictEx import DeepGetsRe
 from Inc.Misc.FS import DirWalk
 
 

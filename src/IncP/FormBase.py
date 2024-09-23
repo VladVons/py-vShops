@@ -14,7 +14,7 @@ from Inc.DictDef import TDictDef
 from Inc.Loader.Api import TLoaderApi
 from Inc.Misc.Jinja import TTemplate
 from Inc.Misc.GeoIp import TGeoIp
-from Inc.Util.Obj import DeepGetByList
+from Inc.Util.Dict import DeepGetByList
 from Inc.SrvWeb.Common import ParseUserAgent
 from IncP import GetAppVer
 

@@ -5,7 +5,8 @@
 
 import os
 import json
-from Inc.Util.Obj import DeepGet, DictUpdateDeep
+from Inc.Util.Dict import DeepGet
+from Inc.Util.DictEx import DictUpdateDeep
 from Inc.Misc.FS import DirWalk
 
 

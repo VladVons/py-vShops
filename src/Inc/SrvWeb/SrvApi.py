@@ -10,7 +10,7 @@ import aiohttp
 from aiohttp import web
 #
 from Inc.DbList import TDbList
-from Inc.Util.Obj import DeepGet
+from Inc.Util.Dict import DeepGet
 from IncP.Log import Log
 
 

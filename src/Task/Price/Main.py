@@ -3,7 +3,7 @@
 # License: GNU, see LICENSE for more details
 
 
-from Inc.Util.Obj import DeepSet
+from Inc.Util.Dict import DeepSet
 from Inc.PluginApp import TPluginApp
 from Task import Options
 

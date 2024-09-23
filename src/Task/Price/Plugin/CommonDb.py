@@ -6,7 +6,7 @@
 from Inc.DbList import TDbList
 from Inc.Scheme.Parser import TSchemeBase
 from Inc.Scheme.SchemeApiBase import TSchemeApiBase
-from Inc.Util.Obj import GetNotNone
+from Inc.Util.Dict import GetNotNone
 
 
 def GetTitle(aRow: dict, aKeys: list, aDelim) -> str:

@@ -3,7 +3,7 @@
 # License: GNU, see LICENSE for more details
 
 
-from Inc.Util.Obj import DeepGetByList
+from Inc.Util.Dict import DeepGetByList
 from IncP.FormBase import TFormBase
 from Task.Price.Main import TPrice
 from Task.Queue.Main import TCall

@@ -3,7 +3,7 @@
 # License: GNU, see LICENSE for more details
 
 
-from Inc.Util.Obj import DeepGetByList, DeepSetByList
+from Inc.Util.Dict import DeepGetByList, DeepSetByList
 
 
 class TDictDef(dict):

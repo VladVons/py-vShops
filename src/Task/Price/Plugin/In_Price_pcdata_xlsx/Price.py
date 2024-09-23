@@ -7,7 +7,7 @@ import re
 #
 from Inc.DbList import TDbRec
 from Inc.Util.Str import ToFloat, ToHashWM
-from Inc.Util.Obj import GetNotNone
+from Inc.Util.Dict import GetNotNone
 from Inc.ParserX.Parser_xlsx import TParser_xlsx
 from ..CommonDb import TDbCompPC, TDbCompMonit, TDbPrinter, GetTitleValues, TScheme
 

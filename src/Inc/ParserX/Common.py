@@ -6,7 +6,8 @@
 import os
 #
 from Inc.DbList import TDbList, TDbRec
-from Inc.Util.Obj import DeepGet, DeepGetByList, GetClassPath
+from Inc.Util.Obj import GetClassPath
+from Inc.Util.Dict import DeepGet, DeepGetByList
 from Inc.Misc.Time import TASleep
 from Inc.Misc.Request import TRequestGet, TRequestJson
 from IncP.Log import Log

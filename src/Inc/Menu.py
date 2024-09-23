@@ -3,10 +3,7 @@
 # License: GNU, see LICENSE for more details
 
 
-try:
-    import asyncio
-except ModuleNotFoundError:
-    import uasyncio as asyncio
+import asyncio
 #
 from Inc.KbdTerm  import TKbdTerm
 from Inc.Util.Arr import SortLD

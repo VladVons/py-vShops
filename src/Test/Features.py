@@ -1,4 +1,4 @@
-from Inc.Util.Obj import DeepGetByList
+from Inc.Util.Dict import DeepGetByList
 
 
 q1 = {

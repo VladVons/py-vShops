@@ -12,7 +12,7 @@ from Inc.ParserX.Common import TFileBase
 from Inc.ParserX.CommonSql import TSqlBase, DASplit, DASplitDbl, TLogEx
 from Inc.Sql.ADb import TDbExecPool, ListIntToComma, ListToComma
 from Inc.Sql.DbPg import TDbPg
-from Inc.Util.Obj import DeepGetByList
+from Inc.Util.Dict import DeepGetByList
 from Inc.Util.Str import ToHashW
 from Inc.Util.Num import RoundNear
 from IncP.Log import Log

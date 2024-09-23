@@ -46,7 +46,7 @@ class TSchemeExt():
                 ["get", ["offers.price"]]
             ],
             [
-              ["find", ["div", {"class": "product__price"}]], ["text"], ["price"]
+                ["find", ["div", {"class": "product__price"}]], ["text"], ["price"]
             ]
         ]]
 

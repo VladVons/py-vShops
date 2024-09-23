@@ -19,7 +19,7 @@ from Inc.Misc.Request import TRequestJson, TAuth
 from Inc.ParserX.Common import TFileBase
 from Inc.ParserX.CommonSql import TSqlBase, DASplitDbl, TLogEx
 from Inc.Sql import TDbExecPool, TDbPg, ListToComma
-from Inc.Util.Obj import DeepGetByList, GetNotNone
+from Inc.Util.Dict import DeepGetByList, GetNotNone
 from IncP.Log import Log
 from IncP.PluginEan import TPluginEan, TParserBase
 from ..CommonDb import TDbCrawl
