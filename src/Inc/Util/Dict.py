@@ -107,3 +107,7 @@ def DictUpdate(aMaster: dict, aSlave: dict):
                     aMaster[Key] = Val
             else:
                 aMaster[Key] = Val
+
+def DictToText(aData: dict, aDelim: str = '\n') -> str:
+    Arr = [f'{Key}: {Val}' for Key, Val in aData.items()]
+    return aDelim.join(Arr)

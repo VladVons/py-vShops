@@ -13,7 +13,7 @@ from Inc.PluginTask import TPluginTask
 from Inc.Misc.Log import TEchoConsoleEx, TEchoFileEx
 from Inc.Misc.Env import GetEnvWithWarn
 from IncP.Log import Log
-from IncP import GetInfo
+from IncP import GetAppVer
 
 
 def LoadClassConf(aClass: object) -> dict:
@@ -39,7 +39,7 @@ def _InitLog():
 
     Log.AddEcho(TEchoConsoleEx())
 
-AppName = GetInfo()['app_name']
+AppName = GetAppVer()['app_name']
 Options = _InitOptions()
 _InitLog()
 

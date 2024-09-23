@@ -3,16 +3,8 @@
 #License:     GNU, see LICENSE for more details
 
 
-import os
-import sys
-import platform
-#
-from Inc.Misc.Info import GetSysInfo, DictToText
-
-
-__version__ = '1.0.22'
-__date__ =  '2024.04.11'
-
+__version__ = '1.0.23'
+__date__ =  '2024.09.23'
 
 
 def GetAppVer() -> dict:
@@ -23,12 +15,3 @@ def GetAppVer() -> dict:
         'author':  'Vladimir Vons, VladVons@gmail.com',
         'home': 'http://oster.com.ua',
     }
-
-def GetInfo() -> dict:
-    Res = GetAppVer()
-    Res.update(GetSysInfo())
-    return Res
-
-def GetInfoText():
-    Data = GetInfo()
-    return DictToText(Data)

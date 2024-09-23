@@ -5,14 +5,14 @@
 
 import time
 #
-from IncP import GetInfo
+from IncP import GetAppVer
 from IncP.Log import Log
 from . import Plugin, Options, ConfTask
 
 
 class TTask():
     def __init__(self):
-        self.Info = GetInfo()
+        self.Info = GetAppVer()
 
     async def Run(self):
         if (Options.info):

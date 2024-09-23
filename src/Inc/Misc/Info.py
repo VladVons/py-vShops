@@ -32,7 +32,3 @@ def GetSysInfo() -> dict:
         'ram_use': psutil.virtual_memory()[2]
     }
     return Res
-
-def DictToText(aData: dict) -> str:
-    Arr = [f'{Key}: {Val}' for Key, Val in aData.items()]
-    return '\n'.join(Arr)
