@@ -49,11 +49,10 @@ class TEchoFile(TEcho):
 
 class TLog():
     def __init__(self, aEchoes: list = None):
+        self.Echoes = aEchoes or []
         self.Cnt = 0
-        if (aEchoes is None):
-            self.Echoes = []
-        else:
-            self.Echoes = aEchoes
+        self.MsgUniq = False
+        self.MsgLast = None
 
     def _Write(self, aData: dict, aSkipEcho: list):
         for Echo in self.Echoes:
@@ -70,11 +69,14 @@ class TLog():
             self.Echoes.append(aEcho)
 
     def Print(self, aLevel: int, aType: str, aMsg: str, aData: list = None, aE: Exception = None, aSkipEcho: list = None):
-        if (aData is None):
-            aData = []
-        if (aSkipEcho is None):
-            aSkipEcho = []
-
         self.Cnt += 1
+
+        if (self.MsgUniq) and (self.MsgLast == aMsg):
+            return
+
+        self.MsgLast = aMsg
+        aData = aData or []
+        aSkipEcho = aSkipEcho or []
+
         Args = {'aL': aLevel, 'aT': aType, 'aM': aMsg, 'aD': aData, 'aE': aE, 'c': self.Cnt, 'd': GetDate(), 't': GetTime()}
         self._Write(Args, aSkipEcho)
