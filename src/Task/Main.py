@@ -15,7 +15,7 @@ class TTask():
         self.Info = GetAppVer()
 
     async def Run(self):
-        if (Options.info):
+        if (Options.get('info')):
             List = [f'{Key:10} {Val}' for Key, Val in self.Info.items()]
             print('\n'.join(List))
             return

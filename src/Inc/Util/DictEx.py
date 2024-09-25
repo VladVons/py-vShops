@@ -54,7 +54,7 @@ def DictUpdateDeep(aMaster: dict, aSlave: dict, aJoin = False, aDepth: int = 99)
                         Idx = sys.argv.index(Val)
                         aVal = sys.argv[Idx + 1]
                 else:
-                    raise ValueError()
+                    raise ValueError(f'Macros {Type}')
         return aVal
 
     if (aDepth <= 0):

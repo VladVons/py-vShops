@@ -7,9 +7,10 @@ import asyncio
 #
 from Inc.Util.Dict import DictToText, Filter
 from Inc.Misc.Info import GetSysInfo
+from Inc.Misc.Process import CheckSelfRunning
 from IncP import GetAppVer
 from IncP.Log import Log
-from Task.Main import TTask
+from Task.Main import TTask, Options
 
 
 def Run():
@@ -24,8 +25,11 @@ def Run():
 
     PyNeed = (3, 10, 0)
     if (SysInfo['python'] >= PyNeed):
-        Task = TTask().Run()
-        asyncio.run(Task)
+        if (Options.get('one_instance') and CheckSelfRunning()):
+            Log.Print(1, 'i', 'Application is already running')
+        else:
+            Task = TTask().Run()
+            asyncio.run(Task)
     else:
         print(f'Need python >= {PyNeed}')
     Log.Print(1, 'i', 'Quit')

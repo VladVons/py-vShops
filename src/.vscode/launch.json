@@ -9,7 +9,6 @@
             "console": "integratedTerminal",
             "purpose":["debug-in-terminal"],
             "justMyCode": true,
-            "args": ["-t"],
             "env": {"name": "EnvVal"}
          }
     ]

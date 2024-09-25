@@ -5,7 +5,7 @@ import json
 from Inc.Misc.FS import DirWalk
 from Inc.Misc.Time import SecondsToDHMS
 from Inc.Util.ModHelp import GetHelp
-from IncP import GetInfo
+from IncP import GetAppVer
 from IncP.LibModel import TDbList
 
 

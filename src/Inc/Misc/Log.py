@@ -8,7 +8,8 @@ import sys
 import inspect
 import traceback
 #
-from Inc.Log import TEchoConsole, TEchoFile
+from Inc.Log.EchoConsole import TEchoConsole
+from Inc.Log.EchoFileGz import TEchoFileGz
 
 
 class TEchoConsoleEx(TEchoConsole):
@@ -23,7 +24,7 @@ class TEchoConsoleEx(TEchoConsole):
         super().Write(aArgs)
 
 
-class TEchoFileEx(TEchoFile):
+class TEchoFileEx(TEchoFileGz):
     def Write(self, aArgs: dict):
         aE = aArgs.get('aE')
         if (aE):
