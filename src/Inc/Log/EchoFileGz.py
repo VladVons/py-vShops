@@ -6,7 +6,6 @@
 import os
 import re
 import gzip
-import shutil
 #
 from .Echo import TEcho
 
@@ -19,6 +18,8 @@ class TEchoFileGz(TEcho):
 
     def _GetNextExtFile(self, aExt = 'gz'):
         Dir, File = os.path.split(self.Name)
+        if (not Dir):
+            Dir = '.'
 
         Files = os.listdir(Dir)
         Indexes = [0]
