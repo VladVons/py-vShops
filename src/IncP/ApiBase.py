@@ -6,7 +6,7 @@
 from Inc.Loader.Api import TLoaderApiFs, TLoaderApiHttp
 from Inc.Plugin import TPlugin
 from Inc.Util.ModHelp import GetHelp, GetMethod
-from Task import LoadClassConf
+from Task.Main import App
 
 
 class TApiBase():
@@ -38,7 +38,7 @@ class TApiBase():
         return Res
 
     def GetConf(self) -> dict:
-        return LoadClassConf(self)
+        return App.LoadClassConf(self)
 
     def GetMethod(self, aPlugin: TPlugin, aRoute: str, aData: dict) -> dict:
         Method = aData.get('method')

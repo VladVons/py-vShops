@@ -9,7 +9,8 @@ import os
 #
 from Inc.DataClass import DDataClass
 from Inc.DbList import TDbList
-from Inc.Log import TLog, TEchoFile
+from Inc.Log import TLog
+from Inc.Log.EchoFile import TEchoFile
 from Inc.Misc.Template import FormatFile
 from Inc.Sql import TDbExecPool, TDbPg
 from Inc.Util.Arr import Parts

@@ -3,11 +3,7 @@
 # License: GNU, see LICENSE for more details
 
 
-try:
-    import asyncio
-except ModuleNotFoundError:
-    import uasyncio as asyncio
-
+import asyncio
 import gc
 #
 from Inc.Conf import TConf

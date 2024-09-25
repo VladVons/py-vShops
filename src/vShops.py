@@ -10,7 +10,7 @@ from Inc.Misc.Info import GetSysInfo
 from Inc.Misc.Process import CheckSelfRunning
 from IncP import GetAppVer
 from IncP.Log import Log
-from Task.Main import TTask, Options
+from Task.Main import TTask, App
 
 
 def Run():
@@ -25,7 +25,7 @@ def Run():
 
     PyNeed = (3, 10, 0)
     if (SysInfo['python'] >= PyNeed):
-        if (Options.get('one_instance') and CheckSelfRunning()):
+        if (App.Options.get('one_instance') and CheckSelfRunning()):
             Log.Print(1, 'i', 'Application is already running')
         else:
             Task = TTask().Run()

@@ -5,9 +5,9 @@
 
 import time
 #
+from Inc.IncP.App import TApp
 from IncP import GetAppVer
 from IncP.Log import Log
-from . import Plugin, Options, ConfTask
 
 
 class TTask():
@@ -15,7 +15,7 @@ class TTask():
         self.Info = GetAppVer()
 
     async def Run(self):
-        if (Options.get('info')):
+        if (App.Options.get('info')):
             List = [f'{Key:10} {Val}' for Key, Val in self.Info.items()]
             print('\n'.join(List))
             return
@@ -23,16 +23,16 @@ class TTask():
         Log.Print(1, 'i', 'Run() %s' % (self.Info['app_name']))
 
         TimeStart = time.time()
-        Plugins = ConfTask.get('plugins', '')
-        Plugin.LoadList(Plugins)
-
         try:
-            await Plugin.Run()
+            App.LoadPlugins()
+            await App.Plugin.Run()
         except KeyboardInterrupt as E:
             Log.Print(1, 'x', 'TTask.Run()', aE = E)
         except Exception as E:
             Log.Print(1, 'x', 'TTask.Run()', aE = E)
             raise E
         finally:
-            await Plugin.StopAll()
+            await App.Plugin.StopAll()
             Log.Print(1, 'i', 'End. Time %0.2f' % (time.time() - TimeStart))
+
+App = TApp()

@@ -93,18 +93,19 @@ def GetDictDefDeep(aData: dict, aKeys: list, aDef: list) -> list:
         Res = aDef
     return Res
 
-def DictUpdate(aMaster: dict, aSlave: dict):
+def DictUpdate(aMaster: dict, aSlave: dict, aOverwrite: bool = True):
     if (not aMaster):
         aMaster.update(aSlave)
     elif (aSlave):
         for Key, Val in aSlave.items():
             if (Key in aMaster):
-                if (isinstance(Val, dict)):
-                    aMaster[Key].update(Val)
-                elif (isinstance(Val, list)):
-                    aMaster[Key].extend(Val)
-                else:
-                    aMaster[Key] = Val
+                if (aOverwrite):
+                    if (isinstance(Val, dict)):
+                        aMaster[Key].update(Val)
+                    elif (isinstance(Val, list)):
+                        aMaster[Key].extend(Val)
+                    else:
+                        aMaster[Key] = Val
             else:
                 aMaster[Key] = Val
 
