@@ -41,6 +41,7 @@ def _InitLog():
 
     EchoFileEx = TEchoFileEx(FileLog)
     EchoFileEx.Level = Options.get('log_level', 1)
+    EchoFileEx.MsgUniq = Options.get('log_uniq', False)
     Log.AddEcho(EchoFileEx)
     print(f'Log file {FileLog}')
 
