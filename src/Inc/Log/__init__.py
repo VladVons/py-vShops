@@ -3,4 +3,5 @@
 # License: GNU, see LICENSE for more details
 
 
-from .Log import TLog, TEcho
+from .Echo import TEcho
+from .Log import TLog
