@@ -4,7 +4,7 @@ import sys
 from Inc.Misc.FS import DirWalk
 from Inc.Misc.Time import SecondsToDHMS
 from Inc.Util.ModHelp import GetHelp
-from IncP import GetInfo
+from IncP import GetAppVer
 
 
 async def Api(_self, aPath: str) -> dict:
@@ -20,7 +20,7 @@ async def Api(_self, aPath: str) -> dict:
     return Res
 
 async def GetSysInfo(_self) -> dict:
-    return GetInfo()
+    return GetAppVer()
 
 async def GetDbInfo(self) -> dict:
     Dbl1 = await self.DbMeta.Db.GetDbVersion()

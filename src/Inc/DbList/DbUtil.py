@@ -10,7 +10,7 @@ from openpyxl import Workbook
 from openpyxl.utils import get_column_letter
 from openpyxl.styles import Font
 #
-from Inc.Util.Dict import DeepGetByList
+from Inc.Var.Dict import DeepGetByList
 from .DbList import TDbList
 
 

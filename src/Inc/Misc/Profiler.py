@@ -8,13 +8,10 @@
 #
 
 
-import os
-import sys
 import time
 import cProfile
-import inspect
 #
-from .Log import GetStackChain
+from Inc.Log.EchoStack import GetStackChain
 
 
 class _TTimer():

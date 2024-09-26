@@ -6,8 +6,8 @@
 import asyncio
 #
 from Inc.KbdTerm  import TKbdTerm
-from Inc.Util.Arr import SortLD
-from Inc.Util.Obj import GetTree
+from Inc.Var.Arr import SortLD
+from Inc.Var.Obj import GetTree
 
 
 class TMenu():

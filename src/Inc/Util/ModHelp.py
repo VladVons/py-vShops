@@ -5,7 +5,7 @@
 
 import re
 #
-from Inc.Util.Types import IsClass, IsFunc, IsFuncA
+from Inc.Var.Types import IsClass, IsFunc, IsFuncA
 
 
 def GetHelp(aMod: object) -> dict:

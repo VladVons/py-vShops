@@ -3,7 +3,7 @@
 # License: GNU, see LICENSE for more details
 
 
-from Inc.Util.Dict import DeepGetByList
+from Inc.Var.Dict import DeepGetByList
 from IncP.FormBase import TFormBase
 
 

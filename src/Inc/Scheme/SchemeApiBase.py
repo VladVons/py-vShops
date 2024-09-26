@@ -7,7 +7,7 @@ import re
 import json
 import operator
 #
-from Inc.Util.Dict import DeepGet
+from Inc.Var.Dict import DeepGet
 
 
 StrWhiteSpaces = ' \t\n\r\v\f\xA0✓→'

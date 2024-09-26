@@ -5,7 +5,7 @@
 
 from Inc.DbList import TDbList, TDbRec
 from Inc.Misc.Sitemap import TSitemap
-from Inc.Util.Dict import DeepGetByList
+from Inc.Var.Dict import DeepGetByList
 from IncP.FormBase import TFormBase
 
 

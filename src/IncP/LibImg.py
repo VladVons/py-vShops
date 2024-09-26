@@ -8,5 +8,5 @@ from Inc.DbList import TDbList, TDbRec
 from Inc.Misc.Request import TDownload
 from Inc.Misc.RequestImage import TDownloadImage
 from Inc.Misc.Image import TImage
-from Inc.Util.Dict import DeepGetByList, GetDictDef, GetDictDefs
+from Inc.Var.Dict import DeepGetByList, GetDictDef, GetDictDefs
 from .Log import Log

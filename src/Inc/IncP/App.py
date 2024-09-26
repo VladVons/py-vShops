@@ -10,8 +10,8 @@ import argparse
 from Inc.Conf import TConf
 from Inc.ConfJson import TConfJson
 from Inc.PluginTask import TPluginTask
-from Inc.Misc.Log import TEchoConsoleEx, TEchoFileEx
-from Inc.Util.Dict import DictUpdate
+from Inc.Log.EchoStack import TEchoConsoleStack, TEchoFileStack
+from Inc.Var.Dict import DictUpdate
 from IncP.Log import Log
 from IncP import GetAppVer
 
@@ -56,14 +56,14 @@ class TApp():
         if (not os.path.exists(FileLog)) or (not os.access(FileLog, os.W_OK)):
             FileLog = sys.argv[0].removesuffix('.py') + '.log'
 
-        EchoFileEx = TEchoFileEx(FileLog)
+        EchoFileEx = TEchoFileStack(FileLog)
         EchoFileEx.Level = self.Options.get('log_level', 1)
         EchoFileEx.MsgUniq = self.Options.get('log_uniq', False)
 
         Log.AddEcho(EchoFileEx)
         print(f'Log file {FileLog}')
 
-        Log.AddEcho(TEchoConsoleEx())
+        Log.AddEcho(TEchoConsoleStack())
 
     def LoadClassConf(self, aClass: object) -> dict:
         File = f'{self.DirConf}/{aClass.__module__}.json'

@@ -4,7 +4,7 @@
 
 
 import re
-from Inc.Util.Dict import DeepGet, DeepSetByList
+from Inc.Var.Dict import DeepGet, DeepSetByList
 
 
 class TIniFile():

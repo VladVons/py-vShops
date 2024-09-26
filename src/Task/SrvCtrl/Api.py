@@ -5,7 +5,7 @@
 
 from Inc.Loader.Lang import TLoaderLangFs
 #from Inc.Misc.Cache import TCacheMem
-from Inc.Util.Dict import DeepGetByList, DictUpdate
+from Inc.Var.Dict import DeepGetByList, DictUpdate
 from IncP.ApiBase import TApiBase
 from IncP.Plugins import TCtrls
 import IncP.LibCtrl as Lib

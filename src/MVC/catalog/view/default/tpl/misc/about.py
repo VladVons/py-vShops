@@ -4,7 +4,7 @@
 #
 
 from IncP.FormBase import TFormBase
-from Inc.Util.Obj import GetTree
+from Inc.Var.Obj import GetTree
 
 
 class TForm(TFormBase):

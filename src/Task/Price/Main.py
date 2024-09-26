@@ -3,13 +3,13 @@
 # License: GNU, see LICENSE for more details
 
 
-from Inc.Util.Dict import DeepSet
+from Inc.Var.Dict import DeepSet
 from Inc.PluginApp import TPluginApp
-from Task import Options
+from Task.Main import App
 
 class TPrice():
     async def Run(self, aParam: dict = None):
-        Dir = f'Conf/{Options.conf}/{aParam["conf_name"]}'
+        Dir = f'Conf/{App.Options.conf}/{aParam["conf_name"]}'
         Plugin = TPluginApp(Dir)
         Plugin.Init('Task.Price')
         for x in aParam.get('conf'):

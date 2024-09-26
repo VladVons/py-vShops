@@ -11,7 +11,7 @@ from aiohttp_session import get_session
 from Inc.DataClass import DDataClass
 from Inc.Misc.Cache import TCacheFile
 from Inc.Misc.Jinja import TTemplate
-from Inc.Util.Dict import GetDictDef
+from Inc.Var.Dict import GetDictDef
 from Inc.SrvWeb.DDos import TIpLog
 from IncP.ApiBase import TApiBase
 from IncP.FormBase import TFormBase

@@ -3,10 +3,7 @@
 # License: GNU, see LICENSE for more details
 
 
-try:
-    import asyncio
-except ModuleNotFoundError:
-    import uasyncio as asyncio
+import asyncio
 #
 from IncP.Log  import Log
 from Inc.Util import FS

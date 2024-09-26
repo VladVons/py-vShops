@@ -3,7 +3,7 @@
 # License: GNU, see LICENSE for more details
 
 
-from Inc.Util.Mod import DAddModules, DAddFiles
+from Inc.Util.Mod import DAddFiles
 from IncP.CtrlBase import TCtrlBase
 from . import Api
 

@@ -4,8 +4,8 @@
 
 
 # pylint: skip-file
-from Inc.Util.Dict import DeepGet, DeepGetByList
-from Inc.Util.Obj import GetTree
+from Inc.Var.Dict import DeepGet, DeepGetByList
+from Inc.Var.Obj import GetTree
 from .FormBase import TFormBase
 from .Log import Log
 from . import GetInfo

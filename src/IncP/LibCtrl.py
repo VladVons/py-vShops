@@ -14,10 +14,10 @@ from Inc.Misc.RequestImage import TDownloadImage
 from Inc.Misc.Telegram import TTelegram
 from Inc.Misc.Template import TDictRepl
 from Inc.SrvWeb.Common import UrlEncode, UrlUdate
-from Inc.Util.Dict import DeepGet, DeepGetByList, GetDictDef, GetDictDefs, Filter
-from Inc.Util.DictEx import DeepGetsRe
-from Inc.Util.Obj import Iif, IsDigits
-from Inc.Util.Str import Replace
+from Inc.Var.Dict import DeepGet, DeepGetByList, GetDictDef, GetDictDefs, Filter
+from Inc.Var.DictEx import DeepGetsRe
+from Inc.Var.Obj import Iif, IsDigits
+from Inc.Var.Str import Replace
 from .Log import Log
 
 

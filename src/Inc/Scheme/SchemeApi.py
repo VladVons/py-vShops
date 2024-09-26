@@ -8,7 +8,7 @@ import re
 from bs4 import BeautifulSoup
 #
 from Inc.Util.ModHelp import GetClass
-from Inc.Util.Obj import Iif
+from Inc.Var.Obj import Iif
 from Inc.Misc.Misc import FilterMatch
 from .Utils import DigSplit, TInStock, SoupGetParentsObj
 from .SchemeApiBase import TSchemeApiBase

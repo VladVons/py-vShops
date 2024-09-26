@@ -24,7 +24,7 @@
 
 
 from playwright.async_api import async_playwright
-from Inc.Util.Obj import Iif
+from Inc.Var.Obj import Iif
 
 
 async def UrlGetData(aUrl: str) -> str:

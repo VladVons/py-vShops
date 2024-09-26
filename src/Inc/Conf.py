@@ -6,8 +6,8 @@
 import sys
 import json
 #
+from Inc.Var.DictDef import TDictDef
 from .Util.FS import FileExists
-from .DictDef import TDictDef
 
 
 def ImportMod(aFile: str, aMod: list = None):

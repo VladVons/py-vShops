@@ -7,7 +7,8 @@
 
 import json
 #
-from Inc.Util import FS, Str
+from Inc.Util import FS
+from Inc.Var import Str
 
 
 def QueryToDict(aQuery: str) -> dict:

@@ -7,8 +7,8 @@ import time
 #
 from Inc.ConfJson import TConfJson
 from Inc.Util.Mod import DynImport
-from Inc.Util.Dict import DeepGetByList
-from Inc.Util.DictEx import DictUpdateDeep
+from Inc.Var.Dict import DeepGetByList
+from Inc.Var.DictEx import DictUpdateDeep
 from IncP.Log import Log
 
 

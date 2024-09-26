@@ -9,9 +9,9 @@ import json
 import re
 from urllib.parse import urlparse
 #
-from Inc.Util.Dict import DeepGetByList
 from Inc.Misc.Misc import FilterKeyErr
 from Inc.Misc.Python import TPython
+from Inc.Var.Dict import DeepGetByList
 from .Parser import TSchemeBase, TRes
 from .SchemeApi import TSchemeApi
 from .Utils import SoupGetParents

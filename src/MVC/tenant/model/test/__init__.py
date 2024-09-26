@@ -3,7 +3,7 @@
 # License: GNU, see LICENSE for more details
 
 
-from Inc.Util.Mod import DAddModules, DAddFiles
+from Inc.Util.Mod import DAddModules
 from Inc.Sql.DbModel import TDbModel
 from . import Api
 

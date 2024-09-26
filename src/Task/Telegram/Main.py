@@ -7,8 +7,9 @@ from aiogram import Bot, Dispatcher, types
 from aiogram.filters.command import Command
 #
 from Inc.DataClass import DDataClass
-from Inc.Util.Obj import GetTree
-from IncP import GetSysInfo, DictToText
+from Inc.Var.Obj import GetTree
+from Inc.Var.Dict import DictToText
+from Inc.Misc.Info import GetSysInfo
 from IncP.Log import Log
 from Task.SrvCtrl import ApiCtrl
 

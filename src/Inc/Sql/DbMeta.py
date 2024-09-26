@@ -3,7 +3,7 @@
 # License: GNU, see LICENSE for more details
 
 
-from Inc.Util.Dict import DeepSetByList, DeepGet
+from Inc.Var.Dict import DeepSetByList, DeepGet
 from Inc.DbList import TDbSql
 from .ADb import TDbExecCursor
 from .DbPg import TDbPg

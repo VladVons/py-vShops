@@ -12,9 +12,9 @@ from Inc.ParserX.Common import TFileBase
 from Inc.ParserX.CommonSql import TSqlBase, DASplit, DASplitDbl, TLogEx
 from Inc.Sql.ADb import TDbExecPool, ListIntToComma, ListToComma
 from Inc.Sql.DbPg import TDbPg
-from Inc.Util.Dict import DeepGetByList
-from Inc.Util.Str import ToHashW
-from Inc.Util.Num import RoundNear
+from Inc.Var.Dict import DeepGetByList
+from Inc.Var.Str import ToHashW
+from Inc.Var.Num import RoundNear
 from IncP.Log import Log
 from ..CommonDb import TDbCategory, TDbProductEx, GetNullStr
 

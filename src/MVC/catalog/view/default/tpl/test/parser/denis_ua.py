@@ -6,7 +6,7 @@
 from base64 import b64decode
 from aiohttp import web
 #
-from Inc.Util.Dict import DeepGetByList
+from Inc.Var.Dict import DeepGetByList
 from IncP.FormBase import TFormBase
 
 

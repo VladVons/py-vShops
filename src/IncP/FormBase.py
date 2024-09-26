@@ -10,11 +10,11 @@ from aiohttp.web_request import FileField
 from aiohttp_session import Session, get_session
 #
 from Inc.DbList import TDbList
-from Inc.DictDef import TDictDef
 from Inc.Loader.Api import TLoaderApi
 from Inc.Misc.Jinja import TTemplate
 from Inc.Misc.GeoIp import TGeoIp
-from Inc.Util.Dict import DeepGetByList
+from Inc.Var.Dict import DeepGetByList
+from Inc.Var.DictDef import TDictDef
 from Inc.SrvWeb.Common import ParseUserAgent
 from IncP import GetAppVer
 
