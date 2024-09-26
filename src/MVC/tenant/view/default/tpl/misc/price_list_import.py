@@ -7,7 +7,7 @@ from Inc.Var.Dict import DeepGetByList
 from IncP.FormBase import TFormBase
 from Task.Price.Main import TPrice
 #from Task.Queue.Main import TCall
-#from Task.Main import App
+#from Task import App
 
 
 class TForm(TFormBase):

@@ -5,7 +5,8 @@
 
 from Inc.Var.Dict import DeepSet
 from Inc.PluginApp import TPluginApp
-from Task.Main import App
+from Task import App
+
 
 class TPrice():
     async def Run(self, aParam: dict = None):

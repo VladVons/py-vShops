@@ -5,13 +5,17 @@
 
 import os
 import sys
+import time
+import asyncio
 import argparse
 #
 from Inc.Conf import TConf
 from Inc.ConfJson import TConfJson
-from Inc.PluginTask import TPluginTask
 from Inc.Log.EchoStack import TEchoConsoleStack, TEchoFileStack
-from Inc.Var.Dict import DictUpdate
+from Inc.Misc.Process import CheckSelfRunning
+from Inc.Misc.Info import GetSysInfo
+from Inc.PluginTask import TPluginTask
+from Inc.Var.Dict import DictUpdate, DictToText, Filter
 from IncP.Log import Log
 from IncP import GetAppVer
 
@@ -77,3 +81,39 @@ class TApp():
 
         self.Plugin = TPluginTask('Task', self.DirConf)
         self.Plugin.LoadList(Plugins)
+
+    async def _RunPlugins(self):
+        TimeStart = time.time()
+        try:
+            self.LoadPlugins()
+            await self.Plugin.Run()
+        except KeyboardInterrupt as E:
+            Log.Print(1, 'x', 'TTask.Run()', aE = E)
+        except Exception as E:
+            Log.Print(1, 'x', 'TTask.Run()', aE = E)
+            raise E
+        finally:
+            await self.Plugin.StopAll()
+            Log.Print(1, 'i', 'End. Time %0.2f' % (time.time() - TimeStart))
+
+    def Run(self):
+        Log.Print(1, 'i', '')
+
+        AppVer = DictToText(GetAppVer(), '; ')
+        Log.Print(1, 'i', f'{AppVer}')
+
+        SysInfo = GetSysInfo()
+        Data = DictToText(Filter(SysInfo, ['os', 'python', 'user', 'uptime']), '; ')
+        Log.Print(1, 'i', f'{Data}')
+
+        PyNeed = (3, 10, 0)
+        if (SysInfo['python'] >= PyNeed):
+            if (self.Options.get('one_instance') and CheckSelfRunning()):
+                Log.Print(1, 'i', 'Application is already running')
+            elif (self.Options.get('info')):
+                print(DictToText(AppVer, '\n'))
+            else:
+                asyncio.run(self._RunPlugins())
+        else:
+            print(f'Need python >= {PyNeed}')
+        Log.Print(1, 'i', 'Quit')

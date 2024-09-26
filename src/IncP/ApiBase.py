@@ -6,7 +6,7 @@
 from Inc.Loader.Api import TLoaderApiFs, TLoaderApiHttp
 from Inc.Plugin import TPlugin
 from Inc.Util.ModHelp import GetHelp, GetMethod
-from Task.Main import App
+from Task import App
 
 
 class TApiBase():
