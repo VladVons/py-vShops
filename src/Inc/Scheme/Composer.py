@@ -21,12 +21,40 @@ class TComposer():
         if (aCheck):
             self.Macros.update(aData)
 
-    def _TableFeatures(self):
-        Data = self.Soup.find('table', class_=re.compile(r'(features|attributes)'))
-        if (Data):
-            Attr = Data.attrs
-            Tr = []
-            for Row in Data.find_all('tr'):
+    def _TryImages(self):
+        Pattern = r'(gallery-thumbs)'
+        Root = self.Soup.find_all('div', class_=re.compile(Pattern))
+        if (not Root):
+            return
+
+        Res = []
+        for xRoot in Root:
+            for xA in xRoot.find_all('a'):
+                Val = xA.get('href')
+                if (Val) and ('jpg' in Val):
+                    Res.append(Val)
+
+        if (Res):
+            self.Macros['images'] = Res
+
+    def _TryTableFeatures(self):
+        def _FindBigTable():
+            Max = [0, 0]
+            for Idx, xTable in enumerate(Tables):
+                FTr = xTable.find_all('tr')
+                Len = len(FTr)
+                if (Len >= Max[1]):
+                    Max = [Idx, Len]
+            return Max[0]
+
+        Pattern = r'(features|product-feature|product-info|product-attributes)'
+        Tables = self.Soup.find_all('table', class_=re.compile(Pattern))
+        if (not Tables):
+            return
+
+        Tr = []
+        for xTable in Tables:
+            for Row in xTable.find_all('tr'):
                 ResTag = []
                 Td = Row.find_all(['th', 'td'])
                 for xTd in Td:
@@ -34,11 +62,11 @@ class TComposer():
                     ResTag.append(Text)
                 Tr.append(ResTag)
 
-            Res = {}
-            for xTr in Tr:
-                if (len(xTr) == 2):
-                    Res[xTr[0]] = xTr[1]
-            self.Macros['features'] = Res
+        Res = {}
+        for xTr in Tr:
+            if (len(xTr) == 2):
+                Res[xTr[0]] = xTr[1]
+        self.Macros['features'] = Res
 
     def _JBreadcrumbList(self, aData):
         Res = []
@@ -208,7 +236,12 @@ class TComposer():
         self._ITBreadcrumbList()
 
     def _TryFind(self):
-        self._TableFeatures()
+        if ('features' not in self.Macros):
+            self._TryTableFeatures()
+
+        Images = self.Macros.get('images', [])
+        if (len(Images) < 2):
+            self._TryImages()
 
     def Parse(self):
         self._AppLdJson()
