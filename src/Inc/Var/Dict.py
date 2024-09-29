@@ -53,6 +53,9 @@ def GetNotNone(aData: dict, aKey: str, aDef: object) -> object:
 def Filter(aData: dict, aKeys: list) -> dict:
     return {Key: aData[Key] for Key in aKeys }
 
+def FilterNotNone(aData: dict) -> dict:
+    return {Key: Val for Key, Val in aData.items() if (Val is not None)}
+
 def GetDict(aData: dict, aKeys: list, aStrict: bool = False) -> list:
     if (aStrict):
         Res = [aData[x] for x in aKeys]

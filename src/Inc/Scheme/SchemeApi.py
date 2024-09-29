@@ -12,7 +12,8 @@ from Inc.Var.Obj import Iif
 from Inc.Misc.Misc import FilterMatch
 from .Utils import DigSplit, TInStock, SoupGetParentsObj
 from .SchemeApiBase import TSchemeApiBase
-
+from .ProductItemProp import TProductItemProp
+from .ProductLdJson import TProductLdJson
 
 InStock = TInStock()
 
@@ -20,6 +21,18 @@ InStock = TInStock()
 class TSchemeExt():
     def __init__(self, aParent):
         self.Parent = aParent
+
+    def product_itemprop(self, aVal: BeautifulSoup) -> dict:
+        Product = TProductItemProp(aVal)
+        if (Product.Soup):
+            self.Parent.Var['$product_itemprop_root'] = Product.Soup
+        return Product.Parse()
+
+    def product_ldjson(self, aVal: BeautifulSoup) -> dict:
+        Product = TProductLdJson(aVal)
+        if (Product.Soup):
+            self.Parent.Var['$product_ldjson_root'] = Product.Soup
+        return Product.Parse()
 
     def list_map(self, aVal: list, *aItems: list) -> list:
         '''

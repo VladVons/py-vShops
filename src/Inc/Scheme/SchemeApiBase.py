@@ -492,15 +492,26 @@ class TSchemeApiBase():
         return Res
 
     @staticmethod
-    def dict_key_del(aVal: dict, aKeys: list) -> dict:
+    def dict_keydel(aVal: dict, *aKeys: list) -> dict:
         '''
         delete key from dict
-        ["keydel", [["name", "descr"]]]
+        ["dict_keydel", ["name", "descr"]]
         '''
 
         for Key in aKeys:
             if Key in aVal:
                 del aVal[Key]
+        return aVal
+
+    @staticmethod
+    def dict_keyren(aVal: dict, *aPairs: list) -> dict:
+        '''
+        delete key from dict
+        ["dict_keyren", [["old1", "new1"], ["old2", "new2]]
+        '''
+
+        for Old, New in aPairs:
+            aVal[New] = aVal.pop(Old)
         return aVal
 
     @staticmethod
