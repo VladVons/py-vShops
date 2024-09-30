@@ -8,6 +8,7 @@ import json
 import operator
 #
 from Inc.Var.Dict import DeepGet
+from Inc.Var.Obj import Iif
 
 
 StrWhiteSpaces = ' \t\n\r\v\f\xA0✓→'
@@ -198,7 +199,7 @@ class TSchemeApiBase():
         ["val2bool"]
         '''
 
-        return (aVal is not None)
+        return Iif(aVal, True, False)
 
     @staticmethod
     def val_return(_aVal: object, aValRet: object) -> object:

@@ -3,10 +3,10 @@
 # License: GNU, see LICENSE for more details
 
 
-import json
 from bs4 import BeautifulSoup
 #
 from Inc.Var.Dict import DeepGetByList, FilterNotNone
+from .Utils import GetLdJson
 
 
 class TProductLdJson():
@@ -33,7 +33,7 @@ class TProductLdJson():
         Res = {}
         if (self.Soup):
             for xSoup in self.Soup:
-                Data = json.loads(xSoup.string)
+                Data = GetLdJson(xSoup)
                 if (isinstance(Data, dict)):
                     if ('@type' in Data):
                         AtType(Data)
@@ -86,7 +86,9 @@ class TProductLdJson():
             Res['brand'] = Val
 
         if ('mpn' in aData):
-            Res['mpn'] = aData['mpn']
+            Val = aData['mpn']
+            if (Val):
+                Res['mpn'] = Val
 
         if ('image' in aData):
             Data = aData['image']

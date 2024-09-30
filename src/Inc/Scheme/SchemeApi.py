@@ -3,19 +3,19 @@
 # License: GNU, see LICENSE for more details
 
 
-import json
 import re
 from bs4 import BeautifulSoup
 #
 from Inc.Util.ModHelp import GetClass
 from Inc.Var.Obj import Iif
 from Inc.Misc.Misc import FilterMatch
-from .Utils import DigSplit, TInStock, SoupGetParentsObj
+from .Utils import DigSplit, TInStock, SoupGetParentsObj, GetLdJson
 from .SchemeApiBase import TSchemeApiBase
 from .ProductItemProp import TProductItemProp
 from .ProductLdJson import TProductLdJson
 
 InStock = TInStock()
+
 
 
 class TSchemeExt():
@@ -243,16 +243,7 @@ class TSchemeApi(TSchemeApiBase):
         Res = {}
         Scripts = aVal.find_all('script', type='application/ld+json')
         for xScript in Scripts:
-            Data: str = xScript.text.strip()
-
-            # check for extra closes brace
-            OpenBraces = Data.count('{')
-            CloseBraces = Data.count('}')
-            if (CloseBraces > OpenBraces):
-                LastBrace = Data.rfind('}')
-                Data = Data[:LastBrace]
-
-            Data = json.loads(Data, strict=False)
+            Data = GetLdJson(xScript)
             if (isinstance(Data, list)):
                 Data = Data[0]
 

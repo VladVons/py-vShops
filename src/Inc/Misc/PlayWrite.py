@@ -28,21 +28,13 @@ from Inc.Var.Obj import Iif
 
 
 async def UrlGetData(aUrl: str) -> str:
-    Response = None
-    async def ResponseHandler(response_obj):
-        nonlocal Response
-        if (response_obj.url == aUrl):
-            Response = response_obj
-
     async with async_playwright() as PW:
         Browser = await PW.chromium.launch(headless=True)
         Page = await Browser.new_page()
-        Page.on('response', ResponseHandler)
-        await Page.goto(aUrl)
+        #Page.set_default_timeout(5000)
+        #Page.set_default_navigation_timeout(5000)
 
-        # Wait for the page to load completely
-        await Page.wait_for_load_state('networkidle')
-
+        Response = await Page.goto(aUrl, wait_until="domcontentloaded", timeout=5000)
         Content = await Page.content()
         await Browser.close()
         return {

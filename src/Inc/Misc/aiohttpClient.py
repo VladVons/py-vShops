@@ -4,11 +4,21 @@
 
 
 import time
+import asyncio
+import requests
 import aiohttp
 
 
 def DictToCookie(aDict) -> str:
     return '; '.join([f'{Key}={Val}' for Key, Val in aDict.items()])
+
+def UrlGetDataSync(aUrl: str, aHeaders: dict = None) -> dict:
+    Response = requests.get(aUrl, timeout=3, headers=aHeaders)
+    if (Response.status_code == 200):
+        Res = {'status': Response.status_code, 'data': Response.content}
+    else:
+        Res = {'status': Response.status_code}
+    return Res
 
 async def UrlGetData(aUrl: str, aLogin: str = None, aPassword: str = None, aHeaders: dict = None):
     Auth = None
@@ -34,7 +44,10 @@ async def UrlGetData(aUrl: str, aLogin: str = None, aPassword: str = None, aHead
                     Data = await Response.read()
                     Res = {'status': Response.status, 'data': Data}
                 else:
-                    Res = {'status': Response.status}
+                    # todo https://nosta.com.ua
+                    await asyncio.sleep(1)
+                    TimeAt = time.time()
+                    Res = UrlGetDataSync(aUrl, Headers)
     except Exception as E:
         Res = {'err': str(E), 'status': -1}
 

@@ -4,10 +4,12 @@
 
 
 import re
+import json
 from bs4 import BeautifulSoup
 
 
-StrWhiteSpaces = ' \t\n\r\v\f\xA0✓→'
+StrWhiteSpacesEx = '\v\f\xA0✓→'
+StrWhiteSpaces = ' \t\n\r' + StrWhiteSpacesEx
 StrDigits = '0123456789'
 StrDigitsDot = StrDigits + '.'
 StrDigitsDotComma = StrDigits + '.,'
@@ -145,3 +147,25 @@ def SoupFindParents(aSoup: BeautifulSoup, aSearch: str) -> list:
     #Items = aSoup.findAll(string=aSearch)
     Items = aSoup.findAll(string=re.compile(aSearch))
     return SoupGetParents(aSoup, Items)
+
+def GetLdJson(aSoup: BeautifulSoup) -> dict:
+    Data: str = aSoup.text.strip()
+
+    try:
+        Res = json.loads(Data, strict=False)
+    except json.JSONDecodeError:
+        Data = re.sub(r'\\(?!")', ' ', Data)
+
+        # Replace = ' ' * len(StrWhiteSpacesEx)
+        # Trans = str.maketrans(StrWhiteSpacesEx, Replace)
+        # Data = Data.translate(Trans)
+
+        # check for extra closes brace
+        OpenBraces = Data.count('{')
+        CloseBraces = Data.count('}')
+        if (CloseBraces > OpenBraces):
+            LastBrace = Data.rfind('}')
+            Data = Data[:LastBrace]
+
+        Res = json.loads(Data, strict=False)
+    return Res
