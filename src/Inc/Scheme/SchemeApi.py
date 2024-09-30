@@ -45,8 +45,8 @@ class TSchemeExt():
         '''
 
         Res = []
-        for x in aVal:
-            Data = self.Parent.ParsePipes(x, aItems, 'list_map')
+        for xVal in aVal:
+            Data = self.Parent.ParsePipes(xVal, aItems, 'list_map')
             if (Data is not None):
                 Res.append(Data)
         return Res
@@ -131,13 +131,14 @@ class TSchemeApi(TSchemeApiBase):
         return aVal.get_text(strip=True, separator=aDelim)
 
     @staticmethod
-    def _text(aVal: BeautifulSoup) -> str:
+    def text_sls(aVal: BeautifulSoup, *aStr: list) -> str:
         '''
-        equal to text + strip
-        ["text"]
+        equal to text + strip + lower + search_eq
+        ["text_sls", ["до кошика", "в наявності"]]
         '''
 
-        return TSchemeApi.strip(aVal.get_text())
+        Val = aVal.text.strip().lower()
+        return Val in aStr
 
     @staticmethod
     def price(aVal: str) -> list:
@@ -346,9 +347,9 @@ class TSchemeApi(TSchemeApiBase):
         '''
 
         Res = []
-        for Row in aVal.find_all('tr'):
+        for xTr in aVal.find_all('tr'):
             ResTag = []
-            Td = Iif(aHeader, Row.find_all('th'), []) + Row.find_all('td')
+            Td = Iif(aHeader, xTr.find_all('th'), []) + xTr.find_all('td')
             for xTd in Td:
                 Text = xTd.text.strip()
                 ResTag.append(Text)
@@ -394,8 +395,8 @@ class TSchemeApi(TSchemeApiBase):
         ["replace_br", ["\n"]]
         '''
 
-        for br in aVal.find_all('br'):
-            br.replace_with(aNew)
+        for xBr in aVal.find_all('br'):
+            xBr.replace_with(aNew)
         return aVal
 
 

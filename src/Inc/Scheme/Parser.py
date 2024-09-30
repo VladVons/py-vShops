@@ -99,7 +99,7 @@ class TSchemeBase():
 
     def _ParsePipeDef(self, aObj, aItem: list, aPath: str) -> object:
         aObj = getattr(aObj, aItem[0], None)
-        if (aObj):
+        if (aObj is not None):
             ParamCnt = len(aItem)
             if (ParamCnt >= 2):
                 try:

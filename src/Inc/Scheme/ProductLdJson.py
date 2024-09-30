@@ -80,7 +80,10 @@ class TProductLdJson():
             Res['name'] = aData['name']
 
         if ('brand' in aData):
-            Res['brand'] = DeepGetByList(aData, ['brand', 'name'])
+            Val = aData.get('brand')
+            if (not Val):
+                Val = DeepGetByList(aData, ['brand', 'name'])
+            Res['brand'] = Val
 
         if ('mpn' in aData):
             Res['mpn'] = aData['mpn']

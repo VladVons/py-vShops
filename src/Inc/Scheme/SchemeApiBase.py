@@ -216,9 +216,9 @@ class TSchemeApiBase():
         ["not_none"]
         '''
 
-        for x in aVal:
-            if (x is not None):
-                return x
+        for xVal in aVal:
+            if (xVal is not None):
+                return xVal
 
     @staticmethod
     def search(aVal: str, *aStr: list) -> bool:
@@ -283,9 +283,9 @@ class TSchemeApiBase():
         '''
 
         Arr = []
-        for x in aVal:
-            if ('0' <= x <= '9'):
-                Arr.append(x)
+        for xVal in aVal:
+            if ('0' <= xVal <= '9'):
+                Arr.append(xVal)
         return ''.join(Arr)
 
     @staticmethod
@@ -296,9 +296,9 @@ class TSchemeApiBase():
         '''
 
         Res = ''
-        for x in aVal:
-            if ('0' <= x <= '9') or ('a' <= x <= 'z') or ('A' <= x <= 'Z') or (x in '.-/'):
-                Res += x
+        for xVal in aVal:
+            if ('0' <= xVal <= '9') or ('a' <= xVal <= 'z') or ('A' <= xVal <= 'Z') or (xVal in '.-/'):
+                Res += xVal
         return Res
 
     @staticmethod
