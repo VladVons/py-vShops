@@ -9,6 +9,7 @@ import operator
 #
 from Inc.Var.Dict import DeepGet
 from Inc.Var.Obj import Iif
+from Inc.Util.Sys import IsDebug
 
 
 StrWhiteSpaces = ' \t\n\r\v\f\xA0✓→'
@@ -468,6 +469,13 @@ class TSchemeApiBase():
         else:
             Res = aStr + aVal
         return Res
+
+    @staticmethod
+    def debug(aVal: object) -> object:
+        if (IsDebug()):
+            #pylint: disable-next=forgotten-debug-statement
+            breakpoint()
+        return aVal
 
     @staticmethod
     def show(aVal: object) -> object:

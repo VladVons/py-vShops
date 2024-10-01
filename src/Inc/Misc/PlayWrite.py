@@ -34,7 +34,8 @@ async def UrlGetData(aUrl: str) -> str:
         #Page.set_default_timeout(5000)
         #Page.set_default_navigation_timeout(5000)
 
-        Response = await Page.goto(aUrl, wait_until="domcontentloaded", timeout=5000)
+        Response = await Page.goto(aUrl, wait_until="load", timeout=5000)
+        #Response = await Page.goto(aUrl, wait_until="domcontentloaded", timeout=5000)
         Content = await Page.content()
         await Browser.close()
         return {
