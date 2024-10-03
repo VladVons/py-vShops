@@ -87,33 +87,38 @@ class TSchemeBase():
     def _CallPipe(self, aObj, aItem: list, aPath: str, aClass: object) -> object:
         Obj = getattr(aClass, aItem[0])
         Param = [aObj]
-        if (len(aItem) == 2):
-            Param += aItem[1]
-
         try:
-            aObj = Obj(*Param)
+            match len(aItem):
+                case 1:
+                    aObj = Obj(*Param)
+                case 2:
+                    Param += aItem[1]
+                    aObj = Obj(*Param)
+                case 3:
+                    Param += aItem[1]
+                    aObj = Obj(*Param, **aItem[2])
         except Exception as E:
             self.Err.append('%s->%s %s (exception)' % (aPath, aItem, E))
             aObj = None
         return aObj
 
-    def _ParsePipeDef(self, aObj, aItem: list, aPath: str) -> object:
+    def _ParsePipeNative(self, aObj, aItem: list, aPath: str) -> object:
         aObj = getattr(aObj, aItem[0], None)
         if (aObj is not None):
-            ParamCnt = len(aItem)
-            if (ParamCnt >= 2):
-                try:
-                    Param1 = aItem[1]
+            try:
+                ParamCnt = len(aItem)
+                if (ParamCnt >= 2):
+                    Param = aItem[1]
                     if (ParamCnt == 2):
-                        aObj = aObj(*Param1)
+                        aObj = aObj(*Param)
                     elif (ParamCnt == 3):
-                        if (Param1):
-                            aObj = aObj(*Param1, **aItem[2])
+                        if (Param):
+                            aObj = aObj(*Param, **aItem[2])
                         else:
                             aObj = aObj(**aItem[2])
-                except Exception as E:
-                    self.Err.append('%s->%s %s (exception)' % (aPath, aItem, E))
-                    return
+            except Exception as E:
+                self.Err.append('%s->%s %s (exception)' % (aPath, aItem, E))
+                aObj = None
         else:
             self.Err.append('%s->%s (unknown)' % (aPath, aItem))
             aObj = None

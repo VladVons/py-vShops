@@ -6,7 +6,7 @@
 import re
 from bs4 import BeautifulSoup
 #
-from Inc.Var.Dict import DictUpdate
+from Inc.Var.Dict import DictUpdate, SetNotNone
 from .ProductItemProp import TProductItemProp
 from .ProductLdJson import TProductLdJson
 
@@ -58,11 +58,21 @@ class TProduct():
                     Res[xTr[0]] = xTr[1]
             return {'features': Res}
 
-    def _TryDivFeatures(self, aSoup):
+    def _TryDivFeatures(self, aSoup) -> dict:
         Pattern = r'(features)'
         Divs = aSoup.find_all('div', class_=re.compile(Pattern)) + aSoup.find_all('div', id=re.compile(Pattern))
         if (not Divs):
             return
+
+    def _GetImage(self) -> str:
+        Head = self.Soup.find('head')
+        if (Head):
+            Soup = Head.find('meta', property='og:image')
+            if (not Soup):
+                Soup = Head.find('meta', name='og:image')
+
+            if (Soup):
+                return Soup.get('content')
 
     def Parse(self):
         Res = TProductLdJson(self.Soup).Parse()
@@ -75,10 +85,10 @@ class TProduct():
             Images = Res.get('images', [])
             if (len(Images) < 2):
                 R = self._TryImages(ItemProp.Soup)
+                SetNotNone(Res, 'images',  R)
 
-            if ('features' not in Res):
-                self._TryTableFeatures(ItemProp.Soup)
-                if ('features' not in Res):
-                    self._TryDivFeatures(ItemProp.Soup)
+        if ('image' not in Res):
+            R = self._GetImage()
+            SetNotNone(Res, 'image',  R)
 
         return Res

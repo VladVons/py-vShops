@@ -9,31 +9,38 @@ from Inc.ConfJson import TConfJson
 from Inc.Util.Mod import DynImport
 from Inc.Var.Dict import DeepGetByList
 from Inc.Var.DictEx import DictUpdateDeep
+from Inc.Var.Obj import Iif
 from IncP.Log import Log
 
 
 class TPluginApp():
     def __init__(self, aDir: str):
+        self.Dir = aDir
+
         self.Data = {}
         self.Conf = {}
         self.ConfEx = {}
-        self.Path = 'Task.Plugin'
-        self.Dir = aDir
+        self.Path = None
 
-    def Init(self, aPlugin: str):
-        Dir, ModName = aPlugin.split('.')
+    def Init(self, aPlugin: str, aPathRoot: str = None):
+        self.Path = Iif (aPathRoot, aPathRoot, f'{aPlugin}.Plugin')
+
+        Dir, ModName = aPlugin.rsplit('.', maxsplit=1)
 
         self.Conf = TConfJson()
         Files = [f'{self.Dir}/{Dir}~{ModName}.json', f'{Dir}/{ModName}.json']
         self.Conf.LoadList(Files)
+        if (self.Conf):
+            Conf = self.Conf.get('include', [])
+            if (Conf):
+                Files = [f'{self.Dir}/{x}' for x in Conf if (not x.startswith('-'))]
+                self.Conf.LoadList(Files, True, True)
 
-        ConfInclude = self.Conf.get('include', [])
-        Files = [f'{self.Dir}/{x}' for x in ConfInclude if (not x.startswith('-'))]
-        self.Conf.LoadList(Files, True, True)
-
-        Conf = self.Conf.get('conf', [])
-        self.Conf.LoadList(Conf)
-        self.Path = f'{aPlugin}.Plugin'
+            Conf = self.Conf.get('conf', [])
+            if (Conf):
+                self.Conf.LoadList(Conf)
+        else:
+            Log.Print(3, 'i', f'No conf found in {Files}')
 
     async def Load(self, aName: str, aDepth: int):
         if (self.Data.get(aName) is None):
@@ -69,7 +76,8 @@ class TPluginApp():
                 Log.Print(1, 'i', f'{Tab}{aName} cached. Skip')
             else:
                 self.Data[aName] = Res
-            Log.Print(1, 'i', '%sFinish %s. Time: %0.2f' % (Tab, aName, time.time() - TimeStart))
+            Duration = time.time() - TimeStart
+            Log.Print(1, 'i', f'{Tab}Finish {aName}. Time: {Duration:.2f}')
 
     async def Run(self):
         TimeStart = time.time()

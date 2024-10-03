@@ -13,6 +13,7 @@ from .Utils import DigSplit, TInStock, SoupGetParentsObj, GetLdJson
 from .SchemeApiBase import TSchemeApiBase
 from .ProductItemProp import TProductItemProp
 from .ProductLdJson import TProductLdJson
+from .Product import TProduct
 
 InStock = TInStock()
 
@@ -22,17 +23,28 @@ class TSchemeExt():
     def __init__(self, aParent):
         self.Parent = aParent
 
+
+    def __ProductParse(self, aMethod):
+        Res = aMethod.Parse()
+        for Key, Val in Res.items():
+            self.Parent.Var[f'${Key}'] = Val
+        return Res
+
     def product_itemprop(self, aVal: BeautifulSoup) -> dict:
         Product = TProductItemProp(aVal)
         if (Product.Soup):
             self.Parent.Var['$product_itemprop_root'] = Product.Soup
-        return Product.Parse()
+            return self.__ProductParse(Product)
 
     def product_ldjson(self, aVal: BeautifulSoup) -> dict:
         Product = TProductLdJson(aVal)
         if (Product.Soup):
             self.Parent.Var['$product_ldjson_root'] = Product.Soup
-        return Product.Parse()
+            return self.__ProductParse(Product)
+
+    def product(self, aVal: BeautifulSoup) -> dict:
+        Product = TProduct(aVal)
+        return self.__ProductParse(Product)
 
     def list_map(self, aVal: list, *aItems: list) -> list:
         '''
@@ -123,22 +135,33 @@ class TSchemeExt():
 
 class TSchemeApi(TSchemeApiBase):
     @staticmethod
-    def get_text(aVal: BeautifulSoup, aDelim = '\n') -> str:
+    def text_strip(aVal: BeautifulSoup, aDelim = None) -> str:
         '''
-        strip object from any tags
-        ["get_text", [": "]]
+        get text object and strip string
+        ["text_strip", [": "]]
         '''
-        return aVal.get_text(strip=True, separator=aDelim)
+
+        if (aDelim):
+            Res = aVal.get_text(strip=True, separator=aDelim)
+        else:
+            Res = aVal.text.strip()
+        return Res
 
     @staticmethod
-    def text_sls(aVal: BeautifulSoup, *aStr: list) -> str:
+    def text_strip_lower_search(aVal: BeautifulSoup, *aStr: list, mode: str = 'eq') -> str:
         '''
-        equal to text + strip + lower + search_eq
-        ["text_sls", ["до кошика", "в наявності"]]
+        equal to text + strip + lower + search
+        ["text_strip_lower_search", ["до кошика", "в наявності"], {"mode": "start"}]
         '''
 
         Val = aVal.text.strip().lower()
-        return Val in aStr
+        match mode:
+            case 'eq':
+                return TSchemeApi.search_eq(Val, *aStr)
+            case 'start':
+                return TSchemeApi.search_start(Val, *aStr)
+            case 'in':
+                return TSchemeApi.search_in(Val, *aStr)
 
     @staticmethod
     def price(aVal: str) -> list:

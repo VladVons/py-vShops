@@ -90,7 +90,7 @@ License:     GNU, see LICENSE for more details
     print()
     Cond = TDbCond().AddFields([
         ['lt', (Dbl1, 'Age'), 40, True],
-        ['eq', (Dbl1, 'Male'), True, True]
+        ['eq', (Dbl1, 'Male'), True, False]
     ])
     Dbl2 = Dbl1.Clone(aCond=Cond)
     print(Dbl2)

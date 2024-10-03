@@ -27,6 +27,10 @@ class TSqlTenantConf():
 def StripQuery(aData: str) -> str:
     return re.sub(r'\s+', ' ', aData).strip()
 
+def LoadQuery(aPackage: str, aFile: str, aFormat: dict = None) -> str:
+    Dir = aPackage.replace('.', '/')
+    return FormatFile(f'{Dir}/{aFile}', aFormat or {})
+
 def DSplit(aFunc: callable) -> list[str]:
     def Decor(aData: list, aMax: int) -> list[str]:
         Res = []
@@ -92,8 +96,7 @@ class TSqlBase():
         self.stock_id: int
 
     async def ExecQuery(self, aPackage: str, aFile: str, aFormat: dict = None) -> TDbList:
-        Dir = aPackage.replace('.', '/')
-        Query = FormatFile(f'{Dir}/{aFile}', aFormat or {})
+        Query = LoadQuery(aPackage, aFile, aFormat)
         return await TDbExecPool(self.Db.Pool).Exec(Query)
 
     async def LoadTenantConf(self, aTenant: str, aLang: str):

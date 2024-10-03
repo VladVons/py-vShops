@@ -162,7 +162,7 @@ class TScheme(TSchemeBase):
         if (hasattr(TSchemeApiBase, aItem[0])):
             aObj = self._CallPipe(aObj, aItem, aPath, TSchemeApiBase)
         else:
-            aObj = self._ParsePipeDef(aObj, aItem, aPath)
+            aObj = self._ParsePipeNative(aObj, aItem, aPath)
 
         if (aObj is None):
             self.Err.append('%s->%s (none)' % (aPath, aItem))

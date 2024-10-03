@@ -11,6 +11,7 @@ from Inc.Var.Dict import FilterNotNone
 
 class TProductItemProp():
     def __init__(self, aSoup: BeautifulSoup):
+        self.Root = aSoup
         self.Soup = aSoup.find(itemtype=re.compile('://schema.org/Product'))
 
     def Parse(self) -> dict:
@@ -69,7 +70,18 @@ class TProductItemProp():
                 elif (xSoup.get('src')):
                     Val = xSoup.get('src')
                 Res.append(Val)
-            return Res
+
+        Soup = self.Soup.find(itemtype=re.compile('://schema.org/ImageGallery'))
+        if (not Soup):
+            Soup = self.Root.find(itemtype=re.compile('://schema.org/ImageGallery'))
+
+        if (Soup):
+            Soup = Soup.find_all(itemtype=re.compile('://schema.org/ImageObject'))
+            for xSoup in Soup:
+                Data = xSoup.find(itemprop='contentUrl')
+                Val = Data.get('href')
+                Res.append(Val)
+        return list(set(Res))
 
     def Stock(self) -> bool:
         Soup = self.Soup.find(itemprop='offers')
@@ -101,9 +113,22 @@ class TProductItemProp():
         if (Soup):
             Res = {}
             for xProperty in Soup:
-                Key = xProperty.find(itemprop='name').text.strip()
-                Val = xProperty.find(itemprop='value').text.strip()
-                Res[Key] = Val
+                Key = Val = None
+
+                Soup2 = xProperty.find(itemprop='name')
+                if (Soup2):
+                    Key = Soup2.get('content')
+                    if (not Key):
+                        Key = Soup2.text.strip()
+
+                Soup2 = xProperty.find(itemprop='value')
+                if (Soup2):
+                    Val = Soup2.get('content')
+                    if (not Val):
+                        Val = Soup2.text.strip()
+
+                if (Key and Val):
+                    Res[Key] = Val
             return Res
 
     def Category(self) -> str:

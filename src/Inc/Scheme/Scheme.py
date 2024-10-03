@@ -45,7 +45,7 @@ class TSoupScheme(TSchemeBase):
                         self.Warn.append('%s -> %s (found %s)' % (aPath, aItem[1], len(Arr)))
                         for x in Parents:
                             self.Warn.append(str(x))
-            aObj = self._ParsePipeDef(aObj, aItem, aPath)
+            aObj = self._ParsePipeNative(aObj, aItem, aPath)
 
         if (aObj is None):
             self.Err.append('%s->%s (none)' % (aPath, aItem))

@@ -223,30 +223,6 @@ class TSchemeApiBase():
                 return xVal
 
     @staticmethod
-    def search(aVal: str, *aStr: list) -> bool:
-        '''
-        search any substring from a list in aVal
-        ["search", ["InStock", "available"]]
-        '''
-
-        for xStr in aStr:
-            if (aVal.find(xStr) >= 0):
-                return True
-        return False
-
-    @staticmethod
-    def search_prefix(aVal: str, *aStr: list) -> bool:
-        '''
-        search string that starts with a given prefix
-        ["search_prefix", ["InStock", "available"]]
-        '''
-
-        for xStr in aStr:
-            if (aVal.startswith(xStr)):
-                return True
-        return False
-
-    @staticmethod
     def search_eq(aVal: str, *aStr: list) -> bool:
         '''
         search any string from a list in aVal
@@ -254,6 +230,30 @@ class TSchemeApiBase():
         '''
 
         return aVal in aStr
+
+    @staticmethod
+    def search_in(aVal: str, *aStr: list) -> bool:
+        '''
+        search any substring from a list in aVal
+        ["search_in", ["InStock", "available"]]
+        '''
+
+        for xStr in aStr:
+            if (aVal in xStr):
+                return True
+        return False
+
+    @staticmethod
+    def search_start(aVal: str, *aStr: list) -> bool:
+        '''
+        search string that starts with
+        ["search_start", ["InStock", "available"]]
+        '''
+
+        for xStr in aStr:
+            if (aVal.startswith(xStr)):
+                return True
+        return False
 
     @staticmethod
     def search_xlat(aVal: str, aSearch: list, aXlat: list) -> str:

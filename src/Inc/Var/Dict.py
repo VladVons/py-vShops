@@ -50,6 +50,10 @@ def GetNotNone(aData: dict, aKey: str, aDef: object) -> object:
         Res = aDef
     return Res
 
+def SetNotNone(aData: dict, aKey: str, aVal: object):
+    if (aVal is not None):
+        aData[aKey] = aVal
+
 def Filter(aData: dict, aKeys: list) -> dict:
     return {Key: aData[Key] for Key in aKeys }
 
