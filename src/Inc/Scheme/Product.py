@@ -15,6 +15,7 @@ class TProduct():
     def __init__(self, aSoup: BeautifulSoup):
         self.Soup = aSoup
 
+
     def _TryImages(self, aSoup: BeautifulSoup):
         Pattern = r'(gallery-thumbs)'
         Soup = aSoup.find_all('div', class_=re.compile(Pattern))

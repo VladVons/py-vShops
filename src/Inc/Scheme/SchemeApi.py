@@ -4,7 +4,7 @@
 
 
 import re
-from bs4 import BeautifulSoup
+from bs4 import BeautifulSoup, Comment
 #
 from Inc.Util.ModHelp import GetClass
 from Inc.Var.Obj import Iif
@@ -180,14 +180,28 @@ class TSchemeApi(TSchemeApiBase):
         return [float(Dig), After.lower()]
 
     @staticmethod
-    def price_meta(aVal: BeautifulSoup) -> list:
+    def meta_price(aVal: BeautifulSoup) -> list:
         '''
         get price from meta
-        ["price_meta"]
+        ["meta_price"]
         '''
         Price = aVal.find('meta', {'itemprop': 'price'}).get('content')
         Currency = aVal.find('meta', {'itemprop': 'priceCurrency'}).get('content')
         return [float(Price), Currency]
+
+    @staticmethod
+    def meta_nears(aVal: BeautifulSoup) -> list:
+        '''
+        get next and prev urls from head
+        ["meta_pages"]
+        '''
+
+        Soup = aVal.find('head')
+        if (Soup):
+            Items = aVal.find_all('link', rel=re.compile(r'(next|prev)'))
+            if (Items):
+                Res = [xItem.get('href') for xItem in Items]
+                return Res
 
     @staticmethod
     def price_find(aVal: str, aCur: str = 'грн') -> list:
@@ -340,6 +354,18 @@ class TSchemeApi(TSchemeApiBase):
     @staticmethod
     def find_next_text(aVal: BeautifulSoup, aIsText: bool = True) -> object:
         return aVal.find_next_sibling(text = aIsText)
+
+    @staticmethod
+    def find_comment(aVal: BeautifulSoup, aStr: str) -> object:
+        '''
+        find first element after comment
+        ["find_comment", ["catalog - start"]]
+        '''
+
+        Items = aVal.find_all(string=lambda xText: isinstance(xText, Comment) and aStr in xText)
+        if (Items):
+            return Items[0].find_next()
+
 
     @staticmethod
     def list_get_keyval(aVal: list, aIdxKey: int = 0, aIdxVal: int = 1) -> tuple:

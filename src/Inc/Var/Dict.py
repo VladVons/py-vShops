@@ -119,3 +119,21 @@ def DictUpdate(aMaster: dict, aSlave: dict, aOverwrite: bool = True):
 def DictToText(aData: dict, aDelim: str = '\n') -> str:
     Arr = [f'{Key}:{Val}' for Key, Val in aData.items()]
     return aDelim.join(Arr)
+
+def DictDiff(aData1: dict, aData2: dict) -> dict:
+    if (aData1 is None):
+        aData1 = {}
+
+    if (aData2 is None):
+        aData2 = {}
+
+    New = {Key: aData2[Key] for Key in aData2 if Key not in aData1}
+    Del = {Key: aData1[Key] for Key in aData1 if Key not in aData2}
+    Mod = {Key: (aData1[Key], aData2[Key]) for Key in aData1 if Key in aData2 and aData1[Key] != aData2[Key]}
+
+    return {
+        'new': New,
+        'del': Del,
+        'mod': Mod,
+        'changed': bool(New) or bool(Del) or bool(Mod)
+    }
