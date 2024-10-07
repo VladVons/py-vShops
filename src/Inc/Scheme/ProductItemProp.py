@@ -67,6 +67,7 @@ class TProductItemProp():
             for xSoup in Soup:
                 if (xSoup.get('href')):
                     Val = xSoup.get('href')
+
                 elif (xSoup.get('src')):
                     Val = xSoup.get('src')
                 Res.append(Val)

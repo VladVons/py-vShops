@@ -19,7 +19,8 @@
         "--disable=line-too-long",
         "--disable=superfluous-parens",
         "--disable=consider-using-f-string",
-        "--disable=broad-except"
+        "--disable=broad-except",
+        "--disable=inconsistent-return-statements"
     ],
     "window.zoomLevel": 2,
     "workbench.tree.indent": 16,
