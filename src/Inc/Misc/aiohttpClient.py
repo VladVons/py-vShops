@@ -5,7 +5,6 @@
 
 import time
 import asyncio
-import requests
 import aiohttp
 
 
@@ -13,6 +12,7 @@ def DictToCookie(aDict) -> str:
     return '; '.join([f'{Key}={Val}' for Key, Val in aDict.items()])
 
 def UrlGetDataSync(aUrl: str, aHeaders: dict = None) -> dict:
+    import requests # slow
     Response = requests.get(aUrl, timeout=3, headers=aHeaders)
     if (Response.status_code == 200):
         Res = {'status': Response.status_code, 'data': Response.content}

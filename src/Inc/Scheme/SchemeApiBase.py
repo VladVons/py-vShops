@@ -102,20 +102,6 @@ class TSchemeApiBase():
         return Res
 
     @staticmethod
-    def list_listgroup(aVal: list, aStep: int, aIdxs: list) -> list:
-        '''
-        group list [1,2,3,4,5,6,7,8,9,0] into [[1,3], [4,6], [7,9]]
-        ["list_group", [3, [0, 1]]]
-        '''
-
-        Res = []
-        for Idx in range(0, len(aVal), aStep):
-            Data = aVal[Idx : Idx + aStep]
-            Val = [Data[i] for i in aIdxs]
-            Res.append(Val)
-        return Res
-
-    @staticmethod
     def list_join(aVal: list, aDelim: str = '\n') -> str:
         '''
         join list ['one', 'two', 'three'] into string 'one. two. three'

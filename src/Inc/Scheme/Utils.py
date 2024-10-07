@@ -148,12 +148,23 @@ def SoupFindParents(aSoup: BeautifulSoup, aSearch: str) -> list:
     Items = aSoup.findAll(string=re.compile(aSearch))
     return SoupGetParents(aSoup, Items)
 
+# https://www.scaler.com/topics/javascript/json-validator/
 def GetLdJson(aSoup: BeautifulSoup) -> dict:
-    Data: str = aSoup.text.strip()
+    def DelLastBrace(aPair: str):
+        nonlocal Data
 
+        Opened = Data.count(aPair[0])
+        Closed = Data.count(aPair[1])
+        if (Closed > Opened):
+            LastBrace = Data.rfind(aPair[1])
+            Data = Data[:LastBrace]
+
+    Data: str = aSoup.text.strip()
     try:
         Res = json.loads(Data, strict=False)
-    except json.JSONDecodeError:
+    except json.JSONDecodeError as E:
+        print('Exception:', E)
+
         Data = re.sub(r'\\(?!")', ' ', Data)
 
         # Replace = ' ' * len(StrWhiteSpacesEx)
@@ -161,11 +172,8 @@ def GetLdJson(aSoup: BeautifulSoup) -> dict:
         # Data = Data.translate(Trans)
 
         # check for extra closes brace
-        OpenBraces = Data.count('{')
-        CloseBraces = Data.count('}')
-        if (CloseBraces > OpenBraces):
-            LastBrace = Data.rfind('}')
-            Data = Data[:LastBrace]
+        DelLastBrace('{}')
+        DelLastBrace('[]')
 
         Res = json.loads(Data, strict=False)
     return Res

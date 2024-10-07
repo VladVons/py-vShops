@@ -61,9 +61,9 @@ class TProductItemProp():
             return Res
 
     def Images(self) -> list:
+        Res = []
         Soup = self.Soup.find_all(itemprop='image')
         if (Soup):
-            Res = []
             for xSoup in Soup:
                 if (xSoup.get('href')):
                     Val = xSoup.get('href')
@@ -81,7 +81,9 @@ class TProductItemProp():
                 Data = xSoup.find(itemprop='contentUrl')
                 Val = Data.get('href')
                 Res.append(Val)
-        return list(set(Res))
+
+        if (Res):
+            return list(set(Res))
 
     def Stock(self) -> bool:
         Soup = self.Soup.find(itemprop='offers')

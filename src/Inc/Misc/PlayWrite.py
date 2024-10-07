@@ -2,10 +2,10 @@
 # Author:  Vladimir Vons <VladVons@gmail.com>
 # License: GNU, see LICENSE for more details
 #
-#pip3 install playwrite
-#playwrite install
+# pip3 install playwrite
+# playwrite install chromium
 #
-#sudo apt-get install --no-install-recommends\
+# sudo apt-get install --no-install-recommends\
 #  libnss3\
 #  libnspr4\
 #  libatk1.0-0t64\
@@ -22,6 +22,7 @@
 #  libcairo2\
 #  libasound2t64
 
+
 import tracemalloc
 from playwright.async_api import async_playwright
 from Inc.Var.Obj import Iif
@@ -32,18 +33,19 @@ tracemalloc.start()
 async def UrlGetData(aUrl: str, aWaitFor: str = None) -> str:
     ContextOpt = {
         "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.102 Safari/537.36",
-        "viewport": {"width": 1280, "height": 720},
-        "permissions": ["geolocation"],
-        "locale": "fr-FR",
+        "locale": "uk-UA",
         "extra_http_headers": {
-            "Accept-Language": "fr-FR,fr;q=0.9,en-US;q=0.8,en;q=0.7"
+            "Accept-Language": "uk-UA"
         }
     }
 
     async with async_playwright() as PW:
         async with await PW.chromium.launch(headless=True) as Browser:
-            Page = await Browser.new_page()
-            #await Browser.new_context(**ContextOpt)
+            Context = await Browser.new_context(**ContextOpt)
+            #Page = await Browser.new_page()
+            Page = await Context.new_page()
+
+            #Response = await Page.goto(aUrl, wait_until="load", timeout=10000)
             Response = await Page.goto(aUrl, wait_until="domcontentloaded", timeout=10000)
             if (aWaitFor):
                 #aWaitFor = 'ul[class="pagination"]'

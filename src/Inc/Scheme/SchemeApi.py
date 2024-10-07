@@ -13,6 +13,7 @@ from .Utils import DigSplit, TInStock, SoupGetParentsObj, GetLdJson
 from .SchemeApiBase import TSchemeApiBase
 from .ProductItemProp import TProductItemProp
 from .ProductLdJson import TProductLdJson
+from .ProductSocial import TProductOg
 from .Product import TProduct
 
 InStock = TInStock()
@@ -23,10 +24,15 @@ class TSchemeExt():
     def __init__(self, aParent):
         self.Parent = aParent
 
-
     def __ProductParse(self, aMethod):
         Res = aMethod.Parse()
         for Key, Val in Res.items():
+            if (Val):
+                if (Key == 'images'):
+                    for Idx, xVal in enumerate(Val):
+                        Val[Idx] = self.url_pad(xVal)
+                elif (Key == 'image'):
+                    Val = self.url_pad(Val)
             self.Parent.Var[f'${Key}'] = Val
         return Res
 
@@ -40,6 +46,12 @@ class TSchemeExt():
         Product = TProductLdJson(aVal)
         if (Product.Soup):
             self.Parent.Var['$product_ldjson_root'] = Product.Soup
+            return self.__ProductParse(Product)
+
+    def product_og(self, aVal: BeautifulSoup) -> dict:
+        Product = TProductOg(aVal)
+        if (Product.Soup):
+            self.Parent.Var['$product_og_root'] = Product.Soup
             return self.__ProductParse(Product)
 
     def product(self, aVal: BeautifulSoup) -> dict:
