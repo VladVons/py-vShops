@@ -144,13 +144,28 @@ class TSchemeExt():
         self.Parent.Var[aName] = aVal
         return aVal
 
+    def find_all_get_url(self, aVal: BeautifulSoup, *aPath: list, a_get: dict) -> list[str]:
+        '''
+        find tags, get attr, pad url, unique list
+        ["find_all_get", ["a"], {"a_get": "href"}],
+        '''
+
+        Items = aVal.find_all(*aPath)
+        if (Items):
+            Res = []
+            for xItem in Items:
+                Val = xItem.get(a_get)
+                if (Val):
+                    Res.append(self.url_pad(Val.strip()))
+            return list(set(Res))
 
 class TSchemeApi(TSchemeApiBase):
     @staticmethod
     def text_strip(aVal: BeautifulSoup, aDelim = None) -> str:
         '''
         get text object and strip string
-        ["text_strip", [": "]]
+        ["text_strip", ["|"]]
+        hello world|john
         '''
 
         if (aDelim):
@@ -158,6 +173,16 @@ class TSchemeApi(TSchemeApiBase):
         else:
             Res = aVal.text.strip()
         return Res
+
+    @staticmethod
+    def text_p(aVal: BeautifulSoup) -> str:
+        '''
+        get all <p>, strip text, delimit with '\n'
+        ["text_p"]
+        '''
+
+        Arr = [xP.text.strip() for xP in aVal.find_all('p')]
+        return '\n'.join(Arr)
 
     @staticmethod
     def text_strip_lower_search(aVal: BeautifulSoup, *aStr: list, mode: str = 'eq') -> str:
@@ -378,6 +403,16 @@ class TSchemeApi(TSchemeApiBase):
         if (Items):
             return Items[0].find_next()
 
+    @staticmethod
+    def find_all_get(aVal: BeautifulSoup, *aPath: list, a_get: dict) -> list[str]:
+        '''
+        find tags and get attr
+        ["find_all_get", ["a"], {"a_get": "href"}],
+        '''
+
+        Items = aVal.find_all(*aPath)
+        if (Items):
+            return [xItem.get(a_get).strip() for xItem in Items if xItem.get(a_get)]
 
     @staticmethod
     def list_get_keyval(aVal: list, aIdxKey: int = 0, aIdxVal: int = 1) -> tuple:

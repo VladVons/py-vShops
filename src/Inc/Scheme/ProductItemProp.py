@@ -6,47 +6,54 @@
 import re
 from bs4 import BeautifulSoup
 #
-from Inc.Var.Dict import FilterNotNone
+from Inc.Var.Dict import FilterNotNone, DictUpdate
 
 
 class TProductItemProp():
     def __init__(self, aSoup: BeautifulSoup):
         self.Root = aSoup
-        self.Soup = aSoup.find(itemtype=re.compile('://schema.org/Product'))
+        self.Soup = aSoup.find_all(itemtype=re.compile('://schema.org/Product'))
 
     def Parse(self) -> dict:
+        Res = {}
         if (self.Soup):
-            Data = {
-                'mpn': self.Mpn(),
-                'brand': self.Brand(),
-                'name': self.Name(),
-                'images': self.Images(),
-                'stock': self.Stock(),
-                'price': self.Price(),
-                'category': self.Category(),
-                'features': self.Features()
-            }
+            for xSoup in self.Soup:
+                Data = {
+                    'mpn': self.Mpn(xSoup),
+                    'brand': self.Brand(xSoup),
+                    'name': self.Name(xSoup),
+                    'images': self.Images(xSoup),
+                    'stock': self.Stock(xSoup),
+                    'price': self.Price(xSoup),
+                    'category': self.Category(xSoup),
+                    'features': self.Features(xSoup)
+                }
 
-            if (len(Data['images']) == 1):
-                Data['image'] = Data['images'][0]
-                del Data['images']
+                if (Data['images']) and (len(Data['images']) == 1):
+                    Data['image'] = Data['images'][0]
+                    del Data['images']
+                Res = FilterNotNone(Res)
+                DictUpdate(Res, Data, False)
+            return Res
 
-            return FilterNotNone(Data)
-
-    def Mpn(self) -> str:
-        Soup = self.Soup.find(itemprop='mpn')
+    @staticmethod
+    def Mpn(aSoup: BeautifulSoup) -> str:
+        Soup = aSoup.find(itemprop='mpn')
         if (Soup):
             return Soup.get('content')
 
-    def Brand(self) -> str:
-        Soup = self.Soup.find(itemprop='brand')
+    @staticmethod
+    def Brand(aSoup: BeautifulSoup) -> str:
+        Soup = aSoup.find(itemprop='brand')
         if (Soup):
             return Soup.get('content')
 
-    def Name(self) -> str:
+    @staticmethod
+    def Name(aSoup: BeautifulSoup) -> str:
+        # try to exclude name in features. stupid schema.org
         Items = [
-            tag for tag in self.Soup.find_all(itemprop='name')
-            if not tag.find_parent(itemprop='itemListElement')
+            tag for tag in aSoup.find_all(itemprop='name')
+            if not tag.find_parent(itemprop=lambda x: x in ['additionalProperty', 'itemListElement'])
         ]
 
         if (Items):
@@ -54,15 +61,16 @@ class TProductItemProp():
             if (not Res):
                 Res = Items[0].text.strip()
                 if (len(Res) < 10):
-                    Soup = self.Soup.find('h1', itemprop='name')
+                    Soup = aSoup.find('h1', itemprop='name')
                     if (Soup):
                         Res = Soup.text.strip()
             #Val = ''.join([char for char in Val if (char.isalpha() or char.isspace() or char.isdigit())])
             return Res
 
-    def Images(self) -> list:
+    @staticmethod
+    def Images(aSoup: BeautifulSoup) -> list:
         Res = []
-        Soup = self.Soup.find_all(itemprop='image')
+        Soup = aSoup.find_all(itemprop='image')
         if (Soup):
             for xSoup in Soup:
                 if (xSoup.get('href')):
@@ -72,9 +80,9 @@ class TProductItemProp():
                     Val = xSoup.get('src')
                 Res.append(Val)
 
-        Soup = self.Soup.find(itemtype=re.compile('://schema.org/ImageGallery'))
-        if (not Soup):
-            Soup = self.Root.find(itemtype=re.compile('://schema.org/ImageGallery'))
+        Soup = aSoup.find(itemtype=re.compile('://schema.org/ImageGallery'))
+        # if (not Soup):
+        #     Soup = self.Root.find(itemtype=re.compile('://schema.org/ImageGallery'))
 
         if (Soup):
             Soup = Soup.find_all(itemtype=re.compile('://schema.org/ImageObject'))
@@ -86,8 +94,9 @@ class TProductItemProp():
         if (Res):
             return list(set(Res))
 
-    def Stock(self) -> bool:
-        Soup = self.Soup.find(itemprop='offers')
+    @staticmethod
+    def Stock(aSoup: BeautifulSoup) -> bool:
+        Soup = aSoup.find(itemprop='offers')
         if (Soup):
             Data = Soup.find(itemprop='availability')
             if (Data):
@@ -97,8 +106,9 @@ class TProductItemProp():
                     Val = Data.get('content')
                 return 'InStock' in Val
 
-    def Price(self) -> list:
-        Soup = self.Soup.find(itemprop='offers')
+    @staticmethod
+    def Price(aSoup: BeautifulSoup) -> list:
+        Soup = aSoup.find(itemprop='offers')
         if (Soup):
             Data = Soup.find(itemprop='price')
             if (Data):
@@ -111,8 +121,9 @@ class TProductItemProp():
                     Soup.find(itemprop='priceCurrency').get('content')
                 ]
 
-    def Features(self) -> dict:
-        Soup = self.Soup.find_all(itemtype=re.compile('://schema.org/PropertyValue'))
+    @staticmethod
+    def Features(aSoup: BeautifulSoup) -> dict:
+        Soup = aSoup.find_all(itemtype=re.compile('://schema.org/PropertyValue'))
         if (Soup):
             Res = {}
             for xProperty in Soup:
@@ -134,12 +145,13 @@ class TProductItemProp():
                     Res[Key] = Val
             return Res
 
-    def Category(self) -> str:
-        Soup = self.Soup.find(itemprop='category')
+    @staticmethod
+    def Category(aSoup: BeautifulSoup) -> str:
+        Soup = aSoup.find(itemprop='category')
         if (Soup):
             return Soup.get('content')
         else:
-            Soup = self.Soup.find(itemtype=re.compile('://schema.org/BreadcrumbList'))
+            Soup = aSoup.find(itemtype=re.compile('://schema.org/BreadcrumbList'))
             if (Soup):
                 ListLI = Soup.find_all(itemtype=re.compile('://schema.org/ListItem'))
                 if (ListLI):

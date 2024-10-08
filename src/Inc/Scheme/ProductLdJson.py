@@ -11,7 +11,7 @@ from .Utils import GetLdJson
 
 class TProductLdJson():
     def __init__(self, aSoup: BeautifulSoup):
-        self.Soup = aSoup
+        self.Root = aSoup
         self.Soup = aSoup.find_all('script', type='application/ld+json')
 
     def Parse(self):
