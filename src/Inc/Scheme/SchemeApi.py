@@ -146,7 +146,7 @@ class TSchemeExt():
 
     def find_all_get_url(self, aVal: BeautifulSoup, *aPath: list, a_get: dict) -> list[str]:
         '''
-        find tags, get attr, pad url, unique list
+        find tags + get attr + strip text + pad url + unique list
         ["find_all_get", ["a"], {"a_get": "href"}],
         '''
 
