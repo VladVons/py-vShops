@@ -21,7 +21,8 @@ import time
 import json
 import asyncio
 #
-from Inc.Http.HttpLib import ReadHead, UrlParse
+from Inc.Http.HttpLib import ReadHead
+from Inc.Http.HttpUrl import UrlToDict
 from Inc.DataClass import DDataClass
 
 
@@ -68,7 +69,7 @@ class TClientSession():
         pass
 
     def _Init(self, aUrl: str) -> dict:
-        Url = UrlParse(aUrl)
+        Url = UrlDoDict(aUrl)
         Scheme = Url['scheme']
         Port = int(Url['port'] or '0')
         if (Scheme == 'https'):

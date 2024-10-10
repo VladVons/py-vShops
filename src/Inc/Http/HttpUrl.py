@@ -3,34 +3,18 @@
 # License: GNU, see LICENSE for more details
 
 
-try:
-    import asyncio
-except ModuleNotFoundError:
-    import uasyncio as asyncio
+import re
 
-#
-from .HttpLib import ReadHead
-
-
-async def UrlLoad(aUrl: str, aStream):
-    _, _, Host, Path = aUrl.split('/', 3)
-    Reader, Writer = await asyncio.open_connection(Host, 80)
-    Data = bytes('GET /%s HTTP/1.0\r\nHost: %s\r\n\r\n' % (Path, Host), 'utf8')
-    await Writer.awrite(Data)
-    await Writer.drain()
-
-    Head = await ReadHead(Reader, False)
-    if (Head.get('code', '404') == '200'):
-        Len = int(Head.get('content-length', 0))
-        if (Len > 0):
-            while True:
-                Data = await Reader.read(512)
-                if (not Data):
-                    break
-                aStream.write(Data)
-                await asyncio.sleep_ms(10)
-            aStream.flush()
-    await Writer.wait_closed()
+# AI
+reUrlSplit = re.compile(
+    r'^(?P<scheme>https?|ftp)://'
+    r'(?P<host>[^:/?#]+)'\
+    r'(?:\:(?P<port>\d+))?'
+    r'(?P<path>/[^?#]*)?'
+    r'(?:\?(?P<query>[^#]*))?'
+    r'(?:#(?P<fragment>.*))?$',
+    flags=re.ASCII
+)
 
 def UrlPercent(aData: bytearray) -> str:
     Bits = aData.split(b'%')
@@ -42,3 +26,49 @@ def UrlPercent(aData: bytearray) -> str:
         Arr.append(Item[2:].replace(b'+', b' '))
     Res = b''.join(Arr)
     return Res.decode('utf-8')
+
+def UrlToDict(aUrl: str) -> dict:
+    Match = reUrlSplit.match(aUrl)
+    if (Match):
+        return Match.groupdict()
+
+def UrlToStr(aQuery: dict) -> str:
+    Order = [
+        ('', 'scheme', '://'),
+        ('', 'host', ''),
+        (':', 'port', ''),
+        ('/', 'path', ''),
+        ('?', 'query', ''),
+        ('#', 'fragment', '')
+    ]
+
+    Arr = []
+    for xStart, xName, xEnd in Order:
+        Val = aQuery.get(xName)
+        if (Val):
+            Arr.append(f'{xStart}{Val.lstrip(xStart)}{xEnd}')
+    return ''.join(Arr)
+
+def UrlParseValidate(aUrl: str) -> list:
+    # by cx 2023.03.20
+    Pattern = r'^([a-z]{2,})://([a-z0-9]{1}[a-z0-9-.]*[a-z0-9]{1})[:]?(\d*)([/]?[a-zA-Z0-9-_.%]*)[?]?([a-zA-Z0-9-_.%=&]*)[#]?(.*)'
+    return re.findall(Pattern, aUrl, flags=re.ASCII)
+
+def QueryToDict(aQuery: str) -> dict:
+    Res = {}
+    for xParam in aQuery.split('&'):
+        Pair = xParam.split('=', maxsplit=1)
+        if (len(Pair) == 2):
+            Res[Pair[0]] = Pair[1]
+        else:
+            Res[Pair[0]] = None
+    return Res
+
+def QueryToStr(aQuery: dict) -> str:
+    Arr = []
+    for xKey, xVal in aQuery.items():
+        if (xVal is None):
+            Arr.append(xKey)
+        else:
+            Arr.append(f'{xKey}={xVal}')
+    return '='.join(Arr)

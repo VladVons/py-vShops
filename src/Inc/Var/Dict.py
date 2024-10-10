@@ -55,7 +55,7 @@ def SetNotNone(aData: dict, aKey: str, aVal: object):
         aData[aKey] = aVal
 
 def Filter(aData: dict, aKeys: list) -> dict:
-    return {Key: aData[Key] for Key in aKeys }
+    return {Key: aData[Key] for Key in aKeys if (Key in aData)}
 
 def FilterNotNone(aData: dict) -> dict:
     return {Key: Val for Key, Val in aData.items() if (Val is not None)}

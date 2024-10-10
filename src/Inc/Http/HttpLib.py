@@ -3,9 +3,7 @@
 # License: GNU, see LICENSE for more details
 
 
-import re
 import asyncio
-
 
 async def ReadHead(aReader: asyncio.StreamReader, aServ = True) -> dict:
     Res = {}
@@ -26,15 +24,22 @@ async def ReadHead(aReader: asyncio.StreamReader, aServ = True) -> dict:
             Res[Key.lower()] = Value.strip()
     return Res
 
+async def UrlLoad(aUrl: str, aStream):
+    _, _, Host, Path = aUrl.split('/', 3)
+    Reader, Writer = await asyncio.open_connection(Host, 80)
+    Data = bytes('GET /%s HTTP/1.0\r\nHost: %s\r\n\r\n' % (Path, Host), 'utf8')
+    await Writer.awrite(Data)
+    await Writer.drain()
 
-def UrlParse(aUrl: str) -> dict:
-    # by cx 2023.03.20
-    Pattern = r'^([^:]+)://([^:?#/]+)[:]?(\d*)([/]?[^?#]*)[?]?([^#]*)[#]?(.*)'
-    Parts = re.findall(Pattern, aUrl, flags=re.ASCII)
-    Keys = ('scheme', 'host', 'port', 'path', 'query', 'hash')
-    return dict(zip(Keys, Parts[0]))
-
-def UrlParseValidate(aUrl: str) -> list:
-    # by cx 2023.03.20
-    Pattern = r'^([a-z]{2,})://([a-z0-9]{1}[a-z0-9-.]*[a-z0-9]{1})[:]?(\d*)([/]?[a-zA-Z0-9-_.%]*)[?]?([a-zA-Z0-9-_.%=&]*)[#]?(.*)'
-    return re.findall(Pattern, aUrl, flags=re.ASCII)
+    Head = await ReadHead(Reader, False)
+    if (Head.get('code', '404') == '200'):
+        Len = int(Head.get('content-length', 0))
+        if (Len > 0):
+            while True:
+                Data = await Reader.read(512)
+                if (not Data):
+                    break
+                aStream.write(Data)
+                await asyncio.sleep(0.01)
+            aStream.flush()
+    await Writer.wait_closed()
