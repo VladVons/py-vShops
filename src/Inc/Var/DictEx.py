@@ -9,7 +9,7 @@ import sys
 import json
 #
 from Inc.Misc.IniFile import TIniFile
-from . Dict import DeepGet
+from .Dict import DeepGet
 
 
 def DictUpdateDeep(aMaster: dict, aSlave: dict, aJoin = False, aDepth: int = 99) -> object:
@@ -86,29 +86,37 @@ def DictUpdateDeep(aMaster: dict, aSlave: dict, aJoin = False, aDepth: int = 99)
         Res = aSlave
     return Res
 
-# more complex https://jmespath.org/examples.html
-# Data = {'table': {'ref_product': {'foreign_key': {'tenant_id': {'table': 'x'}}}}}
-# DeepGetRe(Data, ['^table', '.*_lang', '.*', '.*_id$', '.*'])
+# see DictEx.txt. more complex use https://jmespath.org/examples.html
 def DeepGetsRe(aObj, aKeys: list, aWithPath: bool = True) -> list:
-    RegExSign = '.*+^$[({'
+    RegExSign = '.*+^?$[({'
 
     def Recurs(aObj, aKeys: list, aPath: str) -> list:
         Res = []
         if (aKeys):
-            Type = type(aObj)
-            if (Type == dict):
-                Key = aKeys[0]
+            Key = aKeys[0]
+            if (isinstance(aObj, dict)):
+                if (not isinstance(Key, str)):
+                    return Res
+
                 if (any(x in RegExSign for x in Key)):
                     for xKey in aObj:
-                        if (re.match(Key, xKey)):
+                        if (re.search(Key, xKey)):
                             Res += Recurs(aObj.get(xKey), aKeys[1:], f'{aPath}.{xKey}')
                 else:
                     Val = aObj.get(Key)
                     if (Val is not None):
                         Res += Recurs(Val, aKeys[1:], f'{aPath}.{Key}')
-            elif (Type in [list, tuple, set]):
+            elif (isinstance(aObj, (list, tuple, set))):
+                Indexes = []
+                for xKey in Key:
+                    if (isinstance(xKey, int)):
+                        Indexes.append(xKey)
+                    elif (isinstance(xKey, (list, tuple))):
+                        Indexes += range(*slice(*xKey).indices(len(aObj)))
+
                 for Idx, Val in enumerate(aObj):
-                    Res += Recurs(Val, aKeys, f'{aPath}[{Idx}]')
+                    if (not Key) or (Idx in Indexes):
+                        Res += Recurs(Val, aKeys[1:], f'{aPath}[{Idx}]')
         else:
             if (aWithPath):
                 Res.append((aObj, aPath.lstrip('.')))

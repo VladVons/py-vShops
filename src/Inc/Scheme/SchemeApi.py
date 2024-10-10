@@ -175,30 +175,14 @@ class TSchemeApi(TSchemeApiBase):
         return Res
 
     @staticmethod
-    def text_p(aVal: BeautifulSoup) -> str:
+    def text_tag(aVal: BeautifulSoup, aTag: str = 'p') -> str:
         '''
         get all <p>, strip text, delimit with '\n'
-        ["text_p"]
+        ["text_tag"]
         '''
 
-        Arr = [xP.text.strip() for xP in aVal.find_all('p')]
+        Arr = [xTag.text.strip() for xTag in aVal.find_all(aTag)]
         return '\n'.join(Arr)
-
-    @staticmethod
-    def text_strip_lower_search(aVal: BeautifulSoup, *aStr: list, mode: str = 'eq') -> str:
-        '''
-        equal to text + strip + lower + search
-        ["text_strip_lower_search", ["до кошика", "в наявності"], {"mode": "start"}]
-        '''
-
-        Val = aVal.text.strip().lower()
-        match mode:
-            case 'eq':
-                return TSchemeApi.search_eq(Val, *aStr)
-            case 'start':
-                return TSchemeApi.search_start(Val, *aStr)
-            case 'in':
-                return TSchemeApi.search_in(Val, *aStr)
 
     @staticmethod
     def price(aVal: str) -> list:

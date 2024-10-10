@@ -70,7 +70,7 @@ class TSchemeApiBase():
             return Res
 
     @staticmethod
-    def list_uniq(aVal: list) -> list:
+    def _list_uniq(aVal: list) -> list:
         '''
         return unique sorted items from a list'
         ["list_uniq"]
@@ -79,7 +79,7 @@ class TSchemeApiBase():
         return sorted(set(aVal))
 
     @staticmethod
-    def list_in(aVal: list, aFind: str) -> bool:
+    def _list_in(aVal: list, aFind: str) -> bool:
         '''
         search value in list'
         ["list_in"]
@@ -264,7 +264,7 @@ class TSchemeApiBase():
             return Res
 
     @staticmethod
-    def dig(aVal: str) -> str:
+    def _dig(aVal: str) -> str:
         '''
         get filtered chars from [0..9]
         ["dig"]
@@ -290,7 +290,7 @@ class TSchemeApiBase():
         return Res
 
     @staticmethod
-    def txt2json(aVal: str) -> dict:
+    def _txt2json(aVal: str) -> dict:
         '''
         convert text to json
         ["txt2json"]
@@ -312,7 +312,7 @@ class TSchemeApiBase():
         return Res
 
     @staticmethod
-    def txt2int(aVal: str) -> int:
+    def _txt2int(aVal: str) -> int:
         '''
         convert text to int
         ["txt2int"]
@@ -321,7 +321,7 @@ class TSchemeApiBase():
         return int(TSchemeApiBase.txt2float(aVal))
 
     @staticmethod
-    def json2txt(aVal: dict) -> str:
+    def _json2txt(aVal: dict) -> str:
         '''
         convert json to text
         ["json2txt"]
@@ -366,7 +366,7 @@ class TSchemeApiBase():
         return Res
 
     @staticmethod
-    def replace_list(aVal: str, aFind: list, aRepl: list) -> str:
+    def _replace_list(aVal: str, aFind: list, aRepl: list) -> str:
         '''
         multiple replace string
         ["replace", [["1", "2"], ["one", "two"]]]
@@ -404,7 +404,7 @@ class TSchemeApiBase():
         return aVal
 
     @staticmethod
-    def none(_aVal: object) -> None:
+    def _none(_aVal: object) -> None:
         '''
         return None and stop parsing
         ["none"]
@@ -431,7 +431,7 @@ class TSchemeApiBase():
         return aVal[aIdx:aEnd]
 
     @staticmethod
-    def unbracket(aVal: str, aPair: str = '()', aIdx: int = None) -> str:
+    def _unbracket(aVal: str, aPair: str = '()', aIdx: int = None) -> str:
         '''
         ["unbracket", ["()", -1]]
         '''
@@ -444,7 +444,7 @@ class TSchemeApiBase():
             return Res
 
     @staticmethod
-    def concat(aVal: str, aStr: str, aRight: bool =  True) -> str:
+    def _concat(aVal: str, aStr: str, aRight: bool =  True) -> str:
         '''
         concatinate string to left or right side
         ["concat", ["hello", true]]
@@ -474,7 +474,7 @@ class TSchemeApiBase():
         return aVal
 
     @staticmethod
-    def dict_update(aVal: list) -> dict:
+    def _dict_update(aVal: list) -> dict:
         '''
         join dict from list of dict
         ["dict_update"]
@@ -499,7 +499,7 @@ class TSchemeApiBase():
         return aVal
 
     @staticmethod
-    def dict_keyren(aVal: dict, *aPairs: list) -> dict:
+    def _dict_keyren(aVal: dict, *aPairs: list) -> dict:
         '''
         delete key from dict
         ["dict_keyren", [["old1", "new1"], ["old2", "new2]]
@@ -510,7 +510,7 @@ class TSchemeApiBase():
         return aVal
 
     @staticmethod
-    def dict_keyval2list(aVal: dict, aKeyName: str, aValName: str) -> tuple:
+    def _dict_keyval2list(aVal: dict, aKeyName: str, aValName: str) -> tuple:
         '''
         get key and value pair from dict into tuple
         ["keyval", ["name", "descr"]]
