@@ -69,17 +69,18 @@ class TClientSession():
         pass
 
     def _Init(self, aUrl: str) -> dict:
-        Url = UrlDoDict(aUrl)
+        Url = UrlToDict(aUrl)
         Scheme = Url['scheme']
         Port = int(Url['port'] or '0')
-        if (Scheme == 'https'):
-            self.Port = Port if Port else 443
-            self.Ssl = ssl.create_default_context()
-        elif (Scheme == 'http'):
-            self.Port = Port if Port else 80
-            self.Ssl = None
-        else:
-            raise ValueError(f'Invalid scheme {Scheme}')
+        match Scheme:
+            case 'https':
+                self.Port = Port if Port else 443
+                self.Ssl = ssl.create_default_context()
+            case 'http':
+                self.Port = Port if Port else 80
+                self.Ssl = None
+            case _:
+                raise ValueError(f'Invalid scheme {Scheme}')
         return Url
 
     async def _LoadChains(self, aWriter: io.RawIOBase) -> int:

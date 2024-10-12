@@ -27,41 +27,41 @@ def DictUpdateDeep(aMaster: dict, aSlave: dict, aJoin = False, aDepth: int = 99)
             Macro = re.findall(r'''\{%\s*(\w+)\s*([\w/.:-~]+)\s*%\}''', aVal)
             if (Macro):
                 Type, Val = Macro[0]
-                if (Type == 'env'):
-                    aVal = os.getenv(Val)
-                    assert(aVal), f'Unknown environment variable {Val}'
-                elif (Type == 'file_json'):
-                    File, Key = GetFileMacros(Val)
+                match Type:
+                    case 'env':
+                        aVal = os.getenv(Val)
+                        assert(aVal), f'Unknown environment variable {Val}'
+                    case 'file_json':
+                        File, Key = GetFileMacros(Val)
 
-                    with open(File, 'r', encoding = 'utf8') as F:
-                        aVal = json.load(F)
+                        with open(File, 'r', encoding = 'utf8') as F:
+                            aVal = json.load(F)
 
-                    if (Key):
-                        aVal = DeepGet(aVal, Key[0])
-                elif (Type == 'file_ini'):
-                    File, Key = GetFileMacros(Val)
+                        if (Key):
+                            aVal = DeepGet(aVal, Key[0])
+                    case 'file_ini':
+                        File, Key = GetFileMacros(Val)
 
-                    Ini = TIniFile()
-                    Ini.Read(File)
-                    if (Key):
-                        Sect = Key[0]
-                        assert(Sect in Ini.GetSections()), f'Section {Sect} not found'
-                        aVal = Ini.GetData(Sect)
-                    else:
-                        aVal = Ini.GetData('')
-                elif (Type == 'arg'):
-                    if (Val in sys.argv):
-                        Idx = sys.argv.index(Val)
-                        aVal = sys.argv[Idx + 1]
-                else:
-                    raise ValueError(f'Macros {Type}')
+                        Ini = TIniFile()
+                        Ini.Read(File)
+                        if (Key):
+                            Sect = Key[0]
+                            assert(Sect in Ini.GetSections()), f'Section {Sect} not found'
+                            aVal = Ini.GetData(Sect)
+                        else:
+                            aVal = Ini.GetData('')
+                    case 'arg':
+                        if (Val in sys.argv):
+                            Idx = sys.argv.index(Val)
+                            aVal = sys.argv[Idx + 1]
+                    case _:
+                        raise ValueError(f'Macros {Type}')
         return aVal
 
     if (aDepth <= 0):
         return
 
-    Type = type(aSlave)
-    if (Type == dict):
+    if isinstance(aSlave, dict):
         if (aMaster is None):
             aMaster = {}
         Res = aMaster
@@ -73,7 +73,7 @@ def DictUpdateDeep(aMaster: dict, aSlave: dict, aJoin = False, aDepth: int = 99)
                 Tmp = {} if isinstance(Val, dict) else []
             Data = DictUpdateDeep(Tmp, Val, aJoin, aDepth - 1)
             Res[Key] = Data
-    elif (Type == list):
+    elif isinstance(aSlave, list):
         Res = [] if (aMaster is None ) else aMaster
         for Val in aSlave:
             Val = ParseEnv(Val)

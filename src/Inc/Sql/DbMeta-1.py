@@ -56,6 +56,8 @@ class TPgMeta():
             Res = f'create {aType} index {Name} on {aTable} ({Columns});'
         elif (aType == 'primary'):
             Res = f'alter table {aTable} add primary key ({Columns});'
+        else:
+            Res = None
         return Res
 
 

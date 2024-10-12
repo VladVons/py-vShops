@@ -7,17 +7,14 @@ import re
 from bs4 import BeautifulSoup, Comment
 #
 from Inc.Util.ModHelp import GetClass
+from Inc.Var.Dict import DictUpdate
 from Inc.Var.Obj import Iif
-from Inc.Misc.Misc import FilterMatch
-from .Utils import DigSplit, TInStock, SoupGetParentsObj, GetLdJson
+from .Utils import DigSplit, SoupGetParentsObj
 from .SchemeApiBase import TSchemeApiBase
 from .ProductItemProp import TProductItemProp
 from .ProductLdJson import TProductLdJson
 from .ProductSocial import TProductOg
 from .Product import TProduct
-
-InStock = TInStock()
-
 
 
 class TSchemeExt():
@@ -25,14 +22,30 @@ class TSchemeExt():
         self.Parent = aParent
 
     def __ProductParse(self, aMethod):
-        Res = aMethod.Parse()
+        Res = {}
+
+        PossibleCategoryCnt = 1+2 # 1 category + 2 products
+        Items = aMethod.Parse(PossibleCategoryCnt)
+        if (len(Items) == PossibleCategoryCnt):
+            return Res
+
+        for xItem in Items:
+            DictUpdate(Res, xItem)
+
         for Key, Val in Res.items():
             if (Val):
-                if (Key == 'images'):
-                    for Idx, xVal in enumerate(Val):
-                        Val[Idx] = self.url_pad(xVal)
-                elif (Key == 'image'):
-                    Val = self.url_pad(Val)
+                match Key:
+                    case 'images':
+                        for Idx, xVal in enumerate(Val):
+                            Val[Idx] = self.url_pad(xVal)
+                    case 'image':
+                        Val = self.url_pad(Val)
+                        Res[Key] = Val
+                    case 'category':
+                        Name = Res.get('name')
+                        if (Name) and ('/' + Name in Val):
+                            Res[Key] = Val.replace(Name, '').rstrip('/')
+
             self.Parent.Var[f'${Key}'] = Val
         return Res
 
@@ -236,38 +249,29 @@ class TSchemeApi(TSchemeApiBase):
         if (Res):
             return Res
 
-    @staticmethod
-    def stock(aVal: str, aPresent: bool = True) -> bool:
-        '''
-        Get stock availability
-        ["stock"]
-        '''
+    # @staticmethod
+    # def serial_check(aVal: str, aLen: int = 5) -> str:
+    #     '''
+    #     check ranges [A..Z], [0..9], [-/ ] and length >= aLen
+    #     ["serial_check"]
+    #     '''
 
-        return InStock.Check(aVal, aPresent) == aPresent
+    #     if (len(aVal) >= aLen):
+    #         Res = [x for x in aVal if ('A' <= x <= 'Z') or (x in '0123456789-/. ')]
+    #         if (len(aVal) == len(Res)):
+    #             return aVal
 
-    @staticmethod
-    def serial_check(aVal: str, aLen: int = 5) -> str:
-        '''
-        check ranges [A..Z], [0..9], [-/ ] and length >= aLen
-        ["serial_check"]
-        '''
+    # @staticmethod
+    # def serial_find(aVal: str, aMatch: str = r'[A-Z0-9\-\./]{5,}') -> str:
+    #     '''
+    #     get serial number with regex matches
+    #     ["serial_find"]
+    #     '''
 
-        if (len(aVal) >= aLen):
-            Res = [x for x in aVal if ('A' <= x <= 'Z') or (x in '0123456789-/. ')]
-            if (len(aVal) == len(Res)):
-                return aVal
-
-    @staticmethod
-    def serial_find(aVal: str, aMatch: str = r'[A-Z0-9\-\./]{5,}') -> str:
-        '''
-        get serial number with regex matches
-        ["serial_find"]
-        '''
-
-        #Res = ReCmp_Serial.findall(aVal)
-        Res = re.findall(aMatch, aVal)
-        if (Res):
-            return Res
+    #     #Res = ReCmp_Serial.findall(aVal)
+    #     Res = re.findall(aMatch, aVal)
+    #     if (Res):
+    #         return Res
 
     @staticmethod
     def breadcrumb(aVal: BeautifulSoup, aFind: list, aIdx: int, aChain: bool = True) -> str:
@@ -289,34 +293,6 @@ class TSchemeApi(TSchemeApiBase):
                 return Res
 
     @staticmethod
-    def app_json(aVal: BeautifulSoup, aFind: dict = None) -> dict:
-        '''
-        searches value in sections <script>application/ld+json</script>
-        ["app_json", [{"@type": "product"}]]
-        '''
-
-        if (aFind is None):
-            aFind = {'@type': 'Product'}
-
-        Res = {}
-        Scripts = aVal.find_all('script', type='application/ld+json')
-        for xScript in Scripts:
-            Data = GetLdJson(xScript)
-            if (isinstance(Data, list)):
-                Data = Data[0]
-
-            if (isinstance(Data, dict)):
-                if (aFind):
-                    Match = FilterMatch(Data, aFind)
-                    if (Match == aFind):
-                        return Data
-                else:
-                    Name = Data.get('@type')
-                    Res[Name] = Data
-        if (len(Res) > 0):
-            return Res
-
-    @staticmethod
     def find_or(aVal: BeautifulSoup, *aPath: list) -> object:
         '''
         find first pattern from list
@@ -332,14 +308,14 @@ class TSchemeApi(TSchemeApiBase):
                 return Res
 
     @staticmethod
-    def find_not(aVal: BeautifulSoup, aTag: str, aParam: dict = None) -> object:
+    def find_not(aVal: BeautifulSoup, aTag: str, aParam: dict = None) -> bool:
         '''
-        if not find return prev value, else return None
+        if true if not found
         ["find_not", ["a", {"class": "__grayscale"}]]
         '''
-        Data = aVal.find(aTag, aParam)
-        if (Data is None):
-            return aVal
+
+        Data = aVal.find(aTag, **aParam)
+        return not bool(Data)
 
     @staticmethod
     def find_re(aVal: BeautifulSoup, aTag: str, aParam: dict = None) -> object:

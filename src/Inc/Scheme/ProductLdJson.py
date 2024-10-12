@@ -14,35 +14,43 @@ class TProductLdJson():
         self.Root = aSoup
         self.Soup = aSoup.find_all('script', type='application/ld+json')
 
-    def Parse(self):
-        def AtType(aData) -> dict:
-            nonlocal Res
-            Type = aData['@type']
-            if (Type == 'Product'):
+    def _AtType(self, aData: dict) -> list:
+        Res = {}
+        match aData['@type']:
+            case 'Product':
                 R = self._JProduct(aData)
                 if (R):
                     Res.update(R)
-            elif (Type == 'BreadcrumbList'):
+            case 'BreadcrumbList':
                 R = self._JBreadcrumbList(aData)
                 if (R):
                     Res.update({'category': R})
-            elif (Type == 'ImageGallery'):
+            case 'ImageGallery':
                 R = self._JImageGallery(aData)
                 if (R):
                     Res.update({'images': R})
+        return FilterNotNone(Res)
 
-        Res = {}
+    def Parse(self, aMaxCnt: int = 99) -> list:
+        Res = []
         if (self.Soup):
-            for xSoup in self.Soup:
+            for Idx, xSoup in enumerate(self.Soup):
+                if (Idx > aMaxCnt):
+                    break
+
                 Data = GetLdJson(xSoup)
                 if (isinstance(Data, dict)):
                     if ('@type' in Data):
-                        AtType(Data)
+                        R = self._AtType(Data)
+                        if (R):
+                            Res.append(R)
                     elif ('@graph' in Data):
                         Graph = Data.get('@graph')
                         for xGraph in Graph:
-                            AtType(xGraph)
-        return FilterNotNone(Res)
+                            R = self._AtType(xGraph)
+                            if (R):
+                                Res.append(R)
+        return Res
 
     def _JBreadcrumbList(self, aData) -> str:
         Items = aData.get('itemListElement')

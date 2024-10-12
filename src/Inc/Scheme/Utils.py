@@ -19,67 +19,6 @@ StrDigitsDotComma = StrDigits + '.,'
 ReCmp_Serial = re.compile(r'[A-Z0-9\-/]{5,}')
 
 
-class TInStock():
-    _MatchYes = [
-        # en
-        'http://schema.org/instock',
-        'https://schema.org/instock',
-        'instock',
-
-        # ua
-        'в наявності на складі',
-        'в наявності',
-        'в кошик',
-        'до кошика',
-        'додати у кошик',
-        'добавити в корзину',
-        'є в наявності',
-        'є у наявності',
-        'є на складі',
-        'закінчується',
-        'купити',
-        'на складі',
-        'товар в наявності',
-        'товар є в наявності',
-        'склад',
-
-        # ru
-        'в корзину',
-        'в наличии на складе',
-        'в наличии',
-        'добавить в корзину',
-        'есть в наличии',
-        'есть на складе',
-        'есть',
-        'заканчивается',
-        'купить',
-        'на складе',
-        'товар в наличии',
-        'товар есть в наличии',
-    ]
-
-    _MatchNo = [
-        # ua
-        'немає в наявності',
-
-        # ru
-        'нет в наличии'
-    ]
-
-    _Del = [
-        ' шт.'
-    ]
-
-    def __init__(self):
-        self.Trans = str.maketrans('', '', StrDigits)
-
-    def Check(self, aVal: str, aMatch: bool) -> bool:
-        aVal = aVal.translate(self.Trans).strip().lower()
-        for Item in self._Del:
-            aVal = aVal.replace(Item, '')
-        Match = self._MatchYes if (aMatch) else self._MatchNo
-        return aVal in Match
-
 def DigDelThousands(aVal: str) -> str:
     Pos = aVal.rfind('.')
     if (len(aVal) - Pos - 1 == 3):

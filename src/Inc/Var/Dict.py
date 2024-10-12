@@ -6,12 +6,11 @@
 def DeepGets(aObj, aKeys: list) -> list:
     Res = []
     if (aKeys):
-        Type = type(aObj)
-        if (Type == dict):
+        if isinstance(aObj, dict):
             Val = aObj.get(aKeys[0])
             if (Val is not None):
                 Res += DeepGets(Val, aKeys[1:])
-        elif (Type in [list, tuple, set]):
+        elif isinstance(aObj, (list, tuple, set)):
             for Val in aObj:
                 Res += DeepGets(Val, aKeys)
     else:

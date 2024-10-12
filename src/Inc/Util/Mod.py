@@ -11,12 +11,12 @@ import re
 def GetImportsLocal() -> set[str]: #//
     Res = set()
     for _Name, Val in globals().items():
-        Type = type(Val).__name__
-        if (Type == 'module'):
-            Res.add(Val.__name__)
-        elif (Type == 'type'):
-            ModName = sys.modules[Val.__module__].__name__
-            Res.add(ModName.split('.')[0])
+        match type(Val).__name__:
+            case 'module':
+                Res.add(Val.__name__)
+            case 'type':
+                ModName = sys.modules[Val.__module__].__name__
+                Res.add(ModName.split('.')[0])
     return Res
 
 def GetImportsGlobal() -> set[str]: #//

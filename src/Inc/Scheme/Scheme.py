@@ -7,8 +7,8 @@
 
 import json
 import re
-from urllib.parse import urlparse
 #
+from Inc.Http.HttpUrl import UrlToDict
 from Inc.Misc.Misc import FilterKeyErr
 from Inc.Misc.Python import TPython
 from Inc.Var.Dict import DeepGetByList
@@ -64,8 +64,9 @@ class TSoupScheme(TSchemeBase):
                     else:
                         Res[Key] = self._ParseRecurs(aSoup, Val, Path)
                         if (Key == 'url'):
-                            UrlData = urlparse(Val[0].lstrip('-'))
-                            self.Var['$host'] = '%s://%s' % (UrlData.scheme, UrlData.hostname)
+                            Url = [xUrl for xUrl in Val if (not xUrl.startswith('-'))][0]
+                            UrlDict = UrlToDict(Url)
+                            self.Var['$host'] = '%s://%s' % (UrlDict['scheme'], UrlDict['host'])
         elif (isinstance(aData, list)):
             if (aData[0].startswith('$')):
                 Res = self.ParseMacro(aData, aPath)
@@ -178,8 +179,8 @@ def TScheme(aScheme: str | dict):
             for xKey1, xVal1 in self.Data[aRoot].items():
                 if (isinstance(xVal1, dict) and xKey1.startswith('pipe')):
                     for xKey2, xVal2 in xVal1.items():
-                        if (Res.get(xKey2) is None):
-                            Res[xKey2] = xVal2
+                        #if (Res.get(xKey2) is None):
+                        Res[xKey2] = xVal2
             return Res
 
     return TClass(aScheme)

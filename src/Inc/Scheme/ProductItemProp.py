@@ -6,7 +6,7 @@
 import re
 from bs4 import BeautifulSoup
 #
-from Inc.Var.Dict import FilterNotNone, DictUpdate
+from Inc.Var.Dict import FilterNotNone
 
 
 class TProductItemProp():
@@ -14,11 +14,14 @@ class TProductItemProp():
         self.Root = aSoup
         self.Soup = aSoup.find_all(itemtype=re.compile('://schema.org/Product'))
 
-    def Parse(self) -> dict:
-        Res = {}
+    def Parse(self, aMaxCnt: int = 99) -> list:
+        Res = []
         if (self.Soup):
-            for xSoup in self.Soup:
-                Data = {
+            for Idx, xSoup in enumerate(self.Soup):
+                if (Idx > aMaxCnt):
+                    break
+
+                R = {
                     'mpn': self.Mpn(xSoup),
                     'brand': self.Brand(xSoup),
                     'name': self.Name(xSoup),
@@ -29,11 +32,11 @@ class TProductItemProp():
                     'features': self.Features(xSoup)
                 }
 
-                if (Data['images']) and (len(Data['images']) == 1):
-                    Data['image'] = Data['images'][0]
-                    del Data['images']
-                Res = FilterNotNone(Res)
-                DictUpdate(Res, Data, False)
+                if (R['images']) and (len(R['images']) == 1):
+                    R['image'] = R['images'][0]
+                    del R['images']
+                R = FilterNotNone(R)
+                Res.append(R)
             return Res
 
     @staticmethod
@@ -46,7 +49,13 @@ class TProductItemProp():
     def Brand(aSoup: BeautifulSoup) -> str:
         Soup = aSoup.find(itemprop='brand')
         if (Soup):
-            return Soup.get('content')
+            Res = Soup.get('content')
+            if (not Res):
+                Soup = Soup.find(itemprop='name')
+                if (Soup):
+                    Res = Soup.get('content')
+            return Res
+
 
     @staticmethod
     def Name(aSoup: BeautifulSoup) -> str:
@@ -104,6 +113,8 @@ class TProductItemProp():
                     Val = Data.get('href')
                 elif (Data.get('content')):
                     Val = Data.get('content')
+                else:
+                    Val = ''
                 return 'InStock' in Val
 
     @staticmethod
@@ -149,7 +160,9 @@ class TProductItemProp():
     def Category(aSoup: BeautifulSoup) -> str:
         Soup = aSoup.find(itemprop='category')
         if (Soup):
-            return Soup.get('content')
+            Val = Soup.get('content')
+            if (Val):
+                return Val.strip()
         else:
             Soup = aSoup.find(itemtype=re.compile('://schema.org/BreadcrumbList'))
             if (Soup):

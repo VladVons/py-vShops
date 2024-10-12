@@ -18,7 +18,8 @@ from selenium.webdriver.firefox.options import Options
 from selenium.webdriver.common.by import By
 #
 from Inc.DbList.DbList import TDbList
-from Inc.DbList.DbUtil import DblToXlsxSave
+from Inc.DbList.DbConvert import DblToXlsxSave
+
 
 class TOlx():
     def __init__(self):
