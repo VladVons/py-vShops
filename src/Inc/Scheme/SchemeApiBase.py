@@ -355,7 +355,16 @@ class TSchemeApiBase():
         ["replace", ["1", "one"]]
         hint. use \u00a0 to represen \xa0
         '''
-        return aVal.replace(aFind, aRepl)
+
+        if (isinstance(aFind, list)) and (isinstance(aRepl, list)):
+            for xFind, xRepl in zip(aFind, aRepl, strict=True):
+                aVal = aVal.replace(xFind, xRepl)
+        elif (isinstance(aFind, list)) and (isinstance(aRepl, str)):
+            for xFind in aFind:
+                aVal = aVal.replace(xFind, aRepl)
+        else:
+            aVal = aVal.replace(aFind, aRepl)
+        return aVal
 
     # @staticmethod
     # def _replace_re(aVal: str, aFind: str, aRepl: str) -> str:

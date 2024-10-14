@@ -135,10 +135,10 @@ class TSchemeExt():
 
         if (not aVal.startswith('http')):
             UrlDict = UrlToDict(self.Parent.Var.get('$url'))
-            if (aVal.startswith('/')):
-                Host = UrlToStr(UrlDict, ['scheme', 'host'])
-            else:
+            if (aVal.startswith('?')):
                 Host = UrlToStr(UrlDict, ['scheme', 'host', 'path'])
+            else:
+                Host = UrlToStr(UrlDict, ['scheme', 'host'])
             aVal = Host + '/' + aVal.lstrip('/')
         return aVal
 

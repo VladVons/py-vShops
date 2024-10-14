@@ -90,7 +90,7 @@ class TProductLdJson():
 
         if ('brand' in aData):
             Val = aData.get('brand')
-            if (not Val):
+            if (not Val) or (isinstance(Val, dict)):
                 Val = DeepGetByList(aData, ['brand', 'name'])
             Res['brand'] = Val
 
