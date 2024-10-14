@@ -8,7 +8,6 @@
 import json
 import re
 #
-from Inc.Http.HttpUrl import UrlToDict
 from Inc.Misc.Misc import FilterKeyErr
 from Inc.Misc.Python import TPython
 from Inc.Var.Dict import DeepGetByList
@@ -64,9 +63,8 @@ class TSoupScheme(TSchemeBase):
                     else:
                         Res[Key] = self._ParseRecurs(aSoup, Val, Path)
                         if (Key == 'url'):
-                            Url = [xUrl for xUrl in Val if (not xUrl.startswith('-'))][0]
-                            UrlDict = UrlToDict(Url)
-                            self.Var['$host'] = '%s://%s' % (UrlDict['scheme'], UrlDict['host'])
+                            Urls = [xUrl for xUrl in Val if (not xUrl.startswith('-'))]
+                            self.Var['$url'] = Urls[0]
         elif (isinstance(aData, list)):
             if (aData[0].startswith('$')):
                 Res = self.ParseMacro(aData, aPath)

@@ -73,7 +73,7 @@ class TProductLdJson():
                 ]
 
             if ('lowPrice' in aOffers):
-                Res['Price'] = [
+                Res['price'] = [
                     float(aOffers['lowPrice']),
                     aOffers.get('priceCurrency')
                 ]

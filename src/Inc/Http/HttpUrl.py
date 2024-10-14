@@ -32,7 +32,7 @@ def UrlToDict(aUrl: str) -> dict:
     if (Match):
         return Match.groupdict()
 
-def UrlToStr(aQuery: dict) -> str:
+def UrlToStr(aQuery: dict, aParts: list = None) -> str:
     Order = [
         ('', 'scheme', '://'),
         ('', 'host', ''),
@@ -45,7 +45,7 @@ def UrlToStr(aQuery: dict) -> str:
     Arr = []
     for xStart, xName, xEnd in Order:
         Val = aQuery.get(xName)
-        if (Val):
+        if (Val) and ((not aParts) or (xName in aParts)):
             Arr.append(f'{xStart}{Val.lstrip(xStart)}{xEnd}')
     return ''.join(Arr)
 

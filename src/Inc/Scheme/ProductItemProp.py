@@ -59,22 +59,22 @@ class TProductItemProp():
 
     @staticmethod
     def Name(aSoup: BeautifulSoup) -> str:
-        # try to exclude name in features. stupid schema.org
-        Items = [
-            tag for tag in aSoup.find_all(itemprop='name')
-            if not tag.find_parent(itemprop=lambda x: x in ['additionalProperty', 'itemListElement'])
-        ]
+        Soup = aSoup.find('h1', itemprop='name')
+        if (Soup):
+            Res = Soup.text.strip()
+        else:
+            # try to exclude name in features. stupid schema.org
+            Items = [
+                tag for tag in aSoup.find_all(itemprop='name')
+                if not tag.find_parent(itemprop=lambda x: x in ['additionalProperty', 'itemListElement'])
+            ]
 
-        if (Items):
-            Res = Items[0].get('content')
-            if (not Res):
-                Res = Items[0].text.strip()
-                if (len(Res) < 10):
-                    Soup = aSoup.find('h1', itemprop='name')
-                    if (Soup):
-                        Res = Soup.text.strip()
-            #Val = ''.join([char for char in Val if (char.isalpha() or char.isspace() or char.isdigit())])
-            return Res
+            if (Items):
+                Res = Items[0].get('content')
+                if (not Res):
+                    Res = Items[0].text.strip()
+                #Val = ''.join([char for char in Val if (char.isalpha() or char.isspace() or char.isdigit())])
+        return Res
 
     @staticmethod
     def Images(aSoup: BeautifulSoup) -> list:

@@ -6,6 +6,7 @@
 import re
 from bs4 import BeautifulSoup, Comment
 #
+from Inc.Http.HttpUrl import UrlToDict, UrlToStr
 from Inc.Util.ModHelp import GetClass
 from Inc.Var.Dict import DictUpdate
 from Inc.Var.Obj import Iif
@@ -133,8 +134,12 @@ class TSchemeExt():
         '''
 
         if (not aVal.startswith('http')):
-            Host = self.Parent.Var.get('$host')
-            aVal = Host + Iif(aVal.startswith('/'), '', '/') + aVal
+            UrlDict = UrlToDict(self.Parent.Var.get('$url'))
+            if (aVal.startswith('/')):
+                Host = UrlToStr(UrlDict, ['scheme', 'host'])
+            else:
+                Host = UrlToStr(UrlDict, ['scheme', 'host', 'path'])
+            aVal = Host + '/' + aVal.lstrip('/')
         return aVal
 
     def var_get(self, _aNotUsed: object, aName: str) -> object:
@@ -337,6 +342,17 @@ class TSchemeApi(TSchemeApiBase):
         return aVal
 
     @staticmethod
+    def find_check(aVal: BeautifulSoup, *aPath: list) -> object:
+        '''
+        if find element do nothing else returnd none
+        ["find_stop", ["div", {"class": "product"}]]
+        '''
+
+        Val = aVal.find(*aPath)
+        if (Val):
+            return aVal
+
+    @staticmethod
     def find_parent(aVal: BeautifulSoup, aStr: str, aDepth: int = 1) -> object:
         '''
         find parent object by text
@@ -366,13 +382,18 @@ class TSchemeApi(TSchemeApiBase):
     @staticmethod
     def find_all_get(aVal: BeautifulSoup, *aPath: list, a_get: dict) -> list[str]:
         '''
-        find tags and get attr
-        ["find_all_get", ["a"], {"a_get": "href"}],
+        find tags + get attr + strip text
+        ["find_all_get", ["a"], {"a_get": "href"}]
         '''
 
         Items = aVal.find_all(*aPath)
         if (Items):
-            return [xItem.get(a_get).strip() for xItem in Items if xItem.get(a_get)]
+            Res = []
+            for xItem in Items:
+                Val = xItem.get(a_get)
+                if (Val):
+                    Res.append(Val.strip())
+            return Res
 
     @staticmethod
     def list_get_keyval(aVal: list, aIdxKey: int = 0, aIdxVal: int = 1) -> tuple:
