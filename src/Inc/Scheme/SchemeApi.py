@@ -10,7 +10,7 @@ from Inc.Http.HttpUrl import UrlToDict, UrlToStr
 from Inc.Util.ModHelp import GetClass
 from Inc.Var.Dict import DictUpdate
 from Inc.Var.Obj import Iif
-from .Utils import DigSplit, SoupGetParentsObj
+from .Utils import GetPrice, SoupGetParentsObj
 from .SchemeApiBase import TSchemeApiBase
 from .ProductItemProp import TProductItemProp
 from .ProductLdJson import TProductLdJson
@@ -209,14 +209,7 @@ class TSchemeApi(TSchemeApiBase):
         ["price"]
         '''
 
-        Before, Dig, After = DigSplit(aVal)
-        if (not Dig):
-            Dig = '0'
-
-        if (not After) and (Before):
-            After = Before
-
-        return [float(Dig), After.lower()]
+        return GetPrice(aVal)
 
     @staticmethod
     def meta_price(aVal: BeautifulSoup) -> list:

@@ -48,6 +48,16 @@ def DigSplit(aVal: str) -> tuple:
         Digit = Digit.replace('.', '', Dots - 1)
     return (Before, DigDelThousands(Digit), After)
 
+def GetPrice(aVal: str) -> list:
+    Before, Dig, After = DigSplit(aVal)
+    if (not Dig):
+        Dig = '0'
+
+    if (not After) and (Before):
+        After = Before
+
+    return [float(Dig), After.lower()]
+
 def SoupGetParents(aSoup: BeautifulSoup, aItems: list, aDepth: int = 99) -> list:
     Res = []
     for Item in aItems:

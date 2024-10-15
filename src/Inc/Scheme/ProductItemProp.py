@@ -7,6 +7,7 @@ import re
 from bs4 import BeautifulSoup
 #
 from Inc.Var.Dict import FilterNotNone
+from .Utils import GetPrice
 
 
 class TProductItemProp():
@@ -127,10 +128,15 @@ class TProductItemProp():
                 if (not Val):
                     Val = Data.text.strip()
 
-                return [
-                    float(Val),
-                    Soup.find(itemprop='priceCurrency').get('content')
-                ]
+                Res = None
+                try:
+                    Res = [
+                        float(Val),
+                        Soup.find(itemprop='priceCurrency').get('content')
+                    ]
+                except ValueError:
+                    Res = GetPrice(Val)
+                return Res
 
     @staticmethod
     def Features(aSoup: BeautifulSoup) -> dict:
