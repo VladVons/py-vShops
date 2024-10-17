@@ -23,6 +23,7 @@
 #  libasound2t64
 
 
+import asyncio
 import tracemalloc
 from playwright.async_api import async_playwright
 from Inc.Var.Obj import Iif
@@ -47,6 +48,7 @@ async def UrlGetData(aUrl: str, aWaitFor: str = None) -> str:
 
             #Response = await Page.goto(aUrl, wait_until="load", timeout=10000)
             Response = await Page.goto(aUrl, wait_until="domcontentloaded", timeout=10000)
+            await asyncio.sleep(1)
             if (aWaitFor):
                 #aWaitFor = 'ul[class="pagination"]'
                 await Page.wait_for_selector(aWaitFor, timeout=3000)

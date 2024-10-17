@@ -6,7 +6,7 @@
 from bs4 import BeautifulSoup
 #
 from Inc.Var.Dict import DeepGetByList, FilterNotNone
-from .Utils import GetLdJson
+from Inc.Var.Str import ToJson
 
 
 class TProductLdJson():
@@ -38,7 +38,8 @@ class TProductLdJson():
                 if (Idx > aMaxCnt):
                     break
 
-                Data = GetLdJson(xSoup)
+                Data = xSoup.text.strip()
+                Data = ToJson(Data)
                 if (isinstance(Data, dict)):
                     if ('@type' in Data):
                         R = self._AtType(Data)

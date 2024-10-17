@@ -6,6 +6,7 @@
 import re
 import json
 
+
 def SplitPad(aCnt: int, aStr: str, aDelim: str) -> list:
     R = aStr.split(aDelim, aCnt - 1)
     for _i in range(aCnt - len(R)):
@@ -33,6 +34,35 @@ def ToInt(aVal: str) -> int:
 
 def ToBool(aVal: str) -> bool:
     return aVal.lower() in ('true', '1', 'yes', 'y', 't')
+
+# https://www.scaler.com/topics/javascript/json-validator/
+def ToJson(aVal: str) -> dict:
+    def DelLastBrace(aPair: str):
+        nonlocal Data
+
+        Opened = Data.count(aPair[0])
+        Closed = Data.count(aPair[1])
+        if (Closed > Opened):
+            LastBrace = Data.rfind(aPair[1])
+            Data = Data[:LastBrace]
+
+    try:
+        Res = json.loads(aVal, strict=False)
+    except json.JSONDecodeError as E:
+        print('Exception:', E)
+
+        Data = re.sub(r'\\(?!")', ' ', aVal)
+
+        # Replace = ' ' * len(StrWhiteSpacesEx)
+        # Trans = str.maketrans(StrWhiteSpacesEx, Replace)
+        # Data = Data.translate(Trans)
+
+        # check for extra closes brace
+        DelLastBrace('{}')
+        DelLastBrace('[]')
+
+        Res = json.loads(Data, strict=False)
+    return Res
 
 def ToObj(aVal: str) -> object:
     if (not isinstance(aVal, str)) or (aVal == ''):

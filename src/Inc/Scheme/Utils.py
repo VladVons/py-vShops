@@ -4,7 +4,6 @@
 
 
 import re
-import json
 from bs4 import BeautifulSoup
 
 
@@ -96,33 +95,3 @@ def SoupFindParents(aSoup: BeautifulSoup, aSearch: str) -> list:
     #Items = aSoup.findAll(string=aSearch)
     Items = aSoup.findAll(string=re.compile(aSearch))
     return SoupGetParents(aSoup, Items)
-
-# https://www.scaler.com/topics/javascript/json-validator/
-def GetLdJson(aSoup: BeautifulSoup) -> dict:
-    def DelLastBrace(aPair: str):
-        nonlocal Data
-
-        Opened = Data.count(aPair[0])
-        Closed = Data.count(aPair[1])
-        if (Closed > Opened):
-            LastBrace = Data.rfind(aPair[1])
-            Data = Data[:LastBrace]
-
-    Data: str = aSoup.text.strip()
-    try:
-        Res = json.loads(Data, strict=False)
-    except json.JSONDecodeError as E:
-        print('Exception:', E)
-
-        Data = re.sub(r'\\(?!")', ' ', Data)
-
-        # Replace = ' ' * len(StrWhiteSpacesEx)
-        # Trans = str.maketrans(StrWhiteSpacesEx, Replace)
-        # Data = Data.translate(Trans)
-
-        # check for extra closes brace
-        DelLastBrace('{}')
-        DelLastBrace('[]')
-
-        Res = json.loads(Data, strict=False)
-    return Res

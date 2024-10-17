@@ -8,7 +8,7 @@ import re
 #import operator
 #
 from Inc.Http.HttpUrl import UrlToDict, UrlToStr, QueryToDict, QueryToStr
-from Inc.Var.Dict import DeepGet, Filter
+from Inc.Var.Dict import DeepGet, DeepSet, Filter
 from Inc.Var.Obj import Iif
 from Inc.Util.Sys import IsDebug
 
@@ -507,6 +507,20 @@ class TSchemeApiBase():
             if Key in aVal:
                 del aVal[Key]
         return aVal
+
+    # @staticmethod
+    # def dict_keyget(aVal: dict, *aKeys: list) -> dict:
+    #     '''
+    #     get keys from dict
+    #     ["dict_filter", ["name", "descr"]]
+    #     '''
+
+    #     Res = {}
+    #     for xKey in aKeys:
+    #         Data = DeepGet(aVal, xKey)
+    #         if (Data is not None):
+    #             DeepSet(Res, xKey, Data)
+        return Res
 
     # @staticmethod
     # def _dict_keyren(aVal: dict, *aPairs: list) -> dict:

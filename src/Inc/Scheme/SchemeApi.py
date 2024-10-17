@@ -10,6 +10,7 @@ from Inc.Http.HttpUrl import UrlToDict, UrlToStr
 from Inc.Util.ModHelp import GetClass
 from Inc.Var.Dict import DictUpdate
 from Inc.Var.Obj import Iif
+from Inc.Var.Str import ToJson
 from .Utils import GetPrice, SoupGetParentsObj
 from .SchemeApiBase import TSchemeApiBase
 from .ProductItemProp import TProductItemProp
@@ -28,7 +29,10 @@ class TSchemeExt():
         PossibleCategoryCnt = 1+2 # 1 category + 2 products
         Items = aMethod.Parse(PossibleCategoryCnt)
         if (len(Items) == PossibleCategoryCnt):
-            return Res
+            # possible: name, image, price, stock
+            Products = [True for xItem in Items if len(xItem.keys()) >= 3]
+            if (len(Products) > 2):
+                return Res
 
         for xItem in Items:
             DictUpdate(Res, xItem)
@@ -387,6 +391,24 @@ class TSchemeApi(TSchemeApiBase):
                 if (Val):
                     Res.append(Val.strip())
             return Res
+
+    @staticmethod
+    def script_var(aVal: BeautifulSoup, aVar: str) -> dict:
+        '''
+        get dict var in script
+        ["find_script_var", ["var product"]]
+        '''
+
+        reVar = re.compile(aVar + r'\s*=\s*(\{.*?\})\s*;', re.DOTALL)
+
+        Scripts = aVal.find_all('script')
+        for xScript in Scripts:
+            Script = xScript.text
+            Match = reVar.search(Script)
+            if (Match):
+                Val = Match.group(1)
+                Res = ToJson(Val)
+                return Res
 
     @staticmethod
     def list_get_keyval(aVal: list, aIdxKey: int = 0, aIdxVal: int = 1) -> tuple:

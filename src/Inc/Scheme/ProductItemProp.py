@@ -55,6 +55,8 @@ class TProductItemProp():
                 Soup = Soup.find(itemprop='name')
                 if (Soup):
                     Res = Soup.get('content')
+                    if (not Res):
+                        Res = Soup.text.strip()
             return Res
 
 
@@ -83,12 +85,11 @@ class TProductItemProp():
         Soup = aSoup.find_all(itemprop='image')
         if (Soup):
             for xSoup in Soup:
-                if (xSoup.get('href')):
-                    Val = xSoup.get('href')
-
-                elif (xSoup.get('src')):
-                    Val = xSoup.get('src')
-                Res.append(Val)
+                for xName in ['href', 'src', 'content']:
+                    Val = xSoup.get(xName)
+                    if (Val):
+                        Res.append(Val)
+                        break
 
         Soup = aSoup.find(itemtype=re.compile('://schema.org/ImageGallery'))
         # if (not Soup):
