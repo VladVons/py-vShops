@@ -37,14 +37,14 @@ PythonPkg()
 {
     Dir=~/virt/$py
 
-    $py -m venv $Dir
+    #$py -m venv $Dir
     source $Dir/bin/activate
 
     pip3 install --upgrade pip
     pip3 install --requirement requires.lst
 }
 
-VSCode
+#VSCode
 
 #Python
-#PythonPkg
+PythonPkg

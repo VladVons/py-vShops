@@ -4,6 +4,7 @@
 
 
 import re
+import json
 from bs4 import BeautifulSoup
 
 
@@ -90,8 +91,57 @@ def SoupGetParentsObj(aSoup: BeautifulSoup, aItems: list, aDepth: int = 99) -> B
         Res.append(ResLoop)
     return Res
 
-
 def SoupFindParents(aSoup: BeautifulSoup, aSearch: str) -> list:
     #Items = aSoup.findAll(string=aSearch)
     Items = aSoup.findAll(string=re.compile(aSearch))
     return SoupGetParents(aSoup, Items)
+
+def FindLineInScheme(aJson: str, aPath: str) -> int:
+    # aPath = "/product/pipe_product/find/as_dict/features/find/table"
+
+    def FindLineNo(aPattern: str, aStartLine: int) -> int:
+        nonlocal Lines
+        reKey = re.compile(aPattern)
+        for i in range(aStartLine, len(Lines)):
+            if reKey.search(Lines[i]):
+                return i + 1
+        return -1
+
+    def Parse(aData, aKeys: iter) -> int:
+        CurLine = 0
+        for xKey in aKeys:
+            if (isinstance(aData, dict)):
+                if (xKey not in aData):
+                    return
+
+                CurLine = FindLineNo(rf'"{xKey}"\s*:', CurLine)
+                if (CurLine < 0):
+                    return
+
+                aData = aData[xKey]
+            elif (isinstance(aData, list)):
+                for xData in aData:
+                    if (xKey != xData[0]):
+                        return
+
+                    CurLine = FindLineNo(rf'[\s*"{xKey}"\s*]', CurLine)
+                    if (CurLine < 0):
+                        return
+
+                    if (xKey == 'as_dict'):
+                        aData = xData[1]
+                        break
+
+                    xKey = next(aKeys, None)
+                    if (xKey is None):
+                        break
+        return CurLine
+
+    try:
+        Json = json.loads(aJson)
+    except json.JSONDecodeError:
+        return
+
+    Lines = aJson.splitlines()
+    Keys = aPath.lstrip('/').split('/')
+    return Parse(Json, iter(Keys))

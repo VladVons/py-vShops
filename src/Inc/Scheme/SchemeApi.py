@@ -23,7 +23,7 @@ class TSchemeExt():
     def __init__(self, aParent):
         self.Parent = aParent
 
-    def __ProductParse(self, aMethod):
+    def __ProductParse(self, aVal: BeautifulSoup, aMethod):
         Res = {}
 
         PossibleCategoryCnt = 1+2 # 1 category + 2 products
@@ -36,6 +36,12 @@ class TSchemeExt():
 
         for xItem in Items:
             DictUpdate(Res, xItem)
+
+        if ('image' not in Res):
+            Macros = TSchemeApiExt.ext_image_og()
+            Val = self.Parent.ParsePipes(aVal, Macros, 'ProductParse')
+            if (Val):
+                Res['image'] = Val
 
         for Key, Val in Res.items():
             if (Val):
@@ -50,7 +56,6 @@ class TSchemeExt():
                         Name = Res.get('name')
                         if (Name) and ('/' + Name in Val):
                             Res[Key] = Val.replace(Name, '').rstrip('/')
-
             self.Parent.Var[f'${Key}'] = Val
         return Res
 
@@ -58,23 +63,23 @@ class TSchemeExt():
         Product = TProductItemProp(aVal)
         if (Product.Soup):
             self.Parent.Var['$product_itemprop_root'] = Product.Soup
-            return self.__ProductParse(Product)
+            return self.__ProductParse(aVal, Product)
 
     def product_ldjson(self, aVal: BeautifulSoup) -> dict:
         Product = TProductLdJson(aVal)
         if (Product.Soup):
             self.Parent.Var['$product_ldjson_root'] = Product.Soup
-            return self.__ProductParse(Product)
+            return self.__ProductParse(aVal, Product)
 
     def product_og(self, aVal: BeautifulSoup) -> dict:
         Product = TProductOg(aVal)
         if (Product.Soup):
             self.Parent.Var['$product_og_root'] = Product.Soup
-            return self.__ProductParse(Product)
+            return self.__ProductParse(aVal, Product)
 
     def product(self, aVal: BeautifulSoup) -> dict:
         Product = TProduct(aVal)
-        return self.__ProductParse(Product)
+        return self.__ProductParse(aVal, Product)
 
     def list_map(self, aVal: list, *aItems: list) -> list:
         '''
@@ -496,7 +501,6 @@ class TSchemeApiExt():
     @staticmethod
     def ext_image_og() -> list:
         return [
-            ['var_get', ['$root']],
             ['find', ['head']],
             ["find_or", [
                 ["meta", {"property": "og:image"}],
