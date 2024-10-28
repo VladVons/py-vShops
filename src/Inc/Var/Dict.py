@@ -30,6 +30,13 @@ def DeepGetByList(aData: dict, aKeys: list, aDef = None) -> object:
 def DeepGet(aData: dict, aDotKeys: str, aDef = None) -> object:
     return DeepGetByList(aData, aDotKeys.split('.'), aDef)
 
+def DeepGetDef(aData: dict, aKeys: list, aDef: list) -> list:
+    if (aData):
+        Res = [DeepGetByList(aData, Key.split('.'), Def) for Key, Def in zip(aKeys, aDef)]
+    else:
+        Res = aDef
+    return Res
+
 def DeepSetByList(aData: dict, aKeys: list, aValue: object) -> dict:
     for Key in aKeys[:-1]:
         if (Key):
@@ -48,6 +55,13 @@ def GetNotNone(aData: dict, aKey: str, aDef: object) -> object:
     if (Res is None):
         Res = aDef
     return Res
+
+def FilterNone(aData: dict, aTrue: bool) -> dict:
+    return {
+        Key: Val
+        for Key, Val in aData.items()
+        if ((Val is None) == aTrue)
+    }
 
 def SetNotNone(aData: dict, aKey: str, aVal: object):
     if (aVal is not None):
@@ -88,13 +102,6 @@ def GetDictDefs(aData: dict, aKeys: list, aDef: list) -> list:
 
     if (aData):
         Res = [_Get(Key, Def) for Key, Def in zip(aKeys, aDef, strict=True)]
-    else:
-        Res = aDef
-    return Res
-
-def GetDictDefDeep(aData: dict, aKeys: list, aDef: list) -> list:
-    if (aData):
-        Res = [DeepGetByList(aData, Key.split('.'), Def) for Key, Def in zip(aKeys, aDef)]
     else:
         Res = aDef
     return Res

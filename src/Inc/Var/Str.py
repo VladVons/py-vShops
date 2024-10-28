@@ -122,3 +122,6 @@ def StartsWith(aText: str, aItems: list[str]) -> str:
     for xItem in aItems:
         if (aText.startswith(xItem)):
             return xItem
+
+def GetLeadCharCnt(aValue: str, aChar: str) -> int:
+    return len(aValue) - len(aValue.lstrip(aChar))

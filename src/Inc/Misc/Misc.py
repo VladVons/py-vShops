@@ -3,7 +3,6 @@
 # License: GNU, see LICENSE for more details
 
 
-import os
 import json
 import random
 from datetime import datetime
@@ -79,13 +78,6 @@ def FilterKeyErr(aData: dict, aAsStr: bool = False) -> list:
         Res = ', '.join([str(x) for x in Res])
     return Res
 
-def FilterNone(aData: dict, aTrue: bool) -> dict:
-    return {
-        Key: Val
-        for Key, Val in aData.items()
-        if ((Val is None) == aTrue)
-    }
-
 def FilterMatch(aData: dict, aFind: dict) -> int:
     Items = aData.items()
     return {
@@ -96,9 +88,6 @@ def FilterMatch(aData: dict, aFind: dict) -> int:
 
 
 #--- string ---
-def GetLeadCharCnt(aValue: str, aChar: str) -> int:
-    return len(aValue) - len(aValue.lstrip(aChar))
-
 def GetRandStr(aLen: int) -> str:
     def Range(aStart: int, aEnd: int) -> list:
         return [chr(i) for i in range(aStart,  aEnd)]

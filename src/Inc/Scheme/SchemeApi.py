@@ -98,43 +98,43 @@ class TSchemeExt():
                 Res.append(Data)
         return Res
 
-    def check_or(self, aVal: object, *aPipes: list) -> list:
-        '''
-         check pipes until result is not None
-         ["check_or", [
-            [
-                ["get", ["offers.price"]]
-            ],
-            [
-                ["find", ["div", {"class": "product__price"}]], ["text"], ["price"]
-            ]
-        ]]
+    # def check_or(self, aVal: object, *aPipes: list) -> list:
+    #     '''
+    #      check pipes until result is not None
+    #      ["check_or", [
+    #         [
+    #             ["get", ["offers.price"]]
+    #         ],
+    #         [
+    #             ["find", ["div", {"class": "product__price"}]], ["text"], ["price"]
+    #         ]
+    #     ]]
 
-        '''
+    #     '''
 
-        for xPipe in aPipes:
-            Res = self.Parent.ParsePipes(aVal, xPipe, 'check_or')
-            if (Res is not None):
-                return Res
+    #     for xPipe in aPipes:
+    #         Res = self.Parent.ParsePipes(aVal, xPipe, 'check_or')
+    #         if (Res is not None):
+    #             return Res
 
-    def check_and(self, aVal: object, *aPipes: list) -> list:
-        '''
-         check all pipes for not None
-         ["check_and", [
-            [
-                ["get", ["offers.price"]]
-            ],
-            [
-              ["find", ["div", {"class": "product__price"}]], ["text"], ["price"]
-            ]
-        ]]
-        '''
+    # def check_and(self, aVal: object, *aPipes: list) -> list:
+    #     '''
+    #      check all pipes for not None
+    #      ["check_and", [
+    #         [
+    #             ["get", ["offers.price"]]
+    #         ],
+    #         [
+    #           ["find", ["div", {"class": "product__price"}]], ["text"], ["price"]
+    #         ]
+    #     ]]
+    #     '''
 
-        for xPipe in aPipes:
-            Res = self.Parent.ParsePipes(aVal, xPipe, 'check_and')
-            if (Res is None):
-                break
-        return Res
+    #     for xPipe in aPipes:
+    #         Res = self.Parent.ParsePipes(aVal, xPipe, 'check_and')
+    #         if (Res is None):
+    #             break
+    #     return Res
 
     def url_pad(self, aVal: str) -> str:
         '''
@@ -244,17 +244,17 @@ class TSchemeApi(TSchemeApiBase):
                 Res = [xItem.get('href') for xItem in Items]
                 return Res
 
-    @staticmethod
-    def price_find(aVal: str, aCur: str = 'грн') -> list:
-        r'''
-        get prices from string using regEx r'[\d\.]{2,}\s*' + aCur
-        ["price_find"]
-        '''
+    # @staticmethod
+    # def price_find(aVal: str, aCur: str = 'грн') -> list:
+    #     r'''
+    #     get prices from string using regEx r'[\d\.]{2,}\s*' + aCur
+    #     ["price_find"]
+    #     '''
 
-        Pattern = r'[\d\.]{2,}\s*' + aCur
-        Res = re.findall(Pattern, aVal)
-        if (Res):
-            return Res
+    #     Pattern = r'[\d\.]{2,}\s*' + aCur
+    #     Res = re.findall(Pattern, aVal)
+    #     if (Res):
+    #         return Res
 
     # @staticmethod
     # def serial_check(aVal: str, aLen: int = 5) -> str:
@@ -354,21 +354,21 @@ class TSchemeApi(TSchemeApiBase):
         if (Val):
             return aVal
 
-    @staticmethod
-    def find_parent(aVal: BeautifulSoup, aStr: str, aDepth: int = 1) -> object:
-        '''
-        find parent object by text
-        ["find_parent", ["hello", [3]]]
-        '''
+    # @staticmethod
+    # def find_parent(aVal: BeautifulSoup, aStr: str, aDepth: int = 1) -> object:
+    #     '''
+    #     find parent object by text
+    #     ["find_parent", ["hello", [3]]]
+    #     '''
 
-        Items = aVal.findAll(string=re.compile(aStr))
-        if (Items):
-            Res = SoupGetParentsObj(aVal, Items, aDepth)
-            return Res[0][-1]
+    #     Items = aVal.findAll(string=re.compile(aStr))
+    #     if (Items):
+    #         Res = SoupGetParentsObj(aVal, Items, aDepth)
+    #         return Res[0][-1]
 
-    @staticmethod
-    def find_next_text(aVal: BeautifulSoup, aIsText: bool = True) -> object:
-        return aVal.find_next_sibling(text = aIsText)
+    # @staticmethod
+    # def find_next_text(aVal: BeautifulSoup, aIsText: bool = True) -> object:
+    #     return aVal.find_next_sibling(text = aIsText)
 
     @staticmethod
     def find_comment(aVal: BeautifulSoup, aStr: str) -> object:
@@ -415,17 +415,17 @@ class TSchemeApi(TSchemeApiBase):
                 Res = ToJson(Val)
                 return Res
 
-    @staticmethod
-    def list_get_keyval(aVal: list, aIdxKey: int = 0, aIdxVal: int = 1) -> tuple:
-        Res = []
-        for xVal in aVal:
-            Arr = xVal.find_all()
-            Res.append((Arr[aIdxKey].text.strip(), Arr[aIdxVal].text.strip()))
-        return Res
+    # @staticmethod
+    # def list_get_keyval(aVal: list, aIdxKey: int = 0, aIdxVal: int = 1) -> tuple:
+    #     Res = []
+    #     for xVal in aVal:
+    #         Arr = xVal.find_all()
+    #         Res.append((Arr[aIdxKey].text.strip(), Arr[aIdxVal].text.strip()))
+    #     return Res
 
-    @staticmethod
-    def find_string(aVal: BeautifulSoup, aTag: str, aStr: str) -> object:
-        return aVal.find(aTag, string=aStr)
+    # @staticmethod
+    # def find_string(aVal: BeautifulSoup, aTag: str, aStr: str) -> object:
+    #     return aVal.find(aTag, string=aStr)
 
     @staticmethod
     def table(aVal: BeautifulSoup, aHeader: bool = True) -> list:
@@ -444,22 +444,22 @@ class TSchemeApi(TSchemeApiBase):
             Res.append(ResTag)
         return Res
 
-    @staticmethod
-    def table_tag(aVal: BeautifulSoup, aTag: list) -> list:
-        '''
-        parse table
-        ["table_tag", [["dt", "dd"]]]
-        '''
+    # @staticmethod
+    # def table_tag(aVal: BeautifulSoup, aTag: list) -> list:
+    #     '''
+    #     parse table
+    #     ["table_tag", [["dt", "dd"]]]
+    #     '''
 
-        Res = []
-        Tags = [aVal.find_all(Tag) for Tag in aTag]
-        for Tag in zip(*Tags):
-            ResTag = []
-            for xTag in Tag:
-                Text = xTag.text.strip()
-                ResTag.append(Text)
-            Res.append(ResTag)
-        return Res
+    #     Res = []
+    #     Tags = [aVal.find_all(Tag) for Tag in aTag]
+    #     for Tag in zip(*Tags):
+    #         ResTag = []
+    #         for xTag in Tag:
+    #             Text = xTag.text.strip()
+    #             ResTag.append(Text)
+    #         Res.append(ResTag)
+    #     return Res
 
     @staticmethod
     def help(_aVal: object) -> list:
