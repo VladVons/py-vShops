@@ -16,7 +16,7 @@ from .SchemeApiBase import TSchemeApiBase
 from .ProductItemProp import TProductItemProp
 from .ProductLdJson import TProductLdJson
 from .ProductSocial import TProductOg
-from .Product import TProduct
+# from .Product import TProduct
 
 
 class TSchemeExt():
@@ -77,9 +77,9 @@ class TSchemeExt():
             self.Parent.Var['$product_og_root'] = Product.Soup
             return self.__ProductParse(aVal, Product)
 
-    def product(self, aVal: BeautifulSoup) -> dict:
-        Product = TProduct(aVal)
-        return self.__ProductParse(aVal, Product)
+    # def product(self, aVal: BeautifulSoup) -> dict:
+    #     Product = TProduct(aVal)
+    #     return self.__ProductParse(aVal, Product)
 
     def list_map(self, aVal: list, *aItems: list) -> list:
         '''
@@ -204,7 +204,7 @@ class TSchemeApi(TSchemeApiBase):
     @staticmethod
     def text_tag(aVal: BeautifulSoup, aTag: str = 'p') -> str:
         '''
-        get all <p>, strip text, delimit with '\n'
+        get all <p>, strip text, delimit with CR
         ["text_tag"]
         '''
 
