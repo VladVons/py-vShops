@@ -11,7 +11,7 @@ from Inc.DataClass import DDataClass
 from Inc.DbList import TDbList
 from Inc.Log import TLog
 from Inc.Log.EchoFile import TEchoFile
-from Inc.Misc.Template import FormatFile
+from Inc.Misc.Template import FormatFilePkg
 from Inc.Sql import TDbExecPool, TDbPg
 from Inc.Var.Arr import Parts
 
@@ -26,10 +26,6 @@ class TSqlTenantConf():
 
 def StripQuery(aData: str) -> str:
     return re.sub(r'\s+', ' ', aData).strip()
-
-def LoadQuery(aPackage: str, aFile: str, aFormat: dict = None) -> str:
-    Dir = aPackage.replace('.', '/')
-    return FormatFile(f'{Dir}/{aFile}', aFormat or {})
 
 def DSplit(aFunc: callable) -> list[str]:
     def Decor(aData: list, aMax: int) -> list[str]:
@@ -96,7 +92,7 @@ class TSqlBase():
         self.stock_id: int
 
     async def ExecQuery(self, aPackage: str, aFile: str, aFormat: dict = None) -> TDbList:
-        Query = LoadQuery(aPackage, aFile, aFormat)
+        Query = FormatFilePkg(aPackage, aFile, aFormat)
         return await TDbExecPool(self.Db.Pool).Exec(Query)
 
     async def LoadTenantConf(self, aTenant: str, aLang: str):
