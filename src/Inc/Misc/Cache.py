@@ -5,8 +5,10 @@
 
 import os
 import time
+import json
 #
 from Inc.Misc.FS import DirWalk
+from Inc.Misc import Serialize
 
 
 class TCache():
@@ -27,16 +29,28 @@ class TCache():
     def _GetAfter(self, _aPath: str, aData: object):
         return aData
 
-    def _GetPath(self, aRoute: str, aQuery: dict) -> str:
+    def _Set(self, aPath: str, aData: str):
+        raise NotImplementedError()
+
+    def Clear(self):
+        raise NotImplementedError()
+
+    def GetSize(self):
+        raise NotImplementedError()
+
+    def _SetBefore(self, _aPath: str, aData: object):
+        return aData
+
+    def _GetPath(self, aRoute: str, aQuery: dict = None) -> str:
         if (aQuery):
             #Arr = [f'{Key}:{Val}'for Key, Val in aQuery.items()]
             #File = '_'.join(Arr)
             #File = hash(json.dumps(aQuery))
-            Str = str(sorted(aQuery.items()))
-            File = hex(abs(hash(Str)))
+            Str = aRoute + str(sorted(aQuery.items()))
         else:
-            File = 'index'
-        return f'{self.Root}/{aRoute}/{File}'
+            Str = aRoute
+        File = hex(abs(hash(Str)))
+        return f'{self.Root}/{File}.cache'
 
     def _Filter(self, aRoute: str) -> bool:
         Res = (not self.MaxAge) or \
@@ -44,23 +58,10 @@ class TCache():
               ((self.ExclModule) and (aRoute in self.ExclModule))
         return not Res
 
-
-    def _Set(self, aPath: str, aData: str):
-        raise NotImplementedError()
-
-    def _SetBefore(self, _aPath: str, aData: object):
-        return aData
-
-    def Clear(self):
-        raise NotImplementedError()
-
-    def Get(self, aRoute: str, aQuery: dict) -> str:
+    def Get(self, aRoute: str, aQuery: dict = None) -> str:
         Path = self._GetPath(aRoute, aQuery)
         Data = self._Get(Path)
         return self._GetAfter(Path, Data)
-
-    def GetSize(self):
-        raise NotImplementedError()
 
     async def ProxyA(self, aRoute: str, aQuery: dict, aFunc: callable, aFuncArgs: list = None) -> object:
         if (self._Filter(aRoute)):
@@ -87,20 +88,18 @@ class TCache():
 class TCacheFile(TCache):
     def _Get(self, aPath: str) -> str:
         if (os.path.exists(aPath)) and (time.time() - os.path.getmtime(aPath) < self.MaxAge):
-            with open(aPath, 'r', encoding='utf-8') as F:
-                return F.read()
+            return Serialize.ReadFile(aPath)
 
-    def _Set(self, aPath: str, aData: str):
+    def _Set(self, aPath: str, aData: object):
         Dir = aPath.rsplit('/', maxsplit=1)[0]
         if (not os.path.isdir(Dir)):
             os.makedirs(Dir)
-
-        with open(aPath, 'w', encoding='utf-8') as F:
-            F.write(aData)
+        Serialize.WriteFile(aPath, aData)
 
     def Clear(self):
-        for x in DirWalk(self.Root, aType = 'f'):
-            os.remove(x[0])
+        if (os.path.isdir(self.Root)):
+            for x in DirWalk(self.Root, aType = 'f'):
+                os.remove(x[0])
 
     def GetSize(self):
         Res = [1 for _x in DirWalk(self.Root, aType = 'f')]

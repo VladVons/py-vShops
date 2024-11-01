@@ -417,3 +417,10 @@ function hasAllKeys(aObj, aRequiredKeys) {
 function isDesktopDevice() {
     return window.matchMedia("(min-width: 992px)").matches
 }
+
+function getCurrentDateTimeString() {
+    const now = new Date();
+    const date = now.toISOString().split('T')[0]; // YYYY-MM-DD
+    const time = now.toTimeString().split(' ')[0].replace(/:/g, '-'); // HH-MM-SS
+    return `${date} ${time}`;
+}

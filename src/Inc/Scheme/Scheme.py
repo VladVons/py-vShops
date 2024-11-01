@@ -63,8 +63,11 @@ class TSoupScheme(TSchemeBase):
                     else:
                         Res[Key] = self._ParseRecurs(aSoup, Val, Path)
                         if (Key == 'url'):
-                            Urls = [xUrl for xUrl in Val if (not xUrl.startswith('-'))]
-                            self.Var['$url'] = Urls[0]
+                            if (isinstance(Val, list)):
+                                Urls = [xUrl for xUrl in Val if (not xUrl.startswith('-'))]
+                                self.Var['$url'] = Urls[0]
+                            else:
+                                self.Var['$url'] = Val
         elif (isinstance(aData, list)):
             if (aData[0].startswith('$')):
                 Res = self.ParseMacro(aData, aPath)

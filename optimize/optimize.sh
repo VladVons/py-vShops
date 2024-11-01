@@ -6,6 +6,13 @@ cssDirDst="build/css"
 jsDirDst="build/js"
 
 
+install()
+{
+  sudo apt install --no-install-recommends  nodejs npm
+  sudo npm install -g purgecss
+}
+
+
 cssPurge() {
     DirSrc="assets/css"
 

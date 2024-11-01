@@ -183,7 +183,8 @@ class TSchemeExt():
             for xItem in Items:
                 Val = xItem.get(a_get)
                 if (Val):
-                    Res.append(self.url_pad(Val.strip()))
+                    Url = self.url_pad(Val.strip())
+                    Res.append(Url)
             return list(set(Res))
 
 class TSchemeApi(TSchemeApiBase):
