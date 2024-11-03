@@ -15,7 +15,7 @@ from .Utils import GetPrice, SoupGetParentsObj
 from .SchemeApiBase import TSchemeApiBase
 from .ProductItemProp import TProductItemProp
 from .ProductLdJson import TProductLdJson
-from .ProductSocial import TProductOg
+# from .ProductSocial import TProductOg
 # from .Product import TProduct
 
 
@@ -60,22 +60,32 @@ class TSchemeExt():
         return Res
 
     def product_itemprop(self, aVal: BeautifulSoup) -> dict:
+        '''
+        Get product items as schema.org standard using meta key itemprop.
+        Mostly brand, name, price, stock, images.
+        '''
+
         Product = TProductItemProp(aVal)
         if (Product.Soup):
             self.Parent.Var['$product_itemprop_root'] = Product.Soup
             return self.__ProductParse(aVal, Product)
 
     def product_ldjson(self, aVal: BeautifulSoup) -> dict:
+        '''
+        Get product items as schema.org standard using json.
+        Mostly brand, name, price, stock, images.
+        '''
+
         Product = TProductLdJson(aVal)
         if (Product.Soup):
             self.Parent.Var['$product_ldjson_root'] = Product.Soup
             return self.__ProductParse(aVal, Product)
 
-    def product_og(self, aVal: BeautifulSoup) -> dict:
-        Product = TProductOg(aVal)
-        if (Product.Soup):
-            self.Parent.Var['$product_og_root'] = Product.Soup
-            return self.__ProductParse(aVal, Product)
+    # def product_og(self, aVal: BeautifulSoup) -> dict:
+    #     Product = TProductOg(aVal)
+    #     if (Product.Soup):
+    #         self.Parent.Var['$product_og_root'] = Product.Soup
+    #         return self.__ProductParse(aVal, Product)
 
     # def product(self, aVal: BeautifulSoup) -> dict:
     #     Product = TProduct(aVal)
@@ -83,7 +93,7 @@ class TSchemeExt():
 
     def list_map(self, aVal: list, *aItems: list) -> list:
         '''
-        call pipe mapper over a list
+        Call pipe mapper over a list.
         ["list_map", [
             ["get", ["offers"]],
             ["list", [0]],
@@ -138,7 +148,7 @@ class TSchemeExt():
 
     def url_pad(self, aVal: str) -> str:
         '''
-        pad url with host prefix
+        Pad url with host prefix.
         ["url_pad"]
         '''
 
@@ -153,7 +163,7 @@ class TSchemeExt():
 
     def var_get(self, _aNotUsed: object, aName: str) -> object:
         '''
-        get variable
+        Get chain variable.
         ["var_get", ["$root"]]
         '''
 
@@ -164,7 +174,7 @@ class TSchemeExt():
 
     def var_set(self, aVal: object, aName: str) -> object:
         '''
-        set current chain value to variable
+        Set current chain value to variable.
         ["var_set", ["$Price"]]
         '''
 
@@ -173,7 +183,7 @@ class TSchemeExt():
 
     def find_all_get_url(self, aVal: BeautifulSoup, *aPath: list, a_get: dict) -> list[str]:
         '''
-        find tags + get attr + strip text + pad url + unique list
+        Find tags + get attr + strip text + pad url + unique list.
         ["find_all_get", ["a"], {"a_get": "href"}],
         '''
 
@@ -191,7 +201,7 @@ class TSchemeApi(TSchemeApiBase):
     @staticmethod
     def text_strip(aVal: BeautifulSoup, aDelim = None) -> str:
         '''
-        get text object and strip string
+        Get text object and strip string.
         ["text_strip", ["|"]]
         hello world|john
         '''
@@ -205,7 +215,7 @@ class TSchemeApi(TSchemeApiBase):
     @staticmethod
     def text_tag(aVal: BeautifulSoup, aTag: str = 'p') -> str:
         '''
-        get all <p>, strip text, delimit with CR
+        Get all <p>, strip text, delimit with CR
         ["text_tag"]
         '''
 
@@ -215,7 +225,7 @@ class TSchemeApi(TSchemeApiBase):
     @staticmethod
     def price(aVal: str) -> list:
         '''
-        get price
+        Get price as two dimention list: cost, currency.
         ["price"]
         '''
 
@@ -224,7 +234,7 @@ class TSchemeApi(TSchemeApiBase):
     @staticmethod
     def meta_price(aVal: BeautifulSoup) -> list:
         '''
-        get price from meta
+        Get price from meta.
         ["meta_price"]
         '''
         Price = aVal.find('meta', {'itemprop': 'price'}).get('content')
@@ -234,7 +244,7 @@ class TSchemeApi(TSchemeApiBase):
     @staticmethod
     def meta_nears(aVal: BeautifulSoup) -> list:
         '''
-        get next and prev urls from head
+        Get 'next' and 'prev' navigation urls from html head.
         ["meta_pages"]
         '''
 
@@ -284,7 +294,8 @@ class TSchemeApi(TSchemeApiBase):
     @staticmethod
     def breadcrumb(aVal: BeautifulSoup, aFind: list, aIdx: int, aChain: bool = True) -> str:
         '''
-        equal to find_all() + list()
+        Get breadcrumb path as string delimited by '/'.
+        Equal to find_all() + list().
         ["breadcrumb", [["a"], -1]]
         '''
 
@@ -303,7 +314,7 @@ class TSchemeApi(TSchemeApiBase):
     @staticmethod
     def find_or(aVal: BeautifulSoup, *aPath: list) -> object:
         '''
-        find first pattern from list
+        Find first pattern from a list.
         ["find_or", [
             ["p", {"class": "price"}],
             ["span", {"class": "price_new"}]
@@ -318,7 +329,7 @@ class TSchemeApi(TSchemeApiBase):
     @staticmethod
     def find_not(aVal: BeautifulSoup, aTag: str, aParam: dict = None) -> bool:
         '''
-        if true if not found
+        Returns true if not found.
         ["find_not", ["a", {"class": "__grayscale"}]]
         '''
 
@@ -328,7 +339,7 @@ class TSchemeApi(TSchemeApiBase):
     @staticmethod
     def find_re(aVal: BeautifulSoup, aTag: str, aParam: dict = None) -> object:
         '''
-        find more than one word in class
+        Find regexp. Use to find more than one word in class etc.
         ["find_re", ["catalog_block.*items"]]
         '''
         for Key, Val in aParam.items():
@@ -338,6 +349,14 @@ class TSchemeApi(TSchemeApiBase):
 
     @staticmethod
     def find_path(aVal: BeautifulSoup, *aPath: list) -> object:
+        '''
+        Series of find(). Use to find nested elements.
+        ["find_path", [
+            ["div", {"class": "product-price"}],
+            ["div", {"class": "product-price__old-price"}]
+          ]],
+        '''
+
         for xPath in aPath:
             aVal = aVal.find(*xPath)
             if (aVal is None):
@@ -347,7 +366,7 @@ class TSchemeApi(TSchemeApiBase):
     @staticmethod
     def find_check(aVal: BeautifulSoup, *aPath: list) -> object:
         '''
-        if find element do nothing else returnd none
+        If find element do nothing else returns None.
         ["find_stop", ["div", {"class": "product"}]]
         '''
 
@@ -374,7 +393,7 @@ class TSchemeApi(TSchemeApiBase):
     @staticmethod
     def find_comment(aVal: BeautifulSoup, aStr: str) -> object:
         '''
-        find first element after comment
+        Find first element after comment.
         ["find_comment", ["catalog - start"]]
         '''
 
@@ -385,7 +404,7 @@ class TSchemeApi(TSchemeApiBase):
     @staticmethod
     def find_all_get(aVal: BeautifulSoup, *aPath: list, a_get: dict) -> list[str]:
         '''
-        find tags + get attr + strip text
+        Find tags + get attr + strip text.
         ["find_all_get", ["a"], {"a_get": "href"}]
         '''
 
@@ -401,7 +420,7 @@ class TSchemeApi(TSchemeApiBase):
     @staticmethod
     def script_var(aVal: BeautifulSoup, aVar: str) -> dict:
         '''
-        get dict var in script
+        Get dict var in script.
         ["find_script_var", ["var product"]]
         '''
 
@@ -431,7 +450,7 @@ class TSchemeApi(TSchemeApiBase):
     @staticmethod
     def table(aVal: BeautifulSoup, aHeader: bool = True) -> list:
         '''
-        parse table by tr, th+td
+        Get <tr>, <th>, <td> tags from <table>.
         ["table"]
         '''
 
@@ -465,7 +484,7 @@ class TSchemeApi(TSchemeApiBase):
     @staticmethod
     def help(_aVal: object) -> list:
         '''
-        show brief help
+        Show brief help.
         ["help"]
         '''
 
@@ -480,7 +499,7 @@ class TSchemeApi(TSchemeApiBase):
     @staticmethod
     def replace_br(aVal: object, aNew: str = '\n') -> list:
         '''
-        replace <br> with '\n'
+        Replace <br> with '\n'.
         ["replace_br", ["\n"]]
         '''
 

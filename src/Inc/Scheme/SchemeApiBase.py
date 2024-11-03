@@ -22,7 +22,7 @@ class TSchemeApiBase():
     @staticmethod
     def strip(aVal: str, aChars: str = None) -> str:
         '''
-        remove invisible chars
+        Remove invisible chars.
         ["strip"]
         '''
 
@@ -59,7 +59,7 @@ class TSchemeApiBase():
     @staticmethod
     def list(aVal: list, aIdx: int, aEnd: int = 0) -> object:
         '''
-        get object from list by index
+        Get object from list by index.
         ["list", [1]]
         '''
 
@@ -91,7 +91,7 @@ class TSchemeApiBase():
     @staticmethod
     def list_group(aVal: list, aStep: int, aIdxs: list) -> list:
         '''
-        group list [1,2,3,4,5,6,7,8,9,0] into [[1,3], [4,6], [7,9]]
+        Group list [1,2,3,4,5,6,7,8,9,0] into [[1,3], [4,6], [7,9]].
         ["list_group", [3, [0, 1]]]
         '''
 
@@ -105,7 +105,7 @@ class TSchemeApiBase():
     @staticmethod
     def list_join(aVal: list, aDelim: str = '\n') -> str:
         '''
-        join list ['one', 'two', 'three'] into string 'one. two. three'
+        Join list ['one', 'two', 'three'] into string 'one. two. three'.
         ["list_join", [". "]]
         '''
 
@@ -143,7 +143,7 @@ class TSchemeApiBase():
     @staticmethod
     def split(aVal: str, aDelim: str, aIdx: int = None) -> str:
         '''
-        split string by delimiter and get object from list by index
+        Split string by delimiter and get object from list by index.
         ["split", [" ", -1]]
         '''
 
@@ -171,7 +171,7 @@ class TSchemeApiBase():
     @staticmethod
     def split_cr(aVal: str, aDelim: str = '\t\n') -> dict:
         '''
-        split string into list
+        Split string into list.
         aVal = '\n\t\t\t\tWeight\t\t\n\n1.23\n\n'
         return ['Weight', '1.23']
         '''
@@ -183,7 +183,7 @@ class TSchemeApiBase():
     @staticmethod
     def val2bool(aVal: object) -> bool:
         '''
-        convert value to boolean
+        Convert value to boolean.
         ["val2bool"]
         '''
 
@@ -192,7 +192,7 @@ class TSchemeApiBase():
     @staticmethod
     def val_return(_aVal: object, aValRet: object) -> object:
         '''
-        return value
+        Return given value.
         ["val_return", true]
         '''
 
@@ -212,7 +212,7 @@ class TSchemeApiBase():
     @staticmethod
     def search_eq(aVal: str, *aStr: list) -> bool:
         '''
-        search any string from a list in aVal
+        Search any string from a list in aVal.
         ["search_eq", ["InStock", "available"]]
         '''
 
@@ -221,7 +221,7 @@ class TSchemeApiBase():
     @staticmethod
     def search_in(aVal: str, *aStr: list) -> bool:
         '''
-        search any substring from a list in aVal
+        Search any substring from a list in aVal.
         ["search_in", ["InStock", "available"]]
         '''
 
@@ -233,7 +233,7 @@ class TSchemeApiBase():
     @staticmethod
     def search_start(aVal: str, *aStr: list) -> bool:
         '''
-        search string that starts with
+        Search string that starts with.
         ["search_start", ["InStock", "available"]]
         '''
 
@@ -302,7 +302,7 @@ class TSchemeApiBase():
     @staticmethod
     def txt2float(aVal: str) -> float:
         '''
-        convert text to float
+        Convert text to float.
         ["txt2float"]
         '''
 
@@ -333,7 +333,8 @@ class TSchemeApiBase():
     @staticmethod
     def gets(aVal: dict, aKeys: str) -> object:
         '''
-        multiple get. equal to get('key1').get('key2')
+        Get nested key from dict.
+        Equal to get('key1').get('key2').
         ["gets", ["offers.availability"]]
         '''
 
@@ -342,7 +343,7 @@ class TSchemeApiBase():
     @staticmethod
     def lower(aVal: str) -> str:
         '''
-        string to lower case
+        String to lower case.
         ["lower"]
         '''
 
@@ -351,7 +352,7 @@ class TSchemeApiBase():
     @staticmethod
     def replace(aVal: str, aFind: str, aRepl: str) -> str:
         '''
-        replace string
+        Replace string.
         ["replace", ["1", "one"]]
         hint. use \u00a0 to represen \xa0
         '''
@@ -405,7 +406,7 @@ class TSchemeApiBase():
     @staticmethod
     def comment(aVal: object, aText: str, aShow: bool = False) -> object:
         '''
-        comment
+        Comment.
         ["comment", ["just comment"]]
         '''
 
@@ -425,7 +426,7 @@ class TSchemeApiBase():
     @staticmethod
     def invert(aVal: bool) -> bool:
         '''
-        return logical not
+        Invert logical value.
         ["invert"]
         '''
 
@@ -468,6 +469,11 @@ class TSchemeApiBase():
 
     @staticmethod
     def debug(aVal: object) -> object:
+        '''
+        Stops program executing under IDE.
+        For internal debugging purposes.
+        '''
+
         if (IsDebug()):
             #pylint: disable-next=forgotten-debug-statement
             breakpoint()
@@ -476,7 +482,7 @@ class TSchemeApiBase():
     @staticmethod
     def show(aVal: object) -> object:
         '''
-        show value
+        Show current chain value.
         ["show"]
         '''
 
@@ -499,7 +505,7 @@ class TSchemeApiBase():
     @staticmethod
     def dict_keydel(aVal: dict, *aKeys: list) -> dict:
         '''
-        delete key from dict
+        Delete key from dictionary.
         ["dict_keydel", ["name", "descr"]]
         '''
 
@@ -520,7 +526,7 @@ class TSchemeApiBase():
     #         Data = DeepGet(aVal, xKey)
     #         if (Data is not None):
     #             DeepSet(Res, xKey, Data)
-        return Res
+    #     return Res
 
     # @staticmethod
     # def _dict_keyren(aVal: dict, *aPairs: list) -> dict:
@@ -544,7 +550,7 @@ class TSchemeApiBase():
     @staticmethod
     def keyval2dict(aVal: list, aIdxKey: int = 0, aIdxVal: int = 1) -> dict:
         '''
-        get dict from keyval list
+        Get dictionary from key-val list.
 
         ex. 1
         ["list_map", [ ["keyval", ["name", "value"]]]]
@@ -566,6 +572,11 @@ class TSchemeApiBase():
 
     @staticmethod
     def urlquery_filter(aVal: str, *aFilter: list) -> str:
+        '''
+        Filter query parameters in URL.
+        ["urlquery_filter", ["page"]]
+        '''
+
         UrlDict = UrlToDict(aVal)
         Query = UrlDict.get('query')
         if (Query):

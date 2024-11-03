@@ -5,7 +5,6 @@
 
 import os
 import time
-import json
 #
 from Inc.Misc.FS import DirWalk
 from Inc.Misc import Serialize
@@ -13,10 +12,10 @@ from Inc.Misc import Serialize
 
 class TCache():
     def __init__(self,
-                 aRoot: str = '',
-                 aMaxAge: int = 5,
-                 aInclModule: list[str] = None,
-                 aExclModule: list[str] = None
+            aRoot: str = '',
+            aMaxAge: int = 5,
+            aInclModule: list[str] = None,
+            aExclModule: list[str] = None
         ):
         self.Root = aRoot
         self.MaxAge = aMaxAge
@@ -50,7 +49,7 @@ class TCache():
         else:
             Str = aRoute
         File = hex(abs(hash(Str)))
-        return f'{self.Root}/{File}.cache'
+        return f'{self.Root}/{File}'
 
     def _Filter(self, aRoute: str) -> bool:
         Res = (not self.MaxAge) or \
@@ -101,9 +100,13 @@ class TCacheFile(TCache):
             for x in DirWalk(self.Root, aType = 'f'):
                 os.remove(x[0])
 
-    def GetSize(self):
-        Res = [1 for _x in DirWalk(self.Root, aType = 'f')]
-        return (len(Res))
+    def GetSize(self) -> int:
+        if (os.path.isdir(self.Root)):
+            Arr = [1 for _x in DirWalk(self.Root, aType = 'f')]
+            Res = len(Arr)
+        else:
+            Res = 0
+        return Res
 
 
 class TCacheMem(TCache):

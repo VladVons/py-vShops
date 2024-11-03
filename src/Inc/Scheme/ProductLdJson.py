@@ -62,7 +62,7 @@ class TProductLdJson():
                     Val = DeepGetByList(xItem, ['item', 'name'])
                     if (not Val):
                         Val = xItem.get('name')
-                    Res.append(Val)
+                    Res.append(Val.strip())
             return '/'.join(Res)
 
     def _JProduct(self, aData) -> dict:
