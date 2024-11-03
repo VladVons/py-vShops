@@ -294,7 +294,9 @@ class TSend {
         request.send(param.data)
         if (request.status == 200) {
             if (param.type == 'json') {
-                return JSON.parse(request.responseText)
+                if (request.responseText) {
+                    return JSON.parse(request.responseText)
+                }
             } else {
                 return request.responseText
             }
