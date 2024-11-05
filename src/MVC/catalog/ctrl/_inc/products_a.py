@@ -24,6 +24,7 @@ async def Main(self, aDbl: Lib.TDbList) -> Lib.TDbList:
         Hrefs.append(f'/?route=product0/product&product_id={Rec.product_id}')
         Hrefs.append(f'/?route=product0/category&category_id={Rec.category_id}')
         Hrefs.append(f'/?route=product0/tenant&tenant_id={Rec.tenant_id}')
+
     if (self.ApiCtrl.Conf.get('seo_url')):
         Hrefs = await Lib.SeoEncodeList(self, Hrefs)
 
