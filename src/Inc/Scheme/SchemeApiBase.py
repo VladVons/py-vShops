@@ -79,14 +79,13 @@ class TSchemeApiBase():
 
     #     return sorted(set(aVal))
 
-    # @staticmethod
-    # def _list_in(aVal: list, aFind: str) -> bool:
-    #     '''
-    #     search value in list'
-    #     ["list_in"]
-    #     '''
-
-    #     return (aFind in aVal)
+    @staticmethod
+    def list_in(aVal: list, *aFind: str) -> bool:
+        '''
+        search value in list'
+        ["list_in"]
+        '''
+        return any(xVal in aFind for xVal in aVal)
 
     @staticmethod
     def list_group(aVal: list, aStep: int, aIdxs: list) -> list:
