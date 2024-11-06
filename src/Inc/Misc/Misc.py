@@ -4,7 +4,6 @@
 
 
 import json
-import random
 from datetime import datetime
 #
 
@@ -24,44 +23,7 @@ class TJsonEncoder(json.JSONEncoder):
     def Dumps(aObj):
         return json.dumps(aObj, cls = TJsonEncoder)
 
-def FormatJsonStr(aScript: str, aPad: int = 2, aChar: str = ' ') -> str:
-    Res = []
-    Level = 0
-    Lines = aScript.splitlines()
-    for Line in Lines:
-        Line = Line.strip()
-        if (Line):
-            if (Line[-1] in ['{', '[']):
-                Spaces = Level * aPad
-                Level += 1
-            elif (Line[0] in ['}', ']']):
-                Level -= 1
-                Spaces = Level * aPad
-            else:
-                Spaces = Level * aPad
-            Res.append((aChar * Spaces) + Line)
-    return '\n'.join(Res)
-
-
 #--- dict ---
-def FilterKey(aData: object, aKeys: list, aInstance: list) -> object:
-    def _FilterKey(aData: object, aKeys: list, aRes: dict, aPath: str):
-        if (isinstance(aData, dict)):
-            for Key, Val in aData.items():
-                Path = (aPath + '.' + Key).lstrip('.')
-                _FilterKey(Val, aKeys, aRes, Path)
-                if (Key in aKeys):
-                    if (aInstance == dict):
-                        aRes[Path] = Val
-                    elif (aInstance == list):
-                        aRes.append(Val)
-    if (aInstance not in [list, dict]):
-        raise ValueError('Must be dict or list')
-
-    Res = aInstance()
-    _FilterKey(aData, aKeys, Res, '')
-    return Res
-
 def FilterKeyErr(aData: dict, aAsStr: bool = False) -> list:
     def _FilterKey(aData: object, aRes: list):
         if (isinstance(aData, dict)):
@@ -77,24 +39,3 @@ def FilterKeyErr(aData: dict, aAsStr: bool = False) -> list:
     if (aAsStr):
         Res = ', '.join([str(x) for x in Res])
     return Res
-
-def FilterMatch(aData: dict, aFind: dict) -> int:
-    Items = aData.items()
-    return {
-        Pair[0]: Pair[1]
-        for Pair in aFind.items()
-        if (Pair in Items)
-    }
-
-
-#--- string ---
-def GetRandStr(aLen: int) -> str:
-    def Range(aStart: int, aEnd: int) -> list:
-        return [chr(i) for i in range(aStart,  aEnd)]
-
-    Pattern = Range(48, 57) + Range(65, 90) + Range(97, 122)
-    Rand = random.sample(Pattern, aLen)
-    return ''.join(Rand)
-
-def GetRandStrPattern(aLen: int, aPattern = 'YourPattern') -> str:
-    return ''.join((random.choice(aPattern)) for x in range(aLen))

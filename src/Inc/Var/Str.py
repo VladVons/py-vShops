@@ -4,6 +4,7 @@
 
 
 import re
+import random
 import json
 
 
@@ -63,6 +64,45 @@ def ToJson(aVal: str) -> dict:
 
         Res = json.loads(Data, strict=False)
     return Res
+
+def JsonFormat(aScript: str, aPad: int = 2, aChar: str = ' ') -> str:
+    Res = []
+    Level = 0
+    Lines = aScript.splitlines()
+    for Line in Lines:
+        Line = Line.strip()
+        if (Line):
+            if (Line[-1] in ['{', '[']):
+                Spaces = Level * aPad
+                Level += 1
+            elif (Line[0] in ['}', ']']):
+                Level -= 1
+                Spaces = Level * aPad
+            else:
+                Spaces = Level * aPad
+            Res.append((aChar * Spaces) + Line)
+    return '\n'.join(Res)
+
+def JsonKeyPos(aScript: str, aKey: str, aBrackets = '{}') -> list[int]:
+    #python has no recursive re
+    #reInfo = re.compile(r'"info":\s*{[^}]*}', flags=re.DOTALL) #ToDo
+    Res = []
+    Level = 0
+    Lines = aScript.splitlines()
+    for Idx, Line in enumerate(Lines):
+        Line = Line.strip()
+        if (Line):
+            if (f'"{aKey}"' in Line) and (Line[-1] == aBrackets[0]):
+                Level += 1
+                Res.append(Idx+1)
+            elif (Level > 0):
+                if (Line[-1] == aBrackets[0]):
+                    Level += 1
+                elif (Line[0] == aBrackets[-1]):
+                    Level -= 1
+                    if (Level == 0):
+                        Res.append(Idx-1)
+                        return Res
 
 def ToObj(aVal: str) -> object:
     if (not isinstance(aVal, str)) or (aVal == ''):
@@ -125,3 +165,14 @@ def StartsWith(aText: str, aItems: list[str]) -> str:
 
 def GetLeadCharCnt(aValue: str, aChar: str) -> int:
     return len(aValue) - len(aValue.lstrip(aChar))
+
+def GetRandStr(aLen: int) -> str:
+    def Range(aStart: int, aEnd: int) -> list:
+        return [chr(i) for i in range(aStart,  aEnd)]
+
+    Pattern = Range(48, 57) + Range(65, 90) + Range(97, 122)
+    Rand = random.sample(Pattern, aLen)
+    return ''.join(Rand)
+
+def GetRandStrPattern(aLen: int, aPattern = 'YourPattern') -> str:
+    return ''.join((random.choice(aPattern)) for x in range(aLen))

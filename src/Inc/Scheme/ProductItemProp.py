@@ -44,7 +44,9 @@ class TProductItemProp():
     def Mpn(aSoup: BeautifulSoup) -> str:
         Soup = aSoup.find(itemprop='mpn')
         if (Soup):
-            return Soup.get('content')
+            Val = Soup.get('content')
+            if (Val != 'no-content'):
+                return Val
 
     @staticmethod
     def Brand(aSoup: BeautifulSoup) -> str:

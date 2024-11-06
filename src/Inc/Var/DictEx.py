@@ -124,3 +124,21 @@ def DeepGetsRe(aObj, aKeys: list, aWithPath: bool = True) -> list:
                 Res.append(aObj)
         return Res
     return Recurs(aObj, aKeys, '')
+
+def FilterKey(aData: object, aKeys: list, aInstance: list) -> object:
+    def _FilterKey(aData: object, aKeys: list, aRes: dict, aPath: str):
+        if (isinstance(aData, dict)):
+            for Key, Val in aData.items():
+                Path = (aPath + '.' + Key).lstrip('.')
+                _FilterKey(Val, aKeys, aRes, Path)
+                if (Key in aKeys):
+                    if (aInstance == dict):
+                        aRes[Path] = Val
+                    elif (aInstance == list):
+                        aRes.append(Val)
+    if (aInstance not in [list, dict]):
+        raise ValueError('Must be dict or list')
+
+    Res = aInstance()
+    _FilterKey(aData, aKeys, Res, '')
+    return Res

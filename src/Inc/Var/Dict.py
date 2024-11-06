@@ -63,6 +63,14 @@ def FilterNone(aData: dict, aTrue: bool) -> dict:
         if ((Val is None) == aTrue)
     }
 
+def FilterMatch(aData: dict, aFind: dict) -> int:
+    Items = aData.items()
+    return {
+        Pair[0]: Pair[1]
+        for Pair in aFind.items()
+        if (Pair in Items)
+    }
+
 def SetNotNone(aData: dict, aKey: str, aVal: object):
     if (aVal is not None):
         aData[aKey] = aVal

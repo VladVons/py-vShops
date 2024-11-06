@@ -14,7 +14,7 @@ from aiohttp_session.cookie_storage import EncryptedCookieStorage
 from aiohttp_session import session_middleware
 #
 from Inc.DataClass import DDataClass
-from Inc.Misc.Misc import GetRandStr
+from Inc.Var.Str import GetRandStr
 from .ErroMiddleware import CreateErroMiddleware
 from .Common import FileReader
 
