@@ -55,15 +55,17 @@ class TProductItemProp():
 
     @staticmethod
     def Brand(aSoup: BeautifulSoup) -> str:
-        Soup = aSoup.find(itemprop='brand')
-        if (Soup):
-            Res = Soup.get('content')
+        Soup1 = aSoup.find(itemprop='brand')
+        if (Soup1):
+            Res = Soup1.get('content')
             if (not Res):
-                Soup = Soup.find(itemprop='name')
-                if (Soup):
-                    Res = Soup.get('content')
+                Soup2 = Soup1.find(itemprop='name')
+                if (Soup2):
+                    Res = Soup2.get('content')
                     if (not Res):
-                        Res = Soup.text.strip()
+                        Res = Soup2.text.strip()
+                else:
+                    Res = Soup1.text.strip()
             return Res
 
 
