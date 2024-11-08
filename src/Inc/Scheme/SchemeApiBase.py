@@ -130,14 +130,14 @@ class TSchemeApiBase():
     #     if (isinstance(aVal, list)):
     #         return sorted(aVal, key=len, reverse=aReverse)
 
-    # @staticmethod
-    # def _list_filter_len(aVal: list, aLen: int) -> list:
-    #     '''
-    #     filter list by size
-    #     ["list_filter_len", [2]]
-    #     '''
+    @staticmethod
+    def list_filter_len(aVal: list, aLen: int) -> list:
+        '''
+        filter list by size
+        ["list_filter_len", [2]]
+        '''
 
-    #     return [xVal for xVal in aVal if len(xVal) == aLen]
+        return [xVal for xVal in aVal if len(xVal) == aLen]
 
     @staticmethod
     def split(aVal: str, aDelim: str, aIdx: int = None) -> str:

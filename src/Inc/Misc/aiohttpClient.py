@@ -6,7 +6,7 @@
 import time
 import asyncio
 import aiohttp
-
+import ssl
 
 def DictToCookie(aDict) -> str:
     return '; '.join([f'{Key}={Val}' for Key, Val in aDict.items()])
@@ -39,11 +39,15 @@ async def UrlGetData(aUrl: str, aLogin: str = None, aPassword: str = None, aHead
                 Val = DictToCookie(Val)
             Headers[Key] = Val
 
+    # solved. unable to get local issuer certificate. problem loading https://hardwaredirect.pl
+    ssl_context = ssl.create_default_context()
+    ssl_context.check_hostname = False
+    ssl_context.verify_mode = ssl.CERT_NONE
+
     TimeAt = time.time()
     try:
         async with aiohttp.ClientSession(auth=Auth, headers=Headers, max_field_size=16384) as Session:
-            #async with Session.get(aUrl, allow_redirects=True, max_redirects=5) as Response:
-            async with Session.get(aUrl, allow_redirects=True) as Response:
+            async with Session.get(aUrl, allow_redirects=True, ssl=ssl_context) as Response:
                 if (Response.status == 200):
                     Data = await Response.read()
                     Res = {'status': Response.status, 'data': Data}
