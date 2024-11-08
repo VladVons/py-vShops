@@ -8,10 +8,11 @@ from bs4 import BeautifulSoup, Comment
 #
 from Inc.Http.HttpUrl import UrlToDict, UrlToStr
 from Inc.Util.ModHelp import GetClass
+from Inc.Var.Arr import Parts
 from Inc.Var.Dict import DictUpdate
 from Inc.Var.Obj import Iif
 from Inc.Var.Str import ToJson
-from .Utils import GetPrice, SoupGetParentsObj
+from .Utils import GetPrice, SoupTextTag, SoupGetParentsObj
 from .SchemeApiBase import TSchemeApiBase
 from .ProductItemProp import TProductItemProp
 from .ProductLdJson import TProductLdJson
@@ -219,8 +220,7 @@ class TSchemeApi(TSchemeApiBase):
         ["text_tag"]
         '''
 
-        Arr = [xTag.text.strip() for xTag in aVal.find_all(aTag)]
-        return '\n'.join(Arr)
+        return SoupTextTag(aVal, aTag)
 
     @staticmethod
     def price(aVal: str) -> list:
@@ -386,9 +386,9 @@ class TSchemeApi(TSchemeApiBase):
     #         Res = SoupGetParentsObj(aVal, Items, aDepth)
     #         return Res[0][-1]
 
-    # @staticmethod
-    # def find_next_text(aVal: BeautifulSoup, aIsText: bool = True) -> object:
-    #     return aVal.find_next_sibling(text = aIsText)
+    @staticmethod
+    def find_next_text(aVal: BeautifulSoup, aIsText: bool = True) -> object:
+        return aVal.find_next_sibling(text = aIsText)
 
     @staticmethod
     def find_comment(aVal: BeautifulSoup, aStr: str) -> object:
@@ -463,6 +463,37 @@ class TSchemeApi(TSchemeApiBase):
                 ResTag.append(Text)
             Res.append(ResTag)
         return Res
+
+    @staticmethod
+    def table_tag(aVal: BeautifulSoup, *aPath: list) -> list:
+        '''
+        Find objects and split each into list of text
+        ["table_tag", ["div", {"class": "product-variants-item"}]]
+        '''
+
+        Items = aVal.find_all(*aPath)
+        if (Items):
+            Separ = '\n'
+            Res = []
+            if (isinstance(aPath[0], str)):
+                for xItem in Items:
+                    Val = xItem.get_text(strip=True, separator=Separ)
+                    Arr = re.split(Separ, Val)
+                    if (Arr):
+                        Res.append(Arr)
+            elif (isinstance(aPath[0], list)):
+                Len = len(aPath[0])
+                for xPart in Parts(Items, Len):
+                    Group = []
+                    for x in xPart:
+                        Val = x.get_text(strip=True, separator=Separ)
+                        Arr = re.split(Separ, Val)
+                        if (Arr):
+                            Group.append(*Arr)
+                    Res.append(Group)
+            else:
+                raise KeyError('unsupported type')
+            return Res
 
     # @staticmethod
     # def table_tag(aVal: BeautifulSoup, aTag: list) -> list:

@@ -96,6 +96,11 @@ def SoupFindParents(aSoup: BeautifulSoup, aSearch: str) -> list:
     Items = aSoup.findAll(string=re.compile(aSearch))
     return SoupGetParents(aSoup, Items)
 
+def SoupTextTag(aSoup: BeautifulSoup, aTag: str = 'p') -> str:
+    Arr = [xTag.text.strip() for xTag in aSoup.find_all(aTag)]
+    if (Arr):
+        return '\n'.join(Arr)
+
 def FindLineInScheme(aJson: str, aPath: str) -> int:
     # aPath = "/product/pipe_product/find/as_dict/features/find/table"
 

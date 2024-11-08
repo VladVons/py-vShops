@@ -7,7 +7,7 @@ import re
 from bs4 import BeautifulSoup
 #
 from Inc.Var.Dict import FilterNotNone
-from .Utils import GetPrice
+from .Utils import GetPrice, SoupTextTag
 
 
 class TProductItemProp():
@@ -30,12 +30,17 @@ class TProductItemProp():
                     'stock': self.Stock(xSoup),
                     'price': self.Price(xSoup),
                     'category': self.Category(xSoup),
-                    'features': self.Features(xSoup)
+                    'features': self.Features(xSoup),
+                    'description': self.Description(xSoup)
                 }
+
+                if (not R.get('category')):
+                    R['category'] = self.Category(self.Root)
 
                 if (R['images']) and (len(R['images']) == 1):
                     R['image'] = R['images'][0]
                     del R['images']
+
                 R = FilterNotNone(R)
                 Res.append(R)
             return Res
@@ -164,6 +169,19 @@ class TProductItemProp():
                 if (Key and Val):
                     Res[Key] = Val
             return Res
+
+    @staticmethod
+    def Description(aSoup: BeautifulSoup) -> str:
+        Soup = aSoup.find(itemprop='description')
+        if (Soup):
+            Val = SoupTextTag(Soup, 'p')
+            if (Val):
+                return Val
+
+            Val = SoupTextTag(Soup, 'div')
+            if (Val):
+                return Val
+
 
     @staticmethod
     def Category(aSoup: BeautifulSoup) -> str:

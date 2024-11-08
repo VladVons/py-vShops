@@ -21,6 +21,9 @@ def UrlGetDataSync(aUrl: str, aHeaders: dict = None) -> dict:
     return Res
 
 async def UrlGetData(aUrl: str, aLogin: str = None, aPassword: str = None, aHeaders: dict = None):
+    # todo. cant read url with %2C
+    # https://mrpecet.pl/pl/p/Apple-MacBook-Pro-15-2015-i7-2%2C5GHz-16GB-512GB-AMD-R9-M370X/576
+
     Auth = None
     if (aLogin and aPassword):
         Auth = aiohttp.BasicAuth(login=aLogin, password=aPassword)
@@ -39,6 +42,7 @@ async def UrlGetData(aUrl: str, aLogin: str = None, aPassword: str = None, aHead
     TimeAt = time.time()
     try:
         async with aiohttp.ClientSession(auth=Auth, headers=Headers, max_field_size=16384) as Session:
+            #async with Session.get(aUrl, allow_redirects=True, max_redirects=5) as Response:
             async with Session.get(aUrl, allow_redirects=True) as Response:
                 if (Response.status == 200):
                     Data = await Response.read()
@@ -49,7 +53,8 @@ async def UrlGetData(aUrl: str, aLogin: str = None, aPassword: str = None, aHead
                     TimeAt = time.time()
                     Res = UrlGetDataSync(aUrl, Headers)
     except Exception as E:
-        Res = {'err': str(E), 'status': -1}
+        EType = type(E).__name__
+        Res = {'err': f'{EType}, {E}' , 'status': -1}
 
     Res['time'] = round(time.time() - TimeAt, 2)
     return Res
