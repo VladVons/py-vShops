@@ -133,7 +133,7 @@ class TSchemeApiBase():
     @staticmethod
     def list_filter_len(aVal: list, aLen: int) -> list:
         '''
-        filter list by size
+        Filter list by size
         ["list_filter_len", [2]]
         '''
 
@@ -171,7 +171,7 @@ class TSchemeApiBase():
     def split_cr(aVal: str, aDelim: str = '\t\n') -> dict:
         '''
         Split string into list.
-        aVal = '\n\t\t\t\tWeight\t\t\n\n1.23\n\n'
+        aVal = '\\n\\t\\t\\t Weight\\t\\t\\n\\n1.23\\n\\n'
         return ['Weight', '1.23']
         '''
 

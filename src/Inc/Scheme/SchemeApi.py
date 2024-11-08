@@ -525,13 +525,14 @@ class TSchemeApi(TSchemeApiBase):
         Data = GetClass(TSchemeExt)
         SchemeExt = [[x[2], x[3].strip()] for x in Data]
 
-        return SchemeApi + SchemeExt
+        Res = sorted(SchemeApi + SchemeExt, key=lambda x: x[0])
+        return Res
 
     @staticmethod
     def replace_br(aVal: object, aNew: str = '\n') -> list:
         '''
-        Replace <br> with '\n'.
-        ["replace_br", ["\n"]]
+        Replace <br> with '\\n'.
+        ["replace_br", ["\\n"]]
         '''
 
         for xBr in aVal.find_all('br'):
