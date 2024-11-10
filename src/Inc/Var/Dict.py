@@ -151,3 +151,7 @@ def DictDiff(aData1: dict, aData2: dict) -> dict:
         'mod': Mod,
         'changed': bool(New) or bool(Del) or bool(Mod)
     }
+
+def SortByValue(aData: dict, aName: str) -> list:
+    # SortD({'a1': {'key': 1, 'val': 111}, 'a2':{'key': 2, 'val': 222}})
+    return sorted(aData.items(), key = lambda k: k[1].get(aName))

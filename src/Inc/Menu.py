@@ -6,7 +6,7 @@
 import asyncio
 #
 from Inc.KbdTerm  import TKbdTerm
-from Inc.Var.Arr import SortLD
+from Inc.Var.List import SortLD
 from Inc.Var.Obj import GetTree
 
 

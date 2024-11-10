@@ -3,7 +3,7 @@
 # License: GNU, see LICENSE for more details
 
 
-from Inc.Var.Arr import SortDD
+from Inc.Var.List import SortByValue
 
 
 class TDbField(dict):

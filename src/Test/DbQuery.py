@@ -3,11 +3,11 @@ import asyncio
 import json
 #
 from Inc.Sql import TDbPg, TDbAuth, TDbExecPool
-from Inc.Misc.Sitemap import TSitemap
+from Inc.Misc.Sitemap import TSitemapWrite
 from Inc.DbList import TDbList, TDbRec
 
 
-class TSitemapEx(TSitemap):
+class TSitemapEx(TSitemapWrite):
     def __init__(self, aDir: str, aUrlRoot: str, aDb):
         super().__init__(aDir, aUrlRoot)
         self.Db = aDb

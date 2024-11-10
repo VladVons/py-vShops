@@ -8,6 +8,7 @@ import asyncio
 import aiohttp
 import ssl
 
+
 def DictToCookie(aDict) -> str:
     return '; '.join([f'{Key}={Val}' for Key, Val in aDict.items()])
 

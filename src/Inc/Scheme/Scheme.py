@@ -65,9 +65,14 @@ class TSoupScheme(TSchemeBase):
                         if (Key == 'url'):
                             if (isinstance(Val, list)):
                                 Urls = [xUrl for xUrl in Val if (not xUrl.startswith('-'))]
-                                self.Var['$url'] = Urls[0]
+                                Url = Urls[0]
                             else:
-                                self.Var['$url'] = Val
+                                Url = Val
+
+                            if (not Url.startswith('http')):
+                                self.Err.append(f'{aPath}/{Key} -> bad url {Url}')
+                            self.Var['$url'] = Url
+
         elif (isinstance(aData, list)):
             if (aData[0].startswith('$')):
                 Res = self.ParseMacro(aData, aPath)

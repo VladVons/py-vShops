@@ -8,7 +8,7 @@ from bs4 import BeautifulSoup, Comment
 #
 from Inc.Http.HttpUrl import UrlToDict, UrlToStr
 from Inc.Util.ModHelp import GetClass
-from Inc.Var.Arr import Parts
+from Inc.Var.List import Parts
 from Inc.Var.Dict import DictUpdate
 from Inc.Var.Obj import Iif
 from Inc.Var.Str import ToJson
@@ -327,14 +327,14 @@ class TSchemeApi(TSchemeApiBase):
                 return Res
 
     @staticmethod
-    def find_not(aVal: BeautifulSoup, aTag: str, aParam: dict = None) -> bool:
+    def find_yes(aVal: BeautifulSoup, aTag: str, aParam: dict = None) -> bool:
         '''
-        Returns true if not found.
-        ["find_not", ["a", {"class": "__grayscale"}]]
+        Return true if found.
+        ["find_yes", ["a", {"class": "__grayscale"}]]
         '''
 
-        Data = aVal.find(aTag, **aParam)
-        return not bool(Data)
+        Res = aVal.find(aTag, **aParam)
+        return bool(Res)
 
     @staticmethod
     def find_re(aVal: BeautifulSoup, aTag: str, aParam: dict = None) -> object:

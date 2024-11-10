@@ -4,12 +4,17 @@
 
 
 import os
+import re
 import time
+import gzip
 #
 from Inc.DbList import TDbList, TDbRec
+from Inc.Http.HttpUrl import UrlToDict, UrlToStr
+from Inc.Misc.aiohttpClient import UrlGetData
+from IncP.Log import Log
 
 
-class TSitemap():
+class TSitemapWrite():
     def __init__(self, aDir: str, aUrlRoot: str):
         self.Dir = aDir
         self.UrlRoot = aUrlRoot
@@ -102,3 +107,43 @@ class TSitemap():
             self.WriteIndexes(Arr)
         else:
             await self.WriteIndex(f'{self.BaseName}.xml')
+
+
+class TSitemapRead():
+    def __init__(self, aUrl: str):
+        UrlDict = UrlToDict(aUrl)
+        self.UrlRoot = UrlToStr(UrlDict, ['scheme', 'host'])
+
+    @staticmethod
+    async def _LoadRecurs(aUrl: str) -> list:
+        Res = []
+
+        UrlDown = await UrlGetData(aUrl)
+        if (UrlDown['status'] == 200):
+            if (aUrl.endswith('.xml.gz')):
+                Data = gzip.decompress(UrlDown['data'])
+            else:
+                Data = UrlDown['data'].decode('utf-8')
+
+            Urls = re.findall('<loc>(.*?)</loc>', Data)
+            for xUrl in Urls:
+                if (xUrl.endswith('.xml')) or (xUrl.endswith('.xml.gz')):
+                    Res += await TSitemapRead._LoadRecurs(xUrl)
+                else:
+                    Res.append(xUrl)
+        else:
+            Log.Print(1, 'e', 'Sitemap error %s, %s' % (UrlDown['status'], aUrl))
+        return Res
+
+    async def Load(self) -> list:
+        Url = f'{self.UrlRoot}/robots.txt'
+        UrlDown = await UrlGetData(Url)
+        if (UrlDown['status'] == 200):
+            Data = UrlDown['data'].decode('utf-8')
+            Urls = re.findall(r'(?i)^sitemap:\s*(\S+)', Data, re.MULTILINE)
+            if (Urls):
+                Url = Urls[0]
+            else:
+                Url = f'{self.UrlRoot}/sitemap.xml'
+        Res = await self._LoadRecurs(Url)
+        return Res

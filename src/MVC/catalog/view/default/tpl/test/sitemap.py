@@ -4,12 +4,12 @@
 
 
 from Inc.DbList import TDbList, TDbRec
-from Inc.Misc.Sitemap import TSitemap
+from Inc.Misc.Sitemap import TSitemapWrite
 from Inc.Var.Dict import DeepGetByList
 from IncP.FormBase import TFormBase
 
 
-class TSitemapProduct(TSitemap):
+class TSitemapProduct(TSitemapWrite):
     def __init__(self, aDir: str, aUrlRoot: str, aParent):
         super().__init__(aDir, aUrlRoot)
         self.Parent = aParent
@@ -44,7 +44,7 @@ class TSitemapProduct(TSitemap):
         return '\n'.join(Res)
 
 
-class TSitemapCategory(TSitemap):
+class TSitemapCategory(TSitemapWrite):
     def __init__(self, aDir: str, aUrlRoot: str, aParent):
         super().__init__(aDir, aUrlRoot)
         self.Parent = aParent
@@ -76,7 +76,7 @@ class TSitemapCategory(TSitemap):
         ]
         return '\n'.join(Res)
 
-class TSitemapPages(TSitemap):
+class TSitemapPages(TSitemapWrite):
     def __init__(self, aDir: str, aUrlRoot: str, aParent):
         super().__init__(aDir, aUrlRoot)
         self.Parent = aParent

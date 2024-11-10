@@ -4,7 +4,7 @@
 
 
 import re
-#import json
+import json
 #import operator
 #
 from Inc.Http.HttpUrl import UrlToDict, UrlToStr, QueryToDict, QueryToStr
@@ -289,20 +289,20 @@ class TSchemeApiBase():
     #             Res += xVal
     #     return Res
 
-    # @staticmethod
-    # def _txt2json(aVal: str) -> dict:
-    #     '''
-    #     convert text to json
-    #     ["txt2json"]
-    #     '''
+    @staticmethod
+    def text_to_json(aVal: str) -> dict:
+        '''
+        Convert text to json
+        ["text_to_json"]
+        '''
 
-    #     return json.loads(aVal)
+        return json.loads(aVal)
 
     @staticmethod
-    def txt2float(aVal: str) -> float:
+    def text_to_float(aVal: str) -> float:
         '''
         Convert text to float.
-        ["txt2float"]
+        ["text_to_float"]
         '''
 
         if (isinstance(aVal, str)):
@@ -312,13 +312,13 @@ class TSchemeApiBase():
         return aVal
 
     # @staticmethod
-    # def _txt2int(aVal: str) -> int:
+    # def text_to_int(aVal: str) -> int:
     #     '''
     #     convert text to int
-    #     ["txt2int"]
+    #     ["text_to_int"]
     #     '''
 
-    #     return int(TSchemeApiBase.txt2float(aVal))
+    #     return int(TSchemeApiBase.text_to_float(aVal))
 
     # @staticmethod
     # def _json2txt(aVal: dict) -> str:

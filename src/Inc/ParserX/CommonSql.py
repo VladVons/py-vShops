@@ -13,7 +13,7 @@ from Inc.Log import TLog
 from Inc.Log.EchoFile import TEchoFile
 from Inc.Misc.Template import FormatFilePkg
 from Inc.Sql import TDbExecPool, TDbPg
-from Inc.Var.Arr import Parts
+from Inc.Var.List import Parts
 
 
 @DDataClass
