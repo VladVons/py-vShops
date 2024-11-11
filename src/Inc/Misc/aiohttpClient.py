@@ -13,8 +13,8 @@ def DictToCookie(aDict) -> str:
     return '; '.join([f'{Key}={Val}' for Key, Val in aDict.items()])
 
 def UrlGetDataSync(aUrl: str, aHeaders: dict = None) -> dict:
-    import requests # slow
-    Response = requests.get(aUrl, timeout=3, headers=aHeaders)
+    import requests # slow load
+    Response = requests.get(aUrl, timeout=3, headers=aHeaders, allow_redirects = True)
     if (Response.status_code == 200):
         Res = {'status': Response.status_code, 'data': Response.content}
     else:
@@ -22,9 +22,6 @@ def UrlGetDataSync(aUrl: str, aHeaders: dict = None) -> dict:
     return Res
 
 async def UrlGetData(aUrl: str, aLogin: str = None, aPassword: str = None, aHeaders: dict = None):
-    # todo. cant read url with %2C
-    # https://mrpecet.pl/pl/p/Apple-MacBook-Pro-15-2015-i7-2%2C5GHz-16GB-512GB-AMD-R9-M370X/576
-
     Auth = None
     if (aLogin and aPassword):
         Auth = aiohttp.BasicAuth(login=aLogin, password=aPassword)
@@ -46,20 +43,25 @@ async def UrlGetData(aUrl: str, aLogin: str = None, aPassword: str = None, aHead
     ssl_context.verify_mode = ssl.CERT_NONE
 
     TimeAt = time.time()
-    try:
-        async with aiohttp.ClientSession(auth=Auth, headers=Headers, max_field_size=16384) as Session:
-            async with Session.get(aUrl, allow_redirects=True, ssl=ssl_context) as Response:
-                if (Response.status == 200):
-                    Data = await Response.read()
-                    Res = {'status': Response.status, 'data': Data}
-                else:
-                    # todo https://nosta.com.ua
-                    await asyncio.sleep(1)
-                    TimeAt = time.time()
-                    Res = UrlGetDataSync(aUrl, Headers)
-    except Exception as E:
-        EType = type(E).__name__
-        Res = {'err': f'{EType}, {E}' , 'status': -1}
+    if ('%' in aUrl):
+        # https://mrpecet.pl/pl/p/Apple-MacBook-Pro-15-2015-i7-2%2C5GHz-16GB-512GB-AMD-R9-M370X/576
+        # todo. aiohttp.ClientSession err: too many redirects when url has '%XX'
+        Res = UrlGetDataSync(aUrl, Headers)
+    else:
+        try:
+            async with aiohttp.ClientSession(auth=Auth, headers=Headers, max_field_size=16384) as Session:
+                async with Session.get(aUrl, allow_redirects=True, ssl=ssl_context) as Response:
+                    if (Response.status == 200):
+                        Data = await Response.read()
+                        Res = {'status': Response.status, 'data': Data}
+                    else:
+                        # todo https://nosta.com.ua
+                        await asyncio.sleep(1)
+                        TimeAt = time.time()
+                        Res = UrlGetDataSync(aUrl, Headers)
+        except Exception as E:
+            EType = type(E).__name__
+            Res = {'err': f'{EType}, {E}' , 'status': -1}
 
     Res['time'] = round(time.time() - TimeAt, 2)
     return Res
