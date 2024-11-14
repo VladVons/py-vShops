@@ -21,6 +21,12 @@ class TProductLdJson():
                 R = self._JProduct(aData)
                 if (R):
                     Res.update(R)
+            case 'ItemPage':
+                Data = aData.get('mainEntity')
+                if (Data):
+                    R = self._JProduct(Data)
+                    if (R):
+                        Res.update(R)
             case 'BreadcrumbList':
                 R = self._JBreadcrumbList(aData)
                 if (R):
@@ -86,8 +92,13 @@ class TProductLdJson():
         if ('category' in aData):
             Res['category'] = aData['category']
 
+        if ('description' in aData):
+            Data = aData['description'].strip()
+            if (len(Data) > 100):
+                Res['description'] = Data
+
         if ('name' in aData):
-            Res['name'] = aData['name']
+            Res['name'] = aData['name'].strip()
 
         if ('brand' in aData):
             Val = aData.get('brand')

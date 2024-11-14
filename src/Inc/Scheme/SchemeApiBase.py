@@ -547,26 +547,33 @@ class TSchemeApiBase():
     #     return (aVal[aKeyName], aVal[aValName])
 
     @staticmethod
-    def keyval2dict(aVal: list, aIdxKey: int = 0, aIdxVal: int = 1) -> dict:
+    def keyval2dict(aVal: list, aIdxKey: int = 0, aIdxVal: int = 1, aSaparRest = None) -> dict:
         '''
         Get dictionary from key-val list.
 
         ex. 1
-        ["list_map", [ ["keyval", ["name", "value"]]]]
+        ["list_map", [
+          ["keyval", ["name", "value"]]]
+        ],
         ["keyval2dict"]
 
         ex. 2
         ["table"]]
-        ["keyval2dict", [1, 3]]
+        ["keyval2dict", [1, 3, ", "]]
         '''
 
         Res = {}
         for xVal in aVal:
             Len = len(xVal)
-            if (aIdxKey < Len) and (aIdxVal < Len):
+            if (aIdxKey < Len):
                 Key = xVal[aIdxKey].replace("'", '').strip().rstrip(':')
-                Val = xVal[aIdxVal].strip()
-                Res[Key] = Val
+                if (aIdxVal < Len):
+                    if (aSaparRest):
+                        Arr = [x.strip() for x in xVal[aIdxVal:]]
+                        Val = aSaparRest.join(Arr)
+                    else:
+                        Val = xVal[aIdxVal].strip()
+                    Res[Key] = Val
         return Res
 
     @staticmethod

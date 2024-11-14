@@ -312,6 +312,16 @@ class TSchemeApi(TSchemeApiBase):
                 return Res
 
     @staticmethod
+    def get_yes(aVal: BeautifulSoup, aKey: str) -> bool:
+        '''
+        Return true if key exists.
+        ["get_yes", ["__grayscale"]]
+        '''
+
+        Res = aVal.get(aKey)
+        return bool(Res)
+
+    @staticmethod
     def find_or(aVal: BeautifulSoup, *aPath: list) -> object:
         '''
         Find first pattern from a list.
@@ -322,7 +332,11 @@ class TSchemeApi(TSchemeApiBase):
         '''
 
         for xPath in aPath:
-            Res = aVal.find(*xPath)
+            if (len(xPath) == 3):
+                Res = aVal.find(*xPath[:2], **xPath[2])
+            else:
+                Res = aVal.find(*xPath)
+
             if (Res is not None):
                 return Res
 
@@ -459,7 +473,7 @@ class TSchemeApi(TSchemeApiBase):
             ResTag = []
             Td = Iif(aHeader, xTr.find_all('th'), []) + xTr.find_all('td')
             for xTd in Td:
-                Text = xTd.text.strip()
+                Text = xTd.get_text(strip=True)
                 ResTag.append(Text)
             Res.append(ResTag)
         return Res
@@ -488,8 +502,10 @@ class TSchemeApi(TSchemeApiBase):
                     for x in xPart:
                         Val = x.get_text(strip=True, separator=Separ)
                         Arr = re.split(Separ, Val)
-                        if (Arr):
-                            Group.append(*Arr)
+                        if (len(Arr) == 1):
+                            Group.append(Arr[0])
+                        elif (len(Arr) > 1):
+                            Group.append(','.join(Arr))
                     Res.append(Group)
             else:
                 raise KeyError('unsupported type')
@@ -529,7 +545,7 @@ class TSchemeApi(TSchemeApiBase):
         return Res
 
     @staticmethod
-    def replace_br(aVal: object, aNew: str = '\n') -> list:
+    def replace_br(aVal: BeautifulSoup, aNew: str = '\n') -> list:
         '''
         Replace <br> with '\\n'.
         ["replace_br", ["\\n"]]
@@ -537,6 +553,18 @@ class TSchemeApi(TSchemeApiBase):
 
         for xBr in aVal.find_all('br'):
             xBr.replace_with(aNew)
+        return aVal
+
+    @staticmethod
+    def remove(aVal: BeautifulSoup, *aPath: list) -> list:
+        '''
+        remove object.
+        ["remove", ["div", {"class": "price-old"}]]
+        '''
+
+        Val = aVal.find(*aPath)
+        if (Val):
+            Val.decompose()
         return aVal
 
 
