@@ -188,14 +188,14 @@ class TSchemeApiBase():
 
         return Iif(aVal, True, False)
 
-    @staticmethod
-    def val_return(_aVal: object, aValRet: object) -> object:
-        '''
-        Return given value.
-        ["val_return", true]
-        '''
+    # @staticmethod
+    # def val_return(_aVal: object, aValRet: object) -> object:
+    #     '''
+    #     Return given value.
+    #     ["val_return", true]
+    #     '''
 
-        return aValRet
+    #     return aValRet
 
     # @staticmethod
     # def _not_none(aVal: list) -> object:
@@ -225,7 +225,7 @@ class TSchemeApiBase():
         '''
 
         for xStr in aStr:
-            if (aVal in xStr):
+            if (xStr in aVal):
                 return True
         return False
 

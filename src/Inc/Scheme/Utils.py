@@ -97,7 +97,7 @@ def SoupFindParents(aSoup: BeautifulSoup, aSearch: str) -> list:
     return SoupGetParents(aSoup, Items)
 
 def SoupTextTag(aSoup: BeautifulSoup, aTag: str = 'p') -> str:
-    Arr = [xTag.text.strip() for xTag in aSoup.find_all(aTag)]
+    Arr = [xTag.get_text(strip=True, separator='\n') for xTag in aSoup.find_all(aTag)]
     if (Arr):
         Res = '\n'.join(Arr)
         return Res.strip()

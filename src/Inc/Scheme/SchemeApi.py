@@ -322,7 +322,7 @@ class TSchemeApi(TSchemeApiBase):
         return bool(Res)
 
     @staticmethod
-    def find_or(aVal: BeautifulSoup, *aPath: list) -> object:
+    def find_or(aVal: BeautifulSoup, *aPath: list) -> BeautifulSoup:
         '''
         Find first pattern from a list.
         ["find_or", [
@@ -351,7 +351,7 @@ class TSchemeApi(TSchemeApiBase):
         return bool(Res)
 
     @staticmethod
-    def find_re(aVal: BeautifulSoup, aTag: str, aParam: dict = None) -> object:
+    def find_re(aVal: BeautifulSoup, aTag: str, aParam: dict = None) -> BeautifulSoup:
         '''
         Find regexp. Use to find more than one word in class etc.
         ["find_re", ["catalog_block.*items"]]
@@ -362,7 +362,7 @@ class TSchemeApi(TSchemeApiBase):
         return aVal.find(aTag, aParam)
 
     @staticmethod
-    def find_path(aVal: BeautifulSoup, *aPath: list) -> object:
+    def find_path(aVal: BeautifulSoup, *aPath: list) -> BeautifulSoup:
         '''
         Series of find(). Use to find nested elements.
         ["find_path", [
@@ -378,7 +378,7 @@ class TSchemeApi(TSchemeApiBase):
         return aVal
 
     @staticmethod
-    def find_check(aVal: BeautifulSoup, *aPath: list) -> object:
+    def find_check(aVal: BeautifulSoup, *aPath: list) -> BeautifulSoup:
         '''
         If find element do nothing else returns None.
         ["find_stop", ["div", {"class": "product"}]]
@@ -401,11 +401,11 @@ class TSchemeApi(TSchemeApiBase):
     #         return Res[0][-1]
 
     @staticmethod
-    def find_next_text(aVal: BeautifulSoup, aIsText: bool = True) -> object:
+    def find_next_text(aVal: BeautifulSoup, aIsText: bool = True) -> BeautifulSoup:
         return aVal.find_next_sibling(text = aIsText)
 
     @staticmethod
-    def find_comment(aVal: BeautifulSoup, aStr: str) -> object:
+    def find_comment(aVal: BeautifulSoup, aStr: str) -> BeautifulSoup:
         '''
         Find first element after comment.
         ["find_comment", ["catalog - start"]]
@@ -414,6 +414,28 @@ class TSchemeApi(TSchemeApiBase):
         Items = aVal.find_all(string=lambda xText: isinstance(xText, Comment) and aStr in xText)
         if (Items):
             return Items[0].find_next()
+
+    @staticmethod
+    def find_all_text(aVal: BeautifulSoup, *aPath: list, a_text: str, a_pos = 'in') -> list[BeautifulSoup]:
+        '''
+        Return list of elements containing a_text.
+        ["find_text", ["li"], {"a_text": "in stock"}]
+        '''
+
+        Res = []
+        for xVal in aVal.find_all(*aPath):
+            Val = xVal.get_text(strip=True)
+            match a_pos:
+                case 'in':
+                    if (a_text in Val):
+                        Res.append(xVal)
+                case 'start':
+                    if (Val.startswith(a_text)):
+                        Res.append(xVal)
+                case 'end':
+                    if (Val.endswith(a_text)):
+                        Res.append(xVal)
+        return Res
 
     @staticmethod
     def find_all_get(aVal: BeautifulSoup, *aPath: list, a_get: dict) -> list[str]:
@@ -545,7 +567,7 @@ class TSchemeApi(TSchemeApiBase):
         return Res
 
     @staticmethod
-    def replace_br(aVal: BeautifulSoup, aNew: str = '\n') -> list:
+    def replace_br(aVal: BeautifulSoup, aNew: str = '\n') -> BeautifulSoup:
         '''
         Replace <br> with '\\n'.
         ["replace_br", ["\\n"]]
@@ -556,7 +578,7 @@ class TSchemeApi(TSchemeApiBase):
         return aVal
 
     @staticmethod
-    def remove(aVal: BeautifulSoup, *aPath: list) -> list:
+    def remove(aVal: BeautifulSoup, *aPath: list) -> BeautifulSoup:
         '''
         remove object.
         ["remove", ["div", {"class": "price-old"}]]
