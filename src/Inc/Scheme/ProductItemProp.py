@@ -34,9 +34,6 @@ class TProductItemProp():
                     'description': self.Description(xSoup)
                 }
 
-                if (not R.get('category')):
-                    R['category'] = self.Category(self.Root)
-
                 if (R['images']) and (len(R['images']) == 1):
                     R['image'] = R['images'][0]
                     del R['images']
@@ -185,21 +182,33 @@ class TProductItemProp():
                 return Val
 
 
-    @staticmethod
-    def Category(aSoup: BeautifulSoup) -> str:
-        Soup = aSoup.find(itemprop='category')
-        if (Soup):
-            Val = Soup.get('content')
-            if (Val):
-                return Val.strip()
-        else:
+    def Category(self, aSoup: BeautifulSoup) -> str:
+        def GetIt(aSoup: BeautifulSoup) -> str:
             Soup = aSoup.find(itemtype=re.compile('://schema.org/BreadcrumbList'))
             if (Soup):
                 ListLI = Soup.find_all(itemtype=re.compile('://schema.org/ListItem'))
                 if (ListLI):
-                    Res = []
+                    Arr = []
                     for xListLI in ListLI:
                         Val = xListLI.find(itemprop='name')
                         if (Val):
-                            Res.append(Val.text.strip())
-                    return '/'.join(Res)
+                            Arr.append(Val.text.strip())
+                    return '/'.join(Arr)
+
+        Res = []
+        Soup = aSoup.find(itemprop='category')
+        if (Soup):
+            Val = Soup.get('content')
+            if (Val):
+                Res.append(Val.strip())
+
+        Val = GetIt(aSoup)
+        if (Val):
+            Res.append(Val)
+
+        Val = GetIt(self.Root)
+        if (Val):
+            Res.append(Val)
+
+        if (Res):
+            return max(Res, key=len)

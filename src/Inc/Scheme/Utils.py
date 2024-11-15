@@ -56,7 +56,9 @@ def GetPrice(aVal: str) -> list:
     if (not After) and (Before):
         After = Before
 
-    return [float(Dig), After.lower()]
+    Res = [float(Dig), After.lower()]
+    if (Res[0] > 0):
+        return Res
 
 def SoupGetParents(aSoup: BeautifulSoup, aItems: list, aDepth: int = 99) -> list:
     Res = []
