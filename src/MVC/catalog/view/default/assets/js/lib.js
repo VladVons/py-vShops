@@ -9,6 +9,10 @@ function isDict(aData) {
     return (aData !== null) && (typeof aData === 'object')
 }
 
+function isEmpty(aStr) {
+    return aStr === null || aStr === undefined || aStr.trim() === "";
+}
+
 class TLocalStorage {
     constructor(aStorageId) {
         this.storageId = aStorageId

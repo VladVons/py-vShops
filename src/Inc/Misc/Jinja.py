@@ -4,7 +4,7 @@ from jinja2 import Environment, BaseLoader, Template
 from jinja2.exceptions import TemplateNotFound
 #
 from Inc.DbList import TDbList
-from Inc.Var.Obj import GetTree, Iif
+from Inc.Var.Obj import GetTree, Iif, IifNone
 
 
 def Text2Html(aText: str) -> str:
@@ -115,6 +115,7 @@ class TTemplate():
         self.Env.globals['Text2Html'] = Text2Html
         self.Env.globals['Type'] = Type
         self.Env.globals['Iif'] = Iif
+        self.Env.globals['IifNone'] = IifNone
         #self.Env.filters['MyFunc'] = MyFunc
         self.Env.trim_blocks = True
         self.Env.lstrip_blocks = True
