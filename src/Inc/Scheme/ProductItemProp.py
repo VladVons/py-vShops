@@ -70,7 +70,8 @@ class TProductItemProp():
     def Name(aSoup: BeautifulSoup) -> str:
         Soup = aSoup.find('h1', itemprop='name')
         if (Soup):
-            Res = Soup.text.strip()
+            Val = Soup.get_text(strip=True, separator='\n')
+            Res = Val.split('\n', maxsplit=1)[0]
         else:
             # try to exclude name in features. stupid schema.org
             Items = [
@@ -80,8 +81,10 @@ class TProductItemProp():
 
             if (Items):
                 Res = Items[0].get('content')
-                if (not Res):
-                    Res = Items[0].text.strip()
+                if (Res):
+                    Res = Res.strip()
+                else:
+                    Res = Items[0].get_text(strip=True)
                 #Val = ''.join([char for char in Val if (char.isalpha() or char.isspace() or char.isdigit())])
         return Res
 

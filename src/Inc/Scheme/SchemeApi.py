@@ -304,11 +304,11 @@ class TSchemeApi(TSchemeApiBase):
             if (Items):
                 if (aChain):
                     Items = Items if (aIdx == -1) else Items[:aIdx + 1]
-                    Arr = [TSchemeApi.strip(x.text) for x in Items]
-                    Arr = [x.replace('/', '-') for x in Arr if (len(x) > 1)]
+                    Arr = [x.get_text(strip=True) for x in Items]
+                    Arr = [x.replace('/', '-').replace('»', '') for x in Arr if (len(x) > 1)]
                     Res = '/'.join(Arr)
                 else:
-                    Res = Items[aIdx].text.strip()
+                    Res = Items[aIdx].get_text(strip=True)
                 return Res
 
     @staticmethod

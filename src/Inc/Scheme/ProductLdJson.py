@@ -113,10 +113,10 @@ class TProductLdJson():
 
         if ('image' in aData):
             Data = aData['image']
-            if (isinstance(Data, list)):
-                Res['images'] = Data
-            else:
+            if (isinstance(Data, str)):
                 Res['image'] = Data
+            elif (isinstance(Data, list)):
+                Res['images'] = Data
 
         if ('offers' in aData):
             Offers = aData['offers']

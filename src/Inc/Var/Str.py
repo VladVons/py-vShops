@@ -58,6 +58,9 @@ def ToJson(aVal: str) -> dict:
         if ('""' in Data):
             Data = re.sub(r'(\d)""', r'\1\\""', Data)
 
+        # "from 13" to"
+        Data = re.sub(r'(\d)" ', r'\1\\"', Data)
+
         # Replace = ' ' * len(StrWhiteSpacesEx)
         # Trans = str.maketrans(StrWhiteSpacesEx, Replace)
         # Data = Data.translate(Trans)
