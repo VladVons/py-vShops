@@ -15,11 +15,11 @@ class TProductItemProp():
         self.Root = aSoup
         self.Soup = aSoup.find_all(itemtype=re.compile('://schema.org/Product'))
 
-    def Parse(self, aMaxCnt: int = 99) -> list:
+    def Parse(self, aMaxCnt: int) -> list:
         Res = []
         if (self.Soup):
             for Idx, xSoup in enumerate(self.Soup):
-                if (Idx > aMaxCnt):
+                if (Idx >= aMaxCnt):
                     break
 
                 R = {

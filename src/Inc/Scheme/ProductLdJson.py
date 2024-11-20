@@ -93,9 +93,10 @@ class TProductLdJson():
             Res['category'] = aData['category']
 
         if ('description' in aData):
-            Data = aData['description'].strip()
-            if (len(Data) > 100):
-                Res['description'] = Data
+            #Data = aData['description'].strip() # can be None
+            Data = aData['description']
+            if (Data and len(Data) > 150):
+                Res['description'] = Data.strip()
 
         if ('name' in aData):
             Res['name'] = aData['name'].strip()

@@ -311,6 +311,18 @@ class TSchemeApiBase():
             aVal = float(aVal)
         return aVal
 
+    @staticmethod
+    def text_eqi(aVal: str, *aStr: list) -> str:
+        '''
+        Filter string by string list.
+        ["text_eq", ["dell", "hp", "lenovo"]]
+        '''
+
+        Val = aVal.lower()
+        for xStr in aStr:
+            if (Val == xStr.lower()):
+                return aVal
+
     # @staticmethod
     # def text_to_int(aVal: str) -> int:
     #     '''
@@ -574,7 +586,8 @@ class TSchemeApiBase():
                     else:
                         Val = xVal[aIdxVal].strip()
                     Res[Key] = Val
-        return Res
+        if (Res):
+            return Res
 
     @staticmethod
     def urlquery_filter(aVal: str, *aFilter: list) -> str:

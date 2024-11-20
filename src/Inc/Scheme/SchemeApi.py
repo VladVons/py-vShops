@@ -12,7 +12,7 @@ from Inc.Var.List import Parts
 from Inc.Var.Dict import DictUpdate
 from Inc.Var.Obj import Iif
 from Inc.Var.Str import ToJson
-from .Utils import GetPrice, SoupTextTag, SoupGetParentsObj
+from .Utils import GetPrice, SoupTextTag
 from .SchemeApiBase import TSchemeApiBase
 from .ProductItemProp import TProductItemProp
 from .ProductLdJson import TProductLdJson
@@ -24,12 +24,11 @@ class TSchemeExt():
     def __init__(self, aParent):
         self.Parent = aParent
 
-    def __ProductParse(self, aVal: BeautifulSoup, aMethod):
+    def __ProductParse(self, aVal: BeautifulSoup, aClass, aMaxCnt: int):
         Res = {}
 
-        PossibleCategoryCnt = 1+2 # 1 category + 2 products
-        Items = aMethod.Parse(PossibleCategoryCnt)
-        if (len(Items) == PossibleCategoryCnt):
+        Items = aClass.Parse(aMaxCnt)
+        if (len(Items) == aMaxCnt):
             # possible: name, image, price, stock
             Products = [True for xItem in Items if len(xItem.keys()) >= 3]
             if (len(Products) > 2):
@@ -60,7 +59,7 @@ class TSchemeExt():
             self.Parent.Var[f'${Key}'] = Val
         return Res
 
-    def product_itemprop(self, aVal: BeautifulSoup) -> dict:
+    def product_itemprop(self, aVal: BeautifulSoup, aMaxCnt: int = None) -> dict:
         '''
         Get product items as schema.org standard using meta key itemprop.
         Mostly brand, name, price, stock, images.
@@ -68,10 +67,13 @@ class TSchemeExt():
 
         Product = TProductItemProp(aVal)
         if (Product.Soup):
-            self.Parent.Var['$product_itemprop_root'] = Product.Soup
-            return self.__ProductParse(aVal, Product)
+            if (not aMaxCnt):
+                aMaxCnt = 1+2 # 1 category + 2 products
 
-    def product_ldjson(self, aVal: BeautifulSoup) -> dict:
+            self.Parent.Var['$product_itemprop_root'] = Product.Soup
+            return self.__ProductParse(aVal, Product, aMaxCnt)
+
+    def product_ldjson(self, aVal: BeautifulSoup, aMaxCnt: int = None) -> dict:
         '''
         Get product items as schema.org standard using json.
         Mostly brand, name, price, stock, images.
@@ -79,8 +81,11 @@ class TSchemeExt():
 
         Product = TProductLdJson(aVal)
         if (Product.Soup):
+            if (not aMaxCnt):
+                aMaxCnt = 1+2 # 1 category + 2 products
+
             self.Parent.Var['$product_ldjson_root'] = Product.Soup
-            return self.__ProductParse(aVal, Product)
+            return self.__ProductParse(aVal, Product, aMaxCnt)
 
     # def product_og(self, aVal: BeautifulSoup) -> dict:
     #     Product = TProductOg(aVal)
@@ -109,24 +114,25 @@ class TSchemeExt():
                 Res.append(Data)
         return Res
 
-    # def check_or(self, aVal: object, *aPipes: list) -> list:
-    #     '''
-    #      check pipes until result is not None
-    #      ["check_or", [
-    #         [
-    #             ["get", ["offers.price"]]
-    #         ],
-    #         [
-    #             ["find", ["div", {"class": "product__price"}]], ["text"], ["price"]
-    #         ]
-    #     ]]
+    def check_or(self, aVal: object, *aPipes: list) -> list:
+        '''
+         check pipes until result is not None
+         ["check_or", [
+            [
+                ["get", ["offers.price"]]
+            ],
+            [
+                ["find", ["div", {"class": "product__price"}]],
+                ["text"],
+                ["price"]
+            ]
+        ]]
+        '''
 
-    #     '''
-
-    #     for xPipe in aPipes:
-    #         Res = self.Parent.ParsePipes(aVal, xPipe, 'check_or')
-    #         if (Res is not None):
-    #             return Res
+        for xPipe in aPipes:
+            Res = self.Parent.ParsePipes(aVal, xPipe, 'check_or')
+            if (Res is not None):
+                return Res
 
     # def check_and(self, aVal: object, *aPipes: list) -> list:
     #     '''
@@ -309,7 +315,9 @@ class TSchemeApi(TSchemeApiBase):
                     Res = '/'.join(Arr)
                 else:
                     Res = Items[aIdx].get_text(strip=True)
-                return Res
+
+                if (Res):
+                    return Res
 
     @staticmethod
     def get_yes(aVal: BeautifulSoup, aKey: str) -> bool:
