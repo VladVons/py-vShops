@@ -54,12 +54,15 @@ def ToJson(aVal: str) -> dict:
 
         Data = re.sub(r'\\(?!")', ' ', aVal)
 
-        # "Laptopy 14""
+        # "Laptopy 14"" -> "Laptopy 14\""
         if ('""' in Data):
             Data = re.sub(r'(\d)""', r'\1\\""', Data)
 
-        # "from 13" to"
+        # "from 13" to" -> "from 13\" to"
         Data = re.sub(r'(\d)" ', r'\1\\"', Data)
+
+        # ""Dell"" -> "Dell"
+        Data = re.sub(r'""(.*?)""', r'"\1"', Data)
 
         # Replace = ' ' * len(StrWhiteSpacesEx)
         # Trans = str.maketrans(StrWhiteSpacesEx, Replace)

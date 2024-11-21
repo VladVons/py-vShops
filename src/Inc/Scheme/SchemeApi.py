@@ -341,7 +341,11 @@ class TSchemeApi(TSchemeApiBase):
 
         for xPath in aPath:
             if (len(xPath) == 3):
-                Res = aVal.find(*xPath[:2], **xPath[2])
+                Dict = xPath[2]
+                if ('re_text' in Dict):
+                    Dict['text'] = re.compile(Dict['re_text'])
+                    del Dict['re_text']
+                Res = aVal.find(*xPath[:2], **Dict)
             else:
                 Res = aVal.find(*xPath)
 
