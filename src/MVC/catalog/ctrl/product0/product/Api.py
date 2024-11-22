@@ -141,6 +141,7 @@ async def Main(self, aData: dict = None) -> dict:
             'priceCurrency': DblPriceSale.Rec.alias
         }
     }
+    Lib.DelValues(Schema, ['', [], {}, None])
     Res['schema'] = json.dumps(Schema, ensure_ascii=False)
 
     Href = {

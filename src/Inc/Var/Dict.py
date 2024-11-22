@@ -63,6 +63,19 @@ def FilterNone(aData: dict, aTrue: bool) -> dict:
         if ((Val is None) == aTrue)
     }
 
+def DelValues(aData: dict, aVals: list):
+    '''
+    Recursively del values that match a list
+    Del(dict1, ['', [], {}, None])
+    '''
+    Keys = list(aData.keys())
+    for xKey in Keys:
+        Val = aData[xKey]
+        if (Val in aVals):
+            del aData[xKey]
+        elif (isinstance(Val, dict)):
+            DelValues(Val, aVals)
+
 def FilterMatch(aData: dict, aFind: dict) -> int:
     Items = aData.items()
     return {
@@ -77,9 +90,6 @@ def SetNotNone(aData: dict, aKey: str, aVal: object):
 
 def Filter(aData: dict, aKeys: list) -> dict:
     return {Key: aData[Key] for Key in aKeys if (Key in aData)}
-
-def FilterNotNone(aData: dict) -> dict:
-    return {Key: Val for Key, Val in aData.items() if (Val is not None)}
 
 def GetDict(aData: dict, aKeys: list, aStrict: bool = False) -> list:
     if (aStrict):

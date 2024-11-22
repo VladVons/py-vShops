@@ -21,7 +21,7 @@ def GetTree(aObj, aMaxDepth: int = 99) -> iter:
                 yield (True, aPrefix, aObj, aDepth)
                 for Obj in aObj:
                     yield from Recurs(Obj, aPrefix, aDepth + 1)
-            elif (Type in (str, int, float, bool)):
+            elif (Type in (str, int, float, bool, type(None))):
                 yield (False, aPrefix, aObj, aDepth)
             elif (Type.__name__ in ['method', 'function']):
                 yield (False, f'{aPrefix}()', aObj, aDepth)

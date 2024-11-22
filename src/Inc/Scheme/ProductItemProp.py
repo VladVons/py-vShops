@@ -6,7 +6,7 @@
 import re
 from bs4 import BeautifulSoup
 #
-from Inc.Var.Dict import FilterNotNone
+from Inc.Var.Dict import FilterNone
 from .Utils import GetPrice, SoupTextTag
 
 
@@ -38,7 +38,7 @@ class TProductItemProp():
                     R['image'] = R['images'][0]
                     del R['images']
 
-                R = FilterNotNone(R)
+                R = FilterNone(R, False)
                 Res.append(R)
             return Res
 

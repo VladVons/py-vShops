@@ -5,7 +5,7 @@
 
 from bs4 import BeautifulSoup
 #
-from Inc.Var.Dict import DeepGetByList, FilterNotNone
+from Inc.Var.Dict import DeepGetByList, FilterNone
 from Inc.Var.Str import ToJson
 
 
@@ -35,7 +35,7 @@ class TProductLdJson():
                 R = self._JImageGallery(aData)
                 if (R):
                     Res.update({'images': R})
-        return FilterNotNone(Res)
+        return FilterNone(Res, False)
 
     def Parse(self, aMaxCnt: int = 99) -> list:
         Res = []

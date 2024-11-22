@@ -199,7 +199,7 @@ class TSchemeExt():
             Res = []
             for xItem in Items:
                 Val = xItem.get(a_get)
-                if (Val):
+                if (Val) and (Val != '#'):
                     Url = self.url_pad(Val.strip())
                     Res.append(Url)
             return list(set(Res))
