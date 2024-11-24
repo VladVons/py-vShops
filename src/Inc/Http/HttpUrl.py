@@ -71,4 +71,12 @@ def QueryToStr(aQuery: dict) -> str:
             Arr.append(xKey)
         else:
             Arr.append(f'{xKey}={xVal}')
-    return '='.join(Arr)
+    return '&'.join(Arr)
+
+def QueryUpdate(aQuery: list[str]) -> str:
+    Res = {}
+    for xQuery in aQuery:
+        if (xQuery):
+            Dict = QueryToDict(xQuery)
+            Res.update(Dict)
+    return QueryToStr(Res)

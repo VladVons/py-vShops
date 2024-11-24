@@ -70,14 +70,14 @@ class TSchemeApiBase():
                 Res = aVal[aIdx]
             return Res
 
-    # @staticmethod
-    # def _list_uniq(aVal: list) -> list:
-    #     '''
-    #     return unique sorted items from a list'
-    #     ["list_uniq"]
-    #     '''
+    @staticmethod
+    def list_uniq(aVal: list) -> list:
+        '''
+        return unique sorted items from a list'
+        ["list_uniq"]
+        '''
 
-    #     return sorted(set(aVal))
+        return sorted(set(aVal))
 
     @staticmethod
     def list_in(aVal: list, *aFind: str) -> bool:

@@ -6,7 +6,7 @@
 import re
 from bs4 import BeautifulSoup, Comment
 #
-from Inc.Http.HttpUrl import UrlToDict, UrlToStr
+from Inc.Http.HttpUrl import UrlToDict, UrlToStr, QueryUpdate
 from Inc.Util.ModHelp import GetClass
 from Inc.Var.List import Parts
 from Inc.Var.Dict import DictUpdate
@@ -162,11 +162,35 @@ class TSchemeExt():
         if (not aVal.startswith('http')):
             UrlDict = UrlToDict(self.Parent.Var.get('$url'))
             if (aVal.startswith('?')):
-                Host = UrlToStr(UrlDict, ['scheme', 'host', 'path'])
+                Url = UrlToStr(UrlDict, ['scheme', 'host', 'path'])
+            elif (aVal.startswith('//')):
+                Url = UrlDict['scheme'] + ':/'
             else:
-                Host = UrlToStr(UrlDict, ['scheme', 'host'])
-            aVal = Host + '/' + aVal.lstrip('/')
+                Url = UrlToStr(UrlDict, ['scheme', 'host'])
+            aVal = Url + '/' + aVal.lstrip('/')
         return aVal
+
+    def url_format(self, aVal: str|list, aFormat: str) -> str:
+        '''
+        Format url using string or list params.
+        ["url_format", ["&page={0}"]]
+        '''
+
+        Url = self.Parent.Var.get('$url')
+
+        if (isinstance(aVal, str)):
+            aVal = [aVal]
+
+        Suffix = aFormat.format(*aVal)
+        if (Suffix[0] in ['&', '?']):
+            UrlDict = UrlToDict(Url)
+            UrlDict['query'] = QueryUpdate([UrlDict['query'], Suffix[1:]])
+            Res = UrlToStr(UrlDict)
+        elif (Suffix[0] == '/'):
+            Res = Url.rstrip('/') + Suffix
+        else:
+            Res = Url + Suffix
+        return Res
 
     def var_get(self, _aNotUsed: object, aName: str) -> object:
         '''
