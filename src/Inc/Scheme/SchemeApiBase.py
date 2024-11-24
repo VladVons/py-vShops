@@ -579,7 +579,7 @@ class TSchemeApiBase():
             Len = len(xVal)
             if (aIdxKey < Len):
                 Key = xVal[aIdxKey].replace("'", '').strip().rstrip(':')
-                if (aIdxVal < Len):
+                if (Key) and (aIdxVal < Len):
                     if (aSaparRest):
                         Arr = [x.strip() for x in xVal[aIdxVal:]]
                         Val = aSaparRest.join(Arr)

@@ -224,6 +224,9 @@ class TSchemeExt():
             for xItem in Items:
                 Val = xItem.get(a_get)
                 if (Val) and (Val != '#'):
+                    # get pure image path without query
+                    if ('.jpg?' in Val):
+                       Val = Val.split('?', maxsplit=1)[0]
                     Url = self.url_pad(Val.strip())
                     Res.append(Url)
             return list(set(Res))
@@ -493,7 +496,7 @@ class TSchemeApi(TSchemeApiBase):
     def script_var(aVal: BeautifulSoup, aVar: str) -> dict:
         '''
         Get dict var in script.
-        ["find_script_var", ["var product"]]
+        ["script_var", ["var product"]]
         '''
 
         reVar = re.compile(aVar + r'\s*=\s*(\{.*?\})\s*;', re.DOTALL)
@@ -504,7 +507,11 @@ class TSchemeApi(TSchemeApiBase):
             Match = reVar.search(Script)
             if (Match):
                 Val = Match.group(1)
-                Res = ToJson(Val)
+                try:
+                    Res = ToJson(Val)
+                except Exception:
+                    Val = re.sub(r'(\w+):', r'"\1":', Val)
+                    Res = ToJson(Val)
                 return Res
 
     # @staticmethod
@@ -531,7 +538,7 @@ class TSchemeApi(TSchemeApiBase):
             ResTag = []
             Td = Iif(aHeader, xTr.find_all('th'), []) + xTr.find_all('td')
             for xTd in Td:
-                Text = xTd.get_text(strip=True)
+                Text = xTd.get_text(strip=True, separator='\n')
                 ResTag.append(Text)
             Res.append(ResTag)
         return Res
