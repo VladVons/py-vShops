@@ -12,7 +12,7 @@ from Inc.Var.List import Parts
 from Inc.Var.Dict import DictUpdate
 from Inc.Var.Obj import Iif
 from Inc.Var.Str import ToJson
-from .Utils import GetPrice, SoupTextTag
+from .Utils import SoupTextTag
 from .SchemeApiBase import TSchemeApiBase
 from .ProductItemProp import TProductItemProp
 from .ProductLdJson import TProductLdJson
@@ -225,7 +225,7 @@ class TSchemeExt():
                 Val = xItem.get(a_get)
                 if (Val) and (Val != '#'):
                     # get pure image path without query
-                    if ('.jpg?' in Val):
+                    if ('.jpg?' in Val) or ('.webp?' in Val) or ('.png?' in Val):
                        Val = Val.split('?', maxsplit=1)[0]
                     Url = self.url_pad(Val.strip())
                     Res.append(Url)
@@ -254,15 +254,6 @@ class TSchemeApi(TSchemeApiBase):
         '''
 
         return SoupTextTag(aVal, aTag)
-
-    @staticmethod
-    def price(aVal: str) -> list:
-        '''
-        Get price as two dimention list: cost, currency.
-        ["price"]
-        '''
-
-        return GetPrice(aVal)
 
     @staticmethod
     def meta_price(aVal: BeautifulSoup) -> list:
@@ -574,6 +565,26 @@ class TSchemeApi(TSchemeApiBase):
                     Res.append(Group)
             else:
                 raise KeyError('unsupported type')
+            return Res
+
+    @staticmethod
+    def table_tag_pair(aVal: BeautifulSoup, *aPath: list) -> list:
+        '''
+        Find paired objects and returns text list.
+        First selector becomes a key, rest is value.
+        ["table_tag_pair", [["dd", "dt"]]]
+        '''
+
+        Items = aVal.find_all(*aPath)
+        if (Items):
+            Res = []
+            Pair = []
+            for xItem in Items:
+                if (xItem.name == aPath[0][0]):
+                    Pair = [xItem.get_text(strip = True), '']
+                    Res.append(Pair)
+                elif Pair:
+                    Pair[1] += Iif(Pair[1], '\n', '') + xItem.get_text(strip = True)
             return Res
 
     # @staticmethod

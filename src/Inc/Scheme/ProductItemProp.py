@@ -86,12 +86,18 @@ class TProductItemProp():
                 else:
                     Res = Items[0].get_text(strip=True)
                 #Val = ''.join([char for char in Val if (char.isalpha() or char.isspace() or char.isdigit())])
+            else:
+                Res = None
         return Res
 
     @staticmethod
     def Images(aSoup: BeautifulSoup) -> list:
         Res = []
-        Soup = aSoup.find_all(itemprop='image')
+        Soup = aSoup.find_all(lambda aTag:
+            aTag.get('itemprop') == 'image' and
+            not any(parent.get('itemprop') == 'isRelatedTo' for parent in aTag.find_parents())
+        )
+
         if (Soup):
             for xSoup in Soup:
                 for xName in ['href', 'src', 'content']:

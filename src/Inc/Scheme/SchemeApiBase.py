@@ -8,9 +8,10 @@ import json
 #import operator
 #
 from Inc.Http.HttpUrl import UrlToDict, UrlToStr, QueryToDict, QueryToStr
-from Inc.Var.Dict import DeepGet, DeepSet, Filter
+from Inc.Var.Dict import DeepGet, Filter
 from Inc.Var.Obj import Iif
 from Inc.Util.Sys import IsDebug
+from .Utils import GetPrice
 
 
 StrWhiteSpaces = ' \t\n\r\v\f\xA0✓→'
@@ -559,7 +560,7 @@ class TSchemeApiBase():
     #     return (aVal[aKeyName], aVal[aValName])
 
     @staticmethod
-    def keyval2dict(aVal: list, aIdxKey: int = 0, aIdxVal: int = 1, aSaparRest = None) -> dict:
+    def keyval2dict(aVal: list, aIdxKey: int = 0, aIdxVal: int = 1, aSeparRest = None) -> dict:
         '''
         Get dictionary from key-val list.
 
@@ -574,18 +575,20 @@ class TSchemeApiBase():
         ["keyval2dict", [1, 3, ", "]]
         '''
 
+        reSpaces = re.compile(r'[\s\r\n]+')
+
         Res = {}
         for xVal in aVal:
             Len = len(xVal)
             if (aIdxKey < Len):
                 Key = xVal[aIdxKey].replace("'", '').strip().rstrip(':')
                 if (Key) and (aIdxVal < Len):
-                    if (aSaparRest):
+                    if (aSeparRest):
                         Arr = [x.strip() for x in xVal[aIdxVal:]]
-                        Val = aSaparRest.join(Arr)
+                        Val = aSeparRest.join(Arr)
                     else:
                         Val = xVal[aIdxVal].strip()
-                    Res[Key] = Val
+                    Res[Key] = reSpaces.sub(' ', Val)
         if (Res):
             return Res
 
@@ -604,3 +607,20 @@ class TSchemeApiBase():
             UrlDict['query'] = QueryToStr(QueryDict)
             aVal = UrlToStr(UrlDict)
         return aVal
+
+    @staticmethod
+    def price(aVal: str, aRound: int = None) -> list:
+        '''
+        Get price as two dimention list: cost, currency.
+        ["price"]
+
+        Round mantissa 2,1,0,-1 etc.
+        ["price", [-1]]
+        '''
+
+        Res = GetPrice(aVal)
+        if (aRound is not None):
+            Res[0] = round(Res[0], aRound)
+            if (aRound <= 0):
+                Res[0] = int(Res[0])
+        return Res
