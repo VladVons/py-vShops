@@ -8,6 +8,7 @@ import json
 #import operator
 #
 from Inc.Http.HttpUrl import UrlToDict, UrlToStr, QueryToDict, QueryToStr
+from Inc.Var.List import Parts, PartsC
 from Inc.Var.Dict import DeepGet, Filter
 from Inc.Var.Obj import Iif
 from Inc.Util.Sys import IsDebug
@@ -96,10 +97,19 @@ class TSchemeApiBase():
         '''
 
         Res = []
-        for Idx in range(0, len(aVal), aStep):
-            Data = aVal[Idx : Idx + aStep]
-            Val = [Data[i] for i in aIdxs]
+        for xPart in Parts(aVal, aStep):
+            Val = [xPart[i] for i in aIdxs]
             Res.append(Val)
+        return Res
+
+    @staticmethod
+    def list_group_pair(aVal: list, aStep: int) -> list:
+        '''
+        Group list [1,2,3,4,5,6,7,8] into [[1,3], [2,4], [5,7], [6,8]].
+        ["list_group_pair", [2]]
+        '''
+
+        Res = list(PartsC(aVal, aStep))
         return Res
 
     @staticmethod
@@ -366,7 +376,10 @@ class TSchemeApiBase():
         '''
         Replace string.
         ["replace", ["1", "one"]]
-        hint. use \u00a0 to represen \xa0
+        ["replace", [["iPhone", "iPad", "Macbook", "iMac"], "Apple"]]
+        ["replace", [["1", "2", "3"], ["one", "two", "three"]]
+
+        hint. use \\u00a0 to represen \\xa0
         '''
 
         if (isinstance(aFind, list)) and (isinstance(aRepl, list)):
@@ -596,16 +609,20 @@ class TSchemeApiBase():
     def urlquery_filter(aVal: str, *aFilter: list) -> str:
         '''
         Filter query parameters in URL.
+        ["urlquery_filter"]
         ["urlquery_filter", ["page"]]
         '''
 
-        UrlDict = UrlToDict(aVal)
-        Query = UrlDict.get('query')
-        if (Query):
-            QueryDict = QueryToDict(Query)
-            QueryDict = Filter(QueryDict, aFilter)
-            UrlDict['query'] = QueryToStr(QueryDict)
-            aVal = UrlToStr(UrlDict)
+        if (aFilter):
+            UrlDict = UrlToDict(aVal)
+            Query = UrlDict.get('query')
+            if (Query):
+                QueryDict = QueryToDict(Query)
+                QueryDict = Filter(QueryDict, aFilter)
+                UrlDict['query'] = QueryToStr(QueryDict)
+                aVal = UrlToStr(UrlDict)
+        else:
+            aVal = re.split(r'[?;]', aVal)[0]
         return aVal
 
     @staticmethod

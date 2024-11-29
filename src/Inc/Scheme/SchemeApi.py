@@ -159,7 +159,7 @@ class TSchemeExt():
         ["url_pad"]
         '''
 
-        if (not aVal.startswith('http')):
+        if (aVal) and (not aVal.startswith('http')):
             UrlDict = UrlToDict(self.Parent.Var.get('$url'))
             if (aVal.startswith('?')):
                 Url = UrlToStr(UrlDict, ['scheme', 'host', 'path'])
@@ -225,8 +225,8 @@ class TSchemeExt():
                 Val = xItem.get(a_get)
                 if (Val) and (Val != '#'):
                     # get pure image path without query
-                    if ('.jpg?' in Val) or ('.webp?' in Val) or ('.png?' in Val):
-                       Val = Val.split('?', maxsplit=1)[0]
+                    if any(xExt in Val for xExt in ('.jpg?', '.webp?', '.png?', '.html?')):
+                        Val = Val.split('?', maxsplit=1)[0]
                     Url = self.url_pad(Val.strip())
                     Res.append(Url)
             return list(set(Res))
