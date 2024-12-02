@@ -6,8 +6,11 @@ from .Common import TSpecBase
 
 
 class TSpecOs(TSpecBase):
-    def _GetPatterns(self) -> list[str]:
-        return [
-            # windows 7, w11p, win 11 pro
-            r'(windows|win|w)\s*(7|8|10|11)\s*(pro|p|home|h)?'
-        ]
+    def _GetPatterns(self) -> dict:
+        Res = {
+            'os': [
+                # windows 7, w11p, win 11 pro
+                r'(windows|win|w)\s*(7|8|10|11)\s*(pro|p|home|h)?'
+            ]
+        }
+        return Res
