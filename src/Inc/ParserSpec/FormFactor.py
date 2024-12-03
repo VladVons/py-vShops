@@ -39,5 +39,5 @@ class TSpecFormFactor(TSpecBase):
         }
         return Res
 
-    def _OnParse(self, aMatch) -> list:
+    def _OnParse(self, _aKey: str, _aMatch) -> list:
         return True

@@ -19,7 +19,7 @@ class TSpecCpu(TSpecBase):
                 r'(core\s*2)\s*(duo|quad)\s*-?([a-z]\d{3,4})',
 
                 # Ultra 5 125 | Ultra 7 165H
-                r'(ultra [3579]) (\d{3}[a-z]?)',
+                r'(ultra\s*[3579])\s*(\d{3}[a-z]?)',
 
                 # Pentium 2117U | Pentium-2117 | Pentium T4500 | celeron G1820
                 r'(pentium|celeron)\s*-?([a-z]?\d{3,4}[a-z]?)',

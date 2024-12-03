@@ -8,9 +8,16 @@ from .Common import TSpecBase
 class TSpecOs(TSpecBase):
     def _GetPatterns(self) -> dict:
         Res = {
-            'os': [
+            'os_win': [
                 # windows 7, w11p, win 11 pro
-                r'(windows|win|w)\s*(7|8|10|11)\s*(pro|p|home|h)?'
+                r'(windows|win|w)\s*(7|8|10|11|2012|2016|2019)\s*(pro|p|home|h)?'
             ]
         }
+        return Res
+
+    def _OnParse(self, aKey: str, aMatch) -> list:
+        if (aKey == 'os_win'):
+            Res = f'windows {aMatch.group(2)}'
+        else:
+            Res = super()._OnParse(aKey, aMatch)
         return Res

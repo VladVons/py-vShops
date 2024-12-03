@@ -2,6 +2,7 @@
 # Author: Vladimir Vons <VladVons@gmail.com>
 # License: GNU, see LICENSE for more details
 
+
 import re
 
 class TSpecBase():
@@ -11,7 +12,7 @@ class TSpecBase():
     def _GetPatterns(self) -> dict:
         raise NotImplementedError()
 
-    def _OnParse(self, aMatch) -> list:
+    def _OnParse(self, _aKey: str, aMatch) -> list:
         return [xMatch.lower() for xMatch in aMatch.groups() if xMatch]
 
     def _Compile(self) -> dict:
@@ -31,15 +32,16 @@ class TSpecBase():
 
     def Parse(self, aText: str) -> list:
         Res = {}
-        for _Idx, (xKey, xVal) in enumerate(self.Patterns.items()):
-            if (isinstance(xVal, list)):
-                for xPattern in xVal:
-                    Match = xPattern.search(aText)
-                    if (Match):
-                        Res[xKey] = self._OnParse(Match)
-                        break
-            else:
-                R = xVal.Parse(aText)
-                if (R):
-                    Res[xKey] = R
+        if (aText):
+            for _Idx, (xKey, xVal) in enumerate(self.Patterns.items()):
+                if (isinstance(xVal, list)):
+                    for xPattern in xVal:
+                        Match = xPattern.search(aText)
+                        if (Match):
+                            Res[xKey] = self._OnParse(xKey, Match)
+                            break
+                else:
+                    R = xVal.Parse(aText)
+                    if (R):
+                        Res[xKey] = R
         return Res

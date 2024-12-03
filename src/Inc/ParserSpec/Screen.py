@@ -31,7 +31,7 @@ class TResolution(TSpecBase):
         }
         return Res
 
-    def _OnParse(self, aMatch) -> list:
+    def _OnParse(self, _aKey: str, aMatch) -> list:
         return True
 
 class TSize(TSpecBase):
