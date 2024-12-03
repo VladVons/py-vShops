@@ -7,3 +7,4 @@ from . Os import TSpecOs
 from . Ram import TSpecRam
 from . Screen import TSpecScreen
 from . Storage import TSpecStorage
+from . FormFactor import TSpecFormFactor

@@ -13,13 +13,13 @@ class TSpecRam(TSpecBase):
                 r'(\d{1,2})\s*(?:ram)',
 
                 # 8 ddr3 | 16 lpddr4
-                r'[\s/](\d{1,2})\s*(?:lpddr[3,4]|ddr[3,4])',
+                r'[\s/](\d{1,2})\s*(?:lpddr[345]|ddr[345])',
 
                 # ddr3 8| lpddr4 16
-                r'(?:lpddr[3,4]|ddr[3,4])\s*(\d{1,2})',
+                r'(?:lpddr[345]|ddr[345])\s*(\d{1,2})',
 
                 # 4Gb 16 gb
-                r'(\d{1,2})\s*(gb)'
+                r'(\d{1,2})\s*(gb|гб)'
             ]
         }
         return Res

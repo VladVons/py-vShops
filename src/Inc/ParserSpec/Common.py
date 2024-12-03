@@ -6,12 +6,15 @@ import re
 
 class TSpecBase():
     def __init__(self):
-        self.Patterns = self._GetPatternsObj()
+        self.Patterns = self._Compile()
 
     def _GetPatterns(self) -> dict:
         raise NotImplementedError()
 
-    def _GetPatternsObj(self) -> dict:
+    def _OnParse(self, aMatch) -> list:
+        return [xMatch.lower() for xMatch in aMatch.groups() if xMatch]
+
+    def _Compile(self) -> dict:
         Res = {}
         Patterns = self._GetPatterns()
         for xKey, xVal in Patterns.items():
@@ -33,9 +36,7 @@ class TSpecBase():
                 for xPattern in xVal:
                     Match = xPattern.search(aText)
                     if (Match):
-                        q1 = Match.groups()
-                        R = [xMatch.lower() for xMatch in Match.groups() if xMatch]
-                        Res[xKey] = R
+                        Res[xKey] = self._OnParse(Match)
                         break
             else:
                 R = xVal.Parse(aText)
