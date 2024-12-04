@@ -3,7 +3,7 @@
 # License: GNU, see LICENSE for more details
 
 import re
-from .Common import TSpecBase
+from ._Common import TSpecBase
 
 
 class TSpecBrand(TSpecBase):

@@ -3,7 +3,7 @@
 # License: GNU, see LICENSE for more details
 
 
-from .Common import TSpecBase
+from ._Common import TSpecBase
 
 class TSpecCase(TSpecBase):
     def _GetPatterns(self) -> dict:
