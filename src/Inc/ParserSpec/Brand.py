@@ -12,9 +12,26 @@ class TSpecBrand(TSpecBase):
     def _GetPatterns(self) -> dict:
         Res = {
             'brand': [
-                r'\b'
-                r'asus|acer|dell|hp|hewlett[- ]packard|lenovo|apple|kyocera|nec|fujitsu|toshiba|sony'
-                r'\b'
+                r'\b('
+                r'asus|acer|aoc|apple|'
+                r'benq|brother|'
+                r'canon|'
+                r'dell|'
+                r'eizo|epson|'
+                r'fujitsu|'
+                r'hp|hewlett[- ]packard|'
+                r'kyocera|konica|'
+                r'liyama|lenovo|lexmark|lg|'
+                r'msi|'
+                r'nec|'
+                r'oki|'
+                r'philips|panasonic|'
+                r'samsung|sharp|sony|'
+                r'toshiba|'
+                r'viewsonic|'
+                r'zebra|'
+                r'xerox'
+                r')\b'
             ]
         }
         return Res

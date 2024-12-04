@@ -9,32 +9,69 @@ class TSpecCase(TSpecBase):
     def _GetPatterns(self) -> dict:
         Res = {
             'tower': [
-                r'tower',
-                r'башня',
+                r'\b('
+                r'mini\s*tower|'
+                r'midi\s*tower|'
+                r'big\s*tower|'
+                r'full\s*tower|'
+                r'tower|'
+                r'bmt|'
+                r'bt|'
+                r'mt|'
+                r'башня|'
                 r'корпус'
+                r')\b'
             ],
             'sff': [
-                r'sff',
-                r'small form factor'
+                r'\b('
+                r'sff|'
+                r'small'
+                r')\b'
             ],
             'usff': [
-                r'usff',
-                r'ultra small form factor'
+                r'\b('
+                r'usff|'
+                r'ultra small'
+                r')\b'
             ],
             'desktop':[
-                r'desktop',
+                r'\b('
+                r'desktop|'
+                r'slimline|'
                 r'десктоп'
+                r')\b'
             ],
             'mini': [
-                r'mini',
-                r'tiny',
-                r'міні',
-                r'мини'
+                r'\b('
+                r'mini|'
+                r'mff|'
+                r'micro|'
+                r'tiny|'
+                r'міні|'
+                r'мини|'
+                r')\b'
             ],
             'aio': [
-                r'all.?in.?one',
-                r'\baio\b',
+                r'\b('
+                r'all.?in.?one|'
+                r'aio|'
                 r'моноблок'
+                r')\b'
+            ],
+            'thinclient': [
+                r'\b('
+                r'thinclient|'
+                r'тонкий клієнт|'
+                r'тонкий клиент'
+                r')\b'
+            ],
+            'pos': [
+                r'\b('
+                r'pos-terminal|'
+                r'pos|'
+                r'платіжний термінал|'
+                r'payment terminal'
+                r')\b'
             ]
         }
         return Res

@@ -9,23 +9,23 @@ class TResolution(TSpecBase):
     def _GetPatterns(self) -> dict:
         Res = {
             '4k': [
-                r'4k',
-                r'3840x2160',
+                r'\b4k\b|'
+                r'3840x2160|'
                 r'\buhd\b'
             ],
             'qhd': [
-                r'2560x1440',
-                r'1440p',
+                r'2560x1440|'
+                r'1440p|'
                 r'\bqhd\b'
             ],
             'fhd': [
-                r'1920x1080',
-                r'1080p',
+                r'1920x1080|'
+                r'1080p|'
                 r'\bfhd\b'
             ],
             'hd': [
-                r'1366x768',
-                r'720p',
+                r'1366x768|'
+                r'720p|'
                 r'\bhd\b'
             ]
         }
