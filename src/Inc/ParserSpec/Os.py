@@ -15,9 +15,8 @@ class TSpecOs(TSpecBase):
         }
         return Res
 
-    def _OnParse(self, aKey: str, aMatch) -> list:
+    def _OnParse(self, aRes: dict, aKey: str, aMatch):
         if (aKey == 'os_win'):
-            Res = f'windows {aMatch.group(2)}'
+            aRes[aKey] = f'windows {aMatch.group(2)}'
         else:
-            Res = super()._OnParse(aKey, aMatch)
-        return Res
+            super()._OnParse(aRes, aKey, aMatch)

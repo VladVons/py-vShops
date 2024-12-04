@@ -41,5 +41,5 @@ class TSpecCategory(TSpecBase):
         }
         return Res
 
-    def _OnParse(self, _aKey: str, aMatch) -> list:
-        return True
+    def _OnParse(self, aRes: dict, aKey: str, _aMatch):
+        aRes['category'] = aKey

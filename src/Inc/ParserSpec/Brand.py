@@ -2,25 +2,27 @@
 # Author: Vladimir Vons <VladVons@gmail.com>
 # License: GNU, see LICENSE for more details
 
+import re
 from .Common import TSpecBase
 
 
 class TSpecBrand(TSpecBase):
+    reModel = re.compile(r'^[a-z0-9-]+\s*[a-z0-9-]+', re.IGNORECASE)
+
     def _GetPatterns(self) -> dict:
         Res = {
             'brand': [
-                r'dell|latitude|poweredge|precision|inspiron|vostro|'
-                r'hp|hewlett[- ]packard|elitebook|probook|pavilion|'
-                r'lenovo|thinkpad|thinkcentre|thinkstation|'
-                r'apple|iphone|macbook|'
-                r'kyocera|nec|'
-                r'fujitsu|lifebook|esprimo|'
-                r'toshiba|satellite|'
-                r'asus|zenbook|vivobook|'
-                r'acer|aspire|predator'
+                r'\b'
+                r'asus|acer|dell|hp|hewlett[- ]packard|lenovo|apple|kyocera|nec|fujitsu|toshiba|sony'
+                r'\b'
             ]
         }
         return Res
 
-    def _OnParse(self, _aKey: str, aMatch) -> list:
-        return aMatch.group(0).lower()
+    def _OnParse(self, aRes: dict, aKey: str, aMatch):
+        aRes[aKey] = aMatch.group(0).lower()
+
+        Rest =  aMatch.string[aMatch.regs[0][1]:].strip()
+        Match = self.reModel.search(Rest)
+        if (Match):
+            aRes['model'] = Match.group(0).lower()

@@ -8,14 +8,14 @@ from Inc import ParserSpec
 class TSpecComp():
     def __init__(self):
         self.Parsers = {
-            'brand': ParserSpec.TSpecBrand(),
             'category': ParserSpec.TSpecCategory(),
+            'brand': ParserSpec.TSpecBrand(),
+            'case': ParserSpec.TSpecCase(),
             'cpu': ParserSpec.TSpecCpu(),
             'ram': ParserSpec.TSpecRam(),
             'disk': ParserSpec.TSpecStorage(),
             'screen': ParserSpec.TSpecScreen(),
-            'os': ParserSpec.TSpecOs(),
-            'form': ParserSpec.TSpecFormFactor()
+            'os': ParserSpec.TSpecOs()
         }
 
     def Parse(self, aText: str) -> dict:

@@ -5,7 +5,7 @@
 
 from .Common import TSpecBase
 
-class TSpecFormFactor(TSpecBase):
+class TSpecCase(TSpecBase):
     def _GetPatterns(self) -> dict:
         Res = {
             'tower': [
@@ -39,5 +39,5 @@ class TSpecFormFactor(TSpecBase):
         }
         return Res
 
-    def _OnParse(self, _aKey: str, _aMatch) -> list:
-        return True
+    def _OnParse(self, aRes: dict, aKey: str, _aMatch):
+        aRes['case'] = aKey

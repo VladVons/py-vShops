@@ -12,8 +12,9 @@ class TSpecBase():
     def _GetPatterns(self) -> dict:
         raise NotImplementedError()
 
-    def _OnParse(self, _aKey: str, aMatch) -> list:
-        return [xMatch.lower() for xMatch in aMatch.groups() if xMatch]
+    def _OnParse(self, aRes: dict, aKey: str, aMatch):
+        Data = [xMatch.lower() for xMatch in aMatch.groups() if xMatch]
+        aRes[aKey] = Data
 
     def _Compile(self) -> dict:
         Res = {}
@@ -38,7 +39,7 @@ class TSpecBase():
                     for xPattern in xVal:
                         Match = xPattern.search(aText)
                         if (Match):
-                            Res[xKey] = self._OnParse(xKey, Match)
+                            self._OnParse(Res, xKey, Match)
                             break
                 else:
                     R = xVal.Parse(aText)
