@@ -37,6 +37,29 @@ class TSpecCategory(TSpecBase):
             'storage': [
                 r'storage|nas|'
                 r'сховище|хранилище'
+            ],
+            'aio': [
+                r'\b('
+                r'all.?in.?one|'
+                r'aio|'
+                r'2w1|'
+                r'моноблок'
+                r')\b'
+            ],
+            'thin client': [
+                r'\b('
+                r'thin\*client|'
+                r'тонкий клієнт|'
+                r'тонкий клиент'
+                r')\b'
+            ],
+            'pos': [
+                r'\b('
+                r'pos-terminal|'
+                r'pos|'
+                r'платіжний термінал|'
+                r'payment terminal'
+                r')\b'
             ]
         }
         return Res

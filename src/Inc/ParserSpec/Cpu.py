@@ -8,7 +8,8 @@ from ._Common import TSpecBase
 class TSpecCpu(TSpecBase):
     def _GetPatterns(self) -> dict:
         Res = {
-            'cpu_intel': [
+            'cpu': [
+                # --- INTEL ---
                 # i3 7G | i5-7G | i7 12Gen | i9-7Gen
                 r'(?P<family>i[3579])\s*-?(?P<gen>\d{1,2})\s*(?:g|gen)',
 
@@ -28,9 +29,9 @@ class TSpecCpu(TSpecBase):
                 r'(?P<family>i[3579])\s*-?(?P<gen>\d{3,5}[a-z]{0,2})',
 
                 # i3 | i5
-                r'(?P<family>i[3579])'
-            ],
-            'cpu_amd': [
+                r'(?P<family>i[3579])',
+
+                # --- AMD ---
                 # A9-9410 | R7 F9410 | R5-9410F | !R5-9410gb
                 r'(?P<family>[ra][3579])\s*-?(?P<gen>\d{3,5}(?!gb)[a-z]{0,2})',
 

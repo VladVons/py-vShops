@@ -19,7 +19,6 @@ def ToGbUnit(aVal: int, aName: str = 'gb') -> tuple:
         aName = 'gb'
     return (aVal, aName)
 
-
 class TLang():
     def __init__(self):
         self.Data = {

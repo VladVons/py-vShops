@@ -50,28 +50,6 @@ class TSpecCase(TSpecBase):
                 r'міні|'
                 r'мини'
                 r')\b'
-            ],
-            'aio': [
-                r'\b('
-                r'all.?in.?one|'
-                r'aio|'
-                r'моноблок'
-                r')\b'
-            ],
-            'thinclient': [
-                r'\b('
-                r'thinclient|'
-                r'тонкий клієнт|'
-                r'тонкий клиент'
-                r')\b'
-            ],
-            'pos': [
-                r'\b('
-                r'pos-terminal|'
-                r'pos|'
-                r'платіжний термінал|'
-                r'payment terminal'
-                r')\b'
             ]
         }
         return Res

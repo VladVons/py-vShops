@@ -5,7 +5,7 @@
 
 from ._Common import TSpecBase
 
-class TResolution(TSpecBase):
+class TSpecScreenResol(TSpecBase):
     def _GetPatterns(self) -> dict:
         Res = {
             '4k': [
@@ -40,22 +40,14 @@ class TResolution(TSpecBase):
         return Res
 
     def _OnParse(self, aRes: dict, aKey: str, _aMatch):
-        aRes['resolution'] = aKey
+        aRes['screen_resol'] = aKey
 
-class TSize(TSpecBase):
+class TSpecScreenSize(TSpecBase):
     def _GetPatterns(self) -> dict:
         Res = {
-            'size': [
+            'screen_size': [
                 # 12" | 13.5" | 14 zoll
                 r'(\d{1,2})(?:[\.,]\d)?\s*(?:"|zoll|inch)'
             ]
-        }
-        return Res
-
-class TSpecScreen(TSpecBase):
-    def _GetPatterns(self) -> dict:
-        Res = {
-            'size': TSize(),
-            'screen': TResolution()
         }
         return Res

@@ -4,6 +4,14 @@
 
 from ._Common import TSpecBase, ToGbUnit, Lang
 
+def GetStorageType(aVal: str) -> str:
+    if (not aVal):
+        aVal = 'hdd'
+    else:
+        aVal = aVal.lower()
+        if (aVal in ['nvme', 'm2', 'm.2']):
+            aVal = 'nvme'
+    return aVal
 
 class TSpecStorage(TSpecBase):
     def _GetPatterns(self) -> dict:
@@ -26,7 +34,10 @@ class TSpecStorage(TSpecBase):
 
         Unit = Groups.get('unit', 'gb')
         Size, Unit = ToGbUnit(int(Groups.get('size')), Lang.Translate(Unit))
+        Type = GetStorageType(Groups.get('type'))
+
         aRes[aKey] = {
             'size': Size,
-            'unit': Unit
+            'unit': Unit,
+            'type': Type
         }

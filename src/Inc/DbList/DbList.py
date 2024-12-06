@@ -177,7 +177,7 @@ class TDbList(TDbBase):
 
     def RecAdd(self, aData: list = None) -> TDbRec:
         if (not aData):
-            if (self.Rec.Def):
+            if (self.Rec.Def is None):
                 aData = [self.Rec.Def.get(x) for x in self.Rec.Fields]
             else:
                 aData = [None] * len(self.Rec.Fields)

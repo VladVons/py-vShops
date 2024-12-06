@@ -2,20 +2,23 @@
 # Author: Vladimir Vons <VladVons@gmail.com>
 # License: GNU, see LICENSE for more details
 
-from Inc import ParserSpec
+from Inc.ParserSpec import (
+    TSpecCategory, TSpecBrand, TSpecCase, TSpecCpu, TSpecRam, TSpecStorage, TSpecScreenResol, TSpecScreenSize, TSpecOs
+)
 
 
 class TSpecComp():
     def __init__(self):
         self.Parsers = {
-            'category': ParserSpec.TSpecCategory(),
-            'brand': ParserSpec.TSpecBrand(),
-            'case': ParserSpec.TSpecCase(),
-            'cpu': ParserSpec.TSpecCpu(),
-            'ram': ParserSpec.TSpecRam(),
-            'disk': ParserSpec.TSpecStorage(),
-            'screen': ParserSpec.TSpecScreen(),
-            'os': ParserSpec.TSpecOs()
+            'category': TSpecCategory(),
+            'brand': TSpecBrand(),
+            'case': TSpecCase(),
+            'cpu': TSpecCpu(),
+            'ram': TSpecRam(),
+            'storage': TSpecStorage(),
+            'screen_size': TSpecScreenSize(),
+            'screen_resol': TSpecScreenResol(),
+            'os': TSpecOs()
         }
 
     def Parse(self, aText: str) -> dict:
