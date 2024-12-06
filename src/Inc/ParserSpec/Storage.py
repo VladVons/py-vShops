@@ -2,20 +2,31 @@
 # Author: Vladimir Vons <VladVons@gmail.com>
 # License: GNU, see LICENSE for more details
 
-from ._Common import TSpecBase
+from ._Common import TSpecBase, ToGbUnit, Lang
+
 
 class TSpecStorage(TSpecBase):
     def _GetPatterns(self) -> dict:
         Res = {
             'storage': [
                 # 256 ssd | 512 hdd
-                r'(\d{3,4})\s*(ssd|hdd|nvme|m2|m\.2|sas)',
+                r'(?P<size>\d{3,4})\s*(?P<type>ssd|hdd|nvme|m2|m\.2|sas)',
 
                 # 512Gb | 2048 gb | 256gb-ssd
-                r'(\d{3,4})\s*(gb|гб)\s*-?(ssd|hdd|nvme|m2|m\.2|sas)?',
+                r'(?P<size>\d{3,4})\s*(?P<unit>gb|гб)\s*-?(?P<type>ssd|hdd|nvme|m2|m\.2|sas)?',
 
                 # 2tb | 12 tb
-                r'(\d{1,2})\s*(tb|тб)\s*-?(ssd|hdd|nvme|m2|m\.2|sas)?'
+                r'(?P<size>\d{1,2})\s*(?P<unit>tb|тб)\s*-?(?P<type>ssd|hdd|nvme|m2|m\.2|sas)?'
             ]
         }
         return Res
+
+    def _OnParse(self, aRes: dict, aKey: str, aMatch):
+        Groups = aMatch.groupdict()
+
+        Unit = Groups.get('unit', 'gb')
+        Size, Unit = ToGbUnit(int(Groups.get('size')), Lang.Translate(Unit))
+        aRes[aKey] = {
+            'size': Size,
+            'unit': Unit
+        }

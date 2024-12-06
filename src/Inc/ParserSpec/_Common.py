@@ -5,8 +5,36 @@
 
 import re
 
+
+def ToGbUnit(aVal: int, aName: str = 'gb') -> tuple:
+    Table = {
+        'tb': 1000,
+        'gb': 1,
+        'mb': 0.001
+    }
+
+    Val = Table.get(aName)
+    if (Val):
+        aVal *= Val
+        aName = 'gb'
+    return (aVal, aName)
+
+
+class TLang():
+    def __init__(self):
+        self.Data = {
+            'гб': 'gb',
+            'тб': 'tb',
+        }
+
+    def Translate(self, aVal: str) -> str:
+        Val = aVal.lower()
+        return self.Data.get(Val, Val)
+
+
 class TSpecBase():
     def __init__(self):
+        self.FindAll = True
         self.Patterns = self._Compile()
 
     def _GetPatterns(self) -> dict:
@@ -22,13 +50,8 @@ class TSpecBase():
         for xKey, xVal in Patterns.items():
             if (not xKey.startswith('-')):
                 if (isinstance(xVal, list)):
-                    Obj = [
-                        re.compile(xPattern, re.IGNORECASE)
-                        for xPattern in xVal
-                    ]
-                else:
-                    Obj = xVal
-                Res[xKey] = Obj
+                    xVal = [re.compile(xPattern, re.IGNORECASE) for xPattern in xVal]
+                Res[xKey] = xVal
         return Res
 
     def Parse(self, aText: str) -> list:
@@ -40,9 +63,14 @@ class TSpecBase():
                         Match = xPattern.search(aText)
                         if (Match):
                             self._OnParse(Res, xKey, Match)
-                            break
+                            if (self.FindAll):
+                                break
+                            return Res
                 else:
                     R = xVal.Parse(aText)
                     if (R):
                         Res[xKey] = R
         return Res
+
+
+Lang = TLang()

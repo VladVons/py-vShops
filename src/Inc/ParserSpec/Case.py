@@ -48,7 +48,7 @@ class TSpecCase(TSpecBase):
                 r'micro|'
                 r'tiny|'
                 r'міні|'
-                r'мини|'
+                r'мини'
                 r')\b'
             ],
             'aio': [

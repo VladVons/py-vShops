@@ -9,24 +9,32 @@ class TResolution(TSpecBase):
     def _GetPatterns(self) -> dict:
         Res = {
             '4k': [
-                r'\b4k\b|'
+                r'\b('
+                r'b4k|'
                 r'3840x2160|'
-                r'\buhd\b'
+                r'uhd'
+                r')\b'
             ],
             'qhd': [
+                r'\b('
                 r'2560x1440|'
                 r'1440p|'
-                r'\bqhd\b'
+                r'qhd'
+                r')\b'
             ],
             'fhd': [
+                r'\b('
                 r'1920x1080|'
                 r'1080p|'
-                r'\bfhd\b'
+                r'fhd'
+                r')\b'
             ],
             'hd': [
+                r'\b('
                 r'1366x768|'
                 r'720p|'
-                r'\bhd\b'
+                r'hd'
+                r')\b'
             ]
         }
         return Res
@@ -39,7 +47,7 @@ class TSize(TSpecBase):
         Res = {
             'size': [
                 # 12" | 13.5" | 14 zoll
-                r'(\d{1,2})([\.,]\d)?\s*(?:"|zoll|inch)'
+                r'(\d{1,2})(?:[\.,]\d)?\s*(?:"|zoll|inch)'
             ]
         }
         return Res

@@ -27,18 +27,33 @@ class TSpecComp():
                     Res.update(R)
         return Res
 
-def TestAll(aFile: str):
-    with open(aFile, 'r', encoding='utf8') as F:
+    @staticmethod
+    def ParseLines(aLines: list) -> list:
+        Res = []
+        SpecComp = TSpecComp()
+        for Idx, xLine in enumerate(aLines):
+            Res.append(f'{Idx+1}/{len(aLines)}: {xLine}')
+            Spec = SpecComp.Parse(xLine)
+            for xKey, xVal in Spec.items():
+                Res.append(f'{xKey}: {xVal}')
+            Res.append('')
+        return Res
+
+    @staticmethod
+    def GetLines(aText: str) -> list[str]:
         Lines = []
-        for xLine in F.readlines():
+        for xLine in aText.splitlines():
             xLine = xLine.strip()
             if (xLine) and (not xLine.startswith('-')):
                 Lines.append(xLine)
+        return Lines
 
-    SpecComp = TSpecComp()
-    for Idx, xLine in enumerate(Lines):
-        print(f'{Idx+1}/{len(Lines)}: {xLine}')
-        Spec = SpecComp.Parse(xLine)
-        for xKey, xVal in Spec.items():
-            print(xKey, ':', xVal)
-        print()
+    @staticmethod
+    def ParseFile(aFile: str):
+        with open(aFile, 'r', encoding='utf8') as F:
+            Data = F.read()
+            Lines = TSpecComp.GetLines(Data)
+
+        Lines = TSpecComp.ParseLines(Lines)
+        for xLine in Lines:
+            print(xLine)
