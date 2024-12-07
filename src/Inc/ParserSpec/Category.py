@@ -10,7 +10,7 @@ class TSpecCategory(TSpecBase):
         Res = {
             'laptop': [
                 r'\b('
-                r'lifebook|thinkpad|ideapad|latitude|zbook|elitebook|probook|macbook|inspiron|vostro|toughbook|chromebook|travelmate|'
+                r'aspire|lifebook|thinkpad|thinkbook|ideapad|latitude|zbook|elitebook|probook|macbook|inspiron|vostro|toughbook|chromebook|travelmate|zenbook|vivobook|yoga|nitro|envy|swift|'
                 r'laptop|notebook|'
                 r'laptopy|'
                 r'ноутбук|ультрабук'
@@ -18,7 +18,7 @@ class TSpecCategory(TSpecBase):
             ],
             'server': [
                 r'\b('
-                r'primergy|poweredge|proliant|'
+                r'primergy|poweredge|proliant|vxrail|'
                 r'server|'
                 r'serwer|'
                 r'сервер'
@@ -26,13 +26,14 @@ class TSpecCategory(TSpecBase):
             ],
             'desktop': [
                 r'\b('
-                r'optiplex|elitedesk|prodesk|'
+                r'optiplex|elitedesk|prodesk|esprimo|'
                 r'desktop|tower|workstation|thinkcentre|komputer|computer|'
                 r'десктоп|системный блок|робоча станція|пк|компьютер|комп\'ютер|системний|системник'
                 r')\b'
             ],
             'monitor': [
                 r'\b('
+                r'proline|ultrasharp|'
                 r'monitor|lcd|led|display|'
                 r'bildschirm|'
                 r'wyświetlacz|'
@@ -55,11 +56,13 @@ class TSpecCategory(TSpecBase):
             ],
             'mobile': [
                 r'\b('
-                r'galaxy|poco|iphone'
+                r'galaxy|poco|iphone|ipad|'
+                r'планшет'
                 r')\b'
             ],
             'aio': [
                 r'\b('
+                r'eliteone|veriton|'
                 r'all.?in.?one|'
                 r'aio|'
                 r'2w1|'
@@ -68,6 +71,7 @@ class TSpecCategory(TSpecBase):
             ],
             'thin client': [
                 r'\b('
+                r'wyse|'
                 r'thin\*client|'
                 r'тонкий клієнт|'
                 r'тонкий клиент'
@@ -79,6 +83,11 @@ class TSpecCategory(TSpecBase):
                 r'pos|'
                 r'платіжний термінал|'
                 r'payment terminal'
+                r')\b'
+            ],
+            'switch': [
+                r'\b('
+                r'switch'
                 r')\b'
             ],
             'keyboard': [

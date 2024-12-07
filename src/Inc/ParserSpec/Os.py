@@ -10,7 +10,7 @@ class TSpecOs(TSpecBase):
         Res = {
             'os_win': [
                 # windows 7, w11p, win 11 pro
-                r'(windows|win|w)\s*(7|8|10|11|2012|2016|2019)\s*(pro|p|home|h)?'
+                r'(?P<os>windows|win|w)\s*(?P<ver>7|8|10|11|2012|2016|2019)\s*(pro|p|home|h)?'
             ]
         }
         return Res

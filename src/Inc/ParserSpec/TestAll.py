@@ -3,7 +3,7 @@
 # License: GNU, see LICENSE for more details
 
 from Inc.ParserSpec import (
-    TSpecCategory, TSpecBrand, TSpecCase, TSpecCpu, TSpecRam, TSpecStorage, TSpecScreenResol, TSpecScreenSize, TSpecOs
+    TSpecCategory, TSpecBrand, TSpecCase, TSpecCpu, TSpecRam, TSpecStorage, TSpecScreenResol, TSpecScreenSize, TSpecOs, TSpecGrade
 )
 
 
@@ -18,7 +18,8 @@ class TSpecComp():
             'storage': TSpecStorage(),
             'screen_size': TSpecScreenSize(),
             'screen_resol': TSpecScreenResol(),
-            'os': TSpecOs()
+            'os': TSpecOs(),
+            'grade': TSpecGrade()
         }
 
     def Parse(self, aText: str) -> dict:
