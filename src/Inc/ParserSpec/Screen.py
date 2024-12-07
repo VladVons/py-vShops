@@ -26,7 +26,8 @@ class TSpecScreenResol(TSpecBase):
                 r'\b('
                 r'1920x1080|'
                 r'1080p|'
-                r'fhd'
+                r'fhd|'
+                r'full hd'
                 r')\b'
             ],
             'hd': [

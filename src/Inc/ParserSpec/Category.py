@@ -10,7 +10,9 @@ class TSpecCategory(TSpecBase):
         Res = {
             'laptop': [
                 r'\b('
-                r'aspire|lifebook|thinkpad|thinkbook|ideapad|latitude|zbook|elitebook|probook|macbook|inspiron|vostro|toughbook|chromebook|travelmate|zenbook|vivobook|yoga|nitro|envy|swift|'
+                r'aspire|lifebook|thinkpad|thinkbook|ideapad|latitude|zbook|elitebook|probook|macbook|inspiron|vostro|'
+                r'toughbook|chromebook|travelmate|zenbook|vivobook|yoga|nitro|envy|swift|expertbook|surface|erazer|edge|'
+
                 r'laptop|notebook|'
                 r'laptopy|'
                 r'ноутбук|ультрабук'
@@ -19,16 +21,16 @@ class TSpecCategory(TSpecBase):
             'server': [
                 r'\b('
                 r'primergy|poweredge|proliant|vxrail|'
-                r'server|'
+                r'server|datacenter|blade|'
                 r'serwer|'
                 r'сервер'
                 r')\b'
             ],
             'desktop': [
                 r'\b('
-                r'optiplex|elitedesk|prodesk|esprimo|'
-                r'desktop|tower|workstation|thinkcentre|komputer|computer|'
-                r'десктоп|системный блок|робоча станція|пк|компьютер|комп\'ютер|системний|системник'
+                r'optiplex|elitedesk|prodesk|esprimo|thinkcentre|chromebox|'
+                r'desktop|tower|sff|workstation|komputer|computer|'
+                r'десктоп|робоча станція|пк|компьютер|комп\'ютер|системний|системник'
                 r')\b'
             ],
             'monitor': [
@@ -56,7 +58,7 @@ class TSpecCategory(TSpecBase):
             ],
             'mobile': [
                 r'\b('
-                r'galaxy|poco|iphone|ipad|'
+                r'galaxy|poco|iphone|ipad|pixel|'
                 r'планшет'
                 r')\b'
             ],
