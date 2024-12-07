@@ -430,3 +430,29 @@ function getCurrentDateTimeString() {
     const time = now.toTimeString().split(' ')[0].replace(/:/g, '-'); // HH-MM-SS
     return `${date} ${time}`;
 }
+
+function Base64ToBin(aData) {
+    const binaryData = atob(aData);
+    const byteArray = new Uint8Array(binaryData.length);
+    for (let i = 0; i < binaryData.length; i++) {
+        byteArray[i] = binaryData.charCodeAt(i);
+    }
+    return byteArray;
+}
+
+function ExecDownload(aFile, aBlob) {
+    // const byteArray = Base64ToBin(res['data']);
+    // const data = new Blob([byteArray], { type: 'application/vnd.ms-excel' });
+    // ExecDownload("findwares_p.xlsx", data)
+    // ---
+
+    const downloadUrl = URL.createObjectURL(aBlob);
+    const link = document.createElement("a");
+    link.href = downloadUrl;
+    link.download = aFile;
+
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(downloadUrl);
+}

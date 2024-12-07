@@ -18,11 +18,12 @@ class TSpecBrand(TSpecBase):
                 r'canon|'
                 r'dell|'
                 r'eizo|epson|'
-                r'fujitsu|'
+                r'ibm|'
+                r'fujitsu-siemens|fujitsu|'
                 r'hp|hewlett[- ]packard|'
                 r'kyocera|konica|'
                 r'liyama|lenovo|lexmark|lg|'
-                r'msi|'
+                r'msi|medion|'
                 r'nec|'
                 r'oki|'
                 r'philips|panasonic|'
@@ -30,7 +31,7 @@ class TSpecBrand(TSpecBase):
                 r'toshiba|'
                 r'viewsonic|'
                 r'zebra|'
-                r'xerox'
+                r'xerox|xiaomi'
                 r')\b'
             ]
         }

@@ -9,34 +9,54 @@ class TSpecCategory(TSpecBase):
     def _GetPatterns(self) -> dict:
         Res = {
             'laptop': [
-                r'laptop|notebook|thinkpad|latitude|zbook|elitebook|probook|macbook|inspiron|vostro|'
+                r'\b('
+                r'lifebook|thinkpad|ideapad|latitude|zbook|elitebook|probook|macbook|inspiron|vostro|toughbook|chromebook|travelmate|'
+                r'laptop|notebook|'
                 r'laptopy|'
-                r'ноутбук'
+                r'ноутбук|ультрабук'
+                r')\b'
             ],
             'server': [
-                r'server|poweredge|proliant|'
+                r'\b('
+                r'primergy|poweredge|proliant|'
+                r'server|'
                 r'serwer|'
                 r'сервер'
+                r')\b'
             ],
             'desktop': [
+                r'\b('
+                r'optiplex|elitedesk|prodesk|'
                 r'desktop|tower|workstation|thinkcentre|komputer|computer|'
                 r'десктоп|системный блок|робоча станція|пк|компьютер|комп\'ютер|системний|системник'
+                r')\b'
             ],
             'monitor': [
+                r'\b('
                 r'monitor|lcd|led|display|'
                 r'bildschirm|'
                 r'wyświetlacz|'
                 r'монітор|дисплей|монитор|екран'
+                r')\b'
             ],
             'printer': [
+                r'\b('
                 r'printer|ecosys|laserjet|'
                 r'drucker|'
                 r'принтер|мфу|'
                 r'drukarka|urządzenie wielofunkcyjne'
+                r')\b'
             ],
             'storage': [
+                r'\b('
                 r'storage|nas|'
                 r'сховище|хранилище'
+                r')\b'
+            ],
+            'mobile': [
+                r'\b('
+                r'galaxy|poco|iphone'
+                r')\b'
             ],
             'aio': [
                 r'\b('
@@ -59,6 +79,11 @@ class TSpecCategory(TSpecBase):
                 r'pos|'
                 r'платіжний термінал|'
                 r'payment terminal'
+                r')\b'
+            ],
+            'keyboard': [
+                r'\b('
+                r'keyboard'
                 r')\b'
             ]
         }
