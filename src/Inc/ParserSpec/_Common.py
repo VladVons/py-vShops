@@ -32,16 +32,18 @@ class TLang():
 
 
 class TSpecBase():
-    def __init__(self):
-        self.FindAll = True
+    def __init__(self, aReOpt = None):
+        if (not aReOpt):
+            self.ReOpt = re.IGNORECASE
         self.Patterns = self._Compile()
 
     def _GetPatterns(self) -> dict:
         raise NotImplementedError()
 
-    def _OnParse(self, aRes: dict, aKey: str, aMatch):
+    def _OnParse(self, aRes: dict, aKey: str, aMatch) -> bool:
         Data = [xMatch.lower() for xMatch in aMatch.groups() if xMatch]
         aRes[aKey] = Data
+        return False
 
     def _Compile(self) -> dict:
         Res = {}
@@ -49,7 +51,7 @@ class TSpecBase():
         for xKey, xVal in Patterns.items():
             if (not xKey.startswith('-')):
                 if (isinstance(xVal, list)):
-                    xVal = [re.compile(xPattern, re.IGNORECASE) for xPattern in xVal]
+                    xVal = [re.compile(xPattern, self.ReOpt) for xPattern in xVal]
                 Res[xKey] = xVal
         return Res
 
@@ -61,10 +63,10 @@ class TSpecBase():
                     for xPattern in xVal:
                         Match = xPattern.search(aText)
                         if (Match):
-                            self._OnParse(Res, xKey, Match)
-                            if (self.FindAll):
-                                break
-                            return Res
+                            Quit = self._OnParse(Res, xKey, Match)
+                            if (Quit is True):
+                                return Res
+                            break
                 else:
                     R = xVal.Parse(aText)
                     if (R):

@@ -40,15 +40,16 @@ class TSpecScreenResol(TSpecBase):
         }
         return Res
 
-    def _OnParse(self, aRes: dict, aKey: str, _aMatch):
+    def _OnParse(self, aRes: dict, aKey: str, _aMatch) -> bool:
         aRes['screen_resol'] = aKey
+        return True
 
 class TSpecScreenSize(TSpecBase):
     def _GetPatterns(self) -> dict:
         Res = {
             'screen_size': [
-                # 12" | 13.5" | 14 zoll
-                r'(\d{1,2})(?:[\.,]\d)?\s*(?:"|zoll|inch)'
+                # 12" | 13.5" | 14 zoll| !4x3.5"
+                r'(?<!\dx)(\d{1,2})(?:[\.,]\d)?\s*(?:"|zoll|inch)'
             ]
         }
         return Res

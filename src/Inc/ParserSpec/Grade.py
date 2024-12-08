@@ -13,7 +13,10 @@ class TSpecGrade(TSpecBase):
                 r'(grade|class|klasa|kl[\.]|клас)\s*(?P<grade>[abc\+\-])',
 
                 # (A) | (B+)
-                r'\((?P<grade>[abc\+\-])\)'
+                r'\((?P<grade>[abc\+\-])\)',
+
+                # A<eol> | B+<eol>
+                r'\b(?P<grade>[abc\+\-])$'
             ]
         }
         return Res

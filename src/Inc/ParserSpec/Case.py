@@ -54,5 +54,6 @@ class TSpecCase(TSpecBase):
         }
         return Res
 
-    def _OnParse(self, aRes: dict, aKey: str, _aMatch):
+    def _OnParse(self, aRes: dict, aKey: str, _aMatch) -> bool:
         aRes['case'] = aKey
+        return True

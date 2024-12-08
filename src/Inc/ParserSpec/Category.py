@@ -10,36 +10,37 @@ class TSpecCategory(TSpecBase):
         Res = {
             'laptop': [
                 r'\b('
-                r'aspire|lifebook|thinkpad|thinkbook|ideapad|latitude|zbook|elitebook|probook|macbook|inspiron|vostro|'
+                r'aspire|lifebook|thinkpad|thinkbook|ideapad|latitude|zbook|elitebook|probook|macbook|inspiron|vostro|gram|'
                 r'toughbook|chromebook|travelmate|zenbook|vivobook|yoga|nitro|envy|swift|expertbook|surface|erazer|edge|'
+                r'portege|katana|'
 
                 r'laptop|notebook|'
                 r'laptopy|'
                 r'ноутбук|ультрабук'
                 r')\b'
             ],
-            'server': [
-                r'\b('
-                r'primergy|poweredge|proliant|vxrail|'
-                r'server|datacenter|blade|'
-                r'serwer|'
-                r'сервер'
-                r')\b'
-            ],
             'desktop': [
                 r'\b('
-                r'optiplex|elitedesk|prodesk|esprimo|thinkcentre|chromebox|'
+                r'optiplex|elitedesk|prodesk|esprimo|thinkcentre|chromebox|thinkstation|'
                 r'desktop|tower|sff|workstation|komputer|computer|'
                 r'десктоп|робоча станція|пк|компьютер|комп\'ютер|системний|системник'
                 r')\b'
             ],
             'monitor': [
                 r'\b('
-                r'proline|ultrasharp|'
+                r'proline|ultrasharp|syncmaster|elitedisplay|flexscan|'
                 r'monitor|lcd|led|display|'
                 r'bildschirm|'
                 r'wyświetlacz|'
                 r'монітор|дисплей|монитор|екран'
+                r')\b'
+            ],
+            'server': [
+                r'\b('
+                r'primergy|poweredge|proliant|vxrail|'
+                r'server|datacenter|blade|2x\d{3,4}w|'
+                r'serwer|'
+                r'сервер'
                 r')\b'
             ],
             'printer': [
@@ -50,12 +51,6 @@ class TSpecCategory(TSpecBase):
                 r'drukarka|urządzenie wielofunkcyjne'
                 r')\b'
             ],
-            'storage': [
-                r'\b('
-                r'storage|nas|'
-                r'сховище|хранилище'
-                r')\b'
-            ],
             'mobile': [
                 r'\b('
                 r'galaxy|poco|iphone|ipad|pixel|'
@@ -64,7 +59,7 @@ class TSpecCategory(TSpecBase):
             ],
             'aio': [
                 r'\b('
-                r'eliteone|veriton|'
+                r'eliteone|veriton|imac|proone|'
                 r'all.?in.?one|'
                 r'aio|'
                 r'2w1|'
@@ -79,12 +74,17 @@ class TSpecCategory(TSpecBase):
                 r'тонкий клиент'
                 r')\b'
             ],
+            'storage': [
+                r'\b('
+                r'storage|nas|'
+                r'сховище|хранилище'
+                r')\b'
+            ],
             'pos': [
                 r'\b('
-                r'pos-terminal|'
-                r'pos|'
-                r'платіжний термінал|'
-                r'payment terminal'
+                r'hp engage|'
+                r'terminal|pos|'
+                r'термінал|терминал'
                 r')\b'
             ],
             'switch': [
@@ -100,5 +100,6 @@ class TSpecCategory(TSpecBase):
         }
         return Res
 
-    def _OnParse(self, aRes: dict, aKey: str, _aMatch):
+    def _OnParse(self, aRes: dict, aKey: str, _aMatch) -> bool:
         aRes['category'] = aKey
+        return True

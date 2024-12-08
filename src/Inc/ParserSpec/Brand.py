@@ -13,36 +13,47 @@ class TSpecBrand(TSpecBase):
         Res = {
             'brand': [
                 r'\b('
-                r'asus|acer|aoc|apple|'
+                r'asus|acer|aoc|apple|asotel|aruba|'
                 r'benq|brother|'
-                r'canon|cisco|'
-                r'dell|'
+                r'canon|cisco|clevo|'
+                r'dell|d[-\s]?link|dynabook|dicota|'
                 r'eizo|epson|'
                 r'fujitsu-siemens|fujitsu|'
-                r'google|'
-                r'hp|hewlett[- ]packard|huawei|honeywell|'
+                r'google|gvc|gateway|getac|gigabyte|'
+                r'hp|hewlett[-\s]packard|hpe|huawei|honeywell|hannspree|'
                 r'ibm|iiyama|'
-                r'kyocera|konica|'
-                r'lenovo|lexmark|lg|'
-                r'msi|medion|microsoft|motorola|'
-                r'nec|nvidia|'
+                r'juniper|jabra|'
+                r'kyocera|konica|koorui|'
+                r'lenovo|lexmark|lg|lancom|'
+                r'msi|medion|microsoft|motorola|mikrotik|'
+                r'nec|nvidia|netapp|netgear|nokia|'
                 r'oki|'
-                r'philips|panasonic|'
-                r'samsung|sharp|sony|'
-                r'toshiba|'
+                r'philips|panasonic|plantronics|poly|'
+                r'qlogic|'
+                r'ricoh|'
+                r'samsung|sharp|sony|sandisk|seagate|'
+                r'toshiba|tp[-\s]?link|terra|'
                 r'viewsonic|'
                 r'wortmann|'
                 r'xerox|xiaomi|'
-                r'zebra'
+                r'zyxel|zebra'
+                r')\b'
+            ],
+            'apple': [
+                r'\b('
+                r'iphone|ipad|macbook'
                 r')\b'
             ]
         }
         return Res
 
     def _OnParse(self, aRes: dict, aKey: str, aMatch):
-        aRes[aKey] = aMatch.group(0).lower()
-
-        Rest =  aMatch.string[aMatch.regs[0][1]:].strip()
-        Match = self.reModel.search(Rest)
-        if (Match):
-            aRes['model'] = Match.group(0).lower()
+        if (aKey == 'brand'):
+            aRes['brand'] = aMatch.group(0).lower()
+            Rest =  aMatch.string[aMatch.regs[0][1]:].strip()
+            Match = self.reModel.search(Rest)
+            if (Match):
+                aRes['model'] = Match.group(0).lower()
+        else:
+            aRes['brand'] = aKey
+        return True
