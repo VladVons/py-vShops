@@ -27,7 +27,10 @@ class TSpecStorage(TSpecBase):
                 r'((?P<qty>\d{1,2})\s*x\s*)?(?P<size>\d{3,4})\s*(?P<unit>gb|гб)\s*-?(?P<type>ssd|hdd|nvme|m2|m\.2|sas)?',
 
                 # 3x2tb | 2tb | 12 tb
-                r'((?P<qty>\d{1,2})\s*x\s*)?(?P<size>\d{1,2})\s*(?P<unit>tb|тб)\s*-?(?P<type>ssd|hdd|nvme|m2|m\.2|sas)?'
+                r'((?P<qty>\d{1,2})\s*x\s*)?(?P<size>\d{1,2})\s*(?P<unit>tb|тб)\s*-?(?P<type>ssd|hdd|nvme|m2|m\.2|sas)?',
+
+                # /256/ | / 1024 /
+                r'/\s*(?P<size>\d{3,4})\s*/'
             ]
         }
         return Res
