@@ -165,3 +165,16 @@ def DictDiff(aData1: dict, aData2: dict) -> dict:
 def SortByValue(aData: dict, aName: str) -> list:
     # SortD({'a1': {'key': 1, 'val': 111}, 'a2':{'key': 2, 'val': 222}})
     return sorted(aData.items(), key = lambda k: k[1].get(aName))
+
+def DictToPath(aObj) -> dict:
+    def _Recurs(aObj, aPath: str, aRes: dict) -> dict:
+        if (isinstance(aObj, dict)):
+            for xKey, xVal in aObj.items():
+                Path = f'{aPath}/{xKey}' if aPath else xKey
+                _Recurs(xVal, Path, aRes)
+        else:
+            aRes[aPath] = aObj
+
+    Res = {}
+    _Recurs(aObj, '', Res)
+    return Res

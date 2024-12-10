@@ -11,7 +11,7 @@ class TSpecBrand(TSpecBase):
 
     def _GetPatterns(self) -> dict:
         Res = {
-            'brand': [
+            'brands': [
                 r'\b('
                 r'asus|acer|aoc|apple|asotel|aruba|'
                 r'benq|brother|'
@@ -43,12 +43,17 @@ class TSpecBrand(TSpecBase):
                 r'\b('
                 r'iphone|ipad|macbook'
                 r')\b'
+            ],
+            'acer': [
+                r'\b('
+                r'veriton'
+                r')\b'
             ]
         }
         return Res
 
     def _OnParse(self, aRes: dict, aKey: str, aMatch):
-        if (aKey == 'brand'):
+        if (aKey == 'brands'):
             aRes['brand'] = aMatch.group(0).lower()
             Rest =  aMatch.string[aMatch.regs[0][1]:].strip()
             Match = self.reModel.search(Rest)

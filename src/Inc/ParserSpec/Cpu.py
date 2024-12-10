@@ -50,10 +50,14 @@ class TSpecCpu(TSpecBase):
     def _OnParse(self, aRes: dict, aKey: str, aMatch):
         Groups = aMatch.groupdict()
         if (aKey == 'intel') and ('gen' in Groups):
-            Match = self.reGenDigits.search(Groups['gen'])
-            if (Match):
-                Gen = Match.group(1)
-                GenAlias = Gen[:2] if (Gen.startswith('1')) else Gen[0]
-                Groups['gen_a'] = GenAlias
+            Gen = Groups['gen']
+            if (len(Gen) > 2):
+                Match = self.reGenDigits.search(Gen)
+                if (Match):
+                    Gen = Match.group(1)
+                    GenAlias = Gen[:2] if (Gen.startswith('1')) else Gen[0]
+                    Groups['gen_short'] = GenAlias
+            else:
+                Groups['gen_short'] = Gen
         aRes['cpu'] = Groups
         return True

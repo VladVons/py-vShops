@@ -10,16 +10,16 @@ class TSpecRam(TSpecBase):
         Res = {
             'ram': [
                 # 8 ram | 16 ram
-                r'(?P<size>\d{1,2})\s*(?:ram)',
+                r'\b(?P<size>\d{1,2})\s*(?:ram)',
 
                 # 8 ddr3 | 16 lpddr4
-                r'[\s/](?P<size>\d{1,2})\s*(?:lpddr[345]|ddr[345])',
+                r'\b(?P<size>\d{1,2})\s*(?:lpddr[345]|ddr[345])',
 
                 # ddr3 8| lpddr4 16
                 r'(?:lpddr[345]|ddr[345])\s*(?P<size>\d{1,2})',
 
                 # 4Gb 16 gb
-                r'(?P<size>\d{1,2})\s*(?P<unit>gb|гб)',
+                r'\b(?P<size>\d{1,2})\s*(?P<unit>gb|гб)',
 
                 # /16/ | / 4 /
                 r'/\s*(?P<size>\d{1,2})\s*/'
