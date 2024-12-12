@@ -13,7 +13,7 @@ def Encode(aData):
         Res = aData
     elif isinstance(aData, dict):
         Res = {xKey: Encode(xVal) for xKey, xVal in aData.items()}
-    elif isinstance(aData, list):
+    elif isinstance(aData, (list, tuple)):
         Res = [Encode(xData) for xData in aData]
     elif isinstance(aData, bytes):
         Res = {'__type__': 'bytes', 'data': base64.b64encode(aData).decode('utf-8')}

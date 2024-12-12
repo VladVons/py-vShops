@@ -11,13 +11,7 @@ from Inc.Misc import Serialize
 
 
 class TCache():
-    def __init__(self,
-            aRoot: str = '',
-            aMaxAge: int = 5,
-            aInclModule: list[str] = None,
-            aExclModule: list[str] = None
-        ):
-        self.Root = aRoot
+    def __init__(self, aMaxAge: int = 5, aInclModule: list[str] = None, aExclModule: list[str] = None):
         self.MaxAge = aMaxAge
         self.InclModule = aInclModule or []
         self.ExclModule = aExclModule or []
@@ -48,8 +42,7 @@ class TCache():
             Str = aRoute + str(sorted(aQuery.items()))
         else:
             Str = aRoute
-        File = hex(abs(hash(Str)))
-        return f'{self.Root}/{File}'
+        return hex(abs(hash(Str)))
 
     def _Filter(self, aRoute: str) -> bool:
         Res = (not self.MaxAge) or \
@@ -85,6 +78,19 @@ class TCache():
 
 
 class TCacheFile(TCache):
+    def __init__(self,
+        aRoot: str = '/tmp/cache',
+        aMaxAge: int = 5,
+        aInclModule: list[str] = None,
+        aExclModule: list[str] = None
+    ):
+        super().__init__(aMaxAge, aInclModule, aExclModule)
+        self.Root = aRoot
+
+    def _GetPath(self, aRoute: str, aQuery: dict = None) -> str:
+        Hash = super()._GetPath(aRoute, aQuery)
+        return f'{self.Root}/{Hash}'
+
     def _Get(self, aPath: str) -> str:
         if (os.path.exists(aPath)) and (time.time() - os.path.getmtime(aPath) < self.MaxAge):
             return Serialize.ReadFile(aPath)
@@ -125,3 +131,25 @@ class TCacheMem(TCache):
 
     def GetSize(self):
         return len(self.Data)
+
+
+class TCacheFileManager():
+    def __init__(self, aRoot: str):
+        self.Root = aRoot
+        self.Data = {}
+
+    def Clear(self):
+        if (os.path.isdir(self.Root)):
+            for x in DirWalk(self.Root, aType = 'f'):
+                os.remove(x[0])
+
+    def Init(self, aMaxAge: int, aFunc: callable, aFuncArgs: list = None) -> tuple:
+        if (aMaxAge not in self.Data):
+            self.Data[aMaxAge] = (TCacheFile(self.Root, aMaxAge), aFunc, aFuncArgs)
+        return self.Data[aMaxAge]
+
+    async def Exec(self, aInit, aRoute: str, aData: dict):
+        Cache, Func, FuncArgs = aInit
+        return await Cache.ProxyA(aRoute, aData, Func, FuncArgs)
+
+
