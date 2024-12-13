@@ -25,7 +25,7 @@ class TCache():
     def _Set(self, aPath: str, aData: str):
         raise NotImplementedError()
 
-    def Clear(self):
+    def Clear(self, aAge: int):
         raise NotImplementedError()
 
     def GetSize(self):
@@ -101,10 +101,14 @@ class TCacheFile(TCache):
             os.makedirs(Dir)
         Serialize.WriteFile(aPath, aData)
 
-    def Clear(self):
+    def Clear(self, aAge: int = 0):
         if (os.path.isdir(self.Root)):
             for x in DirWalk(self.Root, aType = 'f'):
-                os.remove(x[0])
+                if (aAge):
+                    if (time.time() - os.path.getmtime(x[0]) > aAge):
+                        os.remove(x[0])
+                else:
+                    os.remove(x[0])
 
     def GetSize(self) -> int:
         if (os.path.isdir(self.Root)):
@@ -126,8 +130,16 @@ class TCacheMem(TCache):
     def _Set(self, aPath: str, aData: str):
         self.Data[aPath] = (aData, time.time())
 
-    def Clear(self):
-        self.Data.clear()
+    def Clear(self, aAge: int = 0):
+        if (aAge):
+            Now = time.time()
+            Keys = list(self.Data.keys())
+            for xKey in Keys:
+                _Data, Time = self.Data[xKey]
+                if (Now - Time > aAge):
+                    del self.Data[xKey]
+        else:
+            self.Data.clear()
 
     def GetSize(self):
         return len(self.Data)
@@ -151,5 +163,3 @@ class TCacheFileManager():
     async def Exec(self, aInit, aRoute: str, aData: dict):
         Cache, Func, FuncArgs = aInit
         return await Cache.ProxyA(aRoute, aData, Func, FuncArgs)
-
-
