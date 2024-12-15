@@ -3,6 +3,7 @@
 # License: GNU, see LICENSE for more details
 
 
+import os
 import time
 import asyncio
 import aiohttp
@@ -65,3 +66,23 @@ async def UrlGetData(aUrl: str, aLogin: str = None, aPassword: str = None, aHead
 
     Res['time'] = round(time.time() - TimeAt, 2)
     return Res
+
+async def DownloadChunks(aUrl: str, aBlockSize: int):
+    async with aiohttp.ClientSession() as Session:
+        async with Session.get(aUrl) as Response:
+            if (Response.status == 200):
+                TotalSize = int(Response.headers.get('Content-Length', 0))
+                async for xBlock in Response.content.iter_chunked(aBlockSize):
+                    yield (xBlock, TotalSize)
+
+async def DownloadChunksToFile(aUrl: str, aFile: str, aBlockSize: int = 65536):
+    if (os.path.exists(aFile)):
+        os.remove(aFile)
+
+    Size = 0
+    async for xBlock, xTotalSize in DownloadChunks(aUrl, aBlockSize):
+        with open(aFile, 'ab') as F:
+            F.write(xBlock)
+
+            Size += len(xBlock)
+            print(f'\rDownload: {Size / xTotalSize * 100:.1f}%', end='')
