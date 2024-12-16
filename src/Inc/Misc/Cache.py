@@ -155,11 +155,10 @@ class TCacheFileManager():
             for x in DirWalk(self.Root, aType = 'f'):
                 os.remove(x[0])
 
-    def Init(self, aMaxAge: int, aFunc: callable, aFuncArgs: list = None) -> tuple:
+    def Init(self, aMaxAge: int) -> TCacheFile:
         if (aMaxAge not in self.Data):
-            self.Data[aMaxAge] = (TCacheFile(self.Root, aMaxAge), aFunc, aFuncArgs)
+            self.Data[aMaxAge] = TCacheFile(self.Root, aMaxAge)
         return self.Data[aMaxAge]
 
-    async def Exec(self, aInit, aRoute: str, aData: dict):
-        Cache, Func, FuncArgs = aInit
-        return await Cache.ProxyA(aRoute, aData, Func, FuncArgs)
+    async def Exec(self, aCache: TCacheFile, aFunc: callable, aFuncArgs: list, aRoute: str, aData: dict):
+        return await aCache.ProxyA(aRoute, aData, aFunc, aFuncArgs)

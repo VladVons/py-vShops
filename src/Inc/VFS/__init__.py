@@ -13,6 +13,12 @@ class TFsBase():
     def FileWrite(self, aName: str, aData: bytes) -> int:
         raise NotImplementedError()
 
+    async def FileReadChunk(self, aName: str, aStreamWriter, aChunkSize: int):
+        raise NotImplementedError()
+
+    async def FileWriteChunk(self, aName: str, aStreamReader, aChunkSize: int):
+        raise NotImplementedError()
+
     def FileDelete(self, aName: str):
         raise NotImplementedError()
 

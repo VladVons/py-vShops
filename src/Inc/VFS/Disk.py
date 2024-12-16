@@ -13,6 +13,11 @@ class TFsDisk(TFsBase):
     def _FullPath(self, aPath: str) -> str:
         return f'{self.Root}{os.sep}{aPath.replace('/', os.sep)}'
 
+    def _FullPathCreate(self, aPath: str) -> str:
+        Res = aPath.rsplit(os.sep, maxsplit=1)[0] if (os.sep in aPath) else ''
+        self.DirCreate(Res)
+        return Res
+
     def DirCreate(self, aName: str):
         if (not self.FileExists(aName)):
             Path = self._FullPath(aName)
@@ -26,6 +31,7 @@ class TFsDisk(TFsBase):
     def FileWrite(self, aName: str, aData: bytes) -> int:
         assert(isinstance(aData, bytes)), 'expecting bytes'
 
+        self._FullPathCreate(aName)
         Path = self._FullPath(aName)
         with open(Path, 'wb') as F:
             return F.write(aData)
@@ -37,6 +43,7 @@ class TFsDisk(TFsBase):
                 await aStreamWriter.write(xChunk)
 
     async def FileWriteChunk(self, aName: str, aStreamReader, aChunkSize: int):
+        self._FullPathCreate(aName)
         Path = self._FullPath(aName)
         with open(Path, 'wb') as F:
             while xChunk := await aStreamReader.read(aChunkSize):
