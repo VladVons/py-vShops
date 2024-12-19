@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta charset="UTF-8">
+
+<style>
+  .grid-container {
+    display: grid;
+    grid-template-columns: 130px auto 90px 90px;
+  }
+
+  .gitem {
+    padding: 0px;
+    text-align: left;
+  }
+  .thumb {
+    height: 98px;
+    max-width: 128px;
+    width: auto;
+  }
+</style>
+  <link rel="stylesheet" href="category_2_files/bootstrap.css">
+  <link rel="stylesheet" href="category_2_files/fontawesome.css">
+  <link rel="stylesheet" href="category_2_files/styles.css">
+  <script src="category_2_files/lib.js"></script>
+  <style>
+    body {
+      padding-top: 60px;
+      padding-bottom: 60px;
+    }
+    .fixed-top, .fixed-bottom {
+      background-color: #f8f9fa;
+      z-index: 1030;
+    }
+    .header-container {
+      display: flex;
+      align-items: center;
+      justify-content: start;
+      gap: 0.5rem;
+    }
+    .search-group {
+      display: flex;
+      align-items: center;
+      flex-grow: 1;
+    }
+    .search-input {
+      flex: 0 0 40%;
+    }
+    .search-icon {
+      background: none;
+      border: none;
+      padding: 0.375rem 0.75rem;
+    }
+    .form-select {
+      width: auto;
+    }
+
+    /* Responsive styles for mobile */
+    @media (max-width: 768px) {
+      .header-container {
+        flex-direction: column;
+        align-items: start;
+      }
+      .search-group {
+        width: 100%;
+      }
+      .logo-and-select {
+        display: flex;
+        align-items: center;
+        width: 100%;
+        justify-content: space-between;
+      }
+      .search-input {
+        flex: 1; /* Full width for search input on mobile */
+      }
+      .search-icon {
+        margin-left: auto;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header class="fixed-top">
+    <div class="container header-container">
+<!-- header + -->
+<div class="logo-and-select">
+  <div class="logo">
+    <a href="http://localhost:8180/"><img src="category_2_files/logo.png" alt="Logo" height="40"></a>
+  </div>
+  <select class="form-select ms-2 d-md-none">
+    <option selected="selected">ua</option>
+    <option value="1">ua</option>
+    <option value="2">pl</option>
+  </select>
+</div>
+
+<form class="search-group ms-3" method="get" autocomplete="off" id="viSearchForm">
+  <input type="hidden" name="route" value="product/search">
+  <input type="text" class="form-control search-input" name="q" id="viSearchInput" placeholder="search">
+  <button type="submit" class="search-icon ms-2" aria-label="Search">
+    <i class="bi bi-search"></i>
+  </button>
+  <select class="form-select ms-2 d-none d-md-inline" name="country_id" id="viCountry">
+      <option value="3">de</option>
+      <option value="2">pl</option>
+      <option value="1" selected="selected">ua</option>
+  </select>
+</form>
+
+<script type="text/javascript">
+    const elForm = document.getElementById('viSearchForm');
+    const elSearch = document.getElementById('viSearchInput');
+
+    document.getElementById('viCountry').addEventListener('change', (event) => {
+      const Search = elSearch.value.trim();
+      if (Search == '') {
+        elForm.querySelector('input[name="route"]').remove();
+      }
+      elForm.submit();
+  });
+</script>
+<!-- header - -->    </div>
+  </header>
+
+  <main class="container mt-3">
+<div>
+  <h2>Category: Laptop</h2>
+</div>
+
+<form id="formAttrFilter">
+  <input type="hidden" name="route" value="product/category">
+  <input type="hidden" name="country_id" value="1">
+  <input type="hidden" name="lang_id" value="1">
+  <input type="hidden" name="f_category" value="laptop">
+  <div class="row">
+    <div class="col-2">
+      <label for="case">Form factor</label>
+    </div>
+    <div class="col-2">
+      <select class="form-select w-100" id="case" name="f_case">
+      <option value="" selected="selected">---</option>
+        <option value="mini">mini (41)</option>
+        <option value="sff">sff (10)</option>
+    </select>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-2">
+      <label for="cpu/family">Processor family</label>
+    </div>
+    <div class="col-2">
+      <select class="form-select w-100" id="cpu/family" name="f_cpu/family">
+      <option value="" selected="selected">---</option>
+        <option value="a9">a9 (29)</option>
+        <option value="celeron">celeron (231)</option>
+        <option value="core 2">core 2 (54)</option>
+        <option value="i3">i3 (1145)</option>
+        <option value="i5">i5 (5986)</option>
+        <option value="i7">i7 (1657)</option>
+        <option value="i9">i9 (10)</option>
+        <option value="pentium">pentium (136)</option>
+        <option value="ryzen">ryzen (261)</option>
+    </select>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-2">
+      <label for="cpu/gen_short">Processor generation</label>
+    </div>
+    <div class="col-2">
+      <select class="form-select w-100" id="cpu/gen_short" name="f_cpu/gen_short">
+      <option value="" selected="selected">---</option>
+        <option value="10">10 (468)</option>
+        <option value="11">11 (279)</option>
+        <option value="12">12 (68)</option>
+        <option value="13">13 (19)</option>
+        <option value="16">16 (14)</option>
+        <option value="2">2 (751)</option>
+        <option value="3">3 (765)</option>
+        <option value="4">4 (996)</option>
+        <option value="5">5 (601)</option>
+        <option value="6">6 (1832)</option>
+        <option value="7">7 (891)</option>
+        <option value="8">8 (1847)</option>
+        <option value="9">9 (144)</option>
+    </select>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-2">
+      <label for="grade">Grade</label>
+    </div>
+    <div class="col-2">
+      <select class="form-select w-100" id="grade" name="f_grade">
+      <option value="" selected="selected">---</option>
+        <option value="a">a (1145)</option>
+        <option value="b">b (2123)</option>
+        <option value="c">c (186)</option>
+    </select>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-2">
+      <label for="os">Os</label>
+    </div>
+    <div class="col-2">
+      <select class="form-select w-100" id="os" name="f_os">
+      <option value="" selected="selected">---</option>
+        <option value="windows 10">windows 10 (125)</option>
+        <option value="windows 11">windows 11 (20)</option>
+        <option value="windows 7">windows 7 (8)</option>
+    </select>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-2">
+      <label for="ram/size">Memory size gb</label>
+    </div>
+    <div class="col-2">
+      <select class="form-select w-100" id="ram/size" name="f_ram/size">
+      <option value="">---</option>
+        <option value="12">12 (70)</option>
+        <option value="16">16 (1856)</option>
+        <option value="2">2 (256)</option>
+        <option value="20" selected="selected">20 (14)</option>
+        <option value="24">24 (9)</option>
+        <option value="25">25 (13)</option>
+        <option value="3">3 (114)</option>
+        <option value="32">32 (338)</option>
+        <option value="4">4 (2032)</option>
+        <option value="6">6 (124)</option>
+        <option value="64">64 (21)</option>
+        <option value="8">8 (4900)</option>
+    </select>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-2">
+      <label for="screen_resol">Screen_resol</label>
+    </div>
+    <div class="col-2">
+      <select class="form-select w-100" id="screen_resol" name="f_screen_resol">
+      <option value="" selected="selected">---</option>
+        <option value="4k">4k (315)</option>
+        <option value="fhd">fhd (2735)</option>
+        <option value="hd">hd (2643)</option>
+        <option value="qhd">qhd (56)</option>
+    </select>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-2">
+      <label for="screen_size">Screen_size</label>
+    </div>
+    <div class="col-2">
+      <select class="form-select w-100" id="screen_size" name="f_screen_size">
+      <option value="" selected="selected">---</option>
+        <option value="12">12 (27)</option>
+        <option value="13">13 (62)</option>
+        <option value="14">14 (202)</option>
+        <option value="15">15 (125)</option>
+        <option value="17">17 (17)</option>
+    </select>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-2">
+      <label for="storage/size">Storage size gb</label>
+    </div>
+    <div class="col-2">
+      <select class="form-select w-100" id="storage/size" name="f_storage/size">
+      <option value="" selected="selected">---</option>
+        <option value="1000">1000 (275)</option>
+        <option value="120">120 (646)</option>
+        <option value="128">128 (1214)</option>
+        <option value="160">160 (116)</option>
+        <option value="180">180 (81)</option>
+        <option value="2000">2000 (12)</option>
+        <option value="240">240 (1042)</option>
+        <option value="250">250 (236)</option>
+        <option value="256">256 (1883)</option>
+        <option value="320">320 (478)</option>
+        <option value="480">480 (383)</option>
+        <option value="500">500 (1055)</option>
+        <option value="512">512 (532)</option>
+        <option value="640">640 (39)</option>
+        <option value="750">750 (42)</option>
+    </select>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-2">
+      <label for="storage/type">Storage type</label>
+    </div>
+    <div class="col-2">
+      <select class="form-select w-100" id="storage/type" name="f_storage/type">
+      <option value="" selected="selected">---</option>
+        <option value="hdd">hdd (3491)</option>
+        <option value="nvme">nvme (519)</option>
+        <option value="ssd">ssd (4049)</option>
+    </select>
+    </div>
+  </div>
+  <button type="submit" class="btn btn-primary">filter</button>
+  <button class="btn btn-primary" onclick="clearSelects()">clear_it</button>
+</form>
+
+<script>
+  const formAttrFilter = document.getElementById('formAttrFilter')
+
+  formAttrFilter.addEventListener('submit', function(event) {
+    event.preventDefault();
+
+    const form = event.target;
+    for (const element of form.elements) {
+        if (element.name && !element.value) {
+            element.disabled = true;
+        }
+    }
+    form.submit();
+  });
+
+  function clearSelects() {
+    event.preventDefault();
+    formAttrFilter.querySelectorAll('select').forEach(function(selectElement) {
+        selectElement.selectedIndex = 0;
+    });
+}
+</script>
+
+<!-- pagination + -->
+<div class="container mt-1">
+  <div class="p-0">
+    <ul class="pagination justify-content-center">
+          <li class="page-item"><a class="page-link active">1</a></li>
+          <li class="page-item"><a class="page-link" href="http://localhost:8180/?route=product%2Fcategory&amp;country_id=1&amp;lang_id=1&amp;f_category=laptop&amp;f_ram%2Fsize=3&amp;page=2">2</a></li>
+          <li class="page-item"><a class="page-link" href="http://localhost:8180/?route=product%2Fcategory&amp;country_id=1&amp;lang_id=1&amp;f_category=laptop&amp;f_ram%2Fsize=3&amp;page=3">3</a></li>
+          <li class="page-item"><a class="page-link" href="http://localhost:8180/?route=product%2Fcategory&amp;country_id=1&amp;lang_id=1&amp;f_category=laptop&amp;f_ram%2Fsize=3&amp;page=4">4</a></li>
+          <li class="page-item"><a class="page-link" href="http://localhost:8180/?route=product%2Fcategory&amp;country_id=1&amp;lang_id=1&amp;f_category=laptop&amp;f_ram%2Fsize=3&amp;page=5">5</a></li>
+          <li class="page-item"><a class="page-link" href="http://localhost:8180/?route=product%2Fcategory&amp;country_id=1&amp;lang_id=1&amp;f_category=laptop&amp;f_ram%2Fsize=3&amp;page=6">6</a></li>
+          <li class="page-item"><a class="page-link" href="http://localhost:8180/?route=product%2Fcategory&amp;country_id=1&amp;lang_id=1&amp;f_category=laptop&amp;f_ram%2Fsize=3&amp;page=7">7</a></li>
+          <li class="page-item"><a class="page-link" href="http://localhost:8180/?route=product%2Fcategory&amp;country_id=1&amp;lang_id=1&amp;f_category=laptop&amp;f_ram%2Fsize=3&amp;page=8">&gt;</a></li>
+          <li class="page-item"><a class="page-link" href="http://localhost:8180/?route=product%2Fcategory&amp;country_id=1&amp;lang_id=1&amp;f_category=laptop&amp;f_ram%2Fsize=3&amp;page=12">12</a></li>
+    </ul>
+  </div>
+</div>
+<!-- pagination - --><div class="container pb-2">
+  <div class="grid-container">
+      <div class="grid-item fw-bold">Date</div>
+      <div class="grid-item fw-bold">Title</div>
+      <div class="grid-item fw-bold">Price</div>
+      <div class="grid-item fw-bold">Price-old</div>
+
+      <div class="gitem text-center">
+        <a href="http://localhost:8180/?route=product/product&amp;url_id=95383&amp;lang_id=1" rel="nofollow" title="2024-12-17">
+          <img src="category_2_files/000015132_1-510x320.jpeg" alt="Ноутбук HP Compaq CQ61-215SO-..." class="thumb">
+        </a>
+      </div>
+      <div class="gitem m-2" title="Ноутбук HP Compaq CQ61-215SO-Intel Celeron 900-2.2GHz-3Gb-DDR2-250Gb-HDD-DVD-RW-W15.6-Web-(B-)-Б/В">Ноутбук HP Compaq CQ61-215SO-Intel Celeron 900-2.2GHz-3Gb-DDR2-250Gb-HDD-DVD-RW-W15.6-Web-(B-)-Б/В
+        <div title="https://a-pc.com.ua/bv-noutbuki?product_id=16010&amp;srsltid=ZmluZHdhcmVzLmNvbQ%3D%3D">
+          <a href="https://a-pc.com.ua/bv-noutbuki?product_id=16010&amp;srsltid=ZmluZHdhcmVzLmNvbQ%3D%3D" target="_blank" rel="nofollow">https://a-pc.com.ua/bv-noutbuki?product_id=16010&amp;srsltid=ZmluZHdhcmVzLmNvbQ%3D%3D</a>
+        </div>
+      </div>
+      <div class="gitem">2,100</div>
+      <div class="gitem"></div>
+      <div class="gitem text-center">
+        <a href="http://localhost:8180/?route=product/product&amp;url_id=47136&amp;lang_id=1" rel="nofollow" title="2024-12-17">
+          <img src="category_2_files/000015132_1-510x320.jpeg" alt="Ноутбук HP Compaq CQ61-215SO-..." class="thumb">
+        </a>
+      </div>
+      <div class="gitem m-2" title="Ноутбук HP Compaq CQ61-215SO-Intel Celeron 900-2.2GHz-3Gb-DDR2-250Gb-HDD-DVD-RW-W15.6-Web-(B-)-Б/В">Ноутбук HP Compaq CQ61-215SO-Intel Celeron 900-2.2GHz-3Gb-DDR2-250Gb-HDD-DVD-RW-W15.6-Web-(B-)-Б/В
+        <div title="https://a-pc.com.ua/bv-noutbuki/noutbuk-hp-compaq-cq61-215so-intel-celeron-900-22ghz-3gb-ddr2-250gb-hdd-dvd-rw-w156-web-b-b-v?srsltid=ZmluZHdhcmVzLmNvbQ%3D%3D">
+          <a href="https://a-pc.com.ua/bv-noutbuki/noutbuk-hp-compaq-cq61-215so-intel-celeron-900-22ghz-3gb-ddr2-250gb-hdd-dvd-rw-w156-web-b-b-v?srsltid=ZmluZHdhcmVzLmNvbQ%3D%3D" target="_blank" rel="nofollow">https://a-pc.com.ua/bv-noutbuki/noutbuk-hp-compaq-cq61-215so-intel-celeron-900-22ghz-3gb-ddr2-250...</a>
+        </div>
+      </div>
+      <div class="gitem">2,100</div>
+      <div class="gitem"></div>
+      <div class="gitem text-center">
+        <a href="http://localhost:8180/?route=product/product&amp;url_id=47188&amp;lang_id=1" rel="nofollow" title="2024-12-17">
+          <img src="category_2_files/000015979_1-510x320.jpeg" alt="Ноутбук HP Compaq Presario CQ..." class="thumb">
+        </a>
+      </div>
+      <div class="gitem m-2" title="Ноутбук HP Compaq Presario CQ61-110EO-Intel Celeron 900-2.2GHz-3Gb-DDR2-320Gb-HDD-W15.6-HD-Web-(B-)-Б/В">Ноутбук HP Compaq Presario CQ61-110EO-Intel Celeron 900-2.2GHz-3Gb-DDR2-320Gb-HDD-W15.6-HD-Web-(B-)-Б/В
+        <div title="https://a-pc.com.ua/bv-noutbuki/noutbuk-hp-compaq-presario-cq61-110eo-intel-celeron-900-22ghz-3gb-ddr2-320gb-hdd-w156-hd-web-b-b-v?srsltid=ZmluZHdhcmVzLmNvbQ%3D%3D">
+          <a href="https://a-pc.com.ua/bv-noutbuki/noutbuk-hp-compaq-presario-cq61-110eo-intel-celeron-900-22ghz-3gb-ddr2-320gb-hdd-w156-hd-web-b-b-v?srsltid=ZmluZHdhcmVzLmNvbQ%3D%3D" target="_blank" rel="nofollow">https://a-pc.com.ua/bv-noutbuki/noutbuk-hp-compaq-presario-cq61-110eo-intel-celeron-900-22ghz-3gb...</a>
+        </div>
+      </div>
+      <div class="gitem">2,200</div>
+      <div class="gitem"></div>
+      <div class="gitem text-center">
+        <a href="http://localhost:8180/?route=product/product&amp;url_id=47189&amp;lang_id=1" rel="nofollow" title="2024-12-18">
+          <img src="category_2_files/000014700_1-510x320.jpeg" alt="Ноутбук HP Compaq Presario CQ..." class="thumb">
+        </a>
+      </div>
+      <div class="gitem m-2" title="Ноутбук HP Compaq Presario CQ61-414EO-Intel Celeron 900-2.2GHz-3Gb-DDR2-250Gb-HDD-DVD-R-W15.6-Web-(B-)-Б/В">Ноутбук HP Compaq Presario CQ61-414EO-Intel Celeron 900-2.2GHz-3Gb-DDR2-250Gb-HDD-DVD-R-W15.6-Web...
+        <div title="https://a-pc.com.ua/bv-noutbuki?product_id=15580&amp;srsltid=ZmluZHdhcmVzLmNvbQ%3D%3D">
+          <a href="https://a-pc.com.ua/bv-noutbuki?product_id=15580&amp;srsltid=ZmluZHdhcmVzLmNvbQ%3D%3D" target="_blank" rel="nofollow">https://a-pc.com.ua/bv-noutbuki?product_id=15580&amp;srsltid=ZmluZHdhcmVzLmNvbQ%3D%3D</a>
+        </div>
+      </div>
+      <div class="gitem">2,200</div>
+      <div class="gitem"></div>
+      <div class="gitem text-center">
+        <a href="http://localhost:8180/?route=product/product&amp;url_id=68402&amp;lang_id=1" rel="nofollow" title="2024-12-17">
+          <img src="category_2_files/000014700_1-510x320.jpeg" alt="Ноутбук HP Compaq Presario CQ..." class="thumb">
+        </a>
+      </div>
+      <div class="gitem m-2" title="Ноутбук HP Compaq Presario CQ61-414EO-Intel Celeron 900-2.2GHz-3Gb-DDR2-250Gb-HDD-DVD-R-W15.6-Web-(B-)-Б/В">Ноутбук HP Compaq Presario CQ61-414EO-Intel Celeron 900-2.2GHz-3Gb-DDR2-250Gb-HDD-DVD-R-W15.6-Web...
+        <div title="https://a-pc.com.ua/bv-noutbuki/noutbuk-hp-compaq-presario-cq61-414eo-intel-celeron-900-22ghz-3gb-ddr2-250gb-hdd-dvd-r-w156-web-b-b-v?srsltid=ZmluZHdhcmVzLmNvbQ%3D%3D">
+          <a href="https://a-pc.com.ua/bv-noutbuki/noutbuk-hp-compaq-presario-cq61-414eo-intel-celeron-900-22ghz-3gb-ddr2-250gb-hdd-dvd-r-w156-web-b-b-v?srsltid=ZmluZHdhcmVzLmNvbQ%3D%3D" target="_blank" rel="nofollow">https://a-pc.com.ua/bv-noutbuki/noutbuk-hp-compaq-presario-cq61-414eo-intel-celeron-900-22ghz-3gb...</a>
+        </div>
+      </div>
+      <div class="gitem">2,200</div>
+      <div class="gitem"></div>
+      <div class="gitem text-center">
+        <a href="http://localhost:8180/?route=product/product&amp;url_id=68380&amp;lang_id=1" rel="nofollow" title="2024-12-17">
+          <img src="category_2_files/000015979_1-510x320.jpeg" alt="Ноутбук HP Compaq Presario CQ..." class="thumb">
+        </a>
+      </div>
+      <div class="gitem m-2" title="Ноутбук HP Compaq Presario CQ61-110EO-Intel Celeron 900-2.2GHz-3Gb-DDR2-320Gb-HDD-W15.6-HD-Web-(B-)-Б/В">Ноутбук HP Compaq Presario CQ61-110EO-Intel Celeron 900-2.2GHz-3Gb-DDR2-320Gb-HDD-W15.6-HD-Web-(B-)-Б/В
+        <div title="https://a-pc.com.ua/bv-noutbuki?product_id=16849&amp;srsltid=ZmluZHdhcmVzLmNvbQ%3D%3D">
+          <a href="https://a-pc.com.ua/bv-noutbuki?product_id=16849&amp;srsltid=ZmluZHdhcmVzLmNvbQ%3D%3D" target="_blank" rel="nofollow">https://a-pc.com.ua/bv-noutbuki?product_id=16849&amp;srsltid=ZmluZHdhcmVzLmNvbQ%3D%3D</a>
+        </div>
+      </div>
+      <div class="gitem">2,200</div>
+      <div class="gitem"></div>
+      <div class="gitem text-center">
+        <a href="http://localhost:8180/?route=product/product&amp;url_id=47172&amp;lang_id=1" rel="nofollow" title="2024-12-17">
+          <img src="category_2_files/000014979_1-510x320.jpeg" alt="Ноутбук HP Compaq Presario CQ..." class="thumb">
+        </a>
+      </div>
+      <div class="gitem m-2" title="Ноутбук HP Compaq Presario CQ60-140EO-AMD Athlon QL-60-1.9GHz-3Gb-DDR2-320Gb-HDD-W15.6-Web-NVIDIA GF 8200M G-(B-)-Б/В">Ноутбук HP Compaq Presario CQ60-140EO-AMD Athlon QL-60-1.9GHz-3Gb-DDR2-320Gb-HDD-W15.6-Web-NVIDIA...
+        <div title="https://a-pc.com.ua/bv-noutbuki/noutbuk-hp-compaq-presario-cq60-140eo-amd-athlon-ql-60-19ghz-3gb-ddr2-320gb-hdd-w156-web-nvidia-gf-8200m-g-b-b-v-2?srsltid=ZmluZHdhcmVzLmNvbQ%3D%3D">
+          <a href="https://a-pc.com.ua/bv-noutbuki/noutbuk-hp-compaq-presario-cq60-140eo-amd-athlon-ql-60-19ghz-3gb-ddr2-320gb-hdd-w156-web-nvidia-gf-8200m-g-b-b-v-2?srsltid=ZmluZHdhcmVzLmNvbQ%3D%3D" target="_blank" rel="nofollow">https://a-pc.com.ua/bv-noutbuki/noutbuk-hp-compaq-presario-cq60-140eo-amd-athlon-ql-60-19ghz-3gb-...</a>
+        </div>
+      </div>
+      <div class="gitem">2,300</div>
+      <div class="gitem"></div>
+      <div class="gitem text-center">
+        <a href="http://localhost:8180/?route=product/product&amp;url_id=47212&amp;lang_id=1" rel="nofollow" title="2024-12-17">
+          <img src="category_2_files/000014649_1-510x320.png" alt="Ноутбук HP CQ56-115SO-Intel C..." class="thumb">
+        </a>
+      </div>
+      <div class="gitem m-2" title="Ноутбук HP CQ56-115SO-Intel Celeron 900-2.2GHz-3Gb-DDR2-320Gb-HDD-W15.6-Web-DVD-RW-(B-)-Б/В">Ноутбук HP CQ56-115SO-Intel Celeron 900-2.2GHz-3Gb-DDR2-320Gb-HDD-W15.6-Web-DVD-RW-(B-)-Б/В
+        <div title="https://a-pc.com.ua/bv-noutbuki/noutbuk-hp-cq56-115so-intel-celeron-900-22ghz-3gb-ddr2-320gb-hdd-w156-web-dvd-rw-b-b-v-3?srsltid=ZmluZHdhcmVzLmNvbQ%3D%3D">
+          <a href="https://a-pc.com.ua/bv-noutbuki/noutbuk-hp-cq56-115so-intel-celeron-900-22ghz-3gb-ddr2-320gb-hdd-w156-web-dvd-rw-b-b-v-3?srsltid=ZmluZHdhcmVzLmNvbQ%3D%3D" target="_blank" rel="nofollow">https://a-pc.com.ua/bv-noutbuki/noutbuk-hp-cq56-115so-intel-celeron-900-22ghz-3gb-ddr2-320gb-hdd-...</a>
+        </div>
+      </div>
+      <div class="gitem">2,300</div>
+      <div class="gitem"></div>
+      <div class="gitem text-center">
+        <a href="http://localhost:8180/?route=product/product&amp;url_id=68379&amp;lang_id=1" rel="nofollow" title="2024-12-17">
+          <img src="category_2_files/000014979_1-510x320.jpeg" alt="Ноутбук HP Compaq Presario CQ..." class="thumb">
+        </a>
+      </div>
+      <div class="gitem m-2" title="Ноутбук HP Compaq Presario CQ60-140EO-AMD Athlon QL-60-1.9GHz-3Gb-DDR2-320Gb-HDD-W15.6-Web-NVIDIA GF 8200M G-(B-)-Б/В">Ноутбук HP Compaq Presario CQ60-140EO-AMD Athlon QL-60-1.9GHz-3Gb-DDR2-320Gb-HDD-W15.6-Web-NVIDIA...
+        <div title="https://a-pc.com.ua/bv-noutbuki?product_id=15857&amp;srsltid=ZmluZHdhcmVzLmNvbQ%3D%3D">
+          <a href="https://a-pc.com.ua/bv-noutbuki?product_id=15857&amp;srsltid=ZmluZHdhcmVzLmNvbQ%3D%3D" target="_blank" rel="nofollow">https://a-pc.com.ua/bv-noutbuki?product_id=15857&amp;srsltid=ZmluZHdhcmVzLmNvbQ%3D%3D</a>
+        </div>
+      </div>
+      <div class="gitem">2,300</div>
+      <div class="gitem"></div>
+      <div class="gitem text-center">
+        <a href="http://localhost:8180/?route=product/product&amp;url_id=68416&amp;lang_id=1" rel="nofollow" title="2024-12-17">
+          <img src="category_2_files/000014649_1-510x320.png" alt="Ноутбук HP CQ56-115SO-Intel C..." class="thumb">
+        </a>
+      </div>
+      <div class="gitem m-2" title="Ноутбук HP CQ56-115SO-Intel Celeron 900-2.2GHz-3Gb-DDR2-320Gb-HDD-W15.6-Web-DVD-RW-(B-)-Б/В">Ноутбук HP CQ56-115SO-Intel Celeron 900-2.2GHz-3Gb-DDR2-320Gb-HDD-W15.6-Web-DVD-RW-(B-)-Б/В
+        <div title="https://a-pc.com.ua/bv-noutbuki?product_id=15530&amp;srsltid=ZmluZHdhcmVzLmNvbQ%3D%3D">
+          <a href="https://a-pc.com.ua/bv-noutbuki?product_id=15530&amp;srsltid=ZmluZHdhcmVzLmNvbQ%3D%3D" target="_blank" rel="nofollow">https://a-pc.com.ua/bv-noutbuki?product_id=15530&amp;srsltid=ZmluZHdhcmVzLmNvbQ%3D%3D</a>
+        </div>
+      </div>
+      <div class="gitem">2,300</div>
+      <div class="gitem"></div>
+  </div>
+</div><!-- pagination + -->
+<div class="container mt-1">
+  <div class="p-0">
+    <ul class="pagination justify-content-center">
+          <li class="page-item"><a class="page-link active">1</a></li>
+          <li class="page-item"><a class="page-link" href="http://localhost:8180/?route=product%2Fcategory&amp;country_id=1&amp;lang_id=1&amp;f_category=laptop&amp;f_ram%2Fsize=3&amp;page=2">2</a></li>
+          <li class="page-item"><a class="page-link" href="http://localhost:8180/?route=product%2Fcategory&amp;country_id=1&amp;lang_id=1&amp;f_category=laptop&amp;f_ram%2Fsize=3&amp;page=3">3</a></li>
+          <li class="page-item"><a class="page-link" href="http://localhost:8180/?route=product%2Fcategory&amp;country_id=1&amp;lang_id=1&amp;f_category=laptop&amp;f_ram%2Fsize=3&amp;page=4">4</a></li>
+          <li class="page-item"><a class="page-link" href="http://localhost:8180/?route=product%2Fcategory&amp;country_id=1&amp;lang_id=1&amp;f_category=laptop&amp;f_ram%2Fsize=3&amp;page=5">5</a></li>
+          <li class="page-item"><a class="page-link" href="http://localhost:8180/?route=product%2Fcategory&amp;country_id=1&amp;lang_id=1&amp;f_category=laptop&amp;f_ram%2Fsize=3&amp;page=6">6</a></li>
+          <li class="page-item"><a class="page-link" href="http://localhost:8180/?route=product%2Fcategory&amp;country_id=1&amp;lang_id=1&amp;f_category=laptop&amp;f_ram%2Fsize=3&amp;page=7">7</a></li>
+          <li class="page-item"><a class="page-link" href="http://localhost:8180/?route=product%2Fcategory&amp;country_id=1&amp;lang_id=1&amp;f_category=laptop&amp;f_ram%2Fsize=3&amp;page=8">&gt;</a></li>
+          <li class="page-item"><a class="page-link" href="http://localhost:8180/?route=product%2Fcategory&amp;country_id=1&amp;lang_id=1&amp;f_category=laptop&amp;f_ram%2Fsize=3&amp;page=12">12</a></li>
+    </ul>
+  </div>
+</div>
+<!-- pagination - -->  </main>
+
+  <footer class="fixed-bottom text-center py-2">
+    <div class="container vFooter">
+<!-- footer + -->
+<p class="mb-0">© 2024, findwares.com</p>
+  <a href="http://localhost:8180/?route=site/countries">Countries</a>
+<!-- footer - -->    </div>
+  </footer>
+
+  <script src="category_2_files/bootstrap.bundle.min.js"></script>
+
+</body></html>

@@ -6,9 +6,11 @@ cssDirDst="build/css"
 jsDirDst="build/js"
 
 
-install()
+Install()
 {
-  sudo apt install --no-install-recommends  nodejs npm
+  sudo apt install curl 
+  curl -fsSL https://deb.nodesource.com/setup_20.x | sudo bash -
+  sudo apt install --no-install-recommends nodejs npm
   sudo npm install -g purgecss
 }
 
@@ -59,7 +61,7 @@ jsCombine()
 
 
 
-
+#Install
 cssPurge
 #cssCombine
 #jsCombine
