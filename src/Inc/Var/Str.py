@@ -26,11 +26,15 @@ def ToFloat(aVal: str) -> float:
         aVal = 0.0
     return aVal
 
-def ToInt(aVal: str) -> int:
+def ToInt(aVal: str, aDef: int = 0) -> int:
     if (not aVal):
-        aVal = 0
+        aVal = aDef
     else:
-        aVal = int(aVal)
+        if (isinstance(aVal, str)):
+            if (aVal.isdigit()):
+                aVal = int(aVal)
+            else:
+                aVal = aDef
     return aVal
 
 def ToBool(aVal: str) -> bool:
