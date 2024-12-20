@@ -32,6 +32,9 @@ def Dump(self, aDepth = 0, aName: str = '') -> str:
                     Res.append(Data)
     return '<br>\n'.join(Res)
 
+def Translate(aLang: dict, aAlias: str) -> str:
+    return aLang.get(aAlias, aAlias).capitalize()
+
 def Type(aVar) -> str:
     return f'{aVar} is {type(aVar).__name__}'
 
@@ -116,6 +119,7 @@ class TTemplate():
         self.Env.globals['Type'] = Type
         self.Env.globals['Iif'] = Iif
         self.Env.globals['IifNone'] = IifNone
+        self.Env.globals['Translate'] = Translate
         #self.Env.filters['MyFunc'] = MyFunc
         self.Env.trim_blocks = True
         self.Env.lstrip_blocks = True
