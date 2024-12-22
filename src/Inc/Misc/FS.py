@@ -18,17 +18,17 @@ def DirWalk(aPath: str, aMask: str = '.*', aType: str = 'f', aDepthMax: int = 99
     for (Path, Type, aDepth) in DirWalk('/etc', '.jpg$|.png$', 'fd', 5)
     '''
 
-    def Recurs(aPath: str, aDepth: int) -> iter:
+    def WRecurs(aPath: str, aDepth: int) -> iter:
         for File in sorted(os.listdir(aPath)):
             Path = aPath + '/' + File
 
             Type = 'd' if (os.path.isdir(Path)) else 'f'
             if (Type == 'd') and (aDepth < aDepthMax) and (not os.path.islink(Path)):
-                yield from Recurs(Path, aDepth + 1)
+                yield from WRecurs(Path, aDepth + 1)
 
             if (Type in aType) and ((aMask == '.*') or (re.search(aMask, File))):
                 yield (Path, Type, aDepth)
-    yield from Recurs(aPath, 0)
+    yield from WRecurs(aPath, 0)
 
 
 def DirRemove(aPath: str) -> list[str]:

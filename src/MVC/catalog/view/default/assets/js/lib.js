@@ -14,7 +14,7 @@ function isEmpty(aStr) {
 }
 
 class TLocalStorage {
-    constructor(aStorageId) {
+    constructor(aStorageId = 'db') {
         this.storageId = aStorageId
         this.items = null
         this.load()

@@ -55,7 +55,7 @@ class TSpecBase():
                 Res[xKey] = xVal
         return Res
 
-    def Parse(self, aText: str) -> list:
+    def Parse(self, aText: str) -> dict:
         Res = {}
         if (aText):
             for _Idx, (xKey, xVal) in enumerate(self.Patterns.items()):

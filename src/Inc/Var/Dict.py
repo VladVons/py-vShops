@@ -106,7 +106,7 @@ def GetDictDef(aData: dict, aKeys: list, aDef: list) -> list:
     return Res
 
 def GetDictDefs(aData: dict, aKeys: list, aDef: list) -> list:
-    def _Get(aKey, aDef) -> object:
+    def WGet(aKey, aDef) -> object:
         if (isinstance(aDef, tuple)):
             Res = aData.get(aKey)
             if (Res not in aDef):
@@ -115,11 +115,11 @@ def GetDictDefs(aData: dict, aKeys: list, aDef: list) -> list:
             try:
                 Res = type(aDef)(aData.get(aKey, aDef))
             except Exception as _E:
-                Res = None
+                Res = aDef
         return Res
 
     if (aData):
-        Res = [_Get(Key, Def) for Key, Def in zip(aKeys, aDef, strict=True)]
+        Res = [WGet(Key, Def) for Key, Def in zip(aKeys, aDef, strict=True)]
     else:
         Res = aDef
     return Res

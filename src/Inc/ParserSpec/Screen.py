@@ -3,6 +3,7 @@
 # License: GNU, see LICENSE for more details
 
 
+from Inc.Var.Str import ToInt
 from ._Common import TSpecBase
 
 class TSpecScreenResol(TSpecBase):
@@ -56,5 +57,6 @@ class TSpecScreenSize(TSpecBase):
 
     def _OnParse(self, aRes: dict, aKey: str, aMatch) -> bool:
         Groups = aMatch.groupdict()
-        aRes['screen_size'] = Groups.get('size')
+        Size = Groups.get('size')
+        aRes['screen_size'] = ToInt(Size)
         return True

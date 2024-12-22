@@ -90,7 +90,7 @@ def DictUpdateDeep(aMaster: dict, aSlave: dict, aJoin = False, aDepth: int = 99)
 def DeepGetsRe(aObj, aKeys: list, aWithPath: bool = True) -> list:
     RegExSign = '.*+^?$[({'
 
-    def Recurs(aObj, aKeys: list, aPath: str) -> list:
+    def WRecurs(aObj, aKeys: list, aPath: str) -> list:
         Res = []
         if (aKeys):
             Key = aKeys[0]
@@ -101,11 +101,11 @@ def DeepGetsRe(aObj, aKeys: list, aWithPath: bool = True) -> list:
                 if (any(x in RegExSign for x in Key)):
                     for xKey in aObj:
                         if (re.search(Key, xKey)):
-                            Res += Recurs(aObj.get(xKey), aKeys[1:], f'{aPath}.{xKey}')
+                            Res += WRecurs(aObj.get(xKey), aKeys[1:], f'{aPath}.{xKey}')
                 else:
                     Val = aObj.get(Key)
                     if (Val is not None):
-                        Res += Recurs(Val, aKeys[1:], f'{aPath}.{Key}')
+                        Res += WRecurs(Val, aKeys[1:], f'{aPath}.{Key}')
             elif (isinstance(aObj, (list, tuple, set))):
                 Indexes = []
                 for xKey in Key:
@@ -116,14 +116,14 @@ def DeepGetsRe(aObj, aKeys: list, aWithPath: bool = True) -> list:
 
                 for Idx, Val in enumerate(aObj):
                     if (not Key) or (Idx in Indexes):
-                        Res += Recurs(Val, aKeys[1:], f'{aPath}[{Idx}]')
+                        Res += WRecurs(Val, aKeys[1:], f'{aPath}[{Idx}]')
         else:
             if (aWithPath):
                 Res.append((aObj, aPath.lstrip('.')))
             else:
                 Res.append(aObj)
         return Res
-    return Recurs(aObj, aKeys, '')
+    return WRecurs(aObj, aKeys, '')
 
 def FilterKey(aData: object, aKeys: list, aInstance: list) -> object:
     def _FilterKey(aData: object, aKeys: list, aRes: dict, aPath: str):

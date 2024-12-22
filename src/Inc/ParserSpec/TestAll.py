@@ -22,13 +22,33 @@ class TSpecComp():
             'grade': TSpecGrade()
         }
 
+        self.Categories = {
+            'desktop':     ['brand', 'case', 'cpu', 'ram', 'storage', 'os', 'grade'],
+            'server':      ['brand', 'case', 'cpu', 'ram', 'storage', 'os', 'grade'],
+            'thin client': ['brand', 'case', 'cpu', 'ram', 'storage', 'os', 'grade'],
+
+            'laptop': ['brand', 'cpu', 'ram', 'storage', 'os', 'grade', 'screen_size', 'screen_resol'],
+            'aio':    ['brand', 'cpu', 'ram', 'storage', 'os', 'grade', 'screen_size', 'screen_resol'],
+            'pos':    ['brand', 'cpu', 'ram', 'storage', 'os', 'grade', 'screen_size', 'screen_resol'],
+
+            'storage': ['brand', 'storage', 'grade'],
+
+            'monitor': ['brand', 'grade', 'screen_size', 'screen_resol'],
+
+            'mobile': ['brand', 'cpu', 'ram', 'storage', 'grade', 'screen_size', 'screen_resol'],
+        }
+
     def Parse(self, aText: str) -> dict:
-        Res = {}
-        for xKey, xParser in self.Parsers.items():
-            if (not xKey.startswith('-')):
-                R = xParser.Parse(aText)
-                if (R):
-                    Res.update(R)
+        Res = self.Parsers['category'].Parse(aText)
+        if (Res):
+            Name = Res.get('category')
+            Parsers = self.Categories.get(Name)
+            if (Parsers):
+                for xParser in Parsers:
+                    if (not xParser.startswith('-')):
+                        R = self.Parsers[xParser].Parse(aText)
+                        if (R):
+                            Res.update(R)
         return Res
 
     @staticmethod
