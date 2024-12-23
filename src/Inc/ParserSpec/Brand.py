@@ -8,6 +8,11 @@ from ._Common import TSpecBase
 
 class TSpecBrand(TSpecBase):
     reModel = re.compile(r'^[a-z0-9-]+\s*[a-z0-9-]+', re.IGNORECASE)
+    Alias = {
+        'hewlett packard': 'hp',
+        'hewlett-packard': 'hp',
+        'hpe': 'hp'
+    }
 
     def _GetPatterns(self) -> dict:
         Res = {
@@ -54,7 +59,9 @@ class TSpecBrand(TSpecBase):
 
     def _OnParse(self, aRes: dict, aKey: str, aMatch):
         if (aKey == 'brands'):
-            aRes['brand'] = aMatch.group(0).lower()
+            Brand = aMatch.group(0).lower()
+            aRes['brand'] = self.Alias.get(Brand, Brand)
+
             Rest =  aMatch.string[aMatch.regs[0][1]:].strip()
             Match = self.reModel.search(Rest)
             if (Match):

@@ -23,6 +23,9 @@ class TSpecStorage(TSpecBase):
                 # 12x256 ssd | 512 hdd
                 r'((?P<qty>\d{1,2})\s*x\s*)?(?P<size>\d{3,4})\s*(?P<type>ssd|hdd|nvme|m2|m\.2|sas)',
 
+                # ssd 12x256  | hdd 512
+                r'(?P<type>ssd|hdd|nvme|m2|m\.2|sas)\s*((?P<qty>\d{1,2})\s*x\s*)?(?P<size>\d{3,4})',
+
                 # 3x 512Gb | 2048 gb | 256gb-ssd
                 r'((?P<qty>\d{1,2})\s*x\s*)?(?P<size>\d{3,4})\s*(?P<unit>gb|гб)\s*-?(?P<type>ssd|hdd|nvme|m2|m\.2|sas)?',
 

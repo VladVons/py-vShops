@@ -3,7 +3,8 @@
 # License: GNU, see LICENSE for more details
 
 from Inc.ParserSpec import (
-    TSpecCategory, TSpecBrand, TSpecCase, TSpecCpu, TSpecRam, TSpecStorage, TSpecScreenResol, TSpecScreenSize, TSpecOs, TSpecGrade
+    TSpecCategory, TSpecBrand, TSpecCase, TSpecCpu, TSpecRam, TSpecStorage, TSpecScreenResol,
+    TSpecScreenSize, TSpecOs, TSpecGrade
 )
 
 
@@ -12,43 +13,44 @@ class TSpecComp():
         self.Parsers = {
             'category': TSpecCategory(),
             'brand': TSpecBrand(),
+            'grade': TSpecGrade(),
             'case': TSpecCase(),
             'cpu': TSpecCpu(),
             'ram': TSpecRam(),
             'storage': TSpecStorage(),
             'screen_size': TSpecScreenSize(),
             'screen_resol': TSpecScreenResol(),
-            'os': TSpecOs(),
-            'grade': TSpecGrade()
+            'os': TSpecOs()
         }
 
+        self.Base = ['brand', 'grade']
+
         self.Categories = {
-            'desktop':     ['brand', 'case', 'cpu', 'ram', 'storage', 'os', 'grade'],
-            'server':      ['brand', 'case', 'cpu', 'ram', 'storage', 'os', 'grade'],
-            'thin client': ['brand', 'case', 'cpu', 'ram', 'storage', 'os', 'grade'],
+            'desktop':     self.Base + ['case', 'cpu', 'ram', 'storage', 'os'],
+            'server':      self.Base + ['case', 'cpu', 'ram', 'storage', 'os'],
+            'thin client': self.Base + ['case', 'cpu', 'ram', 'storage', 'os'],
 
-            'laptop': ['brand', 'cpu', 'ram', 'storage', 'os', 'grade', 'screen_size', 'screen_resol'],
-            'aio':    ['brand', 'cpu', 'ram', 'storage', 'os', 'grade', 'screen_size', 'screen_resol'],
-            'pos':    ['brand', 'cpu', 'ram', 'storage', 'os', 'grade', 'screen_size', 'screen_resol'],
+            'laptop': self.Base + ['cpu', 'ram', 'storage', 'os', 'screen_size', 'screen_resol'],
+            'aio':    self.Base + ['cpu', 'ram', 'storage', 'os', 'screen_size', 'screen_resol'],
+            'pos':    self.Base + ['cpu', 'ram', 'storage', 'os', 'screen_size', 'screen_resol'],
 
-            'storage': ['brand', 'storage', 'grade'],
+            'storage': self.Base + ['storage'],
 
-            'monitor': ['brand', 'grade', 'screen_size', 'screen_resol'],
+            'monitor': self.Base + ['screen_size', 'screen_resol'],
 
-            'mobile': ['brand', 'cpu', 'ram', 'storage', 'grade', 'screen_size', 'screen_resol'],
+            'mobile': self.Base + ['cpu', 'ram', 'storage', 'screen_size', 'screen_resol'],
         }
 
     def Parse(self, aText: str) -> dict:
         Res = self.Parsers['category'].Parse(aText)
         if (Res):
             Name = Res.get('category')
-            Parsers = self.Categories.get(Name)
-            if (Parsers):
-                for xParser in Parsers:
-                    if (not xParser.startswith('-')):
-                        R = self.Parsers[xParser].Parse(aText)
-                        if (R):
-                            Res.update(R)
+            Parsers = self.Categories.get(Name, self.Base)
+            for xParser in Parsers:
+                if (not xParser.startswith('-')):
+                    R = self.Parsers[xParser].Parse(aText)
+                    if (R):
+                        Res.update(R)
         return Res
 
     @staticmethod
