@@ -15,47 +15,7 @@ class TSpecBrand(TSpecBase):
     }
 
     def _GetPatterns(self) -> dict:
-        Res = {
-            'brands': [
-                r'\b('
-                r'asus|acer|aoc|apple|asotel|aruba|'
-                r'benq|brother|'
-                r'canon|cisco|clevo|'
-                r'dell|d[-\s]?link|dynabook|dicota|'
-                r'eizo|epson|'
-                r'fujitsu-siemens|fujitsu|'
-                r'google|gvc|gateway|getac|gigabyte|'
-                r'hp|hewlett[-\s]packard|hpe|huawei|honeywell|hannspree|'
-                r'ibm|iiyama|'
-                r'juniper|jabra|'
-                r'kyocera|konica|koorui|'
-                r'lenovo|lexmark|lg|lancom|'
-                r'msi|medion|microsoft|motorola|mikrotik|'
-                r'nec|nvidia|netapp|netgear|nokia|'
-                r'oki|'
-                r'philips|panasonic|plantronics|poly|'
-                r'qlogic|'
-                r'ricoh|'
-                r'samsung|sharp|sony|sandisk|seagate|'
-                r'toshiba|tp[-\s]?link|terra|'
-                r'viewsonic|'
-                r'wortmann|'
-                r'xerox|xiaomi|'
-                r'zyxel|zebra'
-                r')\b'
-            ],
-            'apple': [
-                r'\b('
-                r'iphone|ipad|macbook'
-                r')\b'
-            ],
-            'acer': [
-                r'\b('
-                r'veriton'
-                r')\b'
-            ]
-        }
-        return Res
+        return self._LoadPatternsFile()
 
     def _OnParse(self, aRes: dict, aKey: str, aMatch):
         if (aKey == 'brands'):

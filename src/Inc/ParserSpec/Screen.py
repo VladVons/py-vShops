@@ -8,38 +8,7 @@ from ._Common import TSpecBase
 
 class TSpecScreenResol(TSpecBase):
     def _GetPatterns(self) -> dict:
-        Res = {
-            '4k': [
-                r'\b('
-                r'b4k|'
-                r'3840x2160|'
-                r'uhd'
-                r')\b'
-            ],
-            'qhd': [
-                r'\b('
-                r'2560x1440|'
-                r'1440p|'
-                r'qhd'
-                r')\b'
-            ],
-            'fhd': [
-                r'\b('
-                r'1920x1080|'
-                r'1080p|'
-                r'fhd|'
-                r'full hd'
-                r')\b'
-            ],
-            'hd': [
-                r'\b('
-                r'1366x768|'
-                r'720p|'
-                r'hd'
-                r')\b'
-            ]
-        }
-        return Res
+        return self._LoadPatternsFile()
 
     def _OnParse(self, aRes: dict, aKey: str, _aMatch) -> bool:
         aRes['screen_resol'] = aKey
