@@ -43,6 +43,11 @@ class TSpecBase():
     def _GetPatterns(self) -> dict:
         raise NotImplementedError()
 
+    def GetFields(self) -> list:
+        Name = self.__class__.__name__.replace('TSpec', '')
+        Res = re.sub(r'([a-z0-9])([A-Z])', r'\1_\2', Name).lower()
+        return [Res]
+
     def _LoadPatternsFile(self, aFile: str = None) -> dict:
         if (not aFile):
             Dir = self.__module__.rsplit('.', maxsplit=1)[0]

@@ -31,7 +31,7 @@ class TSpecRam(TSpecBase):
         Groups = aMatch.groupdict()
 
         Unit = Groups.get('unit', 'gb')
-        aRes[aKey] = {
+        aRes['ram'] = {
             'size': int(Groups.get('size')),
             'unit': Lang.Translate(Unit)
         }

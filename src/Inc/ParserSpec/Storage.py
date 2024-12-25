@@ -49,7 +49,7 @@ class TSpecStorage(TSpecBase):
         if (Qty):
             Size *= int(Qty)
 
-        aRes[aKey] = {
+        aRes['storage'] = {
             'size': Size,
             'unit': Unit,
             'type': Type

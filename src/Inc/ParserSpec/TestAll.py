@@ -3,7 +3,7 @@
 # License: GNU, see LICENSE for more details
 
 from Inc.ParserSpec import (
-    TSpecCategory, TSpecBrand, TSpecCase, TSpecCpu, TSpecRam, TSpecStorage, TSpecScreenResol,
+    TSpecCategory, TSpecBrand, TSpecCaseComputer, TSpecCpu, TSpecRam, TSpecStorage, TSpecScreenResol,
     TSpecScreenSize, TSpecOs, TSpecGrade
 )
 
@@ -14,7 +14,7 @@ class TSpecComp():
             'category': TSpecCategory(),
             'brand': TSpecBrand(),
             'grade': TSpecGrade(),
-            'case': TSpecCase(),
+            'case_computer': TSpecCaseComputer(),
             'cpu': TSpecCpu(),
             'ram': TSpecRam(),
             'storage': TSpecStorage(),
@@ -26,9 +26,9 @@ class TSpecComp():
         self.Base = ['brand', 'grade']
 
         self.Categories = {
-            'desktop':     self.Base + ['case', 'cpu', 'ram', 'storage', 'os'],
-            'server':      self.Base + ['case', 'cpu', 'ram', 'storage', 'os'],
-            'thin client': self.Base + ['case', 'cpu', 'ram', 'storage', 'os'],
+            'desktop':     self.Base + ['case_computer', 'cpu', 'ram', 'storage', 'os'],
+            'server':      self.Base + ['case_computer', 'cpu', 'ram', 'storage', 'os'],
+            'thin client': self.Base + ['case_computer', 'cpu', 'ram', 'storage', 'os'],
 
             'laptop': self.Base + ['cpu', 'ram', 'storage', 'os', 'screen_size', 'screen_resol'],
             'aio':    self.Base + ['cpu', 'ram', 'storage', 'os', 'screen_size', 'screen_resol'],

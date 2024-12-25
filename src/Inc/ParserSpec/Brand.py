@@ -29,3 +29,6 @@ class TSpecBrand(TSpecBase):
         else:
             aRes['brand'] = aKey
         return True
+
+    def GetFields(self) -> list:
+        return ['brand', 'model']

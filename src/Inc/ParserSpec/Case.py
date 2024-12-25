@@ -5,7 +5,10 @@
 
 from ._Common import TSpecBase
 
-class TSpecCase(TSpecBase):
+class TSpecCaseComputer(TSpecBase):
+    def GetFields(self) -> list:
+        return ['case']
+
     def _GetPatterns(self) -> dict:
         return self._LoadPatternsFile()
 

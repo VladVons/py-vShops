@@ -23,4 +23,4 @@ class TSpecGrade(TSpecBase):
 
     def _OnParse(self, aRes: dict, aKey: str, aMatch):
         Groups = aMatch.groupdict()
-        aRes[aKey] = Groups.get('grade').lower()
+        aRes['grade'] = Groups.get('grade').lower()
