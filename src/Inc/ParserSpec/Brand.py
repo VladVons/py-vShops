@@ -9,9 +9,11 @@ from ._Common import TSpecBase
 class TSpecBrand(TSpecBase):
     reModel = re.compile(r'^[a-z0-9-]+\s*[a-z0-9-]+', re.IGNORECASE)
     Alias = {
+        'hewlett': 'hp',
         'hewlett packard': 'hp',
         'hewlett-packard': 'hp',
-        'hpe': 'hp'
+        'hpe': 'hp',
+        'compaq': 'hp'
     }
 
     def _GetPatterns(self) -> dict:

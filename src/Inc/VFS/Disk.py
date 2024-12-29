@@ -18,10 +18,11 @@ class TFsDisk(TFsBase):
         self.DirCreate(Res)
         return Res
 
-    def DirCreate(self, aName: str):
+    def DirCreate(self, aName: str) -> bool:
         if (not self.FileExists(aName)):
             Path = self._FullPath(aName)
             os.makedirs(Path, exist_ok=False)
+            return True
 
     def FileRead(self, aName: str) -> bytes:
         Path = self._FullPath(aName)
@@ -42,17 +43,53 @@ class TFsDisk(TFsBase):
             while xChunk := F.read(aChunkSize):
                 await aStreamWriter.write(xChunk)
 
+    async def FileReadChunkPos(self, aName: str, aStreamWriter, aChunkSize: int, aPos: int, aLen: int) -> int:
+        Res = aLen
+
+        Path = self._FullPath(aName)
+        with open(Path, 'rb') as F:
+            F.seek(aPos)
+            while aLen > 0:
+                ChunkSize = min(aChunkSize, aLen)
+                Chunk = F.read(ChunkSize)
+                if (not Chunk):
+                    break
+
+                await aStreamWriter.write(Chunk)
+                aLen -= len(Chunk)
+        return Res - aLen
+
     async def FileWriteChunk(self, aName: str, aStreamReader, aChunkSize: int):
+        Res = 0
         self._FullPathCreate(aName)
         Path = self._FullPath(aName)
         with open(Path, 'wb') as F:
             while xChunk := await aStreamReader.read(aChunkSize):
-                F.write(xChunk)
+                Res += F.write(xChunk)
+        return Res
 
-    def FileDelete(self, aName: str):
+    async def FileWriteChunkPos(self, aName: str, aStreamReader, aChunkSize: int, aPos: int, aLen: int) -> int:
+        Res = aLen
+        self._FullPathCreate(aName)
+        Path = self._FullPath(aName)
+        Mode = 'r+b' if self.FileExists(aName) else 'wb'
+        with open(Path, Mode) as F:
+            F.seek(aPos)
+            while aLen > 0:
+                ChunkSize = min(aChunkSize, aLen)
+                Chunk = await aStreamReader.read(ChunkSize)
+                if (not Chunk):
+                    break
+
+                F.write(Chunk)
+                aLen -= len(Chunk)
+        return Res - aLen
+
+    def FileDelete(self, aName: str) -> bool:
         if (self.FileExists(aName)):
             Path = self._FullPath(aName)
             os.remove(Path)
+            return True
 
     def FileSize(self, aName: str) -> int:
         Path = self._FullPath(aName)
@@ -61,3 +98,10 @@ class TFsDisk(TFsBase):
     def FileExists(self, aName: str) -> bool:
         Path = self._FullPath(aName)
         return os.path.exists(Path)
+
+    def Truncate(self, aName: str, aSize: int = 0) -> int:
+        self._FullPathCreate(aName)
+        Path = self._FullPath(aName)
+        with open(Path, 'wb') as F:
+            F.truncate(aSize)
+        return os.path.getsize(Path)

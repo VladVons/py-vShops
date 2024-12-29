@@ -70,8 +70,12 @@ class TSpecComp():
         Lines = []
         for xLine in aText.splitlines():
             xLine = xLine.strip()
-            if (xLine) and (not xLine.startswith('-')):
-                Lines.append(xLine)
+            if (xLine):
+                if (xLine.startswith('-')):
+                    if (xLine == '-!'):
+                        break
+                else:
+                    Lines.append(xLine)
         return Lines
 
     @staticmethod
