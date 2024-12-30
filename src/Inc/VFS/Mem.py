@@ -3,7 +3,7 @@
 # License: GNU, see LICENSE for more details
 
 import os
-from . import TFsBase
+from .Common import TFsBase
 
 
 class TFsMem(TFsBase):

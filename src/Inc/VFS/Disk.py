@@ -3,7 +3,7 @@
 # License: GNU, see LICENSE for more details
 
 import os
-from . import TFsBase
+from .Common import TFsBase
 
 
 class TFsDisk(TFsBase):
@@ -105,3 +105,13 @@ class TFsDisk(TFsBase):
         with open(Path, 'wb') as F:
             F.truncate(aSize)
         return os.path.getsize(Path)
+
+    def List(self, aName: str) -> list:
+        Files = []
+        LenRoot = len(self.Root) + 1
+        Path = self._FullPath(aName)
+        for xRoot, _xDirs, xFiles in os.walk(Path):
+            for xFile in xFiles:
+                File = xRoot[LenRoot:] + os.sep + xFile
+                Files.append(File)
+        return Files
