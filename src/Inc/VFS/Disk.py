@@ -99,14 +99,14 @@ class TFsDisk(TFsBase):
         Path = self._FullPath(aName)
         return os.path.exists(Path)
 
-    def Truncate(self, aName: str, aSize: int = 0) -> int:
+    def FileTruncate(self, aName: str, aSize: int = 0) -> int:
         self._FullPathCreate(aName)
         Path = self._FullPath(aName)
         with open(Path, 'wb') as F:
             F.truncate(aSize)
         return os.path.getsize(Path)
 
-    def List(self, aName: str) -> list:
+    def FileList(self, aName: str) -> list:
         Files = []
         LenRoot = len(self.Root) + 1
         Path = self._FullPath(aName)
