@@ -19,10 +19,29 @@ class TFsDisk(TFsBase):
         return Res
 
     def DirCreate(self, aName: str) -> bool:
-        if (not self.FileExists(aName)):
+        if (not self.Exists(aName)):
             Path = self._FullPath(aName)
             os.makedirs(Path, exist_ok=False)
             return True
+
+    def Delete(self, aName: str) -> bool:
+        def WDirdelete(aPath: str):
+            for xFile in os.listdir(aPath):
+                File = os.path.join(aPath, xFile)
+                if (os.path.isdir(File)):
+                    WDirdelete(File)
+                    os.rmdir(File)
+                else:
+                    os.remove(File)
+
+        Path = self._FullPath(aName)
+        if (os.path.exists(Path)):
+            if (os.path.isdir(Path)):
+                WDirdelete(Path)
+                os.rmdir(Path)
+            else:
+                os.remove(Path)
+            return not os.path.exists(Path)
 
     def FileRead(self, aName: str) -> bytes:
         Path = self._FullPath(aName)
@@ -37,19 +56,12 @@ class TFsDisk(TFsBase):
         with open(Path, 'wb') as F:
             return F.write(aData)
 
-    async def FileReadChunk(self, aName: str, aStreamWriter, aChunkSize: int):
-        Path = self._FullPath(aName)
-        with open(Path, 'rb') as F:
-            while xChunk := F.read(aChunkSize):
-                await aStreamWriter.write(xChunk)
-
     async def FileReadChunkPos(self, aName: str, aStreamWriter, aChunkSize: int, aPos: int, aLen: int) -> int:
         Res = aLen
-
         Path = self._FullPath(aName)
         with open(Path, 'rb') as F:
             F.seek(aPos)
-            while aLen > 0:
+            while (aLen > 0):
                 ChunkSize = min(aChunkSize, aLen)
                 Chunk = F.read(ChunkSize)
                 if (not Chunk):
@@ -59,23 +71,14 @@ class TFsDisk(TFsBase):
                 aLen -= len(Chunk)
         return Res - aLen
 
-    async def FileWriteChunk(self, aName: str, aStreamReader, aChunkSize: int):
-        Res = 0
-        self._FullPathCreate(aName)
-        Path = self._FullPath(aName)
-        with open(Path, 'wb') as F:
-            while xChunk := await aStreamReader.read(aChunkSize):
-                Res += F.write(xChunk)
-        return Res
-
     async def FileWriteChunkPos(self, aName: str, aStreamReader, aChunkSize: int, aPos: int, aLen: int) -> int:
         Res = aLen
         self._FullPathCreate(aName)
         Path = self._FullPath(aName)
-        Mode = 'r+b' if self.FileExists(aName) else 'wb'
+        Mode = 'r+b' if self.Exists(aName) else 'wb'
         with open(Path, Mode) as F:
             F.seek(aPos)
-            while aLen > 0:
+            while (aLen > 0):
                 ChunkSize = min(aChunkSize, aLen)
                 Chunk = await aStreamReader.read(ChunkSize)
                 if (not Chunk):
@@ -85,17 +88,25 @@ class TFsDisk(TFsBase):
                 aLen -= len(Chunk)
         return Res - aLen
 
-    def FileDelete(self, aName: str) -> bool:
-        if (self.FileExists(aName)):
-            Path = self._FullPath(aName)
-            os.remove(Path)
-            return True
+    def Size(self, aName: str) -> int:
+        def WRecurs(aPath: str) -> int:
+            Res = 0
+            for xFile in os.listdir(aPath):
+                File = os.path.join(aPath, xFile)
+                if (os.path.isdir(File)):
+                    Res += WRecurs(File)
+                else:
+                    Res += os.path.getsize(File)
+            return Res
 
-    def FileSize(self, aName: str) -> int:
         Path = self._FullPath(aName)
-        return os.path.getsize(Path)
+        if (os.path.isdir(Path)):
+            Res = WRecurs(Path)
+        else:
+            Res = os.path.getsize(Path)
+        return Res
 
-    def FileExists(self, aName: str) -> bool:
+    def Exists(self, aName: str) -> bool:
         Path = self._FullPath(aName)
         return os.path.exists(Path)
 
@@ -106,12 +117,18 @@ class TFsDisk(TFsBase):
             F.truncate(aSize)
         return os.path.getsize(Path)
 
-    def FileList(self, aName: str) -> list:
-        Files = []
+    def List(self, aName: str) -> list:
+        def WRecurs(aPath: str) -> list:
+            Res = []
+            for xFile in os.listdir(aPath):
+                File = os.path.join(aPath, xFile)
+                IsDir = os.path.isdir(File)
+                if (IsDir):
+                    Res += WRecurs(File)
+                Res.append([File[LenRoot:], IsDir])
+            return Res
+
         LenRoot = len(self.Root) + 1
         Path = self._FullPath(aName)
-        for xRoot, _xDirs, xFiles in os.walk(Path):
-            for xFile in xFiles:
-                File = xRoot[LenRoot:] + os.sep + xFile
-                Files.append(File)
-        return Files
+        Res = WRecurs(Path)
+        return sorted(Res, key=lambda x: x[0])

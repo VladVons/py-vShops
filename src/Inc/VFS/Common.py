@@ -4,7 +4,13 @@
 
 
 class TFsBase():
+    def Delete(self, aName: str) -> bool:
+        raise NotImplementedError()
+
     def DirCreate(self, aName: str):
+        raise NotImplementedError()
+
+    def Exists(self, aName: str) -> bool:
         raise NotImplementedError()
 
     def FileRead(self, aName: str) -> bytes:
@@ -13,17 +19,14 @@ class TFsBase():
     def FileWrite(self, aName: str, aData: bytes) -> int:
         raise NotImplementedError()
 
-    async def FileReadChunk(self, aName: str, aStreamWriter, aChunkSize: int):
+    async def FileReadChunkPos(self, aName: str, aStreamWriter, aChunkSize: int, aPos: int, aLen: int) -> int:
         raise NotImplementedError()
 
-    async def FileWriteChunk(self, aName: str, aStreamReader, aChunkSize: int):
+    async def FileWriteChunkPos(self, aName: str, aStreamReader, aChunkSize: int, aPos: int, aLen: int) -> int:
         raise NotImplementedError()
 
-    def FileDelete(self, aName: str):
+    def List(self, aName: str) -> list:
         raise NotImplementedError()
 
-    def FileSize(self, aName: str) -> int:
-        raise NotImplementedError()
-
-    def FileExists(self, aName: str) -> bool:
+    def Size(self, aName: str) -> int:
         raise NotImplementedError()
