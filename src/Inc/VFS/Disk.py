@@ -10,6 +10,15 @@ class TFsDisk(TFsBase):
     def __init__(self, aRoot: str):
         self.Root = aRoot.replace('/', os.sep)
 
+    @staticmethod
+    def _CopyFile(aSrc: str, aDst: str, aChankSize = 1_000_000) -> int:
+        Res = 0
+        with open(aSrc, 'rb') as FSrc, open(aDst, 'wb') as FDst:
+            while Chunk := FSrc.read(aChankSize):
+                FDst.write(Chunk)
+                Res += len(Chunk)
+        return Res
+
     def _FullPath(self, aPath: str) -> str:
         return f'{self.Root}{os.sep}{aPath.replace('/', os.sep)}'
 
@@ -18,43 +27,53 @@ class TFsDisk(TFsBase):
         self.DirCreate(Res)
         return Res
 
+    def Copy(self, aSrc: str, aDst: str) -> bool:
+        def WCopy(aSrc: str, aDst: str):
+            os.makedirs(aDst, exist_ok=True)
+            for xFile in os.listdir(aSrc):
+                SrcPath = os.path.join(aSrc, xFile)
+                DstPath = os.path.join(aDst, xFile)
+                if (os.path.isdir(SrcPath)):
+                    WCopy(SrcPath, DstPath)
+                else:
+                    self._CopyFile(SrcPath, DstPath)
+
+        SrcPath = self._FullPath(aSrc)
+        if (os.path.exists(SrcPath)):
+            DstPath = self._FullPath(aDst)
+            if (os.path.isdir(SrcPath)):
+                WCopy(SrcPath, DstPath)
+            else:
+                self._CopyFile(SrcPath, DstPath)
+            return True
+
     def DirCreate(self, aName: str) -> bool:
-        if (not self.Exists(aName)):
-            Path = self._FullPath(aName)
+        Path = self._FullPath(aName)
+        if (not os.path.exists(Path)):
             os.makedirs(Path, exist_ok=False)
             return True
 
     def Delete(self, aName: str) -> bool:
-        def WDirdelete(aPath: str):
+        def WDirDelete(aPath: str):
             for xFile in os.listdir(aPath):
                 File = os.path.join(aPath, xFile)
                 if (os.path.isdir(File)):
-                    WDirdelete(File)
-                    os.rmdir(File)
+                    WDirDelete(File)
                 else:
                     os.remove(File)
+            os.rmdir(File)
 
         Path = self._FullPath(aName)
-        if (os.path.exists(Path)):
-            if (os.path.isdir(Path)):
-                WDirdelete(Path)
-                os.rmdir(Path)
-            else:
-                os.remove(Path)
-            return not os.path.exists(Path)
+        if (os.path.isdir(Path)):
+            WDirDelete(Path)
+        elif (os.path.isfile(Path)):
+            os.remove(Path)
+        return not os.path.exists(Path)
 
-    def FileRead(self, aName: str) -> bytes:
+    def FileReadStr(self, aName: str) -> str:
         Path = self._FullPath(aName)
-        with open(Path, 'rb') as F:
+        with open(Path, 'r', encoding='utf8') as F:
             return F.read()
-
-    def FileWrite(self, aName: str, aData: bytes) -> int:
-        assert(isinstance(aData, bytes)), 'expecting bytes'
-
-        self._FullPathCreate(aName)
-        Path = self._FullPath(aName)
-        with open(Path, 'wb') as F:
-            return F.write(aData)
 
     async def FileReadChunkPos(self, aName: str, aStreamWriter, aChunkSize: int, aPos: int, aLen: int) -> int:
         Res = aLen
@@ -70,6 +89,12 @@ class TFsDisk(TFsBase):
                 await aStreamWriter.write(Chunk)
                 aLen -= len(Chunk)
         return Res - aLen
+
+    def FileWriteStr(self, aName: str, aData: str) -> int:
+        self._FullPathCreate(aName)
+        Path = self._FullPath(aName)
+        with open(Path, 'w', encoding='utf8') as F:
+            return F.write(aData)
 
     async def FileWriteChunkPos(self, aName: str, aStreamReader, aChunkSize: int, aPos: int, aLen: int) -> int:
         Res = aLen
@@ -88,6 +113,13 @@ class TFsDisk(TFsBase):
                 aLen -= len(Chunk)
         return Res - aLen
 
+    def Move(self, aSrc: str, aDst: str) -> bool:
+        SrcPath = self._FullPath(aSrc)
+        if (os.path.exists(SrcPath)):
+            DstPath = self._FullPath(aDst)
+            os.rename(SrcPath, DstPath)
+            return True
+
     def Size(self, aName: str) -> int:
         def WRecurs(aPath: str) -> int:
             Res = 0
@@ -102,8 +134,10 @@ class TFsDisk(TFsBase):
         Path = self._FullPath(aName)
         if (os.path.isdir(Path)):
             Res = WRecurs(Path)
-        else:
+        elif (os.path.isfile(Path)):
             Res = os.path.getsize(Path)
+        else:
+            Res = 0
         return Res
 
     def Exists(self, aName: str) -> bool:
@@ -119,6 +153,7 @@ class TFsDisk(TFsBase):
 
     def List(self, aName: str) -> list:
         def WRecurs(aPath: str) -> list:
+            nonlocal LenRoot
             Res = []
             for xFile in os.listdir(aPath):
                 File = os.path.join(aPath, xFile)
