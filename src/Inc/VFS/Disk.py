@@ -28,6 +28,9 @@ class TFsDisk(TFsBase):
         return Res
 
     def Copy(self, aSrc: str, aDst: str) -> bool:
+        '''
+        copy file or directory from aSrc to aDst.
+        '''
         def WCopy(aSrc: str, aDst: str):
             os.makedirs(aDst, exist_ok=True)
             for xFile in os.listdir(aSrc):
@@ -47,13 +50,10 @@ class TFsDisk(TFsBase):
                 self._CopyFile(SrcPath, DstPath)
             return True
 
-    def DirCreate(self, aName: str) -> bool:
-        Path = self._FullPath(aName)
-        if (not os.path.exists(Path)):
-            os.makedirs(Path, exist_ok=False)
-            return True
-
     def Delete(self, aName: str) -> bool:
+        '''
+        delete file or directory.
+        '''
         def WDirDelete(aPath: str):
             for xFile in os.listdir(aPath):
                 File = os.path.join(aPath, xFile)
@@ -70,12 +70,34 @@ class TFsDisk(TFsBase):
             os.remove(Path)
         return not os.path.exists(Path)
 
+    def DirCreate(self, aName: str) -> bool:
+        '''
+        create directory.
+        '''
+        Path = self._FullPath(aName)
+        if (not os.path.exists(Path)):
+            os.makedirs(Path, exist_ok=False)
+        return os.path.exists(Path)
+
+    def Exists(self, aName: str) -> bool:
+        '''
+        check if file or directory exists.
+        '''
+        Path = self._FullPath(aName)
+        return os.path.exists(Path)
+
     def FileReadStr(self, aName: str) -> str:
+        '''
+        read text file.
+        '''
         Path = self._FullPath(aName)
         with open(Path, 'r', encoding='utf8') as F:
             return F.read()
 
     async def FileReadChunkPos(self, aName: str, aStreamWriter, aChunkSize: int, aPos: int, aLen: int) -> int:
+        '''
+        read binary file into sream by chukcs
+        '''
         Res = aLen
         Path = self._FullPath(aName)
         with open(Path, 'rb') as F:
@@ -91,12 +113,18 @@ class TFsDisk(TFsBase):
         return Res - aLen
 
     def FileWriteStr(self, aName: str, aData: str) -> int:
+        '''
+        write text file.
+        '''
         self._FullPathCreate(aName)
         Path = self._FullPath(aName)
         with open(Path, 'w', encoding='utf8') as F:
             return F.write(aData)
 
     async def FileWriteChunkPos(self, aName: str, aStreamReader, aChunkSize: int, aPos: int, aLen: int) -> int:
+        '''
+        write binary file from sream by chukcs
+        '''
         Res = aLen
         self._FullPathCreate(aName)
         Path = self._FullPath(aName)
@@ -113,7 +141,67 @@ class TFsDisk(TFsBase):
                 aLen -= len(Chunk)
         return Res - aLen
 
+    def FileTruncate(self, aName: str, aSize: int = 0) -> int:
+        '''
+        create file or set file size.
+        '''
+        self._FullPathCreate(aName)
+        Path = self._FullPath(aName)
+        with open(Path, 'wb') as F:
+            F.truncate(aSize)
+        return os.path.getsize(Path)
+
+    def List(self, aName: str) -> list:
+        '''
+        get file list from directory.
+        '''
+        def WRecurs(aPath: str) -> list:
+            nonlocal LenRoot
+            Res = []
+            for xFile in os.listdir(aPath):
+                File = os.path.join(aPath, xFile)
+                IsDir = os.path.isdir(File)
+                if (IsDir):
+                    Res += WRecurs(File)
+                Res.append([File[LenRoot:], IsDir])
+            return Res
+
+        LenRoot = len(self.Root) + 1
+        Path = self._FullPath(aName)
+        if (os.path.isdir(Path)):
+            R = WRecurs(Path)
+            Res = sorted(R, key=lambda x: x[0])
+        elif (os.path.isfile(Path)):
+            Res = [[aName, False]]
+        else:
+            Res = [[aName, -1]]
+        return Res
+
+    def MassCall(self, aParam: list) -> list:
+        '''
+        Multiple calls in one request.
+        aParam = [
+            ['DirCreate', ['Dir3/Dir31']],
+            ['FileWriteStr', ['file1.txt', '* file1 body *']]
+        ]
+        '''
+        Res = []
+        for xMethod, xParam in aParam:
+            Method = getattr(self, xMethod, None)
+            if (Method):
+                try:
+                    R = Method(*xParam)
+                except Exception as E:
+                    R = f'err. {E}'
+            else:
+                R = [f'err. unknown method {xMethod}']
+            Res.append(R)
+        return Res
+
     def Move(self, aSrc: str, aDst: str) -> bool:
+        '''
+        move/rename file or directory.
+        '''
         SrcPath = self._FullPath(aSrc)
         if (os.path.exists(SrcPath)):
             DstPath = self._FullPath(aDst)
@@ -121,6 +209,9 @@ class TFsDisk(TFsBase):
             return True
 
     def Size(self, aName: str) -> int:
+        '''
+        get size file or directory.
+        '''
         def WRecurs(aPath: str) -> int:
             Res = 0
             for xFile in os.listdir(aPath):
@@ -139,31 +230,3 @@ class TFsDisk(TFsBase):
         else:
             Res = 0
         return Res
-
-    def Exists(self, aName: str) -> bool:
-        Path = self._FullPath(aName)
-        return os.path.exists(Path)
-
-    def FileTruncate(self, aName: str, aSize: int = 0) -> int:
-        self._FullPathCreate(aName)
-        Path = self._FullPath(aName)
-        with open(Path, 'wb') as F:
-            F.truncate(aSize)
-        return os.path.getsize(Path)
-
-    def List(self, aName: str) -> list:
-        def WRecurs(aPath: str) -> list:
-            nonlocal LenRoot
-            Res = []
-            for xFile in os.listdir(aPath):
-                File = os.path.join(aPath, xFile)
-                IsDir = os.path.isdir(File)
-                if (IsDir):
-                    Res += WRecurs(File)
-                Res.append([File[LenRoot:], IsDir])
-            return Res
-
-        LenRoot = len(self.Root) + 1
-        Path = self._FullPath(aName)
-        Res = WRecurs(Path)
-        return sorted(Res, key=lambda x: x[0])
