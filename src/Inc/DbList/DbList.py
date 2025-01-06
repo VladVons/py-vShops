@@ -131,6 +131,12 @@ class TDbList(TDbBase):
             Data.append(Row)
         return self.Init(aFields, Data)
 
+    def ImportList(self, aData: list, aField: str) -> 'TDbBase':
+        FieldNo = self.GetFieldNo(aField)
+        for xData, xNew in zip(self.Data, aData, strict = True):
+            xData[FieldNo] = xNew
+        return self
+
     def ImportPair(self, aData: dict, aKeyName: str, aFieldValue: tuple) -> 'TDbBase':
         #self.Fields = TDbFields([(aKeyName, str), aFieldValue])
         self.Data = [[Key, Val] for Key, Val in aData.items()]
@@ -147,7 +153,7 @@ class TDbList(TDbBase):
             self.Rec.Data = []
         return self
 
-    def InitList(self, aField: str, aData: list) -> 'TDbList':
+    def InitList(self, aData: list, aField: str) -> 'TDbList':
         Data = [[x] for x in aData]
         return self.Init([aField], Data)
 

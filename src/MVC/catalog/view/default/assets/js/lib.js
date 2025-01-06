@@ -456,3 +456,14 @@ function ExecDownload(aFile, aBlob) {
     document.body.removeChild(link);
     URL.revokeObjectURL(downloadUrl);
 }
+
+function FilterFormParams(aForm) {
+    const formData = new FormData(aForm);
+    const urlParams = new URLSearchParams();
+    for (const [xKey, xVal] of formData.entries()) {
+        if (xVal.trim() !== "") {
+            urlParams.append(xKey, xVal);
+        }
+    }
+    return urlParams;
+}
