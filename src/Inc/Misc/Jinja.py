@@ -33,7 +33,11 @@ def Dump(self, aDepth = 0, aName: str = '') -> str:
     return '<br>\n'.join(Res)
 
 def Translate(aLang: dict, aAlias: str) -> str:
-    return aLang.get(aAlias, aAlias).capitalize()
+    if (aAlias):
+        Res = aLang.get(aAlias, aAlias).capitalize()
+    else:
+        Res = ''
+    return Res
 
 def Type(aVar) -> str:
     return f'{aVar} is {type(aVar).__name__}'

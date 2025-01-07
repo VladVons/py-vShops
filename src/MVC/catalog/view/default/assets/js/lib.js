@@ -467,3 +467,18 @@ function FilterFormParams(aForm) {
     }
     return urlParams;
 }
+
+function seoSubmit(aEvent, aUrl)
+{
+    aEvent.preventDefault();
+
+    const button = aEvent.target;
+    const form = button.closest('form');
+    if (form) {
+        const params = FilterFormParams(form).toString().replace(/%2F/g, '/');
+        if (params) {
+            aUrl = `${aUrl}${aUrl.includes('?') ? '&' : '/?'}${params}`;
+        }
+    }
+    window.location.href = aUrl;
+}

@@ -95,7 +95,7 @@ class TDbList(TDbBase):
 
 
             Data = aData.get('data')
-            if (len(Data) > 0):
+            if (Data):
                 TypeIdx = [
                     i
                     for i, x in enumerate(self.Type)
