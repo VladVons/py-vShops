@@ -127,18 +127,18 @@ def GetDictDefs(aData: dict, aKeys: list, aDef: list) -> list:
 def DictUpdate(aMaster: dict, aSlave: dict, aOverwrite: bool = True):
     if (not aMaster):
         aMaster.update(aSlave)
-    elif (aSlave):
-        for Key, Val in aSlave.items():
-            if (Key in aMaster):
+    elif (isinstance(aSlave, dict)):
+        for xKey, xVal in aSlave.items():
+            if (xKey in aMaster):
                 if (aOverwrite):
-                    if (isinstance(Val, dict)):
-                        aMaster[Key].update(Val)
-                    elif (isinstance(Val, list)):
-                        aMaster[Key].extend(Val)
+                    if (isinstance(xVal, dict)):
+                        aMaster[xKey].update(xVal)
+                    elif (isinstance(xVal, list)):
+                        aMaster[xKey].extend(xVal)
                     else:
-                        aMaster[Key] = Val
+                        aMaster[xKey] = xVal
             else:
-                aMaster[Key] = Val
+                aMaster[xKey] = xVal
 
 def DictToText(aData: dict, aDelim: str = '\n') -> str:
     Arr = [f'{Key}:{Val}' for Key, Val in aData.items()]
