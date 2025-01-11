@@ -56,4 +56,5 @@ def CryptSimple(aText: str, aKey: int) -> str:
 def GetCRC(aValue: str, aShift: int = 7) -> int:
     Value = binascii.crc32(aValue.encode())
     RotatedRight = ((Value >> aShift) | (Value << (32 - aShift))) & 0xFFFFFFFF
-    return RotatedRight
+    Res = RotatedRight ^ ((aShift * 0xA5A5A5A5) & 0xFFFFFFFF)
+    return Res

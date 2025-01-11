@@ -39,7 +39,9 @@ class TLocalStorage {
     }
 
     addItemToList(aItem) {
-        this.items.push(aItem)
+        if (aItem) {
+            this.items.push(aItem)
+        }
     }
 
     addItemToListUniq(aItem) {
@@ -289,23 +291,29 @@ class TSend {
     }
 
     exec(aUrl, aData = null) {
-        const param = this.param(aUrl, aData)
-        const request = new XMLHttpRequest()
-        request.open(param.method, param.url, false)
+        const param = this.param(aUrl, aData);
+        const request = new XMLHttpRequest();
+        request.open(param.method, param.url, false);
         if (param.contentType) {
-            request.setRequestHeader('Content-type', param.contentType)
+            request.setRequestHeader('Content-type', param.contentType);
         }
-        request.send(param.data)
+        request.send(param.data);
         if (request.status == 200) {
             if (param.type == 'json') {
                 if (request.responseText) {
-                    return JSON.parse(request.responseText)
+                    try {
+                        return JSON.parse(request.responseText);
+                    } catch (error) {
+                        console.error('exception', error.message);
+                        console.log('param', param.url, param.data);
+                        console.log('responce', request.responseText);
+                    }
                 }
             } else {
-                return request.responseText
+                return request.responseText;
             }
         } else {
-            console.error('Err', request.status)
+            console.error('Err', request.status);
         }
     }
 
