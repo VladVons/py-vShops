@@ -76,10 +76,22 @@ class TDbRec():
     def GetField(self, aName: str, aDef = None) -> object:
         Idx = self.Fields.get(aName)
         assert(Idx is not None), f'Field not found {aName}'
+        return self.GetFieldByNo(Idx, aDef)
 
-        Res = self.Data[Idx]
+    def GetFieldByNo(self, aIdx: int, aDef: object = None) -> object:
+        Res = self.Data[aIdx]
         if (Res is None):
             Res = aDef
+        return Res
+
+    def GetFieldsByNo(self, aIdx: list[int], aDef: list[object] = None) -> object:
+        if (aDef):
+            Res = [
+                self.GetFieldByNo(xIdx, xDef)
+                for xIdx, xDef in zip(aIdx, aDef, strict = True)
+            ]
+        else:
+            Res = [self.Data[xIdx] for xIdx in aIdx]
         return Res
 
     def GetFieldSafe(self, aName: str, aDef = None) -> object:
@@ -88,9 +100,6 @@ class TDbRec():
             return aDef
 
         return self.Data[Idx]
-
-    def GetFieldByNo(self, aNo: int) -> object:
-        return self.Data[aNo]
 
     def GetFieldNo(self, aName: str) -> int:
         Res = self.Fields.get(aName)
@@ -110,14 +119,15 @@ class TDbRec():
         return self
 
     def RenameFields(self, aOld: list[str], aNew: list[str]):
-        for Old, New in zip(aOld, aNew):
-            assert (Old in self.Fields), f'Field not found {Old}'
-            self.Fields[New] = self.Fields.pop(Old)
+        for xOld, xNew in zip(aOld, aNew, strict = True):
+            assert (xOld in self.Fields), f'Field not found {xOld}'
+            self.Fields[xNew] = self.Fields.pop(xOld)
         self.Fields = {Val:Idx for Idx, Val in enumerate(self._GetFieldsOrder())}
 
     def SetAsDict(self, aData: dict) -> 'TDbRec':
-        for Key, Val in aData.items():
-            self.SetField(Key, Val)
+        if (aData):
+            for xKey, xVal in aData.items():
+                self.SetField(xKey, xVal)
         return self
 
     def SetAsList(self, aData: list) -> 'TDbRec':
@@ -131,18 +141,19 @@ class TDbRec():
         self.Data.__init__(aData)
 
     def SetAsRec(self, aRec: 'TDbRec', aFields: list[str]) -> 'TDbRec':
-        for Field in aFields:
-            self.SetField(Field, aRec.GetField(Field))
+        for xField in aFields:
+            self.SetField(xField, aRec.GetField(xField))
         return self
 
     def SetAsRecTo(self, aRec: 'TDbRec', aFields: dict):
-        for From, To in aFields.items():
-            self.SetField(To, aRec.GetField(From))
+        for xFrom, xTo in aFields.items():
+            self.SetField(xTo, aRec.GetField(xFrom))
         return self
 
     def SetAsTuple(self, aData: tuple) -> 'TDbRec':
-        for Key, Val in aData:
-            self.SetField(Key, Val)
+        if (aData):
+            for xKey, xVal in aData:
+                self.SetField(xKey, xVal)
         return self
 
     def SetField(self, aName: str, aValue: object) -> 'TDbRec':
@@ -150,4 +161,13 @@ class TDbRec():
         assert(Idx is not None), f'Field not found {aName}'
 
         self.Data[Idx] = aValue
+        return self
+
+    def SetFieldByNo(self, aIdx: int, aValue: object) -> 'TDbRec':
+        self.Data[aIdx] = aValue
+        return self
+
+    def SetFieldsByNo(self, aIdx: list[int], aValue: list[object]) -> 'TDbRec':
+        for xIdx, xValue in zip(aIdx, aValue, strict = True):
+            self.Data[xIdx] = xValue
         return self
