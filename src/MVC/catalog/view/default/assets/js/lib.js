@@ -476,6 +476,15 @@ function FilterFormParams(aForm) {
     return urlParams;
 }
 
+
+function UrlConcat(aUrl, aParam)
+{
+    if (aParam) {
+        aUrl = `${aUrl}${aUrl.includes('?') ? '&' : '/?'}${aParam}`;
+    }
+    return aUrl;
+}
+
 function seoSubmit(aEvent, aUrl)
 {
     aEvent.preventDefault();
@@ -484,9 +493,7 @@ function seoSubmit(aEvent, aUrl)
     const form = button.closest('form');
     if (form) {
         const params = FilterFormParams(form).toString().replace(/%2F/g, '/');
-        if (params) {
-            aUrl = `${aUrl}${aUrl.includes('?') ? '&' : '/?'}${params}`;
-        }
+        aUrl = UrlConcat(aUrl, params)
     }
     window.location.href = aUrl;
 }
