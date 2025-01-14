@@ -5,11 +5,24 @@
 
 import re
 
-# AI
+# http://site.com/path?key=val
+# reUrlSplit = re.compile(
+#     r'^(?P<scheme>https?|ftp)://'
+#     r'(?P<host>[^:/?#]+)'\
+#     r'(?:\:(?P<port>\d+))?'
+#     r'(?P<path>/[^?#]*)?'
+#     r'(?:\?(?P<query>[^#]*))?'
+#     r'(?:#(?P<fragment>.*))?$',
+#     flags=re.ASCII
+# )
+
+# http://site.com/path?key=val or /path?key=val
 reUrlSplit = re.compile(
-    r'^(?P<scheme>https?|ftp)://'
-    r'(?P<host>[^:/?#]+)'\
-    r'(?:\:(?P<port>\d+))?'
+    r'^(?:'
+     r'(?P<scheme>https?|ftp)://'
+     r'(?P<host>[^:/?#]+)?'
+     r'(?:\:(?P<port>\d+))?'
+    r')?'
     r'(?P<path>/[^?#]*)?'
     r'(?:\?(?P<query>[^#]*))?'
     r'(?:#(?P<fragment>.*))?$',
@@ -56,12 +69,13 @@ def UrlParseValidate(aUrl: str) -> list:
 
 def QueryToDict(aQuery: str) -> dict:
     Res = {}
-    for xParam in aQuery.split('&'):
-        Pair = xParam.split('=', maxsplit=1)
-        if (len(Pair) == 2):
-            Res[Pair[0]] = Pair[1]
-        else:
-            Res[Pair[0]] = None
+    if (aQuery):
+        for xParam in aQuery.split('&'):
+            Pair = xParam.split('=', maxsplit=1)
+            if (len(Pair) == 2):
+                Res[Pair[0]] = Pair[1]
+            else:
+                Res[Pair[0]] = None
     return Res
 
 def QueryToStr(aQuery: dict) -> str:
