@@ -39,9 +39,9 @@ class TCache():
             #Arr = [f'{Key}:{Val}'for Key, Val in aQuery.items()]
             #File = '_'.join(Arr)
             #File = hash(json.dumps(aQuery))
-            Str = aRoute + str(sorted(aQuery.items()))
+            Str = f'{self.MaxAge}/{aRoute}/{sorted(aQuery.items())}'
         else:
-            Str = aRoute
+            Str = f'{self.MaxAge}/{aRoute}'
         return hex(abs(hash(Str)))
 
     def _Filter(self, aRoute: str) -> bool:

@@ -74,7 +74,7 @@ class TDbList(TDbBase):
         Head = list(self.Rec.Fields.keys())
         Res = {'data': self.Data, 'head': Head, 'tag': self.Tag}
         if (self.GetSize() > 0):
-           Res['type'] = [type(x).__name__.replace('NoneType', '') for x in self.Data[0]]
+            Res['type'] = [type(x).__name__.replace('NoneType', '') for x in self.Data[0]]
         return Res
 
     def GetFieldNo(self, aField: str) -> int:
@@ -82,6 +82,13 @@ class TDbList(TDbBase):
 
     def GetFields(self) -> list[str]:
         return list(self.Rec.Fields.keys())
+
+    def FindFieldGo(self, aField: str, aValue, aRecNo: int = 0) -> TDbRec:
+        self.RecNo = aRecNo
+        RecNo = self.FindField(aField, aValue)
+        if (RecNo != -1):
+            self.RecNo = RecNo
+            return self.Rec
 
     def Import(self, aData: dict) -> 'TDbList':
         if (aData):

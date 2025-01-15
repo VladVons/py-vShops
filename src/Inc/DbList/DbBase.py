@@ -275,8 +275,8 @@ class TDbBase():
                 return i
         return -1
 
-    def FindField(self, aName: str, aValue) -> int:
-        FieldNo = self.GetFieldNo(aName)
+    def FindField(self, aField: str, aValue) -> int:
+        FieldNo = self.GetFieldNo(aField)
         for i in range(self._RecNo, self.GetSize()):
             if (self.Data[i][FieldNo] == aValue):
                 return i

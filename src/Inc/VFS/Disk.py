@@ -86,6 +86,12 @@ class TFsDisk(TFsBase):
         Path = self._FullPath(aName)
         return os.path.exists(Path)
 
+    def ExistsList(self, aFiles: list[str]) -> list[bool]:
+        '''
+        check if list of file or directory exists.
+        '''
+        return [os.path.exists(self._FullPath(xFile)) for xFile in aFiles]
+
     def FileReadStr(self, aName: str) -> str:
         '''
         read text file.
