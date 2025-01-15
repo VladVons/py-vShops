@@ -185,6 +185,26 @@ class TFsDisk(TFsBase):
 
     def MassCall(self, aParam: list) -> list:
         '''
+        Multiple call in one request.
+        aParam = ['DirCreate', ['Dir3/Dir31'], ['Dir4/Dir41']]
+        '''
+        Res = []
+        MethodName, *Param = aParam
+        Method = getattr(self, MethodName, None)
+        if (Method):
+            for xParam in Param:
+                try:
+                    R = Method(*xParam)
+                except Exception as E:
+                    R = f'err. {E}'
+                Res.append(R)
+        else:
+            R = [f'err. unknown method {MethodName}']
+            Res.append(R)
+        return Res
+
+    def MassCalls(self, aParam: list) -> list:
+        '''
         Multiple calls in one request.
         aParam = [
             ['DirCreate', ['Dir3/Dir31']],
@@ -192,15 +212,15 @@ class TFsDisk(TFsBase):
         ]
         '''
         Res = []
-        for xMethod, xParam in aParam:
-            Method = getattr(self, xMethod, None)
+        for xMethodName, xParam in aParam:
+            Method = getattr(self, xMethodName, None)
             if (Method):
                 try:
                     R = Method(*xParam)
                 except Exception as E:
                     R = f'err. {E}'
             else:
-                R = [f'err. unknown method {xMethod}']
+                R = [f'err. unknown method {xMethodName}']
             Res.append(R)
         return Res
 
