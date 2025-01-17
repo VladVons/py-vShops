@@ -47,7 +47,11 @@ class TLocalStorage {
     addItemToListUniq(aItem) {
         if (this.items == null) {
             this.items = [aItem]
-        } else if (!this.items.includes(aItem)) {
+        } else {
+            let index = this.items.indexOf(aItem);
+            if (index != -1) {
+                this.items.splice(index, 1);
+            }
             this.addItemToList(aItem)
         }
     }
