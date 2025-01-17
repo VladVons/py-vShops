@@ -79,9 +79,12 @@ class TDbRec():
         return self.GetFieldByNo(Idx, aDef)
 
     def GetFieldByNo(self, aIdx: int, aDef: object = None) -> object:
-        Res = self.Data[aIdx]
-        if (Res is None):
+        if (len(self.Data) == 0):
             Res = aDef
+        else:
+            Res = self.Data[aIdx]
+            if (Res is None):
+                Res = aDef
         return Res
 
     def GetFieldsByNo(self, aIdx: list[int], aDef: list[object] = None) -> object:
