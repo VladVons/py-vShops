@@ -235,11 +235,20 @@ class TDbBase():
         else returns {key:[val1, val2, ...], ...}
         '''
 
-        if (aAsDict):
-            Res = {Rec.GetField(aFieldKey): {xField: Rec.GetField(xField) for xField in aFields} for Rec in self}
-        else:
-            KeyNo = self.GetFieldNo(aFieldKey)
+        KeyNo = self.GetFieldNo(aFieldKey)
+        if (aFields):
+            Fields = aFields
             FieldsNo = [self.GetFieldNo(xField) for xField in aFields]
+        else:
+            Fields = self.GetFields()
+            FieldsNo = list(range(len(Fields)))
+
+        if (aAsDict):
+            Res = {
+                xData[KeyNo]: {xName: xData[xNo] for xName, xNo in zip(Fields, FieldsNo)}
+                for xData in self.Data
+            }
+        else:
             Res = {xData[KeyNo]: [xData[i] for i in FieldsNo] for xData in self.Data}
         return Res
 
@@ -343,8 +352,11 @@ class TDbBase():
         self.BeeTree[aField] = BeeTree
         return BeeTree
 
-    def Skip(self):
-        self.RecNo += 1
+    def Skip(self, aStep: int = 1) -> int:
+        RecNo = self._RecNo + aStep
+        if (RecNo < self.GetSize()):
+            self.RecNo = RecNo
+            return RecNo
 
     def Sort(self, aFields: list[str], aReverse: bool = False) -> 'TDbBase':
         if (len(aFields) == 1):

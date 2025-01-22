@@ -2,9 +2,9 @@
 # Author: Vladimir Vons <VladVons@gmail.com>
 # License: GNU, see LICENSE for more details
 
-
 from Inc.Var.Str import ToInt
-from ._Common import TSpecBase
+from .._Common import TSpecBase
+
 
 class TSpecScreenResol(TSpecBase):
     def _GetPatterns(self) -> dict:

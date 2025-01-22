@@ -34,13 +34,15 @@ def Dump(self, aDepth = 0, aName: str = '') -> str:
 
 def Translate(aLang: dict, aAlias: str) -> str:
     if (aAlias):
-        Res = aLang.get(aAlias, aAlias).capitalize()
+        Res = aLang.get(aAlias, aAlias)
+        if ('.' not in Res):
+            Res = Res.capitalize()
     else:
         Res = ''
     return Res
 
 def Type(aVar) -> str:
-    return f'{aVar} is {type(aVar).__name__}'
+    return f'{aVar}: {type(aVar).__name__}'
 
 class TFileSystemLoader(BaseLoader):
     def __init__(self, aSearchPath: list[str] = None):

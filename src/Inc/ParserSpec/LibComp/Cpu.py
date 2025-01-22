@@ -2,10 +2,9 @@
 # Author: Vladimir Vons <VladVons@gmail.com>
 # License: GNU, see LICENSE for more details
 
-
 import re
 #
-from ._Common import TSpecBase
+from .._Common import TSpecBase
 
 
 class TSpecCpu(TSpecBase):

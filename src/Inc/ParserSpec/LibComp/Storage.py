@@ -3,7 +3,9 @@
 # License: GNU, see LICENSE for more details
 
 import re
-from ._Common import TSpecBase, ToGbUnit, Lang
+from ._Common import ToGbUnit, Lang
+from .._Common import TSpecBase
+
 
 def GetStorageType(aVal: str) -> str:
     if (not aVal):

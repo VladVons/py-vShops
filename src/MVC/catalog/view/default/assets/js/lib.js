@@ -473,7 +473,8 @@ function FilterFormParams(aForm) {
     const formData = new FormData(aForm);
     const urlParams = new URLSearchParams();
     for (const [xKey, xVal] of formData.entries()) {
-        if (xVal.trim() !== "") {
+        if (xVal.trim() !== '') {
+            //console.log('-x1', xKey, xVal);
             urlParams.append(xKey, xVal);
         }
     }

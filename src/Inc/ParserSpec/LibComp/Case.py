@@ -2,8 +2,8 @@
 # Author: Vladimir Vons <VladVons@gmail.com>
 # License: GNU, see LICENSE for more details
 
+from .._Common import TSpecBase
 
-from ._Common import TSpecBase
 
 class TSpecCaseComputer(TSpecBase):
     def GetFields(self) -> list:

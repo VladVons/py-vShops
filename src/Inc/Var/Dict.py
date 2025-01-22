@@ -125,20 +125,29 @@ def GetDictDefs(aData: dict, aKeys: list, aDef: list) -> list:
     return Res
 
 def DictUpdate(aMaster: dict, aSlave: dict, aOverwrite: bool = True):
-    if (not aMaster):
-        aMaster.update(aSlave)
-    elif (isinstance(aSlave, dict)):
-        for xKey, xVal in aSlave.items():
-            if (xKey in aMaster):
-                if (aOverwrite):
-                    if (isinstance(xVal, dict)):
-                        aMaster[xKey].update(xVal)
-                    elif (isinstance(xVal, list)):
-                        aMaster[xKey].extend(xVal)
-                    else:
-                        aMaster[xKey] = xVal
-            else:
-                aMaster[xKey] = xVal
+    if (isinstance(aSlave, dict)):
+        if (aMaster == {}):
+            aMaster.update(aSlave)
+        else:
+            for xKey, xVal in aSlave.items():
+                if (xKey in aMaster):
+                    if (aOverwrite):
+                        if (isinstance(xVal, dict)):
+                            aMaster[xKey].update(xVal)
+                        elif (isinstance(xVal, list)):
+                            aMaster[xKey].extend(xVal)
+                        else:
+                            aMaster[xKey] = xVal
+                else:
+                    aMaster[xKey] = xVal
+
+def DictUpdateDef(aMaster: dict, aSlave: dict, aDef: object):
+    if (isinstance(aSlave, dict)):
+        if (aMaster == {}) or (aMaster.keys() == aSlave.keys()):
+            aMaster.update(aSlave)
+        else:
+            for xKey in aMaster:
+                aMaster[xKey] = aSlave.get(xKey, aDef)
 
 def DictToText(aData: dict, aDelim: str = '\n') -> str:
     Arr = [f'{Key}:{Val}' for Key, Val in aData.items()]

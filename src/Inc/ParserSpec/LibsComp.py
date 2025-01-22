@@ -2,13 +2,13 @@
 # Author: Vladimir Vons <VladVons@gmail.com>
 # License: GNU, see LICENSE for more details
 
-from Inc.ParserSpec import (
+from Inc.ParserSpec.LibComp import (
     TSpecCategory, TSpecBrand, TSpecCaseComputer, TSpecCpu, TSpecRam, TSpecStorage, TSpecScreenResol,
     TSpecScreenSize, TSpecOs, TSpecGrade
 )
 
 
-class TSpecComp():
+class TLibsComp():
     def __init__(self):
         self.Parsers = {
             'category': TSpecCategory(),
@@ -56,10 +56,10 @@ class TSpecComp():
     @staticmethod
     def ParseLines(aLines: list) -> list:
         Res = []
-        SpecComp = TSpecComp()
+        Libs = TLibsComp()
         for Idx, xLine in enumerate(aLines):
             Res.append(f'{Idx+1}/{len(aLines)}: {xLine}')
-            Spec = SpecComp.Parse(xLine)
+            Spec = Libs.Parse(xLine)
             for xKey, xVal in Spec.items():
                 Res.append(f'{xKey}: {xVal}')
             Res.append('')
@@ -82,8 +82,8 @@ class TSpecComp():
     def ParseFile(aFile: str):
         with open(aFile, 'r', encoding='utf8') as F:
             Data = F.read()
-            Lines = TSpecComp.GetLines(Data)
+            Lines = TLibsComp.GetLines(Data)
 
-        Lines = TSpecComp.ParseLines(Lines)
+        Lines = TLibsComp.ParseLines(Lines)
         for xLine in Lines:
             print(xLine)

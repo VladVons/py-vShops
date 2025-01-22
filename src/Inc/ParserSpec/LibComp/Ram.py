@@ -2,7 +2,8 @@
 # Author: Vladimir Vons <VladVons@gmail.com>
 # License: GNU, see LICENSE for more details
 
-from ._Common import TSpecBase, Lang
+from ._Common import Lang
+from .._Common import TSpecBase
 
 
 class TSpecRam(TSpecBase):
