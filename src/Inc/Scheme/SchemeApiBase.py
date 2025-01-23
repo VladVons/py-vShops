@@ -11,6 +11,7 @@ from Inc.Http.HttpUrl import UrlToDict, UrlToStr, QueryToDict, QueryToStr
 from Inc.Var.List import Parts, PartsC
 from Inc.Var.Dict import DeepGet, Filter
 from Inc.Var.Obj import Iif
+from Inc.Var.Str import ToInt
 from Inc.Util.Sys import IsDebug
 from .Utils import GetPrice
 
@@ -641,3 +642,19 @@ class TSchemeApiBase():
             if (aRound <= 0):
                 Res[0] = int(Res[0])
         return Res
+
+    @staticmethod
+    def ranger(_aVal: str, aStart: int, aEnd: int, aStep: int = 1) -> list:
+        '''
+        return list of digits generated from aStart to aEnd.
+        ["ranger", [0, 5]]
+        '''
+        return list(range(aStart, aEnd, aStep))
+
+    @staticmethod
+    def int_add(aVal: str|int, aInc: str|int) -> int:
+        '''
+        add two values.
+        ["int_add", [10]]
+        '''
+        return ToInt(aVal) + ToInt(aInc)

@@ -93,6 +93,10 @@ class TSchemeBase():
                     aObj = Obj(*Param)
                 case 2:
                     Param += aItem[1]
+                    for Idx, xParam in enumerate(Param[1:]):
+                        if (isinstance(xParam, list)) and (xParam[0] == 'exec'):
+                            R = self.ParsePipes(aObj, xParam[1], aPath + '/' + xParam[0])
+                            Param[Idx+1] = R
                     aObj = Obj(*Param)
                 case 3:
                     Param += aItem[1]

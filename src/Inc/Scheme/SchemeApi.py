@@ -178,7 +178,7 @@ class TSchemeExt():
 
         Url = self.Parent.Var.get('$url')
 
-        if (isinstance(aVal, str)):
+        if (isinstance(aVal, str|int)):
             aVal = [aVal]
 
         Suffix = aFormat.format(*aVal)
@@ -484,23 +484,28 @@ class TSchemeApi(TSchemeApiBase):
             return Res
 
     @staticmethod
-    def script_var(aVal: BeautifulSoup, aVar: str) -> dict:
+    def script_var(aVal: list[BeautifulSoup], aVar: str) -> dict:
         '''
         Get dict var in script.
+        ["find_all", ["script", {"id": "init-config"}]],
         ["script_var", ["var product"]]
         '''
 
-        reVar = re.compile(aVar + r'\s*=\s*(\{.*?\})\s*;', re.DOTALL)
+        # reVar = re.compile(aVar + r'\s*=\s*(\{.*?\})\s*;|', re.DOTALL)
+        # reVarAsStr = re.compile(aVar + r'\s*=\s*("\{.*?\}")\s*;', re.DOTALL)
+        reVar = re.compile(aVar + r'\s*=\s*(\{.*?\}|"\{.*?\}")\s*;', re.DOTALL)
 
-        Scripts = aVal.find_all('script')
-        for xScript in Scripts:
+        for xScript in aVal:
             Script = xScript.text
             Match = reVar.search(Script)
             if (Match):
                 Val = Match.group(1)
+                if (Val.startswith('"')):
+                    Val = Val[1:-1].replace(r'\"', '"').replace(r'\\', '\\')
+
                 try:
                     Res = ToJson(Val)
-                except Exception:
+                except Exception as _E:
                     Val = re.sub(r'(\w+):', r'"\1":', Val)
                     Res = ToJson(Val)
                 return Res
