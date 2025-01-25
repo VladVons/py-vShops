@@ -13,16 +13,20 @@ import ssl
 def DictToCookie(aDict) -> str:
     return '; '.join([f'{Key}={Val}' for Key, Val in aDict.items()])
 
-def UrlGetDataSync(aUrl: str, aHeaders: dict = None) -> dict:
+def UrlGetDataSync(aUrl: str, aHeaders: dict = None, aStatusOnly = False) -> dict:
     import requests # slow load
+
     Response = requests.get(aUrl, timeout=3, headers=aHeaders, allow_redirects = True)
-    if (Response.status_code == 200):
-        Res = {'status': Response.status_code, 'data': Response.content}
+    if (aStatusOnly):
+        Res = {'status': Response.status_code, 'data': None}
     else:
-        Res = {'status': Response.status_code}
+        if (Response.status_code == 200):
+            Res = {'status': Response.status_code, 'data': Response.content}
+        else:
+            Res = {'status': Response.status_code}
     return Res
 
-async def UrlGetData(aUrl: str, aLogin: str = None, aPassword: str = None, aHeaders: dict = None):
+async def UrlGetData(aUrl: str, aLogin: str = None, aPassword: str = None, aHeaders: dict = None, aStatusOnly = False):
     Auth = None
     if (aLogin and aPassword):
         Auth = aiohttp.BasicAuth(login=aLogin, password=aPassword)
@@ -53,13 +57,16 @@ async def UrlGetData(aUrl: str, aLogin: str = None, aPassword: str = None, aHead
             async with aiohttp.ClientSession(auth=Auth, headers=Headers, max_field_size=16384) as Session:
                 async with Session.get(aUrl, allow_redirects=True, ssl=ssl_context) as Response:
                     if (Response.status == 200):
-                        Data = await Response.read()
+                        if (aStatusOnly):
+                            Data = None
+                        else:
+                            Data = await Response.read()
                         Res = {'status': Response.status, 'data': Data}
                     else:
                         # todo https://nosta.com.ua
                         await asyncio.sleep(1)
                         TimeAt = time.time()
-                        Res = UrlGetDataSync(aUrl, Headers)
+                        Res = UrlGetDataSync(aUrl, Headers, aStatusOnly=aStatusOnly)
         except Exception as E:
             EType = type(E).__name__
             Res = {'err': f'{EType}, {E}' , 'status': -1}

@@ -31,7 +31,7 @@ from Inc.Var.Obj import Iif
 
 tracemalloc.start()
 
-async def UrlGetData(aUrl: str, aWaitFor: str = None) -> str:
+async def UrlGetData(aUrl: str, aWaitFor: str = None, aStatusOnly: bool = False) -> str:
     ContextOpt = {
         "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.102 Safari/537.36",
         "locale": "uk-UA",
@@ -46,15 +46,20 @@ async def UrlGetData(aUrl: str, aWaitFor: str = None) -> str:
             #Page = await Browser.new_page()
             Page = await Context.new_page()
 
-            #Response = await Page.goto(aUrl, wait_until="load", timeout=10000)
-            Response = await Page.goto(aUrl, wait_until="domcontentloaded", timeout=10000)
-            await asyncio.sleep(1)
-            if (aWaitFor):
-                #aWaitFor = 'ul[class="pagination"]'
-                await Page.wait_for_selector(aWaitFor, timeout=3000)
-            Content = await Page.content()
+            if (aStatusOnly):
+                Response = await Page.goto(aUrl)
+                Content = None
+            else:
+                #Response = await Page.goto(aUrl, wait_until="load", timeout=10000)
+                Response = await Page.goto(aUrl, wait_until="domcontentloaded", timeout=10000)
+                await asyncio.sleep(1)
+                if (aWaitFor):
+                    #aWaitFor = 'ul[class="pagination"]'
+                    await Page.wait_for_selector(aWaitFor, timeout=3000)
+                Content = await Page.content()
 
-        return {
+        Res = {
             'data': Content,
             'status': Iif(Response, Response.status, -1)
         }
+        return Res
