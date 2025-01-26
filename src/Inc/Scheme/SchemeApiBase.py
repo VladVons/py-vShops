@@ -143,6 +143,15 @@ class TSchemeApiBase():
     #         return sorted(aVal, key=len, reverse=aReverse)
 
     @staticmethod
+    def list_filter_key(aVal: list, aKeys: str, aValue: object) -> list:
+        '''
+        Filter list by key = val
+        ["list_filter_key", ["key1.key2", "price"]],
+        '''
+
+        return [xVal for xVal in aVal if DeepGet(xVal, aKeys) == aValue]
+
+    @staticmethod
     def list_filter_len(aVal: list, aLen: int) -> list:
         '''
         Filter list by size
