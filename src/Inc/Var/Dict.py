@@ -98,6 +98,12 @@ def GetDict(aData: dict, aKeys: list, aStrict: bool = False) -> list:
         Res = [aData.get(x) for x in aKeys]
     return Res
 
+def DictFindVal(aData: dict, aVal: object, aDefKey: str) -> str:
+    for xKey, xVal in aData.items():
+        if (xVal == aVal):
+            return xKey
+    return aDefKey
+
 def GetDictDef(aData: dict, aKeys: list, aDef: list) -> list:
     if (aData):
         Res = [aData.get(Key, Def) for Key, Def in zip(aKeys, aDef, strict=True)]
