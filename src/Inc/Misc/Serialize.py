@@ -6,7 +6,7 @@
 import json
 import base64
 from datetime import datetime
-
+from decimal import Decimal
 
 def Encode(aData):
     if isinstance(aData, (str, int, float, bool, type(None))):
@@ -19,6 +19,8 @@ def Encode(aData):
         Res = {'__type__': 'bytes', 'data': base64.b64encode(aData).decode('utf-8')}
     elif isinstance(aData, datetime):
         Res = {'__type__': 'datetime', 'data': aData.isoformat()}
+    elif isinstance(aData, Decimal):
+        Res = {'__type__': 'decimal', 'data': str(aData)}
     elif isinstance(aData, set):
         Res = {'__type__': 'set', 'data': list(aData)}
     else:
@@ -30,11 +32,14 @@ def Decode(aData):
         Res = aData
     elif isinstance(aData, dict):
         if ('__type__' in aData):
+            Res = None
             match aData['__type__']:
                 case 'bytes':
                     Res = base64.b64decode(aData['data'])
                 case 'datetime':
                     Res = datetime.fromisoformat(aData['data'])
+                case 'decimal':
+                    Res = Decimal(aData['data'])
                 case 'set':
                     Res = set(aData['data'])
                 case _:
