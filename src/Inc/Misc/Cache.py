@@ -6,6 +6,7 @@
 import os
 import time
 #
+from Inc.Var.Str import ToHashHex
 from Inc.Misc.FS import DirWalk
 from Inc.Misc import Serialize
 
@@ -42,7 +43,7 @@ class TCache():
             Str = f'{self.MaxAge}/{aRoute}/{sorted(aQuery.items())}'
         else:
             Str = f'{self.MaxAge}/{aRoute}'
-        return hex(abs(hash(Str)))
+        return ToHashHex(Str)
 
     def _Filter(self, aRoute: str) -> bool:
         Res = (not self.MaxAge) or \

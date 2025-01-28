@@ -145,6 +145,9 @@ def ToObj(aVal: str) -> object:
     return aVal
 
 
+def ToHashHex(aStr: str) -> str:
+    return hex(abs(hash(aStr)))
+
 def ToHashW(aText: str) -> str:
     Res = re.sub(r'[\s/]+', ' ', aText)
     Res = re.sub(r'[^a-zA-Z0-9\s]', '', Res)

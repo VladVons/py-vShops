@@ -2,6 +2,7 @@
 # Author: Vladimir Vons <VladVons@gmail.com>
 # License: GNU, see LICENSE for more details
 
+import json
 
 def DeepGets(aObj, aKeys: list) -> list:
     Res = []
@@ -192,4 +193,13 @@ def DictToPath(aObj) -> dict:
 
     Res = {}
     _Recurs(aObj, '', Res)
+    return Res
+
+
+def ToHash(aData: dict) -> int:
+    if (aData):
+        Str = json.dumps(aData, sort_keys=True)
+        Res = hash(Str) & 0x7FFFFFFF
+    else:
+        Res = 0
     return Res

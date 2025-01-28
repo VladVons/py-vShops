@@ -42,8 +42,7 @@ def UrlPercent(aData: bytearray) -> str:
 
 def UrlToDict(aUrl: str) -> dict:
     Match = reUrlSplit.match(aUrl)
-    if (Match):
-        return Match.groupdict()
+    return Match.groupdict() if (Match) else {}
 
 def UrlToStr(aQuery: dict, aParts: list = None) -> str:
     Order = [
