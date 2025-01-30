@@ -26,7 +26,7 @@ def UrlGetDataSync(aUrl: str, aHeaders: dict = None, aStatusOnly = False) -> dic
             Res = {'status': Response.status_code}
     return Res
 
-async def UrlGetData(aUrl: str, aLogin: str = None, aPassword: str = None, aHeaders: dict = None, aStatusOnly = False):
+async def UrlGetData(aUrl: str, aLogin: str = None, aPassword: str = None, aHeaders: dict = None, aStatusOnly: bool = False, aProxy: dict = None):
     Auth = None
     if (aLogin and aPassword):
         Auth = aiohttp.BasicAuth(login=aLogin, password=aPassword)
@@ -42,6 +42,13 @@ async def UrlGetData(aUrl: str, aLogin: str = None, aPassword: str = None, aHead
                 Val = DictToCookie(Val)
             Headers[Key] = Val
 
+    ProxyUrl = ProxyAuth = None
+    if (aProxy):
+        ProxyUrl = f"{aProxy['scheme']}://{aProxy['host']}:{aProxy['port']}"
+        Login = aProxy.get('login')
+        if (Login):
+            ProxyAuth = aiohttp.BasicAuth(Login, aProxy.get('passw'))
+
     # solved. unable to get local issuer certificate. problem loading https://hardwaredirect.pl
     ssl_context = ssl.create_default_context()
     ssl_context.check_hostname = False
@@ -55,7 +62,7 @@ async def UrlGetData(aUrl: str, aLogin: str = None, aPassword: str = None, aHead
     else:
         try:
             async with aiohttp.ClientSession(auth=Auth, headers=Headers, max_field_size=16384) as Session:
-                async with Session.get(aUrl, allow_redirects=True, ssl=ssl_context) as Response:
+                async with Session.get(aUrl, allow_redirects=True, ssl=ssl_context, proxy=ProxyUrl, proxy_auth=ProxyAuth) as Response:
                     if (Response.status == 200):
                         if (aStatusOnly):
                             Data = None

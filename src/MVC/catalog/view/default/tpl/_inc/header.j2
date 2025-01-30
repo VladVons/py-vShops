@@ -88,6 +88,10 @@
     document.getElementById('viBtnPhone').addEventListener('click', function (event) {
       window.location.href = 'tel: {{lang.phone1_}}'
     })
+
+    const search_ajax = '{{href.search_ajax}}';
+    const search_query = {'method': 'ajax', 'lang_id': '{{lang_id}}'}
+    searchNavbar(search_ajax, search_query);
   }
 </script>
 <!-- header - -->

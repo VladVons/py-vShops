@@ -7,7 +7,7 @@ as function namespace
 */
 
 
-function searchNavbar() {
+function searchNavbar(aUrl, aQuery = {}) {
     const autocompleteActive = 'autocomplete-active'
     let curFocus = 0
     let timeout = null
@@ -25,6 +25,7 @@ function searchNavbar() {
     })
 
     elSearchInput.addEventListener('keydown', function(aEvent) {
+        //console.log('-x', aEvent.key);
         let x = elSearchSuggest.getElementsByTagName('div')
         if (x.length == 0)
             return
@@ -52,8 +53,8 @@ function searchNavbar() {
         timeout = setTimeout(() => {
             const value = this.value.trim()
             if (value.length > 0) {
-                const url = gData.getValue('/href/search_ajax')
-                new TSend().execA(url, {'method': 'ajax', 'q': value})
+                const Query = { ...aQuery, ...{'q': value}}
+                new TSend().execA(aUrl, Query)
                     .then(data => {
                         displayResult(aEvent, data)
                     })
@@ -103,5 +104,3 @@ function searchNavbar() {
         }
     }
 }
-
-searchNavbar()

@@ -31,7 +31,7 @@ from Inc.Var.Obj import Iif
 
 tracemalloc.start()
 
-async def UrlGetData(aUrl: str, aWaitFor: str = None, aStatusOnly: bool = False) -> str:
+async def UrlGetData(aUrl: str, aWaitFor: str = None, aStatusOnly: bool = False, aProxy: dict = None) -> str:
     ContextOpt = {
         "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.102 Safari/537.36",
         "locale": "uk-UA",
@@ -40,8 +40,16 @@ async def UrlGetData(aUrl: str, aWaitFor: str = None, aStatusOnly: bool = False)
         }
     }
 
+    Proxy = None
+    if (aProxy):
+        Proxy = {
+            'server': f"{aProxy['scheme']}://{aProxy['host']}:{aProxy['port']}",
+            'username': aProxy.get('login'),
+            'password': aProxy.get('passw')
+        }
+
     async with async_playwright() as PW:
-        async with await PW.chromium.launch(headless=True) as Browser:
+        async with await PW.chromium.launch(headless=True, proxy=Proxy) as Browser:
             Context = await Browser.new_context(**ContextOpt)
             #Page = await Browser.new_page()
             Page = await Context.new_page()
