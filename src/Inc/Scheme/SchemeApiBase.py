@@ -544,9 +544,22 @@ class TSchemeApiBase():
         ["dict_keydel", ["name", "descr"]]
         '''
 
-        for Key in aKeys:
-            if Key in aVal:
-                del aVal[Key]
+        for xKey in aKeys:
+            if xKey in aVal:
+                del aVal[xKey]
+        return aVal
+
+    @staticmethod
+    def dict_keydel_re(aVal: dict, aReKeys: str) -> dict:
+        '''
+        Delete regExp key from dictionary.
+        ["dict_keydel_re", ["граф[іи]к|більше|адрес"]]
+        '''
+
+        ReKeys = re.compile(aReKeys, flags=re.IGNORECASE)
+        for xKey in list(aVal.keys()):
+            if (ReKeys.search(xKey)):
+                del aVal[xKey]
         return aVal
 
     # @staticmethod
@@ -611,7 +624,9 @@ class TSchemeApiBase():
                         Val = aSeparRest.join(Arr)
                     else:
                         Val = xVal[aIdxVal].strip()
-                    Res[Key] = reSpaces.sub(' ', Val)
+
+                    if (Val):
+                        Res[Key] = reSpaces.sub(' ', Val)
         if (Res):
             return Res
 
