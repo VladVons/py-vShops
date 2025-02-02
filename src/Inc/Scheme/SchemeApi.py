@@ -167,7 +167,7 @@ class TSchemeExt():
                 Url = UrlDict['scheme'] + ':/'
             else:
                 Url = UrlToStr(UrlDict, ['scheme', 'host'])
-            aVal = Url + '/' + aVal.lstrip('/')
+            aVal = Url + Iif(Url.endswith('/'), '', '/') + aVal.lstrip('/')
         return aVal
 
     def url_format(self, aVal: str|list, aFormat: str) -> str:
