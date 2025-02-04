@@ -44,6 +44,11 @@ def Translate(aLang: dict, aAlias: str) -> str:
 def Type(aVar) -> str:
     return f'{aVar}: {type(aVar).__name__}'
 
+def Filter_Esc(aVal: str) -> str:
+    Res = aVal.replace('"', "``")
+    return Res
+
+
 class TFileSystemLoader(BaseLoader):
     def __init__(self, aSearchPath: list[str] = None):
         self.SearchPath = aSearchPath or []
@@ -119,6 +124,7 @@ class TTemplate():
         Loader = TFileSystemLoader(aPaths)
 
         self.Env = TEnvironment(loader = Loader)
+
         self.Env.globals['TDbList'] = TDbList
         self.Env.globals['Dump'] = Dump
         self.Env.globals['Text2Html'] = Text2Html
@@ -126,7 +132,9 @@ class TTemplate():
         self.Env.globals['Iif'] = Iif
         self.Env.globals['IifNone'] = IifNone
         self.Env.globals['Translate'] = Translate
-        #self.Env.filters['MyFunc'] = MyFunc
+        #
+        self.Env.filters['Esc'] = Filter_Esc
+
         self.Env.trim_blocks = True
         self.Env.lstrip_blocks = True
 
