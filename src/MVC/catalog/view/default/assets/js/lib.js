@@ -62,6 +62,18 @@ class TLocalStorage {
             this.items.shift()
         }
     }
+
+    delItem(aItem) {
+        const idx = this.items.indexOf(aItem);
+        if (idx != -1) {
+            this.items.splice(idx, 1);
+        }
+    }
+
+    hasItem(aItem) {
+        return (this.items && this.items.includes(aItem));
+    }
+
 }
 
 class TDict {
@@ -400,6 +412,12 @@ function assert(aCond, aMsg = 'Error') {
     }
 }
 
+function asserts(aData) {
+    for (let xKey in aData) {
+        assert(aData[xKey], 'assertion failed: ' + xKey);
+    }
+}
+
 function changeImage(aImg, aId, aHref = false) {
     const element = document.getElementById(aId)
     element.src = aImg.src
@@ -450,6 +468,25 @@ function Base64ToBin(aData) {
         byteArray[i] = binaryData.charCodeAt(i);
     }
     return byteArray;
+}
+
+function roundNear(aVal, aNear) {
+    return Math.round(aVal / aNear) * aNear;
+}
+
+function splitNear(aMin, aMax, aParts, aNear = null) {
+    let step = Math.floor((aMax - aMin) / (aParts - 1));
+
+    if (aNear === null) {
+        aNear = Math.pow(10, String(step).length - 1);
+    }
+
+    let result = [];
+    for (let x = aMin; x < aMax; x += step) {
+        result.push(roundNear(x, aNear));
+    }
+
+    return result;
 }
 
 function ExecDownload(aFile, aBlob) {

@@ -130,7 +130,8 @@ class TDbRec():
     def SetAsDict(self, aData: dict) -> 'TDbRec':
         if (aData):
             for xKey, xVal in aData.items():
-                self.SetField(xKey, xVal)
+                if (xKey in self.Fields):
+                    self.SetField(xKey, xVal)
         return self
 
     def SetAsList(self, aData: list) -> 'TDbRec':

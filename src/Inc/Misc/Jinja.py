@@ -32,7 +32,7 @@ def Dump(self, aDepth = 0, aName: str = '') -> str:
                     Res.append(Data)
     return '<br>\n'.join(Res)
 
-def Translate(aLang: dict, aAlias: str) -> str:
+def Trans(aLang: dict, aAlias: str) -> str:
     if (aAlias):
         Res = aLang.get(aAlias, aAlias)
         if ('.' not in Res):
@@ -131,7 +131,7 @@ class TTemplate():
         self.Env.globals['Type'] = Type
         self.Env.globals['Iif'] = Iif
         self.Env.globals['IifNone'] = IifNone
-        self.Env.globals['Translate'] = Translate
+        self.Env.globals['Trans'] = Trans
         #
         self.Env.filters['Esc'] = Filter_Esc
 

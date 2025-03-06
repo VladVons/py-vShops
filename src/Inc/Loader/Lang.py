@@ -40,7 +40,6 @@ class TLoaderLangFs(TLoaderLang):
                 with open(File, 'r', encoding = 'utf8') as F:
                     Data = json.load(F)
                     Res.update(Data.get(aKey, {}))
-        self[aPath] = Res
         return Res
 
 
