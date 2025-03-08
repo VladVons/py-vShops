@@ -34,6 +34,13 @@ class TDictRepl():
                 aStr = aStr.replace(Find, Repl)
         return aStr
 
+    def InPlace(self, aKeys: list[str]):
+        for xKey in aKeys:
+            Str = self.Dict.get(xKey)
+            if (Str):
+                R = self.Parse(Str)
+                self.Dict[xKey] = R
+
     def ParseFile(self, aFile: str) -> str:
         with open(aFile, 'r', encoding='utf-8') as F:
             Data = F.read()

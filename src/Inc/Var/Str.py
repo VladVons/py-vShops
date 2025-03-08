@@ -30,7 +30,9 @@ def ToInt(aVal: str, aDef: int = 0) -> int:
     if (not aVal):
         aVal = aDef
     else:
-        if (isinstance(aVal, str)):
+        if (isinstance(aVal, float)):
+            aVal = int(aVal)
+        elif (isinstance(aVal, str)):
             if (aVal.isdigit()):
                 aVal = int(aVal)
             else:

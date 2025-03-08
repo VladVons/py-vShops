@@ -51,6 +51,9 @@ def DeepSetByList(aData: dict, aKeys: list, aValue: object) -> dict:
 def DeepSet(aData: dict, aDotKeys: str, aValue: object) -> dict:
     return DeepSetByList(aData, aDotKeys.split('.'), aValue)
 
+def GetDictKey(aData: dict, aKey: str) -> object:
+    return aData.get(aKey, aKey)
+
 def GetNotNone(aData: dict, aKey: str, aDef: object) -> object:
     if (aData):
         Res = aData.get(aKey, aDef)
