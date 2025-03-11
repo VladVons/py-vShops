@@ -34,9 +34,18 @@ def Dump(self, aDepth = 0, aName: str = '') -> str:
 
 def Trans(aLang: dict, aAlias: str) -> str:
     if (aAlias):
-        Res = aLang.get(aAlias, aAlias)
-        if ('.' not in Res):
-            Res = Res.capitalize()
+        if (isinstance(aAlias, str)):
+            Res = aLang.get(aAlias, aAlias)
+            if ('.' not in Res):
+                Res = Res.capitalize()
+        elif (isinstance(aAlias, dict)):
+            Arr = [
+                f'{aLang.get(xKey, xKey)}: {aLang.get(xVal, xVal)}'
+                for xKey, xVal in aAlias.items()
+            ]
+            Res = ', '.join(Arr)
+        else:
+            Res = str(aAlias)
     else:
         Res = ''
     return Res
