@@ -4,4 +4,6 @@
 
 
 from .Echo import TEcho
+from .EchoConsole import TEchoConsole
+from .EchoFile import TEchoFile
 from .Log import TLog
