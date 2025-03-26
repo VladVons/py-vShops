@@ -82,8 +82,18 @@ async def UrlGetData(aUrl: str, aLogin: str = None, aPassword: str = None, aHead
     return Res
 
 async def DownloadChunks(aUrl: str, aBlockSize: int):
-    async with aiohttp.ClientSession() as Session:
-        async with Session.get(aUrl) as Response:
+    Headers = {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 6.3; Win64; x64; rv:109.0) Gecko/20100101 Firefox/110.0',
+        'Accept-Encoding': 'gzip, deflate',
+        'Accept': '*/*',
+        'Connection': 'keep-alive'
+    }
+
+    SSL = ssl.create_default_context()
+    SSL.options |= ssl.OP_NO_TLSv1_2
+
+    async with aiohttp.ClientSession(headers=Headers) as Session:
+        async with Session.get(aUrl, ssl=SSL) as Response:
             if (Response.status == 200):
                 TotalSize = int(Response.headers.get('Content-Length', 0))
                 async for xBlock in Response.content.iter_chunked(aBlockSize):

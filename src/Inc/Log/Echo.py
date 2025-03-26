@@ -9,16 +9,16 @@ class TEcho():
         self.Level = aLevel
         self.Type = aType
         self.Fmt = ['d', 't', 'c', 'aL', 'aT', 'aM', 'aD', 'aE']
+        #self.Fmt = '{d} {t}, {c}, {aL}, {aT}, {aM}, {aD}, {aE}'
+
 
     def _Format(self, aArgs: dict) -> str:
-        #Arr = [x + ':' +str(aArgs.get(x, '')) for x in self.Fmt]
-        #Arr = [str(aArgs.get(x, '')) for x in self.Fmt]
-        Arr = []
-        for x in self.Fmt:
-            Val = aArgs.get(x)
-            if (Val):
-                Arr.append(str(Val))
-        return ', '.join(Arr)
+        if (isinstance(self.Fmt, list)):
+            Arr = [str(aArgs[x]) for x in self.Fmt if aArgs.get(x)]
+            Res = ', '.join(Arr)
+        else:
+            Res = self.Fmt.format(**aArgs)
+        return Res
 
     def _Write(self, aMsg: str):
         raise NotImplementedError()

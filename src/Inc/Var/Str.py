@@ -6,10 +6,11 @@
 import re
 import random
 import json
+import base64
 
 
-def SplitPad(aCnt: int, aStr: str, aDelim: str) -> list:
-    R = aStr.split(aDelim, aCnt - 1)
+def SplitPad(aCnt: int, aVal: str, aDelim: str) -> list:
+    R = aVal.split(aDelim, aCnt - 1)
     for _i in range(aCnt - len(R)):
         R.append('')
     return R
@@ -147,11 +148,11 @@ def ToObj(aVal: str) -> object:
     return aVal
 
 
-def ToHashHex(aStr: str) -> str:
-    return hex(abs(hash(aStr)))
+def ToHashHex(aVal: str) -> str:
+    return hex(abs(hash(aVal)))
 
-def ToHashW(aText: str) -> str:
-    Res = re.sub(r'[\s/]+', ' ', aText)
+def ToHashW(aVal: str) -> str:
+    Res = re.sub(r'[\s/]+', ' ', aVal)
     Res = re.sub(r'[^a-zA-Z0-9\s]', '', Res)
     Res = Res.lower()
     #Res = re.sub(r'[^\w]', '', Res).lower()
@@ -159,31 +160,31 @@ def ToHashW(aText: str) -> str:
     #Res = hex(hash(Res) & 0xFFFFFFFFFFFFFFFF)[2:]
     return Res
 
-def ToHashWM(aText: str) -> str:
-    Res = re.sub(r'[\s/]+', ' ', aText)
+def ToHashWM(aVal: str) -> str:
+    Res = re.sub(r'[\s/]+', ' ', aVal)
     Res = re.sub(r'[^a-zA-Z0-9\s-]', '', Res)
     Res = Res.lower().rstrip('-')
     return Res
 
-def Replace(aText: str, aReplace: dict) -> str:
-    if (aText):
+def Replace(aVal: str, aReplace: dict) -> str:
+    if (aVal):
         for Old, New in aReplace.items():
-            aText = aText.replace(Old, New)
-    return aText
+            aVal = aVal.replace(Old, New)
+    return aVal
 
-def ConcatUniq(aText: str, aAdd: list[str]) -> str:
+def ConcatUniq(aVal: str, aAdd: list[str]) -> str:
     for xAdd in aAdd:
-        if (xAdd not in aText):
-            aText += xAdd
-    return aText
+        if (xAdd not in aVal):
+            aVal += xAdd
+    return aVal
 
-def StartsWith(aText: str, aItems: list[str]) -> str:
+def StartsWith(aVal: str, aItems: list[str]) -> str:
     for xItem in aItems:
-        if (aText.startswith(xItem)):
+        if (aVal.startswith(xItem)):
             return xItem
 
-def GetLeadCharCnt(aValue: str, aChar: str) -> int:
-    return len(aValue) - len(aValue.lstrip(aChar))
+def GetLeadCharCnt(aVal: str, aChar: str) -> int:
+    return len(aVal) - len(aVal.lstrip(aChar))
 
 def GetRandStr(aLen: int) -> str:
     def Range(aStart: int, aEnd: int) -> list:
@@ -195,3 +196,12 @@ def GetRandStr(aLen: int) -> str:
 
 def GetRandStrPattern(aLen: int, aPattern = 'YourPattern') -> str:
     return ''.join((random.choice(aPattern)) for x in range(aLen))
+
+def EncryptXor(aVal: str, aKey: str = 'K'):
+    Xor = (chr(ord(x) ^ ord(aKey)) for x in aVal)
+    return base64.urlsafe_b64encode(''.join(Xor).encode()).decode()
+
+def DecryptXor(aVal: str, aKey: str = 'K'):
+    Str = base64.urlsafe_b64decode(aVal.encode()).decode()
+    Arr = (chr(ord(x) ^ ord(aKey)) for x in Str)
+    return ''.join(Arr)

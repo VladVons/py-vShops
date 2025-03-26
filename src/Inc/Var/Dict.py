@@ -70,6 +70,11 @@ def FilterNone(aData: dict, aTrue: bool) -> dict:
         if ((Val is None) == aTrue)
     }
 
+def DelKeys(aData: dict, aKeys: list):
+    for xKey in aKeys:
+        if (xKey in aData):
+            del aData[xKey]
+
 def DelValues(aData: dict, aVals: list):
     '''
     Recursively del values that match a list
