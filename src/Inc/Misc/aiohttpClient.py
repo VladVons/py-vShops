@@ -54,6 +54,7 @@ async def UrlGetData(aUrl: str, aLogin: str = None, aPassword: str = None, aHead
     ssl_context.check_hostname = False
     ssl_context.verify_mode = ssl.CERT_NONE
 
+
     TimeAt = time.time()
     if ('%' in aUrl):
         # https://mrpecet.pl/pl/p/Apple-MacBook-Pro-15-2015-i7-2%2C5GHz-16GB-512GB-AMD-R9-M370X/576
@@ -81,7 +82,7 @@ async def UrlGetData(aUrl: str, aLogin: str = None, aPassword: str = None, aHead
     Res['time'] = round(time.time() - TimeAt, 2)
     return Res
 
-async def DownloadChunks(aUrl: str, aBlockSize: int):
+async def DownloadChunks(aUrl: str, aBlockSize: int) -> iter:
     Headers = {
         'User-Agent': 'Mozilla/5.0 (Windows NT 6.3; Win64; x64; rv:109.0) Gecko/20100101 Firefox/110.0',
         'Accept-Encoding': 'gzip, deflate',
@@ -90,7 +91,10 @@ async def DownloadChunks(aUrl: str, aBlockSize: int):
     }
 
     SSL = ssl.create_default_context()
-    SSL.options |= ssl.OP_NO_TLSv1_2
+    #SSL.check_hostname = False
+    #SSL.verify_mode = ssl.CERT_NONE
+    #SSL.options |= ssl.OP_NO_TLSv1_2
+    SSL.options = 0
 
     async with aiohttp.ClientSession(headers=Headers) as Session:
         async with Session.get(aUrl, ssl=SSL) as Response:
