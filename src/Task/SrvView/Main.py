@@ -120,9 +120,9 @@ class TSrvView(TSrvBase):
             AuthId = Session.get('auth_id')
             if (not AuthId):
                 Query = {'route': 'common/login'}
-
-            if (not Query.get('route')):
-                Query.update({'route': ApiView.Conf.form_home})
+            else:
+                Query = dict(aRequest.query)
+                #Query.update({'route': ApiView.Conf.form_home})
             Res = await ApiView.ResponseForm(aRequest, Query)
         else:
             Res = await self._LoadFile(aRequest, ApiView)

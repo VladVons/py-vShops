@@ -50,6 +50,21 @@ def Trans(aLang: dict, aAlias: str) -> str:
         Res = ''
     return Res
 
+def Price(aVal: list, aCountryId: int = None) -> str:
+    ### {{"{:,}".format(PriceVal|int).replace(',', ' ')}} {{PriceValCur|lower}}
+    Table1 = {'uah': 'грн', 'pln': 'zł'}
+
+    PriceVal, PriceCur = aVal
+    PriceCur = PriceCur.lower()
+
+    # ToDo
+    if (aCountryId) and (not PriceCur):
+        Table2 = {1: 'uah', 2: 'pln', 3: 'eur'}
+        PriceCur = Table2.get(aCountryId, '')
+
+    Res = f'{int(PriceVal):,}'.replace(',', ' ') + ' ' + Table1.get(PriceCur, PriceCur)
+    return Res
+
 def Type(aVar) -> str:
     return f'{aVar}: {type(aVar).__name__}'
 
@@ -141,6 +156,7 @@ class TTemplate():
         self.Env.globals['Iif'] = Iif
         self.Env.globals['IifNone'] = IifNone
         self.Env.globals['Trans'] = Trans
+        self.Env.globals['Price'] = Price
         #
         self.Env.filters['Esc'] = Filter_Esc
 

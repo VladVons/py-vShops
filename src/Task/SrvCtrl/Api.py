@@ -75,9 +75,10 @@ class TApiCtrl(TApiBase):
         Routes = aData.get('extends', [])
         Routes.append(aData.get('route'))
         Routes.append('_inc/errors')
+        Lang = {}
         for xRoute in Routes:
-            await self.Lang.Add('ua', xRoute, 'tpl')
-        Lang = self.Lang.Join()
+            R = await self.Lang.Add('ua', xRoute, 'tpl')
+            Lang.update(R)
         Res['lang'] = Lang
 
         if ('err' in Caller):
