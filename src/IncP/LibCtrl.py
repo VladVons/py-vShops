@@ -17,7 +17,7 @@ from Inc.SrvWeb.Common import UrlEncode, UrlUdate
 from Inc.Var.Dict import DeepGet, DeepGetByList, GetDictDef, GetDictDefs, Filter, DelValues
 from Inc.Var.DictEx import DeepGetsRe
 from Inc.Var.Obj import Iif, IsDigits
-from Inc.Var.Str import Replace
+from Inc.Var.Str import Replace, SterileSQL
 from .Log import Log
 
 

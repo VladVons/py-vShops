@@ -205,3 +205,7 @@ def DecryptXor(aVal: str, aKey: str = 'K'):
     Str = base64.urlsafe_b64decode(aVal.encode()).decode()
     Arr = (chr(ord(x) ^ ord(aKey)) for x in Str)
     return ''.join(Arr)
+
+def SterileSQL(aVal: str) -> str:
+    Pattern = r'/\*|\*/|--|;' # remove  [';', '--', '/*', '*/']
+    return re.sub(Pattern, '', aVal, flags=re.MULTILINE)

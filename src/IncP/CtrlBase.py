@@ -46,6 +46,12 @@ class TCtrlBase():
         return Res
 
     async def ExecModelImport(self, aMethod: str, aData: dict) -> dict:
+        # clear SQL injection
+        if ('param' in aData):
+            for xKey, xVal in aData['param'].items():
+                if (isinstance(xVal, str)) and (xVal):
+                    aData['param'][xKey] = Lib.SterileSQL(xVal)
+
         Data = await self.ApiModel(aMethod, aData)
         DblData = Data.get('data')
         if (DblData):
